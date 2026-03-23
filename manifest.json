@@ -1,0 +1,38 @@
+{
+  "name": "Most Computers",
+  "short_name": "Most Computers",
+  "description": "Специализиран магазин за електроника — лаптопи, телефони, телевизори и аксесоари.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#bd1105",
+  "orientation": "portrait-primary",
+  "lang": "bg",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["shopping", "business"],
+  "shortcuts": [
+    {
+      "name": "Промоции",
+      "url": "/?cat=sale",
+      "description": "Виж всички намалени продукти"
+    },
+    {
+      "name": "Лаптопи",
+      "url": "/?cat=laptop",
+      "description": "Разгледай лаптопи и компютри"
+    }
+  ]
+}

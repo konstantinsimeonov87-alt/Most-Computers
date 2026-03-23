@@ -1,5 +1,5 @@
-// Most Computers — Service Worker v7
-const CACHE = 'mc-v7';
+// Most Computers — Service Worker v8
+const CACHE = 'mc-v8';
 const PRECACHE = [
   './',
   './index.html',

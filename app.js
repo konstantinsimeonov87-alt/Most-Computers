@@ -210,6 +210,57 @@ const products = [
     desc:'Google Nest Hub 2nd Gen с Sleep Sensing следи съня ти без камера. Управлява умния ти дом с глас и дисплей.',
     reviews:[{name:'Янита Л.',stars:5,date:'21.03.2025',text:'Използвам го за всичко — новини, рецепти, музика!'},{name:'Огнян Д.',stars:4,date:'11.03.2025',text:'Google Assistant е много полезен.'}] },
 
+  // ── КОМПОНЕНТИ ───────────────────────────────────────────────────────────────
+  { id:241, sku:'MC-INTL-I9-14900K', ean:'0735858540773', img:'https://www.bhphotovideo.com/images/images500x500/intel_bx8071514900k_core_i9_14900k_processor_1696436479_1780376.jpg', name:'Intel Core i9-14900K 24-ядрен процесор', brand:'Intel', cat:'components', emoji:'⚙️', price:799, old:999, badge:'sale', pct:20, rating:4.9, rv:87,
+    specs:{Тип:'Процесор', Ядра:'24 (8P+16E)', Нишки:'32', Макс_честота:'6.0 GHz', TDP:'125W', Сокет:'LGA1700', Кеш:'36 MB', Памет:'DDR4/DDR5', Brand:'Intel', Socket:'LGA1700'},
+    desc:'Intel Core i9-14900K с 24 ядра и максимална честота 6.0 GHz е флагманският процесор за геймъри и творци. Съвместим с дънни платки Z790.',
+    reviews:[{name:'Добрин В.',stars:5,date:'20.03.2025',text:'Рендерингът е светкавично бърз! Незаменим за видео монтаж.'},{name:'Ралица К.',stars:5,date:'10.03.2025',text:'Играе всичко на максимален FPS без никакво забавяне.'}] },
+
+  { id:242, sku:'MC-AMD-R9-7950X', ean:'0730143314442', img:'https://www.bhphotovideo.com/images/images500x500/amd_100_100000514wof_ryzen_9_7950x_processor_1663270571_1750867.jpg', name:'AMD Ryzen 9 7950X 16-ядрен процесор', brand:'AMD', cat:'components', emoji:'⚙️', price:699, old:899, badge:'sale', pct:22, rating:4.9, rv:64,
+    specs:{Тип:'Процесор', Ядра:'16', Нишки:'32', Макс_честота:'5.7 GHz', TDP:'170W', Сокет:'AM5', Кеш:'80 MB', Памет:'DDR5', Brand:'AMD', Socket:'AM5'},
+    desc:'AMD Ryzen 9 7950X с 16 ядра и 80 MB кеш е абсолютният избор за workstation и рендеринг задачи на платформа AM5.',
+    reviews:[{name:'Стоян Б.',stars:5,date:'18.03.2025',text:'В Blender е почти 2x по-бърз от предишния ми i9!'},{name:'Габриела Т.',stars:5,date:'08.03.2025',text:'Compilation времената паднаха наполовина.'}] },
+
+  { id:243, sku:'MC-NVID-RTX4090-MSI', ean:'4719072905217', img:'https://www.bhphotovideo.com/images/images500x500/msi_geforce_rtx_4090_gaming_1663609536_1750944.jpg', name:'MSI GeForce RTX 4090 24GB Gaming X Trio', brand:'MSI', cat:'components', emoji:'🎮', price:3299, old:3999, badge:'sale', pct:18, rating:5.0, rv:43,
+    specs:{Тип:'Видеокарта', GPU:'RTX 4090', VRAM:'24 GB GDDR6X', TDP:'450W', Разъем:'PCIe 5.0', HDMI:'HDMI 2.1', DP:'3x DP 1.4a', Brand:'NVIDIA'},
+    desc:'MSI RTX 4090 Gaming X Trio е най-мощната потребителска видеокарта. 24 GB GDDR6X за 4K gaming, AI и рендеринг без компромис.',
+    reviews:[{name:'Петко Г.',stars:5,date:'25.03.2025',text:'4K 120fps в Cyberpunk с RT Ultra. Нищо не я спира!'},{name:'Ваня Д.',stars:5,date:'15.03.2025',text:'За 3D работа е абсолютно незаменима.'}] },
+
+  { id:244, sku:'MC-NVID-RTX4070TIS-ASUS', ean:'4711387403495', img:'https://dlcdnwebimgs.asus.com/gain/1C6DC02C-E0B7-4B18-B4E8-2EDBC2461EA5/w717/h525', name:'ASUS ROG Strix RTX 4070 Ti Super OC 16GB', brand:'ASUS', cat:'components', emoji:'🎮', price:1199, old:1499, badge:'sale', pct:20, rating:4.8, rv:78,
+    specs:{Тип:'Видеокарта', GPU:'RTX 4070 Ti Super', VRAM:'16 GB GDDR6X', TDP:'285W', Разъем:'PCIe 4.0', HDMI:'HDMI 2.1', DP:'3x DP 1.4a', Brand:'NVIDIA'},
+    desc:'ASUS ROG Strix RTX 4070 Ti Super OC с 16 GB GDDR6X е идеалната видеокарта за 4K gaming и AI задачи. DLSS 3.5 и Frame Generation.',
+    reviews:[{name:'Мартин С.',stars:5,date:'22.03.2025',text:'1440p на 165Hz е абсолютно плавно!'},{name:'Ирена Л.',stars:4,date:'12.03.2025',text:'Страхотна карта за 3D дизайн.'}] },
+
+  { id:245, sku:'MC-AMD-RX7900XTX-SAPP', ean:'0778901545416', img:'https://www.bhphotovideo.com/images/images500x500/sapphire_technology_11322_02_20g_nitro_radeon_rx_7900_1671220000_1756267.jpg', name:'Sapphire Nitro+ Radeon RX 7900 XTX 24GB', brand:'Sapphire', cat:'components', emoji:'🎮', price:1299, old:1599, badge:'sale', pct:19, rating:4.8, rv:52,
+    specs:{Тип:'Видеокарта', GPU:'RX 7900 XTX', VRAM:'24 GB GDDR6', TDP:'355W', Разъем:'PCIe 4.0', HDMI:'HDMI 2.1', DP:'2x DP 2.1', Brand:'AMD'},
+    desc:'Sapphire Nitro+ RX 7900 XTX с 24 GB GDDR6 е флагманската AMD видеокарта за 4K gaming. DisplayPort 2.1 за 8K резолюция.',
+    reviews:[{name:'Христо М.',stars:5,date:'19.03.2025',text:'AMD драйверите са перфектни за Linux!'},{name:'Нина В.',stars:4,date:'09.03.2025',text:'4K gaming е плавен, консумацията приемлива.'}] },
+
+  { id:246, sku:'MC-CORS-64DDR5-6400-VEN', ean:'0840006690299', img:'https://www.bhphotovideo.com/images/images500x500/corsair_cmk64gx5m2b6400c32_vengeance_64gb_2_x_1683308280_1766060.jpg', name:'Corsair Vengeance 64GB DDR5-6400 RGB', brand:'Corsair', cat:'components', emoji:'🧠', price:349, old:429, badge:'sale', pct:19, rating:4.8, rv:118,
+    specs:{Тип:'RAM', Обем:'64 GB (2×32)', Честота:'6400 MHz', Латентност:'CL32', Voltage:'1.4V', XMP:'XMP 3.0', RGB:'Да', Brand:'Corsair', Socket:'DDR5'},
+    desc:'Corsair Vengeance DDR5-6400 с RGB подсветка и XMP 3.0 профил е оптималната RAM за Intel LGA1700/1851 и AMD AM5 платформи.',
+    reviews:[{name:'Тихомир Д.',stars:5,date:'24.03.2025',text:'XMP профилът работи от първото зареждане!'},{name:'Силва Н.',stars:5,date:'14.03.2025',text:'RGB е красив, скоростта е усетима.'}] },
+
+  { id:247, sku:'MC-ASUS-ROGZ790E', ean:'4711387488812', img:'https://dlcdnwebimgs.asus.com/gain/3E1F7F74-CCCA-485D-B47E-E9B1E4DABE34/w717/h525', name:'ASUS ROG Strix Z790-E Gaming WiFi Дънна платка', brand:'ASUS', cat:'components', emoji:'🔩', price:799, old:999, badge:'sale', pct:20, rating:4.9, rv:61,
+    specs:{Тип:'Дънна платка', Чипсет:'Intel Z790', Сокет:'LGA1700', Памет:'DDR5 до 7800 MHz', PCIe:'PCIe 5.0 x16', USB:'Thunderbolt 4', WiFi:'WiFi 6E', Brand:'ASUS', Socket:'LGA1700'},
+    desc:'ASUS ROG Strix Z790-E с PCIe 5.0 и WiFi 6E е премиум дънна платка за Intel Core 13/14 поколение. Поддържа DDR5 до 7800 MHz.',
+    reviews:[{name:'Кирил Ж.',stars:5,date:'23.03.2025',text:'Безпроблемен оверклок до 7200 MHz на паметта!'},{name:'Боряна М.',stars:5,date:'13.03.2025',text:'Качеството е на ниво. BIOS е интуитивен.'}] },
+
+  { id:248, sku:'MC-MSI-X670EACE', ean:'4719072918774', img:'https://www.bhphotovideo.com/images/images500x500/msi_meg_x670e_ace_atx_am5_1661965793_1750095.jpg', name:'MSI MEG X670E ACE AMD AM5 Дънна платка', brand:'MSI', cat:'components', emoji:'🔩', price:699, old:849, badge:'sale', pct:18, rating:4.8, rv:45,
+    specs:{Тип:'Дънна платка', Чипсет:'AMD X670E', Сокет:'AM5', Памет:'DDR5 до 6600 MHz', PCIe:'PCIe 5.0 x16', USB:'USB4 40Gbps', WiFi:'WiFi 6E', Brand:'MSI', Socket:'AM5'},
+    desc:'MSI MEG X670E ACE с AMD X670E чипсет е флагманска дънна платка за Ryzen 7000. PCIe 5.0 за M.2 и USB4 40Gbps.',
+    reviews:[{name:'Владо К.',stars:5,date:'21.03.2025',text:'Ryzen 9 7950X + тази платка = перфектна combo!'},{name:'Деа Й.',stars:4,date:'11.03.2025',text:'Много функционалности, лесна настройка.'}] },
+
+  { id:249, sku:'MC-CORS-RM850X-GOLD', ean:'0840006641956', img:'https://www.bhphotovideo.com/images/images500x500/corsair_cp_9020200_na_rm850x_shift_850_watt_1668626720_1752798.jpg', name:'Corsair RM850x 850W 80+ Gold Modular', brand:'Corsair', cat:'components', emoji:'⚡', price:229, old:289, badge:'sale', pct:21, rating:4.9, rv:203,
+    specs:{Тип:'Захранване', Мощност:'850W', Сертификат:'80+ Gold', Модулно:'Напълно модулно', Вентилатор:'135mm Zero RPM', Гаранция:'10 год.', Brand:'Corsair', TDP:'850W'},
+    desc:'Corsair RM850x с 80+ Gold сертификат и Zero RPM режим работи безшумно при ниско натоварване. Напълно модулни кабели за чист монтаж.',
+    reviews:[{name:'Илиян Г.',stars:5,date:'26.03.2025',text:'Абсолютно тих при нормална работа!'},{name:'Пея Т.',stars:5,date:'16.03.2025',text:'10 години гаранция — купуваш веднъж.'}] },
+
+  { id:250, sku:'MC-SEAS-FOCUSGX1000', ean:'4711173876199', img:'https://www.bhphotovideo.com/images/images500x500/seasonic_focus_gx_1000_atx_1548281576_1476476.jpg', name:'Seasonic Focus GX-1000 1000W 80+ Gold', brand:'Seasonic', cat:'components', emoji:'⚡', price:279, old:339, badge:'sale', pct:18, rating:4.8, rv:134,
+    specs:{Тип:'Захранване', Мощност:'1000W', Сертификат:'80+ Gold', Модулно:'Напълно модулно', Вентилатор:'135mm Hybrid', Гаранция:'10 год.', Brand:'Seasonic', TDP:'1000W'},
+    desc:'Seasonic Focus GX-1000 с 1000W и Hybrid Silent Fan Control е идеалното захранване за RTX 4090 системи. Изключително стабилно напрежение.',
+    reviews:[{name:'Пенко Р.',stars:5,date:'24.03.2025',text:'Перфектно с RTX 4090! Нито шум, нито проблем.'},{name:'Лена Б.',stars:5,date:'14.03.2025',text:'Seasonic качеството е непостижимо.'}] },
+
   // ── МРЕЖОВО ОБОРУДВАНЕ ───────────────────────────────────────────────────────
   { id:201, sku:'MC-TPLI-DECO-XE75', ean:'6935364091898', img:'https://static.tp-link.com/upload/product-overview/2022/202209/20220913/1663052267022a.jpg', name:'TP-Link Deco XE75 WiFi 6E Mesh 3-Pack', brand:'TP-Link', cat:'network', emoji:'📡', price:499, old:649, badge:'sale', pct:23, rating:4.7, rv:89,
     specs:{Стандарт:'WiFi 6E (802.11axe)', WiFi_стандарт:'WiFi 6E', Диапазони:'Три (2.4+5+6 GHz)', Скорост:'5400 Mbps', Обхват:'до 600 кв.м', Възли:'3', HomeShield:'Да', Warranty:'24 месеца'},
@@ -3511,7 +3562,7 @@ if (!_urlHooked) {
 
 
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { getFilteredSorted, advFilterBrands };
+  module.exports = { getFilteredSorted, advFilterBrands, renderGrids };
 }
 
 // ===== MEGA MENU =====

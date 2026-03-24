@@ -2847,6 +2847,8 @@
      display: flex;
      align-items: center;
      gap: 4px;
+     overflow: hidden;     /* prevent off-screen overflow */
+     max-width: 100px;     /* just enough for 2 icon buttons */
    }
 
    /* Search bar stretches full width */
@@ -2864,7 +2866,13 @@
      display: none !important;
    }
 
-   /* Show ONLY cart + wishlist icon buttons */
+   /* Wishlist button — ensure it's visible (not hidden by above rules) */
+   button[data-action="openWishlist"],
+   button[aria-label="Отвори любими"] {
+     display: flex !important;
+   }
+
+   /* Show icon buttons with good touch target size */
    .hdr-btn {
      padding: 8px;
      min-width: 40px;

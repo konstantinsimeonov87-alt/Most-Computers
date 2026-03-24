@@ -2856,21 +2856,19 @@
      min-height: 44px;
    }
 
-   /* Hide on mobile — not needed in header (in side menu instead) */
+   /* Hide on mobile — dividers, dark mode, profile not needed in header */
    .search-select,
    .hdr-divider,
    .hdr-dark-btn,
-   .profile-dropdown-wrap,
-   .hdr-btn span:not(.badge):not(.wl-badge) { /* hide text labels */
+   .profile-dropdown-wrap {
      display: none !important;
    }
 
-   /* Wishlist button — ensure it's visible (not hidden by above rules) */
-   button[data-action="openWishlist"],
-   button[aria-label="Отвори любими"] {
-     display: flex !important;
+   /* Hide plain text-label spans only (no id = "Кошница", "Любими" text) */
+   /* Keep spans with ID (wlHdrIcon wraps the heart SVG) and badge spans */
+   .hdr-btn span:not(.badge):not(.wl-badge):not([id]) {
+     display: none !important;
    }
-
    /* Show icon buttons with good touch target size */
    .hdr-btn {
      padding: 8px;

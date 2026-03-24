@@ -2823,32 +2823,59 @@
  @media (max-width: 768px) {
    .header-inner {
      flex-wrap: wrap;
-     gap: 8px;
+     gap: 0;
      padding: 10px 14px;
+     align-items: center;
    }
 
-   /* Move the entire search-wrap (flex item) to the second row */
+   /* Row 1: hamburger (auto) | logo (flex:1) | mob-header-actions (auto) */
+   .mob-menu-btn { order: 1; flex-shrink: 0; }
+   .logo-wrap    { order: 2; flex: 1; }
+
+   /* Move search to row 2 — full width */
    .search-wrap {
-     order: 3;
+     order: 4;
      flex-basis: 100%;
      width: 100%;
+     margin-top: 8px;
    }
 
-   /* Logo + header actions share the first row */
-   .logo-wrap { order: 1; }
-   .header-actions { order: 2; flex-shrink: 0; }
+   /* The original header-actions block goes to row 1 right side */
+   .header-actions {
+     order: 3;
+     flex-shrink: 0;
+     display: flex;
+     align-items: center;
+     gap: 4px;
+   }
 
-   /* dropdown width already follows search-wrap, no extra fix needed */
+   /* Search bar stretches full width */
    .search-bar {
      width: 100%;
      min-height: 44px;
    }
 
-   /* Hide category filter on mobile — saves space */
-   .search-select {
-     display: none;
+   /* Hide on mobile — not needed in header (in side menu instead) */
+   .search-select,
+   .hdr-divider,
+   .hdr-dark-btn,
+   .profile-dropdown-wrap,
+   .hdr-btn span:not(.badge):not(.wl-badge) { /* hide text labels */
+     display: none !important;
    }
 
+   /* Show ONLY cart + wishlist icon buttons */
+   .hdr-btn {
+     padding: 8px;
+     min-width: 40px;
+     min-height: 40px;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+   }
+ }
+
+ @media (max-width: 768px) {
    .hero-section {
      grid-template-columns: 1fr;
    }

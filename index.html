@@ -22,12 +22,16 @@
 <meta property="og:locale"      content="bg_BG">
 <meta name="twitter:card"       content="summary_large_image">
 <meta name="twitter:site"       content="@mostcomputers">
+<meta name="twitter:title"      content="Most Computers | Електроника от 1997 г.">
+<meta name="twitter:description" content="Лаптопи, Телефони, Телевизори, Аудио и аксесоари от Apple, Samsung, Sony. Безплатна доставка над 100 лв.">
+<meta name="twitter:image"      content="https://mostcomputers.bg/og-default.jpg">
 <meta name="robots"             content="index, follow">
 <meta name="author"             content="Most Computers">
 <meta name="keywords" content="лаптопи, смартфони, телевизори, таблети, аудио, гейминг, Most Computers, онлайн магазин електроника, компютри, аксесоари, Apple, Samsung, ASUS, Sony, Lenovo">
 <link rel="alternate" hreflang="bg" href="https://mostcomputers.bg/">
 <link rel="alternate" hreflang="x-default" href="https://mostcomputers.bg/">
 <link rel="canonical"           href="https://mostcomputers.bg/">
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
 <link rel="dns-prefetch" href="//fonts.googleapis.com">
 <link rel="dns-prefetch" href="//fonts.gstatic.com">
 <link rel="dns-prefetch" href="//store.storeimages.cdn-apple.com">
@@ -437,21 +441,7 @@
     <span class="mob-trust-badge">↩ 14 дни връщане</span>
   </div>
 
-  <!-- Search -->
-  <div class="mob-search">
-    <input type="text" placeholder="🔍  Търси: iPhone, MacBook, AirPods..." id="mobSearchInput" class="mob-search-rotator">
-    <button type="button" data-action="handleMobSearch"><svg width="20" height="20" class="svg-ic" aria-hidden="true"><use href="#ic-search"/></svg></button>
-  </div>
-  <!-- Quick popular search tags in drawer -->
-  <div class="mob-popular-tags">
-    <button class="mob-pop-tag" data-action="toggleMobMenu;setSearch:iPhone">📱 iPhone</button>
-    <button class="mob-pop-tag" data-action="toggleMobMenu;setSearch:MacBook">💻 MacBook</button>
-    <button class="mob-pop-tag" data-action="toggleMobMenu;setSearch:Samsung">📺 Samsung</button>
-    <button class="mob-pop-tag" data-action="toggleMobMenu;setSearch:AirPods">🎧 AirPods</button>
-    <button class="mob-pop-tag" data-action="toggleMobMenu;setSearch:Gaming">🎮 Gaming</button>
-  </div>
-
-  <!-- Main nav -->
+  <!-- Removed redundant mob-search, we use the main live search instead -->  <!-- Main nav -->
   <div class="mob-nav-section">
     <div class="mob-nav-title">Навигация</div>
     <button type="button" class="mob-nav-item" data-action="toggleMobMenu;scrollToTop"><span class="mi-icon">🏠</span>Начало<span class="mi-arr">›</span></button>
@@ -471,16 +461,85 @@
       <span class="mob-acc-arrow">›</span>
     </button>
     <div class="mob-accordion-body">
-      <button type="button" class="mob-nav-item" data-action="toggleMobMenu;filterCat:laptop"><span class="mi-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-laptop"/></svg></span>Лаптопи и компютри<span class="mi-arr">›</span></button>
-      <button type="button" class="mob-nav-item" data-action="toggleMobMenu;filterCat:mobile"><span class="mi-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-phone"/></svg></span>Телефони<span class="mi-arr">›</span></button>
-      <button type="button" class="mob-nav-item" data-action="toggleMobMenu;filterCat:tablet"><span class="mi-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-tablet"/></svg></span>Таблети<span class="mi-arr">›</span></button>
-      <button type="button" class="mob-nav-item" data-action="toggleMobMenu;filterCat:audio"><span class="mi-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-headphones"/></svg></span>Аудио и слушалки<span class="mi-arr">›</span></button>
-      <button type="button" class="mob-nav-item" data-action="toggleMobMenu;filterCat:tv"><span class="mi-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-tv"/></svg></span>Телевизори<span class="mi-arr">›</span></button>
+      <!-- LAPTOP -->
+      <div class="mob-sub-accordion">
+        <button class="mob-sub-accordion-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')" type="button">
+          <div style="display:flex;align-items:center;gap:12px;"><span class="mi-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-laptop"/></svg></span>Лаптопи и компютри</div>
+          <span class="mob-acc-arrow">›</span>
+        </button>
+        <div class="mob-sub-accordion-body">
+          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:laptop">Всички Лаптопи</button>
+          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:laptop" onclick="setTimeout(()=>applySubcatById('gaming'),50)">🎮 Геймърски</button>
+          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:laptop" onclick="setTimeout(()=>applySubcatById('business'),50)">💼 Бизнес</button>
+          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:laptop" onclick="setTimeout(()=>applySubcatById('ultrabook'),50)">✈ Ултрабук</button>
+          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:laptop" onclick="setTimeout(()=>applySubcatById('workstation'),50)">🔬 Workstation</button>
+          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:laptop" onclick="setTimeout(()=>applySubcatById('budget'),50)">💰 Бюджетни</button>
+        </div>
+      </div>
+      <!-- MOBILE -->
+      <div class="mob-sub-accordion">
+        <button class="mob-sub-accordion-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')" type="button">
+          <div style="display:flex;align-items:center;gap:12px;"><span class="mi-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-phone"/></svg></span>Телефони</div>
+          <span class="mob-acc-arrow">›</span>
+        </button>
+        <div class="mob-sub-accordion-body">
+          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:mobile">Всички Телефони</button>
+          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:mobile" onclick="setTimeout(()=>applySubcatById('flagship'),50)">👑 Флагмани</button>
+          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:mobile" onclick="setTimeout(()=>applySubcatById('midrange'),50)">⚡ Среден клас</button>
+          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:mobile" onclick="setTimeout(()=>applySubcatById('budget'),50)">💰 Бюджетни</button>
+          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:mobile" onclick="setTimeout(()=>applySubcatById('foldable'),50)">🔄 Сгъваеми</button>
+        </div>
+      </div>
+      <!-- TABLET -->
+      <div class="mob-sub-accordion">
+        <button class="mob-sub-accordion-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')" type="button">
+          <div style="display:flex;align-items:center;gap:12px;"><span class="mi-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-tablet"/></svg></span>Таблети</div>
+          <span class="mob-acc-arrow">›</span>
+        </button>
+        <div class="mob-sub-accordion-body">
+          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:tablet">Всички Таблети</button>
+          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:tablet" onclick="setTimeout(()=>applySubcatById('pro'),50)">💼 Pro</button>
+          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:tablet" onclick="setTimeout(()=>applySubcatById('kids'),50)">👦 За деца</button>
+          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:tablet" onclick="setTimeout(()=>applySubcatById('drawing'),50)">✏ За рисуване</button>
+          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:tablet" onclick="setTimeout(()=>applySubcatById('budget'),50)">💰 Бюджетни</button>
+        </div>
+      </div>
+      <!-- AUDIO -->
+      <div class="mob-sub-accordion">
+        <button class="mob-sub-accordion-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')" type="button">
+          <div style="display:flex;align-items:center;gap:12px;"><span class="mi-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-headphones"/></svg></span>Аудио и слушалки</div>
+          <span class="mob-acc-arrow">›</span>
+        </button>
+        <div class="mob-sub-accordion-body">
+          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:audio">Всички Слушалки</button>
+          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:audio" onclick="setTimeout(()=>applySubcatById('wireless'),50)">📶 Безжични</button>
+          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:audio" onclick="setTimeout(()=>applySubcatById('nc'),50)">🔇 Noise Cancelling</button>
+          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:audio" onclick="setTimeout(()=>applySubcatById('earbuds'),50)">🎵 True Wireless</button>
+          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:audio" onclick="setTimeout(()=>applySubcatById('studio'),50)">🎤 Студийни</button>
+          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:audio" onclick="setTimeout(()=>applySubcatById('gaming_h'),50)">🎮 Геймърски</button>
+        </div>
+      </div>
+      <!-- TV -->
+      <div class="mob-sub-accordion">
+        <button class="mob-sub-accordion-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')" type="button">
+          <div style="display:flex;align-items:center;gap:12px;"><span class="mi-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-tv"/></svg></span>Телевизори</div>
+          <span class="mob-acc-arrow">›</span>
+        </button>
+        <div class="mob-sub-accordion-body">
+          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:tv">Всички Телевизори</button>
+          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:tv" onclick="setTimeout(()=>applySubcatById('oled'),50)">✨ OLED</button>
+          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:tv" onclick="setTimeout(()=>applySubcatById('qled'),50)">💡 QLED</button>
+          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:tv" onclick="setTimeout(()=>applySubcatById('small'),50)">📺 до 43"</button>
+          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:tv" onclick="setTimeout(()=>applySubcatById('large'),50)">🖥 55"+</button>
+          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:tv" onclick="setTimeout(()=>applySubcatById('4k'),50)">4K Ultra HD</button>
+          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:tv" onclick="setTimeout(()=>applySubcatById('8k'),50)">8K</button>
+        </div>
+      </div>
+      <!-- OTHERS (Flat) -->
       <button type="button" class="mob-nav-item" data-action="toggleMobMenu;filterCat:camera"><span class="mi-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-camera"/></svg></span>Фотоапарати<span class="mi-arr">›</span></button>
       <button type="button" class="mob-nav-item" data-action="toggleMobMenu;filterCat:gaming"><span class="mi-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-gamepad"/></svg></span>Гейминг<span class="mi-arr">›</span></button>
       <button type="button" class="mob-nav-item" data-action="toggleMobMenu;filterCat:smart"><span class="mi-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-watch"/></svg></span>Смарт устройства<span class="mi-arr">›</span></button>
       <button type="button" class="mob-nav-item" data-action="toggleMobMenu;filterCat:network"><span class="mi-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-wifi"/></svg></span>Мрежово оборудване<span class="mi-arr">›</span></button>
-      <button type="button" class="mob-nav-item" data-action="toggleMobMenu;filterCat:acc"><span class="mi-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-mouse"/></svg></span>Аксесоари<span class="mi-arr">›</span></button>
       <button type="button" class="mob-nav-item" data-action="toggleMobMenu;filterCat:components"><span class="mi-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-cpu"/></svg></span>Компоненти<span class="mi-arr">›</span></button>
       <button type="button" class="mob-nav-item" data-action="toggleMobMenu;filterCat:monitor"><span class="mi-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-monitor"/></svg></span>Монитори<span class="mi-arr">›</span></button>
       <button type="button" class="mob-nav-item" data-action="toggleMobMenu;filterCat:desktop"><span class="mi-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-desktop"/></svg></span>Десктопи<span class="mi-arr">›</span></button>

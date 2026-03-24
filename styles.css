@@ -15105,8 +15105,38 @@ textarea:focus-visible {
   transition: max-height 0.35s ease;
 }
 .mob-accordion-body.open {
-  max-height: 900px;
+  max-height: 1400px;
 }
+
+/* Mobile Sub Accordion */
+.mob-sub-accordion { display: flex; flex-direction: column; }
+.mob-sub-accordion-toggle {
+  background: none; border: none; width: 100%; padding: 12px 16px 12px 20px;
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 14px; font-weight: 600; color: var(--text); cursor: pointer;
+  border-bottom: 1px solid var(--border); transition: all 0.2s;
+}
+.mob-sub-accordion-toggle .mi-icon { color: var(--primary); font-size: 18px; display: flex; }
+.mob-sub-accordion-toggle .mob-acc-arrow { color: var(--muted); transition: transform 0.3s; font-size: 16px; }
+.mob-sub-accordion-toggle.open .mob-acc-arrow { transform: rotate(90deg); color: var(--primary); }
+ 
+.mob-sub-accordion-body {
+  max-height: 0; overflow: hidden; transition: max-height 0.3s ease;
+  background: rgba(0,0,0,0.02); border-bottom: 1px solid var(--border);
+}
+.mob-sub-accordion-body.open { max-height: 600px; }
+
+.mob-nav-subitem {
+  background: none; border: none; width: 100%; padding: 12px 16px 12px 50px;
+  text-align: left; font-size: 13px; color: var(--text); cursor: pointer;
+  display: block; transition: background 0.2s; border-bottom: 1px solid rgba(0,0,0,0.03);
+}
+.mob-nav-subitem:last-child { border-bottom: none; }
+.mob-nav-subitem:hover { background: var(--primary-light); color: var(--primary-dark); }
+.dark .mob-sub-accordion-body { background: rgba(255,255,255,0.02); }
+.dark .mob-nav-subitem { border-bottom: 1px solid rgba(255,255,255,0.03); }
+.dark .mob-nav-subitem:last-child { border-bottom: none; }
+.dark .mob-nav-subitem:hover { background: var(--bg2); color: #fff; }
 
 /* ═══════════════════════════════════════════
    STEP 3 — VISUAL DESIGN & MICRO-ANIMATIONS
@@ -15702,3 +15732,29 @@ textarea:focus-visible {
   .cp-steps-bar .cp-step { padding: 12px 8px; }
 }
 
+/* ===== MOBILE UX ENHANCEMENTS ===== */
+@media (max-width: 768px) {
+  /* Enlarge Touch Targets for Forms */
+  .ck-input, .qo-input {
+    padding: 14px 16px !important;
+    font-size: 16px !important; /* Forces iOS not to auto-zoom on focus */
+  }
+  .ck-next-btn, .ck-back-btn, .checkout-close-btn, .qo-submit {
+    padding: 16px !important;
+    font-size: 15px !important;
+  }
+  /* Enlarge Interactive Cards */
+  .delivery-opt, .payment-opt, .ck-mode-opt {
+    padding: 16px 14px !important;
+  }
+  
+  /* Enlarge Add to Cart button on product cards */
+  .product-card .add-cart-btn {
+    padding: 10px !important; 
+  }
+  /* Ensure product grid displays nicely with 2 columns */
+  .products-row, .products-row.cols5 {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 8px !important;
+  }
+}

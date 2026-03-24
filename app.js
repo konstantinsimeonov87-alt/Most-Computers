@@ -1850,13 +1850,15 @@ function renderDropdown(query) {
   const qtype = queryType(q);
 
   if (!q) {
-    // Show recent searches + hint chips
+    // Show recent searches + popular hints
     const hints = recentSearches.length === 0
-      ? `<div class="sd-section-title">💡 Можеш да търсиш по</div>
+      ? `<div class="sd-section-title">🔥 Популярни търсения</div>
          <div class="sd-recent">
-           <div class="sd-recent-chip" onclick="void(0)">📝 Име / марка</div>
-           <div class="sd-recent-chip" onclick="void(0)">🔖 SKU (напр. MC-SONY-WH1000XM6)</div>
-           <div class="sd-recent-chip" onclick="void(0)">📦 EAN баркод (13 цифри)</div>
+           <div class="sd-recent-chip" onclick="applyRecentSearch('iPhone 16')">📱 iPhone 16</div>
+           <div class="sd-recent-chip" onclick="applyRecentSearch('MacBook Pro')">💻 MacBook Pro</div>
+           <div class="sd-recent-chip" onclick="applyRecentSearch('AirPods')">🎧 AirPods</div>
+           <div class="sd-recent-chip" onclick="applyRecentSearch('PlayStation 5')">🎮 PlayStation 5</div>
+           <div class="sd-recent-chip" onclick="applyRecentSearch('Samsung S24')">✨ Samsung S24</div>
          </div>`
       : `<div class="sd-section-title">🕐 Последни търсения</div>
          <div class="sd-recent">
@@ -1866,10 +1868,10 @@ function renderDropdown(query) {
                <button type="button" class="sd-recent-remove" onclick="removeRecent(event,${i})">×</button>
              </div>`).join('')}
          </div>
-         <div class="sd-section-title">💡 Търси и по</div>
+         <div class="sd-section-title">🔥 Популярни</div>
          <div class="sd-recent">
-           <div class="sd-recent-chip cursor-default">🔖 SKU код</div>
-           <div class="sd-recent-chip cursor-default">📦 EAN баркод</div>
+           <div class="sd-recent-chip" onclick="applyRecentSearch('iPhone 16')">📱 iPhone 16</div>
+           <div class="sd-recent-chip" onclick="applyRecentSearch('Лаптопи')">💻 Лаптопи</div>
          </div>`;
     searchDropdown.innerHTML = hints;
     searchDropdown.classList.add('open');

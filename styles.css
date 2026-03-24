@@ -7204,7 +7204,7 @@
      display: none;
    }
 
-   .hdr-btn span:not(.icon):not(.badge):not(.wl-badge):not(.hdr-btn-avatar) {
+   .hdr-btn span:not(.icon):not(.badge):not(.wl-badge):not(.hdr-btn-avatar):not([id]) {
      display: none;
    }
 

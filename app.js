@@ -2343,7 +2343,13 @@ function updateWishlistUI() {
   const hdrBadge = document.getElementById('wlHdrBadge');
   if (hdrBadge) { hdrBadge.textContent = count; hdrBadge.style.display = count > 0 ? 'flex' : 'none'; }
   const hdrIcon = document.getElementById('wlHdrIcon');
-  if (hdrIcon) hdrIcon.textContent = count > 0 ? '❤' : '♡';
+  if (hdrIcon) {
+    if (count > 0) {
+      hdrIcon.innerHTML = '<svg width="20" height="20" class="svg-ic" aria-hidden="true" fill="currentColor"><use href="#ic-heart"/></svg>';
+    } else {
+      hdrIcon.innerHTML = '<svg width="20" height="20" class="svg-ic" aria-hidden="true"><use href="#ic-heart"/></svg>';
+    }
+  }
   // Bottom nav badge
   const bnBadge = document.getElementById('bnWishBadge');
   if (bnBadge) { bnBadge.textContent = count; bnBadge.classList.toggle('show', count > 0); }

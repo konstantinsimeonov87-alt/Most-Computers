@@ -2826,28 +2826,45 @@
      gap: 0;
      padding: 10px 14px;
      align-items: center;
+     position: relative;
+     justify-content: space-between;
    }
 
-   /* Row 1: hamburger (auto) | logo (flex:1) | mob-header-actions (auto) */
-   .mob-menu-btn { order: 1; flex-shrink: 0; }
-   .logo-wrap    { order: 2; flex: 1; }
+   /* Row 1: hamburger (left) | logo (absolute center) | mob-header-actions (right) */
+   .mob-menu-btn { 
+     order: 1; 
+     flex-shrink: 0; 
+     margin-right: auto;
+   }
+   
+   .logo-wrap { 
+     order: 2; 
+     position: absolute;
+     left: 50%;
+     transform: translateX(-50%);
+     top: 10px; /* Align vertically with the row */
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     height: 40px; /* Match icon buttons height */
+   }
 
    /* Move search to row 2 — full width */
    .search-wrap {
      order: 4;
      flex-basis: 100%;
      width: 100%;
-     margin-top: 8px;
+     margin-top: 12px;
    }
 
-   /* The original header-actions block goes to row 1 right side */
+   /* header-actions for Variant B */
    .header-actions {
      order: 3;
      flex-shrink: 0;
      display: flex;
      align-items: center;
      gap: 4px;
-     overflow: visible;
+     margin-left: auto;
    }
 
    /* Search bar stretches full width */
@@ -2872,12 +2889,35 @@
    /* Show icon buttons with good touch target size */
    .hdr-btn {
      padding: 8px;
-     min-width: 40px;
-     min-height: 40px;
+     min-width: 44px;
+     min-height: 44px;
      display: flex;
      align-items: center;
      justify-content: center;
    }
+
+   /* Make SVGs larger on mobile to balance with the hamburger menu */
+   .hdr-btn svg.svg-ic {
+     width: 26px;
+     height: 26px;
+   }
+
+   /* Fix the wishlist span which ruins flex centering because it's inline by default */
+   #wlHdrIcon {
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     width: 100%;
+     height: 100%;
+   }
+
+   /* Make the outline heart look as visually heavy and low as the cart */
+   #wlHdrIcon svg.svg-ic {
+     width: 28px;
+     height: 28px;
+     margin-top: 2px;
+   }
+
  }
 
  @media (max-width: 768px) {

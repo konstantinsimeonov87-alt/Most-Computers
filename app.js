@@ -520,14 +520,18 @@ setTimeout(initLazyImages, 900);
 
 // ===== TOUCH SWIPE FOR HERO =====
 (function(){
-  let sx=0;
+  let sx=0, sy=0;
   const slider = document.querySelector('.hero-slider');
   if(!slider) return;
-  slider.addEventListener('touchstart', e => { sx=e.touches[0].clientX; }, {passive:true});
+  slider.addEventListener('touchstart', e => { sx=e.touches[0].clientX; sy=e.touches[0].clientY; }, {passive:true});
   slider.addEventListener('touchend', e => {
     const dx = e.changedTouches[0].clientX - sx;
-    const total = document.querySelectorAll('.slide').length;
-    if(Math.abs(dx) > 50) goSlide(dx<0 ? (currentSlide+1)%total : (currentSlide-1+total)%total);
+    const dy = e.changedTouches[0].clientY - sy;
+    // only trigger on clearly horizontal swipes
+    if(Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)*1.5) {
+      const total = document.querySelectorAll('.slide').length;
+      goSlide(dx<0 ? (currentSlide+1)%total : (currentSlide-1+total)%total);
+    }
   }, {passive:true});
 })();
 

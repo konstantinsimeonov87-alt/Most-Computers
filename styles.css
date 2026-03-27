@@ -2834,6 +2834,7 @@
    .mob-menu-btn {
      order: 1;
      flex: 1;
+     text-align: left;
    }
 
    /* Logo — auto width, perfectly centered between two equal sides */

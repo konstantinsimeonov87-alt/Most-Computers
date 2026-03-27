@@ -2830,16 +2830,16 @@
      padding: 10px 14px;
    }
 
-   /* Hamburger — auto width, stays left */
+   /* Hamburger — flex:1 equal side, content left */
    .mob-menu-btn {
      order: 1;
-     flex: 0 0 auto;
+     flex: 1;
    }
 
-   /* Logo fills remaining space, centered inside it */
+   /* Logo — auto width, perfectly centered between two equal sides */
    .logo-wrap {
      order: 2;
-     flex: 1;
+     flex: 0 0 auto;
      display: flex;
      justify-content: center;
      align-items: center;
@@ -2851,11 +2851,12 @@
      height: 29px;
    }
 
-   /* Icons — order 3 so they stay on row 1, BEFORE search wraps */
+   /* Icons — flex:1 equal side, content right */
    .header-actions {
      order: 3;
-     flex: 0 0 auto;
+     flex: 1;
      display: flex;
+     justify-content: flex-end;
      align-items: center;
      gap: 0;
    }

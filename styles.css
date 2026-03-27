@@ -2830,17 +2830,16 @@
      padding: 10px 14px;
    }
 
-   /* Hamburger — flex:1 equal side, content left */
+   /* Hamburger — natural size, stays left */
    .mob-menu-btn {
      order: 1;
-     flex: 1;
-     justify-content: flex-start;
+     flex: 0 0 auto;
    }
 
-   /* Logo — auto width, perfectly centered between two equal sides */
+   /* Logo — takes remaining space, centered inside */
    .logo-wrap {
      order: 2;
-     flex: 0 0 auto;
+     flex: 1;
      display: flex;
      justify-content: center;
      align-items: center;
@@ -2852,12 +2851,11 @@
      height: 29px;
    }
 
-   /* Icons — flex:1 equal side, content right */
+   /* Icons — natural size, stay right */
    .header-actions {
      order: 3;
-     flex: 1;
+     flex: 0 0 auto;
      display: flex;
-     justify-content: flex-end;
      align-items: center;
      gap: 0;
    }

@@ -2832,11 +2832,13 @@
 
    /* Hamburger — auto width, stays left */
    .mob-menu-btn {
+     order: 1;
      flex: 0 0 auto;
    }
 
    /* Logo fills remaining space, centered inside it */
    .logo-wrap {
+     order: 2;
      flex: 1;
      display: flex;
      justify-content: center;
@@ -2849,8 +2851,9 @@
      height: 29px;
    }
 
-   /* Icons — auto width, stay right */
+   /* Icons — order 3 so they stay on row 1, BEFORE search wraps */
    .header-actions {
+     order: 3;
      flex: 0 0 auto;
      display: flex;
      align-items: center;
@@ -2859,6 +2862,7 @@
 
    /* Search on row 2 — full width */
    .search-wrap {
+     order: 4;
      flex: 0 0 100%;
      width: 100%;
      margin-top: 8px;

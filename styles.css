@@ -923,6 +923,11 @@
   .pdp-mhdr-actions { flex: 1 1 auto; justify-content: flex-end; }
   .pdp-mhdr-wish { display: none; } /* hide wishlist on mobile to save space */
 }
+/* at ≤600px search is hidden — row no longer wraps, actions take full space */
+@media (max-width: 600px) {
+  .pdp-mhdr-row { flex-wrap: nowrap; }
+  .pdp-mhdr-actions { width: 100%; justify-content: flex-end; }
+}
 
 /* ===== PDP UX ENHANCEMENTS ===== */
 
@@ -11309,6 +11314,27 @@
    .pdp-tab[data-action="pdpSwitchTab('vendor')"] {
      display: none;
    }
+
+   /* 1. Sticky bar must sit above the bottom nav */
+   .pdp-sticky-bar {
+     bottom: calc(64px + env(safe-area-inset-bottom));
+   }
+
+   /* 2. pdp-mhdr must stick below pdp-topbar (52px) not overlap it */
+   .pdp-mhdr {
+     top: 52px;
+   }
+
+   /* 3. Limit gallery image height so buy button is reachable without scrolling */
+   .pdp-main-img-wrap {
+     max-height: 280px;
+   }
+
+   /* 4. Tab padding — tighter on mobile */
+   .pdp-tab {
+     padding: 10px 14px;
+     font-size: 12px;
+   }
  }
 
  @media(max-width:600px) {
@@ -11320,8 +11346,14 @@
      padding: 0 14px;
    }
 
+   /* 5. Keep 2 columns for quick spec chips — don't stack to 1 */
    .pdp-quick-specs {
-     grid-template-columns: 1fr;
+     grid-template-columns: 1fr 1fr;
+   }
+
+   /* 6. Hide search in pdp-mhdr on small phones — saves ~50px of sticky space */
+   .pdp-sh-search-wrap {
+     display: none;
    }
  }
 

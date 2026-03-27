@@ -2828,6 +2828,7 @@
      align-items: center;
      gap: 0;
      padding: 10px 14px;
+     position: relative;
    }
 
    /* Hamburger — natural size, stays left */
@@ -2836,13 +2837,15 @@
      flex: 0 0 auto;
    }
 
-   /* Logo — takes remaining space, centered inside */
+   /* Logo — absolutely centered on the header */
    .logo-wrap {
      order: 2;
-     flex: 1;
+     position: absolute;
+     left: 50%;
+     transform: translateX(-50%);
      display: flex;
-     justify-content: center;
      align-items: center;
+     pointer-events: auto;
    }
 
    /* Scale down SVG logo on mobile */
@@ -2851,10 +2854,11 @@
      height: 29px;
    }
 
-   /* Icons — natural size, stay right */
+   /* Icons — natural size, pushed to right */
    .header-actions {
      order: 3;
      flex: 0 0 auto;
+     margin-left: auto;
      display: flex;
      align-items: center;
      gap: 0;

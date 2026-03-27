@@ -2821,7 +2821,7 @@
  }
 
  @media (max-width: 768px) {
-   /* Flex: [☰ flex:1] [LOGO auto] [icons flex:1 right-aligned] */
+   /* Row 1: ☰ | LOGO (centered) | icons  /  Row 2: search */
    .header-inner {
      display: flex;
      flex-wrap: wrap;
@@ -2830,32 +2830,29 @@
      padding: 10px 14px;
    }
 
-   /* Hamburger takes equal space on left */
+   /* Hamburger — auto width, stays left */
    .mob-menu-btn {
+     flex: 0 0 auto;
+   }
+
+   /* Logo fills remaining space, centered inside it */
+   .logo-wrap {
      flex: 1;
      display: flex;
-     justify-content: flex-start;
+     justify-content: center;
      align-items: center;
    }
 
-   /* Logo stays at natural width — centered between two equal flex sides */
-   .logo-wrap {
-     flex: 0 0 auto;
-     display: flex;
-     align-items: center;
-   }
-
-   /* Scale down the SVG logo on mobile */
+   /* Scale down SVG logo on mobile */
    .logo-wrap svg {
      width: 130px;
      height: 29px;
    }
 
-   /* Icons take equal space on right, content right-aligned */
+   /* Icons — auto width, stay right */
    .header-actions {
-     flex: 1;
+     flex: 0 0 auto;
      display: flex;
-     justify-content: flex-end;
      align-items: center;
      gap: 0;
    }
@@ -2880,9 +2877,9 @@
      display: none !important;
    }
 
-   /* Profile: show button on mobile */
+   /* Profile hidden in header on mobile — lives in bottom nav */
    .profile-dropdown-wrap {
-     display: block !important;
+     display: none !important;
    }
 
    /* Hide plain text-label spans only (no id = "Кошница", "Любими" text) */

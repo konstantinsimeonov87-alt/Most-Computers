@@ -1,0 +1,35 @@
+name: Bump SW cache version
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  bump-sw:
+    # skip when this workflow itself commits back (prevents infinite loop)
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Inject git SHA into sw.js
+        run: |
+          SHA="${{ github.sha }}"
+          SHORT="${SHA:0:7}"
+          # Update CACHE constant
+          sed -i "s/const CACHE = 'mc-[^']*'/const CACHE = 'mc-$SHORT'/" sw.js
+          # Update version comment on line 1
+          sed -i "1s/.*/\/\/ Most Computers — Service Worker $SHORT/" sw.js
+
+      - name: Commit updated sw.js
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add sw.js
+          git diff --staged --quiet || \
+            (git commit -m "chore: bump SW cache version [skip ci]" && git push)

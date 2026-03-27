@@ -2978,7 +2978,7 @@
             <button type="button" class="pdp-nav-btn" data-action="pdpGalleryNav(-1)">‹</button>
             <button type="button" class="pdp-nav-btn" data-action="pdpGalleryNav(1)">›</button>
           </div>
-          <img id="pdpMainImg" src="" alt="" style="display:none;" onclick="pdpLbOpen()" title="Увеличи">
+          <img id="pdpMainImg" src="" alt="" style="display:none;" onclick="pdpLbOpen()" title="Увеличи" onerror="this.style.display='none';document.getElementById('pdpMainEmoji').style.display=''">
           <span id="pdpMainEmoji" class="pdp-main-emoji"></span>
         </div>
         <div class="pdp-thumbs" id="pdpThumbs"></div>

@@ -11325,14 +11325,34 @@
      top: 52px;
    }
 
-   /* 3. Limit gallery image height so buy button is reachable without scrolling */
+   /* 3. Limit gallery — cap height and center when aspect-ratio shrinks width */
    .pdp-main-img-wrap {
-     max-height: 280px;
+     max-height: 260px;
+     margin-left: auto;
+     margin-right: auto;
    }
 
    /* 4. Tab padding — tighter on mobile */
    .pdp-tab {
      padding: 10px 14px;
+     font-size: 12px;
+   }
+
+   /* 5. Sticky bar — compact on mobile */
+   .pdp-sticky-inner {
+     padding: 8px 14px;
+     gap: 10px;
+   }
+   /* hide qty control from sticky bar on mobile — qty set on main page */
+   .pdp-sticky-bar .pdp-qty-ctrl {
+     display: none;
+   }
+   .pdp-sticky-atc {
+     padding: 9px 16px;
+     font-size: 13px;
+   }
+   .pdp-sticky-checkout {
+     padding: 9px 12px;
      font-size: 12px;
    }
  }

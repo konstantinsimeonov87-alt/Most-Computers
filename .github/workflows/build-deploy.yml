@@ -1,0 +1,72 @@
+name: Build & Deploy (minify → gh-pages)
+
+# SETUP REQUIRED (one-time):
+#   GitHub repo → Settings → Pages → Source → "Deploy from a branch" → branch: gh-pages / root
+#   After that, every push to main will auto-build and deploy minified files.
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    # Don't run on our own build commits (prevents infinite loop)
+    if: "!startsWith(github.event.head_commit.message, 'build: minified deploy')"
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install minifiers
+        run: |
+          npm install -g terser html-minifier-terser
+          npm install -g postcss postcss-cli cssnano
+
+      - name: Create dist/
+        run: |
+          mkdir -p dist
+          cp index.html styles.css app.js products.js sw.js manifest.json dist/ 2>/dev/null || true
+          # Copy any other static assets
+          cp -r *.png *.ico *.webp *.svg dist/ 2>/dev/null || true
+
+      - name: Minify JS (terser)
+        run: |
+          terser dist/app.js      -o dist/app.js      --compress --mangle --ecma 2017
+          terser dist/products.js -o dist/products.js --compress --mangle --ecma 2017
+
+      - name: Minify CSS (cssnano)
+        run: |
+          postcss dist/styles.css --use cssnano -o dist/styles.css
+
+      - name: Minify HTML (html-minifier-terser)
+        run: |
+          html-minifier-terser dist/index.html \
+            --collapse-whitespace \
+            --remove-comments \
+            --remove-optional-tags \
+            --remove-redundant-attributes \
+            --remove-script-type-attributes \
+            --use-short-doctype \
+            --minify-css true \
+            --minify-js true \
+            -o dist/index.html
+
+      - name: Report sizes
+        run: |
+          echo "=== Build sizes ==="
+          du -sh dist/app.js dist/products.js dist/styles.css dist/index.html
+          echo "=== Total ==="
+          du -sh dist/
+
+      - name: Deploy to gh-pages
+        run: |
+          cd dist
+          git init
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "build: minified deploy from ${GITHUB_SHA:0:7} [skip ci]"
+          git push --force "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" HEAD:gh-pages

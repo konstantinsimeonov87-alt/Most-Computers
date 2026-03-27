@@ -16024,3 +16024,91 @@ textarea:focus-visible {
     gap: 8px !important;
   }
 }
+
+/* ===== WISHLIST BUTTON ALWAYS VISIBLE ON MOBILE ===== */
+@media (max-width: 768px) {
+  .product-wishlist {
+    opacity: 1;
+    width: 34px;
+    height: 34px;
+  }
+}
+
+/* ===== STOCK DOT ON PRODUCT CARD ===== */
+.card-stock-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 4px;
+}
+.card-stock-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.card-stock-dot.in  { background: #22c55e; }
+.card-stock-dot.low { background: #f59e0b; }
+.card-stock-dot.out { background: #ef4444; }
+
+/* ===== FLYING CART ANIMATION ===== */
+@keyframes flyToCart {
+  0%   { transform: translate(0, 0) scale(1); opacity: 1; }
+  60%  { transform: translate(var(--fly-x), var(--fly-y)) scale(.5); opacity: .8; }
+  100% { transform: translate(var(--fly-x), var(--fly-y)) scale(0); opacity: 0; }
+}
+.fly-dot {
+  position: fixed;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--primary, #6d28d9);
+  pointer-events: none;
+  z-index: 9999;
+  animation: flyToCart 0.55s cubic-bezier(.4,0,.2,1) forwards;
+}
+
+/* ===== PULL-TO-REFRESH ===== */
+.ptr-indicator {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%) translateY(-60px);
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  z-index: 2000;
+  box-shadow: 0 2px 12px rgba(0,0,0,.12);
+  transition: transform 0.2s;
+  pointer-events: none;
+}
+.ptr-indicator.ptr-visible {
+  transform: translateX(-50%) translateY(12px);
+}
+.ptr-indicator.ptr-spin {
+  animation: ptrSpin 0.7s linear infinite;
+}
+@keyframes ptrSpin {
+  from { transform: translateX(-50%) translateY(12px) rotate(0deg); }
+  to   { transform: translateX(-50%) translateY(12px) rotate(360deg); }
+}
+
+/* ===== TOAST MOBILE ADJUSTMENT ===== */
+@media (max-width: 768px) {
+  .toast-msg {
+    bottom: calc(70px + env(safe-area-inset-bottom));
+    font-size: 13px;
+    padding: 10px 18px;
+    white-space: normal;
+    max-width: calc(100vw - 32px);
+    text-align: center;
+  }
+}

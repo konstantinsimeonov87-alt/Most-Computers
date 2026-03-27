@@ -324,6 +324,11 @@ function makeCard(p,small=false){
           <input type="checkbox" id="cmp-${p.id}" onchange="toggleCompare(${p.id},this.checked)">
           <label for="cmp-${p.id}">Сравни</label>
         </div>
+        ${p.stock===false
+          ? `<div class="card-stock-row"><span class="card-stock-dot out"></span>Изчерпан</div>`
+          : p.stock!=null&&p.stock<=5
+            ? `<div class="card-stock-row"><span class="card-stock-dot low"></span>Последни ${p.stock} бр.</div>`
+            : `<div class="card-stock-row"><span class="card-stock-dot in"></span>В наличност</div>`}
       </div>
     </div>
   </article>`;
@@ -1139,7 +1144,24 @@ function addToCart(id){
   const ex=cart.find(x=>x.id===id);if(ex){ex.qty++;}else{cart.push({...p,qty:1});}
   updateCart();saveCart();
   const btn=document.getElementById('cb-'+id);
-  if(btn){btn.classList.add('added');btn.innerHTML='✓ Добавен';setTimeout(()=>{btn.classList.remove('added');btn.innerHTML='🛒 Добави';},1500);}
+  if(btn){
+    btn.classList.add('added');btn.innerHTML='✓ Добавен';
+    setTimeout(()=>{btn.classList.remove('added');btn.innerHTML='🛒 Добави';},1500);
+    // Flying dot animation toward cart icon
+    const cartIcon = document.querySelector('.bn-cart') || document.querySelector('[href="#cart"]') || document.querySelector('#bnCart');
+    if(cartIcon && window.innerWidth <= 900){
+      const btnR = btn.getBoundingClientRect();
+      const cartR = cartIcon.getBoundingClientRect();
+      const dot = document.createElement('div');
+      dot.className = 'fly-dot';
+      dot.style.left = (btnR.left + btnR.width/2 - 6) + 'px';
+      dot.style.top  = (btnR.top  + btnR.height/2 - 6) + 'px';
+      dot.style.setProperty('--fly-x', (cartR.left + cartR.width/2 - btnR.left - btnR.width/2) + 'px');
+      dot.style.setProperty('--fly-y', (cartR.top  + cartR.height/2 - btnR.top  - btnR.height/2) + 'px');
+      document.body.appendChild(dot);
+      setTimeout(()=>dot.remove(), 600);
+    }
+  }
   showToast(`✓ ${p.name.substring(0,32)}... добавен!`);
   if (!document.getElementById('recPanel')) showRecommended(p);
 }
@@ -1184,7 +1206,7 @@ function updateCart(){
   if(bnB){bnB.textContent=count;bnB.classList.toggle('show',count>0);}
   const body=document.getElementById('cartBody');
   const upsell=document.getElementById('cartUpsell');
-  if(cart.length===0){body.innerHTML='<div class="cart-empty-msg"><div class="ce-icon"><svg width="44" height="44" class="svg-ic" aria-hidden="true" style="opacity:.25"><use href="#ic-cart"/></svg></div><p>Кошницата е празна.<br>Добави продукти!</p></div>';if(upsell)upsell.style.display='none';return;}
+  if(cart.length===0){body.innerHTML='<div class="cart-empty-msg"><div class="ce-icon"><svg width="44" height="44" class="svg-ic" aria-hidden="true" style="opacity:.25"><use href="#ic-cart"/></svg></div><p>Кошницата е празна.<br>Добави продукти!</p><button type="button" style="margin-top:14px;padding:10px 22px;background:var(--primary);color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;" onclick="closeCart();scrollTo({top:0,behavior:\'smooth\'})">← Разгледай продуктите</button></div>';if(upsell)upsell.style.display='none';return;}
   if(upsell)upsell.style.display='';
   let html=cart.map(x=>`<div class="cart-item-row"><div class="ci-emoji">${x.emoji}</div><div class="ci-details"><div class="ci-name">${x.name}</div><div class="ci-price">${fmtEur(x.price*x.qty)}<span class="text-11-muted-block">${fmtBgn(x.price*x.qty)}</span></div><div class="ci-qty"><button type="button" class="qty-btn" onclick="changeQty(${x.id},-1)">−</button><span class="qty-num">${x.qty}</span><button type="button" class="qty-btn" onclick="changeQty(${x.id},1)">+</button></div></div><button type="button" class="ci-remove" onclick="removeFromCart(${x.id})">×</button></div>`).join('');
   // Free shipping progress bar
@@ -6347,6 +6369,53 @@ function submitContactForm() {
   showToast('✅ Запитването е изпратено успешно!');
 }
 
+
+// ===== PULL-TO-REFRESH =====
+(function initPullToRefresh() {
+  if (!('ontouchstart' in window)) return;
+  let startY = 0, pulling = false;
+  const IND_ID = 'ptrIndicator';
+  function getInd() {
+    let el = document.getElementById(IND_ID);
+    if (!el) {
+      el = document.createElement('div');
+      el.id = IND_ID;
+      el.className = 'ptr-indicator';
+      el.textContent = '↓';
+      document.body.appendChild(el);
+    }
+    return el;
+  }
+  document.addEventListener('touchstart', function(e) {
+    if (window.scrollY === 0 && e.touches.length === 1) {
+      startY = e.touches[0].clientY;
+      pulling = true;
+    }
+  }, { passive: true });
+  document.addEventListener('touchmove', function(e) {
+    if (!pulling) return;
+    const dy = e.touches[0].clientY - startY;
+    if (dy > 20) getInd().classList.add('ptr-visible');
+  }, { passive: true });
+  document.addEventListener('touchend', function(e) {
+    if (!pulling) return;
+    pulling = false;
+    const dy = e.changedTouches[0].clientY - startY;
+    const ind = getInd();
+    if (dy > 64) {
+      ind.classList.add('ptr-spin');
+      ind.textContent = '↻';
+      setTimeout(() => {
+        renderTopGrid();
+        ind.classList.remove('ptr-spin', 'ptr-visible');
+        ind.textContent = '↓';
+        showToast('✓ Обновено');
+      }, 800);
+    } else {
+      ind.classList.remove('ptr-visible');
+    }
+  }, { passive: true });
+})();
 
 // All scripts are deferred — DOM is ready, call directly
 initDataActions();

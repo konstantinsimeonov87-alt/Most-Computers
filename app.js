@@ -2399,7 +2399,7 @@ function renderWishlistGrid() {
     grid.innerHTML = addAllHtml + `<div class="wishlist-grid">${prods.map(p => {
       const save = p.old ? Math.round(((p.old-p.price)/p.old)*100) : 0;
       const imgHtml = p.img
-        ? `<img class="product-img-real" src="${p.img}" alt="${p.name}" loading="lazy" onload="this.classList.add('img-loaded')" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="product-img-emoji is-hidden" aria-hidden="true">${p.emoji}</span>`
+        ? `<img class="product-img-real" src="${p.img}" alt="${p.name}" loading="lazy" decoding="async" width="300" height="300" onload="this.classList.add('img-loaded')" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="product-img-emoji is-hidden" aria-hidden="true">${p.emoji}</span>`
         : `<span class="product-img-emoji">${p.emoji}</span>`;
       return `<div class="product-card pos-rel">
         <button type="button" class="wishlist-remove-btn" onclick="toggleWishlist(${p.id},{stopPropagation:()=>{}})" title="Премахни">×</button>
@@ -2612,7 +2612,7 @@ function renderRecentlyViewed() {
   scroll.innerHTML = items.map(p => `
     <div class="rv-card" onclick="openProductModal(${p.id})">
       ${p.img
-        ? `<img class="rv-card-img" src="${p.img}" alt="${p.name}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="rv-card-emoji is-hidden">${p.emoji}</span>`
+        ? `<img class="rv-card-img" src="${p.img}" alt="${p.name}" loading="lazy" decoding="async" width="80" height="80" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="rv-card-emoji is-hidden">${p.emoji}</span>`
         : `<span class="rv-card-emoji">${p.emoji}</span>`}
       <div class="rv-card-name">${p.name}</div>
       <div class="rv-card-price">${fmtEur(p.price)}</div>

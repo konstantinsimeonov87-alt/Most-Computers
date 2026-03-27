@@ -2837,11 +2837,13 @@
      flex: 0 0 auto;
    }
 
-   /* Logo — absolutely centered on the header */
+   /* Logo — absolutely centered on row 1 */
    .logo-wrap {
      order: 2;
      position: absolute;
      left: 50%;
+     top: 10px;
+     height: 44px;
      transform: translateX(-50%);
      display: flex;
      align-items: center;

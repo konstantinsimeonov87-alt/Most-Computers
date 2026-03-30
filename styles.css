@@ -1,3 +1,24 @@
+/* ===== ACCESSIBILITY: Skip Link ===== */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 16px;
+  z-index: 99999;
+  padding: 12px 24px;
+  background: var(--primary, #bd1105);
+  color: #fff;
+  font-weight: 700;
+  font-size: 14px;
+  border-radius: 0 0 8px 8px;
+  text-decoration: none;
+  transition: top 0.2s;
+}
+.skip-link:focus {
+  top: 0;
+  outline: 3px solid var(--accent, #ff3d00);
+  outline-offset: 2px;
+}
+
  :root {
    /* ── Главни цветове ── */
    --primary: #bd1105;

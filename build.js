@@ -1,73 +1,122 @@
-#!/usr/bin/env node
-// build.js — Most Computers build script
-// Usage: node build.js
-// - Concatenates js/ source files → app.js
-// - Bumps Service Worker cache version automatically
+/**
+ * Build Script for Most Computers
+ * Minifies JS, CSS, HTML into a dist/ folder
+ * 
+ * Usage: node build.js
+ */
 
+const { execSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
-const zlib = require('zlib');
 
 const ROOT = __dirname;
+const DIST = path.join(ROOT, 'dist');
 
-// ── JS bundle ────────────────────────────────────────────────────────────────
-const JS_ORDER = [
-  'currency','data','cards','ui','gallery','cart','search','auth',
-  'recently-viewed','filters','order-tracker','pwa','product-page',
-  'pdp-ux','seo','pages','actions','main'
+// Colors for console output
+const GREEN = '\x1b[32m';
+const RED = '\x1b[31m';
+const YELLOW = '\x1b[33m';
+const RESET = '\x1b[0m';
+const BOLD = '\x1b[1m';
+
+function log(msg) { console.log(`${GREEN}✅${RESET} ${msg}`); }
+function warn(msg) { console.log(`${YELLOW}⚠️${RESET} ${msg}`); }
+function err(msg) { console.log(`${RED}❌${RESET} ${msg}`); }
+
+console.log(`\n${BOLD}🚀 Most Computers — Production Build${RESET}\n`);
+
+// 1. Clean dist/
+if (fs.existsSync(DIST)) {
+  fs.rmSync(DIST, { recursive: true });
+}
+fs.mkdirSync(DIST, { recursive: true });
+fs.mkdirSync(path.join(DIST, 'js'), { recursive: true });
+log('Cleaned dist/ directory');
+
+// 2. Run tests
+try {
+  console.log('\n📋 Running tests...');
+  execSync('npx jest --no-coverage', { stdio: 'inherit', cwd: ROOT });
+  log('All tests passed');
+} catch (e) {
+  err('Tests failed! Aborting build.');
+  process.exit(1);
+}
+
+// 3. Minify JavaScript
+console.log('\n📦 Minifying JavaScript...');
+const jsFiles = [
+  { src: 'products.js', dst: 'products.js' },
+  { src: 'app.js', dst: 'app.js' },
+  { src: 'js/admin.js', dst: 'js/admin.js' },
 ];
-
-const ADMIN_STUB = `
-// ===== ADMIN (LAZY LOADED) =====
-function _doOpenAdmin() {
-  document.getElementById('adminPage').classList.add('open');
-  document.body.style.overflow = 'hidden';
-  if (typeof adminUpdateOrdersBadge === 'function') adminUpdateOrdersBadge();
-  if (typeof adminShowTab === 'function') adminShowTab('dashboard');
-}
-function openAdminPage() {
-  if (!window._adminUnlocked) {
-    const pin = prompt('Въведи PIN за достъп до администрацията:');
-    if (pin !== '1234') { showToast('❌ Грешен PIN!'); return; }
-    window._adminUnlocked = true;
+jsFiles.forEach(({ src, dst }) => {
+  const srcPath = path.join(ROOT, src);
+  const dstPath = path.join(DIST, dst);
+  if (!fs.existsSync(srcPath)) { warn(`Skipping ${src} (not found)`); return; }
+  const before = fs.statSync(srcPath).size;
+  try {
+    execSync(`npx -y terser "${srcPath}" -o "${dstPath}" --compress --mangle`, { cwd: ROOT });
+    const after = fs.statSync(dstPath).size;
+    const pct = Math.round((1 - after / before) * 100);
+    log(`${src}: ${(before/1024).toFixed(1)} KB → ${(after/1024).toFixed(1)} KB (${pct}% smaller)`);
+  } catch (e) {
+    warn(`Failed to minify ${src}, copying as-is`);
+    fs.copyFileSync(srcPath, dstPath);
   }
-  if (window._adminScriptLoaded) { _doOpenAdmin(); return; }
-  const s = document.createElement('script');
-  s.src = 'js/admin.js';
-  s.onload = () => { window._adminScriptLoaded = true; _doOpenAdmin(); };
-  s.onerror = () => showToast('❌ Грешка при зареждане на Admin.');
-  document.head.appendChild(s);
-}
-function closeAdminPage() {
-  const p = document.getElementById('adminPage');
-  if (p) { p.classList.remove('open'); }
-  document.body.style.overflow = '';
-}
-`;
+});
 
-const bundle = JS_ORDER
-  .map(f => fs.readFileSync(path.join(ROOT, 'js', f + '.js'), 'utf8'))
-  .join('\n') + ADMIN_STUB;
-
-fs.writeFileSync(path.join(ROOT, 'app.js'), bundle, 'utf8');
-
-const gzSize = zlib.gzipSync(bundle).length;
-console.log(`✓ app.js  ${Math.round(bundle.length / 1024)}KB raw  /  ${Math.round(gzSize / 1024)}KB gzip`);
-
-// ── SW version bump ───────────────────────────────────────────────────────────
-const swPath = path.join(ROOT, 'sw.js');
-let sw = fs.readFileSync(swPath, 'utf8');
-
-const match = sw.match(/const CACHE = 'mc-v(\d+)'/);
-if (match) {
-  const oldVer = parseInt(match[1]);
-  const newVer = oldVer + 1;
-  sw = sw.replace(`mc-v${oldVer}`, `mc-v${newVer}`);
-  sw = sw.replace(/\/\/ Most Computers — Service Worker v\d+/, `// Most Computers — Service Worker v${newVer}`);
-  fs.writeFileSync(swPath, sw, 'utf8');
-  console.log(`✓ sw.js   mc-v${oldVer} → mc-v${newVer}`);
-} else {
-  console.log('⚠ sw.js  версията не е намерена');
+// 4. Minify CSS
+console.log('\n🎨 Minifying CSS...');
+const cssSrc = path.join(ROOT, 'styles.css');
+const cssDst = path.join(DIST, 'styles.css');
+if (fs.existsSync(cssSrc)) {
+  const before = fs.statSync(cssSrc).size;
+  try {
+    execSync(`npx -y clean-css-cli "${cssSrc}" -o "${cssDst}"`, { cwd: ROOT });
+    const after = fs.statSync(cssDst).size;
+    const pct = Math.round((1 - after / before) * 100);
+    log(`styles.css: ${(before/1024).toFixed(1)} KB → ${(after/1024).toFixed(1)} KB (${pct}% smaller)`);
+  } catch (e) {
+    warn('Failed to minify CSS, copying as-is');
+    fs.copyFileSync(cssSrc, cssDst);
+  }
 }
 
-console.log('\nBuild completed!');
+// 5. Copy HTML (minification optional — HTML is mostly dynamic)
+console.log('\n📝 Processing HTML...');
+fs.copyFileSync(path.join(ROOT, 'index.html'), path.join(DIST, 'index.html'));
+log('Copied index.html');
+
+// 6. Copy static assets
+console.log('\n📁 Copying assets...');
+['manifest.json', 'sw.js', 'robots.txt', 'sitemap.xml', 'og-default.jpg'].forEach(f => {
+  const src = path.join(ROOT, f);
+  if (fs.existsSync(src)) {
+    fs.copyFileSync(src, path.join(DIST, f));
+    log(`Copied ${f}`);
+  }
+});
+
+// Copy images directory if exists
+const imgDir = path.join(ROOT, 'images');
+if (fs.existsSync(imgDir)) {
+  execSync(`xcopy /E /I /Y "${imgDir}" "${path.join(DIST, 'images')}"`, { cwd: ROOT, stdio: 'ignore' });
+  log('Copied images/');
+}
+
+// 7. Summary
+console.log(`\n${BOLD}📊 Build Summary${RESET}`);
+let totalSize = 0;
+['app.js', 'products.js', 'styles.css', 'index.html'].forEach(f => {
+  const fp = path.join(DIST, f);
+  if (fs.existsSync(fp)) {
+    const size = fs.statSync(fp).size;
+    totalSize += size;
+    console.log(`  ${f.padEnd(20)} ${(size/1024).toFixed(1)} KB`);
+  }
+});
+console.log(`  ${'─'.repeat(35)}`);
+console.log(`  ${'TOTAL'.padEnd(20)} ${(totalSize/1024).toFixed(1)} KB`);
+console.log(`\n${GREEN}${BOLD}✅ Build complete!${RESET} Output in ${BOLD}dist/${RESET}`);
+console.log(`   Run: ${YELLOW}npx http-server dist/ -p 3333 -c-1${RESET}\n`);

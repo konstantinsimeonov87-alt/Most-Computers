@@ -10,9 +10,16 @@ function fmtPrice(bgn, saleCls='') {
 // Inline dual: "2.30 € / 4.49 лв."
 function fmtDual(bgn) { return `${fmtEur(bgn)} / ${fmtBgn(bgn)}`; }
 
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { EUR_RATE, toEur, fmtEur, fmtBgn, fmtPrice, fmtDual };
+
+// module.exports consolidated at end of file
+
+// ===== HTML SANITIZER (XSS prevention) =====
+function escapeHTML(str) {
+  const div = document.createElement('div');
+  div.appendChild(document.createTextNode(str));
+  return div.innerHTML;
 }
+
 
 // ===== DATA =====
 
@@ -868,7 +875,11 @@ setInterval(()=>goSlide((currentSlide+1)%slides.length),5000);
     if(th) th.textContent=String(Math.floor(totalSecs/3600)).padStart(2,'0');
     if(tm) tm.textContent=String(Math.floor((totalSecs%3600)/60)).padStart(2,'0');
     if(ts) ts.textContent=String(totalSecs%60).padStart(2,'0');
-    if(totalSecs===0){ localStorage.removeItem('mc_flash_end'); }
+    // Auto-restart countdown when it expires
+    if(totalSecs===0){
+      endTs = Date.now() + DURATION*1000;
+      localStorage.setItem('mc_flash_end', endTs);
+    }
   }
   tick();
   setInterval(tick,1000);
@@ -910,7 +921,7 @@ function addToCart(id){
       setTimeout(()=>dot.remove(), 600);
     }
   }
-  showToast(`✓ ${p.name.substring(0,32)}... добавен!`);
+  showToast(`✓ ${p.name.length > 32 ? p.name.substring(0,32) + '…' : p.name} добавен!`);
   if (!document.getElementById('recPanel')) showRecommended(p);
 }
 
@@ -1123,8 +1134,13 @@ function selectDeliveryCk(el, idx) {
   el.classList.add('selected');
   ckDeliveryIdx = idx;
   renderOrderSummary();
-  // Show/hide address fields for pickup
-  const addrFields = document.querySelector('#ck-step2 .ck-field');
+  // Show/hide address fields for pickup (idx 2 = 'Вземи от магазин')
+  const addrFields = document.querySelectorAll('#ck-step2 .ck-field');
+  addrFields.forEach(f => {
+    if (f.querySelector('#ckCity') || f.querySelector('#ckAddr') || f.querySelector('#ckZip')) {
+      f.style.display = idx === 2 ? 'none' : '';
+    }
+  });
 }
 
 function selectPayment(el, type) {
@@ -1507,16 +1523,20 @@ function cpAddUpsell(id) {
 
 function cpClearCart() {
   if (!cart.length) return;
-  if (!confirm('Изчисти цялата кошница?')) return;
-  cart = [];
-  updateCart(); saveCart();
-  renderCartPage();
+  showCustomConfirm('🗑 Изчисти кошницата', 'Сигурен ли си, че искаш да изчистиш всички продукти?', () => {
+    cart = [];
+    updateCart(); saveCart();
+    renderCartPage();
+  });
 }
 
 function cpApplyPromo() {
   const input = document.getElementById('cpPromoInput');
   if (!input || !input.value.trim()) return;
-  applyPromo(input.value.trim());
+  // Sync the main promo input before calling applyPromo (which reads from #promoInput)
+  const mainInput = document.getElementById('promoInput');
+  if (mainInput) mainInput.value = input.value.trim();
+  applyPromo();
 }
 
 function cpGoCheckout() {
@@ -1524,15 +1544,8 @@ function cpGoCheckout() {
   handleCheckout();
 }
 
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = {
-    addToCart, removeFromCart, changeQty,
-    applyPromo, renderOrderSummary, formatCardNum, formatExpiry,
-    _resetCheckout: () => { ckDeliveryIdx = 0; ckPaymentType = 'card'; promoApplied = false; },
-    _setDelivery:   (idx) => { ckDeliveryIdx = idx; },
-    _setPayment:    (type) => { ckPaymentType = type; },
-  };
-}
+// module.exports consolidated at end of file
+
 
 // ===== LIVE SEARCH SYSTEM =====
 let recentSearches = JSON.parse(localStorage.getItem('mc_recent') || '[]');
@@ -1888,21 +1901,27 @@ function subscribeNL() {
   if (input) input.value = '';
 }
 
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = {
-    highlightMatch, searchProducts, queryType, saveRecentSearch,
-    _resetRecentSearches: () => { recentSearches = []; },
-  };
-}
+// module.exports consolidated at end of file
+
 
 
 // ===== AUTH SYSTEM =====
 let currentUser = null;
 
-// Demo users (in real app this would be server-side)
+// Demo users — passwords stored as SHA-256 hashes (never plaintext!)
+// Hash of '123456' = '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92'
 const demoUsers = [
-  { email: 'test@test.bg', password: '123456', firstName: 'Иван', lastName: 'Петров', phone: '0888123456' }
+  { email: 'test@test.bg', passwordHash: '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', firstName: 'Иван', lastName: 'Петров', phone: '0888123456' }
 ];
+
+// Secure hash utility using SubtleCrypto
+async function hashPassword(password) {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(password);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
 
 function openAuthModal(tab = 'login') {
   switchAuthTab(tab);
@@ -1963,7 +1982,7 @@ function checkPwStrength(val) {
   text.textContent = l.t; text.style.color = l.c;
 }
 
-function handleLogin() {
+async function handleLogin() {
   const email = document.getElementById('loginEmail').value.trim();
   const pass = document.getElementById('loginPassword').value;
   const errEl = document.getElementById('loginError');
@@ -1974,13 +1993,14 @@ function handleLogin() {
   if (!pass) { document.getElementById('loginPassword').classList.add('error'); valid = false; }
   else document.getElementById('loginPassword').classList.remove('error');
   if (!valid) return;
-  // Check credentials
-  const user = demoUsers.find(u => u.email === email && u.password === pass);
+  // Check credentials with hashed password comparison
+  const hashedPass = await hashPassword(pass);
+  const user = demoUsers.find(u => u.email === email && u.passwordHash === hashedPass);
   if (!user) { errEl.classList.add('show'); document.getElementById('loginPassword').classList.add('error'); return; }
   loginSuccess(user);
 }
 
-function handleRegister() {
+async function handleRegister() {
   const fn = document.getElementById('regFirstName').value.trim();
   const ln = document.getElementById('regLastName').value.trim();
   const email = document.getElementById('regEmail').value.trim();
@@ -1999,7 +2019,8 @@ function handleRegister() {
   fields.forEach(([id, ok]) => { document.getElementById(id).classList.toggle('error', !ok); if (!ok) valid = false; });
   if (!valid) { errEl.textContent = pw !== pw2 ? '⚠ Паролите не съвпадат!' : '⚠ Моля провери данните!'; errEl.classList.add('show'); return; }
   if (demoUsers.find(u => u.email === email)) { errEl.textContent = '⚠ Имейлът вече е регистриран!'; errEl.classList.add('show'); document.getElementById('regEmail').classList.add('error'); return; }
-  const newUser = { email, password: pw, firstName: fn, lastName: ln, phone: document.getElementById('regPhone').value };
+  const hashedPw = await hashPassword(pw);
+  const newUser = { email, passwordHash: hashedPw, firstName: fn, lastName: ln, phone: document.getElementById('regPhone').value };
   demoUsers.push(newUser);
   registerSuccess(newUser);
 }
@@ -2173,7 +2194,7 @@ function renderWishlistGrid() {
         : `<span class="product-img-emoji">${p.emoji}</span>`;
       return `<div class="product-card pos-rel">
         <button type="button" class="wishlist-remove-btn" onclick="toggleWishlist(${p.id},{stopPropagation:()=>{}})" title="Премахни">×</button>
-        <div class="product-img-wrap" onclick="openProductModal(${p.id});closeWishlist();" class="cursor-pointer">${imgHtml}</div>
+        <div class="product-img-wrap cursor-pointer" onclick="openProductModal(${p.id});closeWishlist();">${imgHtml}</div>
         <div class="product-body">
           <div class="product-brand">${p.brand}</div>
           <div class="product-name">${p.name}</div>
@@ -2359,9 +2380,8 @@ function printOrder(num) {
   win.document.close();
 }
 
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { toggleWishlist, _resetWishlist: () => { wishlist = []; } };
-}
+// module.exports consolidated at end of file
+
 
 // ===== RECENTLY VIEWED =====
 let recentlyViewed = JSON.parse(localStorage.getItem('mc_rv') || '[]');
@@ -2809,7 +2829,7 @@ function initPriceGroupCounts() {
   ranges.forEach(r => {
     const el = document.getElementById(r.id);
     if (el) el.textContent = products.filter(p => {
-      const eur = p.price / EUR;
+      const eur = p.price / EUR_RATE;
       return eur >= r.min && eur < r.max;
     }).length;
   });
@@ -3335,13 +3355,11 @@ if (!_urlHooked) {
 
   var _baseOpenProductModal = openProductModal;
   openProductModal = function(id) {
-    showModalSkeleton();
-    setTimeout(() => {
-      _baseOpenProductModal(id);
-      renderRelated(id);
-      updateURL();
-      document.dispatchEvent(new CustomEvent('mc:productopen', {detail: id}));
-    }, 280);
+    // Open modal directly without skeleton (skeleton was destroying DOM elements)
+    _baseOpenProductModal(id);
+    renderRelated(id);
+    updateURL();
+    document.dispatchEvent(new CustomEvent('mc:productopen', {detail: id}));
   };
 
   var _baseCloseProductModalDirect = closeProductModalDirect;
@@ -3360,9 +3378,8 @@ if (!_urlHooked) {
 }
 
 
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { getFilteredSorted, advFilterBrands, renderGrids };
-}
+// module.exports consolidated at end of file
+
 
 // ===== MEGA MENU =====
 let _megaMenuTimer = null;
@@ -4261,11 +4278,26 @@ function pdpToggleWish() {
 
 
 // ===== 2. MODAL SKELETON =====
+// Save original modal DOM so skeleton can restore it
+var _savedModalInfoHTML = null;
+var _savedModalGalleryHTML = null;
+
+function _restoreModalDOM() {
+  const gallery = document.getElementById('modalGallery');
+  const info = document.querySelector('.modal-info');
+  if (_savedModalGalleryHTML && gallery) gallery.innerHTML = _savedModalGalleryHTML;
+  if (_savedModalInfoHTML && info) info.innerHTML = _savedModalInfoHTML;
+}
+
 function showModalSkeleton() {
   const backdrop = document.getElementById('productModalBackdrop');
   const gallery = document.getElementById('modalGallery');
   const info = document.querySelector('.modal-info');
   if (!backdrop || !gallery || !info) return;
+
+  // Save original HTML on first call so we can restore it later
+  if (!_savedModalInfoHTML) _savedModalInfoHTML = info.innerHTML;
+  if (!_savedModalGalleryHTML) _savedModalGalleryHTML = gallery.innerHTML;
 
   gallery.innerHTML = `<div class="modal-skeleton"><div class="modal-sk-img"></div></div>`;
   info.innerHTML = `
@@ -6063,21 +6095,81 @@ function initDataActions() {
   migrateInlineClickHandlers();
 }
 
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = {
-    migrateInlineClickHandlers,
-    runActionString,
-    initDataActions,
-  };
+// module.exports consolidated at end of file
+
+// ===== CLOSE CART (missing function referenced in cart empty button) =====
+function closeCart() { 
+  const panel = document.getElementById('cartPanel');
+  const overlay = document.getElementById('cartOverlay');
+  if (panel) panel.classList.remove('open');
+  if (overlay) overlay.classList.remove('open');
 }
+
+// ===== ACCESSIBILITY: Focus Trap for Modals =====
+(function initFocusTrap() {
+  let _lastFocusedElement = null;
+
+  function trapFocus(modal) {
+    const focusable = modal.querySelectorAll(
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    );
+    if (!focusable.length) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+
+    modal._focusTrapHandler = function(e) {
+      if (e.key !== 'Tab') return;
+      if (e.shiftKey) {
+        if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+      } else {
+        if (document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    };
+    modal.addEventListener('keydown', modal._focusTrapHandler);
+    first.focus();
+  }
+
+  function releaseFocus(modal) {
+    if (modal._focusTrapHandler) {
+      modal.removeEventListener('keydown', modal._focusTrapHandler);
+      delete modal._focusTrapHandler;
+    }
+    if (_lastFocusedElement) { _lastFocusedElement.focus(); _lastFocusedElement = null; }
+  }
+
+  // Observe modal open/close via class changes
+  const observer = new MutationObserver(mutations => {
+    mutations.forEach(m => {
+      if (m.attributeName !== 'class') return;
+      const el = m.target;
+      const isModal = el.id === 'productModalBackdrop' || el.id === 'authBackdrop' || el.id === 'cartPanel';
+      if (!isModal) return;
+      if (el.classList.contains('open')) {
+        _lastFocusedElement = document.activeElement;
+        setTimeout(() => trapFocus(el), 100);
+      } else {
+        releaseFocus(el);
+      }
+    });
+  });
+
+  ['productModalBackdrop', 'authBackdrop', 'cartPanel'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) observer.observe(el, { attributes: true, attributeFilter: ['class'] });
+  });
+})();
 
 // ===== ERROR BOUNDARY =====
 window.onerror = function(msg, src, line, col, err) {
   console.error('[MC Error]', msg, src, line, col, err);
+  // Don't show toast for image 404s or cross-origin script errors
+  if (msg === 'Script error.' || (typeof src === 'string' && /\.(png|jpg|jpeg|webp|gif|svg)$/i.test(src))) {
+    return true;
+  }
   if (typeof showToast === 'function') {
     showToast('⚠️ Нещо се обърка. Моля опресни страницата.');
   }
-  return true; // prevent default browser error
+  return true;
 };
 window.addEventListener('unhandledrejection', function(e) {
   console.error('[MC Unhandled Promise]', e.reason);
@@ -6184,9 +6276,20 @@ function _doOpenAdmin() {
 function openAdminPage() {
   if (!window._adminUnlocked) {
     const pin = prompt('Въведи PIN за достъп до администрацията:');
-    if (pin !== '1234') { showToast('❌ Грешен PIN!'); return; }
-    window._adminUnlocked = true;
+    if (!pin) return;
+    // Compare hashed PIN instead of plaintext (hash of '1234')
+    hashPassword(pin).then(hashedPin => {
+      if (hashedPin !== '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4') {
+        showToast('❌ Грешен PIN!'); return;
+      }
+      window._adminUnlocked = true;
+      _loadAndOpenAdmin();
+    });
+    return;
   }
+  _loadAndOpenAdmin();
+}
+function _loadAndOpenAdmin() {
   if (window._adminScriptLoaded) { _doOpenAdmin(); return; }
   const s = document.createElement('script');
   s.src = 'js/admin.js';
@@ -6198,4 +6301,91 @@ function closeAdminPage() {
   const p = document.getElementById('adminPage');
   if (p) { p.classList.remove('open'); }
   document.body.style.overflow = '';
+}
+
+// ===== CUSTOM CONFIRM MODAL (replaces native confirm()) =====
+function showCustomConfirm(title, message, onConfirm) {
+  // Remove existing confirm modal if any
+  const existing = document.getElementById('customConfirmModal');
+  if (existing) existing.remove();
+
+  const modal = document.createElement('div');
+  modal.id = 'customConfirmModal';
+  modal.style.cssText = 'position:fixed;inset:0;z-index:10000;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);opacity:0;transition:opacity 0.2s;';
+  modal.innerHTML = `
+    <div style="background:var(--white,#fff);border-radius:16px;padding:28px 24px;max-width:340px;width:calc(100vw - 40px);box-shadow:0 20px 60px rgba(0,0,0,0.3);text-align:center;transform:scale(0.95);transition:transform 0.2s;">
+      <div style="font-size:18px;font-weight:800;margin-bottom:8px;color:var(--text,#1a1a1a);">${title}</div>
+      <div style="font-size:14px;color:var(--text2,#555);margin-bottom:24px;line-height:1.5;">${message}</div>
+      <div style="display:flex;gap:10px;">
+        <button id="ccCancel" style="flex:1;padding:12px;border:1px solid var(--border,#e5e7eb);background:var(--white,#fff);border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;color:var(--text,#1a1a1a);">Отказ</button>
+        <button id="ccConfirm" style="flex:1;padding:12px;border:none;background:var(--primary,#bd1105);color:#fff;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;">Потвърди</button>
+      </div>
+    </div>`;
+  document.body.appendChild(modal);
+  requestAnimationFrame(() => { modal.style.opacity = '1'; modal.querySelector('div').style.transform = 'scale(1)'; });
+
+  function close() { modal.style.opacity = '0'; setTimeout(() => modal.remove(), 200); }
+  modal.querySelector('#ccCancel').onclick = close;
+  modal.querySelector('#ccConfirm').onclick = () => { close(); onConfirm(); };
+  modal.onclick = (e) => { if (e.target === modal) close(); };
+}
+
+// ===== JSON-LD STRUCTURED DATA =====
+document.addEventListener('mc:productopen', function(e) {
+  const id = e.detail;
+  const p = products.find(x => x.id === id);
+  if (!p) return;
+  // Remove previous JSON-LD
+  const prev = document.getElementById('mc-jsonld');
+  if (prev) prev.remove();
+  const ld = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    'name': p.name,
+    'brand': { '@type': 'Brand', 'name': p.brand },
+    'description': p.desc || '',
+    'sku': p.sku || '',
+    'gtin13': p.ean || '',
+    'image': p.img || '',
+    'offers': {
+      '@type': 'Offer',
+      'priceCurrency': 'BGN',
+      'price': p.price,
+      'availability': p.stock === false ? 'https://schema.org/OutOfStock' : 'https://schema.org/InStock',
+      'seller': { '@type': 'Organization', 'name': 'Most Computers' }
+    },
+    'aggregateRating': {
+      '@type': 'AggregateRating',
+      'ratingValue': p.rating,
+      'reviewCount': p.rv || 0
+    }
+  };
+  const script = document.createElement('script');
+  script.type = 'application/ld+json';
+  script.id = 'mc-jsonld';
+  script.textContent = JSON.stringify(ld);
+  document.head.appendChild(script);
+});
+
+// ===== CONSOLIDATED MODULE EXPORTS (for Jest tests) =====
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = {
+    // Currency
+    EUR_RATE, toEur, fmtEur, fmtBgn, fmtPrice, fmtDual,
+    // Cart & Checkout
+    addToCart, removeFromCart, changeQty,
+    applyPromo, renderOrderSummary, formatCardNum, formatExpiry,
+    _resetCheckout: () => { ckDeliveryIdx = 0; ckPaymentType = 'card'; promoApplied = false; },
+    _setDelivery: (idx) => { ckDeliveryIdx = idx; },
+    _setPayment: (type) => { ckPaymentType = type; },
+    // Search
+    highlightMatch, searchProducts, queryType, saveRecentSearch,
+    _resetRecentSearches: () => { recentSearches = []; },
+    // Wishlist
+    toggleWishlist, _resetWishlist: () => { wishlist = []; },
+    // Filters
+    getFilteredSorted, advFilterBrands, renderGrids,
+    // Data Actions
+    migrateInlineClickHandlers, runActionString, initDataActions,
+  };
 }

@@ -153,6 +153,9 @@
 </head>
 <body>
 
+<!-- Skip to main content (accessibility) -->
+<a href="#mainContent" class="skip-link" id="skipLink">Прескочи към съдържанието</a>
+
 <!-- SVG Icon Sprite -->
 <svg xmlns="http://www.w3.org/2000/svg" style="display:none;" id="svgSprite">
   <!-- Cart -->
@@ -575,7 +578,7 @@
 </div>
 
 <!-- PRODUCT DETAIL MODAL -->
-<div class="modal-backdrop" id="productModalBackdrop" data-action="closeProductModal:event">
+<div class="modal-backdrop" id="productModalBackdrop" data-action="closeProductModal:event" role="dialog" aria-modal="true" aria-label="Детайли за продукт">
   <div class="product-modal" id="productModal">
     <button type="button" class="modal-close" data-action="closeProductModalDirect"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-close"/></svg></button>
     <div class="modal-inner">
@@ -746,7 +749,7 @@
 </div>
 
 <!-- AUTH MODAL -->
-<div class="auth-backdrop" id="authBackdrop" data-action="closeAuthModal:event">
+<div class="auth-backdrop" id="authBackdrop" data-action="closeAuthModal:event" role="dialog" aria-modal="true" aria-label="Вход и регистрация">
   <div class="auth-modal">
     <div class="auth-header">
       <button type="button" class="auth-close" data-action="closeAuthModalDirect"><svg width="18" height="18" class="svg-ic"aria-hidden="true"><use href="#ic-close"/></svg></button>
@@ -999,7 +1002,7 @@
   </div>
 </div>
 
-<div class="toast-msg" id="toast"></div>
+<div class="toast-msg" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
 
 <!-- MOBILE BOTTOM NAV BAR -->
 <nav class="mob-bottom-nav" id="mobBottomNav" aria-label="Мобилна навигация">
@@ -1102,13 +1105,13 @@
       <button class="hdr-btn" type="button" data-action="toggleCart" aria-label="Отвори количката">
         <svg width="20" height="20" class="svg-ic" aria-hidden="true"><use href="#ic-cart"/></svg>
         <span>Кошница</span>
-        <span class="badge" id="cartBadge">0</span>
+        <span class="badge" id="cartBadge" aria-live="polite" aria-atomic="true">0</span>
       </button>
       <div class="hdr-divider"></div>
-      <button class="hdr-btn" type="button" data-action="openWishlist" class="pos-rel" aria-label="Отвори любими">
+      <button class="hdr-btn pos-rel" type="button" data-action="openWishlist" aria-label="Отвори любими">
         <span id="wlHdrIcon"><svg width="20" height="20" class="svg-ic" aria-hidden="true"><use href="#ic-heart"/></svg></span>
         <span>Любими</span>
-        <span class="wl-badge" id="wlHdrBadge" class="is-hidden">0</span>
+        <span class="wl-badge is-hidden" id="wlHdrBadge" aria-live="polite">0</span>
       </button>
       <div class="hdr-divider"></div>
       <button class="hdr-btn hdr-dark-btn" id="dmToggle" type="button" data-action="toggleDarkMode" title="Светъл / Тъмен режим" aria-label="Смяна на режима">
@@ -1397,7 +1400,7 @@
   <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleMobileFilters()"></div>
 
   <!-- CONTENT -->
-  <div class="content-area">
+  <main id="mainContent" class="content-area">
 
     <!-- HERO SLIDER -->
     <div class="hero-section">

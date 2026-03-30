@@ -38,7 +38,7 @@ jobs:
 
       - name: Minify CSS (clean-css)
         run: |
-          cleancss -O2 -o dist/styles.css dist/styles.css
+          cleancss -O1 -o dist/styles.css dist/styles.css
 
       - name: Minify HTML (html-minifier-terser)
         run: |

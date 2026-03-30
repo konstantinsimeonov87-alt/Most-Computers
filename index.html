@@ -3722,8 +3722,9 @@
     localStorage.setItem('pwaDismissed', '1');
   });
 
-  // Dark Mode persistence
+  // Dark Mode persistence (disabled on mobile — dark mode requires ≥769px)
   (function() {
+    if (window.innerWidth <= 768) return;
     const saved = localStorage.getItem('theme');
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     if (saved === 'dark' || (!saved && prefersDark)) {

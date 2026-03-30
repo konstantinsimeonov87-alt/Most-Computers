@@ -206,6 +206,7 @@ function syncBnCartBadge() {
   // On mobile screens, always force light mode
   if (window.innerWidth <= 768) {
     document.body.classList.remove('dark');
+    document.documentElement.removeAttribute('data-theme');
     try { localStorage.setItem('mc_dark', '0'); } catch(e){}
     return;
   }

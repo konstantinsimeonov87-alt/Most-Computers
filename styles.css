@@ -2284,6 +2284,8 @@
    background: #111318;
    color: rgba(255, 255, 255, 0.75);
    padding: 48px 0 0;
+   position: relative;
+   z-index: 600;
  }
 
  body.dark footer,

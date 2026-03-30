@@ -2286,6 +2286,11 @@
    padding: 48px 0 0;
  }
 
+ body.dark footer,
+ [data-theme="dark"] footer {
+   background: #1e2130;
+ }
+
  .footer-inner {
    max-width: 1400px;
    margin: 0 auto;

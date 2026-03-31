@@ -452,7 +452,7 @@
    display: none;
    position: fixed;
    inset: 0;
-   z-index: 350;
+   z-index: 700;
    background: var(--bg);
    overflow-y: auto;
    padding-top: 80px;
@@ -3185,7 +3185,7 @@
    position: fixed;
    inset: 0;
    background: rgba(0, 0, 0, 0.6);
-   z-index: 600;
+   z-index: 700;
    opacity: 0;
    pointer-events: none;
    transition: opacity 0.3s;
@@ -3777,7 +3777,7 @@
    position: fixed;
    inset: 0;
    background: rgba(0, 0, 0, 0.6);
-   z-index: 550;
+   z-index: 700;
    opacity: 0;
    pointer-events: none;
    transition: opacity 0.3s;
@@ -3922,7 +3922,7 @@
    position: fixed;
    inset: 0;
    background: rgba(0, 0, 0, 0.6);
-   z-index: 460;
+   z-index: 700;
    opacity: 0;
    pointer-events: none;
    transition: opacity 0.3s;
@@ -4149,7 +4149,7 @@
    position: fixed;
    inset: 0;
    background: rgba(0, 0, 0, 0.55);
-   z-index: 470;
+   z-index: 700;
    opacity: 0;
    pointer-events: none;
    transition: opacity 0.3s;
@@ -4734,7 +4734,7 @@
    display: none;
    position: fixed;
    inset: 0;
-   z-index: 355;
+   z-index: 700;
    background: var(--bg);
    overflow-y: auto;
  }
@@ -4897,7 +4897,7 @@
    bottom: 0;
    left: 0;
    right: 0;
-   z-index: 600;
+   z-index: 750;
    background: var(--white);
    border-top: 1px solid var(--border);
    box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.10);
@@ -5298,7 +5298,7 @@
    display: none;
    position: fixed;
    inset: 0;
-   z-index: 355;
+   z-index: 700;
    background: var(--bg);
    overflow-y: auto;
  }
@@ -5656,7 +5656,7 @@
    display: none;
    position: fixed;
    inset: 0;
-   z-index: 360;
+   z-index: 700;
    background: var(--bg);
    overflow-y: auto;
  }
@@ -6392,7 +6392,7 @@
    display: none;
    position: fixed;
    inset: 0;
-   z-index: 370;
+   z-index: 700;
    background: var(--bg);
    overflow-y: auto;
  }
@@ -7506,7 +7506,7 @@
    display: none;
    position: fixed;
    inset: 0;
-   z-index: 360;
+   z-index: 700;
    background: var(--bg);
    overflow-y: auto;
  }
@@ -7745,7 +7745,7 @@
    display: none;
    position: fixed;
    inset: 0;
-   z-index: 365;
+   z-index: 700;
    background: var(--bg);
    overflow-y: auto;
  }
@@ -8707,7 +8707,7 @@
    display: none;
    position: fixed;
    inset: 0;
-   z-index: 370;
+   z-index: 700;
    background: #0f1117;
    overflow-y: auto;
  }
@@ -9154,7 +9154,7 @@
    display: none;
    position: fixed;
    inset: 0;
-   z-index: 375;
+   z-index: 700;
    background: var(--bg);
    overflow-y: auto;
    align-items: center;
@@ -9630,7 +9630,7 @@
    display: none;
    position: fixed;
    inset: 0;
-   z-index: 500;
+   z-index: 800;
    background: rgba(0, 0, 0, 0.7);
    backdrop-filter: blur(4px);
    align-items: center;
@@ -10648,7 +10648,7 @@
    display: none;
    position: fixed;
    inset: 0;
-   z-index: 510;
+   z-index: 700;
    background: var(--bg);
    overflow-y: auto;
    -webkit-overflow-scrolling: touch;
@@ -12201,7 +12201,7 @@
    display: none;
    position: fixed;
    inset: 0;
-   z-index: 500;
+   z-index: 700;
    background: var(--bg);
    overflow-y: auto;
  }
@@ -12875,7 +12875,7 @@
  .contacts-page {
    position: fixed;
    inset: 0;
-   z-index: 450;
+   z-index: 700;
    background: var(--bg);
    overflow-y: auto;
    transform: translateY(100%);
@@ -13607,7 +13607,7 @@
  .about-page {
    position: fixed;
    inset: 0;
-   z-index: 370;
+   z-index: 700;
    background: var(--bg);
    overflow-y: auto;
    transform: translateX(100%);

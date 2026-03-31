@@ -1,8 +1,11 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npm test:*)",
-      "Read(//c/Users/user/Desktop/New folder/**)"
+      "Bash(*)",
+      "Read(//c/Users/user/Desktop/New folder/**)",
+      "Skill(update-config)",
+      "Skill(update-config:*)",
+      "WebFetch(domain:konstantinsimeonov87-alt.github.io)"
     ]
   }
 }

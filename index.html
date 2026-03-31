@@ -9,11 +9,11 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Most Computers">
 <meta name="application-name" content="Most Computers">
-<meta name="description" content="Most Computers — специализиран магазин за електроника от 1997 г. Смартфони, лаптопи, телевизори, аудио и аксесоари от Apple, Samsung, Sony и още. Безплатна доставка над 100 лв. Сертифициран сервиз. 27+ години опит.">
+<meta name="description" content="Most Computers — магазин за електроника от 1997 г. Лаптопи, смартфони, телевизори от Apple, Samsung, ASUS. Безплатна доставка над 200 лв. Сертифициран сервиз.">
 <link rel="manifest" id="pwaManifest" href="/manifest.json">
 <link rel="apple-touch-icon" id="pwaAppleIcon">
-<title>Most Computers | Електроника от 1997 г. — Лаптопи, Телефони, Телевизори</title>
-<meta property="og:title"       content="Most Computers | Електроника от 1997 г. — Лаптопи, Телефони, Телевизори">
+<title>Most Computers | Лаптопи, Телефони, Телевизори — От 1997 г.</title>
+<meta property="og:title"       content="Most Computers | Лаптопи, Телефони, Телевизори — От 1997 г.">
 <meta property="og:description" content="Most Computers — специализиран магазин за електроника от 1997 г. Смартфони, лаптопи, телевизори, аудио и аксесоари от Apple, Samsung, Sony и още. Безплатна доставка над 100 лв. Сертифициран сервиз.">
 <meta property="og:image"       content="https://mostcomputers.bg/og-default.jpg">
 <meta property="og:url"         content="https://mostcomputers.bg/">
@@ -45,8 +45,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://store.storeimages.cdn-apple.com" crossorigin>
 <link rel="preconnect" href="https://images.samsung.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-<noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"></noscript>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet"></noscript>
 <link rel="stylesheet" href="styles.css">
 
 <script type="application/ld+json">
@@ -879,7 +879,7 @@
     <div class="cart-upsell-title">Често купувани заедно:</div>
     <div class="cart-upsell-items">
       <div class="cu-item">
-        <img src="https://via.placeholder.com/60" alt="Mouse" class="cu-img">
+        <img src="https://via.placeholder.com/60" alt="Mouse" class="cu-img" loading="lazy">
         <div class="cu-info">
           <div class="cu-name">Безжична мишка Logitech</div>
           <div class="cu-price">39.00 лв.</div>
@@ -2982,7 +2982,7 @@
             <button type="button" class="pdp-nav-btn" data-action="pdpGalleryNav(-1)">‹</button>
             <button type="button" class="pdp-nav-btn" data-action="pdpGalleryNav(1)">›</button>
           </div>
-          <img id="pdpMainImg" src="" alt="" style="display:none;" onclick="pdpLbOpen()" title="Увеличи" onerror="this.style.display='none';document.getElementById('pdpMainEmoji').style.display=''">
+          <img id="pdpMainImg" src="" alt="" style="display:none;" loading="lazy" onclick="pdpLbOpen()" title="Увеличи" onerror="this.style.display='none';document.getElementById('pdpMainEmoji').style.display=''">
           <span id="pdpMainEmoji" class="pdp-main-emoji"></span>
         </div>
         <div class="pdp-thumbs" id="pdpThumbs"></div>
@@ -3682,7 +3682,7 @@
   <button class="pdp-lb-btn pdp-lb-close" onclick="pdpLbClose()">×</button>
   <button class="pdp-lb-btn pdp-lb-prev" onclick="pdpLbNav(-1)">‹</button>
   <button class="pdp-lb-btn pdp-lb-next" onclick="pdpLbNav(1)">›</button>
-  <div class="pdp-lb-wrap"><img id="pdpLbImg" src="" alt=""></div>
+  <div class="pdp-lb-wrap"><img id="pdpLbImg" src="" alt="" loading="lazy"></div>
 </div>
 
 <!-- PDP: Scroll to top button (outside backdrop to avoid overflow-y clipping) -->

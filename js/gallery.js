@@ -165,7 +165,7 @@ function updateCompareBar(){
   bar.classList.add('visible');
   let html='';
   for(let i=0;i<3;i++){
-    if(i<compareList.length){const p=products.find(x=>x.id===compareList[i]);html+=`<div class="compare-slot filled"><span class="compare-slot-emoji">${p.emoji}</span><span class="compare-slot-name">${p.name}</span><button type="button" class="compare-slot-remove" onclick="removeCompare(${p.id})">×</button></div>`;}
+    if(i<compareList.length){const p=products.find(x=>x.id===compareList[i]);if(!p){compareList.splice(i,1);updateCompareBar();return;}html+=`<div class="compare-slot filled"><span class="compare-slot-emoji">${p.emoji}</span><span class="compare-slot-name">${p.name}</span><button type="button" class="compare-slot-remove" onclick="removeCompare(${p.id})">×</button></div>`;}
     else html+=`<div class="compare-slot"><span style="color:rgba(255,255,255,0.4);font-size:11px;">+ Добави продукт</span></div>`;
   }
   slots.innerHTML=html;
@@ -174,7 +174,8 @@ function removeCompare(id){compareList=compareList.filter(x=>x!==id);const cb=do
 function clearCompare(){compareList.forEach(id=>{const cb=document.getElementById('cmp-'+id);if(cb)cb.checked=false;});compareList=[];updateCompareBar();}
 function openCompareModal(){
   if(compareList.length<2){showToast('Избери поне 2 продукта!');return;}
-  const prods=compareList.map(id=>products.find(x=>x.id===id));
+  const prods=compareList.map(id=>products.find(x=>x.id===id)).filter(Boolean);
+  if(prods.length<2){showToast('Избери поне 2 налични продукта!');return;}
   const allKeys=[...new Set(prods.flatMap(p=>Object.keys(p.specs)))];
   const minP=Math.min(...prods.map(p=>p.price)),maxR=Math.max(...prods.map(p=>p.rating));
   let html=`<thead><tr><th>Продукт</th>`;

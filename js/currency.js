@@ -1,5 +1,6 @@
 // ===== CURRENCY =====
 let EUR_RATE = parseFloat(localStorage.getItem('eurRate')) || 1.95583; // 1 EUR = x BGN
+if (isNaN(EUR_RATE)) EUR_RATE = 1.95583;
 function toEur(bgn) { return bgn / EUR_RATE; }
 function fmtEur(bgn) { return toEur(bgn).toLocaleString('de-DE', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' €'; }
 function fmtBgn(bgn) { return bgn.toLocaleString('bg-BG', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' лв.'; }

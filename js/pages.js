@@ -169,7 +169,7 @@ function rfSetStar(v) {
 function submitPdpReview() {
   const name = document.getElementById('rfName')?.value.trim();
   const text = document.getElementById('rfText')?.value.trim();
-  if (!name) { showToast('⚠️ Въведи своето ime'); return; }
+  if (!name) { showToast('⚠️ Въведи своето име'); return; }
   if (!rfRating) { showToast('⚠️ Избери рейтинг'); return; }
   if (!text || text.length < 10) { showToast('⚠️ Ревюто трябва да е поне 10 символа'); return; }
 

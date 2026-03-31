@@ -1,5 +1,6 @@
 // ===== LIVE SEARCH SYSTEM =====
-let recentSearches = JSON.parse(localStorage.getItem('mc_recent') || '[]');
+let recentSearches = [];
+try { recentSearches = JSON.parse(localStorage.getItem('mc_recent') || '[]'); } catch(e) { localStorage.removeItem('mc_recent'); }
 let searchFocusIdx = -1;
 let searchDebounce = null;
 

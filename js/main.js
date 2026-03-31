@@ -52,4 +52,5 @@ renderGrids();
 loadCart();
 renderHpCats();
 renderRecentlyDiscounted();
+initSectionAnimations();
 initScrollAnimations();

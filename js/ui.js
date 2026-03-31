@@ -45,9 +45,9 @@ function closeCookieSettingsDirect() {
 }
 function saveCookieSettings() {
   const prefs = {
-    analytics: document.getElementById('ck-analytics').checked,
-    marketing: document.getElementById('ck-marketing').checked,
-    functional: document.getElementById('ck-functional').checked,
+    analytics: document.getElementById('ck-analytics')?.checked || false,
+    marketing: document.getElementById('ck-marketing')?.checked || false,
+    functional: document.getElementById('ck-functional')?.checked || false,
   };
   localStorage.setItem('mc_cookies_set', JSON.stringify(prefs));
   closeCookieSettingsDirect();
@@ -56,7 +56,7 @@ function saveCookieSettings() {
 }
 
 // ===== SCROLL ANIMATIONS =====
-function initScrollAnimations() {
+function initSectionAnimations() {
   if (!('IntersectionObserver' in window)) return;
   const obs = new IntersectionObserver(entries => {
     entries.forEach(e => {

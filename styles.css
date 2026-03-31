@@ -12850,10 +12850,6 @@
    contain: layout style;
  }
 
- .footer-col {
-   content-visibility: auto;
-   contain-intrinsic-size: 0 200px;
- }
 
  /* WebP support hint via CSS */
  .product-img-real {

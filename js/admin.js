@@ -1362,24 +1362,28 @@ function xmlParseAndPreview(xmlStr) {
   // Category text → internal cat key
   const CAT_MAP_GENERIC = [
     [['NOTEBOOK','LAPTOP','ЛАПТОП'], 'laptop'],
+    [['DESKTOP','СТАЦИОНАРЕН','ALL-IN-ONE','AIO','TOWER PC','НАСТОЛЕН'], 'desktop'],
     [['PHONE','MOBILE','ТЕЛЕФОН','СМАРТФОН'], 'mobile'],
     [['TABLET','ТАБЛЕТ'], 'tablet'],
+    [['MONITOR','МОНИТОР','DISPLAY','ДИСПЛЕЙ'], 'monitor'],
     [['TV','ТЕЛЕВИЗОР','TELEVISION'], 'tv'],
-    [['AUDIO','HEADPHONE','СЛУШАЛК'], 'audio'],
+    [['AUDIO','HEADPHONE','СЛУШАЛК','SPEAKER','КОЛОНК'], 'audio'],
     [['CAMERA','ФОТОАПАРАТ'], 'camera'],
     [['GAMING','GAME'], 'gaming'],
-    [['SMARTWATCH','SMART HOME'], 'smart'],
-    [['NETWORK','ROUTER','МРЕЖА'], 'network'],
-    [['PRINTER','ПРИНТЕР'], 'print'],
+    [['SMARTWATCH','SMART HOME','SMARTHOME'], 'smart'],
+    [['NETWORK','ROUTER','МРЕЖА','SWITCH','ACCESS POINT'], 'network'],
+    [['PRINTER','ПРИНТЕР','СКЕНЕР','SCANNER'], 'print'],
     [['ПРОЦЕСОР','PROCESSOR','CPU'], 'components'],
     [['ВИДЕОКАРТ','VIDEO CARD','GPU','GRAPHIC'], 'components'],
     [['RAM','ПАМЕТ','MEMORY','DIMM'], 'components'],
     [['ДЪННА','MOTHERBOARD','MAINBOARD'], 'components'],
-    [['SSD','HDD','NVME','STORAGE','ДИСК'], 'components'],
+    [['SSD','HDD','NVME','ДИСК'], 'components'],
     [['ЗАХРАНВАН','PSU','POWER SUPPLY'], 'components'],
     [['ОХЛАДИТЕЛ','COOLER','COOLING'], 'components'],
     [['КУТИЯ','CHASSIS'], 'components'],
     [['КОМПОНЕНТ','COMPONENT'], 'components'],
+    [['EXTERNAL STORAGE','EXTERNAL DRIVE','NAS','ВЪНШЕН ДИСК','USB ДИСК'], 'storage'],
+    [['АКСЕСОАР','ACCESSORY','CABLE','КАБЕЛ','KEYBOARD','КЛАВИАТУР','MOUSE','МИШК','BAG','ЧАНТА'], 'acc'],
   ];
   function mapCatGeneric(raw) {
     const u = raw.toUpperCase();
@@ -1636,7 +1640,7 @@ async function xmlFetchFromUI() {
     if (!_elName) throw new Error('Не са намерени продуктови елементи (<product>, <item>, <offer>)');
     window._xmlElName = _elName;
 
-    const productCount = (text.match(new RegExp(`<${_elName}[\s>]`,'g'))||[]).length;
+    const productCount = (text.match(new RegExp('<' + _elName + '[\\s>]','g'))||[]).length;
 
     if (status) status.innerHTML = `
       <div style="background:rgba(52,211,153,0.08);border:1px solid rgba(52,211,153,0.2);border-radius:10px;padding:14px 18px;display:flex;align-items:center;gap:12px;margin-bottom:16px;">

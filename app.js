@@ -4,9 +4,9 @@ if (isNaN(EUR_RATE)) EUR_RATE = 1.95583;
 function toEur(bgn) { return bgn / EUR_RATE; }
 function fmtEur(bgn) { return toEur(bgn).toLocaleString('de-DE', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' €'; }
 function fmtBgn(bgn) { return bgn.toLocaleString('bg-BG', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' лв.'; }
-// Primary display: EUR bold, BGN muted below
+// Primary display: BGN bold, EUR muted below
 function fmtPrice(bgn, saleCls='') {
-  return `<span class="price-eur${saleCls ? ' '+saleCls : ''}">${fmtEur(bgn)}</span><span class="price-bgn">${fmtBgn(bgn)}</span>`;
+  return `<span class="price-bgn-main${saleCls ? ' '+saleCls : ''}">${fmtBgn(bgn)}</span><span class="price-eur-sub">${fmtEur(bgn)}</span>`;
 }
 // Inline dual: "2.30 € / 4.49 лв."
 function fmtDual(bgn) { return `${fmtEur(bgn)} / ${fmtBgn(bgn)}`; }
@@ -312,16 +312,21 @@ function makeCard(p,small=false){
       <div class="product-footer">
         <div class="price-row">
           <div class="price-current${p.badge==='sale'?' sale':''}" itemprop="offers" itemscope itemtype="https://schema.org/Offer"><meta itemprop="priceCurrency" content="EUR"><link itemprop="availability" href="${p.stock===false?'https://schema.org/OutOfStock':'https://schema.org/InStock'}"><span itemprop="price" content="${p.price}">${fmtPrice(p.price, p.badge==='sale'?'sale':'')}</span></div>
-          ${p.old?`<div class="price-old">${fmtEur(p.old)} / ${fmtBgn(p.old)}</div><div class="price-save">-${save}%</div>`:''}
+          ${p.old?`<div class="price-old">${fmtBgn(p.old)}</div><div class="price-save">-${save}%</div>`:''}
         </div>
-        <div class="row-gap-6">
-          <button type="button" class="add-cart-btn" id="cb-${p.id}" onclick="addToCart(${p.id})" style="flex:1;"><svg width="15" height="15" class="svg-ic" aria-hidden="true"><use href="#ic-cart"/></svg> Добави</button>
-          <button type="button" class="product-quick-view-btn" onclick="openProductModal(${p.id})" title="Бърз преглед"><svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-eye"/></svg><span class="qv-tooltip">Бърз преглед</span></button>
-          <button type="button" onclick="openQuickOrder(${p.id})" title="Бърза поръчка" style="background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:9px 10px;transition:all 0.2s;" onmouseover="this.style.background='var(--primary-light)'" onmouseout="this.style.background='var(--bg)'"><svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-bolt"/></svg></button>
-        </div>
-        <div class="product-compare-cb">
-          <input type="checkbox" id="cmp-${p.id}" onchange="toggleCompare(${p.id},this.checked)">
-          <label for="cmp-${p.id}">Сравни</label>
+        ${p.stock!==false&&p.stock!=null&&p.stock<=5?`<div style="font-size:11px;color:var(--sale);font-weight:700;margin-bottom:5px;">🔥 Последни ${p.stock} бр. в наличност!</div>`:''}
+        <div class="card-guarantee-badge">🛡 24 мес. гаранция &nbsp;·&nbsp; ↩ 30 дни връщане</div>
+        <button type="button" class="add-cart-btn" id="cb-${p.id}" onclick="addToCart(${p.id})" ${p.stock===false?'disabled':''}>
+          <svg width="15" height="15" class="svg-ic" aria-hidden="true"><use href="#ic-cart"/></svg>
+          ${p.stock===false?'Изчерпан':'Добави в кошница'}
+        </button>
+        <div class="row-gap-6" style="margin-top:6px;">
+          <button type="button" class="product-quick-view-btn" onclick="openProductModal(${p.id})" title="Бърз преглед" style="flex:1;"><svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-eye"/></svg><span class="qv-tooltip">Бърз преглед</span></button>
+          <button type="button" onclick="openQuickOrder(${p.id})" title="Бърза поръчка" style="flex:1;background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:9px 10px;transition:all 0.2s;" onmouseover="this.style.background='var(--primary-light)'" onmouseout="this.style.background='var(--bg)'"><svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-bolt"/></svg> Бърза</button>
+          <div class="product-compare-cb">
+            <input type="checkbox" id="cmp-${p.id}" onchange="toggleCompare(${p.id},this.checked)">
+            <label for="cmp-${p.id}">Сравни</label>
+          </div>
         </div>
       </div>
     </div>
@@ -1180,13 +1185,18 @@ function updateCart(){
   const body=document.getElementById('cartBody');
   if(cart.length===0){body.innerHTML='<div class="cart-empty-msg"><div class="ce-icon"><svg width="44" height="44" class="svg-ic" aria-hidden="true" style="opacity:.25"><use href="#ic-cart"/></svg></div><p>Кошницата е празна.<br>Добави продукти!</p></div>';return;}
   let html=cart.map(x=>`<div class="cart-item-row"><div class="ci-emoji">${x.emoji}</div><div class="ci-details"><div class="ci-name">${x.name}</div><div class="ci-price">${fmtEur(x.price*x.qty)}<span class="text-11-muted-block">${fmtBgn(x.price*x.qty)}</span></div><div class="ci-qty"><button type="button" class="qty-btn" onclick="changeQty(${x.id},-1)">−</button><span class="qty-num">${x.qty}</span><button type="button" class="qty-btn" onclick="changeQty(${x.id},1)">+</button></div></div><button type="button" class="ci-remove" onclick="removeFromCart(${x.id})">×</button></div>`).join('');
-  // Free shipping progress bar
+  // Free shipping progress bar + delivery row
   const pct=Math.min(100,(total/FREE_SHIP_BGN)*100);
+  const deliveryRow=document.getElementById('cartDeliveryRow');
+  const deliveryVal=document.getElementById('cartDeliveryVal');
   if(total>=FREE_SHIP_BGN){
     html+=`<div class="cart-ship-bar"><div class="cart-ship-msg ship-free">🎉 Имаш безплатна доставка!</div><div class="cart-ship-progress"><div class="cart-ship-fill" style="width:100%"></div></div></div>`;
+    if(deliveryRow) deliveryRow.style.display='none';
   }else{
     const rem=(FREE_SHIP_BGN-total).toFixed(2);
     html+=`<div class="cart-ship-bar"><div class="cart-ship-msg">Добави още <strong>${rem} лв.</strong> за безплатна доставка!</div><div class="cart-ship-progress"><div class="cart-ship-fill" style="width:${pct.toFixed(1)}%"></div></div></div>`;
+    if(deliveryRow) deliveryRow.style.display='flex';
+    if(deliveryVal) deliveryVal.textContent='5.99 лв.';
   }
   // Recently viewed not in cart
   try{

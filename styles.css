@@ -1997,16 +1997,17 @@
    background: var(--primary);
    color: #fff;
    border: none;
-   padding: 10px 16px;
+   padding: 13px 16px;
    border-radius: var(--radius-sm);
-   font-size: 13px;
-   font-weight: 600;
+   font-size: 14px;
+   font-weight: 700;
    display: flex;
    align-items: center;
    justify-content: center;
    gap: 6px;
    transition: all 0.2s;
    letter-spacing: 0.01em;
+   min-height: 48px;
  }
 
  .add-cart-btn:hover {
@@ -4606,6 +4607,7 @@
  }
 
  /* ===== DUAL CURRENCY ===== */
+ /* Legacy — kept for modals/compare that use old classes */
  .price-eur {
    display: block;
    font-size: 17px;
@@ -4624,6 +4626,81 @@
    font-weight: 600;
    color: var(--text2);
    margin-top: 2px;
+ }
+
+ /* CRO: BGN primary, EUR secondary */
+ .price-bgn-main {
+   display: block;
+   font-size: 18px;
+   font-weight: 800;
+   color: var(--text);
+   line-height: 1.1;
+   letter-spacing: -0.3px;
+ }
+
+ .price-bgn-main.sale {
+   color: var(--sale);
+ }
+
+ .price-eur-sub {
+   display: block;
+   font-size: 12px;
+   font-weight: 500;
+   color: var(--muted);
+   margin-top: 2px;
+ }
+
+ /* Trust strip under hero */
+ .hero-trust-strip {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   gap: 20px;
+   flex-wrap: wrap;
+   padding: 10px 0 14px;
+   border-bottom: 1px solid var(--border);
+   margin-bottom: 20px;
+ }
+
+ .hero-trust-item {
+   display: flex;
+   align-items: center;
+   gap: 6px;
+   font-size: 12px;
+   font-weight: 600;
+   color: var(--text2);
+ }
+
+ .hero-trust-item span {
+   font-size: 15px;
+ }
+
+ /* Guarantee badge on card */
+ .card-guarantee-badge {
+   display: flex;
+   align-items: center;
+   gap: 4px;
+   font-size: 10px;
+   font-weight: 600;
+   color: var(--muted);
+   margin-top: 5px;
+ }
+
+ /* Delivery line in cart */
+ .cart-delivery-row {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   font-size: 13px;
+   color: var(--text2);
+   padding: 6px 0;
+   border-top: 1px solid var(--border);
+   margin-top: 4px;
+ }
+
+ .cart-delivery-row .free-delivery {
+   color: var(--new);
+   font-weight: 700;
  }
 
  /* In product card footer */

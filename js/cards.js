@@ -26,16 +26,21 @@ function makeCard(p,small=false){
       <div class="product-footer">
         <div class="price-row">
           <div class="price-current${p.badge==='sale'?' sale':''}" itemprop="offers" itemscope itemtype="https://schema.org/Offer"><meta itemprop="priceCurrency" content="EUR"><link itemprop="availability" href="${p.stock===false?'https://schema.org/OutOfStock':'https://schema.org/InStock'}"><span itemprop="price" content="${p.price}">${fmtPrice(p.price, p.badge==='sale'?'sale':'')}</span></div>
-          ${p.old?`<div class="price-old">${fmtEur(p.old)} / ${fmtBgn(p.old)}</div><div class="price-save">-${save}%</div>`:''}
+          ${p.old?`<div class="price-old">${fmtBgn(p.old)}</div><div class="price-save">-${save}%</div>`:''}
         </div>
-        <div class="row-gap-6">
-          <button type="button" class="add-cart-btn" id="cb-${p.id}" onclick="addToCart(${p.id})" style="flex:1;"><svg width="15" height="15" class="svg-ic" aria-hidden="true"><use href="#ic-cart"/></svg> Добави</button>
-          <button type="button" class="product-quick-view-btn" onclick="openProductModal(${p.id})" title="Бърз преглед"><svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-eye"/></svg><span class="qv-tooltip">Бърз преглед</span></button>
-          <button type="button" onclick="openQuickOrder(${p.id})" title="Бърза поръчка" style="background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:9px 10px;transition:all 0.2s;" onmouseover="this.style.background='var(--primary-light)'" onmouseout="this.style.background='var(--bg)'"><svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-bolt"/></svg></button>
-        </div>
-        <div class="product-compare-cb">
-          <input type="checkbox" id="cmp-${p.id}" onchange="toggleCompare(${p.id},this.checked)">
-          <label for="cmp-${p.id}">Сравни</label>
+        ${p.stock!==false&&p.stock!=null&&p.stock<=5?`<div style="font-size:11px;color:var(--sale);font-weight:700;margin-bottom:5px;">🔥 Последни ${p.stock} бр. в наличност!</div>`:''}
+        <div class="card-guarantee-badge">🛡 24 мес. гаранция &nbsp;·&nbsp; ↩ 30 дни връщане</div>
+        <button type="button" class="add-cart-btn" id="cb-${p.id}" onclick="addToCart(${p.id})" ${p.stock===false?'disabled':''}>
+          <svg width="15" height="15" class="svg-ic" aria-hidden="true"><use href="#ic-cart"/></svg>
+          ${p.stock===false?'Изчерпан':'Добави в кошница'}
+        </button>
+        <div class="row-gap-6" style="margin-top:6px;">
+          <button type="button" class="product-quick-view-btn" onclick="openProductModal(${p.id})" title="Бърз преглед" style="flex:1;"><svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-eye"/></svg><span class="qv-tooltip">Бърз преглед</span></button>
+          <button type="button" onclick="openQuickOrder(${p.id})" title="Бърза поръчка" style="flex:1;background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:9px 10px;transition:all 0.2s;" onmouseover="this.style.background='var(--primary-light)'" onmouseout="this.style.background='var(--bg)'"><svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-bolt"/></svg> Бърза</button>
+          <div class="product-compare-cb">
+            <input type="checkbox" id="cmp-${p.id}" onchange="toggleCompare(${p.id},this.checked)">
+            <label for="cmp-${p.id}">Сравни</label>
+          </div>
         </div>
       </div>
     </div>

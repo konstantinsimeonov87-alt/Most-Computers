@@ -74,12 +74,12 @@ describe('fmtBgn', () => {
 
 // ── fmtPrice ─────────────────────────────────────────────────────────────────
 describe('fmtPrice', () => {
-  test('съдържа span.price-eur', () => {
-    expect(fmtPrice(449)).toContain('class="price-eur"');
+  test('съдържа BGN стойността (primary)', () => {
+    expect(fmtPrice(449)).toContain('price-bgn-main');
   });
 
-  test('съдържа span.price-bgn', () => {
-    expect(fmtPrice(449)).toContain('class="price-bgn"');
+  test('съдържа EUR стойността (secondary)', () => {
+    expect(fmtPrice(449)).toContain('price-eur-sub');
   });
 
   test('съдържа EUR стойността', () => {
@@ -90,13 +90,13 @@ describe('fmtPrice', () => {
     expect(fmtPrice(449)).toContain('лв.');
   });
 
-  test('без saleCls — class е точно "price-eur"', () => {
-    expect(fmtPrice(100)).toContain('class="price-eur"');
-    expect(fmtPrice(100)).not.toContain('class="price-eur ');
+  test('без saleCls — class е точно "price-bgn-main"', () => {
+    expect(fmtPrice(100)).toContain('class="price-bgn-main"');
+    expect(fmtPrice(100)).not.toContain('class="price-bgn-main ');
   });
 
-  test('с saleCls — добавя се към class на price-eur', () => {
-    expect(fmtPrice(100, 'sale')).toContain('class="price-eur sale"');
+  test('с saleCls — добавя се към class на price-bgn-main', () => {
+    expect(fmtPrice(100, 'sale')).toContain('class="price-bgn-main sale"');
   });
 
   test('връща валиден HTML string', () => {

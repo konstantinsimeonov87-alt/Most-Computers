@@ -59,13 +59,18 @@ function updateCart(){
   const body=document.getElementById('cartBody');
   if(cart.length===0){body.innerHTML='<div class="cart-empty-msg"><div class="ce-icon"><svg width="44" height="44" class="svg-ic" aria-hidden="true" style="opacity:.25"><use href="#ic-cart"/></svg></div><p>Кошницата е празна.<br>Добави продукти!</p></div>';return;}
   let html=cart.map(x=>`<div class="cart-item-row"><div class="ci-emoji">${x.emoji}</div><div class="ci-details"><div class="ci-name">${x.name}</div><div class="ci-price">${fmtEur(x.price*x.qty)}<span class="text-11-muted-block">${fmtBgn(x.price*x.qty)}</span></div><div class="ci-qty"><button type="button" class="qty-btn" onclick="changeQty(${x.id},-1)">−</button><span class="qty-num">${x.qty}</span><button type="button" class="qty-btn" onclick="changeQty(${x.id},1)">+</button></div></div><button type="button" class="ci-remove" onclick="removeFromCart(${x.id})">×</button></div>`).join('');
-  // Free shipping progress bar
+  // Free shipping progress bar + delivery row
   const pct=Math.min(100,(total/FREE_SHIP_BGN)*100);
+  const deliveryRow=document.getElementById('cartDeliveryRow');
+  const deliveryVal=document.getElementById('cartDeliveryVal');
   if(total>=FREE_SHIP_BGN){
     html+=`<div class="cart-ship-bar"><div class="cart-ship-msg ship-free">🎉 Имаш безплатна доставка!</div><div class="cart-ship-progress"><div class="cart-ship-fill" style="width:100%"></div></div></div>`;
+    if(deliveryRow) deliveryRow.style.display='none';
   }else{
     const rem=(FREE_SHIP_BGN-total).toFixed(2);
     html+=`<div class="cart-ship-bar"><div class="cart-ship-msg">Добави още <strong>${rem} лв.</strong> за безплатна доставка!</div><div class="cart-ship-progress"><div class="cart-ship-fill" style="width:${pct.toFixed(1)}%"></div></div></div>`;
+    if(deliveryRow) deliveryRow.style.display='flex';
+    if(deliveryVal) deliveryVal.textContent='5.99 лв.';
   }
   // Recently viewed not in cart
   try{

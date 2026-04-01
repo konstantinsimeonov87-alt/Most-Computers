@@ -222,9 +222,10 @@ function updateWishlistUI() {
   if (hdrBadge) { hdrBadge.textContent = count; hdrBadge.style.display = count > 0 ? 'flex' : 'none'; }
   const hdrIcon = document.getElementById('wlHdrIcon');
   if (hdrIcon) hdrIcon.textContent = count > 0 ? '❤' : '♡';
-  // Bottom nav badge
-  const bnBadge = document.getElementById('bnWishBadge');
-  if (bnBadge) { bnBadge.textContent = count; bnBadge.classList.toggle('show', count > 0); }
+  // Bottom nav badge (two nav bars exist — update all)
+  document.querySelectorAll('#bnWishBadge').forEach(bnBadge => {
+    bnBadge.textContent = count; bnBadge.classList.toggle('show', count > 0);
+  });
   // Wishlist count label
   const cl = document.getElementById('wishlistCount');
   if (cl) cl.textContent = count + (count === 1 ? ' продукт' : ' продукта');

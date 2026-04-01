@@ -84,8 +84,7 @@ function initBackToTop() {
 // ===== BOTTOM NAV =====
 function setBottomNavActive(id) {
   document.querySelectorAll('.bn-item').forEach(b => b.classList.remove('active'));
-  const el = document.getElementById(id);
-  if (el) el.classList.add('active');
+  document.querySelectorAll('#' + id).forEach(el => el.classList.add('active'));
 }
 function closePagesGoHome() {
   ['wishlistPage','contactPage','searchResultsPage','checkoutPage','thankyouPage','myOrdersPage'].forEach(id => {
@@ -104,8 +103,9 @@ function focusSearch() {
 const _origUpdateCart = typeof updateCart !== 'undefined' ? updateCart : null;
 function syncBnCartBadge() {
   const count = cart.reduce((s,x)=>s+x.qty,0);
-  const badge = document.getElementById('bnCartBadge');
-  if (badge) { badge.textContent = count; badge.classList.toggle('show', count>0); }
+  document.querySelectorAll('#bnCartBadge').forEach(badge => {
+    badge.textContent = count; badge.classList.toggle('show', count>0);
+  });
 }
 
 

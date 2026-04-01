@@ -52,9 +52,10 @@ function updateCart(){
   // sync PDP mini-header cart badge
   const pdpB = document.getElementById('pdpMhdrCartBadge');
   if(pdpB){pdpB.textContent=count;pdpB.style.display=count>0?'':'none';}
-  // sync bottom nav badge
-  const bnB = document.getElementById('bnCartBadge');
-  if(bnB){bnB.textContent=count;bnB.classList.toggle('show',count>0);}
+  // sync bottom nav badge (two nav bars exist — update all)
+  document.querySelectorAll('#bnCartBadge').forEach(bnB => {
+    bnB.textContent=count; bnB.classList.toggle('show',count>0);
+  });
   const body=document.getElementById('cartBody');
   if(cart.length===0){body.innerHTML='<div class="cart-empty-msg"><div class="ce-icon"><svg width="44" height="44" class="svg-ic" aria-hidden="true" style="opacity:.25"><use href="#ic-cart"/></svg></div><p>Кошницата е празна.<br>Добави продукти!</p></div>';return;}
   let html=cart.map(x=>`<div class="cart-item-row"><div class="ci-emoji">${x.emoji}</div><div class="ci-details"><div class="ci-name">${x.name}</div><div class="ci-price">${fmtEur(x.price*x.qty)}<span class="text-11-muted-block">${fmtBgn(x.price*x.qty)}</span></div><div class="ci-qty"><button type="button" class="qty-btn" onclick="changeQty(${x.id},-1)">−</button><span class="qty-num">${x.qty}</span><button type="button" class="qty-btn" onclick="changeQty(${x.id},1)">+</button></div></div><button type="button" class="ci-remove" onclick="removeFromCart(${x.id})">×</button></div>`).join('');

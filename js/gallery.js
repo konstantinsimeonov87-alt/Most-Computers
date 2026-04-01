@@ -187,7 +187,7 @@ function openCompareModal(){
   html+=`</tr>`;
   allKeys.forEach(k=>{html+=`<tr><th>${k}</th>`;prods.forEach(p=>html+=`<td>${p.specs[k]||'—'}</td>`);html+=`</tr>`;});
   html+=`</tbody>`;
-  document.getElementById('compareTable').innerHTML=html;
+  document.getElementById('compareTableModal').innerHTML=html;
   document.getElementById('compareModalBackdrop').classList.add('open');document.body.style.overflow='hidden';
 }
 function closeCompareModal(e){if(e.target===e.currentTarget)closeCompareModalDirect();}

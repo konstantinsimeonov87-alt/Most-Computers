@@ -317,6 +317,7 @@ function pdpPrintSpecs() {
            '</td><td style="padding:7px 12px;border-bottom:1px solid #eee;">' + specs[k] + '</td></tr>';
   }).join('');
   var win = window.open('', '_blank', 'width=800,height=700');
+  if (!win) { showToast('⚠️ Попъп прозорецът е блокиран. Разреши попъпи за този сайт.'); return; }
   win.document.write(
     '<!DOCTYPE html><html><head><title>' + p.name + ' — Характеристики</title>' +
     '<style>body{font-family:Arial,sans-serif;padding:32px;color:#1a1a1a;}h1{font-size:20px;margin-bottom:4px;}' +
@@ -340,8 +341,6 @@ function pdpToggleCompare() {
   var isActive = btn && btn.classList.contains('active');
   toggleCompare(pdpProductId, !isActive);
   if (btn) {
-    btn.classList.toggle('active', !isActive);
-    var label = btn.querySelector('span') || btn;
     if (!isActive) {
       btn.innerHTML = btn.innerHTML.replace('Сравни', 'Сравнено ✓');
       btn.classList.add('active');

@@ -221,6 +221,7 @@ const megaBrands = ['Intel', 'ASUS', 'Acer', 'Microsoft', 'Lenovo', 'Gigabyte', 
 function openMegamenu() {
   // Render cats
   const catsEl = document.getElementById('megamenuCats');
+  if (!catsEl) return;
   catsEl.innerHTML = megaCategories.map(c => {
     const count = products.filter(p=>p.cat===c.cat).length;
     return `<div class="megamenu-cat-card" onclick="megaFilterCat('${c.cat}')">
@@ -263,7 +264,7 @@ function megaFilterCat(cat) {
 
 function megaFilterBrand(brand) {
   closeMegamenu();
-  document.getElementById('searchInput').value = brand;
+  const si = document.getElementById('searchInput'); if(si) si.value = brand;
   showSearchResultsPage(brand);
 }
 
@@ -282,7 +283,7 @@ document.addEventListener('keydown', e => {
     const panels = [
       { id: 'cartPanel',            close: toggleCart },
       { id: 'pdpBackdrop',          close: closeProductPage },
-      { id: 'productModalBackdrop', close: closeModal },
+      { id: 'productModalBackdrop', close: closeProductModalDirect },
       { id: 'searchResultsPage',    close: closeSearchPage },
       { id: 'wishlistPage',         close: () => { document.getElementById('wishlistPage').classList.remove('open'); document.body.style.overflow = ''; } },
       { id: 'megamenuPage',         close: closeMegamenu },
@@ -311,120 +312,8 @@ function close404() {
 
 
 // ===== PRODUCT COMPARISON =====
-let compareIds = [];
-
-function toggleCompare(id, checked) {
-  if (checked) {
-    if (compareIds.length >= 3) {
-      showToast('⚠️ Може да сравниш максимум 3 продукта');
-      const cb = document.getElementById('cmp-' + id);
-      if (cb) cb.checked = false;
-      return;
-    }
-    if (!compareIds.includes(id)) compareIds.push(id);
-  } else {
-    compareIds = compareIds.filter(x => x !== id);
-  }
-  _renderCompareBar();
-}
-
-function _renderCompareBar() {
-  const bar = document.getElementById('compareBar');
-  if (!bar) return;
-  bar.classList.toggle('visible', compareIds.length > 0);
-  if (compareIds.length === 0) return;
-  const cnt = document.getElementById('compareCnt');
-  if (cnt) cnt.textContent = compareIds.length;
-  const preview = document.getElementById('comparePreview');
-  if (preview) {
-    preview.innerHTML = compareIds.map(id => {
-      const p = products.find(x => x.id === id);
-      if (!p) return '';
-      return `<div style="background:#252840;border:1px solid #2d3148;border-radius:8px;padding:6px 10px;display:flex;align-items:center;gap:6px;font-size:12px;color:#e5e7eb;">
-        <span>${p.emoji}</span>
-        <span style="max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${p.name.substring(0,18)}</span>
-        <button type="button" onclick="toggleCompare(${id},false);document.getElementById('cmp-${id}').checked=false;" style="background:none;border:none;color:#6b7280;cursor:pointer;font-size:14px;line-height:1;padding:0 2px;">×</button>
-      </div>`;
-    }).join('');
-  }
-}
-
-function clearCompare() {
-  compareIds.forEach(id => {
-    const cb = document.getElementById('cmp-' + id);
-    if (cb) cb.checked = false;
-  });
-  compareIds = [];
-  _renderCompareBar();
-}
-
-function openComparePage() {
-  if (compareIds.length < 2) { showToast('⚠️ Избери поне 2 продукта за сравнение'); return; }
-  const ps = compareIds.map(id => products.find(x => x.id === id)).filter(Boolean);
-  const allKeys = [...new Set(ps.flatMap(p => Object.keys(p.specs || {})))];
-
-  const colW = `${Math.floor(80 / ps.length)}%`;
-  let html = `<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;font-family:'Outfit',sans-serif;">`;
-
-  // Header row
-  html += `<thead><tr><th style="width:20%;padding:12px;text-align:left;color:#6b7280;font-size:12px;border-bottom:1px solid var(--border);">Характеристика</th>`;
-  ps.forEach(p => {
-    html += `<th style="width:${colW};padding:12px;text-align:center;border-bottom:1px solid var(--border);">
-      <div style="font-size:32px;margin-bottom:6px;">${p.emoji}</div>
-      <div style="font-size:13px;font-weight:700;color:var(--text);">${p.name.substring(0,30)}</div>
-      <div style="font-size:11px;color:var(--muted);margin-top:2px;">${p.brand}</div>
-    </th>`;
-  });
-  html += `</tr></thead><tbody>`;
-
-  // Price row
-  html += `<tr style="background:rgba(99,102,241,0.05);"><td style="padding:10px 12px;font-size:12px;color:#6b7280;font-weight:700;">Цена</td>`;
-  const minPrice = Math.min(...ps.map(p => p.price));
-  ps.forEach(p => {
-    html += `<td style="padding:10px 12px;text-align:center;font-size:16px;font-weight:800;color:${p.price===minPrice?'#34d399':'var(--text)'};">${fmtBgn(p.price)}</td>`;
-  });
-  html += `</tr>`;
-
-  // Rating row
-  html += `<tr><td style="padding:10px 12px;font-size:12px;color:#6b7280;font-weight:700;">Рейтинг</td>`;
-  ps.forEach(p => {
-    html += `<td style="padding:10px 12px;text-align:center;">⭐ ${p.rating} <span style="font-size:11px;color:var(--muted);">(${p.rv})</span></td>`;
-  });
-  html += `</tr>`;
-
-  // Stock row
-  html += `<tr style="background:rgba(99,102,241,0.05);"><td style="padding:10px 12px;font-size:12px;color:#6b7280;font-weight:700;">Наличност</td>`;
-  ps.forEach(p => {
-    const s = p.stock===false||p.stock===0?'<span style="color:#f87171;">Изчерпан</span>':p.stock!=null&&p.stock<=5?`<span style="color:#fbbf24;">${p.stock} бр.</span>`:'<span style="color:#34d399;">В наличност</span>';
-    html += `<td style="padding:10px 12px;text-align:center;font-size:12px;">${s}</td>`;
-  });
-  html += `</tr>`;
-
-  // Spec rows
-  allKeys.forEach((key, i) => {
-    html += `<tr${i%2===0?' style="background:rgba(99,102,241,0.03);"':''}>
-      <td style="padding:10px 12px;font-size:12px;color:#6b7280;font-weight:700;">${key}</td>`;
-    ps.forEach(p => {
-      const val = (p.specs || {})[key] || '<span style="color:#4b5563;">—</span>';
-      html += `<td style="padding:10px 12px;text-align:center;font-size:13px;color:var(--text);">${val}</td>`;
-    });
-    html += `</tr>`;
-  });
-
-  // Add to cart row
-  html += `<tr><td style="padding:12px;"></td>`;
-  ps.forEach(p => {
-    html += `<td style="padding:12px;text-align:center;"><button type="button" onclick="addToCart(${p.id})" style="background:var(--primary);color:#fff;border:none;border-radius:8px;padding:10px 18px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;cursor:pointer;width:100%;">🛒 Добави</button></td>`;
-  });
-  html += `</tr>`;
-
-  html += `</tbody></table></div>`;
-
-  document.getElementById('compareTable').innerHTML = html;
-  const page = document.getElementById('comparePage');
-  page.style.display = 'block';
-  document.body.style.overflow = 'hidden';
-}
+// toggleCompare, clearCompare, openComparePage, _renderCompareBar and compareIds
+// are defined in gallery.js (canonical version using global compareList from data.js).
 
 function closeComparePage() {
   document.getElementById('comparePage').style.display = 'none';

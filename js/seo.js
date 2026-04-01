@@ -18,13 +18,15 @@ function bcRender() {
   // Always start with Home
   const crumbs = [{ label: 'Начало', fn: () => { closeProductPage(); bcSet([]); } }, ..._bcTrail];
 
+  window._bcFns = window._bcFns || {};
   const html = crumbs.map((c, i) => {
     const isLast = i === crumbs.length - 1;
     const sep    = i > 0 ? '<span class="bc-sep" aria-hidden="true">›</span>' : '';
     if (isLast) {
       return `${sep}<div class="bc-item current" aria-current="page"><span title="${c.label}">${c.label}</span></div>`;
     }
-    return `${sep}<div class="bc-item"><button type="button" onclick="(${c.fn.toString()})()">${c.label}</button></div>`;
+    window._bcFns[i] = c.fn;
+    return `${sep}<div class="bc-item"><button type="button" onclick="if(window._bcFns[${i}])window._bcFns[${i}]()">${c.label}</button></div>`;
   }).join('');
 
   inner.innerHTML = html;

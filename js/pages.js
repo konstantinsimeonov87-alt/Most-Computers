@@ -72,10 +72,6 @@ function filterCatScroll(type) {
   const featured = document.getElementById('featured');
   if (featured) featured.scrollIntoView({behavior:'smooth'});
 }
-function scrollToTop() {
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-
 
 
 // ===== CONTACTS PAGE =====

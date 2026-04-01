@@ -191,7 +191,8 @@ document.addEventListener('click', e => {
 });
 
 // ===== WISHLIST =====
-let wishlist = JSON.parse(localStorage.getItem('mc_wishlist') || '[]');
+let wishlist = [];
+try { wishlist = JSON.parse(localStorage.getItem('mc_wishlist') || '[]'); } catch(e) {}
 
 function toggleWishlist(id, e) {
   if (e && e.stopPropagation) e.stopPropagation();
@@ -265,7 +266,7 @@ function renderWishlistGrid() {
         : `<span class="product-img-emoji">${p.emoji}</span>`;
       return `<div class="product-card pos-rel">
         <button type="button" class="wishlist-remove-btn" onclick="toggleWishlist(${p.id},{stopPropagation:()=>{}})" title="Премахни">×</button>
-        <div class="product-img-wrap" onclick="openProductModal(${p.id});closeWishlist();" class="cursor-pointer">${imgHtml}</div>
+        <div class="product-img-wrap cursor-pointer" onclick="openProductModal(${p.id});closeWishlist();">${imgHtml}</div>
         <div class="product-body">
           <div class="product-brand">${p.brand}</div>
           <div class="product-name">${p.name}</div>
@@ -373,6 +374,7 @@ function printOrder(num) {
     ? o.itemsData.map(x => `<tr><td>${x.emoji||''}${x.name}</td><td>${x.brand||''}</td><td style="text-align:center;">×${x.qty}</td><td style="text-align:right;font-weight:700;">${(x.price*x.qty).toFixed(2)} лв.<br><span style="font-size:10px;color:#6b7280;">${((x.price*x.qty)/1.95583).toFixed(2)} €</span></td></tr>`).join('')
     : `<tr><td colspan="4" style="color:#9ca3af;text-align:center;padding:16px;">${o.items||'—'}</td></tr>`;
   const win = window.open('', '_blank', 'width=760,height=700');
+  if (!win) { showToast('⚠️ Попъп прозорецът е блокиран. Разреши попъпи за този сайт.'); return; }
   win.document.write(`<!DOCTYPE html><html lang="bg"><head><meta charset="utf-8">
     <title>Фактура ${o.num} — Most Computers</title>
     <style>

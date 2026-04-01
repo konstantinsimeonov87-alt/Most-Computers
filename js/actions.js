@@ -3,6 +3,7 @@ function migrateInlineClickHandlers() {
   document.querySelectorAll('[onclick]').forEach(el => {
     const code = el.getAttribute('onclick');
     if (!code) return;
+    if (code.includes('this.')) return; // skip — requires DOM context
     // remove return false and trim
     let action = code.replace(/return\s+false;?/g, '').trim();
     // strip trailing parentheses for simple calls
@@ -36,8 +37,9 @@ function runActionString(str, event, button) {
         const argsStr = callMatch[2].trim();
         const args = argsStr
           ? argsStr.split(',').map(a => {
+              const wasQuoted = /^['"`]/.test(a.trim());
               a = a.trim().replace(/^['"`]|['"`]$/g, '');
-              return (!isNaN(a) && a !== '') ? Number(a) : a;
+              return (!wasQuoted && !isNaN(a) && a !== '') ? Number(a) : a;
             })
           : [];
         fn.apply(null, args);

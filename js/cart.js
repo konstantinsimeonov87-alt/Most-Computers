@@ -47,7 +47,7 @@ function addToCartById(id){addToCart(id);}
 const FREE_SHIP_BGN = 200;
 function updateCart(){
   const count=cart.reduce((s,x)=>s+x.qty,0),total=cart.reduce((s,x)=>s+x.price*x.qty,0);
-  document.getElementById('cartBadge').textContent=count;
+  const badge=document.getElementById('cartBadge');if(badge)badge.textContent=count;
   document.getElementById('cartTotal').textContent=fmtEur(total) + ' / ' + fmtBgn(total);
   // sync PDP mini-header cart badge
   const pdpB = document.getElementById('pdpMhdrCartBadge');
@@ -385,26 +385,28 @@ function submitOrder() {
     const fmt = d => d.toLocaleDateString('bg-BG', {day:'numeric',month:'long'});
 
     // Populate thank-you page
-    document.getElementById('tyOrderNum').textContent = orderNum;
-    document.getElementById('tyEmail').textContent = document.getElementById('ckEmail').value;
-    document.getElementById('tyDeliveryDate').textContent = ckDeliveryIdx === 2 ? 'При вземане от магазин' : fmt(delivDate);
-    document.getElementById('tyPayment').textContent = payNames[ckPaymentType];
-    document.getElementById('tyName').textContent = document.getElementById('ckFirst').value + ' ' + document.getElementById('ckLast').value;
-    document.getElementById('tyPhone').textContent = document.getElementById('ckPhone').value;
-    document.getElementById('tyCity').textContent = document.getElementById('ckCity').value;
-    document.getElementById('tyAddr').textContent = document.getElementById('ckAddr').value + (document.getElementById('ckZip').value ? ', ' + document.getElementById('ckZip').value : '');
-    document.getElementById('tyCourier').textContent = ckDeliveryNames[ckDeliveryIdx];
-    document.getElementById('tyNote').textContent = document.getElementById('ckNote').value || '—';
-    document.getElementById('tyTimestamp').textContent = now.toLocaleString('bg-BG');
-    document.getElementById('tyDeliveryDateLine').textContent = ckDeliveryIdx === 2 ? 'Готова за вземане' : 'Очаквана: ' + fmt(delivDate);
-    document.getElementById('tySubtotal').textContent = fmtEur(subtotal) + ' / ' + fmtBgn(subtotal);
-    document.getElementById('tyDeliveryCost').textContent = delivery === 0 ? 'Безплатно' : fmtEur(delivery) + ' / ' + fmtBgn(delivery);
-    document.getElementById('tyTotal').textContent = fmtEur(total) + ' / ' + fmtBgn(total);
+    const _set = (id, val) => { const el = document.getElementById(id); if(el) el.textContent = val; };
+    const _setHTML = (id, val) => { const el = document.getElementById(id); if(el) el.innerHTML = val; };
+    _set('tyOrderNum', orderNum);
+    _set('tyEmail', document.getElementById('ckEmail').value);
+    _set('tyDeliveryDate', ckDeliveryIdx === 2 ? 'При вземане от магазин' : fmt(delivDate));
+    _set('tyPayment', payNames[ckPaymentType]);
+    _set('tyName', document.getElementById('ckFirst').value + ' ' + document.getElementById('ckLast').value);
+    _set('tyPhone', document.getElementById('ckPhone').value);
+    _set('tyCity', document.getElementById('ckCity').value);
+    _set('tyAddr', document.getElementById('ckAddr').value + (document.getElementById('ckZip').value ? ', ' + document.getElementById('ckZip').value : ''));
+    _set('tyCourier', ckDeliveryNames[ckDeliveryIdx]);
+    _set('tyNote', document.getElementById('ckNote').value || '—');
+    _set('tyTimestamp', now.toLocaleString('bg-BG'));
+    _set('tyDeliveryDateLine', ckDeliveryIdx === 2 ? 'Готова за вземане' : 'Очаквана: ' + fmt(delivDate));
+    _set('tySubtotal', fmtEur(subtotal) + ' / ' + fmtBgn(subtotal));
+    _set('tyDeliveryCost', delivery === 0 ? 'Безплатно' : fmtEur(delivery) + ' / ' + fmtBgn(delivery));
+    _set('tyTotal', fmtEur(total) + ' / ' + fmtBgn(total));
     if (promoApplied) {
-      document.getElementById('tyPromoRow').style.display = '';
-      document.getElementById('tyPromoAmt').textContent = '-' + fmtEur(promoDisc) + ' / ' + fmtBgn(promoDisc);
+      const tyPromoRow = document.getElementById('tyPromoRow'); if(tyPromoRow) tyPromoRow.style.display = '';
+      _set('tyPromoAmt', '-' + fmtEur(promoDisc) + ' / ' + fmtBgn(promoDisc));
     }
-    document.getElementById('tyItems').innerHTML = cart.map(x => `
+    _setHTML('tyItems', cart.map(x => `
       <div class="ty-item">
         <div class="ty-item-emoji">${x.emoji}</div>
         <div class="ty-item-info">
@@ -412,7 +414,7 @@ function submitOrder() {
           <div class="ty-item-meta">${x.brand} · Количество: ${x.qty}</div>
         </div>
         <div class="ty-item-price">${fmtEur(x.price*x.qty)}<span class="text-11-muted-block">${fmtBgn(x.price*x.qty)}</span></div>
-      </div>`).join('');
+      </div>`).join(''));
 
     // Save order to localStorage
     const orderData = {

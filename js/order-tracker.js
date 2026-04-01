@@ -134,7 +134,8 @@ function trackOrder() {
 function closeCheckoutPageAndTrack() {
   const orderNum = document.getElementById('tyOrderNum')?.textContent;
   closeThankyouPage();
-  setTimeout(() => openOrderTracker(orderNum ? 'MC-' + orderNum.replace('MC-','').trim() : ''), 300);
+  if (!orderNum || orderNum.trim() === 'MC-') { setTimeout(() => openOrderTracker(''), 300); return; }
+  setTimeout(() => openOrderTracker('MC-' + orderNum.replace('MC-','').trim()), 300);
 }
 
 

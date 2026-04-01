@@ -22,7 +22,7 @@ updateWishlistUI();
 function openContactPage() { openContactsPage(); }
 
 function closeContactPage() {
-  document.getElementById('contactPage').classList.remove('open');
+  document.getElementById('contactsPage').classList.remove('open');
   document.body.style.overflow = '';
 }
 function submitContactForm() {

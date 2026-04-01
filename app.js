@@ -1,6 +1,7 @@
 // ===== CURRENCY =====
-let EUR_RATE = parseFloat(localStorage.getItem('eurRate')) || 1.95583; // 1 EUR = x BGN
-if (isNaN(EUR_RATE)) EUR_RATE = 1.95583;
+let EUR_RATE;
+try { EUR_RATE = parseFloat(localStorage.getItem('eurRate')); } catch(e) {}
+if (!EUR_RATE || isNaN(EUR_RATE)) EUR_RATE = 1.95583;
 function toEur(bgn) { return bgn / EUR_RATE; }
 function fmtEur(bgn) { return toEur(bgn).toLocaleString('de-DE', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' €'; }
 function fmtBgn(bgn) { return bgn.toLocaleString('bg-BG', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' лв.'; }
@@ -550,6 +551,7 @@ const megaBrands = ['Intel', 'ASUS', 'Acer', 'Microsoft', 'Lenovo', 'Gigabyte', 
 function openMegamenu() {
   // Render cats
   const catsEl = document.getElementById('megamenuCats');
+  if (!catsEl) return;
   catsEl.innerHTML = megaCategories.map(c => {
     const count = products.filter(p=>p.cat===c.cat).length;
     return `<div class="megamenu-cat-card" onclick="megaFilterCat('${c.cat}')">
@@ -592,7 +594,7 @@ function megaFilterCat(cat) {
 
 function megaFilterBrand(brand) {
   closeMegamenu();
-  document.getElementById('searchInput').value = brand;
+  const si = document.getElementById('searchInput'); if(si) si.value = brand;
   showSearchResultsPage(brand);
 }
 
@@ -611,7 +613,7 @@ document.addEventListener('keydown', e => {
     const panels = [
       { id: 'cartPanel',            close: toggleCart },
       { id: 'pdpBackdrop',          close: closeProductPage },
-      { id: 'productModalBackdrop', close: closeModal },
+      { id: 'productModalBackdrop', close: closeProductModalDirect },
       { id: 'searchResultsPage',    close: closeSearchPage },
       { id: 'wishlistPage',         close: () => { document.getElementById('wishlistPage').classList.remove('open'); document.body.style.overflow = ''; } },
       { id: 'megamenuPage',         close: closeMegamenu },
@@ -640,120 +642,8 @@ function close404() {
 
 
 // ===== PRODUCT COMPARISON =====
-let compareIds = [];
-
-function toggleCompare(id, checked) {
-  if (checked) {
-    if (compareIds.length >= 3) {
-      showToast('⚠️ Може да сравниш максимум 3 продукта');
-      const cb = document.getElementById('cmp-' + id);
-      if (cb) cb.checked = false;
-      return;
-    }
-    if (!compareIds.includes(id)) compareIds.push(id);
-  } else {
-    compareIds = compareIds.filter(x => x !== id);
-  }
-  _renderCompareBar();
-}
-
-function _renderCompareBar() {
-  const bar = document.getElementById('compareBar');
-  if (!bar) return;
-  bar.classList.toggle('visible', compareIds.length > 0);
-  if (compareIds.length === 0) return;
-  const cnt = document.getElementById('compareCnt');
-  if (cnt) cnt.textContent = compareIds.length;
-  const preview = document.getElementById('comparePreview');
-  if (preview) {
-    preview.innerHTML = compareIds.map(id => {
-      const p = products.find(x => x.id === id);
-      if (!p) return '';
-      return `<div style="background:#252840;border:1px solid #2d3148;border-radius:8px;padding:6px 10px;display:flex;align-items:center;gap:6px;font-size:12px;color:#e5e7eb;">
-        <span>${p.emoji}</span>
-        <span style="max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${p.name.substring(0,18)}</span>
-        <button type="button" onclick="toggleCompare(${id},false);document.getElementById('cmp-${id}').checked=false;" style="background:none;border:none;color:#6b7280;cursor:pointer;font-size:14px;line-height:1;padding:0 2px;">×</button>
-      </div>`;
-    }).join('');
-  }
-}
-
-function clearCompare() {
-  compareIds.forEach(id => {
-    const cb = document.getElementById('cmp-' + id);
-    if (cb) cb.checked = false;
-  });
-  compareIds = [];
-  _renderCompareBar();
-}
-
-function openComparePage() {
-  if (compareIds.length < 2) { showToast('⚠️ Избери поне 2 продукта за сравнение'); return; }
-  const ps = compareIds.map(id => products.find(x => x.id === id)).filter(Boolean);
-  const allKeys = [...new Set(ps.flatMap(p => Object.keys(p.specs || {})))];
-
-  const colW = `${Math.floor(80 / ps.length)}%`;
-  let html = `<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;font-family:'Outfit',sans-serif;">`;
-
-  // Header row
-  html += `<thead><tr><th style="width:20%;padding:12px;text-align:left;color:#6b7280;font-size:12px;border-bottom:1px solid var(--border);">Характеристика</th>`;
-  ps.forEach(p => {
-    html += `<th style="width:${colW};padding:12px;text-align:center;border-bottom:1px solid var(--border);">
-      <div style="font-size:32px;margin-bottom:6px;">${p.emoji}</div>
-      <div style="font-size:13px;font-weight:700;color:var(--text);">${p.name.substring(0,30)}</div>
-      <div style="font-size:11px;color:var(--muted);margin-top:2px;">${p.brand}</div>
-    </th>`;
-  });
-  html += `</tr></thead><tbody>`;
-
-  // Price row
-  html += `<tr style="background:rgba(99,102,241,0.05);"><td style="padding:10px 12px;font-size:12px;color:#6b7280;font-weight:700;">Цена</td>`;
-  const minPrice = Math.min(...ps.map(p => p.price));
-  ps.forEach(p => {
-    html += `<td style="padding:10px 12px;text-align:center;font-size:16px;font-weight:800;color:${p.price===minPrice?'#34d399':'var(--text)'};">${fmtBgn(p.price)}</td>`;
-  });
-  html += `</tr>`;
-
-  // Rating row
-  html += `<tr><td style="padding:10px 12px;font-size:12px;color:#6b7280;font-weight:700;">Рейтинг</td>`;
-  ps.forEach(p => {
-    html += `<td style="padding:10px 12px;text-align:center;">⭐ ${p.rating} <span style="font-size:11px;color:var(--muted);">(${p.rv})</span></td>`;
-  });
-  html += `</tr>`;
-
-  // Stock row
-  html += `<tr style="background:rgba(99,102,241,0.05);"><td style="padding:10px 12px;font-size:12px;color:#6b7280;font-weight:700;">Наличност</td>`;
-  ps.forEach(p => {
-    const s = p.stock===false||p.stock===0?'<span style="color:#f87171;">Изчерпан</span>':p.stock!=null&&p.stock<=5?`<span style="color:#fbbf24;">${p.stock} бр.</span>`:'<span style="color:#34d399;">В наличност</span>';
-    html += `<td style="padding:10px 12px;text-align:center;font-size:12px;">${s}</td>`;
-  });
-  html += `</tr>`;
-
-  // Spec rows
-  allKeys.forEach((key, i) => {
-    html += `<tr${i%2===0?' style="background:rgba(99,102,241,0.03);"':''}>
-      <td style="padding:10px 12px;font-size:12px;color:#6b7280;font-weight:700;">${key}</td>`;
-    ps.forEach(p => {
-      const val = (p.specs || {})[key] || '<span style="color:#4b5563;">—</span>';
-      html += `<td style="padding:10px 12px;text-align:center;font-size:13px;color:var(--text);">${val}</td>`;
-    });
-    html += `</tr>`;
-  });
-
-  // Add to cart row
-  html += `<tr><td style="padding:12px;"></td>`;
-  ps.forEach(p => {
-    html += `<td style="padding:12px;text-align:center;"><button type="button" onclick="addToCart(${p.id})" style="background:var(--primary);color:#fff;border:none;border-radius:8px;padding:10px 18px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;cursor:pointer;width:100%;">🛒 Добави</button></td>`;
-  });
-  html += `</tr>`;
-
-  html += `</tbody></table></div>`;
-
-  document.getElementById('compareTable').innerHTML = html;
-  const page = document.getElementById('comparePage');
-  page.style.display = 'block';
-  document.body.style.overflow = 'hidden';
-}
+// toggleCompare, clearCompare, openComparePage, _renderCompareBar and compareIds
+// are defined in gallery.js (canonical version using global compareList from data.js).
 
 function closeComparePage() {
   document.getElementById('comparePage').style.display = 'none';
@@ -869,6 +759,9 @@ function initScrollAnimations() {
 }
 
 
+// ===== XSS ESCAPE HELPER =====
+function _esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
 // ===== GALLERY STATE =====
 let galleryImages = [], galleryIdx = 0;
 
@@ -983,7 +876,7 @@ function openProductModal(id){
     `<div class="spec-chip"><div class="spec-chip-key">SKU</div><div class="spec-chip-val mono-12">${p.sku}</div></div>` +
     `<div class="spec-chip"><div class="spec-chip-key">EAN</div><div class="spec-chip-val mono-12">${p.ean}</div></div>` +
     Object.entries(p.specs).map(([k,v])=>`<div class="spec-chip"><div class="spec-chip-key">${k}</div><div class="spec-chip-val">${v}</div></div>`).join('');
-  document.getElementById('modalReviews').innerHTML=p.reviews.map(r=>`<div class="review-item"><div class="review-header"><span class="review-name">${r.name}</span><span class="review-stars">${starsHTML(r.stars)}</span><span class="review-date">${r.date}</span></div><div class="review-text">${r.text}</div></div>`).join('');
+  document.getElementById('modalReviews').innerHTML=p.reviews.map(r=>`<div class="review-item"><div class="review-header"><span class="review-name">${_esc(r.name)}</span><span class="review-stars">${starsHTML(r.stars)}</span><span class="review-date">${_esc(r.date)}</span></div><div class="review-text">${_esc(r.text)}</div></div>`).join('');
   switchTab('desc');
   document.getElementById('productModalBackdrop').classList.add('open');document.body.style.overflow='hidden';
 }
@@ -1092,8 +985,8 @@ function submitQuickOrder(){
 // SLIDER
 let currentSlide=0;
 const slides=document.querySelectorAll('.slide'),dots=document.querySelectorAll('.dot');
-function goSlide(n){slides[currentSlide].classList.remove('active');dots[currentSlide].classList.remove('active');currentSlide=n;slides[currentSlide].classList.add('active');dots[currentSlide].classList.add('active');}
-setInterval(()=>goSlide((currentSlide+1)%slides.length),5000);
+function goSlide(n){if(!slides.length||!slides[n])return;slides[currentSlide].classList.remove('active');dots[currentSlide].classList.remove('active');currentSlide=n;slides[currentSlide].classList.add('active');dots[currentSlide].classList.add('active');}
+if(slides.length)setInterval(()=>goSlide((currentSlide+1)%slides.length),5000);
 
 // COUNTDOWN — persistent across page reloads via localStorage
 (function(){
@@ -1116,7 +1009,7 @@ setInterval(()=>goSlide((currentSlide+1)%slides.length),5000);
 })();
 
 // TOAST
-function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._timer);t._timer=setTimeout(()=>t.classList.remove('show'),2800);}
+function showToast(msg){const t=document.getElementById('toast');if(!t)return;t.textContent=msg;t.classList.add('show');clearTimeout(t._timer);t._timer=setTimeout(()=>t.classList.remove('show'),2800);}
 
 // CART
 function saveCart(){try{localStorage.setItem('mc_cart',JSON.stringify(cart.map(x=>({id:x.id,qty:x.qty}))));} catch(e){}}
@@ -1167,7 +1060,7 @@ function addToCartById(id){addToCart(id);}
 const FREE_SHIP_BGN = 200;
 function updateCart(){
   const count=cart.reduce((s,x)=>s+x.qty,0),total=cart.reduce((s,x)=>s+x.price*x.qty,0);
-  document.getElementById('cartBadge').textContent=count;
+  const badge=document.getElementById('cartBadge');if(badge)badge.textContent=count;
   document.getElementById('cartTotal').textContent=fmtEur(total) + ' / ' + fmtBgn(total);
   // sync PDP mini-header cart badge
   const pdpB = document.getElementById('pdpMhdrCartBadge');
@@ -1505,26 +1398,28 @@ function submitOrder() {
     const fmt = d => d.toLocaleDateString('bg-BG', {day:'numeric',month:'long'});
 
     // Populate thank-you page
-    document.getElementById('tyOrderNum').textContent = orderNum;
-    document.getElementById('tyEmail').textContent = document.getElementById('ckEmail').value;
-    document.getElementById('tyDeliveryDate').textContent = ckDeliveryIdx === 2 ? 'При вземане от магазин' : fmt(delivDate);
-    document.getElementById('tyPayment').textContent = payNames[ckPaymentType];
-    document.getElementById('tyName').textContent = document.getElementById('ckFirst').value + ' ' + document.getElementById('ckLast').value;
-    document.getElementById('tyPhone').textContent = document.getElementById('ckPhone').value;
-    document.getElementById('tyCity').textContent = document.getElementById('ckCity').value;
-    document.getElementById('tyAddr').textContent = document.getElementById('ckAddr').value + (document.getElementById('ckZip').value ? ', ' + document.getElementById('ckZip').value : '');
-    document.getElementById('tyCourier').textContent = ckDeliveryNames[ckDeliveryIdx];
-    document.getElementById('tyNote').textContent = document.getElementById('ckNote').value || '—';
-    document.getElementById('tyTimestamp').textContent = now.toLocaleString('bg-BG');
-    document.getElementById('tyDeliveryDateLine').textContent = ckDeliveryIdx === 2 ? 'Готова за вземане' : 'Очаквана: ' + fmt(delivDate);
-    document.getElementById('tySubtotal').textContent = fmtEur(subtotal) + ' / ' + fmtBgn(subtotal);
-    document.getElementById('tyDeliveryCost').textContent = delivery === 0 ? 'Безплатно' : fmtEur(delivery) + ' / ' + fmtBgn(delivery);
-    document.getElementById('tyTotal').textContent = fmtEur(total) + ' / ' + fmtBgn(total);
+    const _set = (id, val) => { const el = document.getElementById(id); if(el) el.textContent = val; };
+    const _setHTML = (id, val) => { const el = document.getElementById(id); if(el) el.innerHTML = val; };
+    _set('tyOrderNum', orderNum);
+    _set('tyEmail', document.getElementById('ckEmail').value);
+    _set('tyDeliveryDate', ckDeliveryIdx === 2 ? 'При вземане от магазин' : fmt(delivDate));
+    _set('tyPayment', payNames[ckPaymentType]);
+    _set('tyName', document.getElementById('ckFirst').value + ' ' + document.getElementById('ckLast').value);
+    _set('tyPhone', document.getElementById('ckPhone').value);
+    _set('tyCity', document.getElementById('ckCity').value);
+    _set('tyAddr', document.getElementById('ckAddr').value + (document.getElementById('ckZip').value ? ', ' + document.getElementById('ckZip').value : ''));
+    _set('tyCourier', ckDeliveryNames[ckDeliveryIdx]);
+    _set('tyNote', document.getElementById('ckNote').value || '—');
+    _set('tyTimestamp', now.toLocaleString('bg-BG'));
+    _set('tyDeliveryDateLine', ckDeliveryIdx === 2 ? 'Готова за вземане' : 'Очаквана: ' + fmt(delivDate));
+    _set('tySubtotal', fmtEur(subtotal) + ' / ' + fmtBgn(subtotal));
+    _set('tyDeliveryCost', delivery === 0 ? 'Безплатно' : fmtEur(delivery) + ' / ' + fmtBgn(delivery));
+    _set('tyTotal', fmtEur(total) + ' / ' + fmtBgn(total));
     if (promoApplied) {
-      document.getElementById('tyPromoRow').style.display = '';
-      document.getElementById('tyPromoAmt').textContent = '-' + fmtEur(promoDisc) + ' / ' + fmtBgn(promoDisc);
+      const tyPromoRow = document.getElementById('tyPromoRow'); if(tyPromoRow) tyPromoRow.style.display = '';
+      _set('tyPromoAmt', '-' + fmtEur(promoDisc) + ' / ' + fmtBgn(promoDisc));
     }
-    document.getElementById('tyItems').innerHTML = cart.map(x => `
+    _setHTML('tyItems', cart.map(x => `
       <div class="ty-item">
         <div class="ty-item-emoji">${x.emoji}</div>
         <div class="ty-item-info">
@@ -1532,7 +1427,7 @@ function submitOrder() {
           <div class="ty-item-meta">${x.brand} · Количество: ${x.qty}</div>
         </div>
         <div class="ty-item-price">${fmtEur(x.price*x.qty)}<span class="text-11-muted-block">${fmtBgn(x.price*x.qty)}</span></div>
-      </div>`).join('');
+      </div>`).join(''));
 
     // Save order to localStorage
     const orderData = {
@@ -2313,7 +2208,8 @@ document.addEventListener('click', e => {
 });
 
 // ===== WISHLIST =====
-let wishlist = JSON.parse(localStorage.getItem('mc_wishlist') || '[]');
+let wishlist = [];
+try { wishlist = JSON.parse(localStorage.getItem('mc_wishlist') || '[]'); } catch(e) {}
 
 function toggleWishlist(id, e) {
   if (e && e.stopPropagation) e.stopPropagation();
@@ -2387,7 +2283,7 @@ function renderWishlistGrid() {
         : `<span class="product-img-emoji">${p.emoji}</span>`;
       return `<div class="product-card pos-rel">
         <button type="button" class="wishlist-remove-btn" onclick="toggleWishlist(${p.id},{stopPropagation:()=>{}})" title="Премахни">×</button>
-        <div class="product-img-wrap" onclick="openProductModal(${p.id});closeWishlist();" class="cursor-pointer">${imgHtml}</div>
+        <div class="product-img-wrap cursor-pointer" onclick="openProductModal(${p.id});closeWishlist();">${imgHtml}</div>
         <div class="product-body">
           <div class="product-brand">${p.brand}</div>
           <div class="product-name">${p.name}</div>
@@ -2495,6 +2391,7 @@ function printOrder(num) {
     ? o.itemsData.map(x => `<tr><td>${x.emoji||''}${x.name}</td><td>${x.brand||''}</td><td style="text-align:center;">×${x.qty}</td><td style="text-align:right;font-weight:700;">${(x.price*x.qty).toFixed(2)} лв.<br><span style="font-size:10px;color:#6b7280;">${((x.price*x.qty)/1.95583).toFixed(2)} €</span></td></tr>`).join('')
     : `<tr><td colspan="4" style="color:#9ca3af;text-align:center;padding:16px;">${o.items||'—'}</td></tr>`;
   const win = window.open('', '_blank', 'width=760,height=700');
+  if (!win) { showToast('⚠️ Попъп прозорецът е блокиран. Разреши попъпи за този сайт.'); return; }
   win.document.write(`<!DOCTYPE html><html lang="bg"><head><meta charset="utf-8">
     <title>Фактура ${o.num} — Most Computers</title>
     <style>
@@ -2577,7 +2474,8 @@ if (typeof module !== 'undefined' && module.exports) {
   module.exports = { toggleWishlist, _resetWishlist: () => { wishlist = []; } };
 }
 // ===== RECENTLY VIEWED =====
-let recentlyViewed = JSON.parse(localStorage.getItem('mc_rv') || '[]');
+let recentlyViewed = [];
+try { recentlyViewed = JSON.parse(localStorage.getItem('mc_rv') || '[]'); } catch(e) {}
 
 function addToRecentlyViewed(id) {
   recentlyViewed = [id, ...recentlyViewed.filter(x=>x!==id)].slice(0, 10);
@@ -3815,7 +3713,8 @@ function trackOrder() {
 function closeCheckoutPageAndTrack() {
   const orderNum = document.getElementById('tyOrderNum')?.textContent;
   closeThankyouPage();
-  setTimeout(() => openOrderTracker(orderNum ? 'MC-' + orderNum.replace('MC-','').trim() : ''), 300);
+  if (!orderNum || orderNum.trim() === 'MC-') { setTimeout(() => openOrderTracker(''), 300); return; }
+  setTimeout(() => openOrderTracker('MC-' + orderNum.replace('MC-','').trim()), 300);
 }
 
 
@@ -5137,6 +5036,7 @@ function pdpPrintSpecs() {
            '</td><td style="padding:7px 12px;border-bottom:1px solid #eee;">' + specs[k] + '</td></tr>';
   }).join('');
   var win = window.open('', '_blank', 'width=800,height=700');
+  if (!win) { showToast('⚠️ Попъп прозорецът е блокиран. Разреши попъпи за този сайт.'); return; }
   win.document.write(
     '<!DOCTYPE html><html><head><title>' + p.name + ' — Характеристики</title>' +
     '<style>body{font-family:Arial,sans-serif;padding:32px;color:#1a1a1a;}h1{font-size:20px;margin-bottom:4px;}' +
@@ -5160,8 +5060,6 @@ function pdpToggleCompare() {
   var isActive = btn && btn.classList.contains('active');
   toggleCompare(pdpProductId, !isActive);
   if (btn) {
-    btn.classList.toggle('active', !isActive);
-    var label = btn.querySelector('span') || btn;
     if (!isActive) {
       btn.innerHTML = btn.innerHTML.replace('Сравни', 'Сравнено ✓');
       btn.classList.add('active');
@@ -5295,13 +5193,15 @@ function bcRender() {
   // Always start with Home
   const crumbs = [{ label: 'Начало', fn: () => { closeProductPage(); bcSet([]); } }, ..._bcTrail];
 
+  window._bcFns = window._bcFns || {};
   const html = crumbs.map((c, i) => {
     const isLast = i === crumbs.length - 1;
     const sep    = i > 0 ? '<span class="bc-sep" aria-hidden="true">›</span>' : '';
     if (isLast) {
       return `${sep}<div class="bc-item current" aria-current="page"><span title="${c.label}">${c.label}</span></div>`;
     }
-    return `${sep}<div class="bc-item"><button type="button" onclick="(${c.fn.toString()})()">${c.label}</button></div>`;
+    window._bcFns[i] = c.fn;
+    return `${sep}<div class="bc-item"><button type="button" onclick="if(window._bcFns[${i}])window._bcFns[${i}]()">${c.label}</button></div>`;
   }).join('');
 
   inner.innerHTML = html;
@@ -6031,10 +5931,6 @@ function filterCatScroll(type) {
   const featured = document.getElementById('featured');
   if (featured) featured.scrollIntoView({behavior:'smooth'});
 }
-function scrollToTop() {
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-
 
 
 // ===== CONTACTS PAGE =====
@@ -6183,6 +6079,7 @@ function migrateInlineClickHandlers() {
   document.querySelectorAll('[onclick]').forEach(el => {
     const code = el.getAttribute('onclick');
     if (!code) return;
+    if (code.includes('this.')) return; // skip — requires DOM context
     // remove return false and trim
     let action = code.replace(/return\s+false;?/g, '').trim();
     // strip trailing parentheses for simple calls
@@ -6216,8 +6113,9 @@ function runActionString(str, event, button) {
         const argsStr = callMatch[2].trim();
         const args = argsStr
           ? argsStr.split(',').map(a => {
+              const wasQuoted = /^['"`]/.test(a.trim());
               a = a.trim().replace(/^['"`]|['"`]$/g, '');
-              return (!isNaN(a) && a !== '') ? Number(a) : a;
+              return (!wasQuoted && !isNaN(a) && a !== '') ? Number(a) : a;
             })
           : [];
         fn.apply(null, args);
@@ -6300,7 +6198,7 @@ updateWishlistUI();
 function openContactPage() { openContactsPage(); }
 
 function closeContactPage() {
-  document.getElementById('contactPage').classList.remove('open');
+  document.getElementById('contactsPage').classList.remove('open');
   document.body.style.overflow = '';
 }
 function submitContactForm() {

@@ -1,5 +1,6 @@
 // ===== RECENTLY VIEWED =====
-let recentlyViewed = JSON.parse(localStorage.getItem('mc_rv') || '[]');
+let recentlyViewed = [];
+try { recentlyViewed = JSON.parse(localStorage.getItem('mc_rv') || '[]'); } catch(e) {}
 
 function addToRecentlyViewed(id) {
   recentlyViewed = [id, ...recentlyViewed.filter(x=>x!==id)].slice(0, 10);

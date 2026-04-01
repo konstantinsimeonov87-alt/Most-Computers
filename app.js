@@ -2519,8 +2519,10 @@ function getFilteredSorted(){
     typeof advFilterRating!=='undefined'?advFilterRating:0,
     typeof advFilterSaleOnly!=='undefined'?advFilterSaleOnly:false,
     typeof advFilterNewOnly!=='undefined'?advFilterNewOnly:false,
+    typeof advFilterStockOnly!=='undefined'?advFilterStockOnly:false,
     typeof advPriceMin!=='undefined'?advPriceMin:0,
-    typeof advPriceMax!=='undefined'?advPriceMax:2000
+    typeof advPriceMax!=='undefined'?advPriceMax:2000,
+    typeof catSpecActiveFilters!=='undefined'?JSON.stringify(Object.fromEntries(Object.entries(catSpecActiveFilters).map(([k,v])=>[k,[...v]]))):'{}',
   ]);
   if (_filterCache && _filterCache.key === _cacheKey) return _filterCache.list;
   let list=currentFilter==='all'?[...products]:products.filter(p=>p.cat===currentFilter);
@@ -2541,6 +2543,7 @@ function getFilteredSorted(){
   if(typeof advFilterRating!=='undefined' && advFilterRating>0) list=list.filter(p=>p.rating>=advFilterRating);
   if(typeof advFilterSaleOnly!=='undefined' && advFilterSaleOnly) list=list.filter(p=>p.badge==='sale');
   if(typeof advFilterNewOnly!=='undefined'  && advFilterNewOnly)  list=list.filter(p=>p.badge==='new'||p.badge==='hot');
+  if(typeof advFilterStockOnly!=='undefined' && advFilterStockOnly) list=list.filter(p=>p.stock!==false&&p.stock!==0);
   // Price range filter (EUR)
   if(typeof advPriceMin!=='undefined' && (advPriceMin>0 || advPriceMax<2000)){
     list=list.filter(p=>{ const eur=p.price/EUR_RATE; return eur>=advPriceMin && eur<=advPriceMax; });
@@ -2736,14 +2739,14 @@ let advFilterStockOnly = false;
 
 
 function initSidebarFilters() {
-  // Fixed brand list — 35 official brands
-  const ALL_BRANDS = ['Intel', 'ASUS', 'Acer', 'Microsoft', 'Lenovo', 'Gigabyte', 'LG', 'HP', 'ADATA', 'Sapphire', 'Tenda', 'Kingston', 'Seagate', 'AMD', 'Seasonic', 'ASRock', 'Repotec', 'Realme', 'MSI', 'Tuncmatik', 'Palit', 'Nokia', 'Dynac', 'Cooler Master', 'Fractal', 'NZXT', 'Canon', 'Fnatic', 'GeIL', 'FSP Group', 'Omega', 'Inform UPS', 'QNAP', 'D-Link', 'AV Tech'];
+  // Dynamic brand list from actual products, sorted by count desc
   const brandCounts = {};
   products.forEach(p => { if(p.brand) brandCounts[p.brand] = (brandCounts[p.brand]||0) + 1; });
+  const ALL_BRANDS = Object.entries(brandCounts).sort((a,b) => b[1]-a[1]).map(([b]) => b);
   const el = document.getElementById('brandFilterList');
   if (el) {
     el.innerHTML = ALL_BRANDS.map(b => {
-      const c = brandCounts[b] || 0;
+      const c = brandCounts[b];
       return `<label class="brand-filter-item">
         <input type="checkbox" value="${b}" onchange="toggleBrandFilter('${b}',this.checked)">
         <span>${b}</span>
@@ -2796,21 +2799,48 @@ function applyAdvFilters() {
   updateLiveCount(filtered.length);
 }
 
+// Store active filter removers by index to avoid closure serialization
+window._afRemove = [];
 function updateActiveFiltersBar() {
   const bar = document.getElementById('activeFiltersBar');
   const chips = document.getElementById('activeFilterChips');
   if (!bar || !chips) return;
+  window._afRemove = [];
   const active = [];
-  advFilterBrands.forEach(b => active.push({ label: '🏷 '+b, remove: ()=>{ const cb=document.querySelector(`input[type=checkbox][value="${b}"]`); if(cb){cb.checked=false;} advFilterBrands.delete(b); applyAdvFilters(); } }));
-  if (advFilterRating > 0) active.push({ label:`⭐ ${advFilterRating}+`, remove:()=>{ document.querySelector('input[name="ratingFilter"][value="0"]').checked=true; applyAdvFilters(); } });
-  if (advFilterSaleOnly) active.push({ label:'🔥 Само намалени', remove:()=>{ document.getElementById('saleOnlyToggle').checked=false; applyAdvFilters(); } });
-  if (advFilterNewOnly)  active.push({ label:'🆕 Само нови',     remove:()=>{ document.getElementById('newOnlyToggle').checked=false;  applyAdvFilters(); } });
-  if (advFilterStockOnly) active.push({ label:'✓ В наличност',   remove:()=>{ document.getElementById('stockOnlyToggle').checked=false; applyAdvFilters(); } });
-  if (typeof advPriceMin!=='undefined' && (advPriceMin>0||advPriceMax<2000)) active.push({ label:`💰 ${advPriceMin}€–${advPriceMax}€`, remove:()=>{ setPriceGroup(0,2000,'pg-all'); applyAdvFilters(); } });
+  advFilterBrands.forEach(b => {
+    const idx = window._afRemove.length;
+    window._afRemove.push(() => { const cb=document.querySelector(`input[type=checkbox][value="${CSS.escape(b)}"]`); if(cb) cb.checked=false; advFilterBrands.delete(b); applyAdvFilters(); });
+    active.push({ label: '🏷 '+b, idx });
+  });
+  if (advFilterRating > 0) {
+    const idx = window._afRemove.length;
+    window._afRemove.push(() => { const r=document.querySelector('input[name="ratingFilter"][value="0"]'); if(r) r.checked=true; applyAdvFilters(); });
+    active.push({ label:`⭐ ${advFilterRating}+`, idx });
+  }
+  if (advFilterSaleOnly) {
+    const idx = window._afRemove.length;
+    window._afRemove.push(() => { const el=document.getElementById('saleOnlyToggle'); if(el) el.checked=false; applyAdvFilters(); });
+    active.push({ label:'🔥 Само намалени', idx });
+  }
+  if (advFilterNewOnly) {
+    const idx = window._afRemove.length;
+    window._afRemove.push(() => { const el=document.getElementById('newOnlyToggle'); if(el) el.checked=false; applyAdvFilters(); });
+    active.push({ label:'🆕 Само нови', idx });
+  }
+  if (advFilterStockOnly) {
+    const idx = window._afRemove.length;
+    window._afRemove.push(() => { const el=document.getElementById('stockOnlyToggle'); if(el) el.checked=false; applyAdvFilters(); });
+    active.push({ label:'✓ В наличност', idx });
+  }
+  if (typeof advPriceMin!=='undefined' && (advPriceMin>0||advPriceMax<2000)) {
+    const idx = window._afRemove.length;
+    window._afRemove.push(() => { setPriceGroup(0,2000,'pg-all'); applyAdvFilters(); });
+    active.push({ label:`💰 ${advPriceMin}€–${advPriceMax}€`, idx });
+  }
   if (active.length === 0) { bar.classList.remove('show'); return; }
   bar.classList.add('show');
-  chips.innerHTML = active.map((f,i) =>
-    `<span class="active-filter-chip" onclick="(${f.remove.toString()})()">${f.label} ✕</span>`
+  chips.innerHTML = active.map(f =>
+    `<span class="active-filter-chip" onclick="window._afRemove[${f.idx}]&&window._afRemove[${f.idx}]()">${f.label} ✕</span>`
   ).join('');
 }
 
@@ -3064,6 +3094,40 @@ const SUBCATS = {
     { id: 'motherboard',label: '🔩 Дънни платки' },
     { id: 'storage',    label: '💾 Дискове' },
     { id: 'psu',        label: '⚡ Захранвания' },
+  ],
+  monitor: [
+    { id: 'gaming',     label: '🎮 Геймърски' },
+    { id: 'professional', label: '🎨 Професионални' },
+    { id: 'ultrawide',  label: '↔ Ultra-Wide' },
+    { id: 'oled',       label: '✨ OLED' },
+    { id: 'budget',     label: '💰 Бюджетни' },
+  ],
+  desktop: [
+    { id: 'gaming',     label: '🎮 Геймърски' },
+    { id: 'mac',        label: '🍎 Mac' },
+    { id: 'aio',        label: '🖥 All-in-One' },
+    { id: 'workstation',label: '🔬 Workstation' },
+    { id: 'budget',     label: '💰 Бюджетни' },
+  ],
+  storage: [
+    { id: 'ssd_nvme',   label: '⚡ SSD NVMe' },
+    { id: 'ssd_sata',   label: '💾 SSD SATA' },
+    { id: 'hdd',        label: '🗄 HDD' },
+    { id: 'portable',   label: '🎒 Портативни' },
+    { id: 'flash',      label: '📱 USB / SD карти' },
+  ],
+  print: [
+    { id: 'laser',      label: '🖨 Лазерни' },
+    { id: 'inkjet',     label: '🎨 Мастиленоструйни' },
+    { id: 'mfp',        label: '📠 Многофункционални' },
+    { id: 'color',      label: '🌈 Цветни' },
+  ],
+  acc: [
+    { id: 'keyboard',   label: '⌨ Клавиатури' },
+    { id: 'mouse',      label: '🖱 Мишки' },
+    { id: 'bag',        label: '🎒 Чанти' },
+    { id: 'cable',      label: '🔌 Кабели' },
+    { id: 'hub',        label: '🔀 Хъбове / Адаптери' },
   ],
 };
 
@@ -3353,6 +3417,29 @@ function matchesSubcat(p, subcat) {
     home:        () => all.includes('smart home') || all.includes('умен') || all.includes('hue') || all.includes('hub'),
     fitness:     () => all.includes('fitness') || all.includes('band') || all.includes('фитнес') || all.includes('sport'),
     speaker:     () => all.includes('speaker') || all.includes('echo') || all.includes('тонколона') || all.includes('smart speaker'),
+    // Monitor
+    professional: () => all.includes('profession') || all.includes('adobe') || all.includes('srgb') || all.includes('creator') || all.includes('color accurate') || (p.price/EUR_RATE) > 800,
+    ultrawide:   () => all.includes('ultra') && (all.includes('wide') || all.includes('34') || all.includes('49')) || all.includes('uwqhd') || all.includes('uwfhd'),
+    // Desktop
+    mac:         () => brand === 'apple' || all.includes('mac mini') || all.includes('imac') || all.includes('mac studio') || all.includes('mac pro'),
+    aio:         () => all.includes('all-in-one') || all.includes('aio') || all.includes('imac') || all.includes('моноблок'),
+    // Storage
+    ssd_nvme:    () => (all.includes('ssd') || all.includes('nvme')) && !all.includes('sata') && !all.includes('portable') && !all.includes('портативен'),
+    ssd_sata:    () => all.includes('sata') && (all.includes('ssd') || all.includes('диск')),
+    hdd:         () => all.includes('hdd') || (all.includes('диск') && !all.includes('ssd') && !all.includes('nvme')),
+    portable:    () => all.includes('portable') || all.includes('портативен') || all.includes('external') || all.includes('външен'),
+    flash:       () => all.includes('usb flash') || all.includes('флаш') || all.includes('sd card') || all.includes('microsd') || all.includes('sd карт'),
+    // Print
+    laser:       () => all.includes('лазер') || all.includes('laser'),
+    inkjet:      () => all.includes('мастил') || all.includes('inkjet') || all.includes('ink'),
+    mfp:         () => all.includes('многофункц') || all.includes('mfp') || all.includes('mfc') || all.includes('all-in-one') || all.includes('принтер/скенер'),
+    color:       () => all.includes('цветен') || all.includes('color') || all.includes('colour'),
+    // Accessories
+    keyboard:    () => all.includes('клавиатур') || all.includes('keyboard'),
+    mouse:       () => all.includes('мишк') || all.includes('mouse') || all.includes('trackpad'),
+    bag:         () => all.includes('чант') || all.includes('bag') || all.includes('backpack') || all.includes('case') || all.includes('sleeve'),
+    cable:       () => all.includes('кабел') || all.includes('cable') || all.includes('cord'),
+    hub:         () => all.includes('хъб') || all.includes('hub') || all.includes('адаптер') || all.includes('adapter') || all.includes('dock'),
     // Components
     cpu_intel:   () => brand.includes('intel') || all.includes('intel') || all.includes('core i') || all.includes('core ultra') || all.includes('pentium') || all.includes('celeron') || all.includes('xeon'),
     cpu_amd:     () => brand.includes('amd') || all.includes('amd') || all.includes('ryzen') || all.includes('threadripper') || all.includes('athlon') || all.includes('epyc'),

@@ -515,258 +515,146 @@ let catSpecActiveFilters = {}; // { specKey: Set(values) }
 
 // Subcategory definitions
 const SUBCATS = {
-  laptop: [
-    { id: 'gaming',      label: '🎮 Геймърски' },
-    { id: 'business',   label: '💼 Бизнес' },
-    { id: 'ultrabook',  label: '✈ Ултрабук' },
-    { id: 'workstation',label: '🔬 Workstation' },
-    { id: 'budget',     label: '💰 Бюджетни' },
+  laptops: [
+    { id: 'work',         label: '💼 За работа' },
+    { id: 'gaming_l',     label: '🎮 За гейминг' },
+    { id: 'ultrabook',    label: '✈ Ултрабуци' },
+    { id: 'budget',       label: '💰 Бюджетни' },
+    { id: 'convertible',  label: '🔄 2-в-1' },
+    { id: 'for_students', label: '🎓 За студенти' },
+    { id: 'for_devs',     label: '👨‍💻 За програмисти' },
+    { id: 'for_design',   label: '🎨 За дизайнери' },
+    { id: 'for_gaming',   label: '🕹 За игри' },
   ],
-  mobile: [
-    { id: 'flagship',   label: '👑 Флагмани' },
-    { id: 'midrange',   label: '⚡ Среден клас' },
-    { id: 'budget',     label: '💰 Бюджетни' },
-    { id: 'foldable',   label: '🔄 Сгъваеми' },
-  ],
-  tablet: [
-    { id: 'pro',        label: '💼 Pro' },
-    { id: 'kids',       label: '👦 За деца' },
-    { id: 'drawing',    label: '✏ За рисуване' },
-    { id: 'budget',     label: '💰 Бюджетни' },
-  ],
-  tv: [
-    { id: 'oled',       label: '✨ OLED' },
-    { id: 'qled',       label: '💡 QLED' },
-    { id: 'small',      label: '📺 до 43"' },
-    { id: 'large',      label: '🖥 55"+' },
-    { id: '4k',         label: '4K Ultra HD' },
-    { id: '8k',         label: '8K' },
-  ],
-  audio: [
-    { id: 'wireless',   label: '📶 Безжични' },
-    { id: 'nc',         label: '🔇 Noise Cancelling' },
-    { id: 'earbuds',    label: '🎵 True Wireless' },
-    { id: 'studio',     label: '🎤 Студийни' },
-    { id: 'gaming_h',   label: '🎮 Геймърски' },
-  ],
-  camera: [
-    { id: 'mirrorless', label: '📷 Mirrorless' },
-    { id: 'dslr',       label: '📷 DSLR' },
-    { id: 'action',     label: '🏄 Action' },
-    { id: 'instant',    label: '🖼 Моментални' },
-  ],
-  gaming: [
-    { id: 'console',    label: '🕹 Конзоли' },
-    { id: 'pc',         label: '🖥 PC Гейминг' },
-    { id: 'accessories',label: '🎮 Аксесоари' },
-    { id: 'chairs',     label: '🪑 Геймърски столове' },
-  ],
-  smart: [
-    { id: 'watch',      label: '⌚ Смарт часовници' },
-    { id: 'home',       label: '🏠 Умен дом' },
-    { id: 'fitness',    label: '🏃 Фитнес' },
-    { id: 'speaker',    label: '📣 Смарт тонколони' },
-  ],
-  network: [
-    { id: 'router',     label: '📶 Рутери' },
-    { id: 'switch',     label: '🔌 Суичове' },
-    { id: 'wifi6',      label: 'WiFi 6/6E' },
-    { id: 'mesh',       label: '🔗 Mesh системи' },
+  desktops: [
+    { id: 'gaming_pc',    label: '🎮 Геймърски конфигурации' },
+    { id: 'office_pc',    label: '💼 Офис компютри' },
+    { id: 'workstation',  label: '🔬 Workstation' },
+    { id: 'aio',          label: '🖥 All-in-One' },
+    { id: 'mac_desktop',  label: '🍎 Mac' },
   ],
   components: [
-    { id: 'cpu_intel',  label: '🔵 Intel процесори' },
-    { id: 'cpu_amd',    label: '🔴 AMD процесори' },
-    { id: 'gpu',        label: '🎮 Видеокарти' },
-    { id: 'ram',        label: '🧠 RAM памет' },
-    { id: 'motherboard',label: '🔩 Дънни платки' },
-    { id: 'storage',    label: '💾 Дискове' },
-    { id: 'psu',        label: '⚡ Захранвания' },
+    { id: 'cpu',          label: '⚙ Процесори' },
+    { id: 'gpu',          label: '🎮 Видео карти' },
+    { id: 'ram',          label: '🧠 RAM памет' },
+    { id: 'ssd_hdd',      label: '💾 SSD / HDD' },
+    { id: 'motherboard',  label: '🔩 Дънни платки' },
+    { id: 'psu',          label: '⚡ Захранвания' },
+    { id: 'case_cooling', label: '🗄 Кутии и охлаждане' },
   ],
-  monitor: [
-    { id: 'gaming',     label: '🎮 Геймърски' },
-    { id: 'professional', label: '🎨 Професионални' },
-    { id: 'ultrawide',  label: '↔ Ultra-Wide' },
-    { id: 'oled',       label: '✨ OLED' },
-    { id: 'budget',     label: '💰 Бюджетни' },
+  peripherals: [
+    { id: 'monitor',      label: '🖥 Монитори' },
+    { id: 'keyboard',     label: '⌨ Клавиатури' },
+    { id: 'mouse',        label: '🖱 Мишки' },
+    { id: 'headphones',   label: '🎧 Слушалки' },
+    { id: 'webcam',       label: '📷 Уеб камери' },
+    { id: 'printer',      label: '🖨 Принтери' },
   ],
-  desktop: [
-    { id: 'gaming',     label: '🎮 Геймърски' },
-    { id: 'mac',        label: '🍎 Mac' },
-    { id: 'aio',        label: '🖥 All-in-One' },
-    { id: 'workstation',label: '🔬 Workstation' },
-    { id: 'budget',     label: '💰 Бюджетни' },
+  network: [
+    { id: 'router',       label: '📶 Рутери' },
+    { id: 'switch',       label: '🔌 Суичове' },
+    { id: 'ap',           label: '📡 Access Points' },
+    { id: 'mesh',         label: '🔗 Mesh системи' },
   ],
   storage: [
-    { id: 'ssd_nvme',   label: '⚡ SSD NVMe' },
-    { id: 'ssd_sata',   label: '💾 SSD SATA' },
-    { id: 'hdd',        label: '🗄 HDD' },
-    { id: 'portable',   label: '🎒 Портативни' },
-    { id: 'flash',      label: '📱 USB / SD карти' },
+    { id: 'nas',          label: '🗄 NAS устройства' },
+    { id: 'server',       label: '🖥 Сървъри' },
+    { id: 'ext_drive',    label: '💾 Външни дискове' },
+    { id: 'flash',        label: '📱 Флаш памет' },
   ],
-  print: [
-    { id: 'laser',      label: '🖨 Лазерни' },
-    { id: 'inkjet',     label: '🎨 Мастиленоструйни' },
-    { id: 'mfp',        label: '📠 Многофункционални' },
-    { id: 'color',      label: '🌈 Цветни' },
-  ],
-  acc: [
-    { id: 'keyboard',   label: '⌨ Клавиатури' },
-    { id: 'mouse',      label: '🖱 Мишки' },
-    { id: 'bag',        label: '🎒 Чанти' },
-    { id: 'cable',      label: '🔌 Кабели' },
-    { id: 'hub',        label: '🔀 Хъбове / Адаптери' },
+  accessories: [
+    { id: 'bag',          label: '🎒 Чанти' },
+    { id: 'cable',        label: '🔌 Кабели и зарядни' },
+    { id: 'hub',          label: '🔀 Хъбове / Адаптери' },
+    { id: 'smart_dev',    label: '⌚ Смарт устройства' },
+    { id: 'mobile_acc',   label: '📱 Телефони и таблети' },
+    { id: 'av',           label: '📺 Аудио / Видео' },
   ],
 };
 
 // Mega-menu flyout data: category → columns → items
 const MEGA_MENU = {
+  laptops: [
+    { title: 'По предназначение', id: 'work', items: ['За работа', 'За гейминг', 'Ултрабуци', 'Workstation'] },
+    { title: 'По марка', id: 'ultrabook', items: ['Apple MacBook', 'Dell XPS', 'ASUS ROG', 'Lenovo ThinkPad', 'HP EliteBook'] },
+    { title: 'По бюджет', id: 'budget', items: ['До 500 €', '500–800 €', '800–1500 €', '1500 €+'] },
+    { title: 'Use-case', id: 'for_students', items: ['За студенти', 'За програмисти', 'За дизайнери', 'За игри'] },
+  ],
+  desktops: [
+    { title: 'Gaming PC', id: 'gaming_pc', items: ['RTX 4070', 'RTX 4080 / 4090', 'Готови конфигурации', 'AMD Radeon'] },
+    { title: 'Офис и Workstation', id: 'office_pc', items: ['Офис компютри', 'Workstation', 'Mac Mini / iMac', 'All-in-One'] },
+    { title: 'По марка', id: 'mac_desktop', items: ['Apple', 'ASUS', 'Dell', 'HP', 'Lenovo'] },
+  ],
   components: [
-    { title: 'Процесори', id: 'cpu_intel', items: ['Intel Core i3 / i5 / i7 / i9', 'Intel Core Ultra', 'AMD Ryzen 5 / 7 / 9', 'AMD Threadripper'] },
-    { title: 'Видеокарти', id: 'gpu', items: ['nVidia GeForce', 'AMD Radeon', 'Работни карти'] },
-    { title: 'RAM памет', id: 'ram', items: ['DDR4', 'DDR5', 'SO-DIMM (лаптоп)'] },
-    { title: 'Дънни платки', id: 'motherboard', items: ['Intel LGA1700', 'Intel LGA1851', 'AMD AM4', 'AMD AM5'] },
-    { title: 'SSD дискове', id: 'storage', items: ['SATA SSD', 'M.2 NVMe', 'M.2 PCIe 5.0'] },
-    { title: 'Захранвания', id: 'psu', items: ['до 550W', '600–800W', '850W+', 'Модулни'] },
+    { title: 'Процесори', id: 'cpu', items: ['Intel Core i5/i7/i9', 'Intel Core Ultra', 'AMD Ryzen 5/7/9', 'AMD Threadripper'] },
+    { title: 'Видео карти', id: 'gpu', items: ['NVIDIA GeForce RTX 40', 'AMD Radeon RX 7000', 'Работни карти'] },
+    { title: 'Памет', id: 'ram', items: ['DDR5 RAM', 'DDR4 RAM', 'SO-DIMM лаптоп'] },
+    { title: 'Дискове', id: 'ssd_hdd', items: ['SSD M.2 NVMe', 'SSD SATA', 'HDD 2.5"', 'HDD 3.5"'] },
+    { title: 'Дъно и корпус', id: 'motherboard', items: ['Intel LGA1851', 'Intel LGA1700', 'AMD AM5', 'AMD AM4', 'Захранвания', 'Кутии'] },
   ],
-  laptop: [
-    { title: 'Геймърски', id: 'gaming', items: ['RTX 4060', 'RTX 4070', 'RTX 4080 / 4090', 'До 1500 лв.'] },
-    { title: 'Бизнес', id: 'business', items: ['ThinkPad', 'EliteBook', 'Latitude', 'MacBook Pro'] },
-    { title: 'Ултрабуци', id: 'ultrabook', items: ['MacBook Air', 'Dell XPS', 'LG Gram', 'До 1.5 кг.'] },
-    { title: 'Бюджетни', id: 'budget', items: ['До 500 €', 'Chromebook', 'Студентски'] },
-  ],
-  mobile: [
-    { title: 'Флагмани', id: 'flagship', items: ['iPhone 16 Pro', 'Samsung S25 Ultra', 'Google Pixel 9'] },
-    { title: 'Среден клас', id: 'midrange', items: ['Samsung A серия', 'Xiaomi', 'OnePlus'] },
-    { title: 'Бюджетни', id: 'budget', items: ['До 300 лв.', 'Dual SIM', 'Голяма батерия'] },
-  ],
-  audio: [
-    { title: 'Слушалки', id: 'nc', items: ['Over-ear', 'On-ear', 'Noise Cancelling', 'Геймърски'] },
-    { title: 'True Wireless', id: 'earbuds', items: ['AirPods', 'Sony WF', 'Samsung Buds', 'Xiaomi'] },
-    { title: 'Тонколони', id: 'wireless', items: ['Bluetooth', 'Смарт', 'Hi-Fi', 'Саундбар'] },
-  ],
-  tv: [
-    { title: 'По тип панел', id: 'oled', items: ['OLED', 'QD-OLED', 'QLED', 'LED'] },
-    { title: 'По размер', id: 'small', items: ['до 43"', '50" – 55"', '65"', '75"+'] },
-    { title: 'По резолюция', id: '4k', items: ['Full HD', '4K UHD', '8K'] },
-  ],
-  gaming: [
-    { title: 'Конзоли', id: 'console', items: ['PlayStation 5', 'Xbox Series X', 'Nintendo Switch'] },
-    { title: 'PC Гейминг', id: 'pc', items: ['Гейминг компютри', 'Гейминг лаптопи', 'Компоненти'] },
-    { title: 'Аксесоари', id: 'accessories', items: ['Геймпади', 'Слушалки', 'Мишки', 'Клавиатури'] },
-    { title: 'Столове', id: 'chairs', items: ['Геймърски столове', 'Офис столове'] },
+  peripherals: [
+    { title: 'Монитори', id: 'monitor', items: ['Gaming 144Hz+', '4K UHD', 'QHD 1440p', 'Ultra-Wide', 'OLED'] },
+    { title: 'Въвеждане', id: 'keyboard', items: ['Механични клавиатури', 'Геймърски мишки', 'Офис мишки', 'Trackpad'] },
+    { title: 'Аудио и видео', id: 'headphones', items: ['Геймърски слушалки', 'Офис слушалки', 'Уеб камери', 'Принтери'] },
   ],
   network: [
-    { title: 'Рутери', id: 'router', items: ['WiFi 6', 'WiFi 6E', 'WiFi 7', 'Mesh системи'] },
-    { title: 'Суичове', id: 'switch', items: ['8 порта', '16 порта', 'Managed', 'PoE'] },
-  ],
-  smart: [
-    { title: 'Смарт часовници', id: 'watch', items: ['Apple Watch', 'Samsung Galaxy Watch', 'Garmin', 'Xiaomi Band'] },
-    { title: 'Умен дом', id: 'home', items: ['Смарт лампи', 'Smart Hub', 'Камери', 'Термостати'] },
-    { title: 'Фитнес', id: 'fitness', items: ['Фитнес гривни', 'GPS часовници', 'Пулсомери'] },
-  ],
-  monitor: [
-    { title: 'По резолюция', id: 'res', items: ['Full HD 1080p', 'QHD 1440p', '4K UHD', 'Ultra-Wide'] },
-    { title: 'По диагонал', id: 'size', items: ['24"', '27"', '32"', '34" Ultra-Wide', '49" Super-Wide'] },
-    { title: 'По тип панел', id: 'panel', items: ['IPS', 'VA', 'OLED', 'Mini-LED'] },
-    { title: 'Gaming монитори', id: 'gaming', items: ['144 Hz', '165 Hz', '240 Hz+', 'G-Sync / FreeSync'] },
-  ],
-  desktop: [
-    { title: 'Gaming компютри', id: 'gaming', items: ['RTX 4070', 'RTX 4080 / 4090', 'AMD Radeon', 'Готови системи'] },
-    { title: 'Mac', id: 'mac', items: ['Mac Mini M4', 'Mac Studio', 'iMac', 'Mac Pro'] },
-    { title: 'All-in-One', id: 'aio', items: ['За офис', 'За дома', 'За творчество'] },
-    { title: 'Workstation', id: 'ws', items: ['3D & CAD', 'Видео монтаж', 'Сървъри'] },
+    { title: 'Рутери', id: 'router', items: ['WiFi 7', 'WiFi 6E', 'WiFi 6', 'Dual Band'] },
+    { title: 'Мрежова инфра', id: 'switch', items: ['Mesh системи', 'Суичове 8p', 'Суичове 16p+', 'Access Points', 'PoE'] },
   ],
   storage: [
-    { title: 'SSD дискове', id: 'ssd', items: ['M.2 NVMe', 'SATA SSD', 'PCIe 5.0', 'Portable SSD'] },
-    { title: 'HDD дискове', id: 'hdd', items: ['2.5" Портативен', '3.5" Desktop', 'NAS дискове'] },
-    { title: 'RAM памет', id: 'ram', items: ['DDR4', 'DDR5', 'SO-DIMM (лаптоп)'] },
-    { title: 'Flash памет', id: 'flash', items: ['USB флаш', 'SD карти', 'MicroSD'] },
+    { title: 'Сторидж', id: 'nas', items: ['NAS устройства', 'Сървъри', 'Rack системи'] },
+    { title: 'Носители', id: 'ext_drive', items: ['Портативни SSD', 'Портативни HDD', 'USB Flash', 'SD карти'] },
+  ],
+  accessories: [
+    { title: 'Периферни аксесоари', id: 'cable', items: ['Кабели USB-C/HDMI', 'Зарядни', 'Хъбове', 'Докинг станции'] },
+    { title: 'Носене', id: 'bag', items: ['Чанти за лаптоп', 'Раници', 'Калъфи и протектори'] },
+    { title: 'Смарт и мобилни', id: 'smart_dev', items: ['Смарт часовници', 'Смартфони', 'Таблети', 'Smart Home'] },
+    { title: 'Аудио / Видео', id: 'av', items: ['Тонколони', 'Телевизори', 'Фотоапарати', 'Action камери'] },
   ],
 };
 
 // Category-specific spec filters
 
 const CAT_SPEC_FILTERS = {
-  laptop: [
-    { key: 'CPU',        label: '💻 Процесор',           values: ['Intel Core i3','Intel Core i5','Intel Core i7','Intel Core i9','AMD Ryzen 5','AMD Ryzen 7','AMD Ryzen 9','Apple M3','Apple M4'] },
-    { key: 'RAM',        label: '🧠 Оперативна памет',    values: ['8 GB','16 GB','32 GB','64 GB'] },
-    { key: 'Display',    label: '📐 Диагонал',            values: ['13"','14"','15.6"','16"','17"'] },
-    { key: 'GPU',        label: '🎮 Видеокарта',          values: ['RTX 4050','RTX 4060','RTX 4070','RTX 4080','RTX 4090','Integrated','Apple GPU'] },
-    { key: 'OS',         label: '🪟 Операционна система', values: ['Windows 11','macOS','Linux','Без OS'] },
+  laptops: [
+    { key: 'CPU',     label: '💻 Процесор',            values: ['Intel Core i5','Intel Core i7','Intel Core i9','Intel Core Ultra','AMD Ryzen 5','AMD Ryzen 7','AMD Ryzen 9','Apple M3','Apple M4'] },
+    { key: 'RAM',     label: '🧠 Оперативна памет',    values: ['8 GB','16 GB','24 GB','32 GB','64 GB'] },
+    { key: 'GPU',     label: '🎮 Видео карта',         values: ['RTX 4050','RTX 4060','RTX 4070','RTX 4080','RTX 4090','Integrated','Apple GPU'] },
+    { key: 'Display', label: '📐 Диагонал',            values: ['13"','14"','15.6"','16"','17"'] },
+    { key: 'OS',      label: '🪟 Операционна система', values: ['Windows 11','macOS','Linux','Без OS'] },
   ],
-  gaming: [
-    { key: 'CPU',        label: '💻 Процесор',            values: ['Intel Core i7','Intel Core i9','AMD Ryzen 7','AMD Ryzen 9'] },
-    { key: 'RAM',        label: '🧠 RAM',                 values: ['16 GB','32 GB','64 GB'] },
-    { key: 'GPU',        label: '🎮 Видеокарта',          values: ['RTX 4060','RTX 4070','RTX 4080','RTX 4090','AMD Radeon'] },
-    { key: 'Display',    label: '📐 Диагонал',            values: ['15.6"','16"','17"','18"'] },
-  ],
-  mobile: [
-    { key: 'OS',         label: '📱 Операционна система', values: ['Android','iOS'] },
-    { key: 'RAM',        label: '🧠 RAM',                 values: ['6 GB','8 GB','12 GB','16 GB'] },
-    { key: 'Storage',    label: '💾 Памет',               values: ['128 GB','256 GB','512 GB','1 TB'] },
-    { key: 'Battery',    label: '🔋 Батерия',             values: ['4000+ mAh','5000+ mAh','6000+ mAh'] },
-  ],
-  tablet: [
-    { key: 'OS',         label: '📱 Операционна система', values: ['Android','iPadOS','Windows'] },
-    { key: 'Display',    label: '📐 Диагонал',            values: ['8"','10"','11"','12"','13"'] },
-    { key: 'RAM',        label: '🧠 RAM',                 values: ['4 GB','6 GB','8 GB','12 GB','16 GB'] },
-    { key: 'Storage',    label: '💾 Памет',               values: ['64 GB','128 GB','256 GB','512 GB'] },
-    { key: 'Connectivity', label: '📡 Свързаност',        values: ['WiFi','WiFi + 4G','WiFi + 5G'] },
-  ],
-  tv: [
-    { key: 'Size',       label: '📐 Диагонал',            values: ['43"','50"','55"','65"','75"','85"'] },
-    { key: 'Panel',      label: '🖥 Тип панел',           values: ['OLED','QD-OLED','QLED','IPS','VA'] },
-    { key: 'Resolution', label: '🔍 Резолюция',           values: ['Full HD','4K UHD','8K'] },
-    { key: 'SmartOS',    label: '📺 Smart OS',            values: ['Android TV','Tizen','webOS','Google TV'] },
-    { key: 'HDR',        label: '✨ HDR',                 values: ['HDR10','HDR10+','Dolby Vision'] },
-  ],
-  audio: [
-    { key: 'Type',       label: '🎧 Тип',                 values: ['Over-ear','On-ear','In-ear','True Wireless'] },
-    { key: 'Connection', label: '🔗 Връзка',              values: ['Bluetooth','Кабел','Безжични'] },
-    { key: 'NoiseCancelling', label: '🔇 Шумопотискане', values: ['Active NC','Passive NC','Без NC'] },
-    { key: 'Battery',    label: '🔋 Батерия',             values: ['20+ часа','30+ часа','40+ часа'] },
-  ],
-  camera: [
-    { key: 'Type',       label: '📷 Тип',                 values: ['Mirrorless','DSLR','Action Camera','Компактна'] },
-    { key: 'Sensor',     label: '🖼 Сензор',              values: ['Full Frame','APS-C','Micro 4/3','1"'] },
-    { key: 'Resolution', label: '🔢 Резолюция',           values: ['20 MP+','30 MP+','45 MP+','60 MP+'] },
-    { key: 'Mount',      label: '🔩 Байонет',             values: ['Sony E','Canon RF','Nikon Z','GoPro'] },
-  ],
-  network: [
-    { key: 'WiFi',       label: '📡 WiFi стандарт',       values: ['WiFi 5','WiFi 6','WiFi 6E','WiFi 7'] },
-    { key: 'Ports',      label: '🔌 Портове',             values: ['4 порта','8 порта','16+ порта'] },
-  ],
-  smart: [
-    { key: 'Type',       label: '⌚ Тип',                 values: ['Смарт часовник','Смарт лента','Smart Home'] },
-    { key: 'Compatibility', label: '📱 Съвместимост',    values: ['iOS','Android','Universal'] },
-  ],
-  print: [
-    { key: 'Type',       label: '🖨 Тип принтер',         values: ['Лазерен','Мастиленоструен','Многофункционален'] },
-    { key: 'Color',      label: '🎨 Цветен',              values: ['Цветен','Черно-бял'] },
-    { key: 'Connection', label: '🔗 Връзка',              values: ['USB','WiFi','Ethernet'] },
+  desktops: [
+    { key: 'CPU',     label: '💻 Процесор',            values: ['Intel Core i5','Intel Core i7','Intel Core i9','AMD Ryzen 7','AMD Ryzen 9','Apple M4'] },
+    { key: 'RAM',     label: '🧠 Оперативна памет',    values: ['16 GB','32 GB','64 GB','128 GB'] },
+    { key: 'GPU',     label: '🎮 Видео карта',         values: ['RTX 4070','RTX 4080','RTX 4090','AMD Radeon','Интегрирана'] },
+    { key: 'OS',      label: '🪟 Операционна система', values: ['Windows 11','macOS','Без OS'] },
   ],
   components: [
-    { key: 'Type',     label: '📦 Тип компонент',         values: ['Процесор','Видеокарта','RAM','Дънна платка','SSD','HDD','Захранване'] },
-    { key: 'Brand',    label: '🏷 Производител',          values: ['Intel','AMD','NVIDIA','ASUS','MSI','Gigabyte','Corsair','Kingston','Samsung','Seasonic'] },
-    { key: 'Socket',   label: '🔩 Сокет / Слот',         values: ['LGA1700','LGA1851','AM4','AM5','DDR4','DDR5','PCIe 4.0','PCIe 5.0'] },
-    { key: 'TDP',      label: '🌡 TDP / Мощност',        values: ['35W','65W','105W','125W','170W','450W','550W','650W','750W','850W'] },
+    { key: 'Type',      label: '📦 Тип компонент',     values: ['Процесор','Видеокарта','RAM','Дънна платка','SSD NVMe','SSD SATA','HDD','Захранване','Кутия'] },
+    { key: 'Brand',     label: '🏷 Производител',      values: ['Intel','AMD','NVIDIA','ASUS','MSI','Gigabyte','Corsair','Kingston','Samsung','Seasonic'] },
+    { key: 'Socket',    label: '🔩 Сокет / Слот',      values: ['LGA1700','LGA1851','AM4','AM5','DDR4','DDR5','PCIe 4.0','PCIe 5.0'] },
+    { key: 'TDP',       label: '🌡 TDP / Мощност',     values: ['35W','65W','105W','125W','170W','450W','550W','650W','750W','850W'] },
   ],
-  monitor: [
-    { key: 'Resolution', label: '🔍 Резолюция',           values: ['Full HD 1080p','QHD 1440p','4K UHD','Ultra-Wide'] },
-    { key: 'Size',       label: '📐 Диагонал',            values: ['24"','27"','32"','34"','49"'] },
-    { key: 'Panel',      label: '🖥 Тип панел',           values: ['IPS','VA','OLED','Mini-LED'] },
-    { key: 'RefreshRate', label: '⚡ Честота',            values: ['60 Hz','144 Hz','165 Hz','240 Hz+'] },
+  peripherals: [
+    { key: 'Type',        label: '📦 Тип',             values: ['Монитор','Клавиатура','Мишка','Слушалки','Уеб камера','Принтер'] },
+    { key: 'Resolution',  label: '🔍 Резолюция',       values: ['Full HD 1080p','QHD 1440p','4K UHD','Ultra-Wide'] },
+    { key: 'RefreshRate', label: '⚡ Честота',         values: ['60 Hz','144 Hz','165 Hz','240 Hz+','360 Hz'] },
+    { key: 'Panel',       label: '🖥 Тип панел',       values: ['IPS','VA','OLED','Mini-LED'] },
+    { key: 'Connection',  label: '🔗 Връзка',          values: ['USB','Bluetooth','Безжична','2.4GHz'] },
   ],
-  desktop: [
-    { key: 'CPU',        label: '💻 Процесор',            values: ['Intel Core i5','Intel Core i7','Intel Core i9','AMD Ryzen 7','AMD Ryzen 9','Apple M4'] },
-    { key: 'RAM',        label: '🧠 Оперативна памет',    values: ['16 GB','32 GB','64 GB','128 GB'] },
-    { key: 'GPU',        label: '🎮 Видеокарта',          values: ['RTX 4070','RTX 4080','RTX 4090','AMD Radeon','Интегрирана'] },
-    { key: 'OS',         label: '🪟 Операционна система', values: ['Windows 11','macOS','Без OS'] },
+  network: [
+    { key: 'WiFi',   label: '📡 WiFi стандарт',        values: ['WiFi 5','WiFi 6','WiFi 6E','WiFi 7'] },
+    { key: 'Ports',  label: '🔌 Портове',              values: ['4 порта','8 порта','16+ порта','PoE'] },
+    { key: 'Type',   label: '📦 Тип',                  values: ['Рутер','Суич','Access Point','Mesh нод'] },
   ],
   storage: [
-    { key: 'Type',       label: '💾 Тип',                 values: ['SSD M.2 NVMe','SSD SATA','HDD 2.5"','HDD 3.5"','Портативен SSD','Портативен HDD','RAM','USB Flash'] },
-    { key: 'Interface',  label: '🔌 Интерфейс',           values: ['PCIe 5.0','PCIe 4.0','SATA III','USB-C','USB-A','DDR5','DDR4'] },
-    { key: 'Capacity',   label: '📦 Капацитет',           values: ['256 GB','512 GB','1 TB','2 TB','4 TB+'] },
+    { key: 'Type',      label: '💾 Тип',               values: ['NAS','Сървър','Портативен SSD','Портативен HDD','USB Flash','SD карта'] },
+    { key: 'Capacity',  label: '📦 Капацитет',         values: ['256 GB','512 GB','1 TB','2 TB','4 TB','8 TB+'] },
+    { key: 'Interface', label: '🔌 Интерфейс',         values: ['USB-C','USB-A','Thunderbolt','Ethernet'] },
+  ],
+  accessories: [
+    { key: 'Type',   label: '📦 Тип аксесоар',         values: ['Чанта','Кабел','Зарядно','Хъб','Докинг','Смарт часовник','Смартфон','Таблет','Тонколона','Телевизор'] },
+    { key: 'Connection', label: '🔗 Връзка',           values: ['USB-A','USB-C','Bluetooth','WiFi','HDMI'] },
   ],
 };
 
@@ -810,9 +698,9 @@ function renderCatSpecFilters(cat) {
   }
 
   const CAT_LABELS = {
-    laptop:'Лаптопи', mobile:'Телефони', tablet:'Таблети', tv:'Телевизори',
-    audio:'Аудио', camera:'Фотоапарати', gaming:'Гейминг', smart:'Смарт',
-    network:'Мрежово', print:'Принтери', acc:'Аксесоари'
+    laptops:'Лаптопи', desktops:'Настолни компютри', components:'Компоненти',
+    peripherals:'Периферия', network:'Мрежово оборудване', storage:'Сървъри и сторидж',
+    software:'Софтуер', accessories:'Аксесоари'
   };
   if (title) title.textContent = `⚙ ${CAT_LABELS[cat] || cat} — филтри`;
 
@@ -857,84 +745,54 @@ function matchesSubcat(p, subcat) {
   const all = name + ' ' + desc + ' ' + specsStr;
 
   const rules = {
-    // Laptop subcats
-    gaming:      () => all.includes('gaming') || all.includes('rog') || all.includes('rtx') || all.includes('геймърски') || p.cat === 'gaming',
-    business:    () => all.includes('business') || all.includes('thinkpad') || all.includes('latitude') || all.includes('elitebook') || all.includes('бизнес'),
-    ultrabook:   () => all.includes('ultra') || all.includes('air') || all.includes('slim') || p.price < 3000,
-    workstation: () => all.includes('workstation') || all.includes('xeon') || all.includes('quadro') || p.price > 4000,
-    budget:      () => (p.price / EUR_RATE) < 500,
-    // Mobile
-    flagship:    () => (p.price / EUR_RATE) > 700 || all.includes('pro') || all.includes('ultra') || all.includes('plus'),
-    midrange:    () => { const eur = p.price/EUR_RATE; return eur >= 250 && eur <= 700; },
-    foldable:    () => all.includes('fold') || all.includes('flip') || all.includes('сгъв'),
-    // Tablet
-    pro:         () => all.includes('pro') || (p.price/EUR_RATE) > 500,
-    kids:        () => all.includes('kid') || all.includes('junior') || all.includes('дет'),
-    drawing:     () => all.includes('draw') || all.includes('stylus') || all.includes('pen'),
-    // TV
-    oled:        () => all.includes('oled'),
-    qled:        () => all.includes('qled') || all.includes('neo'),
-    small:       () => all.includes('32') || all.includes('40') || all.includes('43'),
-    large:       () => all.includes('55') || all.includes('65') || all.includes('75') || all.includes('85'),
-    '4k':        () => all.includes('4k') || all.includes('uhd'),
-    '8k':        () => all.includes('8k'),
-    // Audio
-    wireless:    () => all.includes('wireless') || all.includes('bluetooth') || all.includes('безжич'),
-    nc:          () => all.includes('noise') || all.includes('anc') || all.includes('шумопотиск'),
-    earbuds:     () => all.includes('earbud') || all.includes('true wireless') || all.includes('tws'),
-    studio:      () => all.includes('studio') || all.includes('monitor') || all.includes('студий'),
-    gaming_h:    () => all.includes('gaming') || all.includes('геймърски'),
-    // Camera
-    mirrorless:  () => all.includes('mirrorless') || all.includes('alpha') || all.includes('eos r'),
-    dslr:        () => all.includes('dslr') || all.includes('rebel') || all.includes('d5') || all.includes('d7'),
-    action:      () => all.includes('gopro') || all.includes('action') || all.includes('hero'),
-    instant:     () => all.includes('instax') || all.includes('polaroid') || all.includes('моментал'),
-    // Network
-    router:      () => all.includes('router') || all.includes('рутер') || all.includes('ax') || all.includes('wi-fi'),
-    switch:      () => all.includes('switch') || all.includes('суич'),
-    wifi6:       () => all.includes('wifi 6') || all.includes('wi-fi 6') || all.includes('ax'),
-    mesh:        () => all.includes('mesh') || all.includes('deco') || all.includes('orbi'),
-    // Gaming
-    console:     () => all.includes('playstation') || all.includes('xbox') || all.includes('nintendo'),
-    pc:          () => all.includes('gaming pc') || all.includes('rtx') || all.includes('rx 6') || all.includes('rx 7'),
-    accessories: () => all.includes('headset') || all.includes('mouse') || all.includes('keyboard') || all.includes('gamepad'),
-    chairs:      () => all.includes('chair') || all.includes('стол') || all.includes('gaming chair'),
-    // Smart
-    watch:       () => all.includes('watch') || all.includes('часов') || all.includes('band') || all.includes('fit'),
-    home:        () => all.includes('smart home') || all.includes('умен') || all.includes('hue') || all.includes('hub'),
-    fitness:     () => all.includes('fitness') || all.includes('band') || all.includes('фитнес') || all.includes('sport'),
-    speaker:     () => all.includes('speaker') || all.includes('echo') || all.includes('тонколона') || all.includes('smart speaker'),
-    // Monitor
-    professional: () => all.includes('profession') || all.includes('adobe') || all.includes('srgb') || all.includes('creator') || all.includes('color accurate') || (p.price/EUR_RATE) > 800,
-    ultrawide:   () => all.includes('ultra') && (all.includes('wide') || all.includes('34') || all.includes('49')) || all.includes('uwqhd') || all.includes('uwfhd'),
-    // Desktop
-    mac:         () => brand === 'apple' || all.includes('mac mini') || all.includes('imac') || all.includes('mac studio') || all.includes('mac pro'),
-    aio:         () => all.includes('all-in-one') || all.includes('aio') || all.includes('imac') || all.includes('моноблок'),
-    // Storage
-    ssd_nvme:    () => (all.includes('ssd') || all.includes('nvme')) && !all.includes('sata') && !all.includes('portable') && !all.includes('портативен'),
-    ssd_sata:    () => all.includes('sata') && (all.includes('ssd') || all.includes('диск')),
-    hdd:         () => all.includes('hdd') || (all.includes('диск') && !all.includes('ssd') && !all.includes('nvme')),
-    portable:    () => all.includes('portable') || all.includes('портативен') || all.includes('external') || all.includes('външен'),
-    flash:       () => all.includes('usb flash') || all.includes('флаш') || all.includes('sd card') || all.includes('microsd') || all.includes('sd карт'),
-    // Print
-    laser:       () => all.includes('лазер') || all.includes('laser'),
-    inkjet:      () => all.includes('мастил') || all.includes('inkjet') || all.includes('ink'),
-    mfp:         () => all.includes('многофункц') || all.includes('mfp') || all.includes('mfc') || all.includes('all-in-one') || all.includes('принтер/скенер'),
-    color:       () => all.includes('цветен') || all.includes('color') || all.includes('colour'),
-    // Accessories
-    keyboard:    () => all.includes('клавиатур') || all.includes('keyboard'),
-    mouse:       () => all.includes('мишк') || all.includes('mouse') || all.includes('trackpad'),
-    bag:         () => all.includes('чант') || all.includes('bag') || all.includes('backpack') || all.includes('case') || all.includes('sleeve'),
-    cable:       () => all.includes('кабел') || all.includes('cable') || all.includes('cord'),
-    hub:         () => all.includes('хъб') || all.includes('hub') || all.includes('адаптер') || all.includes('adapter') || all.includes('dock'),
+    // Laptops
+    work:          () => all.includes('business') || all.includes('thinkpad') || all.includes('latitude') || all.includes('elitebook') || all.includes('бизнес') || all.includes('xps'),
+    gaming_l:      () => all.includes('gaming') || all.includes('rog') || all.includes('rtx') || all.includes('геймърски') || all.includes('republic of gamers'),
+    ultrabook:     () => all.includes('ultra') || all.includes('air') || all.includes('slim') || p.price < 3000,
+    budget:        () => (p.price / EUR_RATE) < 500,
+    convertible:   () => all.includes('2-in-1') || all.includes('2 в 1') || all.includes('convertible') || all.includes('flip') || all.includes('surface pro') || all.includes('yoga'),
+    for_students:  () => (p.price / EUR_RATE) < 700 || all.includes('student') || all.includes('студент') || all.includes('chromebook'),
+    for_devs:      () => all.includes('thinkpad') || all.includes('xps') || all.includes('macbook pro') || all.includes('linux') || all.includes('програмист'),
+    for_design:    () => all.includes('macbook') || all.includes('design') || all.includes('creator') || all.includes('дизайн') || all.includes('retina') || all.includes('4k display'),
+    for_gaming:    () => all.includes('gaming') || all.includes('rtx') || all.includes('rog') || all.includes('rx 6') || all.includes('rx 7') || p.cat === 'gaming',
+    // Desktops
+    gaming_pc:     () => all.includes('gaming') || all.includes('rtx') || all.includes('rog') || all.includes('rx 6') || all.includes('rx 7') || all.includes('геймърски'),
+    office_pc:     () => all.includes('office') || all.includes('офис') || all.includes('business') || (p.price/EUR_RATE < 800 && !all.includes('gaming')),
+    workstation:   () => all.includes('workstation') || all.includes('xeon') || all.includes('quadro') || p.price > 4000,
+    aio:           () => all.includes('all-in-one') || all.includes('aio') || all.includes('imac') || all.includes('моноблок'),
+    mac_desktop:   () => brand === 'apple' || all.includes('mac mini') || all.includes('imac') || all.includes('mac studio') || all.includes('mac pro'),
     // Components
-    cpu_intel:   () => brand.includes('intel') || all.includes('intel') || all.includes('core i') || all.includes('core ultra') || all.includes('pentium') || all.includes('celeron') || all.includes('xeon'),
-    cpu_amd:     () => brand.includes('amd') || all.includes('amd') || all.includes('ryzen') || all.includes('threadripper') || all.includes('athlon') || all.includes('epyc'),
-    gpu:         () => all.includes('видеокарт') || all.includes('gpu') || all.includes('geforce') || all.includes('radeon') || all.includes('rtx') || all.includes('rx 6') || all.includes('rx 7') || all.includes('arc'),
-    ram:         () => all.includes(' ram') || all.includes('памет') || all.includes('ddr4') || all.includes('ddr5') || all.includes('dimm') || all.includes('sodimm'),
-    motherboard: () => all.includes('дънна') || all.includes('motherboard') || all.includes('mainboard') || all.includes('платка'),
-    storage:     () => all.includes('ssd') || all.includes('hdd') || all.includes('nvme') || all.includes('диск') || all.includes('m.2'),
-    psu:         () => all.includes('захранван') || all.includes('psu') || all.includes('power supply') || all.includes(' w ') || (all.includes('watt') && !all.includes('battery')),
+    cpu:           () => all.includes('процесор') || all.includes('processor') || all.includes('cpu') || all.includes('ryzen') || all.includes('core i') || all.includes('core ultra'),
+    gpu:           () => all.includes('видеокарт') || all.includes('gpu') || all.includes('geforce') || all.includes('radeon') || all.includes('rtx') || all.includes('rx 6') || all.includes('rx 7') || all.includes('arc'),
+    ram:           () => all.includes(' ram') || all.includes('памет') || all.includes('ddr4') || all.includes('ddr5') || all.includes('dimm') || all.includes('sodimm'),
+    ssd_hdd:       () => all.includes('ssd') || all.includes('hdd') || all.includes('nvme') || all.includes('диск') || all.includes('m.2'),
+    motherboard:   () => all.includes('дънна') || all.includes('motherboard') || all.includes('mainboard') || all.includes('платка'),
+    psu:           () => all.includes('захранван') || all.includes('psu') || all.includes('power supply') || all.includes(' w ') || (all.includes('watt') && !all.includes('battery')),
+    case_cooling:  () => all.includes('кутия') || all.includes('chassis') || all.includes('case') || all.includes('охлади') || all.includes('cooler') || all.includes('cooling'),
+    // Peripherals
+    monitor:       () => all.includes('монитор') || all.includes('monitor') || all.includes('display') || all.includes('hz') && (all.includes('ips') || all.includes('oled') || all.includes('va') || all.includes('qhd') || all.includes('4k') || all.includes('1440')),
+    keyboard:      () => all.includes('клавиатур') || all.includes('keyboard'),
+    mouse:         () => all.includes('мишк') || all.includes('mouse') || all.includes('trackpad'),
+    headphones:    () => all.includes('слушалк') || all.includes('headphone') || all.includes('headset') || all.includes('earphone') || all.includes('earbud'),
+    webcam:        () => all.includes('webcam') || all.includes('уеб камер') || all.includes('web camera'),
+    printer:       () => all.includes('принтер') || all.includes('printer') || all.includes('лазер') || all.includes('laser') || all.includes('mfp'),
+    // Network
+    router:        () => all.includes('router') || all.includes('рутер') || all.includes('ax') || all.includes('wi-fi'),
+    switch:        () => all.includes('switch') || all.includes('суич'),
+    ap:            () => all.includes('access point') || all.includes('ap ') || all.includes('точка за достъп'),
+    mesh:          () => all.includes('mesh') || all.includes('deco') || all.includes('orbi'),
+    // Storage
+    nas:           () => all.includes('nas') || all.includes('network attached') || all.includes('qnap') || all.includes('synology'),
+    server:        () => all.includes('сървър') || all.includes('server') || all.includes('rack'),
+    ext_drive:     () => all.includes('portable') || all.includes('портативен') || all.includes('external') || all.includes('външен'),
+    flash:         () => all.includes('usb flash') || all.includes('флаш') || all.includes('sd card') || all.includes('microsd') || all.includes('sd карт'),
+    // Accessories
+    bag:           () => all.includes('чант') || all.includes('bag') || all.includes('backpack') || all.includes('case') || all.includes('sleeve'),
+    cable:         () => all.includes('кабел') || all.includes('cable') || all.includes('cord') || all.includes('зарядн') || all.includes('charger'),
+    hub:           () => all.includes('hub') || all.includes('хъб') || all.includes('dock') || all.includes('adapter') || all.includes('адаптер'),
+    smart_dev:     () => all.includes('watch') || all.includes('часов') || all.includes('band') || all.includes('smart home') || all.includes('умен') || all.includes('hue') || all.includes('смарт'),
+    mobile_acc:    () => (p.name||'').toLowerCase().includes('phone') || all.includes('iphone') || all.includes('samsung galaxy') || all.includes('xiaomi') || all.includes('ipad') || all.includes('tablet'),
+    av:            () => all.includes('тонколон') || all.includes('speaker') || all.includes('телевизор') || all.includes('tv') || all.includes('camera') || all.includes('фото') || all.includes('gopro'),
   };
 
   const fn = rules[subcat];

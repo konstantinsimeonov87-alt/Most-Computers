@@ -45,6 +45,36 @@ function submitContactForm() {
 }
 
 
+// ===== CATEGORY ARCHITECTURE MIGRATION =====
+// Category architecture migration
+const _CAT_MIGRATE = {
+  laptop:'laptops', desktop:'desktops',
+  monitor:'peripherals', gaming:'desktops',
+  mobile:'accessories', tablet:'accessories',
+  tv:'accessories', audio:'peripherals',
+  camera:'accessories', print:'peripherals',
+  smart:'accessories', network:'network',
+  storage:'storage', acc:'accessories',
+  components:'components'
+};
+products.forEach(p => { if(_CAT_MIGRATE[p.cat]) p.cat = _CAT_MIGRATE[p.cat]; });
+
+// Gaming laptops → laptops (not desktops)
+products.forEach(p => {
+  if(p.cat === 'desktops') {
+    const n = (p.name+' '+(p.desc||'')).toLowerCase();
+    if(n.includes('laptop') || n.includes('notebook') || n.includes('лаптоп') || n.includes('macbook')) p.cat = 'laptops';
+  }
+});
+
+// Audio speakers → accessories, headphones stay in peripherals
+products.forEach(p => {
+  if(p.cat === 'peripherals') {
+    const n = (p.name+' '+(p.desc||'')).toLowerCase();
+    if(n.includes('тонколон') || n.includes('speaker') || n.includes('soundbar')) p.cat = 'accessories';
+  }
+});
+
 // All scripts are deferred — DOM is ready, call directly
 initDataActions();
 initSidebarFilters();

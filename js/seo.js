@@ -4,11 +4,15 @@ let _bcTrail = []; // [{label, fn}]
 
 const BC_CAT_LABELS = {
   all:'Всички продукти',
+  laptops:'Лаптопи', desktops:'Настолни компютри', components:'Компоненти',
+  peripherals:'Периферия', network:'Мрежово оборудване', storage:'Сървъри и сторидж',
+  software:'Софтуер', accessories:'Аксесоари',
+  sale:'Промоции', new:'Нови продукти',
+  // legacy keys for backwards compat
   audio:'Аудио и слушалки', mobile:'Телефони', laptop:'Лаптопи и компютри',
   tablet:'Таблети', tv:'Телевизори', camera:'Фотоапарати', gaming:'Гейминг',
-  smart:'Смарт устройства', network:'Мрежово оборудване', print:'Принтери', acc:'Аксесоари',
-  sale:'Промоции', new:'Нови продукти',
-  monitor:'Монитори', desktop:'Десктопи', storage:'Съхранение'
+  smart:'Смарт устройства', print:'Принтери', acc:'Аксесоари',
+  monitor:'Монитори', desktop:'Десктопи'
 };
 
 function bcRender() {
@@ -179,17 +183,13 @@ function generateSitemap() {
   const today = new Date().toISOString().split('T')[0];
   const staticPages = [
     { url: '/', priority: '1.0', freq: 'daily' },
-    { url: '/?cat=mobile', priority: '0.9', freq: 'weekly' },
-    { url: '/?cat=laptop', priority: '0.9', freq: 'weekly' },
-    { url: '/?cat=tv', priority: '0.8', freq: 'weekly' },
-    { url: '/?cat=audio', priority: '0.8', freq: 'weekly' },
-    { url: '/?cat=camera', priority: '0.7', freq: 'weekly' },
-    { url: '/?cat=gaming', priority: '0.7', freq: 'weekly' },
-    { url: '/?cat=tablet', priority: '0.7', freq: 'weekly' },
-    { url: '/?cat=monitor', priority: '0.7', freq: 'weekly' },
-    { url: '/?cat=desktop', priority: '0.7', freq: 'weekly' },
-    { url: '/?cat=storage', priority: '0.6', freq: 'weekly' },
-    { url: '/?cat=components', priority: '0.6', freq: 'weekly' },
+    { url: '/?cat=laptops', priority: '0.9', freq: 'weekly' },
+    { url: '/?cat=desktops', priority: '0.9', freq: 'weekly' },
+    { url: '/?cat=components', priority: '0.8', freq: 'weekly' },
+    { url: '/?cat=peripherals', priority: '0.8', freq: 'weekly' },
+    { url: '/?cat=network', priority: '0.7', freq: 'weekly' },
+    { url: '/?cat=storage', priority: '0.7', freq: 'weekly' },
+    { url: '/?cat=accessories', priority: '0.7', freq: 'weekly' },
   ];
   const productPages = products.map(p => ({
     url: `/?product=${p.id}`,
@@ -295,25 +295,17 @@ document.addEventListener('click', e => {
 // CATEGORY META
 // ═══════════════════════════════════════
 const CAT_META = {
-  laptop:  { emoji:'💻', icon:'ic-laptop',     label:'Лаптопи и компютри',   sub:'Notebook, Gaming, Ultrabook', badge:null },
-  mobile:  { emoji:'📱', icon:'ic-phone',      label:'Смартфони',             sub:'Android, iPhone, 5G', badge:'Ново' },
-  tablet:  { emoji:'📟', icon:'ic-tablet',     label:'Таблети',               sub:'iPad, Android, E-Reader', badge:null },
-  audio:   { emoji:'🎧', icon:'ic-headphones', label:'Аудио и слушалки',      sub:'Bluetooth, Hi-Fi, ANC', badge:null },
-  tv:      { emoji:'📺', icon:'ic-tv',         label:'Телевизори',            sub:'OLED, QLED, 4K, 8K', badge:null },
-  camera:  { emoji:'📷', icon:'ic-camera',     label:'Фотоапарати',           sub:'Mirrorless, DSLR, GoPro', badge:null },
-  gaming:  { emoji:'🎮', icon:'ic-gamepad',    label:'Гейминг',               sub:'PC, Конзоли, Аксесоари', badge:'Hot' },
-  smart:   { emoji:'⌚', icon:'ic-watch',      label:'Смарт устройства',      sub:'Часовници, Smart Home', badge:null },
-  network: { emoji:'📡', icon:'ic-wifi',       label:'Мрежово оборудване',    sub:'Рутери, Суичове, Wi-Fi 6', badge:null },
-  print:   { emoji:'🖨', icon:'ic-printer',    label:'Принтери',              sub:'Лазерни, Мастиленоструйни', badge:null },
-  acc:     { emoji:'🖱', icon:'ic-mouse',      label:'Аксесоари',             sub:'Мишки, Клавиатури, Кабели', badge:null },
-  components: { emoji:'🔲', icon:'ic-cpu',     label:'Компоненти',            sub:'Процесори, Видеокарти, RAM, Дънни платки', badge:null },
-  monitor: { emoji:'🖥', icon:'ic-monitor',   label:'Монитори',              sub:'4K, Gaming, UltraWide', badge:null },
-  desktop: { emoji:'🖥', icon:'ic-desktop',   label:'Десктопи',              sub:'Gaming PC, Mac Mini, All-in-One', badge:null },
-  storage: { emoji:'💾', icon:'ic-storage',   label:'Съхранение',            sub:'SSD, HDD, RAM, Flash', badge:null },
-  new:     { emoji:'🆕', icon:'ic-star',       label:'Нови продукти',         sub:'Пресни пристигания', badge:'NEW' },
-  sale:    { emoji:'%',  icon:'ic-tag',        label:'Намаления',             sub:'До -60% на избрани продукти', badge:'SALE' },
+  laptops:    { emoji:'💻', icon:'ic-laptop',     label:'Лаптопи',              sub:'За работа, Гейминг, Ултрабуци', badge:null },
+  desktops:   { emoji:'🖥', icon:'ic-desktop',    label:'Настолни компютри',    sub:'Gaming PC, Офис, All-in-One', badge:null },
+  components: { emoji:'⚙️', icon:'ic-cpu',        label:'Компоненти',           sub:'CPU, GPU, RAM, SSD/HDD, Дъна', badge:null },
+  peripherals:{ emoji:'🖱', icon:'ic-mouse',      label:'Периферия',            sub:'Монитори, Клавиатури, Мишки', badge:null },
+  network:    { emoji:'📡', icon:'ic-wifi',       label:'Мрежово оборудване',   sub:'Рутери, Суичове, Mesh, AP', badge:null },
+  storage:    { emoji:'💾', icon:'ic-storage',    label:'Сървъри и сторидж',    sub:'NAS, Сървъри, Външни дискове', badge:null },
+  accessories:{ emoji:'🎒', icon:'ic-mouse',      label:'Аксесоари',            sub:'Чанти, Кабели, Смарт, Аудио', badge:null },
+  new:        { emoji:'🆕', icon:'ic-star',       label:'Нови продукти',        sub:'Пресни пристигания', badge:'NEW' },
+  sale:       { emoji:'%',  icon:'ic-tag',        label:'Намаления',            sub:'До -60% на избрани продукти', badge:'SALE' },
 };
-const HP_CAT_ORDER = ['laptop','mobile','gaming','tv','audio','tablet','components','acc'];
+const HP_CAT_ORDER = ['laptops','desktops','components','peripherals','network','storage','accessories'];
 
 // ═══════════════════════════════════════
 // RENDER HOMEPAGE CATEGORY CARDS

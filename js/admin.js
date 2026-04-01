@@ -317,7 +317,15 @@ function adminShowTab(tab) {
         </table>
       </div>`;
   } else if (tab === 'products') {
-    const catNames = {audio:'🎧 Аудио',mobile:'📱 Телефони',laptop:'💻 Лаптопи',tablet:'📟 Таблети',tv:'📺 TV',camera:'📷 Камери',gaming:'🎮 Гейминг',smart:'🏠 Смарт',network:'📡 Мрежа',print:'🖨 Принтери',acc:'🔌 Аксесоари',components:'🔲 Компоненти',monitor:'🖥 Монитори',desktop:'🖥 Десктопи',storage:'💾 Съхранение'};
+    const catNames = {
+      laptops:'💻 Лаптопи', desktops:'🖥 Настолни компютри', components:'⚙️ Компоненти',
+      peripherals:'🖱 Периферия', network:'📡 Мрежово', storage:'💾 Сторидж',
+      software:'📀 Софтуер', accessories:'🎒 Аксесоари',
+      // legacy keys for backwards compat:
+      laptop:'💻 Лаптопи', desktop:'🖥 Настолни', monitor:'🖥 Монитор', gaming:'🎮 Гейминг',
+      mobile:'📱 Телефон', tablet:'📟 Таблет', tv:'📺 TV', audio:'🎧 Аудио',
+      camera:'📷 Камера', print:'🖨 Принтер', smart:'⌚ Смарт', acc:'🔌 Аксесоар'
+    };
     main.innerHTML = `
       <div class="admin-topbar">
         <div><div class="admin-page-title">🏷 Продукти</div><div class="admin-page-sub" id="adminProdSub">${products.length} продукта в базата</div></div>
@@ -1832,7 +1840,12 @@ async function xmlRunAutoUpdate(manual) {
         'КУТИЯ': 'components', 'CHASSIS': 'components',
         'КОМПОНЕНТ': 'components', 'COMPONENT': 'components',
       };
-    const catEmojis = {laptop:'💻',mobile:'📱',tablet:'📟',tv:'📺',audio:'🎧',camera:'📷',gaming:'🎮',smart:'🏠',network:'📡',print:'🖨',acc:'🖱',components:'🔲'};
+    const catEmojis = {
+      laptops:'💻',desktops:'🖥',components:'⚙️',peripherals:'🖱',
+      network:'📡',storage:'💾',software:'📀',accessories:'🎒',
+      // legacy:
+      laptop:'💻',mobile:'📱',tablet:'📟',tv:'📺',audio:'🎧',camera:'📷',gaming:'🎮',smart:'🏠',print:'🖨',acc:'🖱'
+    };
     const mode    = AU_STORE.mode;
     let added = 0, updated = 0, skipped = 0;
 

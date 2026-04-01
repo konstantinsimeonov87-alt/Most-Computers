@@ -471,90 +471,73 @@
       <span class="mob-acc-arrow">›</span>
     </button>
     <div class="mob-accordion-body">
-      <!-- LAPTOP -->
+      <!-- LAPTOPS -->
       <div class="mob-sub-accordion">
         <button class="mob-sub-accordion-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')" type="button">
-          <div style="display:flex;align-items:center;gap:12px;"><span class="mi-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-laptop"/></svg></span>Лаптопи и компютри</div>
+          <div style="display:flex;align-items:center;gap:12px;"><span class="mi-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-laptop"/></svg></span>Лаптопи</div>
           <span class="mob-acc-arrow">›</span>
         </button>
         <div class="mob-sub-accordion-body">
-          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:laptop">Всички Лаптопи</button>
-          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:laptop" onclick="setTimeout(()=>applySubcatById('gaming'),50)">🎮 Геймърски</button>
-          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:laptop" onclick="setTimeout(()=>applySubcatById('business'),50)">💼 Бизнес</button>
-          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:laptop" onclick="setTimeout(()=>applySubcatById('ultrabook'),50)">✈ Ултрабук</button>
-          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:laptop" onclick="setTimeout(()=>applySubcatById('workstation'),50)">🔬 Workstation</button>
-          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:laptop" onclick="setTimeout(()=>applySubcatById('budget'),50)">💰 Бюджетни</button>
+          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:laptops">Всички Лаптопи</button>
+          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:laptops" onclick="setTimeout(()=>applySubcatById('work'),50)">💼 За работа</button>
+          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:laptops" onclick="setTimeout(()=>applySubcatById('gaming_l'),50)">🎮 За гейминг</button>
+          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:laptops" onclick="setTimeout(()=>applySubcatById('ultrabook'),50)">✈ Ултрабуци</button>
+          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:laptops" onclick="setTimeout(()=>applySubcatById('budget'),50)">💰 Бюджетни</button>
+          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:laptops" onclick="setTimeout(()=>applySubcatById('convertible'),50)">🔄 2-в-1</button>
+          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:laptops" onclick="setTimeout(()=>applySubcatById('for_students'),50)">🎓 За студенти</button>
+          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:laptops" onclick="setTimeout(()=>applySubcatById('for_gaming'),50)">🕹 За игри</button>
         </div>
       </div>
-      <!-- MOBILE -->
+      <!-- DESKTOPS -->
       <div class="mob-sub-accordion">
         <button class="mob-sub-accordion-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')" type="button">
-          <div style="display:flex;align-items:center;gap:12px;"><span class="mi-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-phone"/></svg></span>Телефони</div>
+          <div style="display:flex;align-items:center;gap:12px;"><span class="mi-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-desktop"/></svg></span>Настолни компютри</div>
           <span class="mob-acc-arrow">›</span>
         </button>
         <div class="mob-sub-accordion-body">
-          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:mobile">Всички Телефони</button>
-          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:mobile" onclick="setTimeout(()=>applySubcatById('flagship'),50)">👑 Флагмани</button>
-          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:mobile" onclick="setTimeout(()=>applySubcatById('midrange'),50)">⚡ Среден клас</button>
-          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:mobile" onclick="setTimeout(()=>applySubcatById('budget'),50)">💰 Бюджетни</button>
-          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:mobile" onclick="setTimeout(()=>applySubcatById('foldable'),50)">🔄 Сгъваеми</button>
+          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:desktops">Всички Настолни</button>
+          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:desktops" onclick="setTimeout(()=>applySubcatById('gaming_pc'),50)">🎮 Геймърски конфигурации</button>
+          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:desktops" onclick="setTimeout(()=>applySubcatById('office_pc'),50)">💼 Офис компютри</button>
+          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:desktops" onclick="setTimeout(()=>applySubcatById('workstation'),50)">🔬 Workstation</button>
+          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:desktops" onclick="setTimeout(()=>applySubcatById('aio'),50)">🖥 All-in-One</button>
+          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:desktops" onclick="setTimeout(()=>applySubcatById('mac_desktop'),50)">🍎 Mac</button>
         </div>
       </div>
-      <!-- TABLET -->
+      <!-- COMPONENTS -->
       <div class="mob-sub-accordion">
         <button class="mob-sub-accordion-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')" type="button">
-          <div style="display:flex;align-items:center;gap:12px;"><span class="mi-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-tablet"/></svg></span>Таблети</div>
+          <div style="display:flex;align-items:center;gap:12px;"><span class="mi-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-cpu"/></svg></span>Компоненти</div>
           <span class="mob-acc-arrow">›</span>
         </button>
         <div class="mob-sub-accordion-body">
-          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:tablet">Всички Таблети</button>
-          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:tablet" onclick="setTimeout(()=>applySubcatById('pro'),50)">💼 Pro</button>
-          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:tablet" onclick="setTimeout(()=>applySubcatById('kids'),50)">👦 За деца</button>
-          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:tablet" onclick="setTimeout(()=>applySubcatById('drawing'),50)">✏ За рисуване</button>
-          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:tablet" onclick="setTimeout(()=>applySubcatById('budget'),50)">💰 Бюджетни</button>
+          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:components">Всички Компоненти</button>
+          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:components" onclick="setTimeout(()=>applySubcatById('cpu'),50)">⚙ Процесори</button>
+          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:components" onclick="setTimeout(()=>applySubcatById('gpu'),50)">🎮 Видео карти</button>
+          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:components" onclick="setTimeout(()=>applySubcatById('ram'),50)">🧠 RAM памет</button>
+          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:components" onclick="setTimeout(()=>applySubcatById('ssd_hdd'),50)">💾 SSD / HDD</button>
+          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:components" onclick="setTimeout(()=>applySubcatById('motherboard'),50)">🔩 Дънни платки</button>
+          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:components" onclick="setTimeout(()=>applySubcatById('psu'),50)">⚡ Захранвания</button>
         </div>
       </div>
-      <!-- AUDIO -->
+      <!-- PERIPHERALS -->
       <div class="mob-sub-accordion">
         <button class="mob-sub-accordion-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')" type="button">
-          <div style="display:flex;align-items:center;gap:12px;"><span class="mi-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-headphones"/></svg></span>Аудио и слушалки</div>
+          <div style="display:flex;align-items:center;gap:12px;"><span class="mi-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-mouse"/></svg></span>Периферия</div>
           <span class="mob-acc-arrow">›</span>
         </button>
         <div class="mob-sub-accordion-body">
-          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:audio">Всички Слушалки</button>
-          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:audio" onclick="setTimeout(()=>applySubcatById('wireless'),50)">📶 Безжични</button>
-          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:audio" onclick="setTimeout(()=>applySubcatById('nc'),50)">🔇 Noise Cancelling</button>
-          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:audio" onclick="setTimeout(()=>applySubcatById('earbuds'),50)">🎵 True Wireless</button>
-          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:audio" onclick="setTimeout(()=>applySubcatById('studio'),50)">🎤 Студийни</button>
-          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:audio" onclick="setTimeout(()=>applySubcatById('gaming_h'),50)">🎮 Геймърски</button>
+          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:peripherals">Всички Периферия</button>
+          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:peripherals" onclick="setTimeout(()=>applySubcatById('monitor'),50)">🖥 Монитори</button>
+          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:peripherals" onclick="setTimeout(()=>applySubcatById('keyboard'),50)">⌨ Клавиатури</button>
+          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:peripherals" onclick="setTimeout(()=>applySubcatById('mouse'),50)">🖱 Мишки</button>
+          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:peripherals" onclick="setTimeout(()=>applySubcatById('headphones'),50)">🎧 Слушалки</button>
+          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:peripherals" onclick="setTimeout(()=>applySubcatById('printer'),50)">🖨 Принтери</button>
         </div>
       </div>
-      <!-- TV -->
-      <div class="mob-sub-accordion">
-        <button class="mob-sub-accordion-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')" type="button">
-          <div style="display:flex;align-items:center;gap:12px;"><span class="mi-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-tv"/></svg></span>Телевизори</div>
-          <span class="mob-acc-arrow">›</span>
-        </button>
-        <div class="mob-sub-accordion-body">
-          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:tv">Всички Телевизори</button>
-          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:tv" onclick="setTimeout(()=>applySubcatById('oled'),50)">✨ OLED</button>
-          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:tv" onclick="setTimeout(()=>applySubcatById('qled'),50)">💡 QLED</button>
-          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:tv" onclick="setTimeout(()=>applySubcatById('small'),50)">📺 до 43"</button>
-          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:tv" onclick="setTimeout(()=>applySubcatById('large'),50)">🖥 55"+</button>
-          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:tv" onclick="setTimeout(()=>applySubcatById('4k'),50)">4K Ultra HD</button>
-          <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:tv" onclick="setTimeout(()=>applySubcatById('8k'),50)">8K</button>
-        </div>
-      </div>
-      <!-- OTHERS (Flat) -->
-      <button type="button" class="mob-nav-item" data-action="toggleMobMenu;filterCat:camera"><span class="mi-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-camera"/></svg></span>Фотоапарати<span class="mi-arr">›</span></button>
-      <button type="button" class="mob-nav-item" data-action="toggleMobMenu;filterCat:gaming"><span class="mi-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-gamepad"/></svg></span>Гейминг<span class="mi-arr">›</span></button>
-      <button type="button" class="mob-nav-item" data-action="toggleMobMenu;filterCat:smart"><span class="mi-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-watch"/></svg></span>Смарт устройства<span class="mi-arr">›</span></button>
+      <!-- FLAT CATS -->
       <button type="button" class="mob-nav-item" data-action="toggleMobMenu;filterCat:network"><span class="mi-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-wifi"/></svg></span>Мрежово оборудване<span class="mi-arr">›</span></button>
-      <button type="button" class="mob-nav-item" data-action="toggleMobMenu;filterCat:components"><span class="mi-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-cpu"/></svg></span>Компоненти<span class="mi-arr">›</span></button>
-      <button type="button" class="mob-nav-item" data-action="toggleMobMenu;filterCat:monitor"><span class="mi-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-monitor"/></svg></span>Монитори<span class="mi-arr">›</span></button>
-      <button type="button" class="mob-nav-item" data-action="toggleMobMenu;filterCat:desktop"><span class="mi-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-desktop"/></svg></span>Десктопи<span class="mi-arr">›</span></button>
-      <button type="button" class="mob-nav-item" data-action="toggleMobMenu;filterCat:storage"><span class="mi-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-storage"/></svg></span>Съхранение<span class="mi-arr">›</span></button>
-      <button type="button" class="mob-nav-item" data-action="toggleMobMenu;filterCat:print"><span class="mi-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-printer"/></svg></span>Принтери<span class="mi-arr">›</span></button>
+      <button type="button" class="mob-nav-item" data-action="toggleMobMenu;filterCat:storage"><span class="mi-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-storage"/></svg></span>Сървъри и сторидж<span class="mi-arr">›</span></button>
+      <button type="button" class="mob-nav-item" data-action="toggleMobMenu;filterCat:accessories"><span class="mi-icon">🎒</span>Аксесоари<span class="mi-arr">›</span></button>
     </div>
   </div>
 
@@ -992,7 +975,7 @@
             <button type="button" class="cp-checkout-btn" onclick="cpGoCheckout()">🔒 Към плащане</button>
             <div class="cp-trust">
               <div class="cp-trust-item"><span>🔒</span> SSL защитено плащане</div>
-              <div class="cp-trust-item"><span>🚚</span> Безплатна доставка над 100 лв.</div>
+              <div class="cp-trust-item"><span>🚚</span> Безплатна доставка над 100 евро.</div>
               <div class="cp-trust-item"><span>↩️</span> 14 дни право на връщане</div>
             </div>
           </div>
@@ -2780,21 +2763,14 @@
         <div class="aef-group">
           <label class="aef-label">Категория <span>*</span></label>
           <select class="aef-select" id="aef-cat" onchange="aefUpdateSubcats()">
-            <option value="components">🔲 Компоненти</option>
-            <option value="laptop">💻 Лаптопи и компютри</option>
-            <option value="mobile">📱 Телефони</option>
-            <option value="tablet">📟 Таблети</option>
-            <option value="audio">🎧 Аудио и слушалки</option>
-            <option value="tv">📺 Телевизори</option>
-            <option value="camera">📷 Фотоапарати</option>
-            <option value="gaming">🎮 Гейминг</option>
-            <option value="smart">🏠 Смарт устройства</option>
+            <option value="laptops">💻 Лаптопи</option>
+            <option value="desktops">🖥 Настолни компютри</option>
+            <option value="components">⚙️ Компоненти</option>
+            <option value="peripherals">🖱 Периферия</option>
             <option value="network">📡 Мрежово оборудване</option>
-            <option value="print">🖨 Принтери</option>
-            <option value="acc">🔌 Аксесоари</option>
-            <option value="monitor">🖥 Монитори</option>
-            <option value="desktop">🖥 Десктопи</option>
-            <option value="storage">💾 Съхранение</option>
+            <option value="storage">💾 Сървъри и сторидж</option>
+            <option value="software">📀 Софтуер</option>
+            <option value="accessories">🎒 Аксесоари</option>
           </select>
         </div>
         <div class="aef-group" id="aef-subcat-group" style="display:none">

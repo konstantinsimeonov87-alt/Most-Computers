@@ -199,6 +199,106 @@ function closeAdminPage() {
   document.getElementById('adminPage').classList.remove('open');
   document.body.style.overflow='';
 }
+
+// ── Admin products table state ────────────────────────────────────────────────
+var _adminProd = { sort: '', dir: 1, cat: '', status: '', q: '' };
+
+function _adminSortCol(col) {
+  if (_adminProd.sort === col) { _adminProd.dir *= -1; }
+  else { _adminProd.sort = col; _adminProd.dir = 1; }
+  renderAdminProductsTable();
+}
+function _adminCatFilter(val) { _adminProd.cat = val; renderAdminProductsTable(); }
+function _adminStatusFilter(val) { _adminProd.status = val; renderAdminProductsTable(); }
+
+function renderAdminProductsTable() {
+  const tbody = document.getElementById('adminProductsTbody');
+  const cntEl = document.getElementById('adminProdCount');
+  if (!tbody) return;
+
+  const catNamesMap = {
+    laptops:'💻 Лаптопи', desktops:'🖥 Настолни компютри', components:'⚙️ Компоненти',
+    peripherals:'🖱 Периферия', network:'📡 Мрежово', storage:'💾 Сторидж',
+    software:'📀 Софтуер', accessories:'🎒 Аксесоари',
+    laptop:'💻 Лаптопи', desktop:'🖥 Настолни', monitor:'🖥 Монитор', gaming:'🎮 Гейминг',
+    mobile:'📱 Телефон', tablet:'📟 Таблет', tv:'📺 TV', audio:'🎧 Аудио',
+    camera:'📷 Камера', print:'🖨 Принтер', smart:'⌚ Смарт', acc:'🔌 Аксесоар'
+  };
+
+  let list = products.slice();
+
+  // text search
+  if (_adminProd.q) {
+    const ql = _adminProd.q.toLowerCase();
+    list = list.filter(p => (p.name+' '+(p.sku||'')+' '+(p.brand||'')).toLowerCase().includes(ql));
+  }
+
+  // category filter
+  if (_adminProd.cat) list = list.filter(p => p.cat === _adminProd.cat);
+
+  // status filter
+  if (_adminProd.status === 'instock')  list = list.filter(p => p.stock !== false && p.stock !== 0 && (p.stock == null || p.stock > 5));
+  else if (_adminProd.status === 'low') list = list.filter(p => p.stock != null && p.stock !== false && p.stock > 0 && p.stock <= 5);
+  else if (_adminProd.status === 'oos') list = list.filter(p => p.stock === false || p.stock === 0);
+  else if (_adminProd.status === 'sale') list = list.filter(p => p.badge === 'sale');
+  else if (_adminProd.status === 'new')  list = list.filter(p => p.badge === 'new');
+  else if (_adminProd.status === 'hot')  list = list.filter(p => p.badge === 'hot');
+
+  // sort
+  if (_adminProd.sort) {
+    list.sort((a, b) => {
+      let va, vb;
+      if (_adminProd.sort === 'name')   { va = (a.name||'').toLowerCase(); vb = (b.name||'').toLowerCase(); }
+      else if (_adminProd.sort === 'price')  { va = a.price; vb = b.price; }
+      else if (_adminProd.sort === 'rating') { va = a.rating; vb = b.rating; }
+      else if (_adminProd.sort === 'stock') {
+        va = a.stock === false || a.stock === 0 ? -1 : (a.stock == null ? 9999 : a.stock);
+        vb = b.stock === false || b.stock === 0 ? -1 : (b.stock == null ? 9999 : b.stock);
+      }
+      if (va < vb) return -1 * _adminProd.dir;
+      if (va > vb) return 1 * _adminProd.dir;
+      return 0;
+    });
+  }
+
+  if (cntEl) cntEl.textContent = list.length + ' продукта';
+
+  // update sort indicators on headers
+  ['name','price','rating','stock'].forEach(col => {
+    const el = document.getElementById('_ath_' + col);
+    if (!el) return;
+    el.textContent = { name:'Продукт', price:'Цена', rating:'Рейтинг', stock:'Наличност' }[col]
+      + (_adminProd.sort === col ? (_adminProd.dir === 1 ? ' ↑' : ' ↓') : ' ↕');
+  });
+
+  // update status filter active state
+  document.querySelectorAll('.admin-status-btn').forEach(btn => {
+    btn.style.background = btn.dataset.val === _adminProd.status
+      ? 'rgba(96,165,250,0.25)' : 'rgba(255,255,255,0.05)';
+    btn.style.color = btn.dataset.val === _adminProd.status ? '#60a5fa' : '#9ca3af';
+    btn.style.borderColor = btn.dataset.val === _adminProd.status ? 'rgba(96,165,250,0.4)' : 'transparent';
+  });
+
+  tbody.innerHTML = list.map(p => `
+    <tr id="admin-prod-row-${p.id}">
+      <td><input type="checkbox" class="admin-prod-cb" data-id="${p.id}" onchange="adminUpdateSelection()" style="cursor:pointer;accent-color:#f87171;width:15px;height:15px;"></td>
+      <td><div class="admin-product-thumb">${p.emoji}</div></td>
+      <td style="color:#fff;font-weight:600;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${p.name}</td>
+      <td style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#6b7280;">${p.sku}</td>
+      <td style="color:#34d399;font-weight:700;">${(p.price/EUR_RATE).toFixed(2)} €<div style="font-size:10px;color:#6b7280;">${p.price} лв.</div></td>
+      <td style="color:#9ca3af;">${catNamesMap[p.cat]||p.cat}</td>
+      <td>${p.badge==='sale'?'<span style="background:rgba(239,68,68,0.15);color:#f87171;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;">ПРОМО</span>':p.badge==='new'?'<span style="background:rgba(52,211,153,0.15);color:#34d399;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;">НОВО</span>':p.badge==='hot'?'<span style="background:rgba(251,191,36,0.15);color:#fbbf24;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;">ГОРЕЩО</span>':'<span style="color:#4b5563;font-size:11px;">—</span>'}</td>
+      <td>${p.stock===false||p.stock===0?'<span style="color:#f87171;font-size:11px;">Изчерпан</span>':p.stock!=null&&p.stock<=5?`<span style="color:#fbbf24;font-size:11px;">${p.stock} бр.</span>`:'<span style="color:#34d399;font-size:11px;">✓</span>'}</td>
+      <td>⭐ ${p.rating}</td>
+      <td style="text-align:right;">
+        <div style="display:flex;gap:5px;justify-content:flex-end;">
+          <button type="button" style="background:rgba(96,165,250,0.1);color:#60a5fa;border:1px solid rgba(96,165,250,0.2);border-radius:6px;padding:5px 9px;font-size:11px;cursor:pointer;font-family:'Outfit',sans-serif;transition:all 0.2s;" onclick="closeAdminPage();openProductModal(${p.id})" title="Преглед">👁</button>
+          <button type="button" style="background:rgba(251,191,36,0.1);color:#fbbf24;border:1px solid rgba(251,191,36,0.2);border-radius:6px;padding:5px 9px;font-size:11px;cursor:pointer;font-family:'Outfit',sans-serif;transition:all 0.2s;" onclick="openProductEditor(${p.id})" title="Редактирай">✏️</button>
+          <button type="button" style="background:rgba(248,113,113,0.1);color:#f87171;border:1px solid rgba(248,113,113,0.2);border-radius:6px;padding:5px 9px;font-size:11px;cursor:pointer;font-family:'Outfit',sans-serif;transition:all 0.2s;" onclick="confirmDeleteProduct(${p.id})" title="Изтрий">🗑</button>
+        </div>
+      </td>
+    </tr>`).join('');
+}
 function adminShowTab(tab) {
   document.querySelectorAll('.admin-nav-item').forEach(b=>b.classList.remove('active'));
   const active = document.querySelector(`.admin-nav-item[onclick*="'${tab}'"]`);
@@ -317,15 +417,6 @@ function adminShowTab(tab) {
         </table>
       </div>`;
   } else if (tab === 'products') {
-    const catNames = {
-      laptops:'💻 Лаптопи', desktops:'🖥 Настолни компютри', components:'⚙️ Компоненти',
-      peripherals:'🖱 Периферия', network:'📡 Мрежово', storage:'💾 Сторидж',
-      software:'📀 Софтуер', accessories:'🎒 Аксесоари',
-      // legacy keys for backwards compat:
-      laptop:'💻 Лаптопи', desktop:'🖥 Настолни', monitor:'🖥 Монитор', gaming:'🎮 Гейминг',
-      mobile:'📱 Телефон', tablet:'📟 Таблет', tv:'📺 TV', audio:'🎧 Аудио',
-      camera:'📷 Камера', print:'🖨 Принтер', smart:'⌚ Смарт', acc:'🔌 Аксесоар'
-    };
     main.innerHTML = `
       <div class="admin-topbar">
         <div><div class="admin-page-title">🏷 Продукти</div><div class="admin-page-sub" id="adminProdSub">${products.length} продукта в базата</div></div>
@@ -347,37 +438,42 @@ function adminShowTab(tab) {
         </div>
       </div>
       <div class="admin-table-card">
-        <div class="admin-table-header" style="padding:10px 16px;">
-          <input style="background:#252840;border:1px solid #2d3148;border-radius:8px;padding:7px 12px;color:#e5e7eb;font-family:'Outfit',sans-serif;font-size:12px;outline:none;width:220px;" placeholder="🔍  Търси продукт…" oninput="adminFilterProducts(this.value)">
-          <div style="font-size:11px;color:#6b7280;" id="adminProdCount">${products.length} продукта</div>
+        <div style="padding:10px 16px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;border-bottom:1px solid #2d3148;">
+          <input id="adminProdSearchInput" style="background:#252840;border:1px solid #2d3148;border-radius:8px;padding:7px 12px;color:#e5e7eb;font-family:'Outfit',sans-serif;font-size:12px;outline:none;width:200px;" placeholder="🔍  Търси продукт…" oninput="adminFilterProducts(this.value)">
+          <select onchange="_adminCatFilter(this.value)" style="background:#252840;border:1px solid #2d3148;border-radius:8px;padding:7px 10px;color:#e5e7eb;font-family:'Outfit',sans-serif;font-size:12px;cursor:pointer;outline:none;">
+            <option value="">Всички категории</option>
+            <option value="laptops">💻 Лаптопи</option>
+            <option value="desktops">🖥 Настолни</option>
+            <option value="components">⚙️ Компоненти</option>
+            <option value="peripherals">🖱 Периферия</option>
+            <option value="network">📡 Мрежово</option>
+            <option value="storage">💾 Сторидж</option>
+            <option value="software">📀 Софтуер</option>
+            <option value="accessories">🎒 Аксесоари</option>
+          </select>
+          <div style="display:flex;gap:4px;flex-wrap:wrap;">
+            ${[['','Всички'],['instock','✓ В наличност'],['low','⚠ Малко'],['oos','✗ Изчерпани'],['sale','🔴 Промо'],['new','🟢 Ново'],['hot','🟡 Горещо']].map(([val,lbl])=>`<button type="button" class="admin-status-btn" data-val="${val}" onclick="_adminStatusFilter('${val}')" style="background:${_adminProd.status===val?'rgba(96,165,250,0.25)':'rgba(255,255,255,0.05)'};color:${_adminProd.status===val?'#60a5fa':'#9ca3af'};border:1px solid ${_adminProd.status===val?'rgba(96,165,250,0.4)':'transparent'};border-radius:6px;padding:4px 9px;font-size:11px;cursor:pointer;font-family:'Outfit',sans-serif;transition:all 0.15s;">${lbl}</button>`).join('')}
+          </div>
+          <div style="margin-left:auto;font-size:11px;color:#6b7280;" id="adminProdCount">${products.length} продукта</div>
         </div>
         <table class="admin-table" id="adminProductsTable">
           <thead><tr>
             <th style="width:32px;"><input type="checkbox" id="adminSelectAll" onchange="adminToggleSelectAll(this.checked)" style="cursor:pointer;accent-color:#f87171;width:15px;height:15px;"></th>
-            <th></th><th>Продукт</th><th>SKU</th><th>Цена</th><th>Категория</th><th>Бадж</th><th>Наличност</th><th>Рейтинг</th><th style="text-align:right;">Действия</th>
+            <th></th>
+            <th onclick="_adminSortCol('name')" style="cursor:pointer;user-select:none;white-space:nowrap;" title="Сортирай по продукт"><span id="_ath_name">Продукт ↕</span></th>
+            <th>SKU</th>
+            <th onclick="_adminSortCol('price')" style="cursor:pointer;user-select:none;white-space:nowrap;" title="Сортирай по цена"><span id="_ath_price">Цена ↕</span></th>
+            <th>Категория</th>
+            <th>Бадж</th>
+            <th onclick="_adminSortCol('stock')" style="cursor:pointer;user-select:none;white-space:nowrap;" title="Сортирай по наличност"><span id="_ath_stock">Наличност ↕</span></th>
+            <th onclick="_adminSortCol('rating')" style="cursor:pointer;user-select:none;white-space:nowrap;" title="Сортирай по рейтинг"><span id="_ath_rating">Рейтинг ↕</span></th>
+            <th style="text-align:right;">Действия</th>
           </tr></thead>
-          <tbody id="adminProductsTbody">${products.map(p=>`
-            <tr id="admin-prod-row-${p.id}">
-              <td><input type="checkbox" class="admin-prod-cb" data-id="${p.id}" onchange="adminUpdateSelection()" style="cursor:pointer;accent-color:#f87171;width:15px;height:15px;"></td>
-              <td><div class="admin-product-thumb">${p.emoji}</div></td>
-              <td style="color:#fff;font-weight:600;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${p.name}</td>
-              <td style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#6b7280;">${p.sku}</td>
-              <td style="color:#34d399;font-weight:700;">${(p.price/EUR_RATE).toFixed(2)} €<div style="font-size:10px;color:#6b7280;">${p.price} лв.</div></td>
-              <td style="color:#9ca3af;">${catNames[p.cat]||p.cat}</td>
-              <td>${p.badge==='sale'?'<span style="background:rgba(239,68,68,0.15);color:#f87171;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;">ПРОМО</span>':p.badge==='new'?'<span style="background:rgba(52,211,153,0.15);color:#34d399;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;">НОВО</span>':p.badge==='hot'?'<span style="background:rgba(251,191,36,0.15);color:#fbbf24;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;">ГОРЕЩО</span>':'<span style="color:#4b5563;font-size:11px;">—</span>'}</td>
-              <td>${p.stock===false||p.stock===0?'<span style="color:#f87171;font-size:11px;">Изчерпан</span>':p.stock!=null&&p.stock<=5?`<span style="color:#fbbf24;font-size:11px;">${p.stock} бр.</span>`:'<span style="color:#34d399;font-size:11px;">✓</span>'}</td>
-              <td>⭐ ${p.rating}</td>
-              <td style="text-align:right;">
-                <div style="display:flex;gap:5px;justify-content:flex-end;">
-                  <button type="button" style="background:rgba(96,165,250,0.1);color:#60a5fa;border:1px solid rgba(96,165,250,0.2);border-radius:6px;padding:5px 9px;font-size:11px;cursor:pointer;font-family:'Outfit',sans-serif;transition:all 0.2s;" onclick="closeAdminPage();openProductModal(${p.id})" title="Преглед">👁</button>
-                  <button type="button" style="background:rgba(251,191,36,0.1);color:#fbbf24;border:1px solid rgba(251,191,36,0.2);border-radius:6px;padding:5px 9px;font-size:11px;cursor:pointer;font-family:'Outfit',sans-serif;transition:all 0.2s;" onclick="openProductEditor(${p.id})" title="Редактирай">✏️</button>
-                  <button type="button" style="background:rgba(248,113,113,0.1);color:#f87171;border:1px solid rgba(248,113,113,0.2);border-radius:6px;padding:5px 9px;font-size:11px;cursor:pointer;font-family:'Outfit',sans-serif;transition:all 0.2s;" onclick="confirmDeleteProduct(${p.id})" title="Изтрий">🗑</button>
-                </div>
-              </td>
-            </tr>`).join('')}
-          </tbody>
+          <tbody id="adminProductsTbody"></tbody>
         </table>
       </div>`;
+    _adminProd.q = ''; _adminProd.sort = ''; _adminProd.dir = 1; _adminProd.cat = ''; _adminProd.status = '';
+    renderAdminProductsTable();
   } else if (tab === 'customers') {
     const customers = ['Георги Тодоров','Мария Иванова','Петър Стоянов','Анна Петрова','Тодор Николов','Ивана Христова','Симон Борисов','Елена Димитрова'];
     main.innerHTML = `
@@ -1191,7 +1287,7 @@ function adminBulkSetBadge(badge) {
   const label = { sale:'Промо', new:'Ново', hot:'Горещо' }[badge] || 'без бадж';
   showToast(`✅ ${ids.size} продукта → ${label}`);
   renderGrids();
-  adminShowTab('products');
+  renderAdminProductsTable();
 }
 
 function adminApproveReview(pid, idx) {
@@ -1273,21 +1369,12 @@ function adminBulkDelete() {
   persistProducts();
   showToast(`🗑 Изтрити ${ids.length} продукта.`);
   renderGrids();
-  adminShowTab('products');
+  renderAdminProductsTable();
 }
 
 function adminFilterProducts(q) {
-  const rows = document.querySelectorAll('#adminProductsTbody tr');
-  const ql = q.toLowerCase();
-  let vis = 0;
-  rows.forEach(row => {
-    const text = row.textContent.toLowerCase();
-    const match = !ql || text.includes(ql);
-    row.style.display = match ? '' : 'none';
-    if (match) vis++;
-  });
-  const cnt = document.getElementById('adminProdCount');
-  if (cnt) cnt.textContent = `${vis} продукта`;
+  _adminProd.q = q;
+  renderAdminProductsTable();
 }
 
 

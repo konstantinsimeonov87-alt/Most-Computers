@@ -4628,8 +4628,8 @@
    margin-top: 2px;
  }
 
- /* CRO: BGN primary, EUR secondary */
- .price-bgn-main {
+ /* EUR primary, BGN secondary */
+ .price-eur-main {
    display: block;
    font-size: 18px;
    font-weight: 800;
@@ -4638,11 +4638,11 @@
    letter-spacing: -0.3px;
  }
 
- .price-bgn-main.sale {
+ .price-eur-main.sale {
    color: var(--sale);
  }
 
- .price-eur-sub {
+ .price-bgn-sub {
    display: block;
    font-size: 12px;
    font-weight: 500;

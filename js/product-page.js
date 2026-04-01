@@ -93,7 +93,7 @@ function openProductPage(id) {
 
   const oldRow = document.getElementById('pdpOldRow');
   if (p.old) {
-    document.getElementById('pdpOld').textContent = fmtBgn(p.old) + ' / ' + fmtEur(p.old);
+    document.getElementById('pdpOld').textContent = fmtEur(p.old) + ' / ' + fmtBgn(p.old);
     document.getElementById('pdpSave').textContent = '-' + Math.round((p.old-p.price)/p.old*100) + '%';
     oldRow.style.display = 'flex';
   } else {

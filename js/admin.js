@@ -354,7 +354,7 @@ function adminShowTab(tab) {
               <td><div class="admin-product-thumb">${p.emoji}</div></td>
               <td style="color:#fff;font-weight:600;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${p.name}</td>
               <td style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#6b7280;">${p.sku}</td>
-              <td style="color:#34d399;font-weight:700;">${p.price} лв.<div style="font-size:10px;color:#6b7280;">${(p.price/EUR_RATE).toFixed(2)} €</div></td>
+              <td style="color:#34d399;font-weight:700;">${(p.price/EUR_RATE).toFixed(2)} €<div style="font-size:10px;color:#6b7280;">${p.price} лв.</div></td>
               <td style="color:#9ca3af;">${catNames[p.cat]||p.cat}</td>
               <td>${p.badge==='sale'?'<span style="background:rgba(239,68,68,0.15);color:#f87171;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;">ПРОМО</span>':p.badge==='new'?'<span style="background:rgba(52,211,153,0.15);color:#34d399;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;">НОВО</span>':p.badge==='hot'?'<span style="background:rgba(251,191,36,0.15);color:#fbbf24;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;">ГОРЕЩО</span>':'<span style="color:#4b5563;font-size:11px;">—</span>'}</td>
               <td>${p.stock===false||p.stock===0?'<span style="color:#f87171;font-size:11px;">Изчерпан</span>':p.stock!=null&&p.stock<=5?`<span style="color:#fbbf24;font-size:11px;">${p.stock} бр.</span>`:'<span style="color:#34d399;font-size:11px;">✓</span>'}</td>

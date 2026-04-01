@@ -5,9 +5,9 @@ if (!EUR_RATE || isNaN(EUR_RATE)) EUR_RATE = 1.95583;
 function toEur(bgn) { return bgn / EUR_RATE; }
 function fmtEur(bgn) { return toEur(bgn).toLocaleString('de-DE', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' €'; }
 function fmtBgn(bgn) { return bgn.toLocaleString('bg-BG', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' лв.'; }
-// Primary display: BGN bold, EUR muted below
+// Primary display: EUR bold, BGN muted below
 function fmtPrice(bgn, saleCls='') {
-  return `<span class="price-bgn-main${saleCls ? ' '+saleCls : ''}">${fmtBgn(bgn)}</span><span class="price-eur-sub">${fmtEur(bgn)}</span>`;
+  return `<span class="price-eur-main${saleCls ? ' '+saleCls : ''}">${fmtEur(bgn)}</span><span class="price-bgn-sub">${fmtBgn(bgn)}</span>`;
 }
 // Inline dual: "2.30 € / 4.49 лв."
 function fmtDual(bgn) { return `${fmtEur(bgn)} / ${fmtBgn(bgn)}`; }
@@ -313,7 +313,7 @@ function makeCard(p,small=false){
       <div class="product-footer">
         <div class="price-row">
           <div class="price-current${p.badge==='sale'?' sale':''}" itemprop="offers" itemscope itemtype="https://schema.org/Offer"><meta itemprop="priceCurrency" content="EUR"><link itemprop="availability" href="${p.stock===false?'https://schema.org/OutOfStock':'https://schema.org/InStock'}"><span itemprop="price" content="${p.price}">${fmtPrice(p.price, p.badge==='sale'?'sale':'')}</span></div>
-          ${p.old?`<div class="price-old">${fmtBgn(p.old)}</div><div class="price-save">-${save}%</div>`:''}
+          ${p.old?`<div class="price-old">${fmtEur(p.old)}</div><div class="price-save">-${save}%</div>`:''}
         </div>
         ${p.stock!==false&&p.stock!=null&&p.stock<=5?`<div style="font-size:11px;color:var(--sale);font-weight:700;margin-bottom:5px;">🔥 Последни ${p.stock} бр. в наличност!</div>`:''}
         <div class="card-guarantee-badge">🛡 24 мес. гаранция &nbsp;·&nbsp; ↩ 30 дни връщане</div>
@@ -3987,7 +3987,7 @@ function openProductPage(id) {
 
   const oldRow = document.getElementById('pdpOldRow');
   if (p.old) {
-    document.getElementById('pdpOld').textContent = fmtBgn(p.old) + ' / ' + fmtEur(p.old);
+    document.getElementById('pdpOld').textContent = fmtEur(p.old) + ' / ' + fmtBgn(p.old);
     document.getElementById('pdpSave').textContent = '-' + Math.round((p.old-p.price)/p.old*100) + '%';
     oldRow.style.display = 'flex';
   } else {

@@ -26,7 +26,7 @@ function makeCard(p,small=false){
       <div class="product-footer">
         <div class="price-row">
           <div class="price-current${p.badge==='sale'?' sale':''}" itemprop="offers" itemscope itemtype="https://schema.org/Offer"><meta itemprop="priceCurrency" content="EUR"><link itemprop="availability" href="${p.stock===false?'https://schema.org/OutOfStock':'https://schema.org/InStock'}"><span itemprop="price" content="${p.price}">${fmtPrice(p.price, p.badge==='sale'?'sale':'')}</span></div>
-          ${p.old?`<div class="price-old">${fmtBgn(p.old)}</div><div class="price-save">-${save}%</div>`:''}
+          ${p.old?`<div class="price-old">${fmtEur(p.old)}</div><div class="price-save">-${save}%</div>`:''}
         </div>
         ${p.stock!==false&&p.stock!=null&&p.stock<=5?`<div style="font-size:11px;color:var(--sale);font-weight:700;margin-bottom:5px;">🔥 Последни ${p.stock} бр. в наличност!</div>`:''}
         <div class="card-guarantee-badge">🛡 24 мес. гаранция &nbsp;·&nbsp; ↩ 30 дни връщане</div>

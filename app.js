@@ -2657,7 +2657,7 @@ function renderGrids(){
   renderPromoBanner();
   updateWishlistUI();
   if(typeof initLazyImages==='function') initLazyImages();
-  if(typeof renderHpCats==='function') renderHpCats();
+  if(typeof renderHpSubcatsStrip==='function') renderHpSubcatsStrip();
 }
 
 function renderHeroPanel(){
@@ -5422,7 +5422,7 @@ const CAT_META = {
 const HP_CAT_ORDER = ['laptops','desktops','components','peripherals','network','storage','accessories'];
 
 // ═══════════════════════════════════════
-// RENDER HOMEPAGE CATEGORY CARDS
+// RENDER HOMEPAGE CATEGORY CARDS (kept for fallback)
 // ═══════════════════════════════════════
 function renderHpCats() {
   const grid = document.getElementById('hpCatsGrid');
@@ -5437,6 +5437,37 @@ function renderHpCats() {
         <div class="hp-cat-name">${m.label}</div>
         <div class="hp-cat-count">${count > 0 ? count + ' продукта' : ''}</div>
       </div>`;
+  }).join('');
+}
+
+// ═══════════════════════════════════════
+// RENDER HOMEPAGE SUBCATEGORY STRIP
+// ═══════════════════════════════════════
+const HP_SUBCATS = [
+  { cat:'laptops',    id:'gaming_l',    label:'Gaming лаптопи',       icon:'🎮' },
+  { cat:'components', id:'gpu',         label:'RTX карти',             icon:'🎴' },
+  { cat:'peripherals',id:'monitor',     label:'Монитори',              icon:'🖥' },
+  { cat:'desktops',   id:'gaming_pc',   label:'Gaming PC',             icon:'🖥' },
+  { cat:'components', id:'cpu',         label:'Процесори',             icon:'⚡' },
+  { cat:'laptops',    id:'ultrabook',   label:'Ултрабуци',             icon:'💡' },
+  { cat:'peripherals',id:'keyboard',    label:'Механични клавиатури',  icon:'⌨️' },
+  { cat:'network',    id:'router',      label:'Рутери',                icon:'📡' },
+  { cat:'storage',    id:'nas',         label:'NAS / Сторидж',         icon:'💾' },
+  { cat:'laptops',    id:'for_students',label:'Студентски лаптопи',    icon:'🎓' },
+  { cat:'peripherals',id:'mouse',       label:'Геймърски мишки',       icon:'🖱' },
+  { cat:'peripherals',id:'webcam',      label:'Уеб камери',            icon:'📸' },
+];
+
+function renderHpSubcatsStrip() {
+  const wrap = document.getElementById('hpCatsGrid');
+  if (!wrap) return;
+  wrap.innerHTML = HP_SUBCATS.map(s => {
+    const count = products.filter(p => p.cat === s.cat).length;
+    return `<button type="button" class="hp-subcat-pill" onclick="openCatPage('${s.cat}');applySubcatById('${s.id}')" aria-label="${s.label}">
+      <span class="hp-subcat-pill-icon">${s.icon}</span>
+      <span class="hp-subcat-pill-label">${s.label}</span>
+      ${count > 0 ? `<span class="hp-subcat-pill-count">${count}</span>` : ''}
+    </button>`;
   }).join('');
 }
 
@@ -6002,7 +6033,7 @@ function closeAboutPage() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  renderHpCats();
+  renderHpSubcatsStrip();
   renderRecentlyDiscounted();
 });
 // migrate any remaining inline onclick attributes into data-action
@@ -6187,7 +6218,7 @@ initDataActions();
 initSidebarFilters();
 renderGrids();
 loadCart();
-renderHpCats();
+renderHpSubcatsStrip();
 renderRecentlyDiscounted();
 initSectionAnimations();
 initScrollAnimations();

@@ -212,6 +212,6 @@ function closeAboutPage() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  renderHpCats();
+  renderHpSubcatsStrip();
   renderRecentlyDiscounted();
 });

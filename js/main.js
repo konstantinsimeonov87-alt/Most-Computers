@@ -80,7 +80,7 @@ initDataActions();
 initSidebarFilters();
 renderGrids();
 loadCart();
-renderHpCats();
+renderHpSubcatsStrip();
 renderRecentlyDiscounted();
 initSectionAnimations();
 initScrollAnimations();

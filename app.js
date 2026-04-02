@@ -4079,103 +4079,204 @@ function closeAdminPage() {
 }
 
 // ── Admin products table state ────────────────────────────────────────────────
-var _adminProd = { sort: '', dir: 1, cat: '', status: '', q: '' };
+var _adminProd = { sort: 'cat', dir: 1, cat: '', status: '', q: '', brand: '', page: 1, perPage: 25 };
+
+const _adminCatNamesMap = {
+  laptops:'💻 Лаптопи', desktops:'🖥 Настолни компютри', components:'⚙️ Компоненти',
+  peripherals:'🖱 Периферия', network:'📡 Мрежово', storage:'💾 Сторидж',
+  software:'📀 Софтуер', accessories:'🎒 Аксесоари',
+  laptop:'💻 Лаптопи', desktop:'🖥 Настолни', monitor:'🖥 Монитор', gaming:'🎮 Гейминг',
+  mobile:'📱 Телефон', tablet:'📟 Таблет', tv:'📺 TV', audio:'🎧 Аудио',
+  camera:'📷 Камера', print:'🖨 Принтер', smart:'⌚ Смарт', acc:'🔌 Аксесоар'
+};
 
 function _adminSortCol(col) {
   if (_adminProd.sort === col) { _adminProd.dir *= -1; }
   else { _adminProd.sort = col; _adminProd.dir = 1; }
+  _adminProd.page = 1;
   renderAdminProductsTable();
 }
-function _adminCatFilter(val) { _adminProd.cat = val; renderAdminProductsTable(); }
-function _adminStatusFilter(val) { _adminProd.status = val; renderAdminProductsTable(); }
+function _adminCatFilter(val) { _adminProd.cat = val; _adminProd.page = 1; renderAdminProductsTable(); }
+function _adminStatusFilter(val) { _adminProd.status = val; _adminProd.page = 1; renderAdminProductsTable(); }
+function _adminBrandFilter(val) { _adminProd.brand = val; _adminProd.page = 1; renderAdminProductsTable(); }
+function _adminGoPage(p) { _adminProd.page = p; renderAdminProductsTable(); }
+
+function adminInlineEdit(id, field) {
+  const p = products.find(x => x.id === id); if (!p) return;
+  const cell = document.getElementById('aie-' + field + '-' + id);
+  if (!cell || cell.querySelector('input')) return;
+  const cur = field === 'price' ? p.price : (p.stock === false ? '' : p.stock);
+  cell.innerHTML = '<input type="number" value="' + cur + '" placeholder="' + (field==='price'?'лв.':'–1=изчерпан') + '" style="width:78px;background:#1a1d35;border:1px solid #6366f1;border-radius:4px;padding:3px 6px;color:#fff;font-size:12px;font-family:Outfit,sans-serif;outline:none;" onblur="adminInlineSave(' + id + ',\'' + field + '\',this.value)" onkeydown="if(event.key===\'Enter\')this.blur();if(event.key===\'Escape\')renderAdminProductsTable()" autofocus>';
+}
+
+function adminInlineSave(id, field, val) {
+  const p = products.find(x => x.id === id); if (!p) return;
+  if (field === 'price') {
+    const v = parseFloat(val);
+    if (!isNaN(v) && v > 0) { p.price = Math.round(v * 100) / 100; showToast('✅ Цена → ' + p.price + ' лв.'); }
+  } else {
+    const v = parseInt(val);
+    p.stock = (val === '' || isNaN(v) || v < 0) ? false : (v === 0 ? false : v);
+    showToast('✅ Наличност → ' + (p.stock === false ? 'Изчерпан' : p.stock + ' бр.'));
+  }
+  persistProducts();
+  renderGrids();
+  renderAdminProductsTable();
+}
 
 function renderAdminProductsTable() {
   const tbody = document.getElementById('adminProductsTbody');
   const cntEl = document.getElementById('adminProdCount');
   if (!tbody) return;
 
-  const catNamesMap = {
-    laptops:'💻 Лаптопи', desktops:'🖥 Настолни компютри', components:'⚙️ Компоненти',
-    peripherals:'🖱 Периферия', network:'📡 Мрежово', storage:'💾 Сторидж',
-    software:'📀 Софтуер', accessories:'🎒 Аксесоари',
-    laptop:'💻 Лаптопи', desktop:'🖥 Настолни', monitor:'🖥 Монитор', gaming:'🎮 Гейминг',
-    mobile:'📱 Телефон', tablet:'📟 Таблет', tv:'📺 TV', audio:'🎧 Аудио',
-    camera:'📷 Камера', print:'🖨 Принтер', smart:'⌚ Смарт', acc:'🔌 Аксесоар'
-  };
-
   let list = products.slice();
 
   // text search
   if (_adminProd.q) {
     const ql = _adminProd.q.toLowerCase();
-    list = list.filter(p => (p.name+' '+(p.sku||'')+' '+(p.brand||'')).toLowerCase().includes(ql));
+    list = list.filter(p => (p.name + ' ' + (p.sku||'') + ' ' + (p.brand||'')).toLowerCase().includes(ql));
   }
-
   // category filter
   if (_adminProd.cat) list = list.filter(p => p.cat === _adminProd.cat);
-
+  // brand filter
+  if (_adminProd.brand) list = list.filter(p => p.brand === _adminProd.brand);
   // status filter
-  if (_adminProd.status === 'instock')  list = list.filter(p => p.stock !== false && p.stock !== 0 && (p.stock == null || p.stock > 5));
-  else if (_adminProd.status === 'low') list = list.filter(p => p.stock != null && p.stock !== false && p.stock > 0 && p.stock <= 5);
-  else if (_adminProd.status === 'oos') list = list.filter(p => p.stock === false || p.stock === 0);
+  if (_adminProd.status === 'instock')   list = list.filter(p => p.stock !== false && p.stock !== 0 && (p.stock == null || p.stock > 5));
+  else if (_adminProd.status === 'low')  list = list.filter(p => p.stock != null && p.stock !== false && p.stock > 0 && p.stock <= 5);
+  else if (_adminProd.status === 'oos')  list = list.filter(p => p.stock === false || p.stock === 0);
   else if (_adminProd.status === 'sale') list = list.filter(p => p.badge === 'sale');
   else if (_adminProd.status === 'new')  list = list.filter(p => p.badge === 'new');
   else if (_adminProd.status === 'hot')  list = list.filter(p => p.badge === 'hot');
 
-  // sort
-  if (_adminProd.sort) {
-    list.sort((a, b) => {
-      let va, vb;
-      if (_adminProd.sort === 'name')   { va = (a.name||'').toLowerCase(); vb = (b.name||'').toLowerCase(); }
-      else if (_adminProd.sort === 'price')  { va = a.price; vb = b.price; }
-      else if (_adminProd.sort === 'rating') { va = a.rating; vb = b.rating; }
-      else if (_adminProd.sort === 'stock') {
-        va = a.stock === false || a.stock === 0 ? -1 : (a.stock == null ? 9999 : a.stock);
-        vb = b.stock === false || b.stock === 0 ? -1 : (b.stock == null ? 9999 : b.stock);
-      }
-      if (va < vb) return -1 * _adminProd.dir;
-      if (va > vb) return 1 * _adminProd.dir;
-      return 0;
-    });
-  }
+  // sort — default: category A-Z then name A-Z
+  list.sort((a, b) => {
+    let va, vb;
+    if (_adminProd.sort === 'name')        { va = (a.name||'').toLowerCase();  vb = (b.name||'').toLowerCase(); }
+    else if (_adminProd.sort === 'price')  { va = a.price;  vb = b.price; }
+    else if (_adminProd.sort === 'rating') { va = a.rating; vb = b.rating; }
+    else if (_adminProd.sort === 'stock')  {
+      va = a.stock === false || a.stock === 0 ? -1 : (a.stock == null ? 9999 : a.stock);
+      vb = b.stock === false || b.stock === 0 ? -1 : (b.stock == null ? 9999 : b.stock);
+    } else {
+      // default: group by category, then name
+      va = (_adminCatNamesMap[a.cat]||a.cat) + '|' + (a.name||'').toLowerCase();
+      vb = (_adminCatNamesMap[b.cat]||b.cat) + '|' + (b.name||'').toLowerCase();
+    }
+    if (va < vb) return -1 * _adminProd.dir;
+    if (va > vb) return  1 * _adminProd.dir;
+    return 0;
+  });
 
-  if (cntEl) cntEl.textContent = list.length + ' продукта';
+  const total = list.length;
+  if (cntEl) cntEl.textContent = total + ' продукта';
 
-  // update sort indicators on headers
+  // Pagination
+  const perPage = _adminProd.perPage;
+  const totalPages = Math.max(1, Math.ceil(total / perPage));
+  _adminProd.page = Math.min(Math.max(1, _adminProd.page), totalPages);
+  const pageStart = (_adminProd.page - 1) * perPage;
+  const pageList = list.slice(pageStart, pageStart + perPage);
+
+  // update sort indicators
   ['name','price','rating','stock'].forEach(col => {
     const el = document.getElementById('_ath_' + col);
     if (!el) return;
-    el.textContent = { name:'Продукт', price:'Цена', rating:'Рейтинг', stock:'Наличност' }[col]
+    el.textContent = ({name:'Продукт', price:'Цена', rating:'Рейтинг', stock:'Наличност'})[col]
       + (_adminProd.sort === col ? (_adminProd.dir === 1 ? ' ↑' : ' ↓') : ' ↕');
+  });
+
+  // update category pill active state
+  document.querySelectorAll('.admin-cat-pill').forEach(btn => {
+    const on = btn.dataset.val === _adminProd.cat;
+    btn.style.background   = on ? 'rgba(99,102,241,0.25)' : 'rgba(255,255,255,0.05)';
+    btn.style.color        = on ? '#a5b4fc' : '#9ca3af';
+    btn.style.borderColor  = on ? 'rgba(99,102,241,0.5)'  : 'transparent';
   });
 
   // update status filter active state
   document.querySelectorAll('.admin-status-btn').forEach(btn => {
-    btn.style.background = btn.dataset.val === _adminProd.status
-      ? 'rgba(96,165,250,0.25)' : 'rgba(255,255,255,0.05)';
-    btn.style.color = btn.dataset.val === _adminProd.status ? '#60a5fa' : '#9ca3af';
-    btn.style.borderColor = btn.dataset.val === _adminProd.status ? 'rgba(96,165,250,0.4)' : 'transparent';
+    const on = btn.dataset.val === _adminProd.status;
+    btn.style.background  = on ? 'rgba(96,165,250,0.25)' : 'rgba(255,255,255,0.05)';
+    btn.style.color       = on ? '#60a5fa' : '#9ca3af';
+    btn.style.borderColor = on ? 'rgba(96,165,250,0.4)'  : 'transparent';
   });
 
-  tbody.innerHTML = list.map(p => `
-    <tr id="admin-prod-row-${p.id}">
-      <td><input type="checkbox" class="admin-prod-cb" data-id="${p.id}" onchange="adminUpdateSelection()" style="cursor:pointer;accent-color:#f87171;width:15px;height:15px;"></td>
-      <td><div class="admin-product-thumb">${p.emoji}</div></td>
-      <td style="color:#fff;font-weight:600;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${p.name}</td>
-      <td style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#6b7280;">${p.sku}</td>
-      <td style="color:#34d399;font-weight:700;">${(p.price/EUR_RATE).toFixed(2)} €<div style="font-size:10px;color:#6b7280;">${p.price} лв.</div></td>
-      <td style="color:#9ca3af;">${catNamesMap[p.cat]||p.cat}</td>
-      <td>${p.badge==='sale'?'<span style="background:rgba(239,68,68,0.15);color:#f87171;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;">ПРОМО</span>':p.badge==='new'?'<span style="background:rgba(52,211,153,0.15);color:#34d399;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;">НОВО</span>':p.badge==='hot'?'<span style="background:rgba(251,191,36,0.15);color:#fbbf24;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;">ГОРЕЩО</span>':'<span style="color:#4b5563;font-size:11px;">—</span>'}</td>
-      <td>${p.stock===false||p.stock===0?'<span style="color:#f87171;font-size:11px;">Изчерпан</span>':p.stock!=null&&p.stock<=5?`<span style="color:#fbbf24;font-size:11px;">${p.stock} бр.</span>`:'<span style="color:#34d399;font-size:11px;">✓</span>'}</td>
-      <td>⭐ ${p.rating}</td>
-      <td style="text-align:right;">
-        <div style="display:flex;gap:5px;justify-content:flex-end;">
-          <button type="button" style="background:rgba(96,165,250,0.1);color:#60a5fa;border:1px solid rgba(96,165,250,0.2);border-radius:6px;padding:5px 9px;font-size:11px;cursor:pointer;font-family:'Outfit',sans-serif;transition:all 0.2s;" onclick="closeAdminPage();openProductModal(${p.id})" title="Преглед">👁</button>
-          <button type="button" style="background:rgba(251,191,36,0.1);color:#fbbf24;border:1px solid rgba(251,191,36,0.2);border-radius:6px;padding:5px 9px;font-size:11px;cursor:pointer;font-family:'Outfit',sans-serif;transition:all 0.2s;" onclick="openProductEditor(${p.id})" title="Редактирай">✏️</button>
-          <button type="button" style="background:rgba(248,113,113,0.1);color:#f87171;border:1px solid rgba(248,113,113,0.2);border-radius:6px;padding:5px 9px;font-size:11px;cursor:pointer;font-family:'Outfit',sans-serif;transition:all 0.2s;" onclick="confirmDeleteProduct(${p.id})" title="Изтрий">🗑</button>
-        </div>
-      </td>
-    </tr>`).join('');
+  // update brand select
+  const brandSel = document.getElementById('adminBrandSelect');
+  if (brandSel) {
+    const allBrands = [...new Set(products.map(p => p.brand).filter(Boolean))].sort();
+    const cur = _adminProd.brand;
+    if (!brandSel.dataset.built) {
+      brandSel.innerHTML = '<option value="">Всички марки</option>'
+        + allBrands.map(b => '<option value="' + b + '"' + (b===cur?' selected':'') + '>' + b + ' (' + products.filter(p=>p.brand===b).length + ')</option>').join('');
+      brandSel.dataset.built = '1';
+    }
+    brandSel.value = cur;
+  }
+
+  // build tbody with category group headers
+  const showGroups = _adminProd.sort === 'cat' || !_adminProd.sort;
+  let lastCat = null;
+  let tbodyHtml = '';
+  pageList.forEach(p => {
+    if (showGroups && p.cat !== lastCat) {
+      const catTotal = list.filter(x => x.cat === p.cat).length;
+      tbodyHtml += '<tr style="background:#0d0f1a;"><td colspan="10" style="padding:7px 14px;font-size:10px;font-weight:900;color:#4b5563;text-transform:uppercase;letter-spacing:.1em;">'
+        + (_adminCatNamesMap[p.cat]||p.cat)
+        + ' <span style="color:#374151;font-weight:600;font-size:10px;">(' + catTotal + ')</span></td></tr>';
+      lastCat = p.cat;
+    }
+    const stockHtml = p.stock===false||p.stock===0
+      ? '<span style="color:#f87171;font-size:11px;">Изчерпан</span>'
+      : p.stock!=null&&p.stock<=5
+        ? '<span style="color:#fbbf24;font-size:11px;">' + p.stock + ' бр.</span>'
+        : '<span style="color:#34d399;font-size:11px;">✓</span>';
+    const badgeHtml = p.badge==='sale'
+      ? '<span style="background:rgba(239,68,68,.15);color:#f87171;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;">ПРОМО</span>'
+      : p.badge==='new'
+        ? '<span style="background:rgba(52,211,153,.15);color:#34d399;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;">НОВО</span>'
+        : p.badge==='hot'
+          ? '<span style="background:rgba(251,191,36,.15);color:#fbbf24;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;">ГОРЕЩО</span>'
+          : '<span style="color:#4b5563;font-size:11px;">—</span>';
+    tbodyHtml += '<tr id="admin-prod-row-' + p.id + '">'
+      + '<td><input type="checkbox" class="admin-prod-cb" data-id="' + p.id + '" onchange="adminUpdateSelection()" style="cursor:pointer;accent-color:#f87171;width:15px;height:15px;"></td>'
+      + '<td><div class="admin-product-thumb">' + p.emoji + '</div></td>'
+      + '<td style="color:#fff;font-weight:600;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + p.name + '</td>'
+      + '<td style="font-family:\'JetBrains Mono\',monospace;font-size:10px;color:#6b7280;">' + (p.sku||'—') + '</td>'
+      + '<td id="aie-price-' + p.id + '" style="color:#34d399;font-weight:700;cursor:pointer;" onclick="adminInlineEdit(' + p.id + ',\'price\')" title="Клик за редактиране на цена">'
+      + (p.price/EUR_RATE).toFixed(2) + ' €<div style="font-size:10px;color:#6b7280;">' + p.price + ' лв.</div></td>'
+      + '<td style="color:#9ca3af;">' + (_adminCatNamesMap[p.cat]||p.cat) + '</td>'
+      + '<td>' + badgeHtml + '</td>'
+      + '<td id="aie-stock-' + p.id + '" style="cursor:pointer;" onclick="adminInlineEdit(' + p.id + ',\'stock\')" title="Клик за редактиране на наличност">' + stockHtml + '</td>'
+      + '<td>⭐ ' + p.rating + '</td>'
+      + '<td style="text-align:right;"><div style="display:flex;gap:5px;justify-content:flex-end;">'
+      + '<button type="button" style="background:rgba(96,165,250,.1);color:#60a5fa;border:1px solid rgba(96,165,250,.2);border-radius:6px;padding:5px 9px;font-size:11px;cursor:pointer;font-family:Outfit,sans-serif;" onclick="closeAdminPage();openProductPage(' + p.id + ')" title="Преглед">👁</button>'
+      + '<button type="button" style="background:rgba(251,191,36,.1);color:#fbbf24;border:1px solid rgba(251,191,36,.2);border-radius:6px;padding:5px 9px;font-size:11px;cursor:pointer;font-family:Outfit,sans-serif;" onclick="openProductEditor(' + p.id + ')" title="Редактирай">✏️</button>'
+      + '<button type="button" style="background:rgba(248,113,113,.1);color:#f87171;border:1px solid rgba(248,113,113,.2);border-radius:6px;padding:5px 9px;font-size:11px;cursor:pointer;font-family:Outfit,sans-serif;" onclick="confirmDeleteProduct(' + p.id + ')" title="Изтрий">🗑</button>'
+      + '</div></td></tr>';
+  });
+  tbody.innerHTML = tbodyHtml;
+
+  // Pagination controls
+  const pgEl = document.getElementById('adminProdPagination');
+  if (pgEl) {
+    if (totalPages <= 1) { pgEl.innerHTML = ''; return; }
+    const btnStyle = (active) => 'background:' + (active?'rgba(96,165,250,.25)':'rgba(255,255,255,.05)') + ';border:1px solid ' + (active?'rgba(96,165,250,.4)':'#2d3148') + ';border-radius:6px;padding:5px 10px;color:' + (active?'#60a5fa':'#9ca3af') + ';cursor:pointer;font-size:12px;font-family:Outfit,sans-serif;font-weight:' + (active?'700':'400') + ';';
+    const pages = [];
+    for (let i = 1; i <= totalPages; i++) {
+      if (i===1 || i===totalPages || Math.abs(i - _adminProd.page) <= 1) pages.push(i);
+      else if (pages[pages.length-1] !== '…') pages.push('…');
+    }
+    pgEl.innerHTML = '<div style="display:flex;align-items:center;gap:5px;padding:12px 16px;justify-content:center;border-top:1px solid #2d3148;">'
+      + '<button type="button" onclick="_adminGoPage(' + (_adminProd.page-1) + ')" ' + (_adminProd.page<=1?'disabled':'') + ' style="' + btnStyle(false) + (_adminProd.page<=1?'opacity:.4;cursor:not-allowed;':'') + '">‹</button>'
+      + pages.map(pg => pg==='…'
+        ? '<span style="color:#4b5563;padding:0 2px;">…</span>'
+        : '<button type="button" onclick="_adminGoPage(' + pg + ')" style="' + btnStyle(pg===_adminProd.page) + '">' + pg + '</button>'
+      ).join('')
+      + '<button type="button" onclick="_adminGoPage(' + (_adminProd.page+1) + ')" ' + (_adminProd.page>=totalPages?'disabled':'') + ' style="' + btnStyle(false) + (_adminProd.page>=totalPages?'opacity:.4;cursor:not-allowed;':'') + '">›</button>'
+      + '<span style="color:#4b5563;font-size:11px;margin-left:6px;">' + (pageStart+1) + '–' + Math.min(pageStart+perPage,total) + ' / ' + total + '</span>'
+      + '</div>';
+  }
 }
 function adminShowTab(tab) {
   document.querySelectorAll('.admin-nav-item').forEach(b=>b.classList.remove('active'));
@@ -4295,9 +4396,12 @@ function adminShowTab(tab) {
         </table>
       </div>`;
   } else if (tab === 'products') {
+    const catCounts = {};
+    products.forEach(p => { catCounts[p.cat] = (catCounts[p.cat]||0) + 1; });
+    const catPills = [['','Всички'],['laptops','💻 Лаптопи'],['desktops','🖥 Настолни'],['components','⚙️ Компоненти'],['peripherals','🖱 Периферия'],['network','📡 Мрежово'],['storage','💾 Сторидж'],['software','📀 Софтуер'],['accessories','🎒 Аксесоари']];
     main.innerHTML = `
       <div class="admin-topbar">
-        <div><div class="admin-page-title">🏷 Продукти</div><div class="admin-page-sub" id="adminProdSub">${products.length} продукта в базата</div></div>
+        <div><div class="admin-page-title">🏷 Продукти</div><div class="admin-page-sub">${products.length} продукта в базата</div></div>
         <div style="display:flex;gap:10px;align-items:center;">
           <button type="button" class="admin-table-action" onclick="openProductEditor(null)">+ Добави продукт</button>
           <button type="button" class="admin-table-action" onclick="adminExportProductsJSON()" title="Изтегли всички продукти като JSON">⬇ JSON</button>
@@ -4316,23 +4420,27 @@ function adminShowTab(tab) {
         </div>
       </div>
       <div class="admin-table-card">
-        <div style="padding:10px 16px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;border-bottom:1px solid #2d3148;">
+        <!-- Row 1: search + brand -->
+        <div style="padding:10px 16px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;border-bottom:1px solid #1e2236;">
           <input id="adminProdSearchInput" style="background:#252840;border:1px solid #2d3148;border-radius:8px;padding:7px 12px;color:#e5e7eb;font-family:'Outfit',sans-serif;font-size:12px;outline:none;width:200px;" placeholder="🔍  Търси продукт…" oninput="adminFilterProducts(this.value)">
-          <select onchange="_adminCatFilter(this.value)" style="background:#252840;border:1px solid #2d3148;border-radius:8px;padding:7px 10px;color:#e5e7eb;font-family:'Outfit',sans-serif;font-size:12px;cursor:pointer;outline:none;">
-            <option value="">Всички категории</option>
-            <option value="laptops">💻 Лаптопи</option>
-            <option value="desktops">🖥 Настолни</option>
-            <option value="components">⚙️ Компоненти</option>
-            <option value="peripherals">🖱 Периферия</option>
-            <option value="network">📡 Мрежово</option>
-            <option value="storage">💾 Сторидж</option>
-            <option value="software">📀 Софтуер</option>
-            <option value="accessories">🎒 Аксесоари</option>
+          <select id="adminBrandSelect" onchange="_adminBrandFilter(this.value)" style="background:#252840;border:1px solid #2d3148;border-radius:8px;padding:7px 10px;color:#e5e7eb;font-family:'Outfit',sans-serif;font-size:12px;cursor:pointer;outline:none;">
+            <option value="">Всички марки</option>
           </select>
-          <div style="display:flex;gap:4px;flex-wrap:wrap;">
-            ${[['','Всички'],['instock','✓ В наличност'],['low','⚠ Малко'],['oos','✗ Изчерпани'],['sale','🔴 Промо'],['new','🟢 Ново'],['hot','🟡 Горещо']].map(([val,lbl])=>`<button type="button" class="admin-status-btn" data-val="${val}" onclick="_adminStatusFilter('${val}')" style="background:${_adminProd.status===val?'rgba(96,165,250,0.25)':'rgba(255,255,255,0.05)'};color:${_adminProd.status===val?'#60a5fa':'#9ca3af'};border:1px solid ${_adminProd.status===val?'rgba(96,165,250,0.4)':'transparent'};border-radius:6px;padding:4px 9px;font-size:11px;cursor:pointer;font-family:'Outfit',sans-serif;transition:all 0.15s;">${lbl}</button>`).join('')}
-          </div>
           <div style="margin-left:auto;font-size:11px;color:#6b7280;" id="adminProdCount">${products.length} продукта</div>
+        </div>
+        <!-- Row 2: category pills -->
+        <div style="padding:8px 16px;display:flex;flex-wrap:wrap;gap:5px;align-items:center;border-bottom:1px solid #1e2236;">
+          <span style="font-size:10px;font-weight:800;color:#4b5563;text-transform:uppercase;letter-spacing:.06em;margin-right:4px;white-space:nowrap;">Категория:</span>
+          ${catPills.map(([val,lbl]) => {
+            const cnt = val ? (catCounts[val]||0) : products.length;
+            const on = _adminProd.cat === val;
+            return `<button type="button" class="admin-cat-pill" data-val="${val}" onclick="_adminCatFilter('${val}')" style="background:${on?'rgba(99,102,241,0.25)':'rgba(255,255,255,0.05)'};color:${on?'#a5b4fc':'#9ca3af'};border:1px solid ${on?'rgba(99,102,241,0.5)':'transparent'};border-radius:6px;padding:4px 9px;font-size:11px;cursor:pointer;font-family:'Outfit',sans-serif;transition:all 0.15s;white-space:nowrap;">${lbl} <span style="opacity:.6;">(${cnt})</span></button>`;
+          }).join('')}
+        </div>
+        <!-- Row 3: status pills -->
+        <div style="padding:8px 16px;display:flex;flex-wrap:wrap;gap:5px;align-items:center;border-bottom:1px solid #1e2236;">
+          <span style="font-size:10px;font-weight:800;color:#4b5563;text-transform:uppercase;letter-spacing:.06em;margin-right:4px;white-space:nowrap;">Статус:</span>
+          ${[['','Всички'],['instock','✓ В наличност'],['low','⚠ Малко'],['oos','✗ Изчерпани'],['sale','🔴 Промо'],['new','🟢 Ново'],['hot','🟡 Горещо']].map(([val,lbl])=>`<button type="button" class="admin-status-btn" data-val="${val}" onclick="_adminStatusFilter('${val}')" style="background:${_adminProd.status===val?'rgba(96,165,250,0.25)':'rgba(255,255,255,0.05)'};color:${_adminProd.status===val?'#60a5fa':'#9ca3af'};border:1px solid ${_adminProd.status===val?'rgba(96,165,250,0.4)':'transparent'};border-radius:6px;padding:4px 9px;font-size:11px;cursor:pointer;font-family:'Outfit',sans-serif;transition:all 0.15s;">${lbl}</button>`).join('')}
         </div>
         <table class="admin-table" id="adminProductsTable">
           <thead><tr>
@@ -4349,8 +4457,9 @@ function adminShowTab(tab) {
           </tr></thead>
           <tbody id="adminProductsTbody"></tbody>
         </table>
+        <div id="adminProdPagination"></div>
       </div>`;
-    _adminProd.q = ''; _adminProd.sort = ''; _adminProd.dir = 1; _adminProd.cat = ''; _adminProd.status = '';
+    _adminProd.q = ''; _adminProd.sort = 'cat'; _adminProd.dir = 1; _adminProd.cat = ''; _adminProd.status = ''; _adminProd.brand = ''; _adminProd.page = 1;
     renderAdminProductsTable();
   } else if (tab === 'customers') {
     const customers = ['Георги Тодоров','Мария Иванова','Петър Стоянов','Анна Петрова','Тодор Николов','Ивана Христова','Симон Борисов','Елена Димитрова'];

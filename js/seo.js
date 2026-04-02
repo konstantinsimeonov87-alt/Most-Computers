@@ -330,18 +330,28 @@ function renderHpCats() {
 // RENDER HOMEPAGE SUBCATEGORY STRIP
 // ═══════════════════════════════════════
 const HP_SUBCATS = [
-  { cat:'laptops',    id:'gaming_l',    label:'Gaming лаптопи',       icon:'🎮' },
-  { cat:'components', id:'gpu',         label:'RTX карти',             icon:'🎴' },
+  { cat:'laptops',    id:'gaming_l',    label:'Gaming лаптопи',        icon:'🎮' },
+  { cat:'components', id:'gpu',         label:'Видеокарти',            icon:'🎴' },
   { cat:'peripherals',id:'monitor',     label:'Монитори',              icon:'🖥' },
-  { cat:'desktops',   id:'gaming_pc',   label:'Gaming PC',             icon:'🖥' },
+  { cat:'desktops',   id:'gaming_pc',   label:'Gaming PC',             icon:'🕹' },
   { cat:'components', id:'cpu',         label:'Процесори',             icon:'⚡' },
-  { cat:'laptops',    id:'ultrabook',   label:'Ултрабуци',             icon:'💡' },
-  { cat:'peripherals',id:'keyboard',    label:'Механични клавиатури',  icon:'⌨️' },
+  { cat:'laptops',    id:'ultrabook',   label:'Ултрабуци',             icon:'💼' },
+  { cat:'peripherals',id:'keyboard',    label:'Клавиатури',            icon:'⌨️' },
   { cat:'network',    id:'router',      label:'Рутери',                icon:'📡' },
   { cat:'storage',    id:'nas',         label:'NAS / Сторидж',         icon:'💾' },
   { cat:'laptops',    id:'for_students',label:'Студентски лаптопи',    icon:'🎓' },
   { cat:'peripherals',id:'mouse',       label:'Геймърски мишки',       icon:'🖱' },
   { cat:'peripherals',id:'webcam',      label:'Уеб камери',            icon:'📸' },
+  { cat:'components', id:'ram',         label:'RAM памет',             icon:'🧠' },
+  { cat:'components', id:'ssd_hdd',     label:'SSD дискове',           icon:'💿' },
+  { cat:'desktops',   id:'workstation', label:'Работни станции',       icon:'🖥' },
+  { cat:'peripherals',id:'headphones',  label:'Слушалки',              icon:'🎧' },
+  { cat:'network',    id:'switch',      label:'Суичове',               icon:'🔀' },
+  { cat:'accessories',id:'hub',         label:'USB хъбове',            icon:'🔌' },
+  { cat:'components', id:'psu',         label:'Захранвания',           icon:'🔋' },
+  { cat:'laptops',    id:'for_design',  label:'За дизайн',             icon:'🎨' },
+  { cat:'peripherals',id:'printer',     label:'Принтери',              icon:'🖨' },
+  { cat:'components', id:'case_cooling',label:'Кутии и охлаждане',     icon:'❄️' },
 ];
 
 function renderHpSubcatsStrip() {

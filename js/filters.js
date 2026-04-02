@@ -249,7 +249,7 @@ let advFilterStockOnly = false;
 
 function initSidebarFilters() {
   // Dynamic brand list from actual products, sorted by count desc
-  const EXCLUDE_BRANDS = new Set(['Apple','Samsung','Sony','TP-Link','Bose','Xiaomi','Google','Dell','Philips','JBL','GoPro','WD','Anker']);
+  const EXCLUDE_BRANDS = new Set(['Apple','Samsung','Sony','TP-Link','Bose','Xiaomi','Google','Dell','Philips','JBL','GoPro','WD','Anker','_NONAME']);
   const EXTRA_BRANDS = ['Nokia','HMD','Koorui','Tenda','Acer','Fortron','Adata','XPG','Kingspec'];
   const brandCounts = {};
   products.forEach(p => { if(p.brand) brandCounts[p.brand] = (brandCounts[p.brand]||0) + 1; });

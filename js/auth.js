@@ -146,8 +146,9 @@ function updateAuthUI() {
   const profileIcon = document.getElementById('profileIcon');
   if (currentUser) {
     const initials = (currentUser.firstName[0] + (currentUser.lastName ? currentUser.lastName[0] : '')).toUpperCase();
-    if (topLogin) topLogin.textContent = `👋 ${currentUser.firstName}`;
+    if (topLogin) topLogin.style.display = 'none';
     if (topReg) topReg.style.display = 'none';
+    if (profileBtn) profileBtn.style.display = '';
     if (profileLabel) profileLabel.textContent = currentUser.firstName;
     if (profileIcon) profileIcon.innerHTML = `<div class="hdr-btn-avatar">${initials}</div>`;
     const pdAvatar = document.getElementById('pdAvatar'); if (pdAvatar) pdAvatar.textContent = initials;
@@ -155,10 +156,9 @@ function updateAuthUI() {
     const pdEmail = document.getElementById('pdEmail'); if (pdEmail) pdEmail.textContent = currentUser.email;
     showToast(`👋 Добре дошъл, ${currentUser.firstName}!`);
   } else {
-    if (topLogin) topLogin.textContent = 'Вход';
+    if (topLogin) topLogin.style.display = '';
     if (topReg) topReg.style.display = '';
-    if (profileLabel) profileLabel.textContent = 'Профил';
-    if (profileIcon) profileIcon.innerHTML = '👤';
+    if (profileBtn) profileBtn.style.display = 'none';
     const pdAvatar = document.getElementById('pdAvatar'); if (pdAvatar) pdAvatar.textContent = '?';
     const pdName = document.getElementById('pdName'); if (pdName) pdName.textContent = 'Гост';
     const pdEmail = document.getElementById('pdEmail'); if (pdEmail) pdEmail.textContent = '—';

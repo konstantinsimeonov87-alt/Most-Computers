@@ -2794,6 +2794,7 @@
    display: flex;
    gap: 6px;
  }
+ .row-gap-6 > * { min-width: 0; }
 
  .card-option-row {
    padding: 16px;
@@ -2985,6 +2986,21 @@
    .products-row {
      grid-template-columns: repeat(2, 1fr);
    }
+
+   /* Mobile horizontal scroll for subcategory strip */
+   .hp-subcat-strip {
+     flex-wrap: nowrap;
+     overflow-x: auto;
+     -webkit-overflow-scrolling: touch;
+     scrollbar-width: none;
+     padding-bottom: 8px;
+     margin: 0 -14px;
+     padding-left: 14px;
+     padding-right: 14px;
+   }
+   .hp-subcat-strip::-webkit-scrollbar { display: none; }
+   .hp-subcat-hidden { display: inline-flex !important; }
+   .hp-subcat-more { display: none !important; }
 
    .promo-banner {
      grid-template-columns: 1fr;
@@ -12471,6 +12487,7 @@
    cursor: pointer;
    transition: all 0.2s;
    font-family: inherit;
+   position: relative;
  }
  .hp-subcat-pill:hover {
    border-color: var(--primary);
@@ -12492,6 +12509,42 @@
    background: var(--primary-light);
    color: var(--primary);
  }
+ /* Trending badge */
+ .hp-subcat-trend {
+   font-size: 11px;
+   line-height: 1;
+ }
+ /* Color accents per category type */
+ .hp-subcat-pill[data-cattype="laptops"]    { border-color: #c7d9ff; }
+ .hp-subcat-pill[data-cattype="components"] { border-color: #d4c7ff; }
+ .hp-subcat-pill[data-cattype="peripherals"]{ border-color: #c7f0e8; }
+ .hp-subcat-pill[data-cattype="desktops"]   { border-color: #ffc7c7; }
+ .hp-subcat-pill[data-cattype="network"]    { border-color: #ffe4c7; }
+ .hp-subcat-pill[data-cattype="storage"]    { border-color: #c7f0c7; }
+ /* "Виж повече" expander */
+ .hp-subcat-more {
+   display: inline-flex;
+   align-items: center;
+   gap: 5px;
+   white-space: nowrap;
+   flex-shrink: 0;
+   padding: 9px 16px;
+   background: var(--bg);
+   border: 1.5px dashed var(--border);
+   border-radius: 30px;
+   font-size: 13px;
+   font-weight: 600;
+   color: var(--muted);
+   cursor: pointer;
+   transition: all 0.2s;
+   font-family: inherit;
+ }
+ .hp-subcat-more:hover {
+   border-color: var(--primary);
+   color: var(--primary);
+   background: var(--primary-light);
+ }
+ .hp-subcat-hidden { display: none !important; }
  body.dark .hp-subcat-pill {
    background: #1e2130;
    border-color: #2d3148;
@@ -12500,6 +12553,11 @@
  body.dark .hp-subcat-pill:hover {
    border-color: var(--primary);
    color: #fff;
+ }
+ body.dark .hp-subcat-more {
+   background: #161824;
+   border-color: #2d3148;
+   color: #6b7280;
  }
 
  .hp-cat-card {

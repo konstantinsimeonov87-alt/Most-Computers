@@ -2585,38 +2585,60 @@ function _ensureTopSortBar() {
   grid.before(bar);
 }
 
+function goToPage(n) {
+  topGridPage = n;
+  renderTopGrid();
+  const grid = document.getElementById('topGrid');
+  if (grid) grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function _buildPagination(current, total) {
+  if (total <= 1) return '';
+  const pages = [];
+  if (total <= 7) {
+    for (let i = 1; i <= total; i++) pages.push(i);
+  } else {
+    pages.push(1);
+    if (current > 3) pages.push('…');
+    for (let i = Math.max(2, current - 1); i <= Math.min(total - 1, current + 1); i++) pages.push(i);
+    if (current < total - 2) pages.push('…');
+    pages.push(total);
+  }
+  const btn = (p) => p === '…'
+    ? `<span class="pg-ellipsis">…</span>`
+    : `<button type="button" class="pg-btn${p === current ? ' active' : ''}" onclick="goToPage(${p})">${p}</button>`;
+  return `<div class="pagination-bar" style="grid-column:1/-1;">
+    <button type="button" class="pg-btn pg-prev" onclick="goToPage(${current - 1})"${current === 1 ? ' disabled' : ''}>‹</button>
+    ${pages.map(btn).join('')}
+    <button type="button" class="pg-btn pg-next" onclick="goToPage(${current + 1})"${current === total ? ' disabled' : ''}>›</button>
+    <span class="pg-info">${(current - 1) * TOP_PAGE_SIZE + 1}–${Math.min(current * TOP_PAGE_SIZE, _filterCache && _filterCache.list ? _filterCache.list.length : current * TOP_PAGE_SIZE)} от <strong id="pgTotal"></strong></span>
+  </div>`;
+}
+
 function renderTopGrid(){
   _ensureTopSortBar();
-  const list=getFilteredSorted();
-  const grid=document.getElementById('topGrid');
+  const list = getFilteredSorted();
+  const totalPages = Math.max(1, Math.ceil(list.length / TOP_PAGE_SIZE));
+  if (topGridPage > totalPages) topGridPage = totalPages;
+  const grid = document.getElementById('topGrid');
   if (typeof showSkeletons === 'function') showSkeletons('topGrid', 8);
-  const shown=list.slice(0, topGridPage * TOP_PAGE_SIZE);
-  const hasMore=shown.length < list.length;
-  // Sync sort select value
-  const sel=document.getElementById('topSortSelect');if(sel) sel.value=currentSort;
+  const from = (topGridPage - 1) * TOP_PAGE_SIZE;
+  const shown = list.slice(from, from + TOP_PAGE_SIZE);
+  // Sync sort select
+  const sel = document.getElementById('topSortSelect'); if (sel) sel.value = currentSort;
   // Update count
-  const cnt=document.getElementById('topSortCount');if(cnt) cnt.textContent=list.length+' продукта';
-  grid.innerHTML=list.length===0
-    ?`<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--muted);">
+  const cnt = document.getElementById('topSortCount'); if (cnt) cnt.textContent = list.length + ' продукта';
+  grid.innerHTML = list.length === 0
+    ? `<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--muted);">
         <div style="font-size:48px;margin-bottom:12px;">🔍</div>
         <div style="font-size:16px;font-weight:700;color:var(--text);">Няма продукти в тази категория</div>
         <div style="font-size:13px;margin-top:6px;">Опитай да смениш филтъра или добави продукти от Admin панела.</div>
       </div>`
-    :shown.map(p=>makeCard(p)).join('')
-    +(hasMore?`<div class="load-more-wrap" style="grid-column:1/-1;"><button type="button" class="load-more-btn" id="loadMoreBtn" onclick="topGridPage++;renderTopGrid()">Зареди още (${list.length-shown.length} продукта) ↓</button></div>`:'');
-  const rc=document.getElementById('resultsCount');if(rc)rc.textContent=`${list.length} продукта`;
-  compareList.forEach(id=>{const cb=document.getElementById('cmp-'+id);if(cb)cb.checked=true;});
+    : shown.map(p => makeCard(p)).join('') + _buildPagination(topGridPage, totalPages);
+  const pgTotal = document.getElementById('pgTotal'); if (pgTotal) pgTotal.textContent = list.length;
+  const rc = document.getElementById('resultsCount'); if (rc) rc.textContent = list.length + ' продукта';
+  compareList.forEach(id => { const cb = document.getElementById('cmp-' + id); if (cb) cb.checked = true; });
   updateLiveCount(list.length);
-  // Infinite scroll — auto-load when button enters viewport
-  if (hasMore && 'IntersectionObserver' in window) {
-    const btn = document.getElementById('loadMoreBtn');
-    if (btn) {
-      const obs = new IntersectionObserver(entries => {
-        if (entries[0].isIntersecting) { obs.disconnect(); topGridPage++; renderTopGrid(); }
-      }, { rootMargin: '200px' });
-      obs.observe(btn);
-    }
-  }
 }
 function renderGrids(){
   const _flashProds=[...products].filter(p=>p.old&&p.pct>0).sort((a,b)=>b.pct-a.pct).slice(0,5);

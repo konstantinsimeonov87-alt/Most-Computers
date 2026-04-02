@@ -16,7 +16,7 @@ function renderRecentlyViewed() {
   if (items.length < 2) { section.style.display='none'; return; }
   section.style.display = '';
   scroll.innerHTML = items.map(p => `
-    <div class="rv-card" onclick="openProductModal(${p.id})">
+    <div class="rv-card" onclick="openProductPage(${p.id})">
       ${p.img
         ? `<img class="rv-card-img" src="${p.img}" alt="${p.name}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="rv-card-emoji is-hidden">${p.emoji}</span>`
         : `<span class="rv-card-emoji">${p.emoji}</span>`}

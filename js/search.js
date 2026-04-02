@@ -195,7 +195,7 @@ function renderDropdown(query) {
 function selectSearchResult(id) {
   saveRecentSearch(searchInput.value.trim());
   closeSearchDropdown();
-  openProductModal(id);
+  openProductPage(id);
 }
 
 function doFullSearch() {

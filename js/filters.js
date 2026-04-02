@@ -193,7 +193,7 @@ function renderHeroPanel(){
         ${p.old?`<div class="mini-promo-old">${(p.old/EUR_RATE).toFixed(2)} € / ${p.old} лв.</div>`:''}
         <div class="mini-promo-price">${(p.price/EUR_RATE).toFixed(2)} € / ${p.price} лв.</div>
       </div>
-      <button type="button" class="mini-promo-view" onclick="event.stopPropagation();openProductModal(${p.id})">Виж →</button>
+      <button type="button" class="mini-promo-view" onclick="event.stopPropagation();openProductPage(${p.id})">Виж →</button>
     </div>`).join('');
 }
 
@@ -885,7 +885,7 @@ function readURLParams() {
     renderTopGrid();
     updateActiveFiltersBar();
   }
-  if (params.get('product')) { setTimeout(()=>openProductModal(parseInt(params.get('product'))),400); }
+  if (params.get('product')) { setTimeout(()=>openProductPage(parseInt(params.get('product'))),400); }
 }
 
 // URL + skeleton + carousel hooks — using var to avoid redeclaration

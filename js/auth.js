@@ -266,7 +266,7 @@ function renderWishlistGrid() {
         : `<span class="product-img-emoji">${p.emoji}</span>`;
       return `<div class="product-card pos-rel">
         <button type="button" class="wishlist-remove-btn" onclick="toggleWishlist(${p.id},{stopPropagation:()=>{}})" title="Премахни">×</button>
-        <div class="product-img-wrap cursor-pointer" onclick="openProductModal(${p.id});closeWishlist();">${imgHtml}</div>
+        <div class="product-img-wrap cursor-pointer" onclick="openProductPage(${p.id});closeWishlist();">${imgHtml}</div>
         <div class="product-body">
           <div class="product-brand">${p.brand}</div>
           <div class="product-name">${p.name}</div>

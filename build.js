@@ -43,7 +43,23 @@ try {
   process.exit(1);
 }
 
-// 3. Minify JavaScript
+// 3. Bundle app.js from source files (correct load order)
+console.log('\n📦 Bundling app.js...');
+const APP_SOURCES = [
+  'js/currency.js', 'js/data.js', 'js/cards.js', 'js/ui.js',
+  'js/gallery.js', 'js/cart.js', 'js/search.js', 'js/auth.js',
+  'js/recently-viewed.js', 'js/filters.js', 'js/order-tracker.js',
+  'js/pwa.js', 'js/admin.js', 'js/product-page.js', 'js/pdp-ux.js',
+  'js/seo.js', 'js/pages.js', 'js/actions.js', 'js/main.js',
+];
+const bundle = APP_SOURCES.map(f => {
+  if (!fs.existsSync(path.join(ROOT, f))) { err(`MISSING source: ${f}`); process.exit(1); }
+  return fs.readFileSync(path.join(ROOT, f), 'utf8');
+}).join('\n');
+fs.writeFileSync(path.join(ROOT, 'app.js'), bundle);
+log(`app.js bundled — ${(bundle.length/1024).toFixed(0)} KB from ${APP_SOURCES.length} files`);
+
+// 4. Minify JavaScript
 console.log('\n📦 Minifying JavaScript...');
 const jsFiles = [
   { src: 'products.js', dst: 'products.js' },

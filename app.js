@@ -15,6 +15,7 @@ function fmtDual(bgn) { return `${fmtEur(bgn)} / ${fmtBgn(bgn)}`; }
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = { EUR_RATE, toEur, fmtEur, fmtBgn, fmtPrice, fmtDual };
 }
+
 // ===== DATA =====
 const products = [
   { id:1,  sku:'MC-SONY-WH1000XM6', ean:'4548736132511', img:'https://www.sony.com/image/5d02da5df552836db894cead8a68f5f3?fmt=png-alpha&wid=600', name:'Sony WH-1000XM6 Безжични слушалки', brand:'Sony',    cat:'audio',   emoji:'🎧', price:449,  old:549,  badge:'sale', pct:18, rating:4.9, rv:124,
@@ -286,6 +287,7 @@ function persistProducts() {
   } catch(e) {}
 })();
 
+
 function starsHTML(r){return '★'.repeat(Math.round(r))+'☆'.repeat(5-Math.round(r));}
 
 function makeCard(p,small=false){
@@ -325,6 +327,7 @@ function makeCard(p,small=false){
     </div>
   </article>`;
 }
+
 
 // ===== SKELETON LOADING =====
 function showSkeletons(containerId, count=8) {
@@ -752,6 +755,7 @@ function initScrollAnimations() {
 }
 
 
+
 // ===== XSS ESCAPE HELPER =====
 function _esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
@@ -1004,6 +1008,7 @@ if(slides.length)setInterval(()=>goSlide((currentSlide+1)%slides.length),5000);
 // TOAST
 function showToast(msg){const t=document.getElementById('toast');if(!t)return;t.textContent=msg;t.classList.add('show');clearTimeout(t._timer);t._timer=setTimeout(()=>t.classList.remove('show'),2800);}
 
+
 // CART
 function saveCart(){try{localStorage.setItem('mc_cart',JSON.stringify(cart.map(x=>({id:x.id,qty:x.qty}))));} catch(e){}}
 function loadCart(){
@@ -1036,7 +1041,7 @@ function showRecommended(p) {
   panel.innerHTML = `
     <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:10px;">Клиентите купуват и…</div>
     ${recs.map(r => `
-      <div onclick="openProductModal(${r.id})" style="display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--border);cursor:pointer;">
+      <div onclick="openProductPage(${r.id})" style="display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--border);cursor:pointer;">
         <div style="font-size:22px;min-width:34px;text-align:center;">${r.emoji}</div>
         <div style="flex:1;min-width:0;">
           <div style="font-size:12px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${r.name.length>32?r.name.substring(0,32)+'…':r.name}</div>
@@ -1595,7 +1600,7 @@ function renderCartPageUpsell() {
   el.innerHTML = `
     <div class="cp-upsell-header">⚡ Може да те заинтересува</div>
     ${recs.map(p => `
-      <div class="cp-upsell-item" onclick="openProductModal(${p.id});closeCartPage()">
+      <div class="cp-upsell-item" onclick="openProductPage(${p.id});closeCartPage()">
         <div class="cp-upsell-emoji">${p.emoji}</div>
         <div class="cp-upsell-info">
           <div class="cp-upsell-name">${p.name.length > 40 ? p.name.substring(0,40)+'…' : p.name}</div>
@@ -1648,6 +1653,7 @@ if (typeof module !== 'undefined' && module.exports) {
     _setPayment:    (type) => { ckPaymentType = type; },
   };
 }
+
 // ===== LIVE SEARCH SYSTEM =====
 let recentSearches = [];
 try { recentSearches = JSON.parse(localStorage.getItem('mc_recent') || '[]'); } catch(e) { localStorage.removeItem('mc_recent'); }
@@ -1845,7 +1851,7 @@ function renderDropdown(query) {
 function selectSearchResult(id) {
   saveRecentSearch(searchInput.value.trim());
   closeSearchDropdown();
-  openProductModal(id);
+  openProductPage(id);
 }
 
 function doFullSearch() {
@@ -2007,6 +2013,7 @@ if (typeof module !== 'undefined' && module.exports) {
     _resetRecentSearches: () => { recentSearches = []; },
   };
 }
+
 
 // ===== AUTH SYSTEM =====
 let currentUser = null;
@@ -2276,7 +2283,7 @@ function renderWishlistGrid() {
         : `<span class="product-img-emoji">${p.emoji}</span>`;
       return `<div class="product-card pos-rel">
         <button type="button" class="wishlist-remove-btn" onclick="toggleWishlist(${p.id},{stopPropagation:()=>{}})" title="Премахни">×</button>
-        <div class="product-img-wrap cursor-pointer" onclick="openProductModal(${p.id});closeWishlist();">${imgHtml}</div>
+        <div class="product-img-wrap cursor-pointer" onclick="openProductPage(${p.id});closeWishlist();">${imgHtml}</div>
         <div class="product-body">
           <div class="product-brand">${p.brand}</div>
           <div class="product-name">${p.name}</div>
@@ -2466,6 +2473,7 @@ function printOrder(num) {
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = { toggleWishlist, _resetWishlist: () => { wishlist = []; } };
 }
+
 // ===== RECENTLY VIEWED =====
 let recentlyViewed = [];
 try { recentlyViewed = JSON.parse(localStorage.getItem('mc_rv') || '[]'); } catch(e) {}
@@ -2484,7 +2492,7 @@ function renderRecentlyViewed() {
   if (items.length < 2) { section.style.display='none'; return; }
   section.style.display = '';
   scroll.innerHTML = items.map(p => `
-    <div class="rv-card" onclick="openProductModal(${p.id})">
+    <div class="rv-card" onclick="openProductPage(${p.id})">
       ${p.img
         ? `<img class="rv-card-img" src="${p.img}" alt="${p.name}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="rv-card-emoji is-hidden">${p.emoji}</span>`
         : `<span class="rv-card-emoji">${p.emoji}</span>`}
@@ -2503,6 +2511,7 @@ function clearRecentlyViewed() {
 
 // Init recently viewed on load
 // renderRecentlyViewed called in DOMContentLoaded
+
 
 let _filterCache = null;
 function _invalidateFilterCache(){ _filterCache = null; }
@@ -2699,7 +2708,7 @@ function renderHeroPanel(){
         ${p.old?`<div class="mini-promo-old">${(p.old/EUR_RATE).toFixed(2)} € / ${p.old} лв.</div>`:''}
         <div class="mini-promo-price">${(p.price/EUR_RATE).toFixed(2)} € / ${p.price} лв.</div>
       </div>
-      <button type="button" class="mini-promo-view" onclick="event.stopPropagation();openProductModal(${p.id})">Виж →</button>
+      <button type="button" class="mini-promo-view" onclick="event.stopPropagation();openProductPage(${p.id})">Виж →</button>
     </div>`).join('');
 }
 
@@ -3391,7 +3400,7 @@ function readURLParams() {
     renderTopGrid();
     updateActiveFiltersBar();
   }
-  if (params.get('product')) { setTimeout(()=>openProductModal(parseInt(params.get('product'))),400); }
+  if (params.get('product')) { setTimeout(()=>openProductPage(parseInt(params.get('product'))),400); }
 }
 
 // URL + skeleton + carousel hooks — using var to avoid redeclaration
@@ -3539,6 +3548,7 @@ function applySubcatById(id) {
     if (pill) { pill.click(); }
   }, 100);
 }
+
 // ===== ORDER TRACKER =====
 const fakeOrders = {
   'MC-TEST01': {
@@ -3678,6 +3688,7 @@ function closeCheckoutPageAndTrack() {
   if (!orderNum || orderNum.trim() === 'MC-') { setTimeout(() => openOrderTracker(''), 300); return; }
   setTimeout(() => openOrderTracker('MC-' + orderNum.replace('MC-','').trim()), 300);
 }
+
 
 
 // ===== PWA =====
@@ -3852,6 +3863,7 @@ function dismissPushBanner() {
   if (banner) banner.classList.remove('show');
   localStorage.setItem('mc_push_dismissed', '1');
 }
+
 
 
 // ===== ADMIN PANEL =====
@@ -6051,6 +6063,7 @@ function saveEurRate() {
 }
 
 
+
 // ===== PRODUCT PAGE =====
 let pdpProductId = null;
 let pdpQtyVal    = 1;
@@ -6876,6 +6889,7 @@ document.addEventListener('click', e => {
     pdpSearchDropClose();
   }
 });
+
 // ===== PDP UX ENHANCEMENTS =====
 
 // ── LIGHTBOX ──
@@ -7332,6 +7346,7 @@ function pdpInitPinch() {
 
   wrap._pinchInited = true;
 }
+
 // ===== BREADCRUMBS =====
 // State: array of {label, action}  — action is a function or null for current
 let _bcTrail = []; // [{label, fn}]
@@ -8049,6 +8064,7 @@ function cpCloseSidebar() {
 // INIT HP CATS on DOMContentLoaded
 // ═══════════════════════════════════════
 
+
 // ===== BLOG / SERVICE / DELIVERY PAGES =====
 const blogPosts = [
   { emoji:'💻', cat:'Ревю', title:'MacBook Pro M4 Pro — Worth It?', date:'07 Март 2026', read:'5 мин', summary:'Тествахме новия MacBook Pro M4 Pro в реални условия — видео монтаж, код и gaming. Ето резултатите.' },
@@ -8266,6 +8282,7 @@ document.addEventListener('DOMContentLoaded', () => {
   renderHpSubcatsStrip();
   renderRecentlyDiscounted();
 });
+
 // migrate any remaining inline onclick attributes into data-action
 function migrateInlineClickHandlers() {
   document.querySelectorAll('[onclick]').forEach(el => {
@@ -8366,6 +8383,7 @@ if (typeof module !== 'undefined' && module.exports) {
     initDataActions,
   };
 }
+
 // ===== ERROR BOUNDARY =====
 window.onerror = function(msg, src, line, col, err) {
   console.error('[MC Error]', msg, src, line, col, err);

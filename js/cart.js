@@ -30,7 +30,7 @@ function showRecommended(p) {
   panel.innerHTML = `
     <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:10px;">Клиентите купуват и…</div>
     ${recs.map(r => `
-      <div onclick="openProductModal(${r.id})" style="display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--border);cursor:pointer;">
+      <div onclick="openProductPage(${r.id})" style="display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--border);cursor:pointer;">
         <div style="font-size:22px;min-width:34px;text-align:center;">${r.emoji}</div>
         <div style="flex:1;min-width:0;">
           <div style="font-size:12px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${r.name.length>32?r.name.substring(0,32)+'…':r.name}</div>
@@ -589,7 +589,7 @@ function renderCartPageUpsell() {
   el.innerHTML = `
     <div class="cp-upsell-header">⚡ Може да те заинтересува</div>
     ${recs.map(p => `
-      <div class="cp-upsell-item" onclick="openProductModal(${p.id});closeCartPage()">
+      <div class="cp-upsell-item" onclick="openProductPage(${p.id});closeCartPage()">
         <div class="cp-upsell-emoji">${p.emoji}</div>
         <div class="cp-upsell-info">
           <div class="cp-upsell-name">${p.name.length > 40 ? p.name.substring(0,40)+'…' : p.name}</div>

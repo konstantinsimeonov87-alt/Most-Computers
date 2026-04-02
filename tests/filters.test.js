@@ -46,17 +46,18 @@ describe('getFilteredSorted — категория', () => {
     expect(result).toHaveLength(PRODUCTS.length);
   });
 
-  test('филтрира само audio продукти', () => {
-    global.currentFilter = 'audio';
+  test('филтрира peripherals — включва audio продукти (normalizeCat)', () => {
+    global.currentFilter = 'peripherals';
     const result = getFilteredSorted();
     expect(result).toHaveLength(1);
     expect(result[0].cat).toBe('audio');
   });
 
-  test('филтрира само mobile продукти', () => {
-    global.currentFilter = 'mobile';
+  test('филтрира accessories — включва mobile, acc, tv продукти (normalizeCat)', () => {
+    global.currentFilter = 'accessories';
     const result = getFilteredSorted();
-    expect(result.every(p => p.cat === 'mobile')).toBe(true);
+    expect(result.every(p => ['mobile','acc','tv','accessories'].includes(p.cat))).toBe(true);
+    expect(result.length).toBeGreaterThanOrEqual(1);
   });
 
   test('връща празен масив за несъществуваща категория', () => {

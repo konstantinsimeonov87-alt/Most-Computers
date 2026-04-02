@@ -2523,6 +2523,25 @@ function clearRecentlyViewed() {
 // renderRecentlyViewed called in DOMContentLoaded
 
 
+// ── Canonical category normalization ─────────────────────────────────────────
+// Maps any cat value (old-style or XML-imported) → one of the 8 canonical cats:
+// laptops | desktops | components | peripherals | network | storage | software | accessories
+function normalizeCat(cat) {
+  const m = {
+    laptop:'laptops',    laptops:'laptops',
+    desktop:'desktops',  desktops:'desktops',  gaming:'desktops',
+    components:'components', component:'components',
+    monitor:'peripherals', audio:'peripherals', camera:'peripherals',
+    print:'peripherals',   peripherals:'peripherals',
+    mobile:'accessories',  tablet:'accessories', tv:'accessories', smart:'accessories',
+    network:'network',
+    storage:'storage',   nas:'storage',
+    software:'software',
+    acc:'accessories',   accessories:'accessories', accessory:'accessories',
+  };
+  return m[(cat||'').toLowerCase()] || 'accessories';
+}
+
 let _filterCache = null;
 function _invalidateFilterCache(){ _filterCache = null; }
 function getFilteredSorted(){
@@ -2537,7 +2556,7 @@ function getFilteredSorted(){
     typeof catSpecActiveFilters!=='undefined'?JSON.stringify(Object.fromEntries(Object.entries(catSpecActiveFilters).map(([k,v])=>[k,[...v]]))):'{}',
   ]);
   if (_filterCache && _filterCache.key === _cacheKey) return _filterCache.list;
-  let list=currentFilter==='all'?[...products]:products.filter(p=>p.cat===currentFilter);
+  let list=currentFilter==='all'?[...products]:products.filter(p=>normalizeCat(p.cat)===currentFilter);
   // Subcat filter
   if(typeof matchesSubcat==='function' && currentSubcat && currentSubcat!=='all')
     list=list.filter(p=>matchesSubcat(p, currentSubcat));
@@ -4136,8 +4155,8 @@ function renderAdminProductsTable() {
     const ql = _adminProd.q.toLowerCase();
     list = list.filter(p => (p.name + ' ' + (p.sku||'') + ' ' + (p.brand||'')).toLowerCase().includes(ql));
   }
-  // category filter
-  if (_adminProd.cat) list = list.filter(p => p.cat === _adminProd.cat);
+  // category filter — normalize both sides so old/new cat values both match
+  if (_adminProd.cat) list = list.filter(p => normalizeCat(p.cat) === _adminProd.cat);
   // brand filter
   if (_adminProd.brand) list = list.filter(p => p.brand === _adminProd.brand);
   // status filter
@@ -4158,9 +4177,9 @@ function renderAdminProductsTable() {
       va = a.stock === false || a.stock === 0 ? -1 : (a.stock == null ? 9999 : a.stock);
       vb = b.stock === false || b.stock === 0 ? -1 : (b.stock == null ? 9999 : b.stock);
     } else {
-      // default: group by category, then name
-      va = (_adminCatNamesMap[a.cat]||a.cat) + '|' + (a.name||'').toLowerCase();
-      vb = (_adminCatNamesMap[b.cat]||b.cat) + '|' + (b.name||'').toLowerCase();
+      // default: group by normalized category, then name
+      va = (_adminCatNamesMap[normalizeCat(a.cat)]||a.cat) + '|' + (a.name||'').toLowerCase();
+      vb = (_adminCatNamesMap[normalizeCat(b.cat)]||b.cat) + '|' + (b.name||'').toLowerCase();
     }
     if (va < vb) return -1 * _adminProd.dir;
     if (va > vb) return  1 * _adminProd.dir;
@@ -4219,12 +4238,13 @@ function renderAdminProductsTable() {
   let lastCat = null;
   let tbodyHtml = '';
   pageList.forEach(p => {
-    if (showGroups && p.cat !== lastCat) {
-      const catTotal = list.filter(x => x.cat === p.cat).length;
+    const normCat = normalizeCat(p.cat);
+    if (showGroups && normCat !== lastCat) {
+      const catTotal = list.filter(x => normalizeCat(x.cat) === normCat).length;
       tbodyHtml += '<tr style="background:#0d0f1a;"><td colspan="10" style="padding:7px 14px;font-size:10px;font-weight:900;color:#4b5563;text-transform:uppercase;letter-spacing:.1em;">'
-        + (_adminCatNamesMap[p.cat]||p.cat)
+        + (_adminCatNamesMap[normCat]||normCat)
         + ' <span style="color:#374151;font-weight:600;font-size:10px;">(' + catTotal + ')</span></td></tr>';
-      lastCat = p.cat;
+      lastCat = normCat;
     }
     const stockHtml = p.stock===false||p.stock===0
       ? '<span style="color:#f87171;font-size:11px;">Изчерпан</span>'
@@ -4245,7 +4265,7 @@ function renderAdminProductsTable() {
       + '<td style="font-family:\'JetBrains Mono\',monospace;font-size:10px;color:#6b7280;">' + (p.sku||'—') + '</td>'
       + '<td id="aie-price-' + p.id + '" style="color:#34d399;font-weight:700;cursor:pointer;" onclick="adminInlineEdit(' + p.id + ',\'price\')" title="Клик за редактиране на цена">'
       + (p.price/EUR_RATE).toFixed(2) + ' €<div style="font-size:10px;color:#6b7280;">' + p.price + ' лв.</div></td>'
-      + '<td style="color:#9ca3af;">' + (_adminCatNamesMap[p.cat]||p.cat) + '</td>'
+      + '<td style="color:#9ca3af;">' + (_adminCatNamesMap[normalizeCat(p.cat)]||p.cat) + '</td>'
       + '<td>' + badgeHtml + '</td>'
       + '<td id="aie-stock-' + p.id + '" style="cursor:pointer;" onclick="adminInlineEdit(' + p.id + ',\'stock\')" title="Клик за редактиране на наличност">' + stockHtml + '</td>'
       + '<td>⭐ ' + p.rating + '</td>'
@@ -4404,6 +4424,7 @@ function adminShowTab(tab) {
         <div><div class="admin-page-title">🏷 Продукти</div><div class="admin-page-sub">${products.length} продукта в базата</div></div>
         <div style="display:flex;gap:10px;align-items:center;">
           <button type="button" class="admin-table-action" onclick="openProductEditor(null)">+ Добави продукт</button>
+          <button type="button" class="admin-table-action" onclick="adminNormalizeCats()" title="Нормализирай cat стойностите на всички продукти към стандартните категории" style="background:rgba(251,191,36,0.1);color:#fbbf24;border-color:rgba(251,191,36,0.3);">🔧 Нормализирай категориите</button>
           <button type="button" class="admin-table-action" onclick="adminExportProductsJSON()" title="Изтегли всички продукти като JSON">⬇ JSON</button>
           <button type="button" class="admin-table-action" onclick="adminExportProductsCSV()" title="Изтегли всички продукти като CSV">⬇ CSV</button>
           <button type="button" id="adminBulkDeleteBtn" class="admin-table-action" onclick="adminBulkDelete()" style="display:none;background:rgba(248,113,113,0.15);color:#f87171;border-color:rgba(248,113,113,0.3);">🗑 Изтрий избраните (<span id="adminSelCount">0</span>)</button>
@@ -5364,6 +5385,20 @@ function adminFilterProducts(q) {
   renderAdminProductsTable();
 }
 
+function adminNormalizeCats() {
+  let changed = 0;
+  products.forEach(p => {
+    const norm = normalizeCat(p.cat);
+    if (norm !== p.cat) { p.cat = norm; changed++; }
+  });
+  if (changed === 0) { showToast('✅ Всички категории вече са наредени правилно'); return; }
+  persistProducts();
+  renderGrids();
+  _invalidateFilterCache();
+  adminShowTab('products');
+  showToast('✅ ' + changed + ' продукта категоризирани правилно');
+}
+
 
 
 // ===== XML IMPORT / EXPORT =====
@@ -5441,31 +5476,35 @@ function xmlParseAndPreview(xmlStr) {
   const getT   = (el, tag) => el.querySelector(tag)?.textContent?.trim() || '';
   const getAny = (el, ...tags) => { for(const t of tags){ const v=getT(el,t); if(v) return v; } return ''; };
 
-  // Category text → internal cat key
+  // Category text → canonical cat key (matches normalizeCat output)
   const CAT_MAP_GENERIC = [
-    [['NOTEBOOK','LAPTOP','ЛАПТОП'], 'laptop'],
-    [['DESKTOP','СТАЦИОНАРЕН','ALL-IN-ONE','AIO','TOWER PC','НАСТОЛЕН'], 'desktop'],
-    [['PHONE','MOBILE','ТЕЛЕФОН','СМАРТФОН'], 'mobile'],
-    [['TABLET','ТАБЛЕТ'], 'tablet'],
-    [['MONITOR','МОНИТОР','DISPLAY','ДИСПЛЕЙ'], 'monitor'],
-    [['TV','ТЕЛЕВИЗОР','TELEVISION'], 'tv'],
-    [['AUDIO','HEADPHONE','СЛУШАЛК','SPEAKER','КОЛОНК'], 'audio'],
-    [['CAMERA','ФОТОАПАРАТ'], 'camera'],
-    [['GAMING','GAME'], 'gaming'],
-    [['SMARTWATCH','SMART HOME','SMARTHOME'], 'smart'],
-    [['NETWORK','ROUTER','МРЕЖА','SWITCH','ACCESS POINT'], 'network'],
-    [['PRINTER','ПРИНТЕР','СКЕНЕР','SCANNER'], 'print'],
+    [['NOTEBOOK','LAPTOP','ЛАПТОП','NOTEBOOK PC'], 'laptops'],
+    [['DESKTOP','СТАЦИОНАРЕН','ALL-IN-ONE','AIO','TOWER PC','НАСТОЛЕН'], 'desktops'],
+    [['GAMING PC','GAMING DESKTOP','GAME PC'], 'desktops'],
+    [['MONITOR','МОНИТОР','DISPLAY','ДИСПЛЕЙ'], 'peripherals'],
+    [['AUDIO','HEADPHONE','СЛУШАЛК','SPEAKER','КОЛОНК'], 'peripherals'],
+    [['CAMERA','ФОТОАПАРАТ','WEBCAM','УЕБ КАМ'], 'peripherals'],
+    [['PRINTER','ПРИНТЕР','СКЕНЕР','SCANNER'], 'peripherals'],
+    [['KEYBOARD','КЛАВИАТУР','MOUSE','МИШК','ГЕЙМПАД','GAMEPAD'], 'peripherals'],
+    [['NETWORK','ROUTER','МРЕЖА','SWITCH','ACCESS POINT','WIRELESS'], 'network'],
+    [['EXTERNAL STORAGE','EXTERNAL DRIVE','NAS','ВЪНШЕН ДИСК','USB ДИСК'], 'storage'],
     [['ПРОЦЕСОР','PROCESSOR','CPU'], 'components'],
     [['ВИДЕОКАРТ','VIDEO CARD','GPU','GRAPHIC'], 'components'],
     [['RAM','ПАМЕТ','MEMORY','DIMM'], 'components'],
     [['ДЪННА','MOTHERBOARD','MAINBOARD'], 'components'],
-    [['SSD','HDD','NVME','ДИСК'], 'components'],
+    [['SSD','HDD','NVME','SOLID STATE'], 'components'],
     [['ЗАХРАНВАН','PSU','POWER SUPPLY'], 'components'],
-    [['ОХЛАДИТЕЛ','COOLER','COOLING'], 'components'],
-    [['КУТИЯ','CHASSIS'], 'components'],
+    [['ОХЛАДИТЕЛ','COOLER','COOLING','ВЕНТИЛАТОР'], 'components'],
+    [['КУТИЯ','CHASSIS','CASE'], 'components'],
     [['КОМПОНЕНТ','COMPONENT'], 'components'],
-    [['EXTERNAL STORAGE','EXTERNAL DRIVE','NAS','ВЪНШЕН ДИСК','USB ДИСК'], 'storage'],
-    [['АКСЕСОАР','ACCESSORY','CABLE','КАБЕЛ','KEYBOARD','КЛАВИАТУР','MOUSE','МИШК','BAG','ЧАНТА'], 'acc'],
+    [['PHONE','MOBILE','ТЕЛЕФОН','СМАРТФОН'], 'accessories'],
+    [['TABLET','ТАБЛЕТ'], 'accessories'],
+    [['TV','ТЕЛЕВИЗОР','TELEVISION'], 'accessories'],
+    [['SMARTWATCH','SMART HOME','SMARTHOME','SMART WATCH'], 'accessories'],
+    [['GAMING LAPTOP','GAMING НОТ'], 'laptops'],
+    [['GAMING','GAME'], 'desktops'],
+    [['SOFTWARE','СОФТУЕР','LICENSE','ЛИЦЕНЗ'], 'software'],
+    [['АКСЕСОАР','ACCESSORY','CABLE','КАБЕЛ','BAG','ЧАНТА','HUB','ХЪБ'], 'accessories'],
   ];
   function mapCatGeneric(raw) {
     const u = raw.toUpperCase();
@@ -5892,27 +5931,34 @@ async function xmlRunAutoUpdate(manual) {
     const getT    = (el, tag) => el.querySelector(tag)?.textContent?.trim() || '';
     const getAny  = (el, ...tags) => { for(const t of tags){ const v=getT(el,t); if(v) return v; } return ''; };
     const catMap  = {
-        'NOTEBOOK': 'laptop', 'ЛАПТОП': 'laptop', 'LAPTOP': 'laptop',
-        'PHONE': 'mobile', 'MOBILE': 'mobile', 'ТЕЛЕФОН': 'mobile', 'СМАРТФОН': 'mobile',
-        'TABLET': 'tablet', 'ТАБЛЕТ': 'tablet',
-        'TV': 'tv', 'ТЕЛЕВИЗОР': 'tv', 'TELEVISION': 'tv',
-        'AUDIO': 'audio', 'HEADPHONE': 'audio', 'СЛУШАЛКИ': 'audio',
-        'CAMERA': 'camera', 'ФОТОАПАРАТ': 'camera',
-        'GAMING': 'gaming', 'GAME': 'gaming',
-        'SMARTWATCH': 'smart', 'SMART HOME': 'smart',
-        'NETWORK': 'network', 'ROUTER': 'network', 'МРЕЖА': 'network',
-        'PRINTER': 'print', 'ПРИНТЕР': 'print',
-        'MONITOR': 'acc', 'ACCESSORY': 'acc', 'АКСЕСОАР': 'acc',
+        'NOTEBOOK': 'laptops', 'ЛАПТОП': 'laptops', 'LAPTOP': 'laptops',
+        'PHONE': 'accessories', 'MOBILE': 'accessories', 'ТЕЛЕФОН': 'accessories', 'СМАРТФОН': 'accessories',
+        'TABLET': 'accessories', 'ТАБЛЕТ': 'accessories',
+        'TV': 'accessories', 'ТЕЛЕВИЗОР': 'accessories', 'TELEVISION': 'accessories',
+        'AUDIO': 'peripherals', 'HEADPHONE': 'peripherals', 'СЛУШАЛКИ': 'peripherals',
+        'MONITOR': 'peripherals', 'МОНИТОР': 'peripherals', 'DISPLAY': 'peripherals',
+        'CAMERA': 'peripherals', 'ФОТОАПАРАТ': 'peripherals', 'WEBCAM': 'peripherals',
+        'PRINTER': 'peripherals', 'ПРИНТЕР': 'peripherals', 'SCANNER': 'peripherals',
+        'KEYBOARD': 'peripherals', 'КЛАВИАТУРА': 'peripherals', 'MOUSE': 'peripherals',
+        'GAMING': 'desktops', 'GAME': 'desktops',
+        'DESKTOP': 'desktops', 'НАСТОЛЕН': 'desktops',
+        'SMARTWATCH': 'accessories', 'SMART HOME': 'accessories',
+        'NETWORK': 'network', 'ROUTER': 'network', 'МРЕЖА': 'network', 'SWITCH': 'network',
+        'ACCESSORY': 'accessories', 'АКСЕСОАР': 'accessories',
         // Components
         'ПРОЦЕСОР': 'components', 'PROCESSOR': 'components', 'CPU': 'components',
         'ВИДЕОКАРТ': 'components', 'VIDEO CARD': 'components', 'GPU': 'components', 'GRAPHIC': 'components',
         'RAM': 'components', 'ПАМЕТ': 'components', 'MEMORY': 'components', 'DIMM': 'components',
         'ДЪННА': 'components', 'MOTHERBOARD': 'components', 'MAINBOARD': 'components',
-        'SSD': 'components', 'HDD': 'components', 'NVME': 'components', 'STORAGE': 'components', 'ДИСК': 'components',
+        'SSD': 'components', 'HDD': 'components', 'NVME': 'components', 'ДИСК': 'components',
         'ЗАХРАНВАН': 'components', 'PSU': 'components', 'POWER SUPPLY': 'components',
         'ОХЛАДИТЕЛ': 'components', 'COOLER': 'components', 'COOLING': 'components',
         'КУТИЯ': 'components', 'CHASSIS': 'components',
         'КОМПОНЕНТ': 'components', 'COMPONENT': 'components',
+        // Storage
+        'EXTERNAL STORAGE': 'storage', 'NAS': 'storage', 'STORAGE': 'storage',
+        // Software
+        'SOFTWARE': 'software', 'ЛИЦЕНЗ': 'software',
       };
     const catEmojis = {
       laptops:'💻',desktops:'🖥',components:'⚙️',peripherals:'🖱',

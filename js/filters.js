@@ -1,3 +1,22 @@
+// ── Canonical category normalization ─────────────────────────────────────────
+// Maps any cat value (old-style or XML-imported) → one of the 8 canonical cats:
+// laptops | desktops | components | peripherals | network | storage | software | accessories
+function normalizeCat(cat) {
+  const m = {
+    laptop:'laptops',    laptops:'laptops',
+    desktop:'desktops',  desktops:'desktops',  gaming:'desktops',
+    components:'components', component:'components',
+    monitor:'peripherals', audio:'peripherals', camera:'peripherals',
+    print:'peripherals',   peripherals:'peripherals',
+    mobile:'accessories',  tablet:'accessories', tv:'accessories', smart:'accessories',
+    network:'network',
+    storage:'storage',   nas:'storage',
+    software:'software',
+    acc:'accessories',   accessories:'accessories', accessory:'accessories',
+  };
+  return m[(cat||'').toLowerCase()] || 'accessories';
+}
+
 let _filterCache = null;
 function _invalidateFilterCache(){ _filterCache = null; }
 function getFilteredSorted(){
@@ -12,7 +31,7 @@ function getFilteredSorted(){
     typeof catSpecActiveFilters!=='undefined'?JSON.stringify(Object.fromEntries(Object.entries(catSpecActiveFilters).map(([k,v])=>[k,[...v]]))):'{}',
   ]);
   if (_filterCache && _filterCache.key === _cacheKey) return _filterCache.list;
-  let list=currentFilter==='all'?[...products]:products.filter(p=>p.cat===currentFilter);
+  let list=currentFilter==='all'?[...products]:products.filter(p=>normalizeCat(p.cat)===currentFilter);
   // Subcat filter
   if(typeof matchesSubcat==='function' && currentSubcat && currentSubcat!=='all')
     list=list.filter(p=>matchesSubcat(p, currentSubcat));

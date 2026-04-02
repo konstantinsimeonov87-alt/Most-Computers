@@ -3411,13 +3411,10 @@ if (!_urlHooked) {
 
   var _baseOpenProductModal = openProductModal;
   openProductModal = function(id) {
-    showModalSkeleton();
-    setTimeout(() => {
-      _baseOpenProductModal(id);
-      renderRelated(id);
-      updateURL();
-      document.dispatchEvent(new CustomEvent('mc:productopen', {detail: id}));
-    }, 280);
+    _baseOpenProductModal(id);
+    renderRelated(id);
+    updateURL();
+    document.dispatchEvent(new CustomEvent('mc:productopen', {detail: id}));
   };
 
   var _baseCloseProductModalDirect = closeProductModalDirect;

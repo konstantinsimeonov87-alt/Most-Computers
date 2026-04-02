@@ -463,7 +463,18 @@ function closeThankyouPage() {
 }
 
 // MOBILE MENU
-function toggleMobMenu(){document.getElementById('mobOverlay').classList.toggle('open');document.getElementById('mobDrawer').classList.toggle('open');}
+function toggleMobMenu(){
+  const overlay = document.getElementById('mobOverlay');
+  const drawer  = document.getElementById('mobDrawer');
+  const isOpen  = drawer.classList.toggle('open');
+  overlay.classList.toggle('open', isOpen);
+  document.body.style.overflow = isOpen ? 'hidden' : '';
+}
+function closeMobMenu(){
+  document.getElementById('mobOverlay').classList.remove('open');
+  document.getElementById('mobDrawer').classList.remove('open');
+  document.body.style.overflow = '';
+}
 function handleMobSearch(){
   const q=document.getElementById('mobSearchInput').value.trim();
   if(q){

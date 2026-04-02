@@ -285,6 +285,7 @@ document.addEventListener('keydown', e => {
       { id: 'adminPage',            close: closeAdminPage },
       { id: 'comparePage',          close: closeComparePage, checkFn: el => el.style.display === 'block' },
       { id: 'catPage',              close: () => typeof closeCatPage === 'function' && closeCatPage() },
+      { id: 'mobDrawer',            close: () => typeof closeMobMenu === 'function' && closeMobMenu(), checkFn: el => el.classList.contains('open') },
     ];
     for (const { id, close, checkFn } of panels) {
       const el = document.getElementById(id);

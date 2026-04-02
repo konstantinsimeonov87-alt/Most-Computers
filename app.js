@@ -616,6 +616,7 @@ document.addEventListener('keydown', e => {
       { id: 'adminPage',            close: closeAdminPage },
       { id: 'comparePage',          close: closeComparePage, checkFn: el => el.style.display === 'block' },
       { id: 'catPage',              close: () => typeof closeCatPage === 'function' && closeCatPage() },
+      { id: 'mobDrawer',            close: () => typeof closeMobMenu === 'function' && closeMobMenu(), checkFn: el => el.classList.contains('open') },
     ];
     for (const { id, close, checkFn } of panels) {
       const el = document.getElementById(id);
@@ -1474,7 +1475,18 @@ function closeThankyouPage() {
 }
 
 // MOBILE MENU
-function toggleMobMenu(){document.getElementById('mobOverlay').classList.toggle('open');document.getElementById('mobDrawer').classList.toggle('open');}
+function toggleMobMenu(){
+  const overlay = document.getElementById('mobOverlay');
+  const drawer  = document.getElementById('mobDrawer');
+  const isOpen  = drawer.classList.toggle('open');
+  overlay.classList.toggle('open', isOpen);
+  document.body.style.overflow = isOpen ? 'hidden' : '';
+}
+function closeMobMenu(){
+  document.getElementById('mobOverlay').classList.remove('open');
+  document.getElementById('mobDrawer').classList.remove('open');
+  document.body.style.overflow = '';
+}
 function handleMobSearch(){
   const q=document.getElementById('mobSearchInput').value.trim();
   if(q){

@@ -95,7 +95,7 @@ function queryType(q) {
 }
 
 function renderDropdown(query) {
-  const cat = document.getElementById('searchCat').value;
+  const cat = '';
   const results = searchProducts(query, cat);
   const q = query.trim();
   const qtype = queryType(q);
@@ -210,7 +210,7 @@ function showSearchResultsPage(query) {
   // Reset price filter state
   srpCurrentQuery = query; srpCurrentCatFilter = ''; srpPriceMinVal = 0; srpPriceMaxVal = 5000;
 
-  const cat = document.getElementById('searchCat').value;
+  const cat = '';
   let results = searchProducts(query, cat);
   const page = document.getElementById('searchResultsPage');
   document.getElementById('srpQuery').textContent = `"${query}"`;

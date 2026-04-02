@@ -321,7 +321,7 @@ function makeCard(p,small=false){
         <div class="row-gap-6" style="margin-top:6px;">
           <button type="button" class="product-quick-view-btn" onclick="openProductPage(${p.id})" title="Бърз преглед" style="flex:1;flex-direction:column;gap:3px;"><svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-eye"/></svg><span style="font-size:10px;color:var(--muted);font-weight:500;">Преглед</span></button>
           <button type="button" onclick="openQuickOrder(${p.id})" title="Бърза поръчка" style="flex:1;flex-direction:column;gap:3px;background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:9px 10px;transition:all 0.2s;display:flex;align-items:center;justify-content:center;" onmouseover="this.style.background='var(--primary-light)'" onmouseout="this.style.background='var(--bg)'"><svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-bolt"/></svg><span style="font-size:10px;color:var(--muted);font-weight:500;">Бърза поръчка</span></button>
-          <div class="product-compare-cb"><input type="checkbox" id="cmp-${p.id}" onchange="toggleCompare(${p.id},this.checked)"><label for="cmp-${p.id}">Сравни</label></div>
+          <button type="button" id="cmp-btn-${p.id}" onclick="toggleCompare(${p.id},!compareList.includes(${p.id}))" title="Сравни" style="flex:1;flex-direction:column;gap:3px;background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:9px 10px;transition:all 0.2s;display:flex;align-items:center;justify-content:center;" onmouseover="this.style.background='var(--primary-light)'" onmouseout="this.style.background=compareList.includes(${p.id})?'var(--primary-light)':'var(--bg)'"><svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-compare"/></svg><span style="font-size:10px;color:var(--muted);font-weight:500;">Сравни</span></button>
         </div>
       </div>
     </div>
@@ -906,19 +906,17 @@ function addFromModal(){
 function toggleCompare(id,checked){
   if(checked){
     const p = products.find(x=>x.id===id);
-    // Same category check
     if(compareList.length>0){
       const firstCat = products.find(x=>x.id===compareList[0])?.cat;
-      if(p.cat !== firstCat){
-        showToast('⚠️ Можеш да сравняваш само продукти от една и съща категория!');
-        document.getElementById('cmp-'+id).checked=false;
-        return;
-      }
+      if(p.cat !== firstCat){ showToast('⚠️ Можеш да сравняваш само продукти от една и съща категория!'); return; }
     }
-    if(compareList.length>=3){showToast('Максимум 3 продукта за сравнение!');document.getElementById('cmp-'+id).checked=false;return;}
+    if(compareList.length>=3){showToast('Максимум 3 продукта за сравнение!');return;}
     if(!compareList.includes(id))compareList.push(id);
   }
   else{compareList=compareList.filter(x=>x!==id);}
+  // Update button visual state
+  const btn=document.getElementById('cmp-btn-'+id);
+  if(btn) btn.style.background=compareList.includes(id)?'var(--primary-light)':'var(--bg)';
   updateCompareBar();
 }
 function updateCompareBar(){
@@ -932,7 +930,7 @@ function updateCompareBar(){
   }
   slots.innerHTML=html;
 }
-function removeCompare(id){compareList=compareList.filter(x=>x!==id);const cb=document.getElementById('cmp-'+id);if(cb)cb.checked=false;updateCompareBar();}
+function removeCompare(id){compareList=compareList.filter(x=>x!==id);const btn=document.getElementById('cmp-btn-'+id);if(btn)btn.style.background='var(--bg)';updateCompareBar();}
 function clearCompare(){compareList.forEach(id=>{const cb=document.getElementById('cmp-'+id);if(cb)cb.checked=false;});compareList=[];updateCompareBar();}
 function openCompareModal(){
   if(compareList.length<2){showToast('Избери поне 2 продукта!');return;}

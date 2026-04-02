@@ -147,19 +147,17 @@ function addFromModal(){
 function toggleCompare(id,checked){
   if(checked){
     const p = products.find(x=>x.id===id);
-    // Same category check
     if(compareList.length>0){
       const firstCat = products.find(x=>x.id===compareList[0])?.cat;
-      if(p.cat !== firstCat){
-        showToast('⚠️ Можеш да сравняваш само продукти от една и съща категория!');
-        document.getElementById('cmp-'+id).checked=false;
-        return;
-      }
+      if(p.cat !== firstCat){ showToast('⚠️ Можеш да сравняваш само продукти от една и съща категория!'); return; }
     }
-    if(compareList.length>=3){showToast('Максимум 3 продукта за сравнение!');document.getElementById('cmp-'+id).checked=false;return;}
+    if(compareList.length>=3){showToast('Максимум 3 продукта за сравнение!');return;}
     if(!compareList.includes(id))compareList.push(id);
   }
   else{compareList=compareList.filter(x=>x!==id);}
+  // Update button visual state
+  const btn=document.getElementById('cmp-btn-'+id);
+  if(btn) btn.style.background=compareList.includes(id)?'var(--primary-light)':'var(--bg)';
   updateCompareBar();
 }
 function updateCompareBar(){
@@ -173,7 +171,7 @@ function updateCompareBar(){
   }
   slots.innerHTML=html;
 }
-function removeCompare(id){compareList=compareList.filter(x=>x!==id);const cb=document.getElementById('cmp-'+id);if(cb)cb.checked=false;updateCompareBar();}
+function removeCompare(id){compareList=compareList.filter(x=>x!==id);const btn=document.getElementById('cmp-btn-'+id);if(btn)btn.style.background='var(--bg)';updateCompareBar();}
 function clearCompare(){compareList.forEach(id=>{const cb=document.getElementById('cmp-'+id);if(cb)cb.checked=false;});compareList=[];updateCompareBar();}
 function openCompareModal(){
   if(compareList.length<2){showToast('Избери поне 2 продукта!');return;}

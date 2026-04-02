@@ -1,5 +1,5 @@
-// Most Computers — Service Worker 7202197
-const CACHE = 'mc-7202197';
+// Most Computers — Service Worker ec2a62d
+const CACHE = 'mc-ec2a62d';
 const PRECACHE = [
   './',
   './index.html',

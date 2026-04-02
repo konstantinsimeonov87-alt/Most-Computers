@@ -59,7 +59,6 @@ description: 🛠 Имплементатор — изпълнява одобре
   - Mobile viewport (375px wide)
   - Провери за JS грешки в конзолата
 - Пусни `npm test` ако има unit тестове за засегнатия модул
-// turbo
 
 ### 5. Документация
 - Обнови walkthrough artifact с:

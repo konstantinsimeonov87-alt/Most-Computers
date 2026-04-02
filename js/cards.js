@@ -17,7 +17,6 @@ function makeCard(p,small=false){
     <button class="product-wishlist" id="wl-${p.id}" type="button" onclick="toggleWishlist(${p.id},event)" title="Добави в любими" aria-label="Добави в любими"><svg width="15" height="15" class="svg-ic" aria-hidden="true"><use href="#ic-heart"/></svg></button>
     <a href="?product=${p.id}" class="product-img-wrap${small?' small':''}" onclick="openProductPage(${p.id});return false;" style="cursor:pointer;" aria-label="${p.name}" itemprop="url">
       ${imgHtml}
-      ${Object.keys(p.specs||{}).length ? `<div class="card-specs-overlay" aria-hidden="true">${Object.entries(p.specs).slice(0,3).map(([k,v])=>`<div class="cso-row"><span class="cso-key">${k}</span><span class="cso-val">${v}</span></div>`).join('')}</div>` : ''}
     </a>
     <div class="product-body">
       <div class="product-brand" itemprop="brand">${p.brand}</div>

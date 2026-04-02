@@ -1471,12 +1471,15 @@
 
  /* ===== HERO SLIDER ===== */
  .hero-section {
-   display: block;
+   display: grid;
+   grid-template-columns: 1fr 300px;
+   gap: 16px;
    margin-bottom: 24px;
    min-width: 0;
+   align-items: stretch;
  }
 
- .hero-right-panel { display: none; }
+ .hero-right-panel { display: flex; }
 
  .hero-slider {
    border-radius: 12px;
@@ -1589,11 +1592,11 @@
 
  .slide-emoji {
    position: absolute;
-   right: 40px;
+   right: 24px;
    top: 50%;
    transform: translateY(-50%);
-   font-size: 100px;
-   opacity: 0.25;
+   font-size: 72px;
+   opacity: 0.18;
    pointer-events: none;
  }
 
@@ -2976,6 +2979,7 @@
 
    .hero-right-panel {
      flex-direction: row;
+     display: none;
    }
 
    .products-row {

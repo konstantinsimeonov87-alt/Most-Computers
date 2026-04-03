@@ -784,6 +784,7 @@ function hideCatSpecFilters() {
 // Subcat filtering logic — maps subcat ID to product spec matching
 function matchesSubcat(p, subcat) {
   if (subcat === 'all') return true;
+  if (p.subcat === subcat) return true;
   const name  = (p.name  || '').toLowerCase();
   const desc  = (p.desc  || '').toLowerCase();
   const brand = (p.brand || '').toLowerCase();

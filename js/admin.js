@@ -381,7 +381,7 @@ function renderAdminProductsTable() {
       + '<td style="font-family:\'JetBrains Mono\',monospace;font-size:10px;color:#6b7280;">' + (p.sku||'—') + '</td>'
       + '<td id="aie-price-' + p.id + '" style="color:#34d399;font-weight:700;cursor:pointer;" onclick="adminInlineEdit(' + p.id + ',\'price\')" title="Клик за редактиране на цена">'
       + (p.price/EUR_RATE).toFixed(2) + ' €<div style="font-size:10px;color:#6b7280;">' + p.price + ' лв.</div></td>'
-      + '<td style="color:#9ca3af;">' + (_adminCatNamesMap[normalizeCat(p.cat)]||p.cat) + '</td>'
+      + '<td style="color:#9ca3af;">' + (_adminCatNamesMap[normalizeCat(p.cat)]||p.cat) + (p.subcat ? '<div style="margin-top:3px;"><span style="background:rgba(99,102,241,0.15);color:#a5b4fc;padding:1px 7px;border-radius:8px;font-size:10px;font-weight:600;">' + p.subcat + '</span></div>' : '') + '</td>'
       + '<td>' + badgeHtml + '</td>'
       + '<td id="aie-stock-' + p.id + '" style="cursor:pointer;" onclick="adminInlineEdit(' + p.id + ',\'stock\')" title="Клик за редактиране на наличност">' + stockHtml + '</td>'
       + '<td>⭐ ' + p.rating + '</td>'
@@ -552,6 +552,10 @@ function adminShowTab(tab) {
               <div onclick="adminBulkSetBadge('hot')" style="padding:8px 12px;cursor:pointer;border-radius:6px;color:#fbbf24;font-size:12px;font-family:'Outfit',sans-serif;">🟡 Горещо</div>
               <div onclick="adminBulkSetBadge('')" style="padding:8px 12px;cursor:pointer;border-radius:6px;color:#9ca3af;font-size:12px;font-family:'Outfit',sans-serif;">✖ Без бадж</div>
             </div>
+          </div>
+          <div id="adminBulkSubcatWrap" style="display:none;position:relative;">
+            <button type="button" class="admin-table-action" onclick="adminToggleSubcatMenu()" style="gap:4px;background:rgba(99,102,241,0.15);color:#a5b4fc;border-color:rgba(99,102,241,0.3);">🗂 Подкат. (<span id="adminBulkSubcatCount">0</span>) ▾</button>
+            <div id="adminSubcatMenu" style="display:none;position:absolute;top:calc(100% + 4px);right:0;z-index:200;background:#1a1d35;border:1px solid #2d3148;border-radius:10px;padding:6px;min-width:190px;box-shadow:0 8px 24px rgba(0,0,0,0.4);max-height:320px;overflow-y:auto;"></div>
           </div>
           <button type="button" class="admin-close-btn" onclick="closeAdminPage()">✕ Затвори</button>
         </div>
@@ -1364,15 +1368,19 @@ function adminUpdateSelection() {
   const selected = document.querySelectorAll('.admin-prod-cb:checked');
   const btn = document.getElementById('adminBulkDeleteBtn');
   const badgeWrap = document.getElementById('adminBulkBadgeWrap');
+  const subcatWrap = document.getElementById('adminBulkSubcatWrap');
   const cnt = document.getElementById('adminSelCount');
   const badgeCnt = document.getElementById('adminBulkBadgeCount');
+  const subcatCnt = document.getElementById('adminBulkSubcatCount');
   if (!btn) return;
   const show = selected.length > 0;
   btn.style.display = show ? '' : 'none';
   if (badgeWrap) badgeWrap.style.display = show ? '' : 'none';
+  if (subcatWrap) subcatWrap.style.display = show ? '' : 'none';
   if (show) {
     if (cnt) cnt.textContent = selected.length;
     if (badgeCnt) badgeCnt.textContent = selected.length;
+    if (subcatCnt) subcatCnt.textContent = selected.length;
   }
   const all = document.querySelectorAll('.admin-prod-cb');
   const selAll = document.getElementById('adminSelectAll');
@@ -1382,6 +1390,49 @@ function adminUpdateSelection() {
 function adminToggleBadgeMenu() {
   const menu = document.getElementById('adminBadgeMenu');
   if (menu) menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+  const sm = document.getElementById('adminSubcatMenu');
+  if (sm) sm.style.display = 'none';
+}
+
+function adminToggleSubcatMenu() {
+  const menu = document.getElementById('adminSubcatMenu');
+  if (!menu) return;
+  if (menu.style.display !== 'none') { menu.style.display = 'none'; return; }
+  const bm = document.getElementById('adminBadgeMenu');
+  if (bm) bm.style.display = 'none';
+  const cat = _adminProd.cat;
+  const subs = (typeof SUBCATS !== 'undefined' && cat && SUBCATS[cat]) ? SUBCATS[cat] : [];
+  const clearItem = `<div onclick="adminBulkSetSubcat('')" style="padding:8px 12px;cursor:pointer;border-radius:6px;color:#9ca3af;font-size:12px;font-family:'Outfit',sans-serif;border-bottom:1px solid #2d3148;margin-bottom:4px;">✖ Без подкатегория</div>`;
+  if (!subs.length) {
+    menu.innerHTML = clearItem + `<div style="padding:8px 12px;color:#6b7280;font-size:12px;font-family:'Outfit',sans-serif;font-style:italic;">Избери категория от филтъра горе</div>`;
+  } else {
+    menu.innerHTML = clearItem + subs.map(s =>
+      `<div onclick="adminBulkSetSubcat('${s.id}')" style="padding:8px 12px;cursor:pointer;border-radius:6px;color:#e5e7eb;font-size:12px;font-family:'Outfit',sans-serif;">${s.label}</div>`
+    ).join('');
+  }
+  menu.style.display = 'block';
+}
+
+function adminBulkSetSubcat(subcat) {
+  const selected = [...document.querySelectorAll('.admin-prod-cb:checked')];
+  if (!selected.length) return;
+  const ids = new Set(selected.map(cb => Number(cb.dataset.id)));
+  products.forEach(p => {
+    if (!ids.has(p.id)) return;
+    if (subcat) p.subcat = subcat;
+    else delete p.subcat;
+  });
+  persistProducts();
+  if (typeof _invalidateFilterCache === 'function') _invalidateFilterCache();
+  const label = subcat
+    ? ((typeof SUBCATS !== 'undefined' && _adminProd.cat && SUBCATS[_adminProd.cat]
+        ? (SUBCATS[_adminProd.cat].find(s => s.id === subcat) || {}).label : null) || subcat)
+    : 'без подкатегория';
+  showToast(`✅ ${ids.size} продукта → ${label}`);
+  const menu = document.getElementById('adminSubcatMenu');
+  if (menu) menu.style.display = 'none';
+  renderGrids();
+  renderAdminProductsTable();
 }
 
 function adminBulkSetBadge(badge) {

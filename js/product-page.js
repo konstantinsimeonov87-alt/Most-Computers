@@ -166,19 +166,29 @@ function openProductPage(id) {
 
   // ── Full specs table ──
   const tbody = document.getElementById('pdpSpecsTbody');
-  let specRows = `<tr><td>SKU / Part Number</td><td style="font-family:'JetBrains Mono',monospace;font-size:12px;">${p.sku||'—'}</td></tr>`;
-  if (p.ean) specRows += `<tr><td>EAN / Баркод</td><td style="font-family:'JetBrains Mono',monospace;font-size:12px;">${p.ean}</td></tr>`;
-  specRows += Object.entries(specs).map(([k,v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join('');
-  tbody.innerHTML = specRows || '<tr><td colspan="2" style="color:var(--muted);text-align:center;padding:24px;">Няма данни за спецификации.</td></tr>';
+  if (tbody) {
+    let specRows = `<tr><td>SKU / Part Number</td><td style="font-family:'JetBrains Mono',monospace;font-size:12px;">${p.sku||'—'}</td></tr>`;
+    if (p.ean) specRows += `<tr><td>EAN / Баркод</td><td style="font-family:'JetBrains Mono',monospace;font-size:12px;">${p.ean}</td></tr>`;
+    specRows += Object.entries(specs).map(([k,v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join('');
+    tbody.innerHTML = specRows || '<tr><td colspan="2" style="color:var(--muted);text-align:center;padding:24px;">Няма данни за спецификации.</td></tr>';
+  }
 
   // ── Description (HTML) ──
   const htmlContent = document.getElementById('pdpHtmlContent');
-  if (p.htmlDesc) {
-    htmlContent.innerHTML = p.htmlDesc;
-  } else if (p.desc) {
-    htmlContent.innerHTML = `<p style="font-size:14px;line-height:1.8;color:var(--text2);">${p.desc}</p>`;
-  } else {
-    htmlContent.innerHTML = '<p style="color:var(--muted);font-size:13px;">Няма добавено описание за този продукт.</p>';
+  if (htmlContent) {
+    if (p.htmlDesc) {
+      // htmlDesc is admin-authored HTML — kept as-is (trusted source)
+      htmlContent.innerHTML = p.htmlDesc;
+    } else if (p.desc) {
+      // p.desc may come from XML — render as plain text to prevent XSS
+      htmlContent.innerHTML = '';
+      const para = document.createElement('p');
+      para.style.cssText = 'font-size:14px;line-height:1.8;color:var(--text2);';
+      para.textContent = p.desc;
+      htmlContent.appendChild(para);
+    } else {
+      htmlContent.innerHTML = '<p style="color:var(--muted);font-size:13px;">Няма добавено описание за този продукт.</p>';
+    }
   }
 
   // ── Video ──

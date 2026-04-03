@@ -31,6 +31,7 @@ describe('openAdminPage — PIN защита', () => {
     global.showToast.mockClear();
     delete window._adminUnlocked;
     delete window._adminScriptLoaded;
+    sessionStorage.clear();
   });
 
   test('грешен PIN — adminPage остава затворен', () => {
@@ -41,8 +42,9 @@ describe('openAdminPage — PIN защита', () => {
 
   test('грешен PIN — показва toast с грешка', () => {
     global.prompt = jest.fn().mockReturnValue('wrong');
+    sessionStorage.clear();
     openAdminPage();
-    expect(global.showToast).toHaveBeenCalledWith('❌ Грешен PIN!');
+    expect(global.showToast).toHaveBeenCalledWith(expect.stringContaining('❌ Грешен PIN!'));
   });
 
   test('правилен PIN (1234) — adminPage се отваря', () => {

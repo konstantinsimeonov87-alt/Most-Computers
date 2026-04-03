@@ -217,7 +217,10 @@ function showSearchResultsPage(query) {
   document.getElementById('srpCount').textContent = `${results.length} резултата`;
   // Breadcrumb
   const srpBc = document.getElementById('srpBreadcrumb');
-  if (srpBc) srpBc.innerHTML = `<span class="srp-bc-item" onclick="closeSearchPage()">Начало</span><span class="srp-bc-sep">›</span><span class="srp-bc-item">Търсене</span><span class="srp-bc-sep">›</span><span class="srp-bc-current">${query}</span>`;
+  if (srpBc) {
+    srpBc.innerHTML = '<span class="srp-bc-item" onclick="closeSearchPage()">Начало</span><span class="srp-bc-sep">›</span><span class="srp-bc-item">Търсене</span><span class="srp-bc-sep">›</span><span class="srp-bc-current"></span>';
+    srpBc.querySelector('.srp-bc-current').textContent = query;
+  }
 
   // Category filter pills for SRP
   const cats = [...new Set(results.map(p => p.cat))];

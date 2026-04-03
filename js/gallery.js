@@ -223,7 +223,8 @@ function submitQuickOrder(){
 let currentSlide=0;
 const slides=document.querySelectorAll('.slide'),dots=document.querySelectorAll('.dot');
 function goSlide(n){if(!slides.length||!slides[n])return;slides[currentSlide].classList.remove('active');dots[currentSlide].classList.remove('active');currentSlide=n;slides[currentSlide].classList.add('active');dots[currentSlide].classList.add('active');}
-if(slides.length)setInterval(()=>goSlide((currentSlide+1)%slides.length),5000);
+let _heroSliderIv=null;
+if(slides.length){if(_heroSliderIv)clearInterval(_heroSliderIv);_heroSliderIv=setInterval(()=>goSlide((currentSlide+1)%slides.length),5000);}
 
 // COUNTDOWN — persistent across page reloads via localStorage
 (function(){
@@ -242,7 +243,8 @@ if(slides.length)setInterval(()=>goSlide((currentSlide+1)%slides.length),5000);
     if(totalSecs===0){ localStorage.removeItem('mc_flash_end'); }
   }
   tick();
-  setInterval(tick,1000);
+  if(window._countdownIv)clearInterval(window._countdownIv);
+  window._countdownIv=setInterval(tick,1000);
 })();
 
 // TOAST

@@ -177,10 +177,23 @@ function adminUpdateOrdersBadge() {
   }
 }
 
+// PIN is stored as a djb2 hash — change _ADMIN_H to match your chosen PIN
+// To generate: paste in console → (s=>{let h=5381;for(let i=0;i<s.length;i++)h=((h<<5)+h)^s.charCodeAt(i);return h>>>0})('yourPIN')
+const _ADMIN_H = 2085881665; // djb2('1234') — change both this and your PIN together
+function _djb2(s){let h=5381;for(let i=0;i<s.length;i++)h=((h<<5)+h)^s.charCodeAt(i);return h>>>0;}
+
 function openAdminPage() {
   if (!window._adminUnlocked) {
+    const _attempts = parseInt(sessionStorage.getItem('_adm_att')||'0');
+    if (_attempts >= 5) { showToast('❌ Твърде много опити. Затвори и отвори отново браузъра.'); return; }
     const pin = prompt('Въведи PIN за достъп до администрацията:');
-    if (pin !== '1234') { showToast('❌ Грешен PIN!'); return; }
+    if (!pin) return;
+    if (_djb2(pin) !== _ADMIN_H) {
+      sessionStorage.setItem('_adm_att', _attempts + 1);
+      showToast('❌ Грешен PIN! Опит ' + (_attempts+1) + '/5');
+      return;
+    }
+    sessionStorage.removeItem('_adm_att');
     window._adminUnlocked = true;
   }
   document.getElementById('adminPage').classList.add('open');

@@ -57,6 +57,7 @@ function updateCart(){
     bnB.textContent=count; bnB.classList.toggle('show',count>0);
   });
   const body=document.getElementById('cartBody');
+  if(!body)return;
   if(cart.length===0){body.innerHTML='<div class="cart-empty-msg"><div class="ce-icon"><svg width="44" height="44" class="svg-ic" aria-hidden="true" style="opacity:.25"><use href="#ic-cart"/></svg></div><p>Кошницата е празна.<br>Добави продукти!</p></div>';return;}
   let html=cart.map(x=>`<div class="cart-item-row"><div class="ci-emoji">${x.emoji}</div><div class="ci-details"><div class="ci-name">${x.name}</div><div class="ci-price">${fmtEur(x.price*x.qty)}<span class="text-11-muted-block">${fmtBgn(x.price*x.qty)}</span></div><div class="ci-qty"><button type="button" class="qty-btn" onclick="changeQty(${x.id},-1)">−</button><span class="qty-num">${x.qty}</span><button type="button" class="qty-btn" onclick="changeQty(${x.id},1)">+</button></div></div><button type="button" class="ci-remove" onclick="removeFromCart(${x.id})">×</button></div>`).join('');
   // Free shipping progress bar + delivery row
@@ -95,7 +96,14 @@ function removeFromCart(id){
   const t=document.getElementById('toast');
   if(!t)return;
   clearTimeout(t._timer);
-  t.innerHTML=removed.name.substring(0,28)+'… премахнат. <button type="button" onclick="undoRemoveCart()" style="margin-left:8px;background:rgba(255,255,255,0.25);border:none;border-radius:5px;padding:2px 8px;cursor:pointer;font-family:inherit;font-size:12px;font-weight:700;color:#fff;">Отмяна</button>';
+  t.innerHTML='';
+  const _rSpan=document.createElement('span');
+  _rSpan.textContent=removed.name.substring(0,28)+'… премахнат. ';
+  const _rBtn=document.createElement('button');
+  _rBtn.type='button'; _rBtn.onclick=undoRemoveCart;
+  _rBtn.style.cssText='margin-left:8px;background:rgba(255,255,255,0.25);border:none;border-radius:5px;padding:2px 8px;cursor:pointer;font-family:inherit;font-size:12px;font-weight:700;color:#fff;';
+  _rBtn.textContent='Отмяна';
+  t.appendChild(_rSpan); t.appendChild(_rBtn);
   t.classList.add('show');
   t._undoItem=removed;
   t._timer=setTimeout(()=>{t.classList.remove('show');t._undoItem=null;},4500);

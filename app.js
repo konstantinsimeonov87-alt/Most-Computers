@@ -982,7 +982,8 @@ function submitQuickOrder(){
 let currentSlide=0;
 const slides=document.querySelectorAll('.slide'),dots=document.querySelectorAll('.dot');
 function goSlide(n){if(!slides.length||!slides[n])return;slides[currentSlide].classList.remove('active');dots[currentSlide].classList.remove('active');currentSlide=n;slides[currentSlide].classList.add('active');dots[currentSlide].classList.add('active');}
-if(slides.length)setInterval(()=>goSlide((currentSlide+1)%slides.length),5000);
+let _heroSliderIv=null;
+if(slides.length){if(_heroSliderIv)clearInterval(_heroSliderIv);_heroSliderIv=setInterval(()=>goSlide((currentSlide+1)%slides.length),5000);}
 
 // COUNTDOWN — persistent across page reloads via localStorage
 (function(){
@@ -1001,7 +1002,8 @@ if(slides.length)setInterval(()=>goSlide((currentSlide+1)%slides.length),5000);
     if(totalSecs===0){ localStorage.removeItem('mc_flash_end'); }
   }
   tick();
-  setInterval(tick,1000);
+  if(window._countdownIv)clearInterval(window._countdownIv);
+  window._countdownIv=setInterval(tick,1000);
 })();
 
 // TOAST
@@ -1067,6 +1069,7 @@ function updateCart(){
     bnB.textContent=count; bnB.classList.toggle('show',count>0);
   });
   const body=document.getElementById('cartBody');
+  if(!body)return;
   if(cart.length===0){body.innerHTML='<div class="cart-empty-msg"><div class="ce-icon"><svg width="44" height="44" class="svg-ic" aria-hidden="true" style="opacity:.25"><use href="#ic-cart"/></svg></div><p>Кошницата е празна.<br>Добави продукти!</p></div>';return;}
   let html=cart.map(x=>`<div class="cart-item-row"><div class="ci-emoji">${x.emoji}</div><div class="ci-details"><div class="ci-name">${x.name}</div><div class="ci-price">${fmtEur(x.price*x.qty)}<span class="text-11-muted-block">${fmtBgn(x.price*x.qty)}</span></div><div class="ci-qty"><button type="button" class="qty-btn" onclick="changeQty(${x.id},-1)">−</button><span class="qty-num">${x.qty}</span><button type="button" class="qty-btn" onclick="changeQty(${x.id},1)">+</button></div></div><button type="button" class="ci-remove" onclick="removeFromCart(${x.id})">×</button></div>`).join('');
   // Free shipping progress bar + delivery row
@@ -1105,7 +1108,14 @@ function removeFromCart(id){
   const t=document.getElementById('toast');
   if(!t)return;
   clearTimeout(t._timer);
-  t.innerHTML=removed.name.substring(0,28)+'… премахнат. <button type="button" onclick="undoRemoveCart()" style="margin-left:8px;background:rgba(255,255,255,0.25);border:none;border-radius:5px;padding:2px 8px;cursor:pointer;font-family:inherit;font-size:12px;font-weight:700;color:#fff;">Отмяна</button>';
+  t.innerHTML='';
+  const _rSpan=document.createElement('span');
+  _rSpan.textContent=removed.name.substring(0,28)+'… премахнат. ';
+  const _rBtn=document.createElement('button');
+  _rBtn.type='button'; _rBtn.onclick=undoRemoveCart;
+  _rBtn.style.cssText='margin-left:8px;background:rgba(255,255,255,0.25);border:none;border-radius:5px;padding:2px 8px;cursor:pointer;font-family:inherit;font-size:12px;font-weight:700;color:#fff;';
+  _rBtn.textContent='Отмяна';
+  t.appendChild(_rSpan); t.appendChild(_rBtn);
   t.classList.add('show');
   t._undoItem=removed;
   t._timer=setTimeout(()=>{t.classList.remove('show');t._undoItem=null;},4500);
@@ -1883,7 +1893,10 @@ function showSearchResultsPage(query) {
   document.getElementById('srpCount').textContent = `${results.length} резултата`;
   // Breadcrumb
   const srpBc = document.getElementById('srpBreadcrumb');
-  if (srpBc) srpBc.innerHTML = `<span class="srp-bc-item" onclick="closeSearchPage()">Начало</span><span class="srp-bc-sep">›</span><span class="srp-bc-item">Търсене</span><span class="srp-bc-sep">›</span><span class="srp-bc-current">${query}</span>`;
+  if (srpBc) {
+    srpBc.innerHTML = '<span class="srp-bc-item" onclick="closeSearchPage()">Начало</span><span class="srp-bc-sep">›</span><span class="srp-bc-item">Търсене</span><span class="srp-bc-sep">›</span><span class="srp-bc-current"></span>';
+    srpBc.querySelector('.srp-bc-current').textContent = query;
+  }
 
   // Category filter pills for SRP
   const cats = [...new Set(results.map(p => p.cat))];
@@ -4074,10 +4087,23 @@ function adminUpdateOrdersBadge() {
   }
 }
 
+// PIN is stored as a djb2 hash — change _ADMIN_H to match your chosen PIN
+// To generate: paste in console → (s=>{let h=5381;for(let i=0;i<s.length;i++)h=((h<<5)+h)^s.charCodeAt(i);return h>>>0})('yourPIN')
+const _ADMIN_H = 2085881665; // djb2('1234') — change both this and your PIN together
+function _djb2(s){let h=5381;for(let i=0;i<s.length;i++)h=((h<<5)+h)^s.charCodeAt(i);return h>>>0;}
+
 function openAdminPage() {
   if (!window._adminUnlocked) {
+    const _attempts = parseInt(sessionStorage.getItem('_adm_att')||'0');
+    if (_attempts >= 5) { showToast('❌ Твърде много опити. Затвори и отвори отново браузъра.'); return; }
     const pin = prompt('Въведи PIN за достъп до администрацията:');
-    if (pin !== '1234') { showToast('❌ Грешен PIN!'); return; }
+    if (!pin) return;
+    if (_djb2(pin) !== _ADMIN_H) {
+      sessionStorage.setItem('_adm_att', _attempts + 1);
+      showToast('❌ Грешен PIN! Опит ' + (_attempts+1) + '/5');
+      return;
+    }
+    sessionStorage.removeItem('_adm_att');
     window._adminUnlocked = true;
   }
   document.getElementById('adminPage').classList.add('open');
@@ -6397,19 +6423,29 @@ function openProductPage(id) {
 
   // ── Full specs table ──
   const tbody = document.getElementById('pdpSpecsTbody');
-  let specRows = `<tr><td>SKU / Part Number</td><td style="font-family:'JetBrains Mono',monospace;font-size:12px;">${p.sku||'—'}</td></tr>`;
-  if (p.ean) specRows += `<tr><td>EAN / Баркод</td><td style="font-family:'JetBrains Mono',monospace;font-size:12px;">${p.ean}</td></tr>`;
-  specRows += Object.entries(specs).map(([k,v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join('');
-  tbody.innerHTML = specRows || '<tr><td colspan="2" style="color:var(--muted);text-align:center;padding:24px;">Няма данни за спецификации.</td></tr>';
+  if (tbody) {
+    let specRows = `<tr><td>SKU / Part Number</td><td style="font-family:'JetBrains Mono',monospace;font-size:12px;">${p.sku||'—'}</td></tr>`;
+    if (p.ean) specRows += `<tr><td>EAN / Баркод</td><td style="font-family:'JetBrains Mono',monospace;font-size:12px;">${p.ean}</td></tr>`;
+    specRows += Object.entries(specs).map(([k,v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join('');
+    tbody.innerHTML = specRows || '<tr><td colspan="2" style="color:var(--muted);text-align:center;padding:24px;">Няма данни за спецификации.</td></tr>';
+  }
 
   // ── Description (HTML) ──
   const htmlContent = document.getElementById('pdpHtmlContent');
-  if (p.htmlDesc) {
-    htmlContent.innerHTML = p.htmlDesc;
-  } else if (p.desc) {
-    htmlContent.innerHTML = `<p style="font-size:14px;line-height:1.8;color:var(--text2);">${p.desc}</p>`;
-  } else {
-    htmlContent.innerHTML = '<p style="color:var(--muted);font-size:13px;">Няма добавено описание за този продукт.</p>';
+  if (htmlContent) {
+    if (p.htmlDesc) {
+      // htmlDesc is admin-authored HTML — kept as-is (trusted source)
+      htmlContent.innerHTML = p.htmlDesc;
+    } else if (p.desc) {
+      // p.desc may come from XML — render as plain text to prevent XSS
+      htmlContent.innerHTML = '';
+      const para = document.createElement('p');
+      para.style.cssText = 'font-size:14px;line-height:1.8;color:var(--text2);';
+      para.textContent = p.desc;
+      htmlContent.appendChild(para);
+    } else {
+      htmlContent.innerHTML = '<p style="color:var(--muted);font-size:13px;">Няма добавено описание за този продукт.</p>';
+    }
   }
 
   // ── Video ──

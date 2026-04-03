@@ -1448,6 +1448,7 @@
                 aria-hidden="true">
                 <use href="#ic-settings" />
               </svg> Настройки</button>
+            <button type="button" class="pd-item" style="color:var(--primary);font-weight:700;" onclick="closeDropdown();(function(){if(window._adminScriptLoaded){openAdminPage();return;}window._adminScriptLoaded=true;var s=document.createElement('script');s.src='js/admin.js';s.onerror=function(){window._adminScriptLoaded=false;showToast('⚠️ Грешка при зареждане на Admin панела.');};s.onload=function(){openAdminPage();};document.head.appendChild(s);})();"><svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-settings"/></svg> Администрация</button>
             <div class="pd-divider"></div>
             <button type="button" class="pd-item logout" data-action="handleLogout"><svg width="16" height="16"
                 class="svg-ic" aria-hidden="true">

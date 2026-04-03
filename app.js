@@ -6433,26 +6433,3 @@ initScrollAnimations();
   g.innerHTML = top4.map(p => `<div class="err-popular-card" onclick="close404();openProductModal(${p.id})"><div class="err-popular-emoji">${p.emoji}</div><div><div class="err-popular-name">${p.name.substring(0,22)}…</div><div class="err-popular-price">${p.price} лв.</div></div></div>`).join('');
 })();
 
-// Admin panel button — lazy-loads js/admin.js on first click
-(function() {
-  const pdDivider = document.querySelector('.pd-divider');
-  if (!pdDivider) return;
-  const adminBtn = document.createElement('button');
-  adminBtn.type = 'button';
-  adminBtn.className = 'pd-item';
-  adminBtn.innerHTML = '<span class="pd-icon">🔐</span>Admin панел';
-  adminBtn.onclick = function() {
-    closeDropdown();
-    if (window._adminScriptLoaded) { openAdminPage(); return; }
-    window._adminScriptLoaded = true;
-    const s = document.createElement('script');
-    s.src = 'js/admin.js';
-    s.onerror = function() {
-      window._adminScriptLoaded = false;
-      showToast('⚠️ Грешка при зареждане на Admin панела.');
-    };
-    s.onload = function() { openAdminPage(); };
-    document.head.appendChild(s);
-  };
-  pdDivider.parentNode.insertBefore(adminBtn, pdDivider);
-})();

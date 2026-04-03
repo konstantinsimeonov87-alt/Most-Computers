@@ -276,6 +276,8 @@ let cart=[], compareList=[], modalQtyVal=1, modalProductId=null, quickOrderProdu
 function persistProducts() {
   try { localStorage.setItem('mc_products', JSON.stringify(products)); } catch(e) {}
 }
+// Snapshot static badge/pct/old before localStorage may overwrite them
+const _staticProductsMap = Object.fromEntries(products.map(p => [p.id, { old: p.old, pct: p.pct, badge: p.badge }]));
 (function restoreProducts() {
   try {
     const saved = localStorage.getItem('mc_products');
@@ -6394,9 +6396,16 @@ products.forEach(p => {
 });
 
 // ===== NORMALIZE BADGE / PCT FOR RESTORED PRODUCTS =====
-// Products restored from localStorage (XML feed) have pct:0 and no badge.
-// Recompute them so flash-sale, special-offers and new-products sections render correctly.
+// Products restored from localStorage (XML feed) have old:null, pct:0, badge:''.
+// Restore old/pct/badge from the static snapshot (_staticProductsMap from data.js).
 products.forEach(p => {
+  const orig = _staticProductsMap[p.id];
+  if (orig) {
+    if (!p.old && orig.old)        p.old   = orig.old;
+    if (!(p.pct > 0) && orig.pct > 0) p.pct = orig.pct;
+    if (!p.badge && orig.badge)    p.badge = orig.badge;
+  }
+  // Fallback: compute pct/badge from old vs price if still missing
   if (p.old && p.old > p.price && !(p.pct > 0)) {
     p.pct = Math.round((1 - p.price / p.old) * 100);
   }

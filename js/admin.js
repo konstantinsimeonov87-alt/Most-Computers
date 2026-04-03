@@ -2127,7 +2127,13 @@ async function xmlRunAutoUpdate(manual) {
 
       const existsIdx = id ? products.findIndex(p => p.id === id) : -1;
       if (existsIdx !== -1) {
-        products[existsIdx] = { ...products[existsIdx], ...data, id: products[existsIdx].id };
+        const prev = products[existsIdx];
+        const merged = { ...prev, ...data, id: prev.id };
+        // Preserve manually-set old/pct/badge — XML feed doesn't supply them
+        if (!data.old  && prev.old)        merged.old   = prev.old;
+        if (!(data.pct > 0) && prev.pct > 0) merged.pct = prev.pct;
+        if (!data.badge && prev.badge)     merged.badge = prev.badge;
+        products[existsIdx] = merged;
         updated++;
       } else {
         data.id = id || (maxId() + added + updated + 1);

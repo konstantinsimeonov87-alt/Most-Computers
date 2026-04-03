@@ -258,6 +258,8 @@ let cart=[], compareList=[], modalQtyVal=1, modalProductId=null, quickOrderProdu
 function persistProducts() {
   try { localStorage.setItem('mc_products', JSON.stringify(products)); } catch(e) {}
 }
+// Snapshot static badge/pct/old before localStorage may overwrite them
+const _staticProductsMap = Object.fromEntries(products.map(p => [p.id, { old: p.old, pct: p.pct, badge: p.badge }]));
 (function restoreProducts() {
   try {
     const saved = localStorage.getItem('mc_products');

@@ -331,6 +331,10 @@ function closeProductPage() {
   if (ogTitle) ogTitle.setAttribute('content', 'Most Computers | Онлайн магазин за компютри и компоненти');
   const ogImg = document.querySelector('meta[property="og:image"]');
   if (ogImg) ogImg.setAttribute('content', 'https://mostcomputers.bg/og-default.jpg');
+  const ogType = document.querySelector('meta[property="og:type"]');
+  if (ogType) ogType.setAttribute('content', 'website');
+  const canonical = document.querySelector('link[rel="canonical"]');
+  if (canonical) canonical.setAttribute('href', 'https://mostcomputers.bg/');
   if (typeof bcSet === 'function') {
     if (_bcTrail.length >= 2) {
       bcSet([_bcTrail[0]]);
@@ -377,6 +381,7 @@ function pdpRenderGallery() {
 
   if (pdpGallery.length && pdpGallery[pdpGalleryIdx]) {
     mainImg.src = pdpGallery[pdpGalleryIdx];
+    mainImg.alt = p.name;
     mainImg.style.display = '';
     mainEmoji.style.display = 'none';
   } else {

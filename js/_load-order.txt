@@ -10,7 +10,6 @@ js/recently-viewed.js
 js/filters.js
 js/order-tracker.js
 js/pwa.js
-js/admin.js
 js/product-page.js
 js/pdp-ux.js
 js/seo.js

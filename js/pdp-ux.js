@@ -8,6 +8,7 @@ function pdpLbOpen() {
   var lbImg = document.getElementById('pdpLbImg');
   if (!lb || !lbImg) return;
   lbImg.src = img.src;
+  lbImg.alt = img.alt;
   lbImg.style.setProperty('--lb-scale', '1');
   lb.style.display = 'flex';
   document.addEventListener('keydown', _pdpLbKey);

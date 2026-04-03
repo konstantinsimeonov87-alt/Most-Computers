@@ -295,12 +295,13 @@ function validateCkStep(step) {
     let valid = true;
     ['ckFirst','ckLast','ckPhone'].forEach(id => {
       const el = document.getElementById(id);
-      if (el && !el.value.trim()) { el.classList.add('error'); el.classList.remove('valid'); valid = false; }
+      if (el && !el.value.trim()) { el.classList.add('error'); el.classList.remove('valid'); el.setAttribute('aria-invalid','true'); valid = false; }
+      else if (el) el.setAttribute('aria-invalid','false');
     });
     const email = document.getElementById('ckEmail');
     if (email && (!email.value.trim() || !email.value.includes('@'))) {
-      email.classList.add('error'); email.classList.remove('valid'); valid = false;
-    }
+      email.classList.add('error'); email.classList.remove('valid'); email.setAttribute('aria-invalid','true'); valid = false;
+    } else if (email) { email.setAttribute('aria-invalid','false'); }
     if (!valid) showToast('⚠️ Попълни всички задължителни полета!');
     return valid;
   }
@@ -308,7 +309,8 @@ function validateCkStep(step) {
     let valid = true;
     ['ckCity','ckAddr'].forEach(id => {
       const el = document.getElementById(id);
-      if (el && !el.value.trim()) { el.classList.add('error'); el.classList.remove('valid'); valid = false; }
+      if (el && !el.value.trim()) { el.classList.add('error'); el.classList.remove('valid'); el.setAttribute('aria-invalid','true'); valid = false; }
+      else if (el) { el.classList.remove('error'); el.setAttribute('aria-invalid','false'); }
     });
     if (!valid) showToast('⚠️ Попълни адреса за доставка!');
     return valid;
@@ -317,14 +319,15 @@ function validateCkStep(step) {
 }
 
 function ckValidateField(el) {
-  if (!el.value.trim()) { el.classList.add('error'); el.classList.remove('valid'); }
-  else { el.classList.remove('error'); el.classList.add('valid'); }
+  if (!el.value.trim()) { el.classList.add('error'); el.classList.remove('valid'); el.setAttribute('aria-invalid','true'); }
+  else { el.classList.remove('error'); el.classList.add('valid'); el.setAttribute('aria-invalid','false'); }
 }
 
 function ckValidateEmail(el) {
   const ok = el.value.trim() && el.value.includes('@') && el.value.includes('.');
   el.classList.toggle('error', !ok);
   el.classList.toggle('valid', !!ok);
+  el.setAttribute('aria-invalid', ok ? 'false' : 'true');
 }
 
 function updateCheckoutSteps(active) {
@@ -358,14 +361,14 @@ function submitOrder() {
   let valid = true;
   required.forEach(([id]) => {
     const el = document.getElementById(id);
-    if (!el.value.trim()) { el.classList.add('error'); valid = false; }
-    else el.classList.remove('error');
+    if (!el.value.trim()) { el.classList.add('error'); el.setAttribute('aria-invalid','true'); valid = false; }
+    else { el.classList.remove('error'); el.setAttribute('aria-invalid','false'); }
   });
   if (ckPaymentType === 'card') {
     ['ckCardNum','ckCardName','ckCardExp','ckCardCvv'].forEach(id => {
       const el = document.getElementById(id);
-      if (!el.value.trim()) { el.classList.add('error'); valid = false; }
-      else el.classList.remove('error');
+      if (!el.value.trim()) { el.classList.add('error'); el.setAttribute('aria-invalid','true'); valid = false; }
+      else { el.classList.remove('error'); el.setAttribute('aria-invalid','false'); }
     });
   }
   if (!valid) { showToast('Моля попълни всички задължителни полета!'); return; }

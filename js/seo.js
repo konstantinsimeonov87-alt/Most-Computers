@@ -44,7 +44,7 @@ function bcRender() {
     "@type": "ListItem",
     "position": i + 1,
     "name": c.label,
-    "item": window.location.href.split('#')[0] + '#' + c.label.toLowerCase().replace(/\s+/g,'-')
+    "item": c.url || (i === 0 ? 'https://mostcomputers.bg/' : window.location.href.split('?')[0])
   }));
   const ld = {
     "@context": "https://schema.org",
@@ -78,9 +78,11 @@ function bcOnFilterCat(cat) {
     bcSet([]);
   } else {
     const label = BC_CAT_LABELS[cat] || cat;
+    const url = `https://mostcomputers.bg/?cat=${cat}`;
     bcSet([{
       label,
-      fn: () => { filterCat(cat); bcSet([{ label, fn: () => filterCat(cat) }]); }
+      url,
+      fn: () => { filterCat(cat); bcSet([{ label, url, fn: () => filterCat(cat) }]); }
     }]);
   }
 }
@@ -109,6 +111,8 @@ document.addEventListener('DOMContentLoaded', () => {
 function injectProductSchema(p) {
   let el = document.getElementById('product-jsonld');
   if (!el) { el = document.createElement('script'); el.type = 'application/ld+json'; el.id = 'product-jsonld'; document.head.appendChild(el); }
+  const priceValidUntil = new Date(Date.now() + 365 * 24 * 3600 * 1000).toISOString().split('T')[0];
+  const imgSrc = (Array.isArray(p.gallery) && p.gallery[0]) ? p.gallery[0] : (p.img || null);
   const schema = {
     "@context": "https://schema.org/",
     "@type": "Product",
@@ -117,14 +121,15 @@ function injectProductSchema(p) {
     "sku": p.sku,
     "gtin13": p.ean,
     "description": p.desc,
+    ...(imgSrc ? { "image": [imgSrc] } : {}),
     "offers": {
       "@type": "Offer",
       "url": `${location.href.split('?')[0]}?product=${p.id}`,
       "priceCurrency": "BGN",
       "price": p.price,
-      "priceValidUntil": "2026-12-31",
+      "priceValidUntil": priceValidUntil,
       "itemCondition": "https://schema.org/NewCondition",
-      "availability": "https://schema.org/InStock",
+      "availability": p.stock === false ? "https://schema.org/OutOfStock" : "https://schema.org/InStock",
       "seller": { "@type": "Organization", "name": "Most Computers" }
     },
     "aggregateRating": {
@@ -135,6 +140,15 @@ function injectProductSchema(p) {
       "worstRating": 1
     }
   };
+  if (Array.isArray(p.reviews) && p.reviews.length > 0) {
+    schema.review = p.reviews.slice(0, 5).map(r => ({
+      "@type": "Review",
+      "author": { "@type": "Person", "name": r.name },
+      "datePublished": r.date,
+      "reviewBody": r.text,
+      "reviewRating": { "@type": "Rating", "ratingValue": r.stars, "bestRating": 5, "worstRating": 1 }
+    }));
+  }
   el.textContent = JSON.stringify(schema);
 }
 
@@ -169,12 +183,29 @@ document.addEventListener('mc:productopen', e => {
   }
   const ogUrl = document.querySelector('meta[property="og:url"]');
   if (ogUrl) ogUrl.setAttribute('content', `https://mostcomputers.bg/?product=${p.id}`);
+  const imgSrc = (Array.isArray(p.gallery) && p.gallery[0]) ? p.gallery[0]
+    : (p.img || 'https://mostcomputers.bg/og-default.jpg');
   const twImg = document.querySelector('meta[name="twitter:image"]');
-  if (twImg) {
-    const imgSrc = (Array.isArray(p.gallery) && p.gallery[0]) ? p.gallery[0]
-      : (p.img || 'https://mostcomputers.bg/og-default.jpg');
-    twImg.setAttribute('content', imgSrc);
+  if (twImg) twImg.setAttribute('content', imgSrc);
+  // og:type → product
+  const ogType = document.querySelector('meta[property="og:type"]');
+  if (ogType) ogType.setAttribute('content', 'product');
+  // og:image:alt
+  const ogImgAlt = document.querySelector('meta[property="og:image:alt"]');
+  if (ogImgAlt) ogImgAlt.setAttribute('content', p.name + ' — Most Computers');
+  // Twitter title + description
+  const twTitle = document.querySelector('meta[name="twitter:title"]');
+  if (twTitle) twTitle.setAttribute('content', p.name + ' | Most Computers');
+  const twDesc = document.querySelector('meta[name="twitter:description"]');
+  if (twDesc) {
+    const d = p.desc
+      ? p.desc.substring(0, 155) + (p.desc.length > 155 ? '…' : '')
+      : `${p.name} — ${p.brand}. Цена: ${(p.price/EUR_RATE).toFixed(2)} €.`;
+    twDesc.setAttribute('content', d);
   }
+  // Canonical URL
+  const canonical = document.querySelector('link[rel="canonical"]');
+  if (canonical) canonical.setAttribute('href', `https://mostcomputers.bg/?product=${p.id}`);
 });
 
 // ===== 6. SITEMAP GENERATOR =====
@@ -417,8 +448,17 @@ function openCatPage(cat) {
 
   // Update SEO
   document.title = m.label + ' | Most Computers';
+  const _catDesc = m.label + ' — ' + m.sub + '. Купи онлайн от Most Computers.';
   const metaDesc = document.querySelector('meta[name="description"]');
-  if (metaDesc) metaDesc.setAttribute('content', m.label + ' — ' + m.sub + '. Купи онлайн от Most Computers.');
+  if (metaDesc) metaDesc.setAttribute('content', _catDesc);
+  const ogTitle = document.querySelector('meta[property="og:title"]');
+  if (ogTitle) ogTitle.setAttribute('content', m.label + ' | Most Computers');
+  const ogDesc = document.querySelector('meta[property="og:description"]');
+  if (ogDesc) ogDesc.setAttribute('content', _catDesc);
+  const ogUrl = document.querySelector('meta[property="og:url"]');
+  if (ogUrl) ogUrl.setAttribute('content', `https://mostcomputers.bg/?cat=${cat}`);
+  const canonical = document.querySelector('link[rel="canonical"]');
+  if (canonical) canonical.setAttribute('href', `https://mostcomputers.bg/?cat=${cat}`);
 
   // Open page first so grid element is visible, then render
   document.getElementById('catPage').classList.add('open');
@@ -437,15 +477,28 @@ function closeCatPage() {
   document.getElementById('catPage').classList.remove('open');
   document.body.style.overflow = '';
   document.title = 'Most Computers — Техника и Електроника';
+  const _homeDesc = 'Most Computers — магазин за електроника от 1997 г. Лаптопи, смартфони, телевизори от Apple, Samsung, ASUS. Безплатна доставка над 200 лв. Сертифициран сервиз.';
   const metaDesc = document.querySelector('meta[name="description"]');
-  if (metaDesc) metaDesc.setAttribute('content', 'Лаптопи, Телефони, Таблети, ТВ и аудио техника. Най-добрите цени в България.');
+  if (metaDesc) metaDesc.setAttribute('content', _homeDesc);
   // Restore Open Graph defaults
   const ogTitle = document.querySelector('meta[property="og:title"]');
-  if (ogTitle) ogTitle.setAttribute('content', 'Most Computers | Електроника от 1997 г. — Лаптопи, Телефони, Телевизори');
+  if (ogTitle) ogTitle.setAttribute('content', 'Most Computers | Лаптопи, Телефони, Телевизори — От 1997 г.');
+  const ogDesc = document.querySelector('meta[property="og:description"]');
+  if (ogDesc) ogDesc.setAttribute('content', 'Most Computers — специализиран магазин за електроника от 1997 г. Смартфони, лаптопи, телевизори от Apple, Samsung, Sony. Безплатна доставка над 200 лв.');
   const ogImg = document.querySelector('meta[property="og:image"]');
   if (ogImg) ogImg.setAttribute('content', 'https://mostcomputers.bg/og-default.jpg');
+  const ogImgAlt = document.querySelector('meta[property="og:image:alt"]');
+  if (ogImgAlt) ogImgAlt.setAttribute('content', 'Most Computers — магазин за електроника от 1997 г.');
   const ogUrl = document.querySelector('meta[property="og:url"]');
   if (ogUrl) ogUrl.setAttribute('content', 'https://mostcomputers.bg/');
+  const ogType = document.querySelector('meta[property="og:type"]');
+  if (ogType) ogType.setAttribute('content', 'website');
+  const twTitle = document.querySelector('meta[name="twitter:title"]');
+  if (twTitle) twTitle.setAttribute('content', 'Most Computers | Електроника от 1997 г.');
+  const twDesc = document.querySelector('meta[name="twitter:description"]');
+  if (twDesc) twDesc.setAttribute('content', 'Лаптопи, Телефони, Телевизори, Аудио и аксесоари от Apple, Samsung, Sony. Безплатна доставка над 200 лв.');
+  const canonical = document.querySelector('link[rel="canonical"]');
+  if (canonical) canonical.setAttribute('href', 'https://mostcomputers.bg/');
   try{history.pushState({}, '', location.pathname);}catch(e){}
   // Restore scroll position
   requestAnimationFrame(() => window.scrollTo(0, _catPageScrollY));

@@ -1107,14 +1107,13 @@ function adminShowTab(tab) {
   }
 }
 
-// Add admin link to profile dropdown
-document.addEventListener('DOMContentLoaded', () => {
+// Init admin-only settings — runs when admin.js loads (lazily or eagerly)
+(function _adminInit() {
   // Pre-configure Most Computers XML feed URL if not already set
   if (!localStorage.getItem('mc_autoupd_url')) {
     localStorage.setItem('mc_autoupd_url', 'https://portal.mostbg.com/api/product/xml/categoryId=21');
   }
   if (!localStorage.getItem('mc_autoupd_urls')) {
-    // Default multi-category URLs
     localStorage.setItem('mc_autoupd_urls', JSON.stringify([
       { id: 'cat21', label: 'Лаптопи (cat 21)',         url: 'https://portal.mostbg.com/api/product/xml/categoryId=21', enabled: true },
       { id: 'cat22', label: 'Телефони (cat 22)',         url: 'https://portal.mostbg.com/api/product/xml/categoryId=22', enabled: false },
@@ -1125,34 +1124,17 @@ document.addEventListener('DOMContentLoaded', () => {
       { id: 'cat27', label: 'Аксесоари (cat 27)',        url: 'https://portal.mostbg.com/api/product/xml/categoryId=27', enabled: false },
     ]));
   }
-  // Render all grids after DOM is ready
-  renderGrids();
-  xmlRestoreAutoUpdSettings();
-  // Auto-start feed on first load
-  if (!localStorage.getItem('mc_feed_initial_done')) {
-    localStorage.setItem('mc_feed_initial_done', '1');
-    localStorage.setItem('mc_autoupd_enabled', '1');
-    setTimeout(() => xmlRunAutoUpdate(false), 1500); // slight delay after render
-  }
-  initSidebarFilters();
-  renderRecentlyViewed();
-
-  // Admin panel link in profile dropdown
-  const pdDivider = document.querySelector('.pd-divider');
-  if (pdDivider) {
-    const adminBtn = document.createElement('button');
-    adminBtn.className = 'pd-item';
-    adminBtn.innerHTML = '<span class="pd-icon">🔐</span>Admin панел';
-    adminBtn.onclick = () => { closeDropdown(); openAdminPage(); };
-    pdDivider.parentNode.insertBefore(adminBtn, pdDivider);
-  }
-  // Init 404 page popular products
-  const g = document.getElementById('err404Grid');
-  if (g) {
-    const top4 = [...products].sort((a,b)=>b.rating-a.rating).slice(0,4);
-    g.innerHTML = top4.map(p=>`<div class="err-popular-card" onclick="close404();openProductModal(${p.id})"><div class="err-popular-emoji">${p.emoji}</div><div><div class="err-popular-name">${p.name.substring(0,22)}…</div><div class="err-popular-price">${p.price} лв.</div></div></div>`).join('');
-  }
-});
+  // Defer until AU_STORE and related functions are defined (end of this script)
+  setTimeout(() => {
+    if (typeof xmlRestoreAutoUpdSettings === 'function') xmlRestoreAutoUpdSettings();
+    // Auto-start feed on first load
+    if (!localStorage.getItem('mc_feed_initial_done')) {
+      localStorage.setItem('mc_feed_initial_done', '1');
+      localStorage.setItem('mc_autoupd_enabled', '1');
+      setTimeout(() => { if (typeof xmlRunAutoUpdate === 'function') xmlRunAutoUpdate(false); }, 1500);
+    }
+  }, 0);
+})();
 
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = { openAdminPage, closeAdminPage };

@@ -6393,6 +6393,18 @@ products.forEach(p => {
   }
 });
 
+// ===== NORMALIZE BADGE / PCT FOR RESTORED PRODUCTS =====
+// Products restored from localStorage (XML feed) have pct:0 and no badge.
+// Recompute them so flash-sale, special-offers and new-products sections render correctly.
+products.forEach(p => {
+  if (p.old && p.old > p.price && !(p.pct > 0)) {
+    p.pct = Math.round((1 - p.price / p.old) * 100);
+  }
+  if (!p.badge && p.pct > 0) {
+    p.badge = 'sale';
+  }
+});
+
 // All scripts are deferred — DOM is ready, call directly
 initDataActions();
 initSidebarFilters();

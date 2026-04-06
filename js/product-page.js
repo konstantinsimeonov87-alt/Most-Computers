@@ -475,6 +475,18 @@ function pdpCopyProductLink() {
   });
 }
 
+function pdpShareFacebook() {
+  const url = encodeURIComponent(location.origin + location.pathname + '?product=' + pdpProductId);
+  window.open('https://www.facebook.com/sharer/sharer.php?u=' + url, '_blank', 'width=600,height=400');
+}
+
+function pdpShareViber() {
+  const p = products.find(x => x.id === pdpProductId);
+  const url = location.origin + location.pathname + '?product=' + pdpProductId;
+  const text = encodeURIComponent((p ? p.name + ' — ' : '') + url);
+  window.open('viber://forward?text=' + text, '_blank');
+}
+
 function pdpToggleWish() {
   if (!pdpProductId) return;
   toggleWishlist(pdpProductId, null);

@@ -260,18 +260,17 @@ function formatExpiry(el) {
   el.value = v;
 }
 
-function applyPromo() {
-  const code = document.getElementById('promoInput').value.trim().toUpperCase();
+function applyPromo(codeArg) {
+  const inputEl = document.getElementById('promoInput');
+  const code = (codeArg || (inputEl ? inputEl.value : '')).trim().toUpperCase();
   if (code === 'MOSTCOMP10') {
     promoApplied = true;
-    document.getElementById('promoOk').classList.add('show');
-    document.getElementById('promoInput').disabled = true;
+    if (inputEl) { document.getElementById('promoOk').classList.add('show'); inputEl.disabled = true; }
     renderOrderSummary();
     showToast('✓ Промо код приложен — -10%!');
   } else {
     showToast('Невалиден промо код!');
-    document.getElementById('promoInput').classList.add('error');
-    setTimeout(() => document.getElementById('promoInput').classList.remove('error'), 1500);
+    if (inputEl) { inputEl.classList.add('error'); setTimeout(() => inputEl.classList.remove('error'), 1500); }
   }
 }
 

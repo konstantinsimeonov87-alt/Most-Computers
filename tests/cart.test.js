@@ -5,7 +5,8 @@
  */
 
 // ── глобали, нужни на cart.js ────────────────────────────────────────────────
-const EUR_RATE = 1.95583;
+global.EUR_RATE = 1.95583;
+const EUR_RATE = global.EUR_RATE;
 global.fmtEur = (bgn) => (bgn / EUR_RATE).toFixed(2) + ' €';
 global.fmtBgn = (bgn) => Number(bgn).toFixed(2) + ' лв.';
 global.showToast = jest.fn();
@@ -140,27 +141,28 @@ describe('FREE_SHIP_BGN = 200', () => {
     global.cart = [];
   });
 
-  test('под прага (< 200 лв.) показва хинт "за безплатна доставка!"', () => {
+  // FREE_SHIP_BGN = Math.round(100 * 1.95583 * 100) / 100 = 195.58 лв.
+  test('под прага (< 195.58 лв.) показва хинт "за безплатна доставка!"', () => {
     addToCart(99); // 15 лв.
     const body = document.getElementById('cartBody').innerHTML;
     expect(body).toContain('за безплатна доставка!');
     expect(body).not.toContain('Имаш безплатна доставка!');
   });
 
-  test('над прага (≥ 200 лв.) показва "Имаш безплатна доставка!"', () => {
+  test('над прага (≥ 195.58 лв.) показва "Имаш безплатна доставка!"', () => {
     addToCart(1); // 449 лв.
     expect(document.getElementById('cartBody').innerHTML).toContain('Имаш безплатна доставка!');
   });
 
-  test('точно на прага (200 лв.) показва "Имаш безплатна доставка!"', () => {
-    const AT_THRESHOLD = { id: 98, name: 'Продукт 200', price: 200, old: null, badge: null, pct: 0, emoji: '📦', brand: 'Test', cat: 'acc', rating: 4.0, rv: 1 };
+  test('точно на прага (195.58 лв.) показва "Имаш безплатна доставка!"', () => {
+    const AT_THRESHOLD = { id: 98, name: 'Продукт 195.58', price: 195.58, old: null, badge: null, pct: 0, emoji: '📦', brand: 'Test', cat: 'acc', rating: 4.0, rv: 1 };
     global.products = [...PRODUCTS, AT_THRESHOLD];
-    addToCart(98); // точно 200 лв.
+    addToCart(98); // точно 195.58 лв.
     expect(document.getElementById('cartBody').innerHTML).toContain('Имаш безплатна доставка!');
   });
 
   test('хинтът показва точната оставаща сума', () => {
-    addToCart(99); // 15 лв. → трябват 185 лв. още
-    expect(document.getElementById('cartBody').innerHTML).toContain('185.00 лв.');
+    addToCart(99); // 15 лв. → трябват 195.58 - 15 = 180.58 лв. още
+    expect(document.getElementById('cartBody').innerHTML).toContain('180.58 лв.');
   });
 });

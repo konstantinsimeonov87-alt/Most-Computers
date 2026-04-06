@@ -5,7 +5,8 @@
  */
 
 // ── глобали, нужни на cart.js ────────────────────────────────────────────────
-const EUR_RATE = 1.95583;
+global.EUR_RATE = 1.95583;
+const EUR_RATE = global.EUR_RATE;
 global.fmtEur = (bgn) => (bgn / EUR_RATE).toFixed(2) + ' €';
 global.fmtBgn = (bgn) => Number(bgn).toFixed(2) + ' лв.';
 global.showToast  = jest.fn();

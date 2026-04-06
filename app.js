@@ -8812,6 +8812,7 @@ function initDataActions() {
     const button = event.target.closest('[data-action]');
     if (!button) return;
     event.preventDefault();
+    event.stopPropagation();
     runActionString(button.dataset.action, event, button);
   });
 

@@ -15099,11 +15099,10 @@ body.dark .pg-btn.active { background:var(--primary); color:#fff; }
 /* ===== PDP: SECONDARY ACTIONS (WISH + COMPARE) ===== */
 .pdp-secondary-actions { display:flex; gap:8px; margin-top:10px; }
 
-/* ===== PDP: SHARE ROW ===== */
-.pdp-share-row { display:flex; align-items:center; justify-content:center; gap:8px; margin-top:10px; }
-.pdp-share-label { font-size:12px; color:var(--muted); font-weight:600; white-space:nowrap; }
-.pdp-share-btn { display:flex; align-items:center; gap:5px; background:var(--bg2); border:1.5px solid var(--border); border-radius:8px; padding:7px 12px; font-size:12px; font-weight:600; color:var(--text2); cursor:pointer; font-family:'Inter',sans-serif; transition:all 0.18s; }
-.pdp-share-btn:hover { border-color:var(--primary); color:var(--primary); background:var(--bg); }
+/* ===== PDP: SHARE ICON BUTTONS (inline with contact strip) ===== */
+.pdp-contact-sep { width:1px; height:24px; background:var(--border); margin:0 2px; }
+.pdp-share-icon-btn { display:inline-flex; align-items:center; justify-content:center; width:36px; height:36px; background:var(--bg2); border:1.5px solid var(--border); border-radius:8px; font-size:15px; cursor:pointer; transition:all 0.18s; }
+.pdp-share-icon-btn:hover { border-color:var(--primary); background:var(--primary-light); }
 
 /* ===== PDP: TABS WITH STICKY SIDEBAR ===== */
 .pdp-tabs-with-sidebar { display:block; }

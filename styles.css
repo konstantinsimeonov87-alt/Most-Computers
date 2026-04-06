@@ -10757,44 +10757,7 @@
    display: block;
  }
 
- .pdp-topbar {
-   position: sticky;
-   top: 0;
-   z-index: 10;
-   background: rgba(255, 255, 255, 0.92);
-   backdrop-filter: blur(12px);
-   border-bottom: 1px solid var(--border);
-   display: flex;
-   align-items: center;
-   gap: 12px;
-   padding: 10px 24px;
-   min-height: 52px;
- }
 
- body.dark .pdp-topbar {
-   background: rgba(30, 33, 48, 0.95);
- }
-
- .pdp-back-btn {
-   display: flex;
-   align-items: center;
-   gap: 6px;
-   background: none;
-   border: 1px solid var(--border);
-   border-radius: 8px;
-   padding: 6px 14px;
-   font-size: 13px;
-   font-weight: 600;
-   color: var(--text2);
-   cursor: pointer;
-   transition: all 0.2s;
-   font-family: 'Inter', sans-serif;
- }
-
- .pdp-back-btn:hover {
-   background: var(--bg2);
-   color: var(--text);
- }
 
  .pdp-breadcrumb {
    font-size: 12px;
@@ -11445,6 +11408,21 @@
    /* 1. Sticky bar must sit above the bottom nav */
    .pdp-sticky-bar {
      bottom: calc(64px + env(safe-area-inset-bottom));
+   }
+
+   /* Mobile back button — само на мобилен */
+   .pdp-mob-back {
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     flex-shrink: 0;
+     width: 44px;
+     height: 44px;
+     background: var(--bg2);
+     border: 1px solid var(--border);
+     border-radius: 10px;
+     color: var(--text2);
+     cursor: pointer;
    }
 
    /* 2. pdp-mhdr must stick below pdp-topbar (52px) not overlap it */
@@ -13701,6 +13679,7 @@
    pointer-events: auto;
  }
 
+ .pdp-mob-back { display: none; }
  .pdp-sticky-inner {
    max-width: 1200px;
    margin: 0 auto;
@@ -15333,9 +15312,11 @@ body.dark .pg-btn.active { background:var(--primary); color:#fff; }
   flex-shrink: 0 !important;
 }
 @media (max-width: 768px) {
-  .qty-btn {
+  .qty-btn, .mqty-btn, .cp-qty-btn, .os-qty-btn, .pdp-qty-btn {
     width: 44px !important;
     height: 44px !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
   }
 }
 

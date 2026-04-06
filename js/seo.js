@@ -2,18 +2,8 @@
 // State: array of {label, action}  — action is a function or null for current
 let _bcTrail = []; // [{label, fn}]
 
-const BC_CAT_LABELS = {
-  all:'Всички продукти',
-  laptops:'Лаптопи', desktops:'Настолни компютри', components:'Компоненти',
-  peripherals:'Периферия', network:'Мрежово оборудване', storage:'Сървъри и сторидж',
-  software:'Софтуер', accessories:'Аксесоари',
-  sale:'Промоции', new:'Нови продукти',
-  // legacy keys for backwards compat
-  audio:'Аудио и слушалки', mobile:'Телефони', laptop:'Лаптопи и компютри',
-  tablet:'Таблети', tv:'Телевизори', camera:'Фотоапарати', gaming:'Гейминг',
-  smart:'Смарт устройства', print:'Принтери', acc:'Аксесоари',
-  monitor:'Монитори', desktop:'Десктопи'
-};
+// BC_CAT_LABELS → вж. глобалния CAT_LABELS в currency.js
+const BC_CAT_LABELS = CAT_LABELS;
 
 function bcRender() {
   const inner = document.getElementById('bcInner');
@@ -477,14 +467,14 @@ function closeCatPage() {
   document.getElementById('catPage').classList.remove('open');
   document.body.style.overflow = '';
   document.title = 'Most Computers — Техника и Електроника';
-  const _homeDesc = 'Most Computers — магазин за електроника от 1997 г. Лаптопи, смартфони, телевизори от Apple, Samsung, ASUS. Безплатна доставка над 200 лв. Сертифициран сервиз.';
+  const _homeDesc = 'Most Computers — магазин за електроника от 1997 г. Лаптопи, смартфони, телевизори от Apple, Samsung, ASUS. Безплатна доставка над 100 €. Сертифициран сервиз.';
   const metaDesc = document.querySelector('meta[name="description"]');
   if (metaDesc) metaDesc.setAttribute('content', _homeDesc);
   // Restore Open Graph defaults
   const ogTitle = document.querySelector('meta[property="og:title"]');
   if (ogTitle) ogTitle.setAttribute('content', 'Most Computers | Лаптопи, Телефони, Телевизори — От 1997 г.');
   const ogDesc = document.querySelector('meta[property="og:description"]');
-  if (ogDesc) ogDesc.setAttribute('content', 'Most Computers — специализиран магазин за електроника от 1997 г. Смартфони, лаптопи, телевизори от Apple, Samsung, Sony. Безплатна доставка над 200 лв.');
+  if (ogDesc) ogDesc.setAttribute('content', 'Most Computers — специализиран магазин за електроника от 1997 г. Смартфони, лаптопи, телевизори от Apple, Samsung, Sony. Безплатна доставка над 100 €.');
   const ogImg = document.querySelector('meta[property="og:image"]');
   if (ogImg) ogImg.setAttribute('content', 'https://mostcomputers.bg/og-default.jpg');
   const ogImgAlt = document.querySelector('meta[property="og:image:alt"]');
@@ -496,7 +486,7 @@ function closeCatPage() {
   const twTitle = document.querySelector('meta[name="twitter:title"]');
   if (twTitle) twTitle.setAttribute('content', 'Most Computers | Електроника от 1997 г.');
   const twDesc = document.querySelector('meta[name="twitter:description"]');
-  if (twDesc) twDesc.setAttribute('content', 'Лаптопи, Телефони, Телевизори, Аудио и аксесоари от Apple, Samsung, Sony. Безплатна доставка над 200 лв.');
+  if (twDesc) twDesc.setAttribute('content', 'Лаптопи, Телефони, Телевизори, Аудио и аксесоари от Apple, Samsung, Sony. Безплатна доставка над 100 €.');
   const canonical = document.querySelector('link[rel="canonical"]');
   if (canonical) canonical.setAttribute('href', 'https://mostcomputers.bg/');
   try{history.pushState({}, '', location.pathname);}catch(e){}

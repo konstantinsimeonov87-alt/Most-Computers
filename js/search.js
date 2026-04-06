@@ -112,8 +112,8 @@ function renderDropdown(query) {
       : `<div class="sd-section-title">🕐 Последни търсения</div>
          <div class="sd-recent">
            ${recentSearches.map((s,i) => `
-             <div class="sd-recent-chip" onclick="applyRecentSearch('${s}')">
-               🔍 ${s}
+             <div class="sd-recent-chip" onclick="applyRecentSearch('${escHtml(s)}')">
+               🔍 ${escHtml(s)}
                <button type="button" class="sd-recent-remove" onclick="removeRecent(event,${i})">×</button>
              </div>`).join('')}
          </div>
@@ -136,7 +136,7 @@ function renderDropdown(query) {
     searchDropdown.innerHTML = `
       <div class="sd-empty">
         <div class="sd-empty-icon">🔍</div>
-        <div class="sd-empty-text">Няма резултати за "<strong>${q}</strong>"</div>
+        <div class="sd-empty-text">Няма резултати за "<strong>${escHtml(q)}</strong>"</div>
         ${hint}
       </div>`;
     searchDropdown.classList.add('open');

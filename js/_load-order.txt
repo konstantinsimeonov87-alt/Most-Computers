@@ -15,5 +15,5 @@ js/pdp-ux.js
 js/seo.js
 js/pages.js
 js/actions.js
-js/admin.js
+js/admin-loader.js
 js/main.js

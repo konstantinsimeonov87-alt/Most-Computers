@@ -341,10 +341,11 @@ function renderAdminProductsTable() {
   if (brandSel) {
     const allBrands = [...new Set(products.map(p => p.brand).filter(Boolean))].sort();
     const cur = _adminProd.brand;
-    if (!brandSel.dataset.built) {
+    const brandsKey = allBrands.join('|');
+    if (brandSel.dataset.built !== brandsKey) {
       brandSel.innerHTML = '<option value="">Всички марки</option>'
-        + allBrands.map(b => '<option value="' + b + '"' + (b===cur?' selected':'') + '>' + b + ' (' + products.filter(p=>p.brand===b).length + ')</option>').join('');
-      brandSel.dataset.built = '1';
+        + allBrands.map(b => '<option value="' + b + '">' + b + ' (' + products.filter(p=>p.brand===b).length + ')</option>').join('');
+      brandSel.dataset.built = brandsKey;
     }
     brandSel.value = cur;
   }
@@ -553,10 +554,7 @@ function adminShowTab(tab) {
               <div onclick="adminBulkSetBadge('')" style="padding:8px 12px;cursor:pointer;border-radius:6px;color:#9ca3af;font-size:12px;font-family:'Outfit',sans-serif;">✖ Без бадж</div>
             </div>
           </div>
-          <div id="adminBulkSubcatWrap" style="display:none;position:relative;">
-            <button type="button" class="admin-table-action" onclick="adminToggleSubcatMenu()" style="gap:4px;background:rgba(99,102,241,0.15);color:#a5b4fc;border-color:rgba(99,102,241,0.3);">🗂 Подкат. (<span id="adminBulkSubcatCount">0</span>) ▾</button>
-            <div id="adminSubcatMenu" style="display:none;position:absolute;top:calc(100% + 4px);right:0;z-index:200;background:#1a1d35;border:1px solid #2d3148;border-radius:10px;padding:6px;min-width:190px;box-shadow:0 8px 24px rgba(0,0,0,0.4);max-height:320px;overflow-y:auto;"></div>
-          </div>
+          <button type="button" id="adminBulkSubcatWrap" style="display:none;background:rgba(99,102,241,0.15);color:#a5b4fc;border:1px solid rgba(99,102,241,0.3);border-radius:8px;padding:6px 12px;font-size:12px;font-family:'Outfit',sans-serif;cursor:pointer;" onclick="adminOpenSubcatModal()">🗂 Подкатегория (<span id="adminBulkSubcatCount">0</span>)</button>
           <button type="button" class="admin-close-btn" onclick="closeAdminPage()">✕ Затвори</button>
         </div>
       </div>
@@ -1390,33 +1388,110 @@ function adminUpdateSelection() {
 function adminToggleBadgeMenu() {
   const menu = document.getElementById('adminBadgeMenu');
   if (menu) menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
-  const sm = document.getElementById('adminSubcatMenu');
-  if (sm) sm.style.display = 'none';
 }
 
-function adminToggleSubcatMenu() {
-  const menu = document.getElementById('adminSubcatMenu');
-  if (!menu) return;
-  if (menu.style.display !== 'none') { menu.style.display = 'none'; return; }
-  const bm = document.getElementById('adminBadgeMenu');
-  if (bm) bm.style.display = 'none';
-  const cat = _adminProd.cat;
-  const subs = (typeof SUBCATS !== 'undefined' && cat && SUBCATS[cat]) ? SUBCATS[cat] : [];
-  const clearItem = `<div onclick="adminBulkSetSubcat('')" style="padding:8px 12px;cursor:pointer;border-radius:6px;color:#9ca3af;font-size:12px;font-family:'Outfit',sans-serif;border-bottom:1px solid #2d3148;margin-bottom:4px;">✖ Без подкатегория</div>`;
-  if (!subs.length) {
-    menu.innerHTML = clearItem + `<div style="padding:8px 12px;color:#6b7280;font-size:12px;font-family:'Outfit',sans-serif;font-style:italic;">Избери категория от филтъра горе</div>`;
-  } else {
-    menu.innerHTML = clearItem + subs.map(s =>
-      `<div onclick="adminBulkSetSubcat('${s.id}')" style="padding:8px 12px;cursor:pointer;border-radius:6px;color:#e5e7eb;font-size:12px;font-family:'Outfit',sans-serif;">${s.label}</div>`
-    ).join('');
-  }
-  menu.style.display = 'block';
+function adminOpenSubcatModal() {
+  const selectedCbs = [...document.querySelectorAll('.admin-prod-cb:checked')];
+  if (!selectedCbs.length) return;
+  const ids = selectedCbs.map(cb => Number(cb.dataset.id));
+  const selProds = ids.map(id => products.find(p => p.id === id)).filter(Boolean);
+
+  // Auto-detect category from selected products
+  const cats = [...new Set(selProds.map(p => normalizeCat(p.cat)))];
+  const detectedCat = cats.length === 1 ? cats[0] : '';
+
+  // Build category selector (shown only if mixed cats)
+  const catSelectorHtml = cats.length > 1
+    ? `<div style="margin-bottom:14px;">
+        <div style="font-size:10px;font-weight:800;color:#6b7280;text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px;">Избери категория:</div>
+        <select id="adminSubcatModalCat" onchange="adminSubcatModalRefreshPills(this.value)" style="background:#252840;border:1px solid #2d3148;border-radius:8px;padding:7px 10px;color:#e5e7eb;font-family:'Outfit',sans-serif;font-size:12px;width:100%;outline:none;">
+          <option value="">— избери —</option>
+          ${Object.keys(CAT_LABELS).map(c => `<option value="${c}">${CAT_LABELS[c]}</option>`).join('')}
+        </select>
+      </div>`
+    : `<input type="hidden" id="adminSubcatModalCat" value="${detectedCat}">`;
+
+  // Build product list
+  const prodListHtml = selProds.map(p => `
+    <div style="display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid #1e2236;">
+      <span style="font-size:18px;">${p.emoji||'📦'}</span>
+      <span style="flex:1;font-size:12px;color:#e5e7eb;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${p.name}</span>
+      <span id="adminSubcatChip-${p.id}" style="font-size:10px;padding:2px 7px;border-radius:8px;background:${p.subcat ? 'rgba(99,102,241,0.2)' : 'rgba(255,255,255,0.05)'};color:${p.subcat ? '#a5b4fc' : '#4b5563'};">${p.subcat || '—'}</span>
+    </div>`).join('');
+
+  // Build subcat pills for detected cat
+  const initialSubs = detectedCat && SUBCATS[detectedCat] ? SUBCATS[detectedCat] : [];
+  const pillsHtml = adminSubcatBuildPills(initialSubs);
+
+  // Render modal
+  const _oldModal = document.getElementById('adminSubcatModal');
+  if (_oldModal) _oldModal.remove();
+  const modal = document.createElement('div');
+  modal.id = 'adminSubcatModal';
+  document.body.appendChild(modal);
+  modal.style.cssText = 'position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.75);display:flex;align-items:center;justify-content:center;padding:20px;';
+  modal.innerHTML = `
+    <div style="background:#1a1d35;border:1px solid #2d3148;border-radius:16px;padding:24px;max-width:480px;width:100%;font-family:'Outfit',sans-serif;max-height:90vh;overflow-y:auto;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+        <div style="font-size:15px;font-weight:800;color:#fff;">🗂 Задай подкатегория <span style="color:#6b7280;font-size:13px;font-weight:500;">(${selProds.length} продукта)</span></div>
+        <button type="button" onclick="document.getElementById('adminSubcatModal').remove()" style="background:none;border:none;color:#9ca3af;font-size:22px;cursor:pointer;line-height:1;">×</button>
+      </div>
+
+      <!-- Product list -->
+      <div style="background:#0d0f1a;border-radius:10px;padding:10px 12px;margin-bottom:16px;max-height:160px;overflow-y:auto;">
+        ${prodListHtml}
+      </div>
+
+      <!-- Category selector (if mixed) -->
+      ${catSelectorHtml}
+
+      <!-- Subcat pills -->
+      <div style="font-size:10px;font-weight:800;color:#6b7280;text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px;">
+        ${detectedCat ? CAT_LABELS[detectedCat] + ' — избери подкатегория:' : 'Подкатегории:'}
+      </div>
+      <div id="adminSubcatModalPills" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;">
+        ${pillsHtml}
+      </div>
+
+      <!-- Actions -->
+      <div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid #2d3148;padding-top:14px;">
+        <button type="button" onclick="adminBulkSetSubcat('', true)" style="background:rgba(248,113,113,0.1);color:#f87171;border:1px solid rgba(248,113,113,0.2);border-radius:8px;padding:7px 14px;font-size:12px;cursor:pointer;font-family:'Outfit',sans-serif;">✖ Изчисти подкат.</button>
+        <button type="button" onclick="document.getElementById('adminSubcatModal').remove()" style="background:rgba(255,255,255,0.06);color:#9ca3af;border:1px solid #2d3148;border-radius:8px;padding:7px 14px;font-size:12px;cursor:pointer;font-family:'Outfit',sans-serif;">Затвори</button>
+      </div>
+    </div>`;
+
+  // Click outside to close
+  modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
 }
 
-function adminBulkSetSubcat(subcat) {
+function adminSubcatBuildPills(subs) {
+  if (!subs || !subs.length) return `<span style="color:#4b5563;font-size:12px;font-style:italic;">Няма подкатегории за тази категория</span>`;
+  return subs.map(s => `
+    <button type="button" onclick="adminBulkSetSubcat('${s.id}', true)" style="background:rgba(99,102,241,0.12);color:#a5b4fc;border:1px solid rgba(99,102,241,0.25);border-radius:20px;padding:6px 14px;font-size:12px;cursor:pointer;font-family:'Outfit',sans-serif;transition:all 0.15s;" onmouseover="this.style.background='rgba(99,102,241,0.3)'" onmouseout="this.style.background='rgba(99,102,241,0.12)'">${s.label}</button>
+  `).join('');
+}
+
+function adminSubcatModalRefreshPills(cat) {
+  const pillsEl = document.getElementById('adminSubcatModalPills');
+  if (!pillsEl) return;
+  const subs = (cat && SUBCATS[cat]) ? SUBCATS[cat] : [];
+  pillsEl.innerHTML = adminSubcatBuildPills(subs);
+}
+
+function adminBulkSetSubcat(subcat, fromModal) {
   const selected = [...document.querySelectorAll('.admin-prod-cb:checked')];
   if (!selected.length) return;
   const ids = new Set(selected.map(cb => Number(cb.dataset.id)));
+
+  // Find subcat label for toast
+  let label = 'без подкатегория';
+  if (subcat) {
+    for (const cat of Object.keys(SUBCATS)) {
+      const found = SUBCATS[cat].find(s => s.id === subcat);
+      if (found) { label = found.label; break; }
+    }
+  }
+
   products.forEach(p => {
     if (!ids.has(p.id)) return;
     if (subcat) p.subcat = subcat;
@@ -1424,13 +1499,20 @@ function adminBulkSetSubcat(subcat) {
   });
   persistProducts();
   if (typeof _invalidateFilterCache === 'function') _invalidateFilterCache();
-  const label = subcat
-    ? ((typeof SUBCATS !== 'undefined' && _adminProd.cat && SUBCATS[_adminProd.cat]
-        ? (SUBCATS[_adminProd.cat].find(s => s.id === subcat) || {}).label : null) || subcat)
-    : 'без подкатегория';
   showToast(`✅ ${ids.size} продукта → ${label}`);
-  const menu = document.getElementById('adminSubcatMenu');
-  if (menu) menu.style.display = 'none';
+  if (fromModal) {
+    // Refresh chips inside open modal without closing it
+    ids.forEach(id => {
+      const chip = document.getElementById('adminSubcatChip-' + id);
+      if (chip) {
+        chip.textContent = subcat || '—';
+        chip.style.background = subcat ? 'rgba(99,102,241,0.2)' : 'rgba(255,255,255,0.05)';
+        chip.style.color = subcat ? '#a5b4fc' : '#4b5563';
+      }
+    });
+    if (!subcat) { renderGrids(); renderAdminProductsTable(); return; } // keep modal open after clear
+    document.getElementById('adminSubcatModal')?.remove();
+  }
   renderGrids();
   renderAdminProductsTable();
 }
@@ -1439,7 +1521,7 @@ function adminBulkSetBadge(badge) {
   const selected = [...document.querySelectorAll('.admin-prod-cb:checked')];
   if (!selected.length) return;
   const ids = new Set(selected.map(cb => Number(cb.dataset.id)));
-  products.forEach(p => { if (ids.has(p.id)) p.badge = badge || undefined; });
+  products.forEach(p => { if (ids.has(p.id)) { if (badge) p.badge = badge; else delete p.badge; } });
   persistProducts();
   const label = { sale:'Промо', new:'Ново', hot:'Горещо' }[badge] || 'без бадж';
   showToast(`✅ ${ids.size} продукта → ${label}`);

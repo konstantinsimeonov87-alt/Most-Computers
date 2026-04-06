@@ -4,12 +4,6 @@ let pdpQtyVal    = 1;
 let pdpGallery   = [];
 let pdpGalleryIdx = 0;
 
-const CAT_LABELS = {
-  audio:'Аудио',mobile:'Телефони',laptop:'Лаптопи',tablet:'Таблети',
-  tv:'Телевизори',camera:'Фотоапарати',gaming:'Гейминг',smart:'Смарт устройства',
-  network:'Мрежово оборудване',print:'Принтери',acc:'Аксесоари',
-  components:'Компоненти',monitor:'Монитори',desktop:'Десктопи',storage:'Съхранение'
-};
 
 let _pdpScrollY = 0;
 function openProductPage(id) {

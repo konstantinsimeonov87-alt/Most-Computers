@@ -44,7 +44,7 @@ function showRecommended(p) {
   panel._t = setTimeout(() => { panel.style.opacity = '0'; setTimeout(() => panel.remove(), 280); }, 8000);
 }
 function addToCartById(id){addToCart(id);}
-const FREE_SHIP_BGN = 200;
+const FREE_SHIP_BGN = Math.round(100 * EUR_RATE * 100) / 100; // 100 EUR в лева
 function updateCart(){
   const count=cart.reduce((s,x)=>s+x.qty,0),total=cart.reduce((s,x)=>s+x.price*x.qty,0);
   const badge=document.getElementById('cartBadge');if(badge)badge.textContent=count;

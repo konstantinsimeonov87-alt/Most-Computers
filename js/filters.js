@@ -179,8 +179,8 @@ function renderGrids(){
   if(_s2 && _s2el) _s2el.innerHTML = `${(_s2.price/EUR_RATE).toFixed(2)} € / ${_s2.price} лв. <small>с ДДС</small>`;
   const ng=document.getElementById('newGrid'); if(ng) ng.innerHTML=products.filter(p=>p.badge==='new').concat(products.filter(p=>p.badge==='hot')).slice(0,5).map(p=>makeCard(p,true)).join('');
   // Promo strip — update free delivery threshold with current EUR rate
-  const _freeDelBgn = 200;
-  const _freeDelEur = (_freeDelBgn / EUR_RATE).toFixed(2);
+  const _freeDelEur = 100;
+  const _freeDelBgn = (Math.round(_freeDelEur * EUR_RATE * 100) / 100).toFixed(2);
   document.querySelectorAll('.promo-free-del').forEach((el, i) => {
     const prefix = i === 0
       ? `<svg width="14" height="14" class="svg-ic" aria-hidden="true"><use href="#ic-truck"/></svg> `
@@ -482,7 +482,7 @@ function initPriceGroupCounts() {
   ranges.forEach(r => {
     const el = document.getElementById(r.id);
     if (el) el.textContent = products.filter(p => {
-      const eur = p.price / EUR;
+      const eur = p.price / EUR_RATE;
       return eur >= r.min && eur < r.max;
     }).length;
   });
@@ -743,11 +743,6 @@ function renderCatSpecFilters(cat) {
     return;
   }
 
-  const CAT_LABELS = {
-    laptops:'Лаптопи', desktops:'Настолни компютри', components:'Компоненти',
-    peripherals:'Периферия', network:'Мрежово оборудване', storage:'Сървъри и сторидж',
-    software:'Софтуер', accessories:'Аксесоари'
-  };
   if (title) title.textContent = `⚙ ${CAT_LABELS[cat] || cat} — филтри`;
 
   inner.innerHTML = specs.map(spec => `
@@ -817,7 +812,7 @@ function matchesSubcat(p, subcat) {
     psu:           () => all.includes('захранван') || all.includes('psu') || all.includes('power supply') || all.includes(' w ') || (all.includes('watt') && !all.includes('battery')),
     case_cooling:  () => all.includes('кутия') || all.includes('chassis') || all.includes('case') || all.includes('охлади') || all.includes('cooler') || all.includes('cooling'),
     // Peripherals
-    monitor:       () => all.includes('монитор') || all.includes('monitor') || all.includes('display') || all.includes('hz') && (all.includes('ips') || all.includes('oled') || all.includes('va') || all.includes('qhd') || all.includes('4k') || all.includes('1440')),
+    monitor:       () => (normalizeCat(p.cat) === 'peripherals') && (all.includes('монитор') || all.includes('monitor') || (all.includes('hz') && (all.includes('ips') || all.includes('oled') || all.includes('va') || all.includes('qhd') || all.includes('4k') || all.includes('1440')))),
     keyboard:      () => all.includes('клавиатур') || all.includes('keyboard'),
     mouse:         () => all.includes('мишк') || all.includes('mouse') || all.includes('trackpad'),
     headphones:    () => all.includes('слушалк') || all.includes('headphone') || all.includes('headset') || all.includes('earphone') || all.includes('earbud'),

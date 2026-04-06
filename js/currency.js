@@ -12,6 +12,30 @@ function fmtPrice(bgn, saleCls='') {
 // Inline dual: "2.30 € / 4.49 лв."
 function fmtDual(bgn) { return `${fmtEur(bgn)} / ${fmtBgn(bgn)}`; }
 
+// Единен речник на категориите — canonical + legacy ключове
+const CAT_LABELS = {
+  all:'Всички продукти',
+  laptops:'Лаптопи', desktops:'Настолни компютри', components:'Компоненти',
+  peripherals:'Периферия', network:'Мрежово оборудване', storage:'Сървъри и сторидж',
+  software:'Софтуер', accessories:'Аксесоари',
+  sale:'Промоции', new:'Нови продукти',
+  // Legacy ключове
+  laptop:'Лаптопи', desktop:'Десктопи', gaming:'Гейминг',
+  audio:'Аудио', mobile:'Телефони', tablet:'Таблети',
+  tv:'Телевизори', camera:'Фотоапарати', smart:'Смарт устройства',
+  print:'Принтери', acc:'Аксесоари', monitor:'Монитори',
+};
+
+// HTML escape — използвай навсякъде преди вмъкване на user input в innerHTML
+function escHtml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { EUR_RATE, toEur, fmtEur, fmtBgn, fmtPrice, fmtDual };
+  module.exports = { EUR_RATE, toEur, fmtEur, fmtBgn, fmtPrice, fmtDual, escHtml };
 }

@@ -1143,6 +1143,7 @@
 /* PDP contact strip */
 .pdp-contact-strip {
   display: flex;
+  justify-content: center;
   gap: 10px;
   margin-top: 14px;
   flex-wrap: wrap;

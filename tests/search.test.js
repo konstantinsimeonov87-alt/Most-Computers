@@ -21,11 +21,13 @@ global.srpCurrentQuery          = '';
 global.srpCurrentCatFilter      = '';
 global.srpPriceMinVal           = 0;
 global.srpPriceMaxVal           = 5000;
+// normalizeCat stub — maps normalized cats to themselves (products.js now uses normalized values)
+global.normalizeCat = (cat) => cat || 'accessories';
 
 const PRODUCTS = [
-  { id: 1, name: 'Sony WH-1000XM6', brand: 'Sony',    cat: 'audio',  price: 449,  old: 549,  badge: 'sale', emoji: '🎧', rating: 4.9, rv: 124, sku: 'MC-SONY-WH1000XM6', ean: '4548736132283', specs: { driver: '40mm', freq: '4Hz-40kHz' }, desc: 'Безжични слушалки с шумопотискане' },
-  { id: 2, name: 'iPhone 16 Pro Max', brand: 'Apple', cat: 'mobile', price: 2599, old: null, badge: 'new',  emoji: '📱', rating: 4.8, rv: 89,  sku: 'MC-APPLE-IP16PROMAX', ean: '0194253715474', specs: { display: '6.9"', chip: 'A18 Pro' }, desc: 'Apple флагман 2024' },
-  { id: 3, name: 'Samsung 55" TV',   brand: 'Samsung',cat: 'tv',    price: 1799, old: 2199, badge: 'sale', emoji: '📺', rating: 4.7, rv: 56,  sku: 'MC-SAM-55QLED',      ean: '8806094914500', specs: { size: '55"', res: '4K' },         desc: 'QLED телевизор' },
+  { id: 1, name: 'Sony WH-1000XM6', brand: 'Sony',    cat: 'peripherals', price: 449,  old: 549,  badge: 'sale', emoji: '🎧', rating: 4.9, rv: 124, sku: 'MC-SONY-WH1000XM6', ean: '4548736132283', specs: { driver: '40mm', freq: '4Hz-40kHz' }, desc: 'Безжични слушалки с шумопотискане' },
+  { id: 2, name: 'iPhone 16 Pro Max', brand: 'Apple', cat: 'phones',      price: 2599, old: null, badge: 'new',  emoji: '📱', rating: 4.8, rv: 89,  sku: 'MC-APPLE-IP16PROMAX', ean: '0194253715474', specs: { display: '6.9"', chip: 'A18 Pro' }, desc: 'Apple флагман 2024' },
+  { id: 3, name: 'Samsung 55" TV',   brand: 'Samsung',cat: 'accessories', price: 1799, old: 2199, badge: 'sale', emoji: '📺', rating: 4.7, rv: 56,  sku: 'MC-SAM-55QLED',      ean: '8806094914500', specs: { size: '55"', res: '4K' },         desc: 'QLED телевизор' },
 ];
 
 global.products = [...PRODUCTS];
@@ -163,14 +165,14 @@ describe('searchProducts — основно', () => {
 describe('searchProducts — филтър по категория', () => {
   beforeEach(() => { global.products = [...PRODUCTS]; });
 
-  test('филтрира само "audio" продукти', () => {
-    const r = searchProducts('Sony', 'audio');
+  test('филтрира само "peripherals" продукти', () => {
+    const r = searchProducts('Sony', 'peripherals');
     expect(r).toHaveLength(1);
-    expect(r[0].cat).toBe('audio');
+    expect(r[0].cat).toBe('peripherals');
   });
 
   test('правилна категория, грешна — връща []', () => {
-    const r = searchProducts('Sony', 'mobile');
+    const r = searchProducts('Sony', 'phones');
     expect(r).toHaveLength(0);
   });
 

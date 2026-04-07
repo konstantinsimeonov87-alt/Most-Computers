@@ -1,14 +1,18 @@
 // ── Canonical category normalization ─────────────────────────────────────────
-// Maps any cat value (old-style or XML-imported) → one of the 8 canonical cats:
-// laptops | desktops | components | peripherals | network | storage | software | accessories
+// Maps any cat value (old-style or XML-imported) → one of the 11 canonical cats:
+// laptops | desktops | gaming | components | monitors | peripherals | phones | network | storage | software | accessories
 function normalizeCat(cat) {
   const m = {
     laptop:'laptops',    laptops:'laptops',
-    desktop:'desktops',  desktops:'desktops',  gaming:'desktops',
+    desktop:'desktops',  desktops:'desktops',
+    gaming:'gaming',     game:'gaming',
     components:'components', component:'components',
-    monitor:'peripherals', audio:'peripherals', camera:'peripherals',
-    print:'peripherals',   peripherals:'peripherals',
-    mobile:'accessories',  tablet:'accessories', tv:'accessories', smart:'accessories',
+    monitor:'monitors',  monitors:'monitors',  display:'monitors',
+    audio:'peripherals', camera:'peripherals',
+    print:'peripherals', peripherals:'peripherals',
+    phone:'phones',      phones:'phones',      mobile:'phones',
+    tablet:'phones',     smartphones:'phones',
+    tv:'accessories',    smart:'accessories',
     network:'network',
     storage:'storage',   nas:'storage',
     software:'software',
@@ -561,6 +565,11 @@ let catSpecActiveFilters = {}; // { specKey: Set(values) }
 
 // Subcategory definitions
 const SUBCATS = {
+  phones: [
+    { id: 'smartphone',   label: '📱 Смартфони' },
+    { id: 'tablet',       label: '📟 Таблети' },
+    { id: 'smartwatch',   label: '⌚ Смарт часовници' },
+  ],
   laptops: [
     { id: 'work',         label: '💼 За работа' },
     { id: 'gaming_l',     label: '🎮 За гейминг' },
@@ -573,11 +582,24 @@ const SUBCATS = {
     { id: 'for_gaming',   label: '🕹 За игри' },
   ],
   desktops: [
-    { id: 'gaming_pc',    label: '🎮 Геймърски конфигурации' },
     { id: 'office_pc',    label: '💼 Офис компютри' },
     { id: 'workstation',  label: '🔬 Workstation' },
     { id: 'aio',          label: '🖥 All-in-One' },
     { id: 'mac_desktop',  label: '🍎 Mac' },
+  ],
+  gaming: [
+    { id: 'gaming_laptop_s', label: '💻 Геймърски лаптопи' },
+    { id: 'gaming_pc_s',     label: '🖥 Геймърски конфигурации' },
+    { id: 'gaming_mouse',    label: '🖱 Геймърски мишки' },
+    { id: 'gaming_kb',       label: '⌨ Геймърски клавиатури' },
+    { id: 'gaming_headset',  label: '🎧 Геймърски слушалки' },
+  ],
+  monitors: [
+    { id: 'gaming_mon',   label: '🎮 Gaming 144Hz+' },
+    { id: 'mon_4k',       label: '🖥 4K / UHD' },
+    { id: 'ultrawide',    label: '↔ UltraWide' },
+    { id: 'oled_mon',     label: '✨ OLED' },
+    { id: 'office_mon',   label: '💼 Офис монитори' },
   ],
   components: [
     { id: 'cpu',         label: '⚙ Процесори' },
@@ -622,6 +644,11 @@ const SUBCATS = {
 
 // Mega-menu flyout data: category → columns → items
 const MEGA_MENU = {
+  phones: [
+    { title: 'Смартфони', id: 'smartphone', items: ['Apple iPhone', 'Samsung Galaxy', 'Google Pixel', 'Xiaomi'] },
+    { title: 'Таблети', id: 'tablet', items: ['Apple iPad', 'Samsung Galaxy Tab', 'Android таблети'] },
+    { title: 'Смарт часовници', id: 'smartwatch', items: ['Apple Watch', 'Samsung Galaxy Watch', 'Garmin', 'Fitbit'] },
+  ],
   laptops: [
     { title: 'По предназначение', id: 'work', items: ['За работа', 'За гейминг', 'Ултрабуци', 'Workstation'] },
     { title: 'По марка', id: 'ultrabook', items: ['Apple MacBook', 'Dell XPS', 'ASUS ROG', 'Lenovo ThinkPad', 'HP EliteBook'] },
@@ -629,9 +656,18 @@ const MEGA_MENU = {
     { title: 'Use-case', id: 'for_students', items: ['За студенти', 'За програмисти', 'За дизайнери', 'За игри'] },
   ],
   desktops: [
-    { title: 'Gaming PC', id: 'gaming_pc', items: ['RTX 4070', 'RTX 4080 / 4090', 'Готови конфигурации', 'AMD Radeon'] },
     { title: 'Офис и Workstation', id: 'office_pc', items: ['Офис компютри', 'Workstation', 'Mac Mini / iMac', 'All-in-One'] },
     { title: 'По марка', id: 'mac_desktop', items: ['Apple', 'ASUS', 'Dell', 'HP', 'Lenovo'] },
+  ],
+  gaming: [
+    { title: 'Геймърски лаптопи', id: 'gaming_laptop_s', items: ['ASUS ROG', 'Razer Blade', 'MSI Titan', 'Lenovo Legion'] },
+    { title: 'Геймърски PC', id: 'gaming_pc_s', items: ['RTX 4070', 'RTX 4080 / 4090', 'AMD Radeon RX 7000', 'Готови конфигурации'] },
+    { title: 'Периферия', id: 'gaming_mouse', items: ['Геймърски мишки', 'Механични клавиатури', 'Геймърски слушалки'] },
+  ],
+  monitors: [
+    { title: 'Gaming монитори', id: 'gaming_mon', items: ['144Hz', '165Hz', '240Hz', '360Hz', 'QHD Gaming', '4K Gaming'] },
+    { title: 'По резолюция', id: 'mon_4k', items: ['4K UHD 3840×2160', 'QHD 2560×1440', 'Full HD 1080p'] },
+    { title: 'По тип', id: 'oled_mon', items: ['OLED монитори', 'IPS панели', 'VA панели', 'UltraWide 21:9', 'Curved'] },
   ],
   components: [
     { title: 'Процесори', id: 'cpu', items: ['Intel Core i5/i7/i9', 'Intel Core Ultra', 'AMD Ryzen 5/7/9', 'AMD Threadripper'] },
@@ -641,9 +677,8 @@ const MEGA_MENU = {
     { title: 'Дъно и корпус', id: 'motherboard', items: ['Intel LGA1851', 'Intel LGA1700', 'AMD AM5', 'AMD AM4', 'Захранвания', 'Кутии'] },
   ],
   peripherals: [
-    { title: 'Монитори', id: 'monitor', items: ['Gaming 144Hz+', '4K UHD', 'QHD 1440p', 'Ultra-Wide', 'OLED'] },
-    { title: 'Въвеждане', id: 'keyboard', items: ['Механични клавиатури', 'Геймърски мишки', 'Офис мишки', 'Trackpad'] },
-    { title: 'Аудио и видео', id: 'headphones', items: ['Геймърски слушалки', 'Офис слушалки', 'Уеб камери', 'Принтери'] },
+    { title: 'Въвеждане', id: 'keyboard', items: ['Механични клавиатури', 'Офис мишки', 'Trackpad', 'Геймпадове'] },
+    { title: 'Аудио и видео', id: 'headphones', items: ['Слушалки', 'Тонколони', 'Уеб камери', 'Принтери'] },
   ],
   network: [
     { title: 'Рутери', id: 'router', items: ['WiFi 7', 'WiFi 6E', 'WiFi 6', 'Dual Band'] },
@@ -664,6 +699,23 @@ const MEGA_MENU = {
 // Category-specific spec filters
 
 const CAT_SPEC_FILTERS = {
+  phones: [
+    { key: 'OS',       label: '📱 Операционна система', values: ['iOS','Android'] },
+    { key: 'RAM',      label: '🧠 RAM',                 values: ['6 GB','8 GB','12 GB','16 GB'] },
+    { key: 'Storage',  label: '💾 Памет',               values: ['128 GB','256 GB','512 GB','1 TB'] },
+    { key: 'Display',  label: '📐 Диагонал',            values: ['6"','6.1"','6.7"','11"','13"'] },
+  ],
+  gaming: [
+    { key: 'Type',  label: '📦 Тип',                    values: ['Лаптоп','Настолен','Мишка','Клавиатура','Слушалки'] },
+    { key: 'GPU',   label: '🎮 Видео карта',            values: ['RTX 4060','RTX 4070','RTX 4080','RTX 4090','RX 7900'] },
+    { key: 'RAM',   label: '🧠 Оперативна памет',       values: ['16 GB','32 GB','64 GB'] },
+  ],
+  monitors: [
+    { key: 'Resolution',  label: '🔍 Резолюция',        values: ['Full HD 1080p','QHD 1440p','4K UHD','Ultra-Wide'] },
+    { key: 'RefreshRate', label: '⚡ Честота опресняване', values: ['60 Hz','144 Hz','165 Hz','240 Hz','360 Hz'] },
+    { key: 'Panel',       label: '🖥 Тип панел',        values: ['IPS','VA','OLED','Mini-LED'] },
+    { key: 'Size',        label: '📐 Диагонал',         values: ['24"','27"','32"','34"','49"'] },
+  ],
   laptops: [
     { key: 'CPU',     label: '💻 Процесор',            values: ['Intel Core i5','Intel Core i7','Intel Core i9','Intel Core Ultra','AMD Ryzen 5','AMD Ryzen 7','AMD Ryzen 9','Apple M3','Apple M4'] },
     { key: 'RAM',     label: '🧠 Оперативна памет',    values: ['8 GB','16 GB','24 GB','32 GB','64 GB'] },
@@ -789,6 +841,10 @@ function matchesSubcat(p, subcat) {
   const all = name + ' ' + desc + ' ' + specsStr;
 
   const rules = {
+    // Phones
+    smartphone:      () => all.includes('iphone') || all.includes('galaxy s') || all.includes('pixel') || all.includes('xiaomi') || all.includes('смартфон') || (p.emoji === '📱'),
+    tablet:          () => all.includes('ipad') || all.includes('galaxy tab') || all.includes('таблет') || all.includes('tablet') || (p.emoji === '📟'),
+    smartwatch:      () => all.includes('watch') || all.includes('часов') || all.includes('band') || (p.emoji === '⌚'),
     // Laptops
     work:          () => all.includes('business') || all.includes('thinkpad') || all.includes('latitude') || all.includes('elitebook') || all.includes('бизнес') || all.includes('xps'),
     gaming_l:      () => all.includes('gaming') || all.includes('rog') || all.includes('rtx') || all.includes('геймърски') || all.includes('republic of gamers'),
@@ -798,13 +854,24 @@ function matchesSubcat(p, subcat) {
     for_students:  () => (p.price / EUR_RATE) < 700 || all.includes('student') || all.includes('студент') || all.includes('chromebook'),
     for_devs:      () => all.includes('thinkpad') || all.includes('xps') || all.includes('macbook pro') || all.includes('linux') || all.includes('програмист'),
     for_design:    () => all.includes('macbook') || all.includes('design') || all.includes('creator') || all.includes('дизайн') || all.includes('retina') || all.includes('4k display'),
-    for_gaming:    () => all.includes('gaming') || all.includes('rtx') || all.includes('rog') || all.includes('rx 6') || all.includes('rx 7') || p.cat === 'gaming',
+    for_gaming:    () => all.includes('gaming') || all.includes('rtx') || all.includes('rog') || all.includes('rx 6') || all.includes('rx 7'),
     // Desktops
-    gaming_pc:     () => all.includes('gaming') || all.includes('rtx') || all.includes('rog') || all.includes('rx 6') || all.includes('rx 7') || all.includes('геймърски'),
     office_pc:     () => all.includes('office') || all.includes('офис') || all.includes('business') || (p.price/EUR_RATE < 800 && !all.includes('gaming')),
     workstation:   () => all.includes('workstation') || all.includes('xeon') || all.includes('quadro') || p.price > 4000,
     aio:           () => all.includes('all-in-one') || all.includes('aio') || all.includes('imac') || all.includes('моноблок'),
     mac_desktop:   () => brand === 'apple' || all.includes('mac mini') || all.includes('imac') || all.includes('mac studio') || all.includes('mac pro'),
+    // Gaming
+    gaming_laptop_s: () => all.includes('laptop') || all.includes('лаптоп') || all.includes('notebook') || (p.emoji === '💻'),
+    gaming_pc_s:     () => all.includes('desktop') || all.includes('настолен') || all.includes('tower') || all.includes('gaming desktop') || (p.emoji === '🖥' && !all.includes('monitor')),
+    gaming_mouse:    () => all.includes('mouse') || all.includes('мишк') || (p.emoji === '🖱'),
+    gaming_kb:       () => all.includes('keyboard') || all.includes('клавиатур') || (p.emoji === '⌨'),
+    gaming_headset:  () => all.includes('headset') || all.includes('headphone') || all.includes('слушалк') || (p.emoji === '🎧'),
+    // Monitors
+    gaming_mon:   () => all.includes('hz') && (parseInt(all.match(/(\d+)hz/)?.[1]||0) >= 144 || all.includes('144') || all.includes('165') || all.includes('240') || all.includes('360')),
+    mon_4k:       () => all.includes('4k') || all.includes('uhd') || all.includes('3840') || all.includes('4к'),
+    ultrawide:    () => all.includes('ultrawide') || all.includes('ultra-wide') || all.includes('34"') || all.includes('49"') || all.includes('21:9') || all.includes('32:9'),
+    oled_mon:     () => all.includes('oled'),
+    office_mon:   () => !all.includes('gaming') && !all.includes('oled') && (p.price / EUR_RATE) < 600,
     // Components
     cpu:           () => all.includes('процесор') || all.includes('processor') || all.includes('cpu') || all.includes('ryzen') || all.includes('core i') || all.includes('core ultra'),
     gpu:           () => all.includes('видеокарт') || all.includes('gpu') || all.includes('geforce') || all.includes('radeon') || all.includes('rtx') || all.includes('rx 6') || all.includes('rx 7') || all.includes('arc'),

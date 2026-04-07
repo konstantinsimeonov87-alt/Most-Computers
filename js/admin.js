@@ -1709,16 +1709,34 @@ function xmlParseAndPreview(xmlStr) {
 
   // Category text → canonical cat key (matches normalizeCat output)
   const CAT_MAP_GENERIC = [
+    // Phones & Tablets — check BEFORE generic accessories
+    [['IPHONE','SAMSUNG GALAXY S','SAMSUNG GALAXY A','PIXEL','XIAOMI','СМАРТФОН','SMARTPHONE'], 'phones'],
+    [['IPAD','GALAXY TAB','ТАБЛЕТ','TABLET PC'], 'phones'],
+    [['SMARTWATCH','SMART WATCH','GALAXY WATCH','APPLE WATCH'], 'phones'],
+    [['PHONE','MOBILE','ТЕЛЕФОН','МОБИЛЕН'], 'phones'],
+    [['TABLET','ТАБЛЕТ'], 'phones'],
+    // Gaming — check BEFORE laptops/desktops
+    [['GAMING LAPTOP','GAMING NOTEBOOK','GAMING НОТ','ГЕЙМЪРСКИ ЛАПТОП'], 'gaming'],
+    [['GAMING PC','GAMING DESKTOP','GAME PC','ГЕЙМЪРСКИ КОМПЮТЪР'], 'gaming'],
+    [['GAMING MOUSE','GAMING МИШК','ГЕЙМЪРСКА МИШК'], 'gaming'],
+    [['GAMING KEYBOARD','GAMING КЛАВИАТУР','ГЕЙМЪРСКА КЛАВИАТУР','МЕХАНИЧНА КЛАВИАТУР'], 'gaming'],
+    [['GAMING HEADSET','GAMING СЛУШАЛК','ГЕЙМЪРСКИ СЛУШАЛК'], 'gaming'],
+    [['GAMING MONITOR','ГЕЙМЪРСКИ МОНИТОР'], 'monitors'],
+    // Monitors
+    [['MONITOR','МОНИТОР','DISPLAY','ДИСПЛЕЙ'], 'monitors'],
+    // Laptops & Desktops
     [['NOTEBOOK','LAPTOP','ЛАПТОП','NOTEBOOK PC'], 'laptops'],
     [['DESKTOP','СТАЦИОНАРЕН','ALL-IN-ONE','AIO','TOWER PC','НАСТОЛЕН'], 'desktops'],
-    [['GAMING PC','GAMING DESKTOP','GAME PC'], 'desktops'],
-    [['MONITOR','МОНИТОР','DISPLAY','ДИСПЛЕЙ'], 'peripherals'],
+    // Peripherals
     [['AUDIO','HEADPHONE','СЛУШАЛК','SPEAKER','КОЛОНК'], 'peripherals'],
     [['CAMERA','ФОТОАПАРАТ','WEBCAM','УЕБ КАМ'], 'peripherals'],
     [['PRINTER','ПРИНТЕР','СКЕНЕР','SCANNER'], 'peripherals'],
     [['KEYBOARD','КЛАВИАТУР','MOUSE','МИШК','ГЕЙМПАД','GAMEPAD'], 'peripherals'],
+    // Network
     [['NETWORK','ROUTER','МРЕЖА','SWITCH','ACCESS POINT','WIRELESS'], 'network'],
+    // Storage
     [['EXTERNAL STORAGE','EXTERNAL DRIVE','NAS','ВЪНШЕН ДИСК','USB ДИСК'], 'storage'],
+    // Components
     [['ПРОЦЕСОР','PROCESSOR','CPU'], 'components'],
     [['ВИДЕОКАРТ','VIDEO CARD','GPU','GRAPHIC'], 'components'],
     [['RAM','ПАМЕТ','MEMORY','DIMM'], 'components'],
@@ -1728,13 +1746,12 @@ function xmlParseAndPreview(xmlStr) {
     [['ОХЛАДИТЕЛ','COOLER','COOLING','ВЕНТИЛАТОР'], 'components'],
     [['КУТИЯ','CHASSIS','CASE'], 'components'],
     [['КОМПОНЕНТ','COMPONENT'], 'components'],
-    [['PHONE','MOBILE','ТЕЛЕФОН','СМАРТФОН'], 'accessories'],
-    [['TABLET','ТАБЛЕТ'], 'accessories'],
+    // TV & Smart Home → accessories
     [['TV','ТЕЛЕВИЗОР','TELEVISION'], 'accessories'],
-    [['SMARTWATCH','SMART HOME','SMARTHOME','SMART WATCH'], 'accessories'],
-    [['GAMING LAPTOP','GAMING НОТ'], 'laptops'],
-    [['GAMING','GAME'], 'desktops'],
+    [['SMART HOME','SMARTHOME'], 'accessories'],
+    // Software
     [['SOFTWARE','СОФТУЕР','LICENSE','ЛИЦЕНЗ'], 'software'],
+    // Accessories (catch-all)
     [['АКСЕСОАР','ACCESSORY','CABLE','КАБЕЛ','BAG','ЧАНТА','HUB','ХЪБ'], 'accessories'],
   ];
   function mapCatGeneric(raw) {

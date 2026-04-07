@@ -84,7 +84,7 @@ function searchProducts(query, cat) {
   const q = query.trim();
   if (!q) return [];
   const catFilter = cat && cat !== 'all' ? cat : '';
-  return products.filter(p => (!catFilter || p.cat === catFilter) && matchesQuery(p, q));
+  return products.filter(p => (!catFilter || normalizeCat(p.cat) === catFilter) && matchesQuery(p, q));
 }
 
 // Detect if query looks like SKU or EAN
@@ -224,7 +224,7 @@ function showSearchResultsPage(query) {
 
   // Category filter pills for SRP
   const cats = [...new Set(results.map(p => p.cat))];
-  const catLabels = {audio:'Аудио',mobile:'Телефони',laptop:'Лаптопи',tablet:'Таблети',tv:'Телевизори',camera:'Камери',gaming:'Гейминг',smart:'Smart Home',network:'Мрежа',acc:'Аксесоари',print:'Принтери',components:'Компоненти',monitor:'Монитори',desktop:'Десктопи',storage:'Съхранение'};
+  const catLabels = {phones:'Телефони и таблети',laptops:'Лаптопи',desktops:'Десктопи',gaming:'Гейминг',monitors:'Монитори',components:'Компоненти',peripherals:'Периферия',network:'Мрежа',storage:'Съхранение',accessories:'Аксесоари',software:'Софтуер'};
   var _el_srpFilters=document.getElementById('srpFilters'); if(_el_srpFilters) _el_srpFilters.innerHTML = `
     <button type="button" class="srp-filter-pill active" onclick="srpFilter(this,'',${JSON.stringify(query)})">Всички (${results.length})</button>
     ${cats.map(c => `<button type="button" class="srp-filter-pill" onclick="srpFilter(this,'${c}',${JSON.stringify(query)})">${catLabels[c]||c} (${results.filter(p=>p.cat===c).length})</button>`).join('')}

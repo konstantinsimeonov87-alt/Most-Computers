@@ -522,7 +522,7 @@ function buildCpSidebar(cat) {
   if (!sb) return;
 
   const catProds = cat === 'all' ? products : products.filter(p =>
-    p.cat === cat || (cat === 'new' && p.badge === 'new') || (cat === 'sale' && p.badge === 'sale'));
+    normalizeCat(p.cat) === cat || (cat === 'new' && p.badge === 'new') || (cat === 'sale' && p.badge === 'sale'));
   const allBrands = [...new Set(products.map(p => p.brand))].sort();
   const brands = allBrands.filter(b => catProds.some(p => p.brand === b));
   const maxPrice = Math.max(...catProds.map(p => toEur(p.price)));
@@ -714,7 +714,7 @@ function cpGetFiltered() {
   // category filter
   if (cpCat === 'new') list = list.filter(p => p.badge === 'new');
   else if (cpCat === 'sale') list = list.filter(p => p.badge === 'sale');
-  else if (cpCat !== 'all') list = list.filter(p => p.cat === cpCat);
+  else if (cpCat !== 'all') list = list.filter(p => normalizeCat(p.cat) === cpCat);
   // price
   list = list.filter(p => { const e = toEur(p.price); return e >= cpPriceMin && e <= cpPriceMax; });
   // brands

@@ -1789,7 +1789,7 @@ function xmlParseAndPreview(xmlStr) {
     parsed_products.push({
       id, name, ok, isUpdate: existsIdx !== -1,
       brand:  getAny(el,'brand','manufacturer','vendor','make'),
-      cat:    mapCatGeneric(getAny(el,'cat','category','categoryId','group') || ''),
+      cat:    normalizeCat(mapCatGeneric(getAny(el,'cat','category','categoryId','group') || '')),
       price,
       old:    parseFloat(getAny(el,'old','oldprice','old_price','original_price','comparePrice','compare_price','regular_price')) || null,
       badge:  getAny(el,'badge','label','tag') || '',

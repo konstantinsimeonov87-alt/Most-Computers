@@ -27,7 +27,7 @@ var products = [
     specs:{Тип:'Over-ear', Тип_аудио:'Over-ear', Връзка:'Bluetooth 5.3', Батерия:'24 часа', ANC:'CustomTune', ANC_filter:'С ANC', Тегло:'251g', Гаранция:'2 год.', Warranty:'24 месеца'},
     desc:'Bose QC Ultra с революционната технология Immersive Audio създава пространствен звук около теб.',
     reviews:[{name:'Красимир Д.',stars:5,date:'08.03.2025',text:'Пространственото аудио е магия! Незаменими за пътувания.'}] },
-  { id:8,  sku:'MC-ASUS-ROGZ16-4080', ean:'4711387491928', img:'https://dlcdnwebimgs.asus.com/gain/AF6D21FC-3FA8-4068-8A93-5A6B6F47AEA1/w717/h525',  name:'ASUS ROG Zephyrus G16 RTX 4080',      brand:'ASUS',    cat:'gaming',  emoji:'💻', price:3799, old:4299, badge:'sale', pct:12, rating:4.9, rv:54,
+  { id:8,  sku:'MC-ASUS-ROGZ16-4080', ean:'4711387491928', img:'https://dlcdnwebimgs.asus.com/gain/AF6D21FC-3FA8-4068-8A93-5A6B6F47AEA1/w717/h525',  name:'ASUS ROG Zephyrus G16 RTX 4080',      brand:'ASUS',    cat:'laptop',  emoji:'💻', price:3799, old:4299, badge:'sale', pct:12, rating:4.9, rv:54,
     specs:{Процесор:'AMD Ryzen 9 8945HS', CPU:'AMD Ryzen 9', RAM:'32 GB', RAM_raw:'32GB', Диск:'2 TB NVMe', SSD:'2TB', GPU:'RTX 4080 12GB', Видеокарта:'NVIDIA', Дисплей:'16" QHD 240Hz', Диагонал:'16"', ОС:'Windows 11', Батерия:'90Wh', Warranty:'24 месеца'},
     desc:'ASUS ROG Zephyrus G16 е ултра-тънък гейминг лаптоп с RTX 4080. 240Hz QHD дисплей и MUX Switch за максимална производителност.',
     reviews:[{name:'Владимир К.',stars:5,date:'15.03.2025',text:'Играе всичко на ultra настройки!'}] },
@@ -134,17 +134,17 @@ var products = [
     reviews:[{name:'Генади Ж.',stars:5,date:'16.03.2025',text:'Звукът е мощен, батерията издържа 2 дни!'},{name:'Лора Т.',stars:4,date:'06.03.2025',text:'Страхотен звук за тока. IP67 е истина!'}] },
 
   // ── ГЕЙМИНГ ПЕРИФЕРИЯ ────────────────────────────────────────────────────────
-  { id:151, sku:'MC-LOGIG-G502X', ean:'5099206099968', img:'https://resource.logitechg.com/w_692,c_lpad,ar_4:3,q_auto,f_auto,dpr_1.0/d_transparent.gif/content/dam/gaming/en/products/g502-x-plus/g502x-plus-top-view.png', name:'Logitech G502 X Plus Gaming Mouse', brand:'Logitech', cat:'gaming', emoji:'🖱', price:199, old:249, badge:'sale', pct:20, rating:4.8, rv:167,
+  { id:151, sku:'MC-LOGIG-G502X', ean:'5099206099968', img:'https://resource.logitechg.com/w_692,c_lpad,ar_4:3,q_auto,f_auto,dpr_1.0/d_transparent.gif/content/dam/gaming/en/products/g502-x-plus/g502x-plus-top-view.png', name:'Logitech G502 X Plus Gaming Mouse', brand:'Logitech', cat:'acc', emoji:'🖱', price:199, old:249, badge:'sale', pct:20, rating:4.8, rv:167,
     specs:{Сензор:'HERO 25K', DPI:'100-25600', Бутони:'13', Батерия:'130 часа', Зареждане:'Lightspeed Wireless', Тегло:'106g', Warranty:'24 месеца'},
     desc:'Logitech G502 X Plus с HERO 25K сензор и Lightspeed безжична технология е изборът на eSports професионалисти.',
     reviews:[{name:'Ралица В.',stars:5,date:'24.03.2025',text:'Перфектна прецизност! Безжичната е безупречна.'},{name:'Димо С.',stars:5,date:'14.03.2025',text:'Най-добрата мишка за FPS!'}] },
 
-  { id:152, sku:'MC-CORSA-K100-AIR', ean:'0840006657148', img:'https://assets.corsair.com/image/upload/c_pad,q_auto,h_600,w_600/pwa/corsair-k100-rgb-air-wireless-ultra-thin-mechanical-keyboard/COR-CH-913A01A-NA/02.webp', name:'Corsair K100 Air Wireless TKL Keyboard', brand:'Corsair', cat:'gaming', emoji:'⌨', price:349, old:429, badge:'sale', pct:19, rating:4.7, rv:89,
+  { id:152, sku:'MC-CORSA-K100-AIR', ean:'0840006657148', img:'https://assets.corsair.com/image/upload/c_pad,q_auto,h_600,w_600/pwa/corsair-k100-rgb-air-wireless-ultra-thin-mechanical-keyboard/COR-CH-913A01A-NA/02.webp', name:'Corsair K100 Air Wireless TKL Keyboard', brand:'Corsair', cat:'acc', emoji:'⌨', price:349, old:429, badge:'sale', pct:19, rating:4.7, rv:89,
     specs:{Превключватели:'Cherry MX ULP', Подсветка:'RGB Per-Key', Батерия:'200 часа', Свързаност:'Bluetooth + 2.4GHz', Профил:'Ultra-low', Тегло:'612g', Warranty:'24 месеца'},
     desc:'Corsair K100 Air с Cherry MX ULP превключватели е най-тънката геймърска клавиатура. 200 часа батерия и двойна свързаност.',
     reviews:[{name:'Тихомир П.',stars:5,date:'20.03.2025',text:'Ниският профил е феноменален за gaming!'},{name:'Нели Д.',stars:4,date:'10.03.2025',text:'Много удобна и тиха. Препоръчвам!'}] },
 
-  { id:153, sku:'MC-HYPER-CLOUD3', ean:'0197644403028', img:'https://hyperx.com/cdn/shop/files/727009-001_HX-HSCC3-BK_NA_HyperX-Cloud-3-Gaming-Headset-Black-3QTR_L.png?v=1702660026&width=600', name:'HyperX Cloud 3 Gaming Headset', brand:'HyperX', cat:'gaming', emoji:'🎧', price:149, old:189, badge:'sale', pct:21, rating:4.7, rv:203,
+  { id:153, sku:'MC-HYPER-CLOUD3', ean:'0197644403028', img:'https://hyperx.com/cdn/shop/files/727009-001_HX-HSCC3-BK_NA_HyperX-Cloud-3-Gaming-Headset-Black-3QTR_L.png?v=1702660026&width=600', name:'HyperX Cloud 3 Gaming Headset', brand:'HyperX', cat:'audio', emoji:'🎧', price:149, old:189, badge:'sale', pct:21, rating:4.7, rv:203,
     specs:{Тип:'Over-ear', Тип_аудио:'Over-ear', Дискове:'53mm', Честота:'10–21000 Hz', Микрофон:'Отделяем', Свързаност:'USB-A / 3.5mm', DTS:'Headphone:X', Warranty:'24 месеца'},
     desc:'HyperX Cloud 3 с 53mm динамики и DTS Headphone:X пространствен звук е удобен многочасов геймърски слушалки.',
     reviews:[{name:'Светослав Д.',stars:5,date:'26.03.2025',text:'Комфортни дори при 8 часа игра!'},{name:'Яна М.',stars:4,date:'16.03.2025',text:'Отличен звук за цената.'}] },

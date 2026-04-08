@@ -2650,7 +2650,7 @@ function getFilteredSorted(){
   if(typeof advFilterNewOnly!=='undefined'  && advFilterNewOnly)  list=list.filter(p=>p.badge==='new'||p.badge==='hot');
   if(typeof advFilterStockOnly!=='undefined' && advFilterStockOnly) list=list.filter(p=>p.stock!==false&&p.stock!==0);
   // Price range filter (EUR)
-  if(typeof advPriceMin!=='undefined' && (advPriceMin>0 || advPriceMax<2000)){
+  if(typeof advPriceMin!=='undefined' && (advPriceMin>0 || advPriceMax<(_sbPriceAbsMax||2000))){
     list=list.filter(p=>{ const eur=p.price/EUR_RATE; return eur>=advPriceMin && eur<=advPriceMax; });
   }
   _filterCache = { key: _cacheKey, list };
@@ -2675,6 +2675,7 @@ function applyFilter(btn,cat){
   // Breadcrumb
   if(typeof bcOnFilterCat==='function') bcOnFilterCat(cat);
   renderTopGrid();
+  syncFiltersToUrl();
 }
 function applySort(val){currentSort=val;topGridPage=1;renderTopGrid();}
 function _ensureTopSortBar() {
@@ -2892,6 +2893,21 @@ function initSidebarFilters() {
   const r45 = document.getElementById('rc-45'); if(r45) r45.textContent = rc(4.5);
   const r40 = document.getElementById('rc-40'); if(r40) r40.textContent = rc(4.0);
   const r30 = document.getElementById('rc-30'); if(r30) r30.textContent = rc(3.0);
+  // Dynamic price range from actual products
+  if (products.length > 0) {
+    const prices = products.map(p => p.price / (typeof EUR_RATE !== 'undefined' ? EUR_RATE : 1.96)).filter(v => v > 0);
+    if (prices.length > 0) {
+      const rawMax = Math.max(...prices);
+      _sbPriceAbsMax = Math.ceil(rawMax / 100) * 100; // round up to nearest 100€
+      advPriceMax = _sbPriceAbsMax;
+      const mnEl = document.getElementById('sbPriceMin');
+      const mxEl = document.getElementById('sbPriceMax');
+      if (mnEl) { mnEl.max = _sbPriceAbsMax; mnEl.value = 0; }
+      if (mxEl) { mxEl.max = _sbPriceAbsMax; mxEl.value = _sbPriceAbsMax; }
+      const vals = document.getElementById('sbPriceVals');
+      if (vals) vals.textContent = 'Всички цени';
+    }
+  }
   // Price group counts
   initPriceGroupCounts();
   // Init live count
@@ -2926,6 +2942,7 @@ function applyAdvFilters() {
   topGridPage = 1;
   renderTopGrid();
   updateActiveFiltersBar();
+  syncFiltersToUrl();
   // Update live count
   const filtered = getFilteredSorted();
   updateLiveCount(filtered.length);
@@ -2939,6 +2956,17 @@ function updateActiveFiltersBar() {
   if (!bar || !chips) return;
   window._afRemove = [];
   const active = [];
+  // Category chip
+  const _catLabels = { phones:'📱 Телефони', laptops:'💻 Лаптопи', desktops:'🖥 Настолни', gaming:'🎮 Гейминг', monitors:'🖥 Монитори', components:'⚙️ Компоненти', peripherals:'🖱 Периферия', network:'📡 Мрежово', storage:'💾 Сторидж', software:'📀 Софтуер', accessories:'🎒 Аксесоари' };
+  if (currentFilter && currentFilter !== 'all') {
+    const idx = window._afRemove.length;
+    window._afRemove.push(() => {
+      const pill = document.querySelector('.filter-pill[onclick*="\'all\'"]');
+      if (pill) applyFilter(pill, 'all');
+      else { currentFilter = 'all'; currentSubcat = 'all'; renderTopGrid(); syncFiltersToUrl(); }
+    });
+    active.push({ label: _catLabels[currentFilter] || currentFilter, idx });
+  }
   advFilterBrands.forEach(b => {
     const idx = window._afRemove.length;
     window._afRemove.push(() => { const cb=document.querySelector(`input[type=checkbox][value="${CSS.escape(b)}"]`); if(cb) cb.checked=false; advFilterBrands.delete(b); applyAdvFilters(); });
@@ -2993,9 +3021,10 @@ function resetAllFilters() {
   const nw = document.getElementById('newOnlyToggle'); if(nw) nw.checked=false;
   advFilterSaleOnly=false; advFilterNewOnly=false; advFilterStockOnly=false;
   // Reset price
-  setPriceGroup(0, 2000, 'pg-all');
+  setPriceGroup(0, _sbPriceAbsMax || 2000, 'pg-all');
   clearBrandSearch();
   applyAdvFilters();
+  syncFiltersToUrl();
 }
 
 // Adv filters applied inside getFilteredSorted directly (no override needed)
@@ -3015,8 +3044,75 @@ function filterCat(cat) {
 
 // Export for tests/environment detection
 
+// ===== URL SYNC =====
+// Обновява URL без презареждане при смяна на филтри
+function syncFiltersToUrl() {
+  try {
+    const params = new URLSearchParams();
+    if (currentFilter && currentFilter !== 'all') params.set('cat', currentFilter);
+    if (currentSubcat && currentSubcat !== 'all') params.set('sub', currentSubcat);
+    if (typeof advFilterBrands !== 'undefined' && advFilterBrands.size > 0)
+      params.set('brand', [...advFilterBrands].join(','));
+    if (typeof advPriceMin !== 'undefined' && advPriceMin > 0) params.set('pmin', advPriceMin);
+    if (typeof advPriceMax !== 'undefined' && advPriceMax < _sbPriceAbsMax) params.set('pmax', advPriceMax);
+    if (typeof advFilterRating !== 'undefined' && advFilterRating > 0) params.set('rating', advFilterRating);
+    if (typeof advFilterSaleOnly !== 'undefined' && advFilterSaleOnly) params.set('sale', '1');
+    if (typeof advFilterNewOnly !== 'undefined' && advFilterNewOnly) params.set('new', '1');
+    if (typeof advFilterStockOnly !== 'undefined' && advFilterStockOnly) params.set('stock', '1');
+    const qs = params.toString();
+    history.replaceState(null, '', qs ? '?' + qs : location.pathname);
+  } catch(e) {}
+}
+
+// Чете URL параметри и прилага филтрите при зареждане на страницата
+function readFiltersFromUrl() {
+  try {
+    const params = new URLSearchParams(location.search);
+    if (!params.toString()) return;
+    const cat = params.get('cat');
+    if (cat) {
+      currentFilter = cat;
+      const pill = document.querySelector(`.filter-pill[onclick*="'${cat}'"]`);
+      if (pill) { document.querySelectorAll('.filter-pill').forEach(b=>b.classList.remove('active')); pill.classList.add('active'); }
+      if (typeof renderSubcatBar === 'function') renderSubcatBar(cat);
+      if (typeof renderCatSpecFilters === 'function') renderCatSpecFilters(cat);
+      if (typeof bcOnFilterCat === 'function') bcOnFilterCat(cat);
+    }
+    const sub = params.get('sub');
+    if (sub) { currentSubcat = sub; }
+    const brand = params.get('brand');
+    if (brand) {
+      brand.split(',').forEach(b => {
+        if (!b) return;
+        advFilterBrands.add(b);
+        const cb = document.querySelector(`input[type=checkbox][value="${CSS.escape(b)}"]`);
+        if (cb) cb.checked = true;
+      });
+    }
+    const pmin = parseFloat(params.get('pmin') || '0');
+    const pmax = parseFloat(params.get('pmax') || '0');
+    if (pmin > 0 || pmax > 0) setPriceGroup(pmin, pmax || _sbPriceAbsMax, null);
+    const rating = parseFloat(params.get('rating') || '0');
+    if (rating > 0) {
+      advFilterRating = rating;
+      const r = document.querySelector(`input[name="ratingFilter"][value="${rating}"]`);
+      if (r) r.checked = true;
+    }
+    if (params.get('sale') === '1') { advFilterSaleOnly = true; const el=document.getElementById('saleOnlyToggle'); if(el) el.checked=true; }
+    if (params.get('new') === '1') { advFilterNewOnly = true; const el=document.getElementById('newOnlyToggle'); if(el) el.checked=true; }
+    if (params.get('stock') === '1') { advFilterStockOnly = true; const el=document.getElementById('stockOnlyToggle'); if(el) el.checked=true; }
+    // Scroll to grid
+    if (cat || brand || pmin || rating || params.get('sale') || params.get('new') || params.get('stock')) {
+      applyAdvFilters();
+      const featured = document.getElementById('featured');
+      if (featured) setTimeout(() => featured.scrollIntoView({ behavior: 'smooth' }), 300);
+    }
+  } catch(e) {}
+}
+
 // ===== SIDEBAR PRICE SLIDER =====
 let advPriceMin = 0, advPriceMax = 2000, activePriceGroup = 'pg-all';
+let _sbPriceAbsMax = 2000; // обновява се динамично от initSidebarFilters
 // EUR_RATE comes from currency.js
 
 function updateSbSlider() {
@@ -3028,7 +3124,8 @@ function updateSbSlider() {
   advPriceMin = minV; advPriceMax = maxV;
 
   // Update track fill
-  const pct1 = (minV/2000)*100, pct2 = (maxV/2000)*100;
+  const _absMax1 = _sbPriceAbsMax || 2000;
+  const pct1 = (minV/_absMax1)*100, pct2 = (maxV/_absMax1)*100;
   const rng = document.getElementById('sbSliderRange');
   if (rng) { rng.style.left = pct1+'%'; rng.style.width = (pct2-pct1)+'%'; }
 
@@ -3054,13 +3151,14 @@ function setPriceGroup(minEur, maxEur, groupId) {
   if (mx) mx.value = maxEur;
 
   // Update track
-  const pct1 = (minEur/2000)*100, pct2 = (maxEur/2000)*100;
+  const _absMax2 = _sbPriceAbsMax || 2000;
+  const pct1 = (minEur/_absMax2)*100, pct2 = (maxEur/_absMax2)*100;
   const rng = document.getElementById('sbSliderRange');
   if (rng) { rng.style.left=pct1+'%'; rng.style.width=(pct2-pct1)+'%'; }
 
   // Update label
   const vals = document.getElementById('sbPriceVals');
-  if (vals) vals.textContent = minEur === 0 && maxEur === 2000 ? 'Всички цени' : `${minEur} € — ${maxEur} €`;
+  if (vals) vals.textContent = minEur === 0 && maxEur >= _sbPriceAbsMax ? 'Всички цени' : `${minEur} € — ${maxEur} €`;
 
   // Highlight active group
   document.querySelectorAll('.price-group-btn').forEach(b => b.classList.remove('active'));
@@ -3610,7 +3708,7 @@ if (!_urlHooked) {
 
 
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { getFilteredSorted, advFilterBrands, renderGrids };
+  module.exports = { getFilteredSorted, advFilterBrands, renderGrids, syncFiltersToUrl, inferSubcatFromUrl: readFiltersFromUrl };
 }
 
 // ===== MEGA MENU =====
@@ -4262,6 +4360,109 @@ const _adminCatNamesMap = {
   mobile:'📱 Телефони и таблети', tablet:'📱 Телефони и таблети', tv:'📺 TV', audio:'🎧 Аудио',
   camera:'📷 Камера', print:'🖨 Принтер', smart:'⌚ Смарт', acc:'🔌 Аксесоар'
 };
+
+// categoryId от URL (categoryId=21) → canonical cat
+// Приоритет 1 при XML импорт — deterministic, имунен срещу смяна на текст от доставчика
+const XML_FEED_CAT_MAP = {
+  '21': 'laptops',
+  '22': 'phones',
+  '23': 'phones',
+  '24': 'monitors',
+  '25': 'peripherals',
+  '26': 'network',
+  '27': 'accessories',
+};
+
+// Category text → canonical cat (fallback за произволни XML без categoryId)
+const CAT_MAP_GENERIC = [
+  // Phones & Tablets — check BEFORE generic accessories
+  [['IPHONE','SAMSUNG GALAXY S','SAMSUNG GALAXY A','PIXEL','XIAOMI','СМАРТФОН','SMARTPHONE'], 'phones'],
+  [['IPAD','GALAXY TAB','ТАБЛЕТ','TABLET PC'], 'phones'],
+  [['SMARTWATCH','SMART WATCH','GALAXY WATCH','APPLE WATCH'], 'phones'],
+  [['PHONE','MOBILE','ТЕЛЕФОН','МОБИЛЕН'], 'phones'],
+  [['TABLET','ТАБЛЕТ'], 'phones'],
+  // Gaming — check BEFORE laptops/desktops
+  [['GAMING LAPTOP','GAMING NOTEBOOK','GAMING НОТ','ГЕЙМЪРСКИ ЛАПТОП'], 'gaming'],
+  [['GAMING PC','GAMING DESKTOP','GAME PC','ГЕЙМЪРСКИ КОМПЮТЪР'], 'gaming'],
+  [['GAMING MOUSE','GAMING МИШК','ГЕЙМЪРСКА МИШК'], 'gaming'],
+  [['GAMING KEYBOARD','GAMING КЛАВИАТУР','ГЕЙМЪРСКА КЛАВИАТУР','МЕХАНИЧНА КЛАВИАТУР'], 'gaming'],
+  [['GAMING HEADSET','GAMING СЛУШАЛК','ГЕЙМЪРСКИ СЛУШАЛК'], 'gaming'],
+  [['GAMING MONITOR','ГЕЙМЪРСКИ МОНИТОР'], 'monitors'],
+  // Monitors
+  [['MONITOR','МОНИТОР','DISPLAY','ДИСПЛЕЙ'], 'monitors'],
+  // Laptops & Desktops
+  [['NOTEBOOK','LAPTOP','ЛАПТОП','NOTEBOOK PC'], 'laptops'],
+  [['DESKTOP','СТАЦИОНАРЕН','ALL-IN-ONE','AIO','TOWER PC','НАСТОЛЕН'], 'desktops'],
+  // Peripherals
+  [['AUDIO','HEADPHONE','СЛУШАЛК','SPEAKER','КОЛОНК'], 'peripherals'],
+  [['CAMERA','ФОТОАПАРАТ','WEBCAM','УЕБ КАМ'], 'peripherals'],
+  [['PRINTER','ПРИНТЕР','СКЕНЕР','SCANNER','МУЛТИ','LASER','INKJET'], 'peripherals'],
+  [['KEYBOARD','КЛАВИАТУР','MOUSE','МИШК','ГЕЙМПАД','GAMEPAD'], 'peripherals'],
+  // Network
+  [['NETWORK','ROUTER','МРЕЖА','SWITCH','ACCESS POINT','WIRELESS'], 'network'],
+  // Storage
+  [['EXTERNAL STORAGE','EXTERNAL DRIVE','NAS','ВЪНШЕН ДИСК','USB ДИСК'], 'storage'],
+  // Components
+  [['ПРОЦЕСОР','PROCESSOR','CPU'], 'components'],
+  [['ВИДЕОКАРТ','VIDEO CARD','GPU','GRAPHIC'], 'components'],
+  [['RAM','ПАМЕТ','MEMORY','DIMM'], 'components'],
+  [['ДЪННА','MOTHERBOARD','MAINBOARD'], 'components'],
+  [['SSD','HDD','NVME','SOLID STATE'], 'components'],
+  [['ЗАХРАНВАН','PSU','POWER SUPPLY'], 'components'],
+  [['ОХЛАДИТЕЛ','COOLER','COOLING','ВЕНТИЛАТОР'], 'components'],
+  [['КУТИЯ','CHASSIS','CASE'], 'components'],
+  [['КОМПОНЕНТ','COMPONENT'], 'components'],
+  // TV & Smart Home → accessories
+  [['TV','ТЕЛЕВИЗОР','TELEVISION'], 'accessories'],
+  [['SMART HOME','SMARTHOME'], 'accessories'],
+  // Software
+  [['SOFTWARE','СОФТУЕР','LICENSE','ЛИЦЕНЗ'], 'software'],
+  // Accessories (catch-all)
+  [['АКСЕСОАР','ACCESSORY','CABLE','КАБЕЛ','BAG','ЧАНТА','HUB','ХЪБ'], 'accessories'],
+];
+
+function mapCatGeneric(raw) {
+  const u = (raw || '').toUpperCase();
+  for (const [keys, cat] of CAT_MAP_GENERIC) {
+    if (keys.some(k => u.includes(k))) return cat;
+  }
+  return null; // null = непознато, caller решава
+}
+
+// Автоматично инферира subcat от продуктовото название и canonical cat
+// Извиква се при XML импорт — замества keyword matching в matchesSubcat()
+function inferSubcat(name, cat) {
+  const n = (name || '').toLowerCase();
+  if (cat === 'laptops') {
+    if (n.includes('gaming') || n.includes('геймър') || n.includes('rog') || n.includes('tuf gaming') || n.includes('predator') || n.includes('helios')) return 'gaming_l';
+    if (n.includes('ultrabook') || n.includes('ultra slim') || n.includes('ултра') || n.includes('zenbook') || n.includes('xps') || n.includes('swift')) return 'ultrabook';
+    return 'work_l';
+  }
+  if (cat === 'phones') {
+    if (n.includes('watch') || n.includes('часовник') || n.includes('galaxy watch') || n.includes('apple watch')) return 'smartwatch';
+    if (n.includes('tablet') || n.includes('таблет') || n.includes(' tab') || n.includes('ipad') || n.includes('galaxy tab') || n.includes('pad')) return 'tablet';
+    return 'smartphone';
+  }
+  if (cat === 'gaming') {
+    if (n.includes('laptop') || n.includes('лаптоп') || n.includes('notebook')) return 'gaming_laptop_s';
+    if (n.includes('desktop') || n.includes('tower') || n.includes('компютър') || n.includes(' pc') || n.includes('g22')) return 'gaming_pc_s';
+    if (n.includes('mouse') || n.includes('мишк')) return 'gaming_mouse';
+    if (n.includes('keyboard') || n.includes('клавиатур')) return 'gaming_kb';
+    if (n.includes('headset') || n.includes('headphone') || n.includes('слушалк') || n.includes('cloud')) return 'gaming_headset';
+  }
+  if (cat === 'monitors') {
+    if (n.includes('oled')) return 'oled_mon';
+    if (n.includes('ultrawide') || n.includes('ultra wide') || n.includes('21:9') || n.includes('32:9') || n.includes('curved')) return 'ultrawide';
+    if (n.includes('4k') || n.includes('uhd') || n.includes('3840')) return 'mon_4k';
+    if (n.includes('gaming') || n.includes('144') || n.includes('165') || n.includes('240') || n.includes('360') || n.includes('rog swift') || n.includes('odyssey')) return 'gaming_mon';
+    return 'office_mon';
+  }
+  if (cat === 'desktops') {
+    if (n.includes('gaming') || n.includes('геймър')) return 'gaming_dt';
+    if (n.includes('workstation') || n.includes('work station')) return 'workstation';
+  }
+  return '';
+}
 
 function _adminSortCol(col) {
   if (_adminProd.sort === col) { _adminProd.dir *= -1; }
@@ -5177,7 +5378,7 @@ function adminShowTab(tab) {
 })();
 
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { openAdminPage, closeAdminPage };
+  module.exports = { openAdminPage, closeAdminPage, inferSubcat, mapCatGeneric, XML_FEED_CAT_MAP };
 }
 
 // ===== ADMIN PRODUCT EDITOR =====
@@ -5745,60 +5946,7 @@ function xmlParseAndPreview(xmlStr) {
   const getT   = (el, tag) => el.querySelector(tag)?.textContent?.trim() || '';
   const getAny = (el, ...tags) => { for(const t of tags){ const v=getT(el,t); if(v) return v; } return ''; };
 
-  // Category text → canonical cat key (matches normalizeCat output)
-  const CAT_MAP_GENERIC = [
-    // Phones & Tablets — check BEFORE generic accessories
-    [['IPHONE','SAMSUNG GALAXY S','SAMSUNG GALAXY A','PIXEL','XIAOMI','СМАРТФОН','SMARTPHONE'], 'phones'],
-    [['IPAD','GALAXY TAB','ТАБЛЕТ','TABLET PC'], 'phones'],
-    [['SMARTWATCH','SMART WATCH','GALAXY WATCH','APPLE WATCH'], 'phones'],
-    [['PHONE','MOBILE','ТЕЛЕФОН','МОБИЛЕН'], 'phones'],
-    [['TABLET','ТАБЛЕТ'], 'phones'],
-    // Gaming — check BEFORE laptops/desktops
-    [['GAMING LAPTOP','GAMING NOTEBOOK','GAMING НОТ','ГЕЙМЪРСКИ ЛАПТОП'], 'gaming'],
-    [['GAMING PC','GAMING DESKTOP','GAME PC','ГЕЙМЪРСКИ КОМПЮТЪР'], 'gaming'],
-    [['GAMING MOUSE','GAMING МИШК','ГЕЙМЪРСКА МИШК'], 'gaming'],
-    [['GAMING KEYBOARD','GAMING КЛАВИАТУР','ГЕЙМЪРСКА КЛАВИАТУР','МЕХАНИЧНА КЛАВИАТУР'], 'gaming'],
-    [['GAMING HEADSET','GAMING СЛУШАЛК','ГЕЙМЪРСКИ СЛУШАЛК'], 'gaming'],
-    [['GAMING MONITOR','ГЕЙМЪРСКИ МОНИТОР'], 'monitors'],
-    // Monitors
-    [['MONITOR','МОНИТОР','DISPLAY','ДИСПЛЕЙ'], 'monitors'],
-    // Laptops & Desktops
-    [['NOTEBOOK','LAPTOP','ЛАПТОП','NOTEBOOK PC'], 'laptops'],
-    [['DESKTOP','СТАЦИОНАРЕН','ALL-IN-ONE','AIO','TOWER PC','НАСТОЛЕН'], 'desktops'],
-    // Peripherals
-    [['AUDIO','HEADPHONE','СЛУШАЛК','SPEAKER','КОЛОНК'], 'peripherals'],
-    [['CAMERA','ФОТОАПАРАТ','WEBCAM','УЕБ КАМ'], 'peripherals'],
-    [['PRINTER','ПРИНТЕР','СКЕНЕР','SCANNER'], 'peripherals'],
-    [['KEYBOARD','КЛАВИАТУР','MOUSE','МИШК','ГЕЙМПАД','GAMEPAD'], 'peripherals'],
-    // Network
-    [['NETWORK','ROUTER','МРЕЖА','SWITCH','ACCESS POINT','WIRELESS'], 'network'],
-    // Storage
-    [['EXTERNAL STORAGE','EXTERNAL DRIVE','NAS','ВЪНШЕН ДИСК','USB ДИСК'], 'storage'],
-    // Components
-    [['ПРОЦЕСОР','PROCESSOR','CPU'], 'components'],
-    [['ВИДЕОКАРТ','VIDEO CARD','GPU','GRAPHIC'], 'components'],
-    [['RAM','ПАМЕТ','MEMORY','DIMM'], 'components'],
-    [['ДЪННА','MOTHERBOARD','MAINBOARD'], 'components'],
-    [['SSD','HDD','NVME','SOLID STATE'], 'components'],
-    [['ЗАХРАНВАН','PSU','POWER SUPPLY'], 'components'],
-    [['ОХЛАДИТЕЛ','COOLER','COOLING','ВЕНТИЛАТОР'], 'components'],
-    [['КУТИЯ','CHASSIS','CASE'], 'components'],
-    [['КОМПОНЕНТ','COMPONENT'], 'components'],
-    // TV & Smart Home → accessories
-    [['TV','ТЕЛЕВИЗОР','TELEVISION'], 'accessories'],
-    [['SMART HOME','SMARTHOME'], 'accessories'],
-    // Software
-    [['SOFTWARE','СОФТУЕР','LICENSE','ЛИЦЕНЗ'], 'software'],
-    // Accessories (catch-all)
-    [['АКСЕСОАР','ACCESSORY','CABLE','КАБЕЛ','BAG','ЧАНТА','HUB','ХЪБ'], 'accessories'],
-  ];
-  function mapCatGeneric(raw) {
-    const u = raw.toUpperCase();
-    for (const [keys, cat] of CAT_MAP_GENERIC) {
-      if (keys.some(k => u.includes(k))) return cat;
-    }
-    return 'acc';
-  }
+  // CAT_MAP_GENERIC и mapCatGeneric са дефинирани на модулно ниво
 
   const parsed_products = [];
   let errors = 0;
@@ -5844,7 +5992,8 @@ function xmlParseAndPreview(xmlStr) {
     parsed_products.push({
       id, name, ok, isUpdate: existsIdx !== -1,
       brand:  getAny(el,'brand','manufacturer','vendor','make'),
-      cat:    normalizeCat(mapCatGeneric(getAny(el,'cat','category','categoryId','group') || '')),
+      cat:    normalizeCat(mapCatGeneric(getAny(el,'cat','category','categoryId','group') || '') || 'accessories'),
+      subcat: getAny(el,'subcat','subcategory') || inferSubcat(name, normalizeCat(mapCatGeneric(getAny(el,'cat','category','categoryId','group') || '') || 'accessories')),
       price,
       old:    parseFloat(getAny(el,'old','oldprice','old_price','original_price','comparePrice','compare_price','regular_price')) || null,
       badge:  getAny(el,'badge','label','tag') || '',
@@ -6216,42 +6365,9 @@ async function xmlRunAutoUpdate(manual) {
     const nodes   = doc.querySelectorAll(_rElName);
     const getT    = (el, tag) => el.querySelector(tag)?.textContent?.trim() || '';
     const getAny  = (el, ...tags) => { for(const t of tags){ const v=getT(el,t); if(v) return v; } return ''; };
-    const catMap  = {
-        'NOTEBOOK': 'laptops', 'ЛАПТОП': 'laptops', 'LAPTOP': 'laptops',
-        'PHONE': 'accessories', 'MOBILE': 'accessories', 'ТЕЛЕФОН': 'accessories', 'СМАРТФОН': 'accessories',
-        'TABLET': 'accessories', 'ТАБЛЕТ': 'accessories',
-        'TV': 'accessories', 'ТЕЛЕВИЗОР': 'accessories', 'TELEVISION': 'accessories',
-        'AUDIO': 'peripherals', 'HEADPHONE': 'peripherals', 'СЛУШАЛКИ': 'peripherals',
-        'MONITOR': 'peripherals', 'МОНИТОР': 'peripherals', 'DISPLAY': 'peripherals',
-        'CAMERA': 'peripherals', 'ФОТОАПАРАТ': 'peripherals', 'WEBCAM': 'peripherals',
-        'PRINTER': 'peripherals', 'ПРИНТЕР': 'peripherals', 'SCANNER': 'peripherals',
-        'KEYBOARD': 'peripherals', 'КЛАВИАТУРА': 'peripherals', 'MOUSE': 'peripherals',
-        'GAMING': 'desktops', 'GAME': 'desktops',
-        'DESKTOP': 'desktops', 'НАСТОЛЕН': 'desktops',
-        'SMARTWATCH': 'accessories', 'SMART HOME': 'accessories',
-        'NETWORK': 'network', 'ROUTER': 'network', 'МРЕЖА': 'network', 'SWITCH': 'network',
-        'ACCESSORY': 'accessories', 'АКСЕСОАР': 'accessories',
-        // Components
-        'ПРОЦЕСОР': 'components', 'PROCESSOR': 'components', 'CPU': 'components',
-        'ВИДЕОКАРТ': 'components', 'VIDEO CARD': 'components', 'GPU': 'components', 'GRAPHIC': 'components',
-        'RAM': 'components', 'ПАМЕТ': 'components', 'MEMORY': 'components', 'DIMM': 'components',
-        'ДЪННА': 'components', 'MOTHERBOARD': 'components', 'MAINBOARD': 'components',
-        'SSD': 'components', 'HDD': 'components', 'NVME': 'components', 'ДИСК': 'components',
-        'ЗАХРАНВАН': 'components', 'PSU': 'components', 'POWER SUPPLY': 'components',
-        'ОХЛАДИТЕЛ': 'components', 'COOLER': 'components', 'COOLING': 'components',
-        'КУТИЯ': 'components', 'CHASSIS': 'components',
-        'КОМПОНЕНТ': 'components', 'COMPONENT': 'components',
-        // Storage
-        'EXTERNAL STORAGE': 'storage', 'NAS': 'storage', 'STORAGE': 'storage',
-        // Software
-        'SOFTWARE': 'software', 'ЛИЦЕНЗ': 'software',
-      };
-    const catEmojis = {
-      laptops:'💻',desktops:'🖥',components:'⚙️',peripherals:'🖱',
-      network:'📡',storage:'💾',software:'📀',accessories:'🎒',
-      // legacy:
-      laptop:'💻',mobile:'📱',tablet:'📟',tv:'📺',audio:'🎧',camera:'📷',gaming:'🎮',smart:'🏠',print:'🖨',acc:'🖱'
-    };
+    // categoryId от URL → deterministic маппинг (приоритет 1)
+    const feedCatId = (feed.url || '').match(/categoryId=(\d+)/i)?.[1] || '';
+    const catEmojis = { phones:'📱',laptops:'💻',desktops:'🖥',gaming:'🎮',monitors:'🖥',components:'⚙️',peripherals:'🖱',network:'📡',storage:'💾',software:'📀',accessories:'🎒' };
     const mode    = AU_STORE.mode;
     let added = 0, updated = 0, skipped = 0;
 
@@ -6279,9 +6395,13 @@ async function xmlRunAutoUpdate(manual) {
       // Gallery: first <pictureUrl>
       const firstImg = el.querySelector('gallery pictureUrl')?.textContent?.trim() || '';
 
-      // Category mapping
-      const rawCat = getT(el,'category').toUpperCase();
-      const mappedCat = Object.entries(catMap).find(([k]) => rawCat.includes(k))?.[1] || 'acc';
+      // Category: по categoryId (детерминистично), fallback по текст (CAT_MAP_GENERIC)
+      const mappedCat = XML_FEED_CAT_MAP[feedCatId]
+        || mapCatGeneric(getT(el,'category'))
+        || 'accessories';
+      if (!XML_FEED_CAT_MAP[feedCatId] && mappedCat === 'accessories') {
+        xmlLog('warn', `⚠️ Непозната категория за "${getT(el,'category') || 'без категория'}" → accessories`);
+      }
 
       // Stock
       const statusTxt = getT(el,'product_status');
@@ -6296,6 +6416,7 @@ async function xmlRunAutoUpdate(manual) {
         name, price, specs,
         brand:   getT(el,'manufacturer') || '',
         cat:     mappedCat,
+        subcat:  inferSubcat(name, mappedCat),
         old:     null,
         badge:   '',
         rating:  4.5,
@@ -9026,6 +9147,7 @@ products.forEach(p => {
 initDataActions();
 initSidebarFilters();
 renderGrids();
+if (typeof readFiltersFromUrl === 'function') readFiltersFromUrl();
 loadCart();
 renderHpSubcatsStrip();
 renderRecentlyDiscounted();

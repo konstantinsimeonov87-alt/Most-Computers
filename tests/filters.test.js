@@ -23,7 +23,10 @@ global.showSkeletons        = jest.fn();
 global.openProductModal     = jest.fn();
 global.closeProductModalDirect = jest.fn();
 
-const { getFilteredSorted, advFilterBrands, renderGrids } = require('../../js/filters.js');
+// _sbPriceAbsMax се чете от модула — задаваме дефолтна стойност
+global._sbPriceAbsMax = 2000;
+
+const { getFilteredSorted, advFilterBrands, renderGrids, syncFiltersToUrl } = require('../../js/filters.js');
 
 function resetGlobals() {
   global.products       = [...PRODUCTS];
@@ -195,4 +198,52 @@ describe('renderGrids — видимост на секции', () => {
     renderGrids();
     expect(document.getElementById('specialGrid').closest('.section-wrap').style.display).not.toBe('none');
   });
+});
+
+// ── syncFiltersToUrl — URL параметри ─────────────────────────────────────────
+describe('syncFiltersToUrl — записва URL параметри', () => {
+  let replaceStateSpy;
+  beforeEach(() => {
+    replaceStateSpy = jest.spyOn(window.history, 'replaceState').mockImplementation(() => {});
+    global.currentFilter = 'all';
+    global.currentSubcat = 'all';
+    advFilterBrands.clear();
+    global.advPriceMin = 0;
+    global.advPriceMax = 2000;
+    global.advFilterRating = 0;
+    global.advFilterSaleOnly = false;
+    global.advFilterNewOnly = false;
+    global.advFilterStockOnly = false;
+  });
+  afterEach(() => replaceStateSpy.mockRestore());
+
+  test('без активни филтри → pathname без query string', () => {
+    syncFiltersToUrl();
+    expect(replaceStateSpy).toHaveBeenCalledWith(null, '', expect.not.stringContaining('?'));
+  });
+
+  test('с категория → ?cat=laptops', () => {
+    global.currentFilter = 'laptops';
+    syncFiltersToUrl();
+    const call = replaceStateSpy.mock.calls[0][2];
+    expect(call).toContain('cat=laptops');
+  });
+
+  test('с марка → ?brand=ASUS', () => {
+    advFilterBrands.add('ASUS');
+    syncFiltersToUrl();
+    const call = replaceStateSpy.mock.calls[0][2];
+    expect(call).toContain('brand=ASUS');
+  });
+
+  test('с две марки → brand съдържа ASUS и Dell', () => {
+    advFilterBrands.add('ASUS');
+    advFilterBrands.add('Dell');
+    syncFiltersToUrl();
+    const call = replaceStateSpy.mock.calls[0][2];
+    expect(call).toContain('ASUS');
+    expect(call).toContain('Dell');
+  });
+
+  // advFilterSaleOnly/StockOnly са module-level let — не могат да се задават от Jest test scope
 });

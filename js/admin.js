@@ -295,6 +295,41 @@ function mapCatGeneric(raw) {
   return null; // null = непознато, caller решава
 }
 
+// Автоматично инферира subcat от продуктовото название и canonical cat
+// Извиква се при XML импорт — замества keyword matching в matchesSubcat()
+function inferSubcat(name, cat) {
+  const n = (name || '').toLowerCase();
+  if (cat === 'laptops') {
+    if (n.includes('gaming') || n.includes('геймър') || n.includes('rog') || n.includes('tuf gaming') || n.includes('predator') || n.includes('helios')) return 'gaming_l';
+    if (n.includes('ultrabook') || n.includes('ultra slim') || n.includes('ултра') || n.includes('zenbook') || n.includes('xps') || n.includes('swift')) return 'ultrabook';
+    return 'work_l';
+  }
+  if (cat === 'phones') {
+    if (n.includes('watch') || n.includes('часовник') || n.includes('galaxy watch') || n.includes('apple watch')) return 'smartwatch';
+    if (n.includes('tablet') || n.includes('таблет') || n.includes(' tab') || n.includes('ipad') || n.includes('galaxy tab') || n.includes('pad')) return 'tablet';
+    return 'smartphone';
+  }
+  if (cat === 'gaming') {
+    if (n.includes('laptop') || n.includes('лаптоп') || n.includes('notebook')) return 'gaming_laptop_s';
+    if (n.includes('desktop') || n.includes('tower') || n.includes('компютър') || n.includes(' pc') || n.includes('g22')) return 'gaming_pc_s';
+    if (n.includes('mouse') || n.includes('мишк')) return 'gaming_mouse';
+    if (n.includes('keyboard') || n.includes('клавиатур')) return 'gaming_kb';
+    if (n.includes('headset') || n.includes('headphone') || n.includes('слушалк') || n.includes('cloud')) return 'gaming_headset';
+  }
+  if (cat === 'monitors') {
+    if (n.includes('oled')) return 'oled_mon';
+    if (n.includes('ultrawide') || n.includes('ultra wide') || n.includes('21:9') || n.includes('32:9') || n.includes('curved')) return 'ultrawide';
+    if (n.includes('4k') || n.includes('uhd') || n.includes('3840')) return 'mon_4k';
+    if (n.includes('gaming') || n.includes('144') || n.includes('165') || n.includes('240') || n.includes('360') || n.includes('rog swift') || n.includes('odyssey')) return 'gaming_mon';
+    return 'office_mon';
+  }
+  if (cat === 'desktops') {
+    if (n.includes('gaming') || n.includes('геймър')) return 'gaming_dt';
+    if (n.includes('workstation') || n.includes('work station')) return 'workstation';
+  }
+  return '';
+}
+
 function _adminSortCol(col) {
   if (_adminProd.sort === col) { _adminProd.dir *= -1; }
   else { _adminProd.sort = col; _adminProd.dir = 1; }
@@ -1209,7 +1244,7 @@ function adminShowTab(tab) {
 })();
 
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { openAdminPage, closeAdminPage };
+  module.exports = { openAdminPage, closeAdminPage, inferSubcat, mapCatGeneric, XML_FEED_CAT_MAP };
 }
 
 // ===== ADMIN PRODUCT EDITOR =====
@@ -1824,6 +1859,7 @@ function xmlParseAndPreview(xmlStr) {
       id, name, ok, isUpdate: existsIdx !== -1,
       brand:  getAny(el,'brand','manufacturer','vendor','make'),
       cat:    normalizeCat(mapCatGeneric(getAny(el,'cat','category','categoryId','group') || '') || 'accessories'),
+      subcat: getAny(el,'subcat','subcategory') || inferSubcat(name, normalizeCat(mapCatGeneric(getAny(el,'cat','category','categoryId','group') || '') || 'accessories')),
       price,
       old:    parseFloat(getAny(el,'old','oldprice','old_price','original_price','comparePrice','compare_price','regular_price')) || null,
       badge:  getAny(el,'badge','label','tag') || '',
@@ -2246,6 +2282,7 @@ async function xmlRunAutoUpdate(manual) {
         name, price, specs,
         brand:   getT(el,'manufacturer') || '',
         cat:     mappedCat,
+        subcat:  inferSubcat(name, mappedCat),
         old:     null,
         badge:   '',
         rating:  4.5,

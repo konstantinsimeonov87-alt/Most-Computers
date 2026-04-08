@@ -98,6 +98,7 @@ products.forEach(p => {
 initDataActions();
 initSidebarFilters();
 renderGrids();
+if (typeof readFiltersFromUrl === 'function') readFiltersFromUrl();
 loadCart();
 renderHpSubcatsStrip();
 renderRecentlyDiscounted();

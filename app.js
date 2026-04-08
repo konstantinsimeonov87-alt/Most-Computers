@@ -2959,9 +2959,18 @@ function updateActiveFiltersBar() {
   if (currentFilter && currentFilter !== 'all') {
     const idx = window._afRemove.length;
     window._afRemove.push(() => {
-      const pill = document.querySelector('.filter-pill[onclick*="\'all\'"]');
-      if (pill) applyFilter(pill, 'all');
-      else { currentFilter = 'all'; currentSubcat = 'all'; renderTopGrid(); syncFiltersToUrl(); }
+      currentFilter = 'all';
+      currentSubcat = 'all';
+      document.querySelectorAll('.filter-pill').forEach(b => b.classList.remove('active'));
+      const allPill = document.querySelector('.filter-pill:first-of-type');
+      if (allPill) allPill.classList.add('active');
+      if (typeof renderSubcatBar === 'function') renderSubcatBar('all');
+      if (typeof hideCatSpecFilters === 'function') hideCatSpecFilters();
+      if (typeof bcOnFilterCat === 'function') bcOnFilterCat('all');
+      topGridPage = 1;
+      renderTopGrid();
+      updateURL();
+      updateActiveFiltersBar();
     });
     active.push({ label: _catLabels[currentFilter] || currentFilter, idx });
   }
@@ -3030,7 +3039,7 @@ function resetAllFilters() {
 function filterCat(cat) {
   const pill = document.querySelector(`.filter-pill[onclick*="'${cat}'"]`);
   if (pill) { applyFilter(pill, cat); }
-  else { currentFilter = cat; renderTopGrid(); }
+  else { currentFilter = cat; currentSubcat = 'all'; renderTopGrid(); updateURL(); updateActiveFiltersBar(); }
   const featured = document.getElementById('featured');
   if (featured) featured.scrollIntoView({behavior:'smooth'});
   if (typeof bcOnFilterCat === 'function') bcOnFilterCat(cat);
@@ -3613,7 +3622,7 @@ if (!_urlHooked) {
   _urlHooked = true;
 
   var _baseApplyFilter = applyFilter;
-  applyFilter = function(btn, cat) { _baseApplyFilter(btn, cat); updateURL(); };
+  applyFilter = function(btn, cat) { _baseApplyFilter(btn, cat); updateURL(); updateActiveFiltersBar(); };
 
   var _baseApplySort = applySort;
   applySort = function(val) { _baseApplySort(val); updateURL(); };
@@ -3646,7 +3655,7 @@ if (!_urlHooked) {
 
 
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { getFilteredSorted, advFilterBrands, renderGrids, syncFiltersToUrl };
+  module.exports = { getFilteredSorted, normalizeCat, advFilterBrands, renderGrids, syncFiltersToUrl };
 }
 
 // ===== MEGA MENU =====

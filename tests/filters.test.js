@@ -27,7 +27,7 @@ global.closeProductModalDirect = jest.fn();
 global._sbPriceAbsMax = 2000;
 global.modalProductId = null;
 
-const { getFilteredSorted, advFilterBrands, renderGrids, syncFiltersToUrl } = require('../../js/filters.js');
+const { getFilteredSorted, normalizeCat, advFilterBrands, renderGrids, syncFiltersToUrl } = require('../../js/filters.js');
 
 function resetGlobals() {
   global.products       = [...PRODUCTS];
@@ -247,4 +247,18 @@ describe('syncFiltersToUrl — записва URL параметри', () => {
   });
 
   // advFilterSaleOnly/StockOnly са module-level let — не могат да се задават от Jest test scope
+});
+
+// ── normalizeCat — категорийно нормализиране ────────────────────────────────
+describe('normalizeCat — маппинг', () => {
+  // normalizeCat е дефинирана в filters.js и достъпна чрез global след require
+  test('audio → peripherals', () => expect(normalizeCat('audio')).toBe('peripherals'));
+  test('mobile → phones',    () => expect(normalizeCat('mobile')).toBe('phones'));
+  test('tablet → phones',    () => expect(normalizeCat('tablet')).toBe('phones'));
+  test('gaming → gaming',    () => expect(normalizeCat('gaming')).toBe('gaming'));
+  test('monitors → monitors',() => expect(normalizeCat('monitors')).toBe('monitors'));
+  test('phones → phones',    () => expect(normalizeCat('phones')).toBe('phones'));
+  test('acc → accessories',  () => expect(normalizeCat('acc')).toBe('accessories'));
+  test('непознат → accessories', () => expect(normalizeCat('непознато')).toBe('accessories'));
+  test('case insensitive — LAPTOPS → laptops', () => expect(normalizeCat('LAPTOPS')).toBe('laptops'));
 });

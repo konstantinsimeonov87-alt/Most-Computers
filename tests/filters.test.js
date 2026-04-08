@@ -23,8 +23,9 @@ global.showSkeletons        = jest.fn();
 global.openProductModal     = jest.fn();
 global.closeProductModalDirect = jest.fn();
 
-// _sbPriceAbsMax се чете от модула — задаваме дефолтна стойност
+// globals нужни на filters.js при runtime
 global._sbPriceAbsMax = 2000;
+global.modalProductId = null;
 
 const { getFilteredSorted, advFilterBrands, renderGrids, syncFiltersToUrl } = require('../../js/filters.js');
 

@@ -2675,7 +2675,6 @@ function applyFilter(btn,cat){
   // Breadcrumb
   if(typeof bcOnFilterCat==='function') bcOnFilterCat(cat);
   renderTopGrid();
-  syncFiltersToUrl();
 }
 function applySort(val){currentSort=val;topGridPage=1;renderTopGrid();}
 function _ensureTopSortBar() {
@@ -2942,7 +2941,6 @@ function applyAdvFilters() {
   topGridPage = 1;
   renderTopGrid();
   updateActiveFiltersBar();
-  syncFiltersToUrl();
   // Update live count
   const filtered = getFilteredSorted();
   updateLiveCount(filtered.length);
@@ -3024,7 +3022,6 @@ function resetAllFilters() {
   setPriceGroup(0, _sbPriceAbsMax || 2000, 'pg-all');
   clearBrandSearch();
   applyAdvFilters();
-  syncFiltersToUrl();
 }
 
 // Adv filters applied inside getFilteredSorted directly (no override needed)
@@ -3044,71 +3041,8 @@ function filterCat(cat) {
 
 // Export for tests/environment detection
 
-// ===== URL SYNC =====
-// Обновява URL без презареждане при смяна на филтри
-function syncFiltersToUrl() {
-  try {
-    const params = new URLSearchParams();
-    if (currentFilter && currentFilter !== 'all') params.set('cat', currentFilter);
-    if (currentSubcat && currentSubcat !== 'all') params.set('sub', currentSubcat);
-    if (typeof advFilterBrands !== 'undefined' && advFilterBrands.size > 0)
-      params.set('brand', [...advFilterBrands].join(','));
-    if (typeof advPriceMin !== 'undefined' && advPriceMin > 0) params.set('pmin', advPriceMin);
-    if (typeof advPriceMax !== 'undefined' && advPriceMax < _sbPriceAbsMax) params.set('pmax', advPriceMax);
-    if (typeof advFilterRating !== 'undefined' && advFilterRating > 0) params.set('rating', advFilterRating);
-    if (typeof advFilterSaleOnly !== 'undefined' && advFilterSaleOnly) params.set('sale', '1');
-    if (typeof advFilterNewOnly !== 'undefined' && advFilterNewOnly) params.set('new', '1');
-    if (typeof advFilterStockOnly !== 'undefined' && advFilterStockOnly) params.set('stock', '1');
-    const qs = params.toString();
-    history.replaceState(null, '', qs ? '?' + qs : location.pathname);
-  } catch(e) {}
-}
-
-// Чете URL параметри и прилага филтрите при зареждане на страницата
-function readFiltersFromUrl() {
-  try {
-    const params = new URLSearchParams(location.search);
-    if (!params.toString()) return;
-    const cat = params.get('cat');
-    if (cat) {
-      currentFilter = cat;
-      const pill = document.querySelector(`.filter-pill[onclick*="'${cat}'"]`);
-      if (pill) { document.querySelectorAll('.filter-pill').forEach(b=>b.classList.remove('active')); pill.classList.add('active'); }
-      if (typeof renderSubcatBar === 'function') renderSubcatBar(cat);
-      if (typeof renderCatSpecFilters === 'function') renderCatSpecFilters(cat);
-      if (typeof bcOnFilterCat === 'function') bcOnFilterCat(cat);
-    }
-    const sub = params.get('sub');
-    if (sub) { currentSubcat = sub; }
-    const brand = params.get('brand');
-    if (brand) {
-      brand.split(',').forEach(b => {
-        if (!b) return;
-        advFilterBrands.add(b);
-        const cb = document.querySelector(`input[type=checkbox][value="${CSS.escape(b)}"]`);
-        if (cb) cb.checked = true;
-      });
-    }
-    const pmin = parseFloat(params.get('pmin') || '0');
-    const pmax = parseFloat(params.get('pmax') || '0');
-    if (pmin > 0 || pmax > 0) setPriceGroup(pmin, pmax || _sbPriceAbsMax, null);
-    const rating = parseFloat(params.get('rating') || '0');
-    if (rating > 0) {
-      advFilterRating = rating;
-      const r = document.querySelector(`input[name="ratingFilter"][value="${rating}"]`);
-      if (r) r.checked = true;
-    }
-    if (params.get('sale') === '1') { advFilterSaleOnly = true; const el=document.getElementById('saleOnlyToggle'); if(el) el.checked=true; }
-    if (params.get('new') === '1') { advFilterNewOnly = true; const el=document.getElementById('newOnlyToggle'); if(el) el.checked=true; }
-    if (params.get('stock') === '1') { advFilterStockOnly = true; const el=document.getElementById('stockOnlyToggle'); if(el) el.checked=true; }
-    // Scroll to grid
-    if (cat || brand || pmin || rating || params.get('sale') || params.get('new') || params.get('stock')) {
-      applyAdvFilters();
-      const featured = document.getElementById('featured');
-      if (featured) setTimeout(() => featured.scrollIntoView({ behavior: 'smooth' }), 300);
-    }
-  } catch(e) {}
-}
+// syncFiltersToUrl е псевдоним на updateURL() — дефинирана по-долу в файла
+function syncFiltersToUrl() { if (typeof updateURL === 'function') updateURL(); }
 
 // ===== SIDEBAR PRICE SLIDER =====
 let advPriceMin = 0, advPriceMax = 2000, activePriceGroup = 'pg-all';
@@ -3624,13 +3558,15 @@ function matchesCatSpec(p) {
 function updateURL() {
   const params = new URLSearchParams();
   if (currentFilter !== 'all') params.set('cat', currentFilter);
+  if (typeof currentSubcat !== 'undefined' && currentSubcat && currentSubcat !== 'all') params.set('sub', currentSubcat);
   if (currentSort !== 'bestseller') params.set('sort', currentSort);
   if (advFilterBrands.size > 0) params.set('brand', [...advFilterBrands].join(','));
   if (advFilterRating > 0) params.set('rating', advFilterRating);
   if (advFilterSaleOnly) params.set('sale', '1');
   if (advFilterNewOnly) params.set('new', '1');
+  if (advFilterStockOnly) params.set('stock', '1');
   if (advPriceMin > 0) params.set('priceMin', advPriceMin);
-  if (advPriceMax < 2000) params.set('priceMax', advPriceMax);
+  if (advPriceMax < (_sbPriceAbsMax || 2000)) params.set('priceMax', advPriceMax);
   if (modalProductId) params.set('product', modalProductId);
   const qs = params.toString();
   const newUrl = qs ? `${location.pathname}?${qs}` : location.pathname;
@@ -3650,6 +3586,8 @@ function readURLParams() {
   if (params.get('rating')) { advFilterRating = parseFloat(params.get('rating')); const rb = document.querySelector(`input[name="ratingFilter"][value="${advFilterRating}"]`); if(rb) rb.checked=true; }
   if (params.get('sale') === '1') { advFilterSaleOnly=true; const el=document.getElementById('saleOnlyToggle'); if(el) el.checked=true; }
   if (params.get('new') === '1') { advFilterNewOnly=true; const el=document.getElementById('newOnlyToggle'); if(el) el.checked=true; }
+  if (params.get('sub')) { currentSubcat = params.get('sub'); }
+  if (params.get('stock') === '1') { advFilterStockOnly=true; const el=document.getElementById('stockOnlyToggle'); if(el) el.checked=true; }
   if (params.get('priceMin')) { advPriceMin=parseFloat(params.get('priceMin')); const el=document.getElementById('sbPriceMin'); if(el) el.value=advPriceMin; }
   if (params.get('priceMax')) { advPriceMax=parseFloat(params.get('priceMax')); const el=document.getElementById('sbPriceMax'); if(el) el.value=advPriceMax; }
   // Re-render grid with all restored params
@@ -3708,7 +3646,7 @@ if (!_urlHooked) {
 
 
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { getFilteredSorted, advFilterBrands, renderGrids, syncFiltersToUrl, inferSubcatFromUrl: readFiltersFromUrl };
+  module.exports = { getFilteredSorted, advFilterBrands, renderGrids, syncFiltersToUrl };
 }
 
 // ===== MEGA MENU =====
@@ -9147,7 +9085,6 @@ products.forEach(p => {
 initDataActions();
 initSidebarFilters();
 renderGrids();
-if (typeof readFiltersFromUrl === 'function') readFiltersFromUrl();
 loadCart();
 renderHpSubcatsStrip();
 renderRecentlyDiscounted();

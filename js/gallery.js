@@ -258,10 +258,11 @@ if(slides.length){if(_heroSliderIv)clearInterval(_heroSliderIv);_heroSliderIv=se
 // COUNTDOWN — persistent across page reloads via localStorage
 (function(){
   const DURATION = 4*3600; // 4 hours flash sale window
-  let endTs = parseInt(localStorage.getItem('mc_flash_end')||'0');
+  let endTs = 0;
+  try { endTs = parseInt(localStorage.getItem('mc_flash_end')||'0'); } catch(e) {}
   if(!endTs || Date.now() > endTs) {
     endTs = Date.now() + DURATION*1000;
-    localStorage.setItem('mc_flash_end', endTs);
+    try { localStorage.setItem('mc_flash_end', endTs); } catch(e) {}
   }
   function tick(){
     let totalSecs = Math.max(0, Math.floor((endTs - Date.now())/1000));

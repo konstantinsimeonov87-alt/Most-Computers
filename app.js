@@ -318,8 +318,9 @@ function starsHTML(r){return '★'.repeat(Math.round(r))+'☆'.repeat(5-Math.rou
 
 function makeCard(p,small=false){
   const save=p.old?Math.round(((p.old-p.price)/p.old)*100):0;
+  const _eName = escHtml(p.name);
   const imgHtml = p.img
-    ? `<img class="product-img-real" src="${p.img}" alt="${p.name}" itemprop="image" loading="lazy" width="300" height="300" decoding="async" onload="this.classList.add('img-loaded')" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="product-img-emoji is-hidden" aria-hidden="true">${p.emoji}</span>`
+    ? `<img class="product-img-real" src="${escHtml(p.img)}" alt="${_eName}" itemprop="image" loading="lazy" width="300" height="300" decoding="async" onload="this.classList.add('img-loaded')" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="product-img-emoji is-hidden" aria-hidden="true">${p.emoji}</span>`
     : `<span class="product-img-emoji">${p.emoji}</span>`;
   return `<article class="product-card pos-rel" itemscope itemtype="https://schema.org/Product">
     <div class="product-badge-wrap">
@@ -330,12 +331,12 @@ function makeCard(p,small=false){
       ${p.stock===false?'<span class="badge badge-oos">Изчерпан</span>':p.stock!=null&&p.stock<=5?`<span class="badge badge-low">Последни ${p.stock} бр.</span>`:''}
     </div>
     <button class="product-wishlist" id="wl-${p.id}" type="button" onclick="toggleWishlist(${p.id},event)" title="Добави в любими" aria-label="Добави в любими"><svg width="15" height="15" class="svg-ic" aria-hidden="true"><use href="#ic-heart"/></svg></button>
-    <a href="?product=${p.id}" class="product-img-wrap${small?' small':''}" onclick="openProductPage(${p.id});return false;" style="cursor:pointer;" aria-label="${p.name}" itemprop="url">
+    <a href="?product=${p.id}" class="product-img-wrap${small?' small':''}" onclick="openProductPage(${p.id});return false;" style="cursor:pointer;" aria-label="${_eName}" itemprop="url">
       ${imgHtml}
     </a>
     <div class="product-body">
-      <div class="product-brand" itemprop="brand">${p.brand}</div>
-      <h3 class="product-name" itemprop="name"><a href="?product=${p.id}" onclick="openProductPage(${p.id});return false;" style="color:inherit;text-decoration:none;">${p.name}</a></h3>
+      <div class="product-brand" itemprop="brand">${escHtml(p.brand)}</div>
+      <h3 class="product-name" itemprop="name"><a href="?product=${p.id}" onclick="openProductPage(${p.id});return false;" style="color:inherit;text-decoration:none;">${_eName}</a></h3>
       <div class="product-rating"><span class="stars">${starsHTML(p.rating)}</span><span class="rating-num">${p.rating} (${p.rv})</span></div>
       <div class="product-footer">
         <div class="price-row">
@@ -1043,10 +1044,11 @@ if(slides.length){if(_heroSliderIv)clearInterval(_heroSliderIv);_heroSliderIv=se
 // COUNTDOWN — persistent across page reloads via localStorage
 (function(){
   const DURATION = 4*3600; // 4 hours flash sale window
-  let endTs = parseInt(localStorage.getItem('mc_flash_end')||'0');
+  let endTs = 0;
+  try { endTs = parseInt(localStorage.getItem('mc_flash_end')||'0'); } catch(e) {}
   if(!endTs || Date.now() > endTs) {
     endTs = Date.now() + DURATION*1000;
-    localStorage.setItem('mc_flash_end', endTs);
+    try { localStorage.setItem('mc_flash_end', endTs); } catch(e) {}
   }
   function tick(){
     let totalSecs = Math.max(0, Math.floor((endTs - Date.now())/1000));
@@ -1115,7 +1117,7 @@ const FREE_SHIP_BGN = Math.round(100 * EUR_RATE * 100) / 100; // 100 EUR в ле
 function updateCart(){
   const count=cart.reduce((s,x)=>s+x.qty,0),total=cart.reduce((s,x)=>s+x.price*x.qty,0);
   const badge=document.getElementById('cartBadge');if(badge)badge.textContent=count;
-  document.getElementById('cartTotal').textContent=fmtEur(total) + ' / ' + fmtBgn(total);
+  const cartTotalEl=document.getElementById('cartTotal');if(cartTotalEl)cartTotalEl.textContent=fmtEur(total) + ' / ' + fmtBgn(total);
   // sync PDP mini-header cart badge
   const pdpB = document.getElementById('pdpMhdrCartBadge');
   if(pdpB){pdpB.textContent=count;pdpB.style.display=count>0?'':'none';}
@@ -1400,10 +1402,11 @@ function updateCheckoutSteps(active) {
   [1,2,3].forEach(n => {
     const step = document.getElementById('cs'+n);
     const num = document.getElementById('csn'+n);
+    if (!step) return;
     step.classList.remove('active','done');
     if (n < active) {
       step.classList.add('done');
-      num.textContent = '✓';
+      if (num) num.textContent = '✓';
       step.style.cursor = 'pointer';
       step.onclick = () => showCheckoutStep(n);
     } else if (n === active) {
@@ -1411,7 +1414,7 @@ function updateCheckoutSteps(active) {
       step.style.cursor = '';
       step.onclick = null;
     } else {
-      num.textContent = n;
+      if (num) num.textContent = n;
       step.style.cursor = '';
       step.onclick = null;
     }
@@ -1427,12 +1430,14 @@ function submitOrder() {
   let valid = true;
   required.forEach(([id]) => {
     const el = document.getElementById(id);
+    if (!el) return;
     if (!el.value.trim()) { el.classList.add('error'); el.setAttribute('aria-invalid','true'); valid = false; }
     else { el.classList.remove('error'); el.setAttribute('aria-invalid','false'); }
   });
   if (ckPaymentType === 'card') {
     ['ckCardNum','ckCardName','ckCardExp','ckCardCvv'].forEach(id => {
       const el = document.getElementById(id);
+      if (!el) return;
       if (!el.value.trim()) { el.classList.add('error'); el.setAttribute('aria-invalid','true'); valid = false; }
       else { el.classList.remove('error'); el.setAttribute('aria-invalid','false'); }
     });
@@ -1448,7 +1453,8 @@ function submitOrder() {
   setTimeout(() => updateCheckoutSteps(3), 400);
   setTimeout(() => {
     // Build order data — sequential number based on existing order count
-    const _prevOrders = JSON.parse(localStorage.getItem('mc_orders') || '[]');
+    let _prevOrders = [];
+    try { _prevOrders = JSON.parse(localStorage.getItem('mc_orders') || '[]'); } catch(e) {}
     const orderNum = 'MC-' + String(_prevOrders.length + 1).padStart(6, '0');
     const subtotal = cart.reduce((s,x) => s + x.price*x.qty, 0);
     const delivery = ckDeliveryCosts[ckDeliveryIdx];
@@ -1828,6 +1834,7 @@ function queryType(q) {
 }
 
 function renderDropdown(query) {
+  if (!searchDropdown || !searchBar) return;
   const cat = '';
   const results = searchProducts(query, cat);
   const q = query.trim();
@@ -1845,7 +1852,7 @@ function renderDropdown(query) {
       : `<div class="sd-section-title">🕐 Последни търсения</div>
          <div class="sd-recent">
            ${recentSearches.map((s,i) => `
-             <div class="sd-recent-chip" onclick="applyRecentSearch('${escHtml(s)}')">
+             <div class="sd-recent-chip" data-recent-search="${escHtml(s)}">
                🔍 ${escHtml(s)}
                <button type="button" class="sd-recent-remove" onclick="removeRecent(event,${i})">×</button>
              </div>`).join('')}
@@ -1905,9 +1912,9 @@ function renderDropdown(query) {
         <div class="sd-result" data-idx="${i}" onclick="selectSearchResult(${p.id})">
           <div class="sd-emoji">${p.emoji}</div>
           <div class="sd-info">
-            <div class="sd-name">${highlightMatch(p.name, q)}</div>
+            <div class="sd-name">${highlightMatch(escHtml(p.name), q)}</div>
             <div class="sd-meta">
-              <span class="sd-brand">${p.brand}</span>
+              <span class="sd-brand">${escHtml(p.brand)}</span>
               ${extraMeta}
             </div>
           </div>
@@ -2071,6 +2078,12 @@ if (searchInput) {
 }
 
 document.addEventListener('click', e => {
+  // Safe delegation for recent search chips (avoids XSS via inline onclick)
+  const chip = e.target.closest('[data-recent-search]');
+  if (chip && !e.target.closest('.sd-recent-remove')) {
+    applyRecentSearch(chip.dataset.recentSearch);
+    return;
+  }
   if (!e.target.closest('.search-wrap')) closeSearchDropdown();
 });
 
@@ -2407,7 +2420,8 @@ function closeMyOrders() {
 }
 
 function renderMyOrders() {
-  const orders = JSON.parse(localStorage.getItem('mc_orders') || '[]');
+  let orders = [];
+  try { orders = JSON.parse(localStorage.getItem('mc_orders') || '[]'); } catch(e) {}
   const grid = document.getElementById('myOrdersGrid');
   if (!grid) return;
 
@@ -2460,7 +2474,8 @@ function renderMyOrders() {
 }
 
 function printOrder(num) {
-  const orders = JSON.parse(localStorage.getItem('mc_orders') || '[]');
+  let orders = [];
+  try { orders = JSON.parse(localStorage.getItem('mc_orders') || '[]'); } catch(e) {}
   const o = orders.find(x => x.num === num);
   if (!o) { showToast('Поръчката не е намерена'); return; }
   const statusLabels = { pending:'Изчаква', processing:'Обработва се', shipped:'Изпратена', delivered:'Доставена', cancelled:'Отказана', paid:'Платена' };
@@ -2844,13 +2859,14 @@ function updatePriceSlider(){
   const mn = document.getElementById('priceMin'), mx = document.getElementById('priceMax');
   if(!mn||!mx) return;
   let minV=parseInt(mn.value), maxV=parseInt(mx.value);
+  if(isNaN(minV)) minV=0; if(isNaN(maxV)) maxV=5000;
   if(minV > maxV-50){ minV=maxV-50; mn.value=minV; }
   srpPriceMinVal=minV; srpPriceMaxVal=maxV;
-  document.getElementById('srpPriceVals').textContent = fmtBgn(minV) + ' — ' + fmtBgn(maxV);
+  const srpVals=document.getElementById('srpPriceVals'); if(srpVals) srpVals.textContent = fmtBgn(minV) + ' — ' + fmtBgn(maxV);
   const rng = document.getElementById('sliderRange');
   if(rng){ rng.style.left=(minV/5000*100)+'%'; rng.style.width=((maxV-minV)/5000*100)+'%'; }
   let res = searchProducts(srpCurrentQuery, srpCurrentCatFilter).filter(p => p.price>=minV && p.price<=maxV);
-  document.getElementById('srpCount').textContent = res.length + ' резултата';
+  const srpCnt=document.getElementById('srpCount'); if(srpCnt) srpCnt.textContent = res.length + ' резултата';
   renderSRPGrid(res, srpCurrentQuery);
 }
 // price slider integrated into showSearchResultsPage directly
@@ -9045,10 +9061,10 @@ function submitContactForm() {
 // Category architecture migration
 const _CAT_MIGRATE = {
   laptop:'laptops', desktop:'desktops',
-  monitor:'peripherals', gaming:'desktops',
-  mobile:'accessories', tablet:'accessories',
+  monitor:'monitors', gaming:'gaming',
+  mobile:'phones', tablet:'phones',
   tv:'accessories', audio:'peripherals',
-  camera:'accessories', print:'peripherals',
+  camera:'peripherals', print:'peripherals',
   smart:'accessories', network:'network',
   storage:'storage', acc:'accessories',
   components:'components'

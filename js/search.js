@@ -95,6 +95,7 @@ function queryType(q) {
 }
 
 function renderDropdown(query) {
+  if (!searchDropdown || !searchBar) return;
   const cat = '';
   const results = searchProducts(query, cat);
   const q = query.trim();
@@ -112,7 +113,7 @@ function renderDropdown(query) {
       : `<div class="sd-section-title">🕐 Последни търсения</div>
          <div class="sd-recent">
            ${recentSearches.map((s,i) => `
-             <div class="sd-recent-chip" onclick="applyRecentSearch('${escHtml(s)}')">
+             <div class="sd-recent-chip" data-recent-search="${escHtml(s)}">
                🔍 ${escHtml(s)}
                <button type="button" class="sd-recent-remove" onclick="removeRecent(event,${i})">×</button>
              </div>`).join('')}
@@ -172,9 +173,9 @@ function renderDropdown(query) {
         <div class="sd-result" data-idx="${i}" onclick="selectSearchResult(${p.id})">
           <div class="sd-emoji">${p.emoji}</div>
           <div class="sd-info">
-            <div class="sd-name">${highlightMatch(p.name, q)}</div>
+            <div class="sd-name">${highlightMatch(escHtml(p.name), q)}</div>
             <div class="sd-meta">
-              <span class="sd-brand">${p.brand}</span>
+              <span class="sd-brand">${escHtml(p.brand)}</span>
               ${extraMeta}
             </div>
           </div>
@@ -338,6 +339,12 @@ if (searchInput) {
 }
 
 document.addEventListener('click', e => {
+  // Safe delegation for recent search chips (avoids XSS via inline onclick)
+  const chip = e.target.closest('[data-recent-search]');
+  if (chip && !e.target.closest('.sd-recent-remove')) {
+    applyRecentSearch(chip.dataset.recentSearch);
+    return;
+  }
   if (!e.target.closest('.search-wrap')) closeSearchDropdown();
 });
 

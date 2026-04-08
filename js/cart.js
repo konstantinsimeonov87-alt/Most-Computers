@@ -48,7 +48,7 @@ const FREE_SHIP_BGN = Math.round(100 * EUR_RATE * 100) / 100; // 100 EUR в ле
 function updateCart(){
   const count=cart.reduce((s,x)=>s+x.qty,0),total=cart.reduce((s,x)=>s+x.price*x.qty,0);
   const badge=document.getElementById('cartBadge');if(badge)badge.textContent=count;
-  document.getElementById('cartTotal').textContent=fmtEur(total) + ' / ' + fmtBgn(total);
+  const cartTotalEl=document.getElementById('cartTotal');if(cartTotalEl)cartTotalEl.textContent=fmtEur(total) + ' / ' + fmtBgn(total);
   // sync PDP mini-header cart badge
   const pdpB = document.getElementById('pdpMhdrCartBadge');
   if(pdpB){pdpB.textContent=count;pdpB.style.display=count>0?'':'none';}
@@ -333,10 +333,11 @@ function updateCheckoutSteps(active) {
   [1,2,3].forEach(n => {
     const step = document.getElementById('cs'+n);
     const num = document.getElementById('csn'+n);
+    if (!step) return;
     step.classList.remove('active','done');
     if (n < active) {
       step.classList.add('done');
-      num.textContent = '✓';
+      if (num) num.textContent = '✓';
       step.style.cursor = 'pointer';
       step.onclick = () => showCheckoutStep(n);
     } else if (n === active) {
@@ -344,7 +345,7 @@ function updateCheckoutSteps(active) {
       step.style.cursor = '';
       step.onclick = null;
     } else {
-      num.textContent = n;
+      if (num) num.textContent = n;
       step.style.cursor = '';
       step.onclick = null;
     }
@@ -360,12 +361,14 @@ function submitOrder() {
   let valid = true;
   required.forEach(([id]) => {
     const el = document.getElementById(id);
+    if (!el) return;
     if (!el.value.trim()) { el.classList.add('error'); el.setAttribute('aria-invalid','true'); valid = false; }
     else { el.classList.remove('error'); el.setAttribute('aria-invalid','false'); }
   });
   if (ckPaymentType === 'card') {
     ['ckCardNum','ckCardName','ckCardExp','ckCardCvv'].forEach(id => {
       const el = document.getElementById(id);
+      if (!el) return;
       if (!el.value.trim()) { el.classList.add('error'); el.setAttribute('aria-invalid','true'); valid = false; }
       else { el.classList.remove('error'); el.setAttribute('aria-invalid','false'); }
     });
@@ -381,7 +384,8 @@ function submitOrder() {
   setTimeout(() => updateCheckoutSteps(3), 400);
   setTimeout(() => {
     // Build order data — sequential number based on existing order count
-    const _prevOrders = JSON.parse(localStorage.getItem('mc_orders') || '[]');
+    let _prevOrders = [];
+    try { _prevOrders = JSON.parse(localStorage.getItem('mc_orders') || '[]'); } catch(e) {}
     const orderNum = 'MC-' + String(_prevOrders.length + 1).padStart(6, '0');
     const subtotal = cart.reduce((s,x) => s + x.price*x.qty, 0);
     const delivery = ckDeliveryCosts[ckDeliveryIdx];

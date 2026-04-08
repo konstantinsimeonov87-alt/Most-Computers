@@ -422,10 +422,10 @@ function submitOrder() {
     }
     _setHTML('tyItems', cart.map(x => `
       <div class="ty-item">
-        <div class="ty-item-emoji">${x.emoji}</div>
+        <div class="ty-item-emoji">${escHtml(x.emoji||'')}</div>
         <div class="ty-item-info">
-          <div class="ty-item-name">${x.name}</div>
-          <div class="ty-item-meta">${x.brand} · Количество: ${x.qty}</div>
+          <div class="ty-item-name">${escHtml(x.name||'')}</div>
+          <div class="ty-item-meta">${escHtml(x.brand||'')} · Количество: ${Number(x.qty)||0}</div>
         </div>
         <div class="ty-item-price">${fmtEur(x.price*x.qty)}<span class="text-11-muted-block">${fmtBgn(x.price*x.qty)}</span></div>
       </div>`).join(''));

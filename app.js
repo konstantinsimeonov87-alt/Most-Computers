@@ -1491,10 +1491,10 @@ function submitOrder() {
     }
     _setHTML('tyItems', cart.map(x => `
       <div class="ty-item">
-        <div class="ty-item-emoji">${x.emoji}</div>
+        <div class="ty-item-emoji">${escHtml(x.emoji||'')}</div>
         <div class="ty-item-info">
-          <div class="ty-item-name">${x.name}</div>
-          <div class="ty-item-meta">${x.brand} · Количество: ${x.qty}</div>
+          <div class="ty-item-name">${escHtml(x.name||'')}</div>
+          <div class="ty-item-meta">${escHtml(x.brand||'')} · Количество: ${Number(x.qty)||0}</div>
         </div>
         <div class="ty-item-price">${fmtEur(x.price*x.qty)}<span class="text-11-muted-block">${fmtBgn(x.price*x.qty)}</span></div>
       </div>`).join(''));
@@ -2260,7 +2260,7 @@ function updateAuthUI() {
     if (topReg) topReg.style.display = 'none';
     if (profileBtn) profileBtn.style.display = '';
     if (profileLabel) profileLabel.textContent = currentUser.firstName;
-    if (profileIcon) profileIcon.innerHTML = `<div class="hdr-btn-avatar">${initials}</div>`;
+    if (profileIcon) profileIcon.innerHTML = `<div class="hdr-btn-avatar">${escHtml(initials)}</div>`;
     const pdAvatar = document.getElementById('pdAvatar'); if (pdAvatar) pdAvatar.textContent = initials;
     const pdName = document.getElementById('pdName'); if (pdName) pdName.textContent = `${currentUser.firstName} ${currentUser.lastName || ''}`.trim();
     const pdEmail = document.getElementById('pdEmail'); if (pdEmail) pdEmail.textContent = currentUser.email;
@@ -2371,15 +2371,16 @@ function renderWishlistGrid() {
     const addAllHtml = `<div class="wl-add-all-row"><button type="button" class="wl-add-all-btn" onclick="addAllWishlistToCart()"><svg width="15" height="15" class="svg-ic" aria-hidden="true"><use href="#ic-cart"/></svg> Добави всички в кошницата (${prods.length})</button></div>`;
     grid.innerHTML = addAllHtml + `<div class="wishlist-grid">${prods.map(p => {
       const save = p.old ? Math.round(((p.old-p.price)/p.old)*100) : 0;
+      const _wlName = escHtml(p.name);
       const imgHtml = p.img
-        ? `<img class="product-img-real" src="${p.img}" alt="${p.name}" loading="lazy" onload="this.classList.add('img-loaded')" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="product-img-emoji is-hidden" aria-hidden="true">${p.emoji}</span>`
-        : `<span class="product-img-emoji">${p.emoji}</span>`;
+        ? `<img class="product-img-real" src="${escHtml(p.img)}" alt="${_wlName}" loading="lazy" onload="this.classList.add('img-loaded')" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="product-img-emoji is-hidden" aria-hidden="true">${escHtml(p.emoji)}</span>`
+        : `<span class="product-img-emoji">${escHtml(p.emoji)}</span>`;
       return `<div class="product-card pos-rel">
         <button type="button" class="wishlist-remove-btn" onclick="toggleWishlist(${p.id},{stopPropagation:()=>{}})" title="Премахни">×</button>
         <div class="product-img-wrap cursor-pointer" onclick="openProductPage(${p.id});closeWishlist();">${imgHtml}</div>
         <div class="product-body">
-          <div class="product-brand">${p.brand}</div>
-          <div class="product-name">${p.name}</div>
+          <div class="product-brand">${escHtml(p.brand)}</div>
+          <div class="product-name">${_wlName}</div>
           <div class="product-rating"><span class="stars">${starsHTML(p.rating)}</span><span class="rating-num">${p.rating}</span></div>
           <div class="product-footer">
             <div class="price-row">
@@ -2439,12 +2440,17 @@ function renderMyOrders() {
   const statusClass  = { pending:'mo-st-pending', processing:'mo-st-processing', shipped:'mo-st-shipped', delivered:'mo-st-delivered', cancelled:'mo-st-cancelled' };
 
   grid.innerHTML = orders.map(o => {
+    const _oNum = escHtml(o.num || '');
+    const _oDate = escHtml(o.date || '');
+    const _oDel = escHtml(o.deliveryType || '—');
+    const _oStatus = escHtml(statusLabels[o.status] || o.status || '');
+    const _oStatusCls = statusClass[o.status] || 'mo-st-pending';
     const items = (o.itemsData || []).map(x =>
       `<div class="mo-item-row">
-        <span class="mo-item-emoji">${x.emoji||'📦'}</span>
+        <span class="mo-item-emoji">${escHtml(x.emoji||'📦')}</span>
         <div class="mo-item-info">
-          <div class="mo-item-name">${x.name}</div>
-          <div class="mo-item-meta">${x.brand} · ×${x.qty}</div>
+          <div class="mo-item-name">${escHtml(x.name||'')}</div>
+          <div class="mo-item-meta">${escHtml(x.brand||'')} · ×${Number(x.qty)||0}</div>
         </div>
         <div class="mo-item-price">${fmtEur(x.price * x.qty)}</div>
       </div>`
@@ -2453,19 +2459,19 @@ function renderMyOrders() {
       <div class="mo-card">
         <div class="mo-card-header">
           <div>
-            <div class="mo-card-num">${o.num}</div>
-            <div class="mo-card-date">${o.date}</div>
+            <div class="mo-card-num">${_oNum}</div>
+            <div class="mo-card-date">${_oDate}</div>
           </div>
-          <span class="mo-status ${statusClass[o.status] || 'mo-st-pending'}">${statusLabels[o.status] || o.status}</span>
+          <span class="mo-status ${_oStatusCls}">${_oStatus}</span>
         </div>
         <div class="mo-card-items">${items}</div>
         <div class="mo-card-footer">
-          <span class="mo-card-delivery">🚚 ${o.deliveryType || '—'}</span>
+          <span class="mo-card-delivery">🚚 ${_oDel}</span>
           <div class="mo-card-total">
             <span class="mo-card-total-label">Общо:</span>
             <span class="mo-card-total-val">${fmtEur(o.total)} <span class="mo-card-total-bgn">/ ${fmtBgn(o.total)}</span></span>
           </div>
-          <button type="button" class="mo-print-btn" onclick="printOrder('${o.num}')" title="Принтирай поръчката">
+          <button type="button" class="mo-print-btn" onclick="printOrder(${JSON.stringify(o.num||'')})" title="Принтирай поръчката">
             <svg width="14" height="14" class="svg-ic" aria-hidden="true"><use href="#ic-printer"/></svg> Принтирай
           </button>
         </div>
@@ -2482,13 +2488,15 @@ function printOrder(num) {
   const statusColors = { pending:'#f59e0b', paid:'#10b981', shipped:'#6366f1', delivered:'#10b981', cancelled:'#ef4444' };
   const delivery = o.delivery || 0;
   const subtotal = o.subtotal || (o.total - delivery);
+  const _h = s => escHtml(String(s||''));
+  const payLabel = o.payment==='card'?'Карта':o.payment==='cod'?'Наложен платеж':'Банков превод';
   const items = (o.itemsData && o.itemsData.length)
-    ? o.itemsData.map(x => `<tr><td>${x.emoji||''}${x.name}</td><td>${x.brand||''}</td><td style="text-align:center;">×${x.qty}</td><td style="text-align:right;font-weight:700;">${(x.price*x.qty).toFixed(2)} лв.<br><span style="font-size:10px;color:#6b7280;">${((x.price*x.qty)/1.95583).toFixed(2)} €</span></td></tr>`).join('')
-    : `<tr><td colspan="4" style="color:#9ca3af;text-align:center;padding:16px;">${o.items||'—'}</td></tr>`;
+    ? o.itemsData.map(x => `<tr><td>${_h(x.emoji||'')}${_h(x.name||'')}</td><td>${_h(x.brand||'')}</td><td style="text-align:center;">×${Number(x.qty)||0}</td><td style="text-align:right;font-weight:700;">${(x.price*x.qty).toFixed(2)} лв.<br><span style="font-size:10px;color:#6b7280;">${((x.price*x.qty)/1.95583).toFixed(2)} €</span></td></tr>`).join('')
+    : `<tr><td colspan="4" style="color:#9ca3af;text-align:center;padding:16px;">${_h(o.items||'—')}</td></tr>`;
   const win = window.open('', '_blank', 'width=760,height=700');
   if (!win) { showToast('⚠️ Попъп прозорецът е блокиран. Разреши попъпи за този сайт.'); return; }
   win.document.write(`<!DOCTYPE html><html lang="bg"><head><meta charset="utf-8">
-    <title>Фактура ${o.num} — Most Computers</title>
+    <title>Фактура ${_h(o.num)} — Most Computers</title>
     <style>
       *{box-sizing:border-box;margin:0;padding:0}
       body{font-family:'Segoe UI',Arial,sans-serif;background:#f8f9fa;color:#1f2937;font-size:13px;padding:0}
@@ -2524,26 +2532,26 @@ function printOrder(num) {
           <div class="logo-sub">mostcomputers.bg &nbsp;·&nbsp; office@mostcomputers.bg</div>
         </div>
         <div class="inv-meta">
-          <div class="inv-num">Поръчка ${o.num}</div>
-          <div class="inv-date">Дата: ${o.date}</div>
-          <div class="inv-date">Доставка: ${o.deliveryType||'—'} &nbsp;·&nbsp; Плащане: ${o.payment==='card'?'Карта':o.payment==='cod'?'Наложен платеж':'Банков превод'}</div>
-          <div><span class="status-badge">${statusLabels[o.status]||o.status}</span></div>
+          <div class="inv-num">Поръчка ${_h(o.num)}</div>
+          <div class="inv-date">Дата: ${_h(o.date)}</div>
+          <div class="inv-date">Доставка: ${_h(o.deliveryType||'—')} &nbsp;·&nbsp; Плащане: ${_h(payLabel)}</div>
+          <div><span class="status-badge">${_h(statusLabels[o.status]||o.status)}</span></div>
         </div>
       </div>
       <div class="section">
         <div class="box">
           <div class="box-title">Клиент</div>
           <div class="box-val">
-            <strong>${o.customer||'—'}</strong><br>
-            ${o.email||''}<br>
-            ${o.phone||''}
+            <strong>${_h(o.customer||'—')}</strong><br>
+            ${_h(o.email||'')}<br>
+            ${_h(o.phone||'')}
           </div>
         </div>
         <div class="box">
           <div class="box-title">Адрес за доставка</div>
           <div class="box-val">
-            ${o.city||'—'}, ${o.addr||''}<br>
-            ${o.zip ? 'ПК ' + o.zip : ''}
+            ${_h(o.city||'—')}, ${_h(o.addr||'')}<br>
+            ${o.zip ? 'ПК ' + _h(o.zip) : ''}
           </div>
         </div>
       </div>

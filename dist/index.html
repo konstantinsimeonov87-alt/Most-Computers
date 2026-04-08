@@ -2067,7 +2067,7 @@
                 <div class="ck-field"><label>Имейл *</label><input type="email" class="ck-input" id="ckEmail"
                     placeholder="ivan@mail.bg" onblur="ckValidateEmail(this)"></div>
                 <div class="ck-field"><label>Телефон *</label><input type="tel" class="ck-input" id="ckPhone"
-                    placeholder="08X XXX XXXX" onblur="ckValidateField(this)"></div>
+                    placeholder="0888 123 456" onblur="ckValidatePhone(this)" oninput="ckFormatPhone(this)"></div>
                 <div class="ck-step-nav">
                   <span class="ck-req-note">* Задължителни полета</span>
                   <button type="button" class="ck-next-btn" onclick="ckNextStep(1)">Продължи към доставка ›</button>
@@ -2115,18 +2115,60 @@
                     <div class="delivery-opt-price color-success">Безплатно</div>
                   </div>
                 </div>
-                <div style="margin-top:18px;">
-                  <div class="ck-field"><label>Град *</label><input class="ck-input" id="ckCity" placeholder="София"
-                      onblur="ckValidateField(this)"></div>
+                <div id="ckEcontOfficeRow" class="ck-field" style="margin-top:14px;">
+                  <label>Еконт офис *</label>
+                  <input class="ck-input" id="ckEcontOffice" placeholder="Напр. Еконт — кв. Лозенец, ул. Свети Наум 52"
+                    list="econtOfficesList" onblur="ckValidateField(this)" autocomplete="off">
+                  <datalist id="econtOfficesList">
+                    <option value="Еконт — кв. Лозенец, ул. Свети Наум 52">
+                    <option value="Еконт — ул. Г. С. Раковски 147, София">
+                    <option value="Еконт — бул. Витоша 100, София">
+                    <option value="Еконт — ж.к. Люлин 6, бл. 606, София">
+                    <option value="Еконт — ж.к. Младост 1, бл. 52Б, София">
+                    <option value="Еконт — ж.к. Надежда 4, бл. 421, София">
+                    <option value="Еконт — ул. Дойран 3, Пловдив">
+                    <option value="Еконт — бул. Цар Освободител 5, Варна">
+                    <option value="Еконт — ул. Ал. Стамболийски 6, Бургас">
+                    <option value="Еконт — ул. Цар Освободител 10, Стара Загора">
+                    <option value="Еконт — ул. Дунав 5, Русе">
+                    <option value="Еконт — бул. България 23, Плевен">
+                    <option value="Еконт — ул. Юрий Гагарин 1, Благоевград">
+                    <option value="Еконт — ул. Климент Охридски 9, Велико Търново">
+                  </datalist>
+                  <div class="ck-field-hint">Въведи офис или избери от списъка. Намери офис на <a href="https://econt.com/offices" target="_blank" rel="noopener" style="color:var(--primary)">econt.com</a></div>
+                </div>
+                <div id="ckAddressSection" style="margin-top:18px;">
+                  <div class="ck-field"><label>Град *</label>
+                    <input class="ck-input" id="ckCity" placeholder="София" list="bgCitiesList"
+                      onblur="ckValidateField(this)" autocomplete="address-level2">
+                    <datalist id="bgCitiesList">
+                      <option value="София"><option value="Пловдив"><option value="Варна">
+                      <option value="Бургас"><option value="Русе"><option value="Стара Загора">
+                      <option value="Плевен"><option value="Сливен"><option value="Добрич">
+                      <option value="Шумен"><option value="Перник"><option value="Хасково">
+                      <option value="Ямбол"><option value="Пазарджик"><option value="Благоевград">
+                      <option value="Велико Търново"><option value="Враца"><option value="Габрово">
+                      <option value="Асеновград"><option value="Видин"><option value="Казанлък">
+                      <option value="Кюстендил"><option value="Монтана"><option value="Разград">
+                      <option value="Силистра"><option value="Ловеч"><option value="Търговище">
+                      <option value="Бlagoevgrad"><option value="Велинград"><option value="Горна Оряховица">
+                      <option value="Дупница"><option value="Карлово"><option value="Кърджали">
+                      <option value="Лом"><option value="Нова Загора"><option value="Петрич">
+                      <option value="Попово"><option value="Провадия"><option value="Самоков">
+                      <option value="Свиленград"><option value="Свищов"><option value="Сандански">
+                      <option value="Смолян"><option value="Троян"><option value="Харманли">
+                      <option value="Червен бряг"><option value="Чирпан">
+                    </datalist>
+                  </div>
                   <div class="ck-row2">
                     <div class="ck-field"><label>Адрес *</label><input class="ck-input" id="ckAddr"
-                        placeholder="ул. Примерна 1" onblur="ckValidateField(this)"></div>
-                    <div class="ck-field"><label>Пощ. код</label><input class="ck-input" id="ckZip" placeholder="5000">
-                    </div>
+                        placeholder="ул. Примерна 1" onblur="ckValidateField(this)" autocomplete="street-address"></div>
+                    <div class="ck-field"><label>Пощ. код</label><input class="ck-input" id="ckZip" placeholder="5000"
+                        autocomplete="postal-code"></div>
                   </div>
-                  <div class="ck-field"><label>Бележка към поръчка</label><input class="ck-input" id="ckNote"
-                      placeholder="Допълнителна информация..."></div>
                 </div>
+                <div class="ck-field"><label>Бележка към поръчка</label><input class="ck-input" id="ckNote"
+                    placeholder="Допълнителна информация..."></div>
                 <div class="ck-step-nav">
                   <button type="button" class="ck-next-btn" onclick="ckNextStep(2)">Продължи към плащане ›</button>
                 </div>

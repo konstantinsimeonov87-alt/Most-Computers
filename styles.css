@@ -6367,6 +6367,9 @@
  .ck-input.error { border-color:#ef4444; background:rgba(239,68,68,0.04); animation:ck-shake 0.3s ease; }
  @keyframes ck-shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
 
+ /* Field hint text (e.g. Econt office helper) */
+ .ck-field-hint { font-size:11px; color:var(--muted); margin-top:5px; line-height:1.4; }
+
  /* Submit loading spinner */
  .ck-spinner { display:inline-block; width:15px; height:15px; border:2px solid rgba(255,255,255,0.4); border-top-color:#fff; border-radius:50%; animation:ck-spin 0.7s linear infinite; vertical-align:middle; margin-right:6px; }
  @keyframes ck-spin { to { transform:rotate(360deg); } }
@@ -8827,6 +8830,7 @@
    position: sticky;
    top: 0;
    height: 100vh;
+   height: 100dvh;
    overflow-y: auto;
  }
 

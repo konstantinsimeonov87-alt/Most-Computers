@@ -11,6 +11,7 @@ global.fmtEur = (bgn) => (bgn / EUR_RATE).toFixed(2) + ' €';
 global.fmtBgn = (bgn) => Number(bgn).toFixed(2) + ' лв.';
 global.showToast  = jest.fn();
 global.currentUser = null;
+global.escHtml = s => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 
 // Примерен продукт
 const PRODUCT = { id: 1, name: 'Sony WH-1000XM6', price: 449, old: 549, badge: 'sale', emoji: '🎧', brand: 'Sony', cat: 'audio', rating: 4.9, rv: 124 };

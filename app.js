@@ -1128,7 +1128,7 @@ function updateCart(){
   const body=document.getElementById('cartBody');
   if(!body)return;
   if(cart.length===0){body.innerHTML='<div class="cart-empty-msg"><div class="ce-icon"><svg width="44" height="44" class="svg-ic" aria-hidden="true" style="opacity:.25"><use href="#ic-cart"/></svg></div><p>Кошницата е празна.<br>Добави продукти!</p></div>';return;}
-  let html=cart.map(x=>`<div class="cart-item-row"><div class="ci-emoji">${x.emoji}</div><div class="ci-details"><div class="ci-name">${x.name}</div><div class="ci-price">${fmtEur(x.price*x.qty)}<span class="text-11-muted-block">${fmtBgn(x.price*x.qty)}</span></div><div class="ci-qty"><button type="button" class="qty-btn" onclick="changeQty(${x.id},-1)">−</button><span class="qty-num">${x.qty}</span><button type="button" class="qty-btn" onclick="changeQty(${x.id},1)">+</button></div></div><button type="button" class="ci-remove" onclick="removeFromCart(${x.id})">×</button></div>`).join('');
+  let html=cart.map(x=>`<div class="cart-item-row"><div class="ci-emoji">${escHtml(x.emoji||'')}</div><div class="ci-details"><div class="ci-name">${escHtml(x.name||'')}</div><div class="ci-price">${fmtEur(x.price*x.qty)}<span class="text-11-muted-block">${fmtBgn(x.price*x.qty)}</span></div><div class="ci-qty"><button type="button" class="qty-btn" onclick="changeQty(${x.id},-1)">−</button><span class="qty-num">${x.qty}</span><button type="button" class="qty-btn" onclick="changeQty(${x.id},1)">+</button></div></div><button type="button" class="ci-remove" onclick="removeFromCart(${x.id})">×</button></div>`).join('');
   // Free shipping progress bar + delivery row
   const pct=Math.min(100,(total/FREE_SHIP_BGN)*100);
   const deliveryRow=document.getElementById('cartDeliveryRow');
@@ -1248,9 +1248,9 @@ function renderOrderSummary() {
 
   document.getElementById('osSummaryItems').innerHTML = cart.map(x => `
     <div class="os-item">
-      <div class="os-emoji">${x.emoji}</div>
+      <div class="os-emoji">${escHtml(x.emoji||'')}</div>
       <div class="os-item-info">
-        <div class="os-item-name">${x.name}</div>
+        <div class="os-item-name">${escHtml(x.name||'')}</div>
         <div class="os-qty-ctrl">
           <button type="button" class="os-qty-btn" onclick="osChangeQty(${x.id},-1)">−</button>
           <span class="os-qty-num">${x.qty}</span>
@@ -1307,8 +1307,12 @@ function selectDeliveryCk(el, idx) {
   el.classList.add('selected');
   ckDeliveryIdx = idx;
   renderOrderSummary();
-  // Show/hide address fields for pickup
-  const addrFields = document.querySelector('#ck-step2 .ck-field');
+  // Show/hide Econt office field and address section based on delivery type
+  const officeRow = document.getElementById('ckEcontOfficeRow');
+  const addrSection = document.getElementById('ckAddressSection');
+  const isPickup = idx === 2;
+  if (officeRow) officeRow.style.display = isPickup ? 'none' : '';
+  if (addrSection) addrSection.style.display = isPickup ? 'none' : '';
 }
 
 function selectPayment(el, type) {
@@ -1351,6 +1355,14 @@ function showCheckoutStep(n) {
   updateCheckoutSteps(n);
   const page = document.getElementById('checkoutPage');
   if (page) page.scrollTo({ top: 0, behavior: 'smooth' });
+  // Auto-focus first empty required input in the new step
+  setTimeout(() => {
+    const card = document.getElementById('ck-step'+n);
+    if (!card) return;
+    const inputs = card.querySelectorAll('input.ck-input:not([disabled])');
+    const firstEmpty = Array.from(inputs).find(el => !el.value.trim() && el.offsetParent !== null);
+    if (firstEmpty) firstEmpty.focus();
+  }, 120);
 }
 
 function ckNextStep(current) {
@@ -1361,7 +1373,7 @@ function ckNextStep(current) {
 function validateCkStep(step) {
   if (step === 1) {
     let valid = true;
-    ['ckFirst','ckLast','ckPhone'].forEach(id => {
+    ['ckFirst','ckLast'].forEach(id => {
       const el = document.getElementById(id);
       if (el && !el.value.trim()) { el.classList.add('error'); el.classList.remove('valid'); el.setAttribute('aria-invalid','true'); valid = false; }
       else if (el) el.setAttribute('aria-invalid','false');
@@ -1370,11 +1382,20 @@ function validateCkStep(step) {
     if (email && (!email.value.trim() || !email.value.includes('@'))) {
       email.classList.add('error'); email.classList.remove('valid'); email.setAttribute('aria-invalid','true'); valid = false;
     } else if (email) { email.setAttribute('aria-invalid','false'); }
+    const phone = document.getElementById('ckPhone');
+    if (phone) { ckValidatePhone(phone); if (phone.classList.contains('error')) valid = false; }
     if (!valid) showToast('⚠️ Попълни всички задължителни полета!');
     return valid;
   }
   if (step === 2) {
     let valid = true;
+    if (ckDeliveryIdx === 2) return true; // pickup — no address needed
+    // Validate Econt office if Econt selected
+    const officeEl = document.getElementById('ckEcontOffice');
+    if (officeEl && !officeEl.classList.contains('is-hidden')) {
+      if (!officeEl.value.trim()) { officeEl.classList.add('error'); officeEl.classList.remove('valid'); officeEl.setAttribute('aria-invalid','true'); valid = false; }
+      else { officeEl.classList.remove('error'); officeEl.classList.add('valid'); officeEl.setAttribute('aria-invalid','false'); }
+    }
     ['ckCity','ckAddr'].forEach(id => {
       const el = document.getElementById(id);
       if (el && !el.value.trim()) { el.classList.add('error'); el.classList.remove('valid'); el.setAttribute('aria-invalid','true'); valid = false; }
@@ -1396,6 +1417,26 @@ function ckValidateEmail(el) {
   el.classList.toggle('error', !ok);
   el.classList.toggle('valid', !!ok);
   el.setAttribute('aria-invalid', ok ? 'false' : 'true');
+}
+
+// BG phone: 08xx, 09xx, +359 8xx, 00359 8xx — at least 10 digits
+function ckValidatePhone(el) {
+  const raw = el.value.replace(/[\s\-().]/g, '');
+  const ok = /^(\+359|00359|0)[89]\d{8}$/.test(raw) || /^[1-9]\d{9,}$/.test(raw);
+  el.classList.toggle('error', !ok);
+  el.classList.toggle('valid', ok);
+  el.setAttribute('aria-invalid', ok ? 'false' : 'true');
+}
+
+// Auto-format phone as user types: 0888 123 456
+function ckFormatPhone(el) {
+  let v = el.value.replace(/[^\d+]/g, '');
+  if (v.startsWith('+')) {
+    // keep international prefix as-is
+  } else if (v.length > 4) {
+    v = v.substring(0,4) + ' ' + v.substring(4, 7) + (v.length > 7 ? ' ' + v.substring(7, 11) : '');
+  }
+  el.value = v;
 }
 
 function updateCheckoutSteps(active) {
@@ -1476,8 +1517,10 @@ function submitOrder() {
     _set('tyPayment', payNames[ckPaymentType]);
     _set('tyName', document.getElementById('ckFirst').value + ' ' + document.getElementById('ckLast').value);
     _set('tyPhone', document.getElementById('ckPhone').value);
-    _set('tyCity', document.getElementById('ckCity').value);
-    _set('tyAddr', document.getElementById('ckAddr').value + (document.getElementById('ckZip').value ? ', ' + document.getElementById('ckZip').value : ''));
+    const _isPickup = ckDeliveryIdx === 2;
+    const _econtOffice = (document.getElementById('ckEcontOffice') || {}).value || '';
+    _set('tyCity', _isPickup ? 'София (магазин)' : document.getElementById('ckCity').value);
+    _set('tyAddr', _isPickup ? 'бул. „Шипченски проход" бл.240' : (_econtOffice ? 'Офис: ' + _econtOffice + ', ' : '') + document.getElementById('ckAddr').value + (document.getElementById('ckZip').value ? ', ' + document.getElementById('ckZip').value : ''));
     _set('tyCourier', ckDeliveryNames[ckDeliveryIdx]);
     _set('tyNote', document.getElementById('ckNote').value || '—');
     _set('tyTimestamp', now.toLocaleString('bg-BG'));
@@ -1505,8 +1548,8 @@ function submitOrder() {
       customer: document.getElementById('ckFirst').value + ' ' + document.getElementById('ckLast').value,
       email: document.getElementById('ckEmail').value,
       phone: document.getElementById('ckPhone').value,
-      city: document.getElementById('ckCity').value,
-      addr: document.getElementById('ckAddr').value + (document.getElementById('ckZip').value ? ', ' + document.getElementById('ckZip').value : ''),
+      city: _isPickup ? 'София (магазин)' : document.getElementById('ckCity').value,
+      addr: _isPickup ? 'бул. „Шипченски проход" бл.240' : (_econtOffice ? 'Офис: ' + _econtOffice + ', ' : '') + document.getElementById('ckAddr').value + (document.getElementById('ckZip').value ? ', ' + document.getElementById('ckZip').value : ''),
       note: document.getElementById('ckNote').value || '',
       items: cart.map(x => x.name + ' ×' + x.qty).join(', '),
       itemsData: cart.map(x => ({id:x.id, name:x.name, brand:x.brand, emoji:x.emoji, price:x.price, qty:x.qty})),

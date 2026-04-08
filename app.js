@@ -4253,11 +4253,13 @@ function closeAdminPage() {
 var _adminProd = { sort: 'cat', dir: 1, cat: '', status: '', q: '', brand: '', page: 1, perPage: 25 };
 
 const _adminCatNamesMap = {
-  laptops:'💻 Лаптопи', desktops:'🖥 Настолни компютри', components:'⚙️ Компоненти',
+  phones:'📱 Телефони и таблети', laptops:'💻 Лаптопи', desktops:'🖥 Настолни компютри',
+  gaming:'🎮 Гейминг', monitors:'🖥 Монитори', components:'⚙️ Компоненти',
   peripherals:'🖱 Периферия', network:'📡 Мрежово', storage:'💾 Сторидж',
   software:'📀 Софтуер', accessories:'🎒 Аксесоари',
-  laptop:'💻 Лаптопи', desktop:'🖥 Настолни', monitor:'🖥 Монитор', gaming:'🎮 Гейминг',
-  mobile:'📱 Телефон', tablet:'📟 Таблет', tv:'📺 TV', audio:'🎧 Аудио',
+  // legacy aliases
+  laptop:'💻 Лаптопи', desktop:'🖥 Настолни', monitor:'🖥 Монитори',
+  mobile:'📱 Телефони и таблети', tablet:'📱 Телефони и таблети', tv:'📺 TV', audio:'🎧 Аудио',
   camera:'📷 Камера', print:'🖨 Принтер', smart:'⌚ Смарт', acc:'🔌 Аксесоар'
 };
 
@@ -4570,8 +4572,8 @@ function adminShowTab(tab) {
       </div>`;
   } else if (tab === 'products') {
     const catCounts = {};
-    products.forEach(p => { catCounts[p.cat] = (catCounts[p.cat]||0) + 1; });
-    const catPills = [['','Всички'],['laptops','💻 Лаптопи'],['desktops','🖥 Настолни'],['components','⚙️ Компоненти'],['peripherals','🖱 Периферия'],['network','📡 Мрежово'],['storage','💾 Сторидж'],['software','📀 Софтуер'],['accessories','🎒 Аксесоари']];
+    products.forEach(p => { const nc = normalizeCat(p.cat); catCounts[nc] = (catCounts[nc]||0) + 1; });
+    const catPills = [['','Всички'],['phones','📱 Телефони'],['laptops','💻 Лаптопи'],['desktops','🖥 Настолни'],['gaming','🎮 Гейминг'],['monitors','🖥 Монитори'],['components','⚙️ Компоненти'],['peripherals','🖱 Периферия'],['network','📡 Мрежово'],['storage','💾 Сторидж'],['software','📀 Софтуер'],['accessories','🎒 Аксесоари']];
     main.innerHTML = `
       <div class="admin-topbar">
         <div><div class="admin-page-title">🏷 Продукти</div><div class="admin-page-sub">${products.length} продукта в базата</div></div>

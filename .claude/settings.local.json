@@ -5,7 +5,8 @@
       "Read(//c/Users/user/Desktop/New folder/**)",
       "Skill(update-config)",
       "Skill(update-config:*)",
-      "WebFetch(domain:konstantinsimeonov87-alt.github.io)"
+      "WebFetch(domain:konstantinsimeonov87-alt.github.io)",
+      "WebSearch"
     ]
   }
 }

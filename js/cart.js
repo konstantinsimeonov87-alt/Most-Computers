@@ -77,11 +77,11 @@ function updateCart(){
   const deliveryRow=document.getElementById('cartDeliveryRow');
   const deliveryVal=document.getElementById('cartDeliveryVal');
   if(total>=FREE_SHIP_BGN){
-    html+=`<div class="cart-ship-bar"><div class="cart-ship-msg ship-free">🎉 Имаш безплатна доставка!</div><div class="cart-ship-progress"><div class="cart-ship-fill" style="width:100%"></div></div></div>`;
+    html+=`<div class="cart-ship-bar"><div class="cart-ship-msg ship-free">🎉 Имаш безплатна доставка!</div><div class="cart-ship-progress"><div class="cart-ship-fill" style="transform:scaleX(1)"></div></div></div>`;
     if(deliveryRow) deliveryRow.style.display='none';
   }else{
     const rem=(FREE_SHIP_BGN-total).toFixed(2);
-    html+=`<div class="cart-ship-bar"><div class="cart-ship-msg">Добави още <strong>${rem} лв.</strong> за безплатна доставка!</div><div class="cart-ship-progress"><div class="cart-ship-fill" style="width:${pct.toFixed(1)}%"></div></div></div>`;
+    html+=`<div class="cart-ship-bar"><div class="cart-ship-msg">Добави още <strong>${rem} лв.</strong> за безплатна доставка!</div><div class="cart-ship-progress"><div class="cart-ship-fill" style="transform:scaleX(${(pct/100).toFixed(3)})"></div></div></div>`;
     if(deliveryRow) deliveryRow.style.display='flex';
     if(deliveryVal) deliveryVal.textContent='5.99 лв.';
   }

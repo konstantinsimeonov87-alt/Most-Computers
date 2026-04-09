@@ -539,7 +539,6 @@
 
   <!-- MOBILE DRAWER -->
   <div class="mob-overlay" id="mobOverlay" data-action="toggleMobMenu"></div>
-  <a href="#main-content" class="skip-to-content" id="skip-to-content">Прескочи към основното съдържание</a>
 
   <div class="mob-drawer" id="mobDrawer">
     <div class="mob-drawer-header">
@@ -2652,21 +2651,21 @@
             <div id="cfFormWrap">
               <div class="cf-grid">
                 <div class="cf-field">
-                  <label>Име *</label>
-                  <input type="text" class="cf-input" id="cfName" placeholder="Иван Петров">
+                  <label for="cfName">Име *</label>
+                  <input type="text" class="cf-input" id="cfName" placeholder="Иван Петров" autocomplete="name">
                 </div>
                 <div class="cf-field">
-                  <label>Имейл *</label>
-                  <input type="email" class="cf-input" id="cfEmail" placeholder="ivan@mail.bg">
+                  <label for="cfEmail">Имейл *</label>
+                  <input type="email" class="cf-input" id="cfEmail" placeholder="ivan@mail.bg" autocomplete="email">
                 </div>
               </div>
               <div class="cf-grid">
                 <div class="cf-field">
-                  <label>Тема *</label>
+                  <label for="cfSubject">Тема *</label>
                   <input type="text" class="cf-input" id="cfSubject" placeholder="Въпрос относно...">
                 </div>
                 <div class="cf-field">
-                  <label>Тип запитване</label>
+                  <label for="cfType">Тип запитване</label>
                   <select class="cf-select" id="cfType">
                     <option value="">Изберете...</option>
                     <option value="product">Въпрос за продукт</option>
@@ -2679,11 +2678,11 @@
                 </div>
               </div>
               <div class="cf-field">
-                <label>Телефон</label>
-                <input type="tel" class="cf-input" id="cfPhone" placeholder="08X XXX XXXX" style="max-width:300px;">
+                <label for="cfPhone">Телефон</label>
+                <input type="tel" class="cf-input" id="cfPhone" placeholder="08X XXX XXXX" style="max-width:300px;" autocomplete="tel">
               </div>
               <div class="cf-field">
-                <label>Съобщение *</label>
+                <label for="cfMessage">Съобщение *</label>
                 <textarea class="cf-textarea" id="cfMessage" placeholder="Опишете своето запитване..."></textarea>
               </div>
               <div class="cf-checkbox-row">

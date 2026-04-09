@@ -29,7 +29,7 @@
    --accent: #ff3d00;
    --accent2: #34c759;
    /* Apple green */
-   --sale: #ff3030;
+   --sale: #cc0000;
    --new: #34c759;
    --promo: #ff6b00;
 
@@ -15057,7 +15057,7 @@ textarea:focus-visible {
 .cart-ship-msg { font-size: 12px; color: var(--text2); margin-bottom: 6px; }
 .cart-ship-msg.ship-free { color: #22c55e; font-weight: 700; }
 .cart-ship-progress { height: 6px; background: var(--border); border-radius: 4px; overflow: hidden; }
-.cart-ship-fill { height: 100%; background: linear-gradient(90deg, var(--primary), #7c3aed); border-radius: 4px; transition: width 0.4s ease; }
+.cart-ship-fill { height: 100%; width: 100%; background: linear-gradient(90deg, var(--primary), #7c3aed); border-radius: 4px; transform-origin: left; transform: scaleX(0); transition: transform 0.4s ease; }
 
 /* ===== CART: RECENTLY VIEWED ===== */
 .cart-promo-hint { margin: 8px 14px; padding: 9px 13px; background: linear-gradient(135deg, rgba(99,102,241,0.08), rgba(16,185,129,0.07)); border: 1.5px dashed var(--primary); border-radius: 9px; font-size: 12px; color: var(--text); cursor: pointer; transition: background 0.2s; line-height: 1.5; }

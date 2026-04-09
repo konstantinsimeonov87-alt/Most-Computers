@@ -64,6 +64,8 @@ function openProductPage(id) {
   setOGName('twitter:title',       p.name + ' | Most Computers');
   setOGName('twitter:description', p.desc ? p.desc.substring(0,200) : `${p.brand} — ${p.name}`);
   setOGName('twitter:image',       p.img || '');
+  const _canonical = document.querySelector('link[rel="canonical"]');
+  if (_canonical) _canonical.setAttribute('href', `https://mostcomputers.bg/?product=${p.id}`);
 
   // Badges
   let b = '';
@@ -268,31 +270,48 @@ function openProductPage(id) {
     document.head.appendChild(_schemaTag);
   }
   const _catLabel = (typeof CAT_LABELS !== 'undefined' && CAT_LABELS[p.cat]) ? CAT_LABELS[p.cat] : p.cat;
-  _schemaTag.textContent = JSON.stringify([
-    {
-      "@context": "https://schema.org/",
-      "@type": "Product",
-      "name": p.name,
-      "image": p.img ? [p.img] : [],
-      "description": p.desc || p.name,
-      "brand": { "@type": "Brand", "name": p.brand || '' },
-      "sku": p.sku || '',
-      "offers": {
-        "@type": "Offer",
-        "url": window.location.href,
-        "priceCurrency": "BGN",
-        "price": p.price,
-        "availability": p.stock === false ? "https://schema.org/OutOfStock" : "https://schema.org/InStock",
-        "seller": { "@type": "Organization", "name": "Most Computers" }
-      },
-      ...(_avgRating && _rvCount ? {
-        "aggregateRating": {
-          "@type": "AggregateRating",
-          "ratingValue": _avgRating,
-          "reviewCount": _rvCount
-        }
-      } : {})
+  const _priceValidUntil = new Date(Date.now() + 365 * 24 * 3600 * 1000).toISOString().split('T')[0];
+  const _images = Array.isArray(p.gallery) && p.gallery.length ? p.gallery : (p.img ? [p.img] : []);
+  const _productSchema = {
+    "@context": "https://schema.org/",
+    "@type": "Product",
+    "name": p.name,
+    "image": _images,
+    "description": p.desc || p.name,
+    "brand": { "@type": "Brand", "name": p.brand || '' },
+    "sku": p.sku || '',
+    ...(p.ean ? { "gtin13": p.ean } : {}),
+    "offers": {
+      "@type": "Offer",
+      "url": `${location.origin}/?product=${p.id}`,
+      "priceCurrency": "BGN",
+      "price": p.price,
+      "priceValidUntil": _priceValidUntil,
+      "itemCondition": "https://schema.org/NewCondition",
+      "availability": p.stock === false ? "https://schema.org/OutOfStock" : "https://schema.org/InStock",
+      "seller": { "@type": "Organization", "name": "Most Computers" }
     },
+    ...(_avgRating && _rvCount ? {
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": _avgRating,
+        "reviewCount": _rvCount,
+        "bestRating": 5,
+        "worstRating": 1
+      }
+    } : {})
+  };
+  if (Array.isArray(p.reviews) && p.reviews.length > 0) {
+    _productSchema.review = p.reviews.slice(0, 5).map(r => ({
+      "@type": "Review",
+      "author": { "@type": "Person", "name": r.name },
+      "datePublished": r.date,
+      "reviewBody": r.text,
+      "reviewRating": { "@type": "Rating", "ratingValue": r.stars, "bestRating": 5, "worstRating": 1 }
+    }));
+  }
+  _schemaTag.textContent = JSON.stringify([
+    _productSchema,
     {
       "@context": "https://schema.org",
       "@type": "BreadcrumbList",

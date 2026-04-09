@@ -245,6 +245,42 @@ const products = [
     desc:'Seasonic Focus GX-1000 с 1000W и Hybrid Silent Fan Control е идеалното захранване за RTX 4090 системи. Изключително стабилно напрежение.',
     reviews:[{name:'Пенко Р.',stars:5,date:'24.03.2025',text:'Перфектно с RTX 4090! Нито шум, нито проблем.'},{name:'Лена Б.',stars:5,date:'14.03.2025',text:'Seasonic качеството е непостижимо.'}] },
 
+  // ── РЕАЛНИ НОУТБУЦИ ОТ MOSTCOMPUTERS.BG ─────────────────────────────────────
+  { id:261, sku:'MC-MSI-KATANA15-282', ean:'4711377355902', img:'https://portal.mostbg.com/api/images/imageFileData/49124.png', name:'MSI Katana 15 HX i5-14 RTX 5050 QHD 165Hz', brand:'MSI', cat:'laptop', emoji:'💻', price:2102, old:null, badge:'new', pct:0, rating:4.6, rv:12, stock:8,
+    specs:{Процесор:'Intel Core i5-14450HX', CPU:'Intel Core i5', RAM:'16 GB', RAM_raw:'16GB', Диск:'512 GB NVMe SSD', SSD:'512GB', GPU:'RTX 5050 8GB GDDR7', Видеокарта:'NVIDIA', Дисплей:'15.6" QHD 165Hz', Диагонал:'15.6"', ОС:'Windows 11 (без)', Батерия:'53.5 Wh', WiFi:'WiFi 6E', Warranty:'24 месеца'},
+    desc:'MSI Katana 15 HX с новия RTX 5050 и QHD 165Hz дисплей 100% DCI-P3 е перфектният гейминг лаптоп за среден клас. 4-Zone RGB клавиатура, DDR5-5200 памет и PCIe Gen4 SSD.',
+    reviews:[{name:'Михаил Д.',stars:5,date:'05.04.2026',text:'Страхотен gaming лаптоп за цената! RTX 5050 играе всичко.'},{name:'Стела Г.',stars:4,date:'02.04.2026',text:'QHD дисплеят е невероятен, цветовете са живи.'}] },
+
+  { id:262, sku:'MC-MSI-VECTOR16-028', ean:'4711377300742', img:'https://portal.mostbg.com/api/images/imageFileData/48292.png', name:'MSI Vector 16 HX AI Ultra 9 RTX 5080 QHD+', brand:'MSI', cat:'laptop', emoji:'💻', price:4875, old:null, badge:'hot', pct:0, rating:4.9, rv:7, stock:3,
+    specs:{Процесор:'Intel Core Ultra 9 275HX', CPU:'Intel Core Ultra', RAM:'32 GB', RAM_raw:'32GB', Диск:'1 TB NVMe SSD', SSD:'1TB', GPU:'RTX 5080 16GB GDDR7', Видеокарта:'NVIDIA', Дисплей:'16" QHD+ 240Hz 100% DCI-P3', Диагонал:'16"', ОС:'Windows 11 Home', Батерия:'90 Wh', WiFi:'WiFi 7', Warranty:'24 месеца'},
+    desc:'MSI Vector 16 HX AI е флагманският гейминг лаптоп с RTX 5080 и Thunderbolt 5. Intel Core Ultra 9 275HX, 32GB DDR5-6400, 24-Zone RGB клавиатура и Wi-Fi 7 за абсолютна производителност.',
+    reviews:[{name:'Александър Н.',stars:5,date:'07.04.2026',text:'Абсолютен звяр! RTX 5080 в лаптоп е невероятно.'},{name:'Гергана Т.',stars:5,date:'04.04.2026',text:'Thunderbolt 5 и WiFi 7 са просто феноменални.'}] },
+
+  { id:263, sku:'MC-MSI-STEALTH-276', ean:'4711377285056', img:'https://portal.mostbg.com/api/images/imageFileData/50117.png', name:'MSI Stealth A16 AI+ Ryzen AI 9 RTX 4060 OLED', brand:'MSI', cat:'laptop', emoji:'💻', price:4119, old:null, badge:'new', pct:0, rating:4.7, rv:9, stock:5,
+    specs:{Процесор:'AMD Ryzen AI 9 HX 370', CPU:'AMD Ryzen', RAM:'32 GB', RAM_raw:'32GB', Диск:'1 TB NVMe SSD', SSD:'1TB', GPU:'RTX 4060 8GB GDDR6', Видеокарта:'NVIDIA', Дисплей:'16" QHD+ OLED 240Hz 100% DCI-P3', Диагонал:'16"', ОС:'Windows 11 Home', Батерия:'99.9 Wh', WiFi:'WiFi 7', Warranty:'24 месеца'},
+    desc:'MSI Stealth A16 AI+ съчетава AMD Ryzen AI 9 с великолепен QHD+ OLED дисплей 240Hz и RTX 4060. Per-Key RGB клавиатура от SteelSeries, Wi-Fi 7 и огромна 99.9Wh батерия.',
+    reviews:[{name:'Петко В.',stars:5,date:'06.04.2026',text:'OLED дисплеят е невероятен! Ryzen AI 9 лети.'}] },
+
+  { id:264, sku:'MC-MSI-PRESTIGE13-218', ean:'4711377270670', img:'https://portal.mostbg.com/api/images/imageFileData/44121.png', name:'MSI Prestige 13 AI EVO Ultra 5 OLED 2.8K бял', brand:'MSI', cat:'laptop', emoji:'💻', price:1851, old:null, badge:'new', pct:0, rating:4.8, rv:15, stock:6,
+    specs:{Процесор:'Intel Core Ultra 5 125H', CPU:'Intel Core Ultra', RAM:'16 GB', RAM_raw:'16GB', Диск:'512 GB NVMe SSD', SSD:'512GB', GPU:'Intel Arc (интегрирана)', Видеокарта:'Интегрирана', Дисплей:'13.3" 2.8K OLED', Диагонал:'13.3"', ОС:'Windows 11 Home', Батерия:'LPDDR5 6400', WiFi:'WiFi 6E', Warranty:'24 месеца'},
+    desc:'MSI Prestige 13 AI EVO е ултра-тънкият бизнес лаптоп с 2.8K OLED дисплей и Intel Core Ultra 5. Перфектен за творци и бизнес потребители — само 1.26 кг в луксозен бял корпус.',
+    reviews:[{name:'Дарина С.',stars:5,date:'03.04.2026',text:'OLED 2.8K дисплеят е невероятен! Лек и красив.'},{name:'Тодор П.',stars:4,date:'01.04.2026',text:'Идеален за работа и пътуване.'}] },
+
+  { id:265, sku:'MC-MSI-CYBORG15-435', ean:'4711377393256', img:'https://portal.mostbg.com/api/images/imageFileData/51843.png', name:'MSI Cyborg 15 B2R Core 5 RTX 5050 FHD 144Hz', brand:'MSI', cat:'laptop', emoji:'💻', price:1767, old:null, badge:'new', pct:0, rating:4.5, rv:18, stock:12,
+    specs:{Процесор:'Intel Core 5 210H', CPU:'Intel Core 5', RAM:'16 GB', RAM_raw:'16GB', Диск:'512 GB NVMe SSD', SSD:'512GB', GPU:'RTX 5050 8GB GDDR7', Видеокарта:'NVIDIA', Дисплей:'15.6" FHD 144Hz', Диагонал:'15.6"', ОС:'Windows 11 (без)', Батерия:'52.4 Wh', WiFi:'WiFi 6', Warranty:'24 месеца'},
+    desc:'MSI Cyborg 15 с новия RTX 5050 и прозрачен дизайн е достъпният гейминг лаптоп. RGB подсветка, Intel Core 5 210H и 512GB PCIe SSD за страхотна стойност.',
+    reviews:[{name:'Николай Б.',stars:5,date:'04.04.2026',text:'За тази цена с RTX 5050 — фантастична сделка!'},{name:'Елена М.',stars:4,date:'02.04.2026',text:'Дизайнът е много готин, прозрачният корпус е unique.'}] },
+
+  { id:266, sku:'MC-LENO-LEGION5-7WBM', ean:'0198158884549', img:'https://portal.mostbg.com/api/images/imageFileData/51333.png', name:'Lenovo Legion 5 15 i7-14700HX RTX 5060 OLED', brand:'Lenovo', cat:'laptop', emoji:'💻', price:2931, old:null, badge:'new', pct:0, rating:4.8, rv:11, stock:7,
+    specs:{Процесор:'Intel Core i7-14700HX', CPU:'Intel Core i7', RAM:'32 GB', RAM_raw:'32GB', Диск:'1 TB NVMe SSD', SSD:'1TB', GPU:'RTX 5060 8GB GDDR7', Видеокарта:'NVIDIA', Дисплей:'15.1" WQXGA OLED 165Hz 100% DCI-P3', Диагонал:'15.6"', ОС:'Windows 11 (без)', Батерия:'80 Wh', WiFi:'WiFi 7', Warranty:'24 месеца'},
+    desc:'Lenovo Legion 5 с невероятен WQXGA OLED 165Hz дисплей и RTX 5060 GDDR7 е гейминг лаптопът с най-добрия дисплей за класа. Dolby Vision, DisplayHDR True Black 600 и Wi-Fi 7.',
+    reviews:[{name:'Борис Т.',stars:5,date:'08.04.2026',text:'OLED дисплеят на тази цена е невероятен!'},{name:'Силвия К.',stars:5,date:'05.04.2026',text:'RTX 5060 играе всичко отлично. Препоръчвам!'}] },
+
+  { id:267, sku:'MC-LENO-LOQ15-8TBM', ean:'0199274327224', img:'https://portal.mostbg.com/api/images/imageFileData/100478.png', name:'Lenovo LOQ 15 i7-13650HX RTX 5070 FHD G-Sync', brand:'Lenovo', cat:'laptop', emoji:'💻', price:2720, old:null, badge:'new', pct:0, rating:4.7, rv:8, stock:9,
+    specs:{Процесор:'Intel Core i7-13650HX', CPU:'Intel Core i7', RAM:'32 GB', RAM_raw:'32GB', Диск:'512 GB NVMe SSD', SSD:'512GB', GPU:'RTX 5070 8GB GDDR7', Видеокарта:'NVIDIA', Дисплей:'15.6" FHD 144Hz G-Sync', Диагонал:'15.6"', ОС:'Windows 11 (без)', Батерия:'60 Wh', WiFi:'WiFi 6', Warranty:'24 месеца'},
+    desc:'Lenovo LOQ 15 с RTX 5070 GDDR7 и G-Sync е достъпният premium гейминг лаптоп. 32GB DDR5, 5.0MP камера с E-shutter и Nahimic Audio за immersive гейминг изживяване.',
+    reviews:[{name:'Красимир А.',stars:5,date:'07.04.2026',text:'RTX 5070 за тази цена е несравнимо!'},{name:'Яна Р.',stars:4,date:'04.04.2026',text:'32GB RAM от кутията е голям плюс.'}] },
+
   // ── МРЕЖОВО ОБОРУДВАНЕ ───────────────────────────────────────────────────────
   { id:201, sku:'MC-TPLI-DECO-XE75', ean:'6935364091898', img:'https://static.tp-link.com/upload/product-overview/2022/202209/20220913/1663052267022a.jpg', name:'TP-Link Deco XE75 WiFi 6E Mesh 3-Pack', brand:'TP-Link', cat:'network', emoji:'📡', price:499, old:649, badge:'sale', pct:23, rating:4.7, rv:89,
     specs:{Стандарт:'WiFi 6E (802.11axe)', WiFi_стандарт:'WiFi 6E', Диапазони:'Три (2.4+5+6 GHz)', Скорост:'5400 Mbps', Обхват:'до 600 кв.м', Възли:'3', HomeShield:'Да', Warranty:'24 месеца'},

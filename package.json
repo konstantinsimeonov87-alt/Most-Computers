@@ -18,8 +18,11 @@
   },
   "homepage": "https://github.com/konstantinsimeonov87-alt/Most-Computers#readme",
   "devDependencies": {
+    "@fullhuman/postcss-purgecss": "^8.0.0",
     "jest": "^30.3.0",
     "jest-environment-jsdom": "^30.3.0",
-    "jsdom": "^28.1.0"
+    "jsdom": "^28.1.0",
+    "postcss": "^8.5.9",
+    "purgecss": "^8.0.0"
   }
 }

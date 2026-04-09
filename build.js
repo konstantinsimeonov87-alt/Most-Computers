@@ -83,17 +83,34 @@ jsFiles.forEach(({ src, dst }) => {
   }
 });
 
-// 4. Minify CSS
-console.log('\n🎨 Minifying CSS...');
+// 4. PurgeCSS + Minify CSS
+console.log('\n🎨 Purging + Minifying CSS...');
 const cssSrc = path.join(ROOT, 'styles.css');
 const cssDst = path.join(DIST, 'styles.css');
 if (fs.existsSync(cssSrc)) {
   const before = fs.statSync(cssSrc).size;
+  const tmpPurged = path.join(DIST, '_purged.css');
+  // Step 4a: PurgeCSS via separate script (keeps build.js synchronous)
   try {
-    execSync(`npx -y clean-css-cli "${cssSrc}" -o "${cssDst}"`, { cwd: ROOT });
+    const result = execSync(
+      `node "scripts/purge-css.js" "styles.css" "dist/_purged.css" "."`,
+      { cwd: ROOT, encoding: 'utf8' }
+    ).trim();
+    if (fs.existsSync(tmpPurged)) {
+      log(`styles.css purged: ${result}`);
+    }
+  } catch (purgeErr) {
+    warn('PurgeCSS failed, using original');
+    if (fs.existsSync(tmpPurged)) fs.unlinkSync(tmpPurged);
+  }
+  // Step 4b: Minify (purged if available, else original)
+  const cssMinfySrc = fs.existsSync(tmpPurged) ? tmpPurged : cssSrc;
+  try {
+    execSync(`npx -y clean-css-cli "${cssMinfySrc}" -o "${cssDst}"`, { cwd: ROOT });
+    if (fs.existsSync(tmpPurged)) fs.unlinkSync(tmpPurged);
     const after = fs.statSync(cssDst).size;
     const pct = Math.round((1 - after / before) * 100);
-    log(`styles.css: ${(before/1024).toFixed(1)} KB → ${(after/1024).toFixed(1)} KB (${pct}% smaller)`);
+    log(`styles.css minified: → ${(after/1024).toFixed(1)} KB (${pct}% vs original)`);
   } catch (e) {
     warn('Failed to minify CSS, copying as-is');
     fs.copyFileSync(cssSrc, cssDst);

@@ -356,9 +356,19 @@ function validateCkStep(step) {
   return true;
 }
 
+function _ckSetError(el, msg) {
+  const errEl = el.id ? document.getElementById(el.id + '-err') : null;
+  if (errEl) errEl.textContent = msg || '';
+}
+
 function ckValidateField(el) {
-  if (!el.value.trim()) { el.classList.add('error'); el.classList.remove('valid'); el.setAttribute('aria-invalid','true'); }
-  else { el.classList.remove('error'); el.classList.add('valid'); el.setAttribute('aria-invalid','false'); }
+  if (!el.value.trim()) {
+    el.classList.add('error'); el.classList.remove('valid'); el.setAttribute('aria-invalid','true');
+    _ckSetError(el, 'Полето е задължително.');
+  } else {
+    el.classList.remove('error'); el.classList.add('valid'); el.setAttribute('aria-invalid','false');
+    _ckSetError(el, '');
+  }
 }
 
 function ckValidateEmail(el) {
@@ -366,6 +376,7 @@ function ckValidateEmail(el) {
   el.classList.toggle('error', !ok);
   el.classList.toggle('valid', !!ok);
   el.setAttribute('aria-invalid', ok ? 'false' : 'true');
+  _ckSetError(el, ok ? '' : 'Въведи валиден имейл адрес.');
 }
 
 // BG phone: 08xx, 09xx, +359 8xx, 00359 8xx — at least 10 digits
@@ -375,6 +386,7 @@ function ckValidatePhone(el) {
   el.classList.toggle('error', !ok);
   el.classList.toggle('valid', ok);
   el.setAttribute('aria-invalid', ok ? 'false' : 'true');
+  _ckSetError(el, ok ? '' : 'Въведи валиден телефон (напр. 0888 123 456).');
 }
 
 // Auto-format phone as user types: 0888 123 456

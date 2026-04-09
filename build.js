@@ -51,6 +51,7 @@ const APP_SOURCES = [
   'js/recently-viewed.js', 'js/filters.js', 'js/order-tracker.js',
   'js/pwa.js', 'js/admin.js', 'js/product-page.js', 'js/pdp-ux.js',
   'js/seo.js', 'js/pages.js', 'js/actions.js', 'js/main.js',
+  'js/analytics.js',
 ];
 const bundle = APP_SOURCES.map(f => {
   if (!fs.existsSync(path.join(ROOT, f))) { err(`MISSING source: ${f}`); process.exit(1); }

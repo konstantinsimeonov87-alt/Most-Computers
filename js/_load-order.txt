@@ -17,3 +17,4 @@ js/pages.js
 js/actions.js
 js/admin-loader.js
 js/main.js
+js/analytics.js

@@ -1927,13 +1927,14 @@
  }
 
  .product-name {
-   font-size: 13px;
+   font-size: 14px;
    font-weight: 600;
    color: var(--text);
    line-height: 1.4;
    margin-bottom: 8px;
    display: -webkit-box;
    -webkit-line-clamp: 2;
+   line-clamp: 2;
    -webkit-box-orient: vertical;
    overflow: hidden;
    flex: 1;
@@ -2159,6 +2160,8 @@
 
  .nl-input:focus {
    border-color: var(--primary);
+   box-shadow: 0 0 0 3px rgba(189, 17, 5, 0.25);
+   outline: none;
  }
 
  .nl-btn {
@@ -5312,12 +5315,8 @@
    display: flex;
  }
 
- /* Push content up on mobile when bottom nav visible */
+ /* Push content up on mobile when bottom nav visible (legacy block — padding handled by mob-bottom-nav @media below) */
  @media(max-width: 768px) {
-   body {
-     padding-bottom: 68px;
-   }
-
    .cookie-banner {
      bottom: 68px;
      transform: translateY(calc(100% + 68px));
@@ -6746,7 +6745,7 @@
    }
  }
 
- .ty-addr-item {}
+ .ty-addr-item { display: flex; flex-direction: column; }
 
  .ty-addr-label {
    font-size: 10px;
@@ -7834,6 +7833,7 @@
    color: var(--text);
    display: -webkit-box;
    -webkit-line-clamp: 2;
+   line-clamp: 2;
    -webkit-box-orient: vertical;
    overflow: hidden;
  }
@@ -11864,6 +11864,7 @@
    overflow: hidden;
    display: -webkit-box;
    -webkit-line-clamp: 2;
+   line-clamp: 2;
    -webkit-box-orient: vertical;
  }
 

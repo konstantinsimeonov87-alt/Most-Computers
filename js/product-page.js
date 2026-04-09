@@ -99,7 +99,14 @@ function openProductPage(id) {
   const inStock = p.stock !== false;
   const stockEl = document.getElementById('pdpStock');
   stockEl.className = 'pdp-stock ' + (inStock ? 'in' : 'out');
-  document.getElementById('pdpStockTxt').textContent = inStock ? 'В наличност' : 'Изчерпан';
+  const stockNum = typeof p.stock === 'number' && p.stock > 0 ? p.stock : null;
+  let stockTxt = 'Изчерпан';
+  if (inStock) {
+    if (stockNum !== null && stockNum <= 5) stockTxt = `🔥 Само ${stockNum} бр. в наличност!`;
+    else if (stockNum !== null && stockNum <= 10) stockTxt = `⚡ Последни ${stockNum} бр.`;
+    else stockTxt = '✓ В наличност';
+  }
+  document.getElementById('pdpStockTxt').textContent = stockTxt;
   // Show/hide back-in-stock notify button
   const bisBtn = document.getElementById('pdpNotifyStock');
   if (bisBtn) bisBtn.style.display = inStock ? 'none' : 'flex';

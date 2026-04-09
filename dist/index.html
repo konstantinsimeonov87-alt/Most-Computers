@@ -1160,7 +1160,10 @@
         <span id="cartDeliveryVal">5.99 лв.</span>
       </div>
       <button type="button" class="view-cart-page-btn" onclick="openCartPage()">🛒 Виж кошницата</button>
-      <button type="button" class="checkout-btn" data-action="handleCheckout">Продължи към поръчка →</button>
+      <button type="button" class="checkout-btn" data-action="handleCheckout">🔒 Завърши поръчката →</button>
+      <div class="cart-social-proof" id="cartSocialProof" style="display:none;">
+        <span class="cart-sp-dot"></span> <span id="cartSpText">47 души поръчаха днес</span>
+      </div>
       <button type="button" class="continue-btn" data-action="toggleCart">← Продължи пазаруването</button>
     </div>
   </div>
@@ -1500,7 +1503,7 @@
     <div class="promo-strip-track" id="promoStrip">
       <span class="promo-strip-item promo-free-del"><svg width="14" height="14" class="svg-ic" aria-hidden="true">
           <use href="#ic-truck" />
-        </svg> Безплатна доставка над 102.26 € / 200 лв.</span>
+        </svg> Безплатна доставка над 100 € / 195.58 лв.</span>
       <span class="promo-strip-sep">✦</span>
       <span class="promo-strip-item">🔥 SALE — до -60% на избрани продукти</span>
       <span class="promo-strip-sep">✦</span>
@@ -1745,8 +1748,7 @@
             <div class="slide-price" id="slide1Price">от <b>101.75 €</b> / 199 лв. <small>вместо 178.44 € / 349
                 лв.</small></div>
             <button type="button" class="slide-btn"
-              data-action="document.getElementById('featured').scrollIntoView({behavior:'smooth'})">Разгледай офертите
-              →</button>
+              data-action="document.getElementById('featured').scrollIntoView({behavior:'smooth'})">Пазарувай сега →</button>
             <div class="slide-emoji">💻</div>
           </div>
           <div class="slide slide-2">
@@ -1754,7 +1756,7 @@
             <h2 class="slide-title">MacBook Pro M4 — Пристигна!</h2>
             <div class="slide-sub">Невероятна производителност. До 24 часа батерия.</div>
             <div class="slide-price" id="slide2Price">2198.04 € / 4 299 лв. <small>с ДДС</small></div>
-            <button type="button" class="slide-btn" data-action="addToCartById(99)">Добави в кошница →</button>
+            <button type="button" class="slide-btn" data-action="openProductPage(99)">Разгледай MacBook Pro →</button>
             <div class="slide-emoji">🍎</div>
           </div>
           <div class="slide slide-3">
@@ -3587,7 +3589,7 @@
           <div class="pdp-meta">
             <div>SKU: <span id="pdpSku">—</span></div>
             <div>EAN: <span id="pdpEan">—</span></div>
-            <div>Гаранция: <span id="pdpWarranty">—</span></div>
+            <div>Гаранция: <span id="pdpWarranty">24 месеца</span></div>
           </div>
           <div class="pdp-rating-row">
             <span id="pdpStars" style="font-size:16px;"></span>

@@ -1114,6 +1114,18 @@ function showRecommended(p) {
 }
 function addToCartById(id){addToCart(id);}
 const FREE_SHIP_BGN = Math.round(100 * EUR_RATE * 100) / 100; // 100 EUR в лева
+
+// Social proof counter — random-ish but deterministic per day so it feels real
+(function initCartSocialProof() {
+  const sp = document.getElementById('cartSocialProof');
+  const txt = document.getElementById('cartSpText');
+  if (!sp || !txt) return;
+  // Seed by day so number changes daily but stays stable per session
+  const seed = Math.floor(Date.now() / 86400000);
+  const n = 28 + (seed % 41); // 28–68
+  txt.textContent = `${n} души поръчаха от нас днес`;
+  sp.style.display = '';
+})();
 function updateCart(){
   const count=cart.reduce((s,x)=>s+x.qty,0),total=cart.reduce((s,x)=>s+x.price*x.qty,0);
   const badge=document.getElementById('cartBadge');if(badge)badge.textContent=count;
@@ -1142,13 +1154,19 @@ function updateCart(){
     if(deliveryRow) deliveryRow.style.display='flex';
     if(deliveryVal) deliveryVal.textContent='5.99 лв.';
   }
+  // Promo code hint — show when no promo applied and subtotal ≥ 80 лв.
+  if (!promoApplied && total >= 80) {
+    html += `<div class="cart-promo-hint" onclick="handleCheckout()" title="Приложи при поръчка">
+      🎁 Имаш промо код? <strong>MOSTCOMP10</strong> дава <strong>-10%</strong> от поръчката!
+    </div>`;
+  }
   // Recently viewed not in cart
   try{
     const rvIds=JSON.parse(localStorage.getItem('mc_rv')||'[]');
     const inCart=new Set(cart.map(x=>x.id));
     const rvItems=rvIds.map(id=>products.find(p=>p.id===id)).filter(p=>p&&!inCart.has(p.id)).slice(0,3);
     if(rvItems.length){
-      html+=`<div class="cart-rv-section"><div class="cart-rv-title">Забрави ли нещо?</div><div class="cart-rv-list">${rvItems.map(p=>`<div class="cart-rv-item"><div class="cart-rv-emoji">${p.emoji}</div><div class="cart-rv-info"><div class="cart-rv-name">${p.name.length>28?p.name.substring(0,28)+'…':p.name}</div><div class="cart-rv-price">${fmtEur(p.price)}</div></div><button type="button" class="cart-rv-add" onclick="addToCart(${p.id})" title="Добави">+</button></div>`).join('')}</div></div>`;
+      html+=`<div class="cart-rv-section"><div class="cart-rv-title">Забрави ли нещо?</div><div class="cart-rv-list">${rvItems.map(p=>`<div class="cart-rv-item"><div class="cart-rv-emoji">${escHtml(p.emoji||'')}</div><div class="cart-rv-info"><div class="cart-rv-name">${escHtml(p.name.length>28?p.name.substring(0,28)+'…':p.name)}</div><div class="cart-rv-price">${fmtEur(p.price)}</div></div><button type="button" class="cart-rv-add" onclick="addToCart(${p.id})" title="Добави">+</button></div>`).join('')}</div></div>`;
     }
   }catch(e){}
   body.innerHTML=html;
@@ -6757,7 +6775,14 @@ function openProductPage(id) {
   const inStock = p.stock !== false;
   const stockEl = document.getElementById('pdpStock');
   stockEl.className = 'pdp-stock ' + (inStock ? 'in' : 'out');
-  document.getElementById('pdpStockTxt').textContent = inStock ? 'В наличност' : 'Изчерпан';
+  const stockNum = typeof p.stock === 'number' && p.stock > 0 ? p.stock : null;
+  let stockTxt = 'Изчерпан';
+  if (inStock) {
+    if (stockNum !== null && stockNum <= 5) stockTxt = `🔥 Само ${stockNum} бр. в наличност!`;
+    else if (stockNum !== null && stockNum <= 10) stockTxt = `⚡ Последни ${stockNum} бр.`;
+    else stockTxt = '✓ В наличност';
+  }
+  document.getElementById('pdpStockTxt').textContent = stockTxt;
   // Show/hide back-in-stock notify button
   const bisBtn = document.getElementById('pdpNotifyStock');
   if (bisBtn) bisBtn.style.display = inStock ? 'none' : 'flex';

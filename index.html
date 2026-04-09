@@ -796,7 +796,7 @@
   <div class="modal-backdrop" id="productModalBackdrop" data-action="closeProductModal:event" role="dialog"
     aria-modal="true" aria-label="Детайли за продукт">
     <div class="product-modal" id="productModal">
-      <button type="button" class="modal-close" data-action="closeProductModalDirect"><svg width="18" height="18"
+      <button type="button" class="modal-close" data-action="closeProductModalDirect" aria-label="Затвори"><svg width="18" height="18"
           class="svg-ic" aria-hidden="true">
           <use href="#ic-close" />
         </svg></button>
@@ -896,7 +896,7 @@
     <div class="compare-modal">
       <div class="compare-modal-header">
         <div class="compare-modal-title">⚖ Сравнение на продукти</div>
-        <button type="button" class="compare-modal-close" data-action="closeCompareModalDirect"><svg width="18"
+        <button type="button" class="compare-modal-close" data-action="closeCompareModalDirect" aria-label="Затвори"><svg width="18"
             height="18" class="svg-ic" aria-hidden="true">
             <use href="#ic-close" />
           </svg></button>
@@ -928,12 +928,12 @@
       </div>
       <div class="qo-body" id="qoFormWrap">
         <div class="qo-form-row">
-          <label>Вашето име *</label>
-          <input type="text" class="qo-input" id="qoName2" placeholder="Иван Петров">
+          <label for="qoName2">Вашето име *</label>
+          <input type="text" class="qo-input" id="qoName2" placeholder="Иван Петров" autocomplete="name">
         </div>
         <div class="qo-form-row">
-          <label>Телефон за връзка *</label>
-          <input type="tel" class="qo-input" id="qoPhone" placeholder="08X XXX XXXX">
+          <label for="qoPhone">Телефон за връзка *</label>
+          <input type="tel" class="qo-input" id="qoPhone" placeholder="08X XXX XXXX" autocomplete="tel">
         </div>
         <div class="qo-address-toggle">
           <button type="button" class="qo-toggle-btn"
@@ -1010,13 +1010,13 @@
         <div class="auth-form active" id="formLogin">
           <div class="auth-error-msg" id="loginError">⚠ Грешен имейл или парола!</div>
           <div class="auth-field">
-            <label>Имейл адрес</label>
-            <input type="email" class="auth-input" id="loginEmail" placeholder="example@mail.bg">
+            <label for="loginEmail">Имейл адрес</label>
+            <input type="email" class="auth-input" id="loginEmail" placeholder="example@mail.bg" autocomplete="email">
           </div>
           <div class="auth-field">
-            <label>Парола</label>
+            <label for="loginPassword">Парола</label>
             <div class="auth-input-wrap">
-              <input type="password" class="auth-input" id="loginPassword" placeholder="••••••••">
+              <input type="password" class="auth-input" id="loginPassword" placeholder="••••••••" autocomplete="current-password">
               <button type="button" class="auth-eye" data-action="togglePwVis:loginPassword,this">👁</button>
             </div>
           </div>
@@ -1038,27 +1038,27 @@
           <div class="auth-error-msg" id="registerError">⚠ Моля провери данните!</div>
           <div class="auth-row2">
             <div class="auth-field">
-              <label>Име</label>
-              <input type="text" class="auth-input" id="regFirstName" placeholder="Иван">
+              <label for="regFirstName">Име</label>
+              <input type="text" class="auth-input" id="regFirstName" placeholder="Иван" autocomplete="given-name">
             </div>
             <div class="auth-field">
-              <label>Фамилия</label>
-              <input type="text" class="auth-input" id="regLastName" placeholder="Петров">
+              <label for="regLastName">Фамилия</label>
+              <input type="text" class="auth-input" id="regLastName" placeholder="Петров" autocomplete="family-name">
             </div>
           </div>
           <div class="auth-field">
-            <label>Имейл адрес</label>
-            <input type="email" class="auth-input" id="regEmail" placeholder="example@mail.bg">
+            <label for="regEmail">Имейл адрес</label>
+            <input type="email" class="auth-input" id="regEmail" placeholder="example@mail.bg" autocomplete="email">
           </div>
           <div class="auth-field">
-            <label>Телефон (по желание)</label>
-            <input type="tel" class="auth-input" id="regPhone" placeholder="08X XXX XXXX">
+            <label for="regPhone">Телефон (по желание)</label>
+            <input type="tel" class="auth-input" id="regPhone" placeholder="08X XXX XXXX" autocomplete="tel">
           </div>
           <div class="auth-field">
-            <label>Парола</label>
+            <label for="regPassword">Парола</label>
             <div class="auth-input-wrap">
               <input type="password" class="auth-input" id="regPassword" placeholder="Мин. 6 символа"
-                oninput="checkPwStrength(this.value)">
+                oninput="checkPwStrength(this.value)" autocomplete="new-password">
               <button type="button" class="auth-eye" data-action="togglePwVis:regPassword,this">👁</button>
             </div>
             <div class="pw-strength">
@@ -1069,9 +1069,9 @@
             </div>
           </div>
           <div class="auth-field">
-            <label>Потвърди парола</label>
+            <label for="regPassword2">Потвърди парола</label>
             <div class="auth-input-wrap">
-              <input type="password" class="auth-input" id="regPassword2" placeholder="Повтори паролата">
+              <input type="password" class="auth-input" id="regPassword2" placeholder="Повтори паролата" autocomplete="new-password">
               <button type="button" class="auth-eye" data-action="togglePwVis:regPassword2,this">👁</button>
             </div>
           </div>
@@ -1739,7 +1739,7 @@
     <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleMobileFilters()"></div>
 
     <!-- CONTENT -->
-    <main id="mainContent" class="content-area">
+    <div id="mainContent" class="content-area">
 
       <!-- HERO SLIDER -->
       <div class="hero-section">
@@ -2064,15 +2064,15 @@
               </div>
               <div class="checkout-card-body">
                 <div class="ck-row2">
-                  <div class="ck-field"><label>Име *</label><input class="ck-input" id="ckFirst" placeholder="Иван"
-                      onblur="ckValidateField(this)"></div>
-                  <div class="ck-field"><label>Фамилия *</label><input class="ck-input" id="ckLast" placeholder="Петров"
-                      onblur="ckValidateField(this)"></div>
+                  <div class="ck-field"><label for="ckFirst">Име *</label><input class="ck-input" id="ckFirst" placeholder="Иван"
+                      onblur="ckValidateField(this)" autocomplete="given-name"></div>
+                  <div class="ck-field"><label for="ckLast">Фамилия *</label><input class="ck-input" id="ckLast" placeholder="Петров"
+                      onblur="ckValidateField(this)" autocomplete="family-name"></div>
                 </div>
-                <div class="ck-field"><label>Имейл *</label><input type="email" class="ck-input" id="ckEmail"
-                    placeholder="ivan@mail.bg" onblur="ckValidateEmail(this)"></div>
-                <div class="ck-field"><label>Телефон *</label><input type="tel" class="ck-input" id="ckPhone"
-                    placeholder="0888 123 456" onblur="ckValidatePhone(this)" oninput="ckFormatPhone(this)"></div>
+                <div class="ck-field"><label for="ckEmail">Имейл *</label><input type="email" class="ck-input" id="ckEmail"
+                    placeholder="ivan@mail.bg" onblur="ckValidateEmail(this)" autocomplete="email"></div>
+                <div class="ck-field"><label for="ckPhone">Телефон *</label><input type="tel" class="ck-input" id="ckPhone"
+                    placeholder="0888 123 456" onblur="ckValidatePhone(this)" oninput="ckFormatPhone(this)" autocomplete="tel"></div>
                 <div class="ck-step-nav">
                   <span class="ck-req-note">* Задължителни полета</span>
                   <button type="button" class="ck-next-btn" onclick="ckNextStep(1)">Продължи към доставка ›</button>
@@ -2469,7 +2469,7 @@
         <div class="cookie-modal">
           <div class="cookie-modal-header">
             🍪 Настройки за бисквитки
-            <button type="button" class="cookie-modal-close" data-action="closeCookieSettingsDirect">×</button>
+            <button type="button" class="cookie-modal-close" data-action="closeCookieSettingsDirect" aria-label="Затвори">×</button>
           </div>
           <div class="cookie-modal-body">
             <div class="cookie-toggle-row">
@@ -2702,7 +2702,7 @@
           </div>
 
         </div>
-    </main>
+    </div>
   </main>
 
   <!-- MY ORDERS PAGE -->

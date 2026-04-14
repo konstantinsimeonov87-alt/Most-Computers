@@ -3240,6 +3240,7 @@ function filterCat(cat) {
   } else if (typeof restorePageMeta === 'function' && (!cat || cat === 'all')) {
     restorePageMeta();
   }
+  if (typeof injectCategoryItemList === 'function') injectCategoryItemList(cat);
 }
 
 // Init on load
@@ -7093,8 +7094,8 @@ function openProductPage(id) {
       bcSet([{ label: _bcCatLabel, fn: _bcCatFn }]);
     };
     bcSet([
-      { label: _bcCatLabel, fn: _bcCatFn },
-      { label: p.name, fn: null }
+      { label: _bcCatLabel, url: `https://mostcomputers.bg/?cat=${p.cat}`, fn: _bcCatFn },
+      { label: p.name, url: `https://mostcomputers.bg/?product=${p.id}`, fn: null }
     ]);
   }
   document.title = p.name + ' | Most Computers';
@@ -8501,6 +8502,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+// ===== ItemList schema for category pages =====
+function injectCategoryItemList(cat) {
+  let el = document.getElementById('category-jsonld');
+  if (!el) { el = document.createElement('script'); el.type = 'application/ld+json'; el.id = 'category-jsonld'; document.head.appendChild(el); }
+  if (!cat || cat === 'all') { el.textContent = ''; return; }
+  const list = (typeof getFilteredSorted === 'function')
+    ? getFilteredSorted().slice(0, 20)
+    : (typeof products !== 'undefined' ? products.filter(p => p.cat === cat).slice(0, 20) : []);
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": (typeof CAT_LABELS !== 'undefined' && CAT_LABELS[cat]) ? CAT_LABELS[cat] + ' — Most Computers' : cat,
+    "url": `https://mostcomputers.bg/?cat=${cat}`,
+    "numberOfItems": list.length,
+    "itemListElement": list.map((p, i) => ({
+      "@type": "ListItem",
+      "position": i + 1,
+      "url": `https://mostcomputers.bg/?product=${p.id}`,
+      "name": p.name
+    }))
+  };
+  el.textContent = JSON.stringify(schema);
+}
+
 // ===== 5. JSON-LD STRUCTURED DATA =====
 function injectProductSchema(p) {
   let el = document.getElementById('product-jsonld');
@@ -9238,26 +9263,44 @@ function openBlogPage() {
     </div>`).join('');
   document.getElementById('blogPage').classList.add('open');
   document.body.style.overflow = 'hidden';
+  if (typeof setPageMeta === 'function') setPageMeta('Блог — Most Computers', 'Ревюта, сравнения и съвети за компютри, лаптопи и електроника от екипа на Most Computers.');
+  if (typeof bcOnPage === 'function') bcOnPage('Блог');
+  try { history.pushState({ page: 'blog' }, '', '?page=blog'); } catch(e) {}
 }
 function closeBlogPage() {
   document.getElementById('blogPage').classList.remove('open');
   document.body.style.overflow = '';
+  if (typeof restorePageMeta === 'function') restorePageMeta();
+  if (typeof bcSet === 'function') bcSet([]);
+  try { history.pushState(null, '', window.location.pathname); } catch(e) {}
 }
 function openServicePage() {
   document.getElementById('servicePage').classList.add('open');
   document.body.style.overflow = 'hidden';
+  if (typeof setPageMeta === 'function') setPageMeta('Сервизен център — Most Computers', 'Сертифициран сервиз за лаптопи, компютри и електроника. Диагностика, ремонт и гаранционно обслужване в Most Computers.');
+  if (typeof bcOnPage === 'function') bcOnPage('Сервизен център');
+  try { history.pushState({ page: 'service' }, '', '?page=service'); } catch(e) {}
 }
 function closeServicePage() {
   document.getElementById('servicePage').classList.remove('open');
   document.body.style.overflow = '';
+  if (typeof restorePageMeta === 'function') restorePageMeta();
+  if (typeof bcSet === 'function') bcSet([]);
+  try { history.pushState(null, '', window.location.pathname); } catch(e) {}
 }
 function openDeliveryPage() {
   document.getElementById('deliveryPage').classList.add('open');
   document.body.style.overflow = 'hidden';
+  if (typeof setPageMeta === 'function') setPageMeta('Доставка и плащане — Most Computers', 'Безплатна доставка при поръчки над 100 €. Доставяме с куриер в рамките на 1-3 работни дни в цяла България.');
+  if (typeof bcOnPage === 'function') bcOnPage('Доставка и плащане');
+  try { history.pushState({ page: 'delivery' }, '', '?page=delivery'); } catch(e) {}
 }
 function closeDeliveryPage() {
   document.getElementById('deliveryPage').classList.remove('open');
   document.body.style.overflow = '';
+  if (typeof restorePageMeta === 'function') restorePageMeta();
+  if (typeof bcSet === 'function') bcSet([]);
+  try { history.pushState(null, '', window.location.pathname); } catch(e) {}
 }
 function filterCatScroll(type) {
   if (type === 'sale') {
@@ -9402,6 +9445,8 @@ function openAboutPage() {
   page.style.flexDirection = 'column';
   requestAnimationFrame(() => page.classList.add('open'));
   document.body.style.overflow = 'hidden';
+  if (typeof setPageMeta === 'function') setPageMeta('За нас — Most Computers', 'Most Computers — над 27 години опит в продажбата на компютри и електроника. Специализиран магазин в центъра на София.');
+  if (typeof bcOnPage === 'function') bcOnPage('За нас');
   try{history.pushState({ page: 'about' }, '', '?page=about');}catch(e){}
 }
 function closeAboutPage() {
@@ -9410,6 +9455,8 @@ function closeAboutPage() {
   page.classList.remove('open');
   setTimeout(() => { page.style.display = 'none'; }, 300);
   document.body.style.overflow = '';
+  if (typeof restorePageMeta === 'function') restorePageMeta();
+  if (typeof bcSet === 'function') bcSet([]);
   try{history.back();}catch(e){}
 }
 

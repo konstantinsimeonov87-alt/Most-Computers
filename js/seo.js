@@ -97,6 +97,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+// ===== ItemList schema for category pages =====
+function injectCategoryItemList(cat) {
+  let el = document.getElementById('category-jsonld');
+  if (!el) { el = document.createElement('script'); el.type = 'application/ld+json'; el.id = 'category-jsonld'; document.head.appendChild(el); }
+  if (!cat || cat === 'all') { el.textContent = ''; return; }
+  const list = (typeof getFilteredSorted === 'function')
+    ? getFilteredSorted().slice(0, 20)
+    : (typeof products !== 'undefined' ? products.filter(p => p.cat === cat).slice(0, 20) : []);
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": (typeof CAT_LABELS !== 'undefined' && CAT_LABELS[cat]) ? CAT_LABELS[cat] + ' — Most Computers' : cat,
+    "url": `https://mostcomputers.bg/?cat=${cat}`,
+    "numberOfItems": list.length,
+    "itemListElement": list.map((p, i) => ({
+      "@type": "ListItem",
+      "position": i + 1,
+      "url": `https://mostcomputers.bg/?product=${p.id}`,
+      "name": p.name
+    }))
+  };
+  el.textContent = JSON.stringify(schema);
+}
+
 // ===== 5. JSON-LD STRUCTURED DATA =====
 function injectProductSchema(p) {
   let el = document.getElementById('product-jsonld');

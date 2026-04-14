@@ -26,8 +26,8 @@ function openProductPage(id) {
       bcSet([{ label: _bcCatLabel, fn: _bcCatFn }]);
     };
     bcSet([
-      { label: _bcCatLabel, fn: _bcCatFn },
-      { label: p.name, fn: null }
+      { label: _bcCatLabel, url: `https://mostcomputers.bg/?cat=${p.cat}`, fn: _bcCatFn },
+      { label: p.name, url: `https://mostcomputers.bg/?product=${p.id}`, fn: null }
     ]);
   }
   document.title = p.name + ' | Most Computers';

@@ -42,26 +42,44 @@ function openBlogPage() {
     </div>`).join('');
   document.getElementById('blogPage').classList.add('open');
   document.body.style.overflow = 'hidden';
+  if (typeof setPageMeta === 'function') setPageMeta('Блог — Most Computers', 'Ревюта, сравнения и съвети за компютри, лаптопи и електроника от екипа на Most Computers.');
+  if (typeof bcOnPage === 'function') bcOnPage('Блог');
+  try { history.pushState({ page: 'blog' }, '', '?page=blog'); } catch(e) {}
 }
 function closeBlogPage() {
   document.getElementById('blogPage').classList.remove('open');
   document.body.style.overflow = '';
+  if (typeof restorePageMeta === 'function') restorePageMeta();
+  if (typeof bcSet === 'function') bcSet([]);
+  try { history.pushState(null, '', window.location.pathname); } catch(e) {}
 }
 function openServicePage() {
   document.getElementById('servicePage').classList.add('open');
   document.body.style.overflow = 'hidden';
+  if (typeof setPageMeta === 'function') setPageMeta('Сервизен център — Most Computers', 'Сертифициран сервиз за лаптопи, компютри и електроника. Диагностика, ремонт и гаранционно обслужване в Most Computers.');
+  if (typeof bcOnPage === 'function') bcOnPage('Сервизен център');
+  try { history.pushState({ page: 'service' }, '', '?page=service'); } catch(e) {}
 }
 function closeServicePage() {
   document.getElementById('servicePage').classList.remove('open');
   document.body.style.overflow = '';
+  if (typeof restorePageMeta === 'function') restorePageMeta();
+  if (typeof bcSet === 'function') bcSet([]);
+  try { history.pushState(null, '', window.location.pathname); } catch(e) {}
 }
 function openDeliveryPage() {
   document.getElementById('deliveryPage').classList.add('open');
   document.body.style.overflow = 'hidden';
+  if (typeof setPageMeta === 'function') setPageMeta('Доставка и плащане — Most Computers', 'Безплатна доставка при поръчки над 100 €. Доставяме с куриер в рамките на 1-3 работни дни в цяла България.');
+  if (typeof bcOnPage === 'function') bcOnPage('Доставка и плащане');
+  try { history.pushState({ page: 'delivery' }, '', '?page=delivery'); } catch(e) {}
 }
 function closeDeliveryPage() {
   document.getElementById('deliveryPage').classList.remove('open');
   document.body.style.overflow = '';
+  if (typeof restorePageMeta === 'function') restorePageMeta();
+  if (typeof bcSet === 'function') bcSet([]);
+  try { history.pushState(null, '', window.location.pathname); } catch(e) {}
 }
 function filterCatScroll(type) {
   if (type === 'sale') {
@@ -206,6 +224,8 @@ function openAboutPage() {
   page.style.flexDirection = 'column';
   requestAnimationFrame(() => page.classList.add('open'));
   document.body.style.overflow = 'hidden';
+  if (typeof setPageMeta === 'function') setPageMeta('За нас — Most Computers', 'Most Computers — над 27 години опит в продажбата на компютри и електроника. Специализиран магазин в центъра на София.');
+  if (typeof bcOnPage === 'function') bcOnPage('За нас');
   try{history.pushState({ page: 'about' }, '', '?page=about');}catch(e){}
 }
 function closeAboutPage() {
@@ -214,6 +234,8 @@ function closeAboutPage() {
   page.classList.remove('open');
   setTimeout(() => { page.style.display = 'none'; }, 300);
   document.body.style.overflow = '';
+  if (typeof restorePageMeta === 'function') restorePageMeta();
+  if (typeof bcSet === 'function') bcSet([]);
   try{history.back();}catch(e){}
 }
 

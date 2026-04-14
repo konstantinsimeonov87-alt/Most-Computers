@@ -459,6 +459,7 @@ function filterCat(cat) {
   } else if (typeof restorePageMeta === 'function' && (!cat || cat === 'all')) {
     restorePageMeta();
   }
+  if (typeof injectCategoryItemList === 'function') injectCategoryItemList(cat);
 }
 
 // Init on load

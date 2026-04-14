@@ -8,206 +8,212 @@
   <meta name="robots" content="noindex, nofollow">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --primary: #bd1105;
-      --bg: #f8f9fa;
-      --text: #1a1a1a;
-      --text2: #555e6d;
-      --border: #e5e7eb;
-      --white: #fff;
-      --radius: 12px;
-    }
-    html { scroll-behavior: smooth; }
     body {
       font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-      background: var(--bg);
-      color: var(--text);
+      background: #fff;
+      color: #111;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      padding: 24px;
-      text-align: center;
+      padding: 32px 24px;
     }
 
-    /* Header strip */
-    .top-bar {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      height: 56px;
-      background: var(--white);
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      padding: 0 24px;
-      gap: 10px;
-    }
-    .top-bar-logo {
+    .logo {
       font-size: 15px;
       font-weight: 900;
-      color: var(--primary);
+      color: #bd1105;
+      letter-spacing: .05em;
       text-decoration: none;
-      letter-spacing: -.01em;
+      margin-bottom: 36px;
+      align-self: flex-start;
     }
-    .top-bar-logo span { color: var(--text); }
+    .logo span { color: #111; }
 
-    /* Main card */
-    .card {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 48px 40px;
-      max-width: 480px;
-      width: 100%;
-      box-shadow: 0 4px 24px rgba(0,0,0,.07);
-    }
+    /* SVG illustration */
+    .illo { width: 140px; height: 140px; margin-bottom: 12px; }
 
-    .error-code {
-      font-size: 96px;
-      font-weight: 900;
-      line-height: 1;
-      background: linear-gradient(135deg, var(--primary), #ff6b00);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin-bottom: 8px;
-    }
-    .error-icon {
-      font-size: 48px;
-      margin-bottom: 16px;
-    }
     .error-title {
-      font-size: 22px;
-      font-weight: 800;
-      margin-bottom: 10px;
-    }
-    .error-desc {
-      font-size: 14px;
-      color: var(--text2);
-      line-height: 1.6;
-      margin-bottom: 32px;
-    }
-
-    .btn-group {
-      display: flex;
-      gap: 12px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 12px 22px;
-      border-radius: var(--radius);
-      font-size: 14px;
+      font-size: 12px;
       font-weight: 700;
-      text-decoration: none;
-      cursor: pointer;
-      transition: all .18s;
-      border: none;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: #111;
+      margin: 10px 0 4px;
     }
-    .btn-primary {
-      background: var(--primary);
-      color: #fff;
+    .error-sub {
+      font-size: 10px;
+      color: #888;
+      letter-spacing: .06em;
+      text-transform: uppercase;
     }
-    .btn-primary:hover { background: #9a0e04; transform: translateY(-1px); }
-    .btn-ghost {
-      background: var(--bg);
-      color: var(--text);
-      border: 1.5px solid var(--border);
-    }
-    .btn-ghost:hover { background: #eee; transform: translateY(-1px); }
 
-    /* Quick links */
-    .quick-links {
-      margin-top: 32px;
-      padding-top: 24px;
-      border-top: 1px solid var(--border);
+    hr {
+      width: 36px;
+      border: none;
+      border-top: 2px solid #bd1105;
+      margin: 24px auto;
     }
-    .quick-links-title {
-      font-size: 11px;
+
+    .help-title {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .help-desc {
+      font-size: 12px;
+      color: #666;
+      line-height: 1.7;
+      max-width: 300px;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    /* Form */
+    .form {
+      width: 100%;
+      max-width: 320px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    label {
+      font-size: 10px;
       font-weight: 700;
       letter-spacing: .08em;
       text-transform: uppercase;
-      color: #9ca3af;
-      margin-bottom: 14px;
+      color: #444;
     }
-    .quick-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
+    input, textarea {
+      width: 100%;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 10px 12px;
+      font-size: 12px;
+      font-family: inherit;
+      outline: none;
+      resize: none;
+      transition: border-color .15s;
     }
-    .quick-item {
+    input:focus, textarea:focus { border-color: #bd1105; }
+    textarea { height: 80px; }
+
+    .btn {
+      background: #bd1105;
+      color: #fff;
+      border: none;
+      padding: 12px 16px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 8px;
-      padding: 10px 12px;
-      background: var(--bg);
-      border-radius: 8px;
-      border: 1px solid var(--border);
+      justify-content: space-between;
+      font-family: inherit;
+      transition: background .15s;
+    }
+    .btn:hover { background: #9a0e04; }
+    .btn span { font-size: 16px; }
+
+    .home {
+      margin-top: 16px;
+      font-size: 11px;
+      color: #bd1105;
       text-decoration: none;
+      font-weight: 700;
+      letter-spacing: .04em;
+    }
+    .home:hover { text-decoration: underline; }
+
+    .countdown {
+      margin-top: 10px;
+      font-size: 10px;
+      color: #bbb;
+      letter-spacing: .04em;
+    }
+    .countdown span { color: #bd1105; font-weight: 700; }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: #111;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 8px;
       font-size: 13px;
       font-weight: 600;
-      color: var(--text);
-      transition: all .15s;
+      transition: transform .3s;
+      white-space: nowrap;
+      z-index: 999;
     }
-    .quick-item:hover { background: #fff5f5; border-color: var(--primary); color: var(--primary); }
-
-    /* Redirect countdown */
-    .countdown {
-      margin-top: 20px;
-      font-size: 12px;
-      color: #9ca3af;
-    }
-    .countdown span { color: var(--primary); font-weight: 700; }
+    .toast.show { transform: translateX(-50%) translateY(0); }
 
     @media (max-width: 480px) {
-      .card { padding: 32px 20px; }
-      .error-code { font-size: 72px; }
-      .quick-grid { grid-template-columns: 1fr; }
+      .illo { width: 110px; height: 110px; }
     }
   </style>
 </head>
 <body>
 
-  <div class="top-bar">
-    <a class="top-bar-logo" href="/">Most<span>Computers</span></a>
+  <a class="logo" href="/">Most<span>Computers</span></a>
+
+  <!-- Hanging monitor illustration — Variant A style, red accents -->
+  <svg class="illo" viewBox="0 0 140 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Hanging wire -->
+    <line x1="70" y1="0" x2="70" y2="16" stroke="#bd1105" stroke-width="2.5" stroke-linecap="round"/>
+    <!-- Hook -->
+    <path d="M58 16 Q70 8 82 16" fill="none" stroke="#bd1105" stroke-width="2.5" stroke-linecap="round"/>
+    <!-- Monitor outer -->
+    <rect x="8" y="18" width="124" height="90" rx="8" fill="#bd1105"/>
+    <!-- Screen bezel -->
+    <rect x="16" y="26" width="108" height="74" rx="4" fill="#fff"/>
+    <!-- Top bar (dark) -->
+    <rect x="16" y="26" width="108" height="18" rx="4" fill="#9a0e04"/>
+    <!-- Traffic lights -->
+    <circle cx="28" cy="35" r="4" fill="rgba(255,255,255,0.25)"/>
+    <circle cx="40" cy="35" r="4" fill="rgba(255,255,255,0.25)"/>
+    <circle cx="52" cy="35" r="4" fill="rgba(255,255,255,0.25)"/>
+    <!-- 404 text on screen -->
+    <text x="70" y="82" text-anchor="middle" fill="#bd1105" font-size="38" font-weight="900" font-family="Segoe UI,system-ui,sans-serif">404</text>
+    <!-- Stand neck -->
+    <rect x="58" y="108" width="24" height="16" fill="#bd1105"/>
+    <!-- Stand base -->
+    <rect x="38" y="123" width="64" height="8" rx="4" fill="#9a0e04"/>
+  </svg>
+
+  <div class="error-title">Страницата не е намерена</div>
+  <div class="error-sub">The page you were looking for doesn't exist.</div>
+
+  <hr>
+
+  <div class="help-title">Можем да помогнем!</div>
+  <div class="help-desc">
+    Нещо се е объркало. Възможно е линкът да е остарял<br>или адресът да е изписан грешно.
+    <br>Ако виждаш тази страница многократно, уведоми ни.
   </div>
 
-  <div class="card">
-    <div class="error-icon">🔍</div>
-    <div class="error-code">404</div>
-    <div class="error-title">Страницата не е намерена</div>
-    <div class="error-desc">
-      URL-ът, който търсиш, не съществува или е бил преместен.<br>
-      Може да е изтекъл линк или грешно изписан адрес.
-    </div>
+  <form class="form" onsubmit="handleSubmit(event)">
+    <label for="err-email">Твоят имейл</label>
+    <input id="err-email" type="email" placeholder="email@example.com" autocomplete="email">
 
-    <div class="btn-group">
-      <a href="/" class="btn btn-primary">🏠 Начало</a>
-      <a href="javascript:history.back()" class="btn btn-ghost">← Назад</a>
-    </div>
+    <label for="err-msg">Съобщение</label>
+    <textarea id="err-msg" placeholder="Опиши проблема..."></textarea>
 
-    <div class="quick-links">
-      <div class="quick-links-title">Популярни категории</div>
-      <div class="quick-grid">
-        <a href="/?cat=laptop" class="quick-item">💻 Лаптопи</a>
-        <a href="/?cat=mobile" class="quick-item">📱 Телефони</a>
-        <a href="/?cat=tv" class="quick-item">📺 Телевизори</a>
-        <a href="/?cat=audio" class="quick-item">🎧 Аудио</a>
-        <a href="/?cat=gaming" class="quick-item">🎮 Gaming</a>
-        <a href="/?cat=tablet" class="quick-item">📟 Таблети</a>
-      </div>
-    </div>
+    <button type="submit" class="btn">Изпрати заявка <span>›</span></button>
+  </form>
 
-    <div class="countdown">
-      Автоматично пренасочване след <span id="sec">10</span> секунди…
-    </div>
-  </div>
+  <a class="home" href="/">← Назад към началото</a>
+  <div class="countdown">Автоматично пренасочване след <span id="sec">10</span> сек.</div>
+
+  <div class="toast" id="toast"></div>
 
   <script>
+    // Countdown
     let s = 10;
     const el = document.getElementById('sec');
     const t = setInterval(() => {
@@ -215,6 +221,29 @@
       if (el) el.textContent = s;
       if (s <= 0) { clearInterval(t); window.location.href = '/'; }
     }, 1000);
+
+    // Form submit — saves to localStorage and shows toast
+    function handleSubmit(e) {
+      e.preventDefault();
+      const email = document.getElementById('err-email').value.trim();
+      const msg   = document.getElementById('err-msg').value.trim();
+      if (!email || !msg) { showToast('⚠️ Попълни всички полета'); return; }
+      try {
+        const reports = JSON.parse(localStorage.getItem('mc_404_reports') || '[]');
+        reports.unshift({ email, msg, url: document.referrer || '(direct)', ts: Date.now() });
+        localStorage.setItem('mc_404_reports', JSON.stringify(reports.slice(0, 50)));
+      } catch(err) {}
+      document.getElementById('err-email').value = '';
+      document.getElementById('err-msg').value = '';
+      showToast('✅ Заявката е изпратена! Благодарим.');
+    }
+
+    function showToast(txt) {
+      const t = document.getElementById('toast');
+      t.textContent = txt;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 3000);
+    }
   </script>
 </body>
 </html>

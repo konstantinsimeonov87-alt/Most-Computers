@@ -1979,8 +1979,8 @@ function renderDropdown(query) {
 
   if (results.length === 0) {
     let hint = '';
-    if (qtype === 'ean') hint = '<div class="sd-empty-sub">Търсенето по EAN не намери продукт с баркод <strong>' + q + '</strong></div>';
-    else if (qtype === 'sku') hint = '<div class="sd-empty-sub">Търсенето по SKU не намери продукт с код <strong>' + q + '</strong></div>';
+    if (qtype === 'ean') hint = '<div class="sd-empty-sub">Търсенето по EAN не намери продукт с баркод <strong>' + escHtml(q) + '</strong></div>';
+    else if (qtype === 'sku') hint = '<div class="sd-empty-sub">Търсенето по SKU не намери продукт с код <strong>' + escHtml(q) + '</strong></div>';
     else hint = '<div class="sd-empty-sub">Провери правописа или опитай с SKU / EAN баркод</div>';
     searchDropdown.innerHTML = `
       <div class="sd-empty">
@@ -8970,7 +8970,13 @@ function switchDirTab(type, btn) {
 function copyAddress() {
   const addr = 'бул. Шипченски проход бл.240, ж.к. Гео Милев, 1111 София';
   if (navigator.clipboard) {
-    navigator.clipboard.writeText(addr).then(() => showToast('📋 Адресът е копиран!'));
+    navigator.clipboard.writeText(addr).then(() => showToast('📋 Адресът е копиран!')).catch(() => {
+      const ta = document.createElement('textarea');
+      ta.value = addr; document.body.appendChild(ta);
+      ta.select(); document.execCommand('copy');
+      document.body.removeChild(ta);
+      showToast('📋 Адресът е копиран!');
+    });
   } else {
     const ta = document.createElement('textarea');
     ta.value = addr; document.body.appendChild(ta);
@@ -8983,7 +8989,7 @@ function copyAddress() {
 function copyPlusCode() {
   const code = 'M9H5+XJ Sofia';
   if (navigator.clipboard) {
-    navigator.clipboard.writeText(code).then(() => showToast('📍 Plus Code е копиран!'));
+    navigator.clipboard.writeText(code).then(() => showToast('📍 Plus Code е копиран!')).catch(() => showToast('Plus Code: M9H5+XJ Sofia'));
   } else {
     showToast('Plus Code: M9H5+XJ Sofia');
   }

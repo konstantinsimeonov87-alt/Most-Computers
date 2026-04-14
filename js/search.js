@@ -131,8 +131,8 @@ function renderDropdown(query) {
 
   if (results.length === 0) {
     let hint = '';
-    if (qtype === 'ean') hint = '<div class="sd-empty-sub">Търсенето по EAN не намери продукт с баркод <strong>' + q + '</strong></div>';
-    else if (qtype === 'sku') hint = '<div class="sd-empty-sub">Търсенето по SKU не намери продукт с код <strong>' + q + '</strong></div>';
+    if (qtype === 'ean') hint = '<div class="sd-empty-sub">Търсенето по EAN не намери продукт с баркод <strong>' + escHtml(q) + '</strong></div>';
+    else if (qtype === 'sku') hint = '<div class="sd-empty-sub">Търсенето по SKU не намери продукт с код <strong>' + escHtml(q) + '</strong></div>';
     else hint = '<div class="sd-empty-sub">Провери правописа или опитай с SKU / EAN баркод</div>';
     searchDropdown.innerHTML = `
       <div class="sd-empty">

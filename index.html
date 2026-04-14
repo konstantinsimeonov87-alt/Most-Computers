@@ -1202,7 +1202,7 @@
             <div class="cu-name">Безжична мишка Logitech</div>
             <div class="cu-price">39.00 лв.</div>
           </div>
-          <button class="cu-add">+</button>
+          <button type="button" class="cu-add">+</button>
         </div>
       </div>
     </div>
@@ -4445,9 +4445,9 @@
 
   <!-- Lightbox -->
   <div id="pdpLightbox" style="display:none;" onclick="if(event.target===this)pdpLbClose()">
-    <button class="pdp-lb-btn pdp-lb-close" onclick="pdpLbClose()">×</button>
-    <button class="pdp-lb-btn pdp-lb-prev" onclick="pdpLbNav(-1)">‹</button>
-    <button class="pdp-lb-btn pdp-lb-next" onclick="pdpLbNav(1)">›</button>
+    <button type="button" class="pdp-lb-btn pdp-lb-close" onclick="pdpLbClose()" aria-label="Затвори">×</button>
+    <button type="button" class="pdp-lb-btn pdp-lb-prev" onclick="pdpLbNav(-1)" aria-label="Предишна снимка">‹</button>
+    <button type="button" class="pdp-lb-btn pdp-lb-next" onclick="pdpLbNav(1)" aria-label="Следваща снимка">›</button>
     <div class="pdp-lb-wrap"><img id="pdpLbImg" src="" alt="" loading="lazy"></div>
   </div>
 

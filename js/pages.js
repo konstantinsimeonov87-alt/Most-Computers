@@ -100,7 +100,13 @@ function switchDirTab(type, btn) {
 function copyAddress() {
   const addr = 'бул. Шипченски проход бл.240, ж.к. Гео Милев, 1111 София';
   if (navigator.clipboard) {
-    navigator.clipboard.writeText(addr).then(() => showToast('📋 Адресът е копиран!'));
+    navigator.clipboard.writeText(addr).then(() => showToast('📋 Адресът е копиран!')).catch(() => {
+      const ta = document.createElement('textarea');
+      ta.value = addr; document.body.appendChild(ta);
+      ta.select(); document.execCommand('copy');
+      document.body.removeChild(ta);
+      showToast('📋 Адресът е копиран!');
+    });
   } else {
     const ta = document.createElement('textarea');
     ta.value = addr; document.body.appendChild(ta);
@@ -113,7 +119,7 @@ function copyAddress() {
 function copyPlusCode() {
   const code = 'M9H5+XJ Sofia';
   if (navigator.clipboard) {
-    navigator.clipboard.writeText(code).then(() => showToast('📍 Plus Code е копиран!'));
+    navigator.clipboard.writeText(code).then(() => showToast('📍 Plus Code е копиран!')).catch(() => showToast('Plus Code: M9H5+XJ Sofia'));
   } else {
     showToast('Plus Code: M9H5+XJ Sofia');
   }

@@ -124,13 +124,47 @@ log('Copied index.html');
 
 // 6. Copy static assets
 console.log('\n📁 Copying assets...');
-['manifest.json', 'sw.js', 'robots.txt', 'sitemap.xml', 'og-default.jpg'].forEach(f => {
+['manifest.json', 'sw.js', 'robots.txt', 'og-default.jpg'].forEach(f => {
   const src = path.join(ROOT, f);
   if (fs.existsSync(src)) {
     fs.copyFileSync(src, path.join(DIST, f));
     log(`Copied ${f}`);
   }
 });
+
+// 6a. Generate sitemap.xml dynamically from products.js
+console.log('\n🗺️  Generating sitemap.xml...');
+try {
+  const prodSrc = fs.readFileSync(path.join(ROOT, 'products.js'), 'utf8');
+  // Extract all unique categories from products array
+  const cats = [...new Set([...prodSrc.matchAll(/cat:'([^']+)'/g)].map(m => m[1]))];
+  const BASE = 'https://mostcomputers.bg';
+  const today = new Date().toISOString().split('T')[0];
+  const staticUrls = [
+    { loc: BASE + '/', priority: '1.0', freq: 'daily' },
+    { loc: BASE + '/?page=about', priority: '0.7', freq: 'monthly' },
+    { loc: BASE + '/?page=contacts', priority: '0.8', freq: 'monthly' },
+    { loc: BASE + '/?page=blog', priority: '0.6', freq: 'weekly' },
+    { loc: BASE + '/?page=service', priority: '0.7', freq: 'monthly' },
+    { loc: BASE + '/?page=delivery', priority: '0.7', freq: 'monthly' },
+  ];
+  const catUrls = cats.map(c => ({ loc: BASE + `/?cat=${c}`, priority: '0.9', freq: 'daily' }));
+  // Extract product IDs for individual product URLs
+  const productIds = [...prodSrc.matchAll(/\bid\s*:\s*(\d+)/g)].map(m => m[1]);
+  const productUrls = productIds.map(id => ({ loc: BASE + `/?product=${id}`, priority: '0.8', freq: 'weekly' }));
+
+  const allUrls = [...staticUrls, ...catUrls, ...productUrls];
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${
+    allUrls.map(u => `  <url>\n    <loc>${u.loc}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>${u.freq}</changefreq>\n    <priority>${u.priority}</priority>\n  </url>`).join('\n')
+  }\n</urlset>\n`;
+  fs.writeFileSync(path.join(DIST, 'sitemap.xml'), xml);
+  log(`sitemap.xml: ${allUrls.length} URLs (${staticUrls.length} static, ${catUrls.length} categories, ${productUrls.length} products)`);
+} catch (sitemapErr) {
+  warn('sitemap.xml generation failed: ' + sitemapErr.message);
+  // Fallback: copy static sitemap
+  const staticSm = path.join(ROOT, 'sitemap.xml');
+  if (fs.existsSync(staticSm)) { fs.copyFileSync(staticSm, path.join(DIST, 'sitemap.xml')); log('Copied sitemap.xml (static fallback)'); }
+}
 
 // Copy images directory if exists
 const imgDir = path.join(ROOT, 'images');

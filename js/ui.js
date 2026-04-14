@@ -120,26 +120,27 @@ function syncBnCartBadge() {
   const saved = localStorage.getItem('mc_dark');
   if(saved === '1') document.body.classList.add('dark');
 })();
-function toggleDarkMode(){
-  // Dark mode not available on mobile
-  if (window.innerWidth <= 768) {
-    showToast('☀️ Тъмният режим не е наличен на мобилно');
-    return;
-  }
-  const dark = document.body.classList.toggle('dark');
+function _applyTheme(dark) {
+  document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+  // Also keep body.dark for backward-compat with existing CSS rules
+  document.body ? document.body.classList.toggle('dark', dark) : null;
   const dmIcon = document.getElementById('dmIcon');
   if (dmIcon) dmIcon.innerHTML = dark
     ? '<svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-sun"/></svg>'
     : '<svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-moon"/></svg>';
-  try { localStorage.setItem('mc_dark', dark ? '1' : '0'); } catch(e){}
-  showToast(dark ? '🌙 Тъмен режим включен' : '☀️ Светъл режим');
 }
-(function(){
-  const dark = document.body.classList.contains('dark');
-  const ic = document.getElementById('dmIcon');
-  if (ic) ic.innerHTML = dark
-    ? '<svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-sun"/></svg>'
-    : '<svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-moon"/></svg>';
+function toggleDarkMode() {
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  const next = !isDark;
+  _applyTheme(next);
+  try { localStorage.setItem('mc_dark', next ? '1' : '0'); } catch(e) {}
+  showToast(next ? '🌙 Тъмен режим включен' : '☀️ Светъл режим');
+}
+// Restore saved theme on load (before first paint flicker)
+(function () {
+  let saved = '0';
+  try { saved = localStorage.getItem('mc_dark') || '0'; } catch(e) {}
+  if (saved === '1') _applyTheme(true);
 })();
 
 try { localStorage.removeItem('mc_lang'); } catch(e){}

@@ -514,26 +514,27 @@ function syncBnCartBadge() {
   const saved = localStorage.getItem('mc_dark');
   if(saved === '1') document.body.classList.add('dark');
 })();
-function toggleDarkMode(){
-  // Dark mode not available on mobile
-  if (window.innerWidth <= 768) {
-    showToast('☀️ Тъмният режим не е наличен на мобилно');
-    return;
-  }
-  const dark = document.body.classList.toggle('dark');
+function _applyTheme(dark) {
+  document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+  // Also keep body.dark for backward-compat with existing CSS rules
+  document.body ? document.body.classList.toggle('dark', dark) : null;
   const dmIcon = document.getElementById('dmIcon');
   if (dmIcon) dmIcon.innerHTML = dark
     ? '<svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-sun"/></svg>'
     : '<svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-moon"/></svg>';
-  try { localStorage.setItem('mc_dark', dark ? '1' : '0'); } catch(e){}
-  showToast(dark ? '🌙 Тъмен режим включен' : '☀️ Светъл режим');
 }
-(function(){
-  const dark = document.body.classList.contains('dark');
-  const ic = document.getElementById('dmIcon');
-  if (ic) ic.innerHTML = dark
-    ? '<svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-sun"/></svg>'
-    : '<svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-moon"/></svg>';
+function toggleDarkMode() {
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  const next = !isDark;
+  _applyTheme(next);
+  try { localStorage.setItem('mc_dark', next ? '1' : '0'); } catch(e) {}
+  showToast(next ? '🌙 Тъмен режим включен' : '☀️ Светъл режим');
+}
+// Restore saved theme on load (before first paint flicker)
+(function () {
+  let saved = '0';
+  try { saved = localStorage.getItem('mc_dark') || '0'; } catch(e) {}
+  if (saved === '1') _applyTheme(true);
 })();
 
 try { localStorage.removeItem('mc_lang'); } catch(e){}
@@ -3211,6 +3212,16 @@ function filterCat(cat) {
   const featured = document.getElementById('featured');
   if (featured) featured.scrollIntoView({behavior:'smooth'});
   if (typeof bcOnFilterCat === 'function') bcOnFilterCat(cat);
+  // Dynamic meta
+  if (typeof setPageMeta === 'function' && cat && cat !== 'all') {
+    const label = (typeof CAT_LABELS !== 'undefined' && CAT_LABELS[cat]) ? CAT_LABELS[cat] : cat;
+    setPageMeta(
+      label + ' — Most Computers',
+      'Купи ' + label + ' онлайн от Most Computers. Най-добри цени, гаранция, бърза доставка.'
+    );
+  } else if (typeof restorePageMeta === 'function' && (!cat || cat === 'all')) {
+    restorePageMeta();
+  }
 }
 
 // Init on load
@@ -5458,6 +5469,105 @@ function adminShowTab(tab) {
           </tbody>
         </table>
       </div>`;
+  } else if (tab === 'analytics') {
+    let log = [];
+    try { log = JSON.parse(localStorage.getItem('mc_analytics_log') || '[]'); } catch(e) {}
+
+    // Aggregate events
+    const counts = {};
+    const productViews = {};
+    const searches = {};
+    const addToCarts = {};
+    let purchases = 0, purchaseRevenue = 0;
+    log.forEach(entry => {
+      const ev = entry.event || '';
+      counts[ev] = (counts[ev] || 0) + 1;
+      if (ev === 'view_product' && entry.data && entry.data.product_name) {
+        const k = entry.data.product_name;
+        productViews[k] = (productViews[k] || 0) + 1;
+      }
+      if (ev === 'search' && entry.data && entry.data.search_term) {
+        const k = entry.data.search_term;
+        searches[k] = (searches[k] || 0) + 1;
+      }
+      if (ev === 'add_to_cart' && entry.data && entry.data.product_name) {
+        const k = entry.data.product_name;
+        addToCarts[k] = (addToCarts[k] || 0) + 1;
+      }
+      if (ev === 'purchase') { purchases++; purchaseRevenue += (entry.data && entry.data.value) || 0; }
+    });
+
+    const topN = (obj, n) => Object.entries(obj).sort((a,b)=>b[1]-a[1]).slice(0,n);
+    const topViews = topN(productViews, 5);
+    const topSearches = topN(searches, 5);
+    const topCarts = topN(addToCarts, 5);
+
+    const fmtDate = ts => ts ? new Date(ts).toLocaleString('bg-BG') : '—';
+    const recentEvents = log.slice(0, 30);
+
+    main.innerHTML = `
+      <div class="admin-topbar">
+        <div><div class="admin-page-title">📊 Analytics</div><div class="admin-page-sub">${log.length} записани събития от тази сесия</div></div>
+        <div style="display:flex;gap:8px;">
+          <button type="button" class="admin-table-action" onclick="if(confirm('Изтрий analytics лога?')){localStorage.removeItem('mc_analytics_log');adminShowTab('analytics');}">🗑 Изчисти лог</button>
+          <button type="button" class="admin-close-btn" onclick="closeAdminPage()">✕ Затвори</button>
+        </div>
+      </div>
+
+      <div class="admin-stats-grid" style="grid-template-columns:repeat(5,1fr);">
+        <div class="admin-stat-card"><div class="admin-stat-icon">👁</div><div class="admin-stat-val">${counts['view_product']||0}</div><div class="admin-stat-label">Разгледани продукти</div></div>
+        <div class="admin-stat-card"><div class="admin-stat-icon">🛒</div><div class="admin-stat-val">${counts['add_to_cart']||0}</div><div class="admin-stat-label">Добавени в кошница</div></div>
+        <div class="admin-stat-card"><div class="admin-stat-icon">🔍</div><div class="admin-stat-val">${counts['search']||0}</div><div class="admin-stat-label">Търсения</div></div>
+        <div class="admin-stat-card"><div class="admin-stat-icon">✅</div><div class="admin-stat-val">${purchases}</div><div class="admin-stat-label">Поръчки</div></div>
+        <div class="admin-stat-card"><div class="admin-stat-icon">💰</div><div class="admin-stat-val">${purchaseRevenue.toFixed(2)} лв.</div><div class="admin-stat-label">Приходи (сесия)</div></div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;">
+        <div class="admin-table-card">
+          <div class="admin-table-header"><div class="admin-table-title">👁 Топ разгледани</div></div>
+          <table class="admin-table"><thead><tr><th>Продукт</th><th style="text-align:right;">Прегледи</th></tr></thead>
+          <tbody>${topViews.length ? topViews.map(([name,cnt])=>`<tr><td style="color:#e5e7eb;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${name}">${name}</td><td style="text-align:right;color:#a78bfa;font-weight:700;">${cnt}</td></tr>`).join('') : '<tr><td colspan="2" style="text-align:center;color:#4b5563;padding:20px;">Няма данни</td></tr>'}</tbody>
+          </table>
+        </div>
+        <div class="admin-table-card">
+          <div class="admin-table-header"><div class="admin-table-title">🔍 Топ търсения</div></div>
+          <table class="admin-table"><thead><tr><th>Заявка</th><th style="text-align:right;">Пъти</th></tr></thead>
+          <tbody>${topSearches.length ? topSearches.map(([q,cnt])=>`<tr><td style="color:#e5e7eb;font-family:'JetBrains Mono',monospace;font-size:11px;">${q}</td><td style="text-align:right;color:#34d399;font-weight:700;">${cnt}</td></tr>`).join('') : '<tr><td colspan="2" style="text-align:center;color:#4b5563;padding:20px;">Няма данни</td></tr>'}</tbody>
+          </table>
+        </div>
+        <div class="admin-table-card">
+          <div class="admin-table-header"><div class="admin-table-title">🛒 Топ добавени</div></div>
+          <table class="admin-table"><thead><tr><th>Продукт</th><th style="text-align:right;">Пъти</th></tr></thead>
+          <tbody>${topCarts.length ? topCarts.map(([name,cnt])=>`<tr><td style="color:#e5e7eb;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${name}">${name}</td><td style="text-align:right;color:#fb923c;font-weight:700;">${cnt}</td></tr>`).join('') : '<tr><td colspan="2" style="text-align:center;color:#4b5563;padding:20px;">Няма данни</td></tr>'}</tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="admin-table-card">
+        <div class="admin-table-header"><div class="admin-table-title">🕒 Последни 30 събития</div></div>
+        <table class="admin-table">
+          <thead><tr><th>Събитие</th><th>Детайли</th><th style="text-align:right;">Час</th></tr></thead>
+          <tbody>${recentEvents.map(entry => {
+            const ev = entry.event || '';
+            const d = entry.data || {};
+            let detail = '';
+            if (d.product_name) detail = d.product_name.substring(0,40);
+            else if (d.search_term) detail = '🔍 ' + d.search_term;
+            else if (d.transaction_id) detail = d.transaction_id + ' · ' + (d.value||0).toFixed(2) + ' лв.';
+            else if (d.page_location) detail = d.page_location.replace(/.*\?/,'?') || '(home)';
+            else detail = JSON.stringify(d).substring(0,50);
+            const evColors = {view_product:'#a78bfa',add_to_cart:'#fb923c',purchase:'#34d399',search:'#60a5fa',begin_checkout:'#fbbf24',page_view:'#6b7280',remove_from_cart:'#f87171'};
+            const col = evColors[ev] || '#9ca3af';
+            return `<tr>
+              <td><span style="background:rgba(255,255,255,0.05);color:${col};padding:2px 8px;border-radius:6px;font-size:11px;font-weight:700;white-space:nowrap;">${ev}</span></td>
+              <td style="color:#9ca3af;font-size:12px;max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${detail}</td>
+              <td style="text-align:right;color:#4b5563;font-size:11px;font-family:'JetBrains Mono',monospace;white-space:nowrap;">${fmtDate(d.timestamp)}</td>
+            </tr>`;
+          }).join('')}
+          </tbody>
+        </table>
+      </div>
+    `;
   } else {
     main.innerHTML = `<div class="admin-topbar"><div><div class="admin-page-title">🚧 В разработка</div><div class="admin-page-sub">Тази секция скоро ще е готова.</div></div><button type="button" class="admin-close-btn" onclick="closeAdminPage()">✕ Затвори</button></div><div style="text-align:center;padding:80px 20px;color:#4b5563;font-size:48px;">🚧</div>`;
   }
@@ -8530,14 +8640,8 @@ function openCatPage(cat) {
   buildCpSidebar(cat);
 
   // Update SEO
-  document.title = m.label + ' | Most Computers';
   const _catDesc = m.label + ' — ' + m.sub + '. Купи онлайн от Most Computers.';
-  const metaDesc = document.querySelector('meta[name="description"]');
-  if (metaDesc) metaDesc.setAttribute('content', _catDesc);
-  const ogTitle = document.querySelector('meta[property="og:title"]');
-  if (ogTitle) ogTitle.setAttribute('content', m.label + ' | Most Computers');
-  const ogDesc = document.querySelector('meta[property="og:description"]');
-  if (ogDesc) ogDesc.setAttribute('content', _catDesc);
+  setPageMeta(m.label + ' | Most Computers', _catDesc);
   const ogUrl = document.querySelector('meta[property="og:url"]');
   if (ogUrl) ogUrl.setAttribute('content', `https://mostcomputers.bg/?cat=${cat}`);
   const canonical = document.querySelector('link[rel="canonical"]');
@@ -8559,11 +8663,8 @@ function closeCatPage() {
   if (modal && modal.classList.contains('open')) modal.classList.remove('open');
   document.getElementById('catPage').classList.remove('open');
   document.body.style.overflow = '';
-  document.title = 'Most Computers — Техника и Електроника';
-  const _homeDesc = 'Most Computers — магазин за електроника от 1997 г. Лаптопи, смартфони, телевизори от Apple, Samsung, ASUS. Безплатна доставка над 100 €. Сертифициран сервиз.';
-  const metaDesc = document.querySelector('meta[name="description"]');
-  if (metaDesc) metaDesc.setAttribute('content', _homeDesc);
-  // Restore Open Graph defaults
+  restorePageMeta();
+  // Restore Open Graph extras
   const ogTitle = document.querySelector('meta[property="og:title"]');
   if (ogTitle) ogTitle.setAttribute('content', 'Most Computers | Лаптопи, Телефони, Телевизори — От 1997 г.');
   const ogDesc = document.querySelector('meta[property="og:description"]');
@@ -8862,6 +8963,27 @@ function cpCloseSidebar() {
   document.getElementById('cpSidebar')?.classList.remove('open');
   document.getElementById('cpSidebarOverlay')?.classList.remove('open');
 }
+
+// ═══════════════════════════════════════
+// DYNAMIC META TAGS
+// Updates <title> and <meta description> when a category / page opens.
+// Call setPageMeta(title, description) — pass null to restore defaults.
+// ═══════════════════════════════════════
+const _defaultTitle = document.title;
+const _defaultDesc  = (document.querySelector('meta[name="description"]') || {}).content || '';
+
+function setPageMeta(title, description) {
+  document.title = title || _defaultTitle;
+  const metaDesc = document.querySelector('meta[name="description"]');
+  if (metaDesc) metaDesc.setAttribute('content', description || _defaultDesc);
+  // OG tags
+  const og = document.querySelector('meta[property="og:title"]');
+  if (og) og.setAttribute('content', title || _defaultTitle);
+  const ogDesc = document.querySelector('meta[property="og:description"]');
+  if (ogDesc) ogDesc.setAttribute('content', description || _defaultDesc);
+}
+
+function restorePageMeta() { setPageMeta(_defaultTitle, _defaultDesc); }
 
 // ═══════════════════════════════════════
 // INIT HP CATS on DOMContentLoaded

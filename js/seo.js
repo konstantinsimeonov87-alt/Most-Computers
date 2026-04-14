@@ -440,14 +440,8 @@ function openCatPage(cat) {
   buildCpSidebar(cat);
 
   // Update SEO
-  document.title = m.label + ' | Most Computers';
   const _catDesc = m.label + ' — ' + m.sub + '. Купи онлайн от Most Computers.';
-  const metaDesc = document.querySelector('meta[name="description"]');
-  if (metaDesc) metaDesc.setAttribute('content', _catDesc);
-  const ogTitle = document.querySelector('meta[property="og:title"]');
-  if (ogTitle) ogTitle.setAttribute('content', m.label + ' | Most Computers');
-  const ogDesc = document.querySelector('meta[property="og:description"]');
-  if (ogDesc) ogDesc.setAttribute('content', _catDesc);
+  setPageMeta(m.label + ' | Most Computers', _catDesc);
   const ogUrl = document.querySelector('meta[property="og:url"]');
   if (ogUrl) ogUrl.setAttribute('content', `https://mostcomputers.bg/?cat=${cat}`);
   const canonical = document.querySelector('link[rel="canonical"]');
@@ -469,11 +463,8 @@ function closeCatPage() {
   if (modal && modal.classList.contains('open')) modal.classList.remove('open');
   document.getElementById('catPage').classList.remove('open');
   document.body.style.overflow = '';
-  document.title = 'Most Computers — Техника и Електроника';
-  const _homeDesc = 'Most Computers — магазин за електроника от 1997 г. Лаптопи, смартфони, телевизори от Apple, Samsung, ASUS. Безплатна доставка над 100 €. Сертифициран сервиз.';
-  const metaDesc = document.querySelector('meta[name="description"]');
-  if (metaDesc) metaDesc.setAttribute('content', _homeDesc);
-  // Restore Open Graph defaults
+  restorePageMeta();
+  // Restore Open Graph extras
   const ogTitle = document.querySelector('meta[property="og:title"]');
   if (ogTitle) ogTitle.setAttribute('content', 'Most Computers | Лаптопи, Телефони, Телевизори — От 1997 г.');
   const ogDesc = document.querySelector('meta[property="og:description"]');
@@ -772,6 +763,27 @@ function cpCloseSidebar() {
   document.getElementById('cpSidebar')?.classList.remove('open');
   document.getElementById('cpSidebarOverlay')?.classList.remove('open');
 }
+
+// ═══════════════════════════════════════
+// DYNAMIC META TAGS
+// Updates <title> and <meta description> when a category / page opens.
+// Call setPageMeta(title, description) — pass null to restore defaults.
+// ═══════════════════════════════════════
+const _defaultTitle = document.title;
+const _defaultDesc  = (document.querySelector('meta[name="description"]') || {}).content || '';
+
+function setPageMeta(title, description) {
+  document.title = title || _defaultTitle;
+  const metaDesc = document.querySelector('meta[name="description"]');
+  if (metaDesc) metaDesc.setAttribute('content', description || _defaultDesc);
+  // OG tags
+  const og = document.querySelector('meta[property="og:title"]');
+  if (og) og.setAttribute('content', title || _defaultTitle);
+  const ogDesc = document.querySelector('meta[property="og:description"]');
+  if (ogDesc) ogDesc.setAttribute('content', description || _defaultDesc);
+}
+
+function restorePageMeta() { setPageMeta(_defaultTitle, _defaultDesc); }
 
 // ═══════════════════════════════════════
 // INIT HP CATS on DOMContentLoaded

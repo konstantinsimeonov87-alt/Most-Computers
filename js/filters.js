@@ -449,6 +449,16 @@ function filterCat(cat) {
   const featured = document.getElementById('featured');
   if (featured) featured.scrollIntoView({behavior:'smooth'});
   if (typeof bcOnFilterCat === 'function') bcOnFilterCat(cat);
+  // Dynamic meta
+  if (typeof setPageMeta === 'function' && cat && cat !== 'all') {
+    const label = (typeof CAT_LABELS !== 'undefined' && CAT_LABELS[cat]) ? CAT_LABELS[cat] : cat;
+    setPageMeta(
+      label + ' — Most Computers',
+      'Купи ' + label + ' онлайн от Most Computers. Най-добри цени, гаранция, бърза доставка.'
+    );
+  } else if (typeof restorePageMeta === 'function' && (!cat || cat === 'all')) {
+    restorePageMeta();
+  }
 }
 
 // Init on load

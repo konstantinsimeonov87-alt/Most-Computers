@@ -1209,6 +1209,105 @@ function adminShowTab(tab) {
           </tbody>
         </table>
       </div>`;
+  } else if (tab === 'analytics') {
+    let log = [];
+    try { log = JSON.parse(localStorage.getItem('mc_analytics_log') || '[]'); } catch(e) {}
+
+    // Aggregate events
+    const counts = {};
+    const productViews = {};
+    const searches = {};
+    const addToCarts = {};
+    let purchases = 0, purchaseRevenue = 0;
+    log.forEach(entry => {
+      const ev = entry.event || '';
+      counts[ev] = (counts[ev] || 0) + 1;
+      if (ev === 'view_product' && entry.data && entry.data.product_name) {
+        const k = entry.data.product_name;
+        productViews[k] = (productViews[k] || 0) + 1;
+      }
+      if (ev === 'search' && entry.data && entry.data.search_term) {
+        const k = entry.data.search_term;
+        searches[k] = (searches[k] || 0) + 1;
+      }
+      if (ev === 'add_to_cart' && entry.data && entry.data.product_name) {
+        const k = entry.data.product_name;
+        addToCarts[k] = (addToCarts[k] || 0) + 1;
+      }
+      if (ev === 'purchase') { purchases++; purchaseRevenue += (entry.data && entry.data.value) || 0; }
+    });
+
+    const topN = (obj, n) => Object.entries(obj).sort((a,b)=>b[1]-a[1]).slice(0,n);
+    const topViews = topN(productViews, 5);
+    const topSearches = topN(searches, 5);
+    const topCarts = topN(addToCarts, 5);
+
+    const fmtDate = ts => ts ? new Date(ts).toLocaleString('bg-BG') : '—';
+    const recentEvents = log.slice(0, 30);
+
+    main.innerHTML = `
+      <div class="admin-topbar">
+        <div><div class="admin-page-title">📊 Analytics</div><div class="admin-page-sub">${log.length} записани събития от тази сесия</div></div>
+        <div style="display:flex;gap:8px;">
+          <button type="button" class="admin-table-action" onclick="if(confirm('Изтрий analytics лога?')){localStorage.removeItem('mc_analytics_log');adminShowTab('analytics');}">🗑 Изчисти лог</button>
+          <button type="button" class="admin-close-btn" onclick="closeAdminPage()">✕ Затвори</button>
+        </div>
+      </div>
+
+      <div class="admin-stats-grid" style="grid-template-columns:repeat(5,1fr);">
+        <div class="admin-stat-card"><div class="admin-stat-icon">👁</div><div class="admin-stat-val">${counts['view_product']||0}</div><div class="admin-stat-label">Разгледани продукти</div></div>
+        <div class="admin-stat-card"><div class="admin-stat-icon">🛒</div><div class="admin-stat-val">${counts['add_to_cart']||0}</div><div class="admin-stat-label">Добавени в кошница</div></div>
+        <div class="admin-stat-card"><div class="admin-stat-icon">🔍</div><div class="admin-stat-val">${counts['search']||0}</div><div class="admin-stat-label">Търсения</div></div>
+        <div class="admin-stat-card"><div class="admin-stat-icon">✅</div><div class="admin-stat-val">${purchases}</div><div class="admin-stat-label">Поръчки</div></div>
+        <div class="admin-stat-card"><div class="admin-stat-icon">💰</div><div class="admin-stat-val">${purchaseRevenue.toFixed(2)} лв.</div><div class="admin-stat-label">Приходи (сесия)</div></div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;">
+        <div class="admin-table-card">
+          <div class="admin-table-header"><div class="admin-table-title">👁 Топ разгледани</div></div>
+          <table class="admin-table"><thead><tr><th>Продукт</th><th style="text-align:right;">Прегледи</th></tr></thead>
+          <tbody>${topViews.length ? topViews.map(([name,cnt])=>`<tr><td style="color:#e5e7eb;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${name}">${name}</td><td style="text-align:right;color:#a78bfa;font-weight:700;">${cnt}</td></tr>`).join('') : '<tr><td colspan="2" style="text-align:center;color:#4b5563;padding:20px;">Няма данни</td></tr>'}</tbody>
+          </table>
+        </div>
+        <div class="admin-table-card">
+          <div class="admin-table-header"><div class="admin-table-title">🔍 Топ търсения</div></div>
+          <table class="admin-table"><thead><tr><th>Заявка</th><th style="text-align:right;">Пъти</th></tr></thead>
+          <tbody>${topSearches.length ? topSearches.map(([q,cnt])=>`<tr><td style="color:#e5e7eb;font-family:'JetBrains Mono',monospace;font-size:11px;">${q}</td><td style="text-align:right;color:#34d399;font-weight:700;">${cnt}</td></tr>`).join('') : '<tr><td colspan="2" style="text-align:center;color:#4b5563;padding:20px;">Няма данни</td></tr>'}</tbody>
+          </table>
+        </div>
+        <div class="admin-table-card">
+          <div class="admin-table-header"><div class="admin-table-title">🛒 Топ добавени</div></div>
+          <table class="admin-table"><thead><tr><th>Продукт</th><th style="text-align:right;">Пъти</th></tr></thead>
+          <tbody>${topCarts.length ? topCarts.map(([name,cnt])=>`<tr><td style="color:#e5e7eb;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${name}">${name}</td><td style="text-align:right;color:#fb923c;font-weight:700;">${cnt}</td></tr>`).join('') : '<tr><td colspan="2" style="text-align:center;color:#4b5563;padding:20px;">Няма данни</td></tr>'}</tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="admin-table-card">
+        <div class="admin-table-header"><div class="admin-table-title">🕒 Последни 30 събития</div></div>
+        <table class="admin-table">
+          <thead><tr><th>Събитие</th><th>Детайли</th><th style="text-align:right;">Час</th></tr></thead>
+          <tbody>${recentEvents.map(entry => {
+            const ev = entry.event || '';
+            const d = entry.data || {};
+            let detail = '';
+            if (d.product_name) detail = d.product_name.substring(0,40);
+            else if (d.search_term) detail = '🔍 ' + d.search_term;
+            else if (d.transaction_id) detail = d.transaction_id + ' · ' + (d.value||0).toFixed(2) + ' лв.';
+            else if (d.page_location) detail = d.page_location.replace(/.*\?/,'?') || '(home)';
+            else detail = JSON.stringify(d).substring(0,50);
+            const evColors = {view_product:'#a78bfa',add_to_cart:'#fb923c',purchase:'#34d399',search:'#60a5fa',begin_checkout:'#fbbf24',page_view:'#6b7280',remove_from_cart:'#f87171'};
+            const col = evColors[ev] || '#9ca3af';
+            return `<tr>
+              <td><span style="background:rgba(255,255,255,0.05);color:${col};padding:2px 8px;border-radius:6px;font-size:11px;font-weight:700;white-space:nowrap;">${ev}</span></td>
+              <td style="color:#9ca3af;font-size:12px;max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${detail}</td>
+              <td style="text-align:right;color:#4b5563;font-size:11px;font-family:'JetBrains Mono',monospace;white-space:nowrap;">${fmtDate(d.timestamp)}</td>
+            </tr>`;
+          }).join('')}
+          </tbody>
+        </table>
+      </div>
+    `;
   } else {
     main.innerHTML = `<div class="admin-topbar"><div><div class="admin-page-title">🚧 В разработка</div><div class="admin-page-sub">Тази секция скоро ще е готова.</div></div><button type="button" class="admin-close-btn" onclick="closeAdminPage()">✕ Затвори</button></div><div style="text-align:center;padding:80px 20px;color:#4b5563;font-size:48px;">🚧</div>`;
   }

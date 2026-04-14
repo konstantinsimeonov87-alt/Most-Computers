@@ -65,20 +65,41 @@ function checkPwStrength(val) {
   text.textContent = l.t; text.style.color = l.c;
 }
 
+function _authErr(id, msg) {
+  const el = document.getElementById(id + '-err');
+  if (el) el.textContent = msg || '';
+}
+
 function handleLogin() {
   const email = document.getElementById('loginEmail').value.trim();
   const pass = document.getElementById('loginPassword').value;
   const errEl = document.getElementById('loginError');
   errEl.classList.remove('show');
   let valid = true;
-  if (!email || !email.includes('@')) { document.getElementById('loginEmail').classList.add('error'); valid = false; }
-  else document.getElementById('loginEmail').classList.remove('error');
-  if (!pass) { document.getElementById('loginPassword').classList.add('error'); valid = false; }
-  else document.getElementById('loginPassword').classList.remove('error');
+  if (!email || !email.includes('@')) {
+    document.getElementById('loginEmail').classList.add('error');
+    _authErr('loginEmail', 'Въведи валиден имейл адрес.');
+    valid = false;
+  } else {
+    document.getElementById('loginEmail').classList.remove('error');
+    _authErr('loginEmail', '');
+  }
+  if (!pass) {
+    document.getElementById('loginPassword').classList.add('error');
+    _authErr('loginPassword', 'Паролата е задължителна.');
+    valid = false;
+  } else {
+    document.getElementById('loginPassword').classList.remove('error');
+    _authErr('loginPassword', '');
+  }
   if (!valid) return;
-  // Check credentials
   const user = demoUsers.find(u => u.email === email && u.password === pass);
-  if (!user) { errEl.classList.add('show'); document.getElementById('loginPassword').classList.add('error'); return; }
+  if (!user) {
+    errEl.classList.add('show');
+    document.getElementById('loginPassword').classList.add('error');
+    _authErr('loginPassword', 'Грешен имейл или парола.');
+    return;
+  }
   loginSuccess(user);
 }
 
@@ -91,16 +112,25 @@ function handleRegister() {
   const errEl = document.getElementById('registerError');
   errEl.classList.remove('show');
   let valid = true;
-  const fields = [
-    ['regFirstName', fn.length > 0],
-    ['regLastName', ln.length > 0],
-    ['regEmail', email.includes('@')],
-    ['regPassword', pw.length >= 6],
-    ['regPassword2', pw === pw2 && pw.length >= 6],
+  const fieldChecks = [
+    ['regFirstName', fn.length > 0, 'Името е задължително.'],
+    ['regLastName', ln.length > 0, 'Фамилията е задължителна.'],
+    ['regEmail', email.includes('@'), 'Въведи валиден имейл адрес.'],
+    ['regPassword', pw.length >= 6, 'Паролата трябва да е поне 6 символа.'],
+    ['regPassword2', pw === pw2 && pw.length >= 6, pw !== pw2 ? 'Паролите не съвпадат.' : 'Повтори паролата.'],
   ];
-  fields.forEach(([id, ok]) => { document.getElementById(id).classList.toggle('error', !ok); if (!ok) valid = false; });
+  fieldChecks.forEach(([id, ok, msg]) => {
+    document.getElementById(id).classList.toggle('error', !ok);
+    _authErr(id, ok ? '' : msg);
+    if (!ok) valid = false;
+  });
   if (!valid) { errEl.textContent = pw !== pw2 ? '⚠ Паролите не съвпадат!' : '⚠ Моля провери данните!'; errEl.classList.add('show'); return; }
-  if (demoUsers.find(u => u.email === email)) { errEl.textContent = '⚠ Имейлът вече е регистриран!'; errEl.classList.add('show'); document.getElementById('regEmail').classList.add('error'); return; }
+  if (demoUsers.find(u => u.email === email)) {
+    errEl.textContent = '⚠ Имейлът вече е регистриран!'; errEl.classList.add('show');
+    document.getElementById('regEmail').classList.add('error');
+    _authErr('regEmail', 'Този имейл вече е регистриран.');
+    return;
+  }
   const newUser = { email, password: pw, firstName: fn, lastName: ln, phone: document.getElementById('regPhone').value };
   demoUsers.push(newUser);
   registerSuccess(newUser);
@@ -108,8 +138,13 @@ function handleRegister() {
 
 function handleForgot() {
   const email = document.getElementById('forgotEmail').value.trim();
-  if (!email.includes('@')) { document.getElementById('forgotEmail').classList.add('error'); return; }
+  if (!email.includes('@')) {
+    document.getElementById('forgotEmail').classList.add('error');
+    _authErr('forgotEmail', 'Въведи валиден имейл адрес.');
+    return;
+  }
   document.getElementById('forgotEmail').classList.remove('error');
+  _authErr('forgotEmail', '');
   showAuthSuccess('📧', 'Имейлът е изпратен!', `Провери ${email} за линк за нулиране на паролата.`);
 }
 

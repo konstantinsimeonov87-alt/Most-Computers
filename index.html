@@ -165,6 +165,65 @@
           }
         }
       ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://mostcomputers.bg/#breadcrumb",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Most Computers", "item": "https://mostcomputers.bg/" }
+      ]
+    },
+    {
+      "@type": "ItemList",
+      "@id": "https://mostcomputers.bg/#featured-products",
+      "name": "Топ продукти — Most Computers",
+      "description": "Препоръчани лаптопи и електроника от Most Computers",
+      "itemListElement": [
+        {
+          "@type": "ListItem", "position": 1,
+          "item": {
+            "@type": "Product",
+            "name": "MSI Katana 15 HX B14VGK",
+            "description": "15.6\" FHD 144Hz, Intel Core i5-14450HX, 16GB DDR5, 512GB NVMe, NVIDIA RTX 4070 8GB",
+            "brand": { "@type": "Brand", "name": "MSI" },
+            "offers": { "@type": "Offer", "priceCurrency": "BGN", "price": 2102, "availability": "https://schema.org/InStock", "seller": { "@type": "Organization", "name": "Most Computers" } },
+            "url": "https://mostcomputers.bg/?product=261"
+          }
+        },
+        {
+          "@type": "ListItem", "position": 2,
+          "item": {
+            "@type": "Product",
+            "name": "Lenovo Legion 5 15IAX7",
+            "description": "15.6\" FHD 165Hz, Intel Core i7-14700HX, 32GB DDR5, 1TB NVMe, NVIDIA RTX 5060 8GB",
+            "brand": { "@type": "Brand", "name": "Lenovo" },
+            "offers": { "@type": "Offer", "priceCurrency": "BGN", "price": 2931, "availability": "https://schema.org/InStock", "seller": { "@type": "Organization", "name": "Most Computers" } },
+            "url": "https://mostcomputers.bg/?product=266"
+          }
+        },
+        {
+          "@type": "ListItem", "position": 3,
+          "item": {
+            "@type": "Product",
+            "name": "MSI Vector 16 HX AI A2VMTG",
+            "description": "16\" QHD+ 240Hz, Intel Core Ultra 9 275HX, 32GB DDR5, 2TB NVMe, NVIDIA RTX 5080 16GB",
+            "brand": { "@type": "Brand", "name": "MSI" },
+            "offers": { "@type": "Offer", "priceCurrency": "BGN", "price": 4875, "availability": "https://schema.org/InStock", "seller": { "@type": "Organization", "name": "Most Computers" } },
+            "url": "https://mostcomputers.bg/?product=262"
+          }
+        },
+        {
+          "@type": "ListItem", "position": 4,
+          "item": {
+            "@type": "Product",
+            "name": "MSI Stealth A16 AI+ A3VEG",
+            "description": "16\" FHD+ 165Hz, AMD Ryzen AI 9 HX 370, 32GB DDR5, 1TB NVMe, NVIDIA RTX 4060 8GB",
+            "brand": { "@type": "Brand", "name": "MSI" },
+            "offers": { "@type": "Offer", "priceCurrency": "BGN", "price": 4119, "availability": "https://schema.org/InStock", "seller": { "@type": "Organization", "name": "Most Computers" } },
+            "url": "https://mostcomputers.bg/?product=263"
+          }
+        }
+      ]
     }
   ]
 }
@@ -1010,14 +1069,15 @@
           <div class="auth-error-msg" id="loginError">⚠ Грешен имейл или парола!</div>
           <div class="auth-field">
             <label for="loginEmail">Имейл адрес</label>
-            <input type="email" class="auth-input" id="loginEmail" placeholder="example@mail.bg" autocomplete="email">
+            <input type="email" class="auth-input" id="loginEmail" placeholder="example@mail.bg" autocomplete="email" aria-describedby="loginEmail-err"><span class="auth-field-error" id="loginEmail-err" role="alert"></span>
           </div>
           <div class="auth-field">
             <label for="loginPassword">Парола</label>
             <div class="auth-input-wrap">
-              <input type="password" class="auth-input" id="loginPassword" placeholder="••••••••" autocomplete="current-password">
+              <input type="password" class="auth-input" id="loginPassword" placeholder="••••••••" autocomplete="current-password" aria-describedby="loginPassword-err">
               <button type="button" class="auth-eye" data-action="togglePwVis:loginPassword,this">👁</button>
             </div>
+            <span class="auth-field-error" id="loginPassword-err" role="alert"></span>
           </div>
           <div class="auth-forgot" data-action="showForgotPw">Забравена парола?</div>
           <button type="button" class="auth-submit" data-action="handleLogin">Влез в профила →</button>
@@ -1047,7 +1107,7 @@
           </div>
           <div class="auth-field">
             <label for="regEmail">Имейл адрес</label>
-            <input type="email" class="auth-input" id="regEmail" placeholder="example@mail.bg" autocomplete="email">
+            <input type="email" class="auth-input" id="regEmail" placeholder="example@mail.bg" autocomplete="email" aria-describedby="regEmail-err"><span class="auth-field-error" id="regEmail-err" role="alert"></span>
           </div>
           <div class="auth-field">
             <label for="regPhone">Телефон (по желание)</label>
@@ -1057,7 +1117,7 @@
             <label for="regPassword">Парола</label>
             <div class="auth-input-wrap">
               <input type="password" class="auth-input" id="regPassword" placeholder="Мин. 6 символа"
-                oninput="checkPwStrength(this.value)" autocomplete="new-password">
+                oninput="checkPwStrength(this.value)" autocomplete="new-password" aria-describedby="regPassword-err">
               <button type="button" class="auth-eye" data-action="togglePwVis:regPassword,this">👁</button>
             </div>
             <div class="pw-strength">
@@ -1066,13 +1126,15 @@
               </div>
               <div class="pw-strength-text" id="pwText"></div>
             </div>
+            <span class="auth-field-error" id="regPassword-err" role="alert"></span>
           </div>
           <div class="auth-field">
             <label for="regPassword2">Потвърди парола</label>
             <div class="auth-input-wrap">
-              <input type="password" class="auth-input" id="regPassword2" placeholder="Повтори паролата" autocomplete="new-password">
+              <input type="password" class="auth-input" id="regPassword2" placeholder="Повтори паролата" autocomplete="new-password" aria-describedby="regPassword2-err">
               <button type="button" class="auth-eye" data-action="togglePwVis:regPassword2,this">👁</button>
             </div>
+            <span class="auth-field-error" id="regPassword2-err" role="alert"></span>
           </div>
           <button type="button" class="auth-submit" data-action="handleRegister">Създай акаунт →</button>
           <div class="auth-divider">или продължи с</div>
@@ -1096,8 +1158,8 @@
             <div class="text-13-muted">Въведи имейла си и ще получиш линк за нулиране.</div>
           </div>
           <div class="auth-field">
-            <label>Имейл адрес</label>
-            <input type="email" class="auth-input" id="forgotEmail" placeholder="example@mail.bg">
+            <label for="forgotEmail">Имейл адрес</label>
+            <input type="email" class="auth-input" id="forgotEmail" placeholder="example@mail.bg" aria-describedby="forgotEmail-err"><span class="auth-field-error" id="forgotEmail-err" role="alert"></span>
           </div>
           <button type="button" class="auth-submit" data-action="handleForgot">Изпрати линк →</button>
           <div class="auth-terms" style="margin-top:12px;">

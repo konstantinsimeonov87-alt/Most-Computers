@@ -30,8 +30,7 @@
     }
     .logo span { color: #111; }
 
-    /* SVG illustration */
-    .illo { width: 140px; height: 140px; margin-bottom: 12px; }
+    .illo { width: 140px; height: 140px; margin-bottom: 8px; }
 
     .error-title {
       font-size: 12px;
@@ -69,7 +68,6 @@
       margin-bottom: 24px;
     }
 
-    /* Form */
     .form {
       width: 100%;
       max-width: 320px;
@@ -135,7 +133,6 @@
     }
     .countdown span { color: #bd1105; font-weight: 700; }
 
-    /* Toast */
     .toast {
       position: fixed;
       bottom: 24px;
@@ -162,28 +159,26 @@
 
   <a class="logo" href="/">Most<span>Computers</span></a>
 
-  <!-- Hanging monitor illustration — Variant A style, red accents -->
+  <!-- Hanging monitor — black body, white screen, red wire & hook -->
   <svg class="illo" viewBox="0 0 140 140" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <!-- Hanging wire -->
+    <!-- Hanging wire — red -->
     <line x1="70" y1="0" x2="70" y2="16" stroke="#bd1105" stroke-width="2.5" stroke-linecap="round"/>
-    <!-- Hook -->
-    <path d="M58 16 Q70 8 82 16" fill="none" stroke="#bd1105" stroke-width="2.5" stroke-linecap="round"/>
-    <!-- Monitor outer -->
-    <rect x="8" y="18" width="124" height="90" rx="8" fill="#bd1105"/>
-    <!-- Screen bezel -->
-    <rect x="16" y="26" width="108" height="74" rx="4" fill="#fff"/>
-    <!-- Top bar (dark) -->
-    <rect x="16" y="26" width="108" height="18" rx="4" fill="#9a0e04"/>
-    <!-- Traffic lights -->
-    <circle cx="28" cy="35" r="4" fill="rgba(255,255,255,0.25)"/>
-    <circle cx="40" cy="35" r="4" fill="rgba(255,255,255,0.25)"/>
-    <circle cx="52" cy="35" r="4" fill="rgba(255,255,255,0.25)"/>
-    <!-- 404 text on screen -->
-    <text x="70" y="82" text-anchor="middle" fill="#bd1105" font-size="38" font-weight="900" font-family="Segoe UI,system-ui,sans-serif">404</text>
+    <!-- Hook — red -->
+    <path d="M56 16 Q70 8 84 16" fill="none" stroke="#bd1105" stroke-width="2.5" stroke-linecap="round"/>
+    <!-- Monitor outer — black -->
+    <rect x="8" y="18" width="124" height="90" rx="8" fill="#111"/>
+    <!-- Screen area — dark, slightly lighter than body -->
+    <rect x="16" y="26" width="108" height="74" rx="4" fill="#222"/>
+    <!-- Top bar dots (browser-like) -->
+    <circle cx="27" cy="33" r="3.5" fill="#444"/>
+    <circle cx="38" cy="33" r="3.5" fill="#444"/>
+    <circle cx="49" cy="33" r="3.5" fill="#444"/>
+    <!-- 404 text — white on dark screen -->
+    <text x="70" y="82" text-anchor="middle" fill="#ffffff" font-size="40" font-weight="900" font-family="Segoe UI,system-ui,sans-serif">404</text>
     <!-- Stand neck -->
-    <rect x="58" y="108" width="24" height="16" fill="#bd1105"/>
+    <rect x="57" y="108" width="26" height="14" fill="#111"/>
     <!-- Stand base -->
-    <rect x="38" y="123" width="64" height="8" rx="4" fill="#9a0e04"/>
+    <rect x="38" y="121" width="64" height="8" rx="4" fill="#333"/>
   </svg>
 
   <div class="error-title">Страницата не е намерена</div>
@@ -193,8 +188,9 @@
 
   <div class="help-title">Можем да помогнем!</div>
   <div class="help-desc">
-    Нещо се е объркало. Възможно е линкът да е остарял<br>или адресът да е изписан грешно.
-    <br>Ако виждаш тази страница многократно, уведоми ни.
+    Нещо се е объркало. Възможно е линкът да е остарял
+    или адресът да е изписан грешно.<br>
+    Ако виждаш тази страница многократно, уведоми ни.
   </div>
 
   <form class="form" onsubmit="handleSubmit(event)">
@@ -213,7 +209,6 @@
   <div class="toast" id="toast"></div>
 
   <script>
-    // Countdown
     let s = 10;
     const el = document.getElementById('sec');
     const t = setInterval(() => {
@@ -222,7 +217,6 @@
       if (s <= 0) { clearInterval(t); window.location.href = '/'; }
     }, 1000);
 
-    // Form submit — saves to localStorage and shows toast
     function handleSubmit(e) {
       e.preventDefault();
       const email = document.getElementById('err-email').value.trim();

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 — Страницата не е намерена | Most Computers</title>
+  <meta name="description" content="Страницата, която търсиш, не съществува. Върни се в Most Computers.">
+  <meta name="robots" content="noindex, nofollow">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --primary: #bd1105;
+      --bg: #f8f9fa;
+      --text: #1a1a1a;
+      --text2: #555e6d;
+      --border: #e5e7eb;
+      --white: #fff;
+      --radius: 12px;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      text-align: center;
+    }
+
+    /* Header strip */
+    .top-bar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 56px;
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 24px;
+      gap: 10px;
+    }
+    .top-bar-logo {
+      font-size: 15px;
+      font-weight: 900;
+      color: var(--primary);
+      text-decoration: none;
+      letter-spacing: -.01em;
+    }
+    .top-bar-logo span { color: var(--text); }
+
+    /* Main card */
+    .card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 48px 40px;
+      max-width: 480px;
+      width: 100%;
+      box-shadow: 0 4px 24px rgba(0,0,0,.07);
+    }
+
+    .error-code {
+      font-size: 96px;
+      font-weight: 900;
+      line-height: 1;
+      background: linear-gradient(135deg, var(--primary), #ff6b00);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 8px;
+    }
+    .error-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+    }
+    .error-title {
+      font-size: 22px;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+    .error-desc {
+      font-size: 14px;
+      color: var(--text2);
+      line-height: 1.6;
+      margin-bottom: 32px;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 12px 22px;
+      border-radius: var(--radius);
+      font-size: 14px;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all .18s;
+      border: none;
+    }
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+    }
+    .btn-primary:hover { background: #9a0e04; transform: translateY(-1px); }
+    .btn-ghost {
+      background: var(--bg);
+      color: var(--text);
+      border: 1.5px solid var(--border);
+    }
+    .btn-ghost:hover { background: #eee; transform: translateY(-1px); }
+
+    /* Quick links */
+    .quick-links {
+      margin-top: 32px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+    }
+    .quick-links-title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: #9ca3af;
+      margin-bottom: 14px;
+    }
+    .quick-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .quick-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 12px;
+      background: var(--bg);
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      transition: all .15s;
+    }
+    .quick-item:hover { background: #fff5f5; border-color: var(--primary); color: var(--primary); }
+
+    /* Redirect countdown */
+    .countdown {
+      margin-top: 20px;
+      font-size: 12px;
+      color: #9ca3af;
+    }
+    .countdown span { color: var(--primary); font-weight: 700; }
+
+    @media (max-width: 480px) {
+      .card { padding: 32px 20px; }
+      .error-code { font-size: 72px; }
+      .quick-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="top-bar">
+    <a class="top-bar-logo" href="/">Most<span>Computers</span></a>
+  </div>
+
+  <div class="card">
+    <div class="error-icon">🔍</div>
+    <div class="error-code">404</div>
+    <div class="error-title">Страницата не е намерена</div>
+    <div class="error-desc">
+      URL-ът, който търсиш, не съществува или е бил преместен.<br>
+      Може да е изтекъл линк или грешно изписан адрес.
+    </div>
+
+    <div class="btn-group">
+      <a href="/" class="btn btn-primary">🏠 Начало</a>
+      <a href="javascript:history.back()" class="btn btn-ghost">← Назад</a>
+    </div>
+
+    <div class="quick-links">
+      <div class="quick-links-title">Популярни категории</div>
+      <div class="quick-grid">
+        <a href="/?cat=laptop" class="quick-item">💻 Лаптопи</a>
+        <a href="/?cat=mobile" class="quick-item">📱 Телефони</a>
+        <a href="/?cat=tv" class="quick-item">📺 Телевизори</a>
+        <a href="/?cat=audio" class="quick-item">🎧 Аудио</a>
+        <a href="/?cat=gaming" class="quick-item">🎮 Gaming</a>
+        <a href="/?cat=tablet" class="quick-item">📟 Таблети</a>
+      </div>
+    </div>
+
+    <div class="countdown">
+      Автоматично пренасочване след <span id="sec">10</span> секунди…
+    </div>
+  </div>
+
+  <script>
+    let s = 10;
+    const el = document.getElementById('sec');
+    const t = setInterval(() => {
+      s--;
+      if (el) el.textContent = s;
+      if (s <= 0) { clearInterval(t); window.location.href = '/'; }
+    }, 1000);
+  </script>
+</body>
+</html>

@@ -124,7 +124,7 @@ log('Copied index.html');
 
 // 6. Copy static assets
 console.log('\n📁 Copying assets...');
-['manifest.json', 'sw.js', 'robots.txt', 'og-default.jpg'].forEach(f => {
+['manifest.json', 'sw.js', 'robots.txt', 'og-default.jpg', '404.html'].forEach(f => {
   const src = path.join(ROOT, f);
   if (fs.existsSync(src)) {
     fs.copyFileSync(src, path.join(DIST, f));

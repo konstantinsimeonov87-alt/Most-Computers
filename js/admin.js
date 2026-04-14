@@ -1308,6 +1308,116 @@ function adminShowTab(tab) {
         </table>
       </div>
     `;
+  } else if (tab === 'blog') {
+    // Load blog posts from localStorage (custom) merged with built-in blogPosts
+    let customPosts = [];
+    try { customPosts = JSON.parse(localStorage.getItem('mc_blog_posts') || '[]'); } catch(e) {}
+    const builtIn = (typeof blogPosts !== 'undefined') ? blogPosts : [];
+    const allPosts = [...customPosts, ...builtIn];
+
+    main.innerHTML = `
+      <div class="admin-topbar">
+        <div><div class="admin-page-title">📰 Блог</div><div class="admin-page-sub">${allPosts.length} статии</div></div>
+        <div style="display:flex;gap:8px;">
+          <button type="button" class="admin-table-action" onclick="adminBlogNew()">+ Нова статия</button>
+          <button type="button" class="admin-close-btn" onclick="closeAdminPage()">✕ Затвори</button>
+        </div>
+      </div>
+
+      <div id="adminBlogForm" style="display:none;" class="admin-table-card" style="padding:24px;">
+        <div class="admin-chart-title" id="adminBlogFormTitle">📝 Нова статия</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px;">
+          <div><label style="font-size:11px;color:#6b7280;display:block;margin-bottom:4px;">Заглавие</label>
+            <input id="bfTitle" class="aef-input" placeholder="Заглавие на статията" style="width:100%;">
+          </div>
+          <div><label style="font-size:11px;color:#6b7280;display:block;margin-bottom:4px;">Категория</label>
+            <select id="bfCat" class="aef-input" style="width:100%;cursor:pointer;">
+              <option>Ревю</option><option>Сравнение</option><option>Топ 5</option><option>Съвети</option><option>Smart Home</option><option>Новини</option>
+            </select>
+          </div>
+          <div><label style="font-size:11px;color:#6b7280;display:block;margin-bottom:4px;">Emoji</label>
+            <input id="bfEmoji" class="aef-input" placeholder="💻" style="width:100%;font-size:20px;" maxlength="4" value="📰">
+          </div>
+          <div><label style="font-size:11px;color:#6b7280;display:block;margin-bottom:4px;">Времe за четене</label>
+            <input id="bfRead" class="aef-input" placeholder="5 мин" style="width:100%;" value="5 мин">
+          </div>
+        </div>
+        <div style="margin-top:12px;"><label style="font-size:11px;color:#6b7280;display:block;margin-bottom:4px;">Резюме</label>
+          <textarea id="bfSummary" class="aef-input" rows="3" placeholder="Кратко описание…" style="width:100%;resize:vertical;"></textarea>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:14px;">
+          <button type="button" class="admin-table-action" style="background:var(--primary);color:#fff;border-color:var(--primary);" onclick="adminBlogSave()">💾 Запази</button>
+          <button type="button" class="admin-table-action" onclick="document.getElementById('adminBlogForm').style.display='none'">Отказ</button>
+        </div>
+      </div>
+
+      <div class="admin-table-card">
+        <div class="admin-table-header"><div class="admin-table-title">Всички статии</div></div>
+        <table class="admin-table">
+          <thead><tr><th></th><th>Заглавие</th><th>Категория</th><th>Дата</th><th style="text-align:right;">Действия</th></tr></thead>
+          <tbody id="adminBlogTbody">${allPosts.map((p, i) => `<tr>
+            <td style="font-size:22px;">${p.emoji || '📰'}</td>
+            <td style="color:#e5e7eb;font-weight:600;max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${p.title || '—'}</td>
+            <td><span style="background:rgba(99,102,241,0.15);color:#a5b4fc;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:700;">${p.cat || '—'}</span></td>
+            <td style="color:#6b7280;font-size:12px;">${p.date || '—'}</td>
+            <td style="text-align:right;">
+              ${i < customPosts.length ? `<button type="button" onclick="adminBlogDelete(${i})" style="background:rgba(248,113,113,0.1);color:#f87171;border:1px solid rgba(248,113,113,0.2);border-radius:6px;padding:5px 9px;font-size:11px;cursor:pointer;font-family:'Outfit',sans-serif;">🗑 Изтрий</button>` : '<span style="font-size:11px;color:#4b5563;">Вграден</span>'}
+            </td>
+          </tr>`).join('')}
+          </tbody>
+        </table>
+      </div>
+    `;
+
+  } else if (tab === 'promo') {
+    let codes = [];
+    try { codes = JSON.parse(localStorage.getItem('mc_promo_codes') || '[]'); } catch(e) {}
+    // Ensure default promo code exists
+    if (!codes.find(c => c.code === 'MOSTCOMP10')) {
+      codes.push({ code: 'MOSTCOMP10', discount: 10, uses: 0, active: true });
+      try { localStorage.setItem('mc_promo_codes', JSON.stringify(codes)); } catch(e) {}
+    }
+
+    main.innerHTML = `
+      <div class="admin-topbar">
+        <div><div class="admin-page-title">🎁 Промо кодове</div><div class="admin-page-sub">${codes.length} активни кода</div></div>
+        <div style="display:flex;gap:8px;">
+          <button type="button" class="admin-close-btn" onclick="closeAdminPage()">✕ Затвори</button>
+        </div>
+      </div>
+
+      <div class="admin-table-card">
+        <div class="admin-table-header"><div class="admin-table-title">Добави нов код</div></div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;padding:4px 0 12px;">
+          <div><label style="font-size:11px;color:#6b7280;display:block;margin-bottom:4px;">Код</label>
+            <input id="pcCode" class="aef-input" placeholder="SUMMER25" style="width:160px;text-transform:uppercase;" oninput="this.value=this.value.toUpperCase()">
+          </div>
+          <div><label style="font-size:11px;color:#6b7280;display:block;margin-bottom:4px;">Отстъпка %</label>
+            <input id="pcDiscount" type="number" class="aef-input" placeholder="10" min="1" max="80" style="width:100px;">
+          </div>
+          <button type="button" class="admin-table-action" style="background:var(--primary);color:#fff;border-color:var(--primary);margin-bottom:1px;" onclick="adminPromoAdd()">+ Добави</button>
+        </div>
+      </div>
+
+      <div class="admin-table-card">
+        <div class="admin-table-header"><div class="admin-table-title">Всички промо кодове</div></div>
+        <table class="admin-table">
+          <thead><tr><th>Код</th><th>Отстъпка</th><th>Използвания</th><th>Статус</th><th style="text-align:right;">Действия</th></tr></thead>
+          <tbody id="adminPromoTbody">${codes.map((c, i) => `<tr>
+            <td style="font-family:'JetBrains Mono',monospace;font-weight:700;color:#a5b4fc;font-size:13px;">${c.code}</td>
+            <td style="color:#34d399;font-weight:700;">${c.discount}%</td>
+            <td style="color:#9ca3af;">${c.uses || 0} пъти</td>
+            <td><span style="background:${c.active ? 'rgba(52,211,153,0.15)' : 'rgba(107,114,128,0.15)'};color:${c.active ? '#34d399' : '#9ca3af'};padding:2px 10px;border-radius:10px;font-size:11px;font-weight:700;">${c.active ? '✅ Активен' : '⏸ Неактивен'}</span></td>
+            <td style="text-align:right;display:flex;gap:6px;justify-content:flex-end;">
+              <button type="button" onclick="adminPromoToggle(${i})" style="background:rgba(251,191,36,0.1);color:#fbbf24;border:1px solid rgba(251,191,36,0.2);border-radius:6px;padding:5px 9px;font-size:11px;cursor:pointer;font-family:'Outfit',sans-serif;">${c.active ? '⏸ Деактивирай' : '▶ Активирай'}</button>
+              <button type="button" onclick="adminPromoDelete(${i})" style="background:rgba(248,113,113,0.1);color:#f87171;border:1px solid rgba(248,113,113,0.2);border-radius:6px;padding:5px 9px;font-size:11px;cursor:pointer;font-family:'Outfit',sans-serif;">🗑</button>
+            </td>
+          </tr>`).join('')}
+          </tbody>
+        </table>
+      </div>
+    `;
+
   } else {
     main.innerHTML = `<div class="admin-topbar"><div><div class="admin-page-title">🚧 В разработка</div><div class="admin-page-sub">Тази секция скоро ще е готова.</div></div><button type="button" class="admin-close-btn" onclick="closeAdminPage()">✕ Затвори</button></div><div style="text-align:center;padding:80px 20px;color:#4b5563;font-size:48px;">🚧</div>`;
   }
@@ -2595,6 +2705,76 @@ async function testFeedUrl(i) {
 }
 
 
+
+// ── Blog admin helpers ─────────────────────────────────
+function adminBlogNew() {
+  const form = document.getElementById('adminBlogForm');
+  if (!form) return;
+  document.getElementById('adminBlogFormTitle').textContent = '📝 Нова статия';
+  form.dataset.editIdx = '';
+  ['bfTitle','bfSummary'].forEach(id => { const el = document.getElementById(id); if(el) el.value = ''; });
+  form.style.display = '';
+  form.scrollIntoView({ behavior: 'smooth' });
+}
+
+function adminBlogSave() {
+  const title   = document.getElementById('bfTitle')?.value.trim();
+  const cat     = document.getElementById('bfCat')?.value;
+  const emoji   = document.getElementById('bfEmoji')?.value.trim() || '📰';
+  const read    = document.getElementById('bfRead')?.value.trim() || '5 мин';
+  const summary = document.getElementById('bfSummary')?.value.trim();
+  if (!title) { showToast('⚠️ Въведи заглавие'); return; }
+  let posts = [];
+  try { posts = JSON.parse(localStorage.getItem('mc_blog_posts') || '[]'); } catch(e) {}
+  const now = new Date();
+  const dateStr = now.toLocaleDateString('bg-BG', { day:'2-digit', month:'long', year:'numeric' });
+  posts.unshift({ title, cat, emoji, read, summary, date: dateStr, ts: now.getTime() });
+  try { localStorage.setItem('mc_blog_posts', JSON.stringify(posts)); } catch(e) {}
+  showToast('✅ Статията е запазена!');
+  adminShowTab('blog');
+}
+
+function adminBlogDelete(idx) {
+  if (!confirm('Изтрий тази статия?')) return;
+  let posts = [];
+  try { posts = JSON.parse(localStorage.getItem('mc_blog_posts') || '[]'); } catch(e) {}
+  posts.splice(idx, 1);
+  try { localStorage.setItem('mc_blog_posts', JSON.stringify(posts)); } catch(e) {}
+  adminShowTab('blog');
+}
+
+// ── Promo admin helpers ─────────────────────────────────
+function adminPromoAdd() {
+  const code = document.getElementById('pcCode')?.value.trim().toUpperCase();
+  const discount = parseInt(document.getElementById('pcDiscount')?.value);
+  if (!code) { showToast('⚠️ Въведи код'); return; }
+  if (!discount || discount < 1 || discount > 80) { showToast('⚠️ Въведи отстъпка 1–80%'); return; }
+  let codes = [];
+  try { codes = JSON.parse(localStorage.getItem('mc_promo_codes') || '[]'); } catch(e) {}
+  if (codes.find(c => c.code === code)) { showToast('⚠️ Кодът вече съществува'); return; }
+  codes.push({ code, discount, uses: 0, active: true });
+  try { localStorage.setItem('mc_promo_codes', JSON.stringify(codes)); } catch(e) {}
+  showToast('✅ Промо код добавен!');
+  adminShowTab('promo');
+}
+
+function adminPromoToggle(idx) {
+  let codes = [];
+  try { codes = JSON.parse(localStorage.getItem('mc_promo_codes') || '[]'); } catch(e) {}
+  if (!codes[idx]) return;
+  codes[idx].active = !codes[idx].active;
+  try { localStorage.setItem('mc_promo_codes', JSON.stringify(codes)); } catch(e) {}
+  adminShowTab('promo');
+}
+
+function adminPromoDelete(idx) {
+  if (!confirm('Изтрий промо кода?')) return;
+  let codes = [];
+  try { codes = JSON.parse(localStorage.getItem('mc_promo_codes') || '[]'); } catch(e) {}
+  codes.splice(idx, 1);
+  try { localStorage.setItem('mc_promo_codes', JSON.stringify(codes)); } catch(e) {}
+  adminShowTab('promo');
+}
 
 function saveEurRate() {
   const val = parseFloat(document.getElementById('eurRateInput')?.value);

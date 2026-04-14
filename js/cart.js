@@ -192,7 +192,7 @@ function renderOrderSummary() {
   const savings = cart.reduce((s, x) => s + (x.old ? (x.old - x.price) * x.qty : 0), 0);
   const delivery = ckDeliveryCosts[ckDeliveryIdx];
   const codFee = ckPaymentType === 'cod' ? 1.50 : 0;
-  const promoDisc = promoApplied ? subtotal * 0.10 : 0;
+  const promoDisc = promoApplied ? subtotal * ((promoDiscountPct || 10) / 100) : 0;
   const total = subtotal + delivery + codFee - promoDisc;
 
   document.getElementById('osSummaryItems').innerHTML = cart.map(x => `
@@ -282,14 +282,32 @@ function formatExpiry(el) {
   el.value = v;
 }
 
+let promoDiscountPct = 10; // set by applyPromo based on matched code
+
 function applyPromo(codeArg) {
   const inputEl = document.getElementById('promoInput');
   const code = (codeArg || (inputEl ? inputEl.value : '')).trim().toUpperCase();
-  if (code === 'MOSTCOMP10') {
+
+  // Load admin-managed codes from localStorage, fallback to built-in
+  let codes = [{ code: 'MOSTCOMP10', discount: 10, active: true }];
+  try {
+    const stored = JSON.parse(localStorage.getItem('mc_promo_codes') || '[]');
+    if (stored.length) codes = stored;
+  } catch(e) {}
+
+  const match = codes.find(c => c.code === code && c.active !== false);
+  if (match) {
     promoApplied = true;
+    promoDiscountPct = match.discount || 10;
+    // Increment use counter
+    try {
+      const stored = JSON.parse(localStorage.getItem('mc_promo_codes') || '[]');
+      const mc = stored.find(c => c.code === code);
+      if (mc) { mc.uses = (mc.uses || 0) + 1; localStorage.setItem('mc_promo_codes', JSON.stringify(stored)); }
+    } catch(e) {}
     if (inputEl) { document.getElementById('promoOk').classList.add('show'); inputEl.disabled = true; }
     renderOrderSummary();
-    showToast('✓ Промо код приложен — -10%!');
+    showToast(`✓ Промо код приложен — -${promoDiscountPct}%!`);
   } else {
     showToast('Невалиден промо код!');
     if (inputEl) { inputEl.classList.add('error'); setTimeout(() => inputEl.classList.remove('error'), 1500); }
@@ -461,7 +479,7 @@ function submitOrder() {
     const subtotal = cart.reduce((s,x) => s + x.price*x.qty, 0);
     const delivery = ckDeliveryCosts[ckDeliveryIdx];
     const codFee = ckPaymentType === 'cod' ? 1.50 : 0;
-    const promoDisc = promoApplied ? subtotal * 0.10 : 0;
+    const promoDisc = promoApplied ? subtotal * ((promoDiscountPct || 10) / 100) : 0;
     const total = subtotal + delivery + codFee - promoDisc;
     const payNames = {card:'Карта', cod:'Наложен платеж', bank:'Банков превод'};
     const now = new Date();

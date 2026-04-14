@@ -404,6 +404,12 @@ function pdpRenderGallery() {
     mainImg.alt = p.name;
     mainImg.style.display = '';
     mainEmoji.style.display = 'none';
+    mainImg.onerror = function() {
+      this.style.display = 'none';
+      mainEmoji.style.display = '';
+      mainEmoji.textContent = p.emoji || '🖥';
+      this.onerror = null;
+    };
   } else {
     mainImg.style.display = 'none';
     mainEmoji.style.display = '';

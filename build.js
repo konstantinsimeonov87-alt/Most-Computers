@@ -135,7 +135,7 @@ console.log('\n📁 Copying assets...');
 // Copy images directory if exists
 const imgDir = path.join(ROOT, 'images');
 if (fs.existsSync(imgDir)) {
-  execSync(`xcopy /E /I /Y "${imgDir}" "${path.join(DIST, 'images')}"`, { cwd: ROOT, stdio: 'ignore' });
+  fs.cpSync(imgDir, path.join(DIST, 'images'), { recursive: true });
   log('Copied images/');
 }
 

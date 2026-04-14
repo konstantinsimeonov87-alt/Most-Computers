@@ -1,8 +1,4 @@
-name: Build & Deploy (minify → gh-pages)
-
-# SETUP REQUIRED (one-time):
-#   GitHub repo → Settings → Pages → Source → "Deploy from a branch" → branch: gh-pages / root
-#   After that, every push to main will auto-build and deploy minified files.
+name: Build & Deploy → gh-pages
 
 on:
   push:
@@ -13,45 +9,23 @@ permissions:
 
 jobs:
   build:
-    # Don't run on our own build commits (prevents infinite loop)
     if: "!startsWith(github.event.head_commit.message, 'build: minified deploy')"
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install minifiers
-        run: |
-          npm install -g terser html-minifier-terser clean-css-cli
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
 
-      - name: Create dist/
-        run: |
-          mkdir -p dist
-          cp index.html styles.css app.js products.js sw.js manifest.json dist/ 2>/dev/null || true
-          # Copy any other static assets
-          cp -r *.png *.ico *.webp *.svg dist/ 2>/dev/null || true
+      - name: Install dependencies
+        run: npm ci
 
-      - name: Minify JS (terser)
-        run: |
-          terser dist/app.js      -o dist/app.js      --compress --mangle --ecma 2017
-          terser dist/products.js -o dist/products.js --compress --mangle --ecma 2017
-
-      - name: Minify CSS (clean-css)
-        run: |
-          cleancss -O1 -o dist/styles.css dist/styles.css
-
-      - name: Minify HTML (html-minifier-terser)
-        run: |
-          html-minifier-terser dist/index.html \
-            --collapse-whitespace \
-            --remove-comments \
-            --remove-optional-tags \
-            --remove-redundant-attributes \
-            --remove-script-type-attributes \
-            --use-short-doctype \
-            --minify-css true \
-            --minify-js true \
-            -o dist/index.html
+      - name: Build
+        run: node build.js
 
       - name: Report sizes
         run: |

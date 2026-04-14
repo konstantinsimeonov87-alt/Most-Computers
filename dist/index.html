@@ -41,10 +41,11 @@
     content="лаптопи, смартфони, телевизори, таблети, аудио, гейминг, Most Computers, онлайн магазин електроника, компютри, аксесоари, Apple, Samsung, ASUS, Sony, Lenovo">
   <link rel="alternate" hreflang="bg" href="https://mostcomputers.bg/">
   <link rel="preload" href="styles.css" as="style">
-  <link rel="preload" href="app.js?v=20260403" as="script">
+  <link rel="preload" href="app.js?v=20260409" as="script">
   <link rel="alternate" hreflang="x-default" href="https://mostcomputers.bg/">
   <link rel="canonical" href="https://mostcomputers.bg/">
   <link rel="sitemap" type="application/xml" href="/sitemap.xml">
+  <!-- DNS prefetch for all external image CDNs -->
   <link rel="dns-prefetch" href="//fonts.googleapis.com">
   <link rel="dns-prefetch" href="//fonts.gstatic.com">
   <link rel="dns-prefetch" href="//store.storeimages.cdn-apple.com">
@@ -54,11 +55,13 @@
   <link rel="dns-prefetch" href="//resource.logitechg.com">
   <link rel="dns-prefetch" href="//assets.bose.com">
   <link rel="dns-prefetch" href="//i.dell.com">
+  <link rel="dns-prefetch" href="//portal.mostbg.com">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://store.storeimages.cdn-apple.com" crossorigin>
   <link rel="preconnect" href="https://images.samsung.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Outfit:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"
+  <link rel="preconnect" href="https://portal.mostbg.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Outfit:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap&display=swap" rel="stylesheet"
     media="print" onload="this.media='all'">
   <noscript>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Outfit:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -159,6 +162,65 @@
           "acceptedAnswer": {
             "@type": "Answer",
             "text": "След изпращане на поръчката ще получите имейл с номер за проследяване. Можете също да проверите статуса в секция Проследи поръчка на сайта."
+          }
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://mostcomputers.bg/#breadcrumb",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Most Computers", "item": "https://mostcomputers.bg/" }
+      ]
+    },
+    {
+      "@type": "ItemList",
+      "@id": "https://mostcomputers.bg/#featured-products",
+      "name": "Топ продукти — Most Computers",
+      "description": "Препоръчани лаптопи и електроника от Most Computers",
+      "itemListElement": [
+        {
+          "@type": "ListItem", "position": 1,
+          "item": {
+            "@type": "Product",
+            "name": "MSI Katana 15 HX B14VGK",
+            "description": "15.6\" FHD 144Hz, Intel Core i5-14450HX, 16GB DDR5, 512GB NVMe, NVIDIA RTX 4070 8GB",
+            "brand": { "@type": "Brand", "name": "MSI" },
+            "offers": { "@type": "Offer", "priceCurrency": "BGN", "price": 2102, "availability": "https://schema.org/InStock", "seller": { "@type": "Organization", "name": "Most Computers" } },
+            "url": "https://mostcomputers.bg/?product=261"
+          }
+        },
+        {
+          "@type": "ListItem", "position": 2,
+          "item": {
+            "@type": "Product",
+            "name": "Lenovo Legion 5 15IAX7",
+            "description": "15.6\" FHD 165Hz, Intel Core i7-14700HX, 32GB DDR5, 1TB NVMe, NVIDIA RTX 5060 8GB",
+            "brand": { "@type": "Brand", "name": "Lenovo" },
+            "offers": { "@type": "Offer", "priceCurrency": "BGN", "price": 2931, "availability": "https://schema.org/InStock", "seller": { "@type": "Organization", "name": "Most Computers" } },
+            "url": "https://mostcomputers.bg/?product=266"
+          }
+        },
+        {
+          "@type": "ListItem", "position": 3,
+          "item": {
+            "@type": "Product",
+            "name": "MSI Vector 16 HX AI A2VMTG",
+            "description": "16\" QHD+ 240Hz, Intel Core Ultra 9 275HX, 32GB DDR5, 2TB NVMe, NVIDIA RTX 5080 16GB",
+            "brand": { "@type": "Brand", "name": "MSI" },
+            "offers": { "@type": "Offer", "priceCurrency": "BGN", "price": 4875, "availability": "https://schema.org/InStock", "seller": { "@type": "Organization", "name": "Most Computers" } },
+            "url": "https://mostcomputers.bg/?product=262"
+          }
+        },
+        {
+          "@type": "ListItem", "position": 4,
+          "item": {
+            "@type": "Product",
+            "name": "MSI Stealth A16 AI+ A3VEG",
+            "description": "16\" FHD+ 165Hz, AMD Ryzen AI 9 HX 370, 32GB DDR5, 1TB NVMe, NVIDIA RTX 4060 8GB",
+            "brand": { "@type": "Brand", "name": "MSI" },
+            "offers": { "@type": "Offer", "priceCurrency": "BGN", "price": 4119, "availability": "https://schema.org/InStock", "seller": { "@type": "Organization", "name": "Most Computers" } },
+            "url": "https://mostcomputers.bg/?product=263"
           }
         }
       ]
@@ -536,7 +598,6 @@
 
   <!-- MOBILE DRAWER -->
   <div class="mob-overlay" id="mobOverlay" data-action="toggleMobMenu"></div>
-  <a href="#main-content" class="skip-to-content" id="skip-to-content">Прескочи към основното съдържание</a>
 
   <div class="mob-drawer" id="mobDrawer">
     <div class="mob-drawer-header">
@@ -793,7 +854,7 @@
   <div class="modal-backdrop" id="productModalBackdrop" data-action="closeProductModal:event" role="dialog"
     aria-modal="true" aria-label="Детайли за продукт">
     <div class="product-modal" id="productModal">
-      <button type="button" class="modal-close" data-action="closeProductModalDirect"><svg width="18" height="18"
+      <button type="button" class="modal-close" data-action="closeProductModalDirect" aria-label="Затвори"><svg width="18" height="18"
           class="svg-ic" aria-hidden="true">
           <use href="#ic-close" />
         </svg></button>
@@ -893,7 +954,7 @@
     <div class="compare-modal">
       <div class="compare-modal-header">
         <div class="compare-modal-title">⚖ Сравнение на продукти</div>
-        <button type="button" class="compare-modal-close" data-action="closeCompareModalDirect"><svg width="18"
+        <button type="button" class="compare-modal-close" data-action="closeCompareModalDirect" aria-label="Затвори"><svg width="18"
             height="18" class="svg-ic" aria-hidden="true">
             <use href="#ic-close" />
           </svg></button>
@@ -925,12 +986,12 @@
       </div>
       <div class="qo-body" id="qoFormWrap">
         <div class="qo-form-row">
-          <label>Вашето име *</label>
-          <input type="text" class="qo-input" id="qoName2" placeholder="Иван Петров">
+          <label for="qoName2">Вашето име *</label>
+          <input type="text" class="qo-input" id="qoName2" placeholder="Иван Петров" autocomplete="name">
         </div>
         <div class="qo-form-row">
-          <label>Телефон за връзка *</label>
-          <input type="tel" class="qo-input" id="qoPhone" placeholder="08X XXX XXXX">
+          <label for="qoPhone">Телефон за връзка *</label>
+          <input type="tel" class="qo-input" id="qoPhone" placeholder="08X XXX XXXX" autocomplete="tel">
         </div>
         <div class="qo-address-toggle">
           <button type="button" class="qo-toggle-btn"
@@ -1007,15 +1068,16 @@
         <div class="auth-form active" id="formLogin">
           <div class="auth-error-msg" id="loginError">⚠ Грешен имейл или парола!</div>
           <div class="auth-field">
-            <label>Имейл адрес</label>
-            <input type="email" class="auth-input" id="loginEmail" placeholder="example@mail.bg">
+            <label for="loginEmail">Имейл адрес</label>
+            <input type="email" class="auth-input" id="loginEmail" placeholder="example@mail.bg" autocomplete="email" aria-describedby="loginEmail-err"><span class="auth-field-error" id="loginEmail-err" role="alert"></span>
           </div>
           <div class="auth-field">
-            <label>Парола</label>
+            <label for="loginPassword">Парола</label>
             <div class="auth-input-wrap">
-              <input type="password" class="auth-input" id="loginPassword" placeholder="••••••••">
+              <input type="password" class="auth-input" id="loginPassword" placeholder="••••••••" autocomplete="current-password" aria-describedby="loginPassword-err">
               <button type="button" class="auth-eye" data-action="togglePwVis:loginPassword,this">👁</button>
             </div>
+            <span class="auth-field-error" id="loginPassword-err" role="alert"></span>
           </div>
           <div class="auth-forgot" data-action="showForgotPw">Забравена парола?</div>
           <button type="button" class="auth-submit" data-action="handleLogin">Влез в профила →</button>
@@ -1035,27 +1097,27 @@
           <div class="auth-error-msg" id="registerError">⚠ Моля провери данните!</div>
           <div class="auth-row2">
             <div class="auth-field">
-              <label>Име</label>
-              <input type="text" class="auth-input" id="regFirstName" placeholder="Иван">
+              <label for="regFirstName">Име</label>
+              <input type="text" class="auth-input" id="regFirstName" placeholder="Иван" autocomplete="given-name">
             </div>
             <div class="auth-field">
-              <label>Фамилия</label>
-              <input type="text" class="auth-input" id="regLastName" placeholder="Петров">
+              <label for="regLastName">Фамилия</label>
+              <input type="text" class="auth-input" id="regLastName" placeholder="Петров" autocomplete="family-name">
             </div>
           </div>
           <div class="auth-field">
-            <label>Имейл адрес</label>
-            <input type="email" class="auth-input" id="regEmail" placeholder="example@mail.bg">
+            <label for="regEmail">Имейл адрес</label>
+            <input type="email" class="auth-input" id="regEmail" placeholder="example@mail.bg" autocomplete="email" aria-describedby="regEmail-err"><span class="auth-field-error" id="regEmail-err" role="alert"></span>
           </div>
           <div class="auth-field">
-            <label>Телефон (по желание)</label>
-            <input type="tel" class="auth-input" id="regPhone" placeholder="08X XXX XXXX">
+            <label for="regPhone">Телефон (по желание)</label>
+            <input type="tel" class="auth-input" id="regPhone" placeholder="08X XXX XXXX" autocomplete="tel">
           </div>
           <div class="auth-field">
-            <label>Парола</label>
+            <label for="regPassword">Парола</label>
             <div class="auth-input-wrap">
               <input type="password" class="auth-input" id="regPassword" placeholder="Мин. 6 символа"
-                oninput="checkPwStrength(this.value)">
+                oninput="checkPwStrength(this.value)" autocomplete="new-password" aria-describedby="regPassword-err">
               <button type="button" class="auth-eye" data-action="togglePwVis:regPassword,this">👁</button>
             </div>
             <div class="pw-strength">
@@ -1064,13 +1126,15 @@
               </div>
               <div class="pw-strength-text" id="pwText"></div>
             </div>
+            <span class="auth-field-error" id="regPassword-err" role="alert"></span>
           </div>
           <div class="auth-field">
-            <label>Потвърди парола</label>
+            <label for="regPassword2">Потвърди парола</label>
             <div class="auth-input-wrap">
-              <input type="password" class="auth-input" id="regPassword2" placeholder="Повтори паролата">
+              <input type="password" class="auth-input" id="regPassword2" placeholder="Повтори паролата" autocomplete="new-password" aria-describedby="regPassword2-err">
               <button type="button" class="auth-eye" data-action="togglePwVis:regPassword2,this">👁</button>
             </div>
+            <span class="auth-field-error" id="regPassword2-err" role="alert"></span>
           </div>
           <button type="button" class="auth-submit" data-action="handleRegister">Създай акаунт →</button>
           <div class="auth-divider">или продължи с</div>
@@ -1094,8 +1158,8 @@
             <div class="text-13-muted">Въведи имейла си и ще получиш линк за нулиране.</div>
           </div>
           <div class="auth-field">
-            <label>Имейл адрес</label>
-            <input type="email" class="auth-input" id="forgotEmail" placeholder="example@mail.bg">
+            <label for="forgotEmail">Имейл адрес</label>
+            <input type="email" class="auth-input" id="forgotEmail" placeholder="example@mail.bg" aria-describedby="forgotEmail-err"><span class="auth-field-error" id="forgotEmail-err" role="alert"></span>
           </div>
           <button type="button" class="auth-submit" data-action="handleForgot">Изпрати линк →</button>
           <div class="auth-terms" style="margin-top:12px;">
@@ -1516,7 +1580,7 @@
 
       <span class="promo-strip-sep">✦</span>
       <!-- Duplicate for seamless loop -->
-      <span class="promo-strip-item promo-free-del">🚚 Безплатна доставка над 102.26 € / 200 лв.</span>
+      <span class="promo-strip-item promo-free-del">🚚 Безплатна доставка над 100 € / 195.58 лв.</span>
       <span class="promo-strip-sep">✦</span>
       <span class="promo-strip-item">🔥 SALE — до -60% на избрани продукти</span>
       <span class="promo-strip-sep">✦</span>
@@ -1736,14 +1800,14 @@
     <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleMobileFilters()"></div>
 
     <!-- CONTENT -->
-    <main id="mainContent" class="content-area">
+    <div id="mainContent" class="content-area">
 
       <!-- HERO SLIDER -->
       <div class="hero-section">
         <div class="hero-slider">
           <div class="slide slide-1 active">
             <div class="slide-badge">🔥 Горещи оферти</div>
-            <h1 class="slide-title">Вземи ТОП продукти с голямо намаление</h1>
+            <h2 class="slide-title">Вземи ТОП продукти с голямо намаление</h2>
             <div class="slide-sub">Подбрани оферти на най-ниски цени само тази седмица.</div>
             <div class="slide-price" id="slide1Price">от <b>101.75 €</b> / 199 лв. <small>вместо 178.44 € / 349
                 лв.</small></div>
@@ -1818,7 +1882,7 @@
           </div>
           <div class="hp-cats-grid" id="hpCatsGrid"></div>
         </div>
-        <button type="button" class="mobile-filter-toggle" onclick="toggleMobileFilters()" aria-label="Отвори филтри">
+        <button type="button" class="mobile-filter-toggle" data-action="toggleMobileFilters" aria-label="Отвори филтри">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <line x1="4" y1="6" x2="20" y2="6" />
@@ -2061,15 +2125,15 @@
               </div>
               <div class="checkout-card-body">
                 <div class="ck-row2">
-                  <div class="ck-field"><label>Име *</label><input class="ck-input" id="ckFirst" placeholder="Иван"
-                      onblur="ckValidateField(this)"></div>
-                  <div class="ck-field"><label>Фамилия *</label><input class="ck-input" id="ckLast" placeholder="Петров"
-                      onblur="ckValidateField(this)"></div>
+                  <div class="ck-field"><label for="ckFirst">Име *</label><input class="ck-input" id="ckFirst" placeholder="Иван"
+                      onblur="ckValidateField(this)" autocomplete="given-name" aria-describedby="ckFirst-err"><span class="ck-field-error" id="ckFirst-err" role="alert"></span></div>
+                  <div class="ck-field"><label for="ckLast">Фамилия *</label><input class="ck-input" id="ckLast" placeholder="Петров"
+                      onblur="ckValidateField(this)" autocomplete="family-name" aria-describedby="ckLast-err"><span class="ck-field-error" id="ckLast-err" role="alert"></span></div>
                 </div>
-                <div class="ck-field"><label>Имейл *</label><input type="email" class="ck-input" id="ckEmail"
-                    placeholder="ivan@mail.bg" onblur="ckValidateEmail(this)"></div>
-                <div class="ck-field"><label>Телефон *</label><input type="tel" class="ck-input" id="ckPhone"
-                    placeholder="0888 123 456" onblur="ckValidatePhone(this)" oninput="ckFormatPhone(this)"></div>
+                <div class="ck-field"><label for="ckEmail">Имейл *</label><input type="email" class="ck-input" id="ckEmail"
+                    placeholder="ivan@mail.bg" onblur="ckValidateEmail(this)" autocomplete="email" aria-describedby="ckEmail-err"><span class="ck-field-error" id="ckEmail-err" role="alert"></span></div>
+                <div class="ck-field"><label for="ckPhone">Телефон *</label><input type="tel" class="ck-input" id="ckPhone"
+                    placeholder="0888 123 456" onblur="ckValidatePhone(this)" oninput="ckFormatPhone(this)" autocomplete="tel" aria-describedby="ckPhone-err"><span class="ck-field-error" id="ckPhone-err" role="alert"></span></div>
                 <div class="ck-step-nav">
                   <span class="ck-req-note">* Задължителни полета</span>
                   <button type="button" class="ck-next-btn" onclick="ckNextStep(1)">Продължи към доставка ›</button>
@@ -2466,7 +2530,7 @@
         <div class="cookie-modal">
           <div class="cookie-modal-header">
             🍪 Настройки за бисквитки
-            <button type="button" class="cookie-modal-close" data-action="closeCookieSettingsDirect">×</button>
+            <button type="button" class="cookie-modal-close" data-action="closeCookieSettingsDirect" aria-label="Затвори">×</button>
           </div>
           <div class="cookie-modal-body">
             <div class="cookie-toggle-row">
@@ -2649,21 +2713,21 @@
             <div id="cfFormWrap">
               <div class="cf-grid">
                 <div class="cf-field">
-                  <label>Име *</label>
-                  <input type="text" class="cf-input" id="cfName" placeholder="Иван Петров">
+                  <label for="cfName">Име *</label>
+                  <input type="text" class="cf-input" id="cfName" placeholder="Иван Петров" autocomplete="name">
                 </div>
                 <div class="cf-field">
-                  <label>Имейл *</label>
-                  <input type="email" class="cf-input" id="cfEmail" placeholder="ivan@mail.bg">
+                  <label for="cfEmail">Имейл *</label>
+                  <input type="email" class="cf-input" id="cfEmail" placeholder="ivan@mail.bg" autocomplete="email">
                 </div>
               </div>
               <div class="cf-grid">
                 <div class="cf-field">
-                  <label>Тема *</label>
+                  <label for="cfSubject">Тема *</label>
                   <input type="text" class="cf-input" id="cfSubject" placeholder="Въпрос относно...">
                 </div>
                 <div class="cf-field">
-                  <label>Тип запитване</label>
+                  <label for="cfType">Тип запитване</label>
                   <select class="cf-select" id="cfType">
                     <option value="">Изберете...</option>
                     <option value="product">Въпрос за продукт</option>
@@ -2676,11 +2740,11 @@
                 </div>
               </div>
               <div class="cf-field">
-                <label>Телефон</label>
-                <input type="tel" class="cf-input" id="cfPhone" placeholder="08X XXX XXXX" style="max-width:300px;">
+                <label for="cfPhone">Телефон</label>
+                <input type="tel" class="cf-input" id="cfPhone" placeholder="08X XXX XXXX" style="max-width:300px;" autocomplete="tel">
               </div>
               <div class="cf-field">
-                <label>Съобщение *</label>
+                <label for="cfMessage">Съобщение *</label>
                 <textarea class="cf-textarea" id="cfMessage" placeholder="Опишете своето запитване..."></textarea>
               </div>
               <div class="cf-checkbox-row">
@@ -2699,7 +2763,7 @@
           </div>
 
         </div>
-    </main>
+    </div>
   </main>
 
   <!-- MY ORDERS PAGE -->

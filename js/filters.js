@@ -249,13 +249,14 @@ function updatePriceSlider(){
   const mn = document.getElementById('priceMin'), mx = document.getElementById('priceMax');
   if(!mn||!mx) return;
   let minV=parseInt(mn.value), maxV=parseInt(mx.value);
+  if(isNaN(minV)) minV=0; if(isNaN(maxV)) maxV=5000;
   if(minV > maxV-50){ minV=maxV-50; mn.value=minV; }
   srpPriceMinVal=minV; srpPriceMaxVal=maxV;
-  document.getElementById('srpPriceVals').textContent = fmtBgn(minV) + ' — ' + fmtBgn(maxV);
+  const srpVals=document.getElementById('srpPriceVals'); if(srpVals) srpVals.textContent = fmtBgn(minV) + ' — ' + fmtBgn(maxV);
   const rng = document.getElementById('sliderRange');
   if(rng){ rng.style.left=(minV/5000*100)+'%'; rng.style.width=((maxV-minV)/5000*100)+'%'; }
   let res = searchProducts(srpCurrentQuery, srpCurrentCatFilter).filter(p => p.price>=minV && p.price<=maxV);
-  document.getElementById('srpCount').textContent = res.length + ' резултата';
+  const srpCnt=document.getElementById('srpCount'); if(srpCnt) srpCnt.textContent = res.length + ' резултата';
   renderSRPGrid(res, srpCurrentQuery);
 }
 // price slider integrated into showSearchResultsPage directly

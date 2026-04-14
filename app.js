@@ -1182,11 +1182,11 @@ function updateCart(){
   const deliveryRow=document.getElementById('cartDeliveryRow');
   const deliveryVal=document.getElementById('cartDeliveryVal');
   if(total>=FREE_SHIP_BGN){
-    html+=`<div class="cart-ship-bar"><div class="cart-ship-msg ship-free">🎉 Имаш безплатна доставка!</div><div class="cart-ship-progress"><div class="cart-ship-fill" style="width:100%"></div></div></div>`;
+    html+=`<div class="cart-ship-bar"><div class="cart-ship-msg ship-free">🎉 Имаш безплатна доставка!</div><div class="cart-ship-progress"><div class="cart-ship-fill" style="transform:scaleX(1)"></div></div></div>`;
     if(deliveryRow) deliveryRow.style.display='none';
   }else{
     const rem=(FREE_SHIP_BGN-total).toFixed(2);
-    html+=`<div class="cart-ship-bar"><div class="cart-ship-msg">Добави още <strong>${rem} лв.</strong> за безплатна доставка!</div><div class="cart-ship-progress"><div class="cart-ship-fill" style="width:${pct.toFixed(1)}%"></div></div></div>`;
+    html+=`<div class="cart-ship-bar"><div class="cart-ship-msg">Добави още <strong>${rem} лв.</strong> за безплатна доставка!</div><div class="cart-ship-progress"><div class="cart-ship-fill" style="transform:scaleX(${(pct/100).toFixed(3)})"></div></div></div>`;
     if(deliveryRow) deliveryRow.style.display='flex';
     if(deliveryVal) deliveryVal.textContent='5.99 лв.';
   }
@@ -1461,9 +1461,19 @@ function validateCkStep(step) {
   return true;
 }
 
+function _ckSetError(el, msg) {
+  const errEl = el.id ? document.getElementById(el.id + '-err') : null;
+  if (errEl) errEl.textContent = msg || '';
+}
+
 function ckValidateField(el) {
-  if (!el.value.trim()) { el.classList.add('error'); el.classList.remove('valid'); el.setAttribute('aria-invalid','true'); }
-  else { el.classList.remove('error'); el.classList.add('valid'); el.setAttribute('aria-invalid','false'); }
+  if (!el.value.trim()) {
+    el.classList.add('error'); el.classList.remove('valid'); el.setAttribute('aria-invalid','true');
+    _ckSetError(el, 'Полето е задължително.');
+  } else {
+    el.classList.remove('error'); el.classList.add('valid'); el.setAttribute('aria-invalid','false');
+    _ckSetError(el, '');
+  }
 }
 
 function ckValidateEmail(el) {
@@ -1471,6 +1481,7 @@ function ckValidateEmail(el) {
   el.classList.toggle('error', !ok);
   el.classList.toggle('valid', !!ok);
   el.setAttribute('aria-invalid', ok ? 'false' : 'true');
+  _ckSetError(el, ok ? '' : 'Въведи валиден имейл адрес.');
 }
 
 // BG phone: 08xx, 09xx, +359 8xx, 00359 8xx — at least 10 digits
@@ -1480,6 +1491,7 @@ function ckValidatePhone(el) {
   el.classList.toggle('error', !ok);
   el.classList.toggle('valid', ok);
   el.setAttribute('aria-invalid', ok ? 'false' : 'true');
+  _ckSetError(el, ok ? '' : 'Въведи валиден телефон (напр. 0888 123 456).');
 }
 
 // Auto-format phone as user types: 0888 123 456
@@ -2272,20 +2284,41 @@ function checkPwStrength(val) {
   text.textContent = l.t; text.style.color = l.c;
 }
 
+function _authErr(id, msg) {
+  const el = document.getElementById(id + '-err');
+  if (el) el.textContent = msg || '';
+}
+
 function handleLogin() {
   const email = document.getElementById('loginEmail').value.trim();
   const pass = document.getElementById('loginPassword').value;
   const errEl = document.getElementById('loginError');
   errEl.classList.remove('show');
   let valid = true;
-  if (!email || !email.includes('@')) { document.getElementById('loginEmail').classList.add('error'); valid = false; }
-  else document.getElementById('loginEmail').classList.remove('error');
-  if (!pass) { document.getElementById('loginPassword').classList.add('error'); valid = false; }
-  else document.getElementById('loginPassword').classList.remove('error');
+  if (!email || !email.includes('@')) {
+    document.getElementById('loginEmail').classList.add('error');
+    _authErr('loginEmail', 'Въведи валиден имейл адрес.');
+    valid = false;
+  } else {
+    document.getElementById('loginEmail').classList.remove('error');
+    _authErr('loginEmail', '');
+  }
+  if (!pass) {
+    document.getElementById('loginPassword').classList.add('error');
+    _authErr('loginPassword', 'Паролата е задължителна.');
+    valid = false;
+  } else {
+    document.getElementById('loginPassword').classList.remove('error');
+    _authErr('loginPassword', '');
+  }
   if (!valid) return;
-  // Check credentials
   const user = demoUsers.find(u => u.email === email && u.password === pass);
-  if (!user) { errEl.classList.add('show'); document.getElementById('loginPassword').classList.add('error'); return; }
+  if (!user) {
+    errEl.classList.add('show');
+    document.getElementById('loginPassword').classList.add('error');
+    _authErr('loginPassword', 'Грешен имейл или парола.');
+    return;
+  }
   loginSuccess(user);
 }
 
@@ -2298,16 +2331,25 @@ function handleRegister() {
   const errEl = document.getElementById('registerError');
   errEl.classList.remove('show');
   let valid = true;
-  const fields = [
-    ['regFirstName', fn.length > 0],
-    ['regLastName', ln.length > 0],
-    ['regEmail', email.includes('@')],
-    ['regPassword', pw.length >= 6],
-    ['regPassword2', pw === pw2 && pw.length >= 6],
+  const fieldChecks = [
+    ['regFirstName', fn.length > 0, 'Името е задължително.'],
+    ['regLastName', ln.length > 0, 'Фамилията е задължителна.'],
+    ['regEmail', email.includes('@'), 'Въведи валиден имейл адрес.'],
+    ['regPassword', pw.length >= 6, 'Паролата трябва да е поне 6 символа.'],
+    ['regPassword2', pw === pw2 && pw.length >= 6, pw !== pw2 ? 'Паролите не съвпадат.' : 'Повтори паролата.'],
   ];
-  fields.forEach(([id, ok]) => { document.getElementById(id).classList.toggle('error', !ok); if (!ok) valid = false; });
+  fieldChecks.forEach(([id, ok, msg]) => {
+    document.getElementById(id).classList.toggle('error', !ok);
+    _authErr(id, ok ? '' : msg);
+    if (!ok) valid = false;
+  });
   if (!valid) { errEl.textContent = pw !== pw2 ? '⚠ Паролите не съвпадат!' : '⚠ Моля провери данните!'; errEl.classList.add('show'); return; }
-  if (demoUsers.find(u => u.email === email)) { errEl.textContent = '⚠ Имейлът вече е регистриран!'; errEl.classList.add('show'); document.getElementById('regEmail').classList.add('error'); return; }
+  if (demoUsers.find(u => u.email === email)) {
+    errEl.textContent = '⚠ Имейлът вече е регистриран!'; errEl.classList.add('show');
+    document.getElementById('regEmail').classList.add('error');
+    _authErr('regEmail', 'Този имейл вече е регистриран.');
+    return;
+  }
   const newUser = { email, password: pw, firstName: fn, lastName: ln, phone: document.getElementById('regPhone').value };
   demoUsers.push(newUser);
   registerSuccess(newUser);
@@ -2315,8 +2357,13 @@ function handleRegister() {
 
 function handleForgot() {
   const email = document.getElementById('forgotEmail').value.trim();
-  if (!email.includes('@')) { document.getElementById('forgotEmail').classList.add('error'); return; }
+  if (!email.includes('@')) {
+    document.getElementById('forgotEmail').classList.add('error');
+    _authErr('forgotEmail', 'Въведи валиден имейл адрес.');
+    return;
+  }
   document.getElementById('forgotEmail').classList.remove('error');
+  _authErr('forgotEmail', '');
   showAuthSuccess('📧', 'Имейлът е изпратен!', `Провери ${email} за линк за нулиране на паролата.`);
 }
 
@@ -6776,6 +6823,8 @@ function openProductPage(id) {
   setOGName('twitter:title',       p.name + ' | Most Computers');
   setOGName('twitter:description', p.desc ? p.desc.substring(0,200) : `${p.brand} — ${p.name}`);
   setOGName('twitter:image',       p.img || '');
+  const _canonical = document.querySelector('link[rel="canonical"]');
+  if (_canonical) _canonical.setAttribute('href', `https://mostcomputers.bg/?product=${p.id}`);
 
   // Badges
   let b = '';
@@ -6980,31 +7029,48 @@ function openProductPage(id) {
     document.head.appendChild(_schemaTag);
   }
   const _catLabel = (typeof CAT_LABELS !== 'undefined' && CAT_LABELS[p.cat]) ? CAT_LABELS[p.cat] : p.cat;
-  _schemaTag.textContent = JSON.stringify([
-    {
-      "@context": "https://schema.org/",
-      "@type": "Product",
-      "name": p.name,
-      "image": p.img ? [p.img] : [],
-      "description": p.desc || p.name,
-      "brand": { "@type": "Brand", "name": p.brand || '' },
-      "sku": p.sku || '',
-      "offers": {
-        "@type": "Offer",
-        "url": window.location.href,
-        "priceCurrency": "BGN",
-        "price": p.price,
-        "availability": p.stock === false ? "https://schema.org/OutOfStock" : "https://schema.org/InStock",
-        "seller": { "@type": "Organization", "name": "Most Computers" }
-      },
-      ...(_avgRating && _rvCount ? {
-        "aggregateRating": {
-          "@type": "AggregateRating",
-          "ratingValue": _avgRating,
-          "reviewCount": _rvCount
-        }
-      } : {})
+  const _priceValidUntil = new Date(Date.now() + 365 * 24 * 3600 * 1000).toISOString().split('T')[0];
+  const _images = Array.isArray(p.gallery) && p.gallery.length ? p.gallery : (p.img ? [p.img] : []);
+  const _productSchema = {
+    "@context": "https://schema.org/",
+    "@type": "Product",
+    "name": p.name,
+    "image": _images,
+    "description": p.desc || p.name,
+    "brand": { "@type": "Brand", "name": p.brand || '' },
+    "sku": p.sku || '',
+    ...(p.ean ? { "gtin13": p.ean } : {}),
+    "offers": {
+      "@type": "Offer",
+      "url": `${location.origin}/?product=${p.id}`,
+      "priceCurrency": "BGN",
+      "price": p.price,
+      "priceValidUntil": _priceValidUntil,
+      "itemCondition": "https://schema.org/NewCondition",
+      "availability": p.stock === false ? "https://schema.org/OutOfStock" : "https://schema.org/InStock",
+      "seller": { "@type": "Organization", "name": "Most Computers" }
     },
+    ...(_avgRating && _rvCount ? {
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": _avgRating,
+        "reviewCount": _rvCount,
+        "bestRating": 5,
+        "worstRating": 1
+      }
+    } : {})
+  };
+  if (Array.isArray(p.reviews) && p.reviews.length > 0) {
+    _productSchema.review = p.reviews.slice(0, 5).map(r => ({
+      "@type": "Review",
+      "author": { "@type": "Person", "name": r.name },
+      "datePublished": r.date,
+      "reviewBody": r.text,
+      "reviewRating": { "@type": "Rating", "ratingValue": r.stars, "bestRating": 5, "worstRating": 1 }
+    }));
+  }
+  _schemaTag.textContent = JSON.stringify([
+    _productSchema,
     {
       "@context": "https://schema.org",
       "@type": "BreadcrumbList",

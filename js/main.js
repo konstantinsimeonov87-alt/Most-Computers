@@ -49,10 +49,10 @@ function submitContactForm() {
 // Category architecture migration
 const _CAT_MIGRATE = {
   laptop:'laptops', desktop:'desktops',
-  monitor:'peripherals', gaming:'desktops',
-  mobile:'accessories', tablet:'accessories',
+  monitor:'monitors', gaming:'gaming',
+  mobile:'phones', tablet:'phones',
   tv:'accessories', audio:'peripherals',
-  camera:'accessories', print:'peripherals',
+  camera:'peripherals', print:'peripherals',
   smart:'accessories', network:'network',
   storage:'storage', acc:'accessories',
   components:'components'

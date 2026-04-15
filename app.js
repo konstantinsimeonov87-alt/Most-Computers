@@ -682,7 +682,7 @@ document.addEventListener('keydown', e => {
       { id: 'catPage',              close: () => typeof closeCatPage === 'function' && closeCatPage() },
       { id: 'mobDrawer',            close: () => typeof closeMobMenu === 'function' && closeMobMenu(), checkFn: el => el.classList.contains('open') },
       { id: 'authBackdrop',         close: () => { document.getElementById('authBackdrop').classList.remove('open'); document.body.style.overflow = ''; } },
-      { id: 'checkoutPage',         close: () => { if (typeof closeCheckout === 'function') closeCheckout(); else { document.getElementById('checkoutPage').classList.remove('open'); document.body.style.overflow = ''; } } },
+      { id: 'checkoutPage',         close: () => { if (typeof closeCheckoutPage === 'function') closeCheckoutPage(); else { document.getElementById('checkoutPage').classList.remove('open'); document.body.style.overflow = ''; } } },
       { id: 'blogPage',             close: () => typeof closeBlogPage === 'function' && closeBlogPage() },
       { id: 'servicePage',          close: () => typeof closeServicePage === 'function' && closeServicePage() },
       { id: 'deliveryPage',         close: () => typeof closeDeliveryPage === 'function' && closeDeliveryPage() },
@@ -940,14 +940,14 @@ function openProductModal(id){
   if(p.old){oe.textContent=fmtEur(p.old)+' / '+fmtBgn(p.old);se.textContent='-'+Math.round((p.old-p.price)/p.old*100)+'%';se.style.display='';}else{oe.textContent='';se.style.display='none';}
   document.getElementById('modalMonthly').innerHTML='';
   document.getElementById('modalQty').textContent='1';
-  document.getElementById('modalSpecs').innerHTML=Object.keys(p.specs).slice(0,4).map(k=>`<div class="spec-chip"><div class="spec-chip-key">${k}</div><div class="spec-chip-val">${p.specs[k]}</div></div>`).join('');
+  document.getElementById('modalSpecs').innerHTML=Object.keys(p.specs).slice(0,4).map(k=>`<div class="spec-chip"><div class="spec-chip-key">${_esc(k)}</div><div class="spec-chip-val">${_esc(p.specs[k])}</div></div>`).join('');
   let b='';if(p.badge==='sale')b+='<span class="badge badge-sale">Промо</span>';if(p.badge==='new')b+='<span class="badge badge-new">Ново</span>';if(p.badge==='hot')b+='<span class="badge badge-hot">Горещо</span>';
   document.getElementById('modalBadges').innerHTML=b;
   document.getElementById('modalDesc').textContent=p.desc;
   var _el_modalSpecsFull=document.getElementById('modalSpecsFull'); if(_el_modalSpecsFull) _el_modalSpecsFull.innerHTML =
-    `<div class="spec-chip"><div class="spec-chip-key">SKU</div><div class="spec-chip-val mono-12">${p.sku}</div></div>` +
-    `<div class="spec-chip"><div class="spec-chip-key">EAN</div><div class="spec-chip-val mono-12">${p.ean}</div></div>` +
-    Object.entries(p.specs).map(([k,v])=>`<div class="spec-chip"><div class="spec-chip-key">${k}</div><div class="spec-chip-val">${v}</div></div>`).join('');
+    `<div class="spec-chip"><div class="spec-chip-key">SKU</div><div class="spec-chip-val mono-12">${_esc(p.sku)}</div></div>` +
+    `<div class="spec-chip"><div class="spec-chip-key">EAN</div><div class="spec-chip-val mono-12">${_esc(p.ean)}</div></div>` +
+    Object.entries(p.specs).map(([k,v])=>`<div class="spec-chip"><div class="spec-chip-key">${_esc(k)}</div><div class="spec-chip-val">${_esc(v)}</div></div>`).join('');
   document.getElementById('modalReviews').innerHTML=p.reviews.map(r=>`<div class="review-item"><div class="review-header"><span class="review-name">${_esc(r.name)}</span><span class="review-stars">${starsHTML(r.stars)}</span><span class="review-date">${_esc(r.date)}</span></div><div class="review-text">${_esc(r.text)}</div></div>`).join('');
   switchTab('desc');
   document.getElementById('productModalBackdrop').classList.add('open');document.body.style.overflow='hidden';
@@ -1048,7 +1048,7 @@ function openCompareModal(){
   html+=`</tr><tr><th>Рейтинг</th>`;
   prods.forEach(p=>html+=`<td class="${p.rating===maxR?'cmp-highlight':''}">${starsHTML(p.rating)} ${p.rating}</td>`);
   html+=`</tr>`;
-  allKeys.forEach(k=>{html+=`<tr><th>${k}</th>`;prods.forEach(p=>html+=`<td>${p.specs[k]||'—'}</td>`);html+=`</tr>`;});
+  allKeys.forEach(k=>{html+=`<tr><th>${_esc(k)}</th>`;prods.forEach(p=>html+=`<td>${_esc(p.specs[k]||'—')}</td>`);html+=`</tr>`;});
   html+=`</tbody>`;
   document.getElementById('compareTableModal').innerHTML=html;
   document.getElementById('compareModalBackdrop').classList.add('open');document.body.style.overflow='hidden';
@@ -1566,10 +1566,11 @@ function updateCheckoutSteps(active) {
 }
 
 function submitOrder() {
-  // Validate required fields
+  // Validate required fields — skip city/address for pickup (ckDeliveryIdx === 2)
+  const isPickup = ckDeliveryIdx === 2;
   const required = [
     ['ckFirst','Ime'], ['ckLast','Familiya'], ['ckEmail','Email'], ['ckPhone','Telefon'],
-    ['ckCity','Grad'], ['ckAddr','Adres']
+    ...(!isPickup ? [['ckCity','Grad'], ['ckAddr','Adres']] : [])
   ];
   let valid = true;
   required.forEach(([id]) => {
@@ -7696,8 +7697,8 @@ function renderRelated(currentId) {
   track.style.transform = 'translateX(0)';
   track.innerHTML = related.map(r => `
     <div class="related-card" onclick="openProductModal(${r.id})">
-      <span class="related-card-emoji">${r.emoji}</span>
-      <div class="related-card-name">${r.name}</div>
+      <span class="related-card-emoji">${escHtml(r.emoji||'')}</span>
+      <div class="related-card-name">${escHtml(r.name)}</div>
       <div class="related-card-price">${fmtEur(r.price)}</div>
     </div>`).join('');
   updateRelatedNav(related.length);
@@ -7888,7 +7889,7 @@ function _pdpSrchRender(q) {
   _pdpSrchIdx = -1;
 
   if (!_pdpSrchResults.length) {
-    drop.innerHTML = `<div class="pdp-drop-empty">Няма намерени продукти за <strong>${q}</strong></div>`;
+    drop.innerHTML = `<div class="pdp-drop-empty">Няма намерени продукти за <strong>${escHtml(q)}</strong></div>`;
     drop.style.display = '';
     return;
   }
@@ -7896,18 +7897,18 @@ function _pdpSrchRender(q) {
   drop.innerHTML = _pdpSrchResults.map((p, i) => {
     const price = typeof formatPrice === 'function' ? formatPrice(p.price) : p.price + ' лв.';
     const img = p.img
-      ? `<img src="${p.img}" alt="" class="pdp-drop-img" loading="lazy">`
-      : `<span class="pdp-drop-emoji">${p.emoji || '📦'}</span>`;
+      ? `<img src="${escHtml(p.img)}" alt="" class="pdp-drop-img" loading="lazy">`
+      : `<span class="pdp-drop-emoji">${escHtml(p.emoji || '📦')}</span>`;
     return `<div class="pdp-drop-item" role="option" data-idx="${i}" onmousedown="pdpSearchPick(${i})">
       <div class="pdp-drop-thumb">${img}</div>
       <div class="pdp-drop-info">
-        <div class="pdp-drop-name">${p.name}</div>
+        <div class="pdp-drop-name">${escHtml(p.name)}</div>
         <div class="pdp-drop-price">${price}</div>
       </div>
     </div>`;
   }).join('') +
   `<div class="pdp-drop-all" onmousedown="pdpSearchGo(document.getElementById('pdpSearchInput').value)">
-    Виж всички резултати за „${q}" →
+    Виж всички резултати за „${escHtml(q)}" →
   </div>`;
 
   drop.style.display = '';
@@ -8042,7 +8043,6 @@ function pdpGoToTop() {
     btn.style.display = show ? '' : 'none';
   }, { passive: true });
   // wire button via JS (works on both click and touch)
-  document.addEventListener('DOMContentLoaded', function() {}, false);
   var _wireBtn = function() {
     var btn = document.getElementById('pdpScrollTop');
     if (!btn) return;
@@ -8259,7 +8259,7 @@ function _pdpCarCard(p) {
   return '<div class="pdp-car-card" onclick="openProductPage(' + p.id + ')">' +
     '<div class="pdp-car-thumb">' + badge + thumb + emoji + '</div>' +
     '<div class="pdp-car-info">' +
-      '<div class="pdp-car-name">' + p.name + '</div>' +
+      '<div class="pdp-car-name">' + (typeof _esc === 'function' ? _esc(p.name) : escHtml(p.name)) + '</div>' +
       stars +
       '<div class="pdp-car-price">' + price + '</div>' +
     '</div>' +
@@ -8280,7 +8280,8 @@ function pdpRenderSpecsSidebar(p) {
   var keys = Object.keys(specs).slice(0, 10);
   if (!keys.length) { sb.style.display = 'none'; return; }
   var rows = keys.map(function(k) {
-    return '<tr><td class="pdp-sb-key">' + k + '</td><td class="pdp-sb-val">' + specs[k] + '</td></tr>';
+    var _e = typeof _esc === 'function' ? _esc : escHtml;
+    return '<tr><td class="pdp-sb-key">' + _e(k) + '</td><td class="pdp-sb-val">' + _e(specs[k]) + '</td></tr>';
   }).join('');
   sb.innerHTML =
     '<div class="pdp-sb-title">' +
@@ -8297,21 +8298,22 @@ function pdpPrintSpecs() {
   var p = (typeof products !== 'undefined') ? products.find(function(x) { return x.id === pdpProductId; }) : null;
   if (!p) return;
   var specs = p.specs || {};
+  var _ep = function(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); };
   var rows = Object.keys(specs).map(function(k) {
-    return '<tr><td style="padding:7px 12px;font-weight:600;color:#444;width:38%;border-bottom:1px solid #eee;">' + k +
-           '</td><td style="padding:7px 12px;border-bottom:1px solid #eee;">' + specs[k] + '</td></tr>';
+    return '<tr><td style="padding:7px 12px;font-weight:600;color:#444;width:38%;border-bottom:1px solid #eee;">' + _ep(k) +
+           '</td><td style="padding:7px 12px;border-bottom:1px solid #eee;">' + _ep(specs[k]) + '</td></tr>';
   }).join('');
   var win = window.open('', '_blank', 'width=800,height=700');
   if (!win) { showToast('⚠️ Попъп прозорецът е блокиран. Разреши попъпи за този сайт.'); return; }
   win.document.write(
-    '<!DOCTYPE html><html><head><title>' + p.name + ' — Характеристики</title>' +
+    '<!DOCTYPE html><html><head><title>' + _ep(p.name) + ' — Характеристики</title>' +
     '<style>body{font-family:Arial,sans-serif;padding:32px;color:#1a1a1a;}h1{font-size:20px;margin-bottom:4px;}' +
     '.sub{color:#888;font-size:13px;margin-bottom:24px;}table{width:100%;border-collapse:collapse;}' +
     'tr:nth-child(even){background:#f9f9f9;}' +
     '@media print{button{display:none!important;}}' +
     '</style></head><body>' +
-    '<h1>' + p.name + '</h1>' +
-    '<div class="sub">' + (p.brand || '') + (p.sku ? ' · SKU: ' + p.sku : '') + '</div>' +
+    '<h1>' + _ep(p.name) + '</h1>' +
+    '<div class="sub">' + _ep(p.brand || '') + (p.sku ? ' · SKU: ' + _ep(p.sku) : '') + '</div>' +
     '<table><tbody>' + rows + '</tbody></table>' +
     '<br><button onclick="window.print()" style="padding:10px 22px;background:#bd1105;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:14px;">🖨 Принтирай</button>' +
     '</body></html>'

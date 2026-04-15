@@ -107,14 +107,14 @@ function openProductModal(id){
   if(p.old){oe.textContent=fmtEur(p.old)+' / '+fmtBgn(p.old);se.textContent='-'+Math.round((p.old-p.price)/p.old*100)+'%';se.style.display='';}else{oe.textContent='';se.style.display='none';}
   document.getElementById('modalMonthly').innerHTML='';
   document.getElementById('modalQty').textContent='1';
-  document.getElementById('modalSpecs').innerHTML=Object.keys(p.specs).slice(0,4).map(k=>`<div class="spec-chip"><div class="spec-chip-key">${k}</div><div class="spec-chip-val">${p.specs[k]}</div></div>`).join('');
+  document.getElementById('modalSpecs').innerHTML=Object.keys(p.specs).slice(0,4).map(k=>`<div class="spec-chip"><div class="spec-chip-key">${_esc(k)}</div><div class="spec-chip-val">${_esc(p.specs[k])}</div></div>`).join('');
   let b='';if(p.badge==='sale')b+='<span class="badge badge-sale">Промо</span>';if(p.badge==='new')b+='<span class="badge badge-new">Ново</span>';if(p.badge==='hot')b+='<span class="badge badge-hot">Горещо</span>';
   document.getElementById('modalBadges').innerHTML=b;
   document.getElementById('modalDesc').textContent=p.desc;
   var _el_modalSpecsFull=document.getElementById('modalSpecsFull'); if(_el_modalSpecsFull) _el_modalSpecsFull.innerHTML =
-    `<div class="spec-chip"><div class="spec-chip-key">SKU</div><div class="spec-chip-val mono-12">${p.sku}</div></div>` +
-    `<div class="spec-chip"><div class="spec-chip-key">EAN</div><div class="spec-chip-val mono-12">${p.ean}</div></div>` +
-    Object.entries(p.specs).map(([k,v])=>`<div class="spec-chip"><div class="spec-chip-key">${k}</div><div class="spec-chip-val">${v}</div></div>`).join('');
+    `<div class="spec-chip"><div class="spec-chip-key">SKU</div><div class="spec-chip-val mono-12">${_esc(p.sku)}</div></div>` +
+    `<div class="spec-chip"><div class="spec-chip-key">EAN</div><div class="spec-chip-val mono-12">${_esc(p.ean)}</div></div>` +
+    Object.entries(p.specs).map(([k,v])=>`<div class="spec-chip"><div class="spec-chip-key">${_esc(k)}</div><div class="spec-chip-val">${_esc(v)}</div></div>`).join('');
   document.getElementById('modalReviews').innerHTML=p.reviews.map(r=>`<div class="review-item"><div class="review-header"><span class="review-name">${_esc(r.name)}</span><span class="review-stars">${starsHTML(r.stars)}</span><span class="review-date">${_esc(r.date)}</span></div><div class="review-text">${_esc(r.text)}</div></div>`).join('');
   switchTab('desc');
   document.getElementById('productModalBackdrop').classList.add('open');document.body.style.overflow='hidden';
@@ -215,7 +215,7 @@ function openCompareModal(){
   html+=`</tr><tr><th>Рейтинг</th>`;
   prods.forEach(p=>html+=`<td class="${p.rating===maxR?'cmp-highlight':''}">${starsHTML(p.rating)} ${p.rating}</td>`);
   html+=`</tr>`;
-  allKeys.forEach(k=>{html+=`<tr><th>${k}</th>`;prods.forEach(p=>html+=`<td>${p.specs[k]||'—'}</td>`);html+=`</tr>`;});
+  allKeys.forEach(k=>{html+=`<tr><th>${_esc(k)}</th>`;prods.forEach(p=>html+=`<td>${_esc(p.specs[k]||'—')}</td>`);html+=`</tr>`;});
   html+=`</tbody>`;
   document.getElementById('compareTableModal').innerHTML=html;
   document.getElementById('compareModalBackdrop').classList.add('open');document.body.style.overflow='hidden';

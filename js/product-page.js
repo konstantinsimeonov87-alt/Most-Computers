@@ -595,8 +595,8 @@ function renderRelated(currentId) {
   track.style.transform = 'translateX(0)';
   track.innerHTML = related.map(r => `
     <div class="related-card" onclick="openProductModal(${r.id})">
-      <span class="related-card-emoji">${r.emoji}</span>
-      <div class="related-card-name">${r.name}</div>
+      <span class="related-card-emoji">${escHtml(r.emoji||'')}</span>
+      <div class="related-card-name">${escHtml(r.name)}</div>
       <div class="related-card-price">${fmtEur(r.price)}</div>
     </div>`).join('');
   updateRelatedNav(related.length);
@@ -787,7 +787,7 @@ function _pdpSrchRender(q) {
   _pdpSrchIdx = -1;
 
   if (!_pdpSrchResults.length) {
-    drop.innerHTML = `<div class="pdp-drop-empty">Няма намерени продукти за <strong>${q}</strong></div>`;
+    drop.innerHTML = `<div class="pdp-drop-empty">Няма намерени продукти за <strong>${escHtml(q)}</strong></div>`;
     drop.style.display = '';
     return;
   }
@@ -795,18 +795,18 @@ function _pdpSrchRender(q) {
   drop.innerHTML = _pdpSrchResults.map((p, i) => {
     const price = typeof formatPrice === 'function' ? formatPrice(p.price) : p.price + ' лв.';
     const img = p.img
-      ? `<img src="${p.img}" alt="" class="pdp-drop-img" loading="lazy">`
-      : `<span class="pdp-drop-emoji">${p.emoji || '📦'}</span>`;
+      ? `<img src="${escHtml(p.img)}" alt="" class="pdp-drop-img" loading="lazy">`
+      : `<span class="pdp-drop-emoji">${escHtml(p.emoji || '📦')}</span>`;
     return `<div class="pdp-drop-item" role="option" data-idx="${i}" onmousedown="pdpSearchPick(${i})">
       <div class="pdp-drop-thumb">${img}</div>
       <div class="pdp-drop-info">
-        <div class="pdp-drop-name">${p.name}</div>
+        <div class="pdp-drop-name">${escHtml(p.name)}</div>
         <div class="pdp-drop-price">${price}</div>
       </div>
     </div>`;
   }).join('') +
   `<div class="pdp-drop-all" onmousedown="pdpSearchGo(document.getElementById('pdpSearchInput').value)">
-    Виж всички резултати за „${q}" →
+    Виж всички резултати за „${escHtml(q)}" →
   </div>`;
 
   drop.style.display = '';

@@ -450,10 +450,11 @@ function updateCheckoutSteps(active) {
 }
 
 function submitOrder() {
-  // Validate required fields
+  // Validate required fields — skip city/address for pickup (ckDeliveryIdx === 2)
+  const isPickup = ckDeliveryIdx === 2;
   const required = [
     ['ckFirst','Ime'], ['ckLast','Familiya'], ['ckEmail','Email'], ['ckPhone','Telefon'],
-    ['ckCity','Grad'], ['ckAddr','Adres']
+    ...(!isPickup ? [['ckCity','Grad'], ['ckAddr','Adres']] : [])
   ];
   let valid = true;
   required.forEach(([id]) => {

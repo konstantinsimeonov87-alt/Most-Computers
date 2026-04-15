@@ -58,7 +58,6 @@ function pdpGoToTop() {
     btn.style.display = show ? '' : 'none';
   }, { passive: true });
   // wire button via JS (works on both click and touch)
-  document.addEventListener('DOMContentLoaded', function() {}, false);
   var _wireBtn = function() {
     var btn = document.getElementById('pdpScrollTop');
     if (!btn) return;
@@ -275,7 +274,7 @@ function _pdpCarCard(p) {
   return '<div class="pdp-car-card" onclick="openProductPage(' + p.id + ')">' +
     '<div class="pdp-car-thumb">' + badge + thumb + emoji + '</div>' +
     '<div class="pdp-car-info">' +
-      '<div class="pdp-car-name">' + p.name + '</div>' +
+      '<div class="pdp-car-name">' + (typeof _esc === 'function' ? _esc(p.name) : escHtml(p.name)) + '</div>' +
       stars +
       '<div class="pdp-car-price">' + price + '</div>' +
     '</div>' +
@@ -296,7 +295,8 @@ function pdpRenderSpecsSidebar(p) {
   var keys = Object.keys(specs).slice(0, 10);
   if (!keys.length) { sb.style.display = 'none'; return; }
   var rows = keys.map(function(k) {
-    return '<tr><td class="pdp-sb-key">' + k + '</td><td class="pdp-sb-val">' + specs[k] + '</td></tr>';
+    var _e = typeof _esc === 'function' ? _esc : escHtml;
+    return '<tr><td class="pdp-sb-key">' + _e(k) + '</td><td class="pdp-sb-val">' + _e(specs[k]) + '</td></tr>';
   }).join('');
   sb.innerHTML =
     '<div class="pdp-sb-title">' +
@@ -313,21 +313,22 @@ function pdpPrintSpecs() {
   var p = (typeof products !== 'undefined') ? products.find(function(x) { return x.id === pdpProductId; }) : null;
   if (!p) return;
   var specs = p.specs || {};
+  var _ep = function(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); };
   var rows = Object.keys(specs).map(function(k) {
-    return '<tr><td style="padding:7px 12px;font-weight:600;color:#444;width:38%;border-bottom:1px solid #eee;">' + k +
-           '</td><td style="padding:7px 12px;border-bottom:1px solid #eee;">' + specs[k] + '</td></tr>';
+    return '<tr><td style="padding:7px 12px;font-weight:600;color:#444;width:38%;border-bottom:1px solid #eee;">' + _ep(k) +
+           '</td><td style="padding:7px 12px;border-bottom:1px solid #eee;">' + _ep(specs[k]) + '</td></tr>';
   }).join('');
   var win = window.open('', '_blank', 'width=800,height=700');
   if (!win) { showToast('⚠️ Попъп прозорецът е блокиран. Разреши попъпи за този сайт.'); return; }
   win.document.write(
-    '<!DOCTYPE html><html><head><title>' + p.name + ' — Характеристики</title>' +
+    '<!DOCTYPE html><html><head><title>' + _ep(p.name) + ' — Характеристики</title>' +
     '<style>body{font-family:Arial,sans-serif;padding:32px;color:#1a1a1a;}h1{font-size:20px;margin-bottom:4px;}' +
     '.sub{color:#888;font-size:13px;margin-bottom:24px;}table{width:100%;border-collapse:collapse;}' +
     'tr:nth-child(even){background:#f9f9f9;}' +
     '@media print{button{display:none!important;}}' +
     '</style></head><body>' +
-    '<h1>' + p.name + '</h1>' +
-    '<div class="sub">' + (p.brand || '') + (p.sku ? ' · SKU: ' + p.sku : '') + '</div>' +
+    '<h1>' + _ep(p.name) + '</h1>' +
+    '<div class="sub">' + _ep(p.brand || '') + (p.sku ? ' · SKU: ' + _ep(p.sku) : '') + '</div>' +
     '<table><tbody>' + rows + '</tbody></table>' +
     '<br><button onclick="window.print()" style="padding:10px 22px;background:#bd1105;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:14px;">🖨 Принтирай</button>' +
     '</body></html>'

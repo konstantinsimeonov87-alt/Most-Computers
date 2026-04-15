@@ -45,33 +45,30 @@ function submitContactForm() {
 }
 
 
-// ===== CATEGORY ARCHITECTURE MIGRATION =====
-// Category architecture migration
+// ===== CATEGORY NORMALIZATION =====
+// Source data in data.js already uses canonical cat values (migrated 2026-04-15).
+// This map remains as a safety net for products loaded from localStorage or external feeds.
 const _CAT_MIGRATE = {
-  laptop:'laptops', desktop:'desktops',
-  monitor:'monitors', gaming:'gaming',
-  mobile:'phones', tablet:'phones',
-  tv:'accessories', audio:'peripherals',
-  camera:'peripherals', print:'peripherals',
-  smart:'accessories', network:'network',
-  storage:'storage', acc:'accessories',
-  components:'components'
+  laptop:'laptops', desktop:'desktops', monitor:'monitors',
+  mobile:'phones', tablet:'phones', tv:'accessories',
+  audio:'peripherals', camera:'peripherals', print:'peripherals',
+  smart:'accessories', acc:'accessories',
 };
-products.forEach(p => { if(_CAT_MIGRATE[p.cat]) p.cat = _CAT_MIGRATE[p.cat]; });
+products.forEach(p => { if (_CAT_MIGRATE[p.cat]) p.cat = _CAT_MIGRATE[p.cat]; });
 
-// Gaming laptops → laptops (not desktops)
+// Gaming laptops → laptops (not desktops) — safety for mislabeled imports
 products.forEach(p => {
-  if(p.cat === 'desktops') {
-    const n = (p.name+' '+(p.desc||'')).toLowerCase();
-    if(n.includes('laptop') || n.includes('notebook') || n.includes('лаптоп') || n.includes('macbook')) p.cat = 'laptops';
+  if (p.cat === 'desktops') {
+    const n = (p.name + ' ' + (p.desc || '')).toLowerCase();
+    if (n.includes('laptop') || n.includes('notebook') || n.includes('лаптоп') || n.includes('macbook')) p.cat = 'laptops';
   }
 });
 
-// Audio speakers → accessories, headphones stay in peripherals
+// Speakers/soundbars → accessories (headphones stay in peripherals)
 products.forEach(p => {
-  if(p.cat === 'peripherals') {
-    const n = (p.name+' '+(p.desc||'')).toLowerCase();
-    if(n.includes('тонколон') || n.includes('speaker') || n.includes('soundbar')) p.cat = 'accessories';
+  if (p.cat === 'peripherals') {
+    const n = (p.name + ' ' + (p.desc || '')).toLowerCase();
+    if (n.includes('тонколон') || n.includes('speaker') || n.includes('soundbar')) p.cat = 'accessories';
   }
 });
 

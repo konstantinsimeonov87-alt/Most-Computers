@@ -122,8 +122,22 @@ console.log('\n📝 Processing HTML...');
 fs.copyFileSync(path.join(ROOT, 'index.html'), path.join(DIST, 'index.html'));
 log('Copied index.html');
 
-// 6. Copy static assets
+// 6. Bump SW cache version and copy static assets
 console.log('\n📁 Copying assets...');
+
+// Auto-bump sw.js cache version on every build
+const swPath = path.join(ROOT, 'sw.js');
+if (fs.existsSync(swPath)) {
+  const newVer = require('crypto').randomBytes(4).toString('hex');
+  let swSrc = fs.readFileSync(swPath, 'utf8');
+  swSrc = swSrc.replace(
+    /\/\/ Most Computers — Service Worker [a-f0-9]+\nconst CACHE = 'mc-[a-f0-9]+';/,
+    `// Most Computers — Service Worker ${newVer}\nconst CACHE = 'mc-${newVer}';`
+  );
+  fs.writeFileSync(swPath, swSrc);
+  log(`sw.js cache version bumped → mc-${newVer}`);
+}
+
 ['manifest.json', 'sw.js', 'robots.txt', 'og-default.jpg', '404.html'].forEach(f => {
   const src = path.join(ROOT, f);
   if (fs.existsSync(src)) {

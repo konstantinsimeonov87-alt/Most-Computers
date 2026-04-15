@@ -244,8 +244,13 @@ function toggleWishlist(id, e) {
   // Update specific button if visible
   const btn = document.getElementById('wl-' + id);
   if (btn) {
-    btn.textContent = wishlist.includes(id) ? '❤' : '♡';
+    btn.innerHTML = wishlist.includes(id)
+      ? '<svg width="15" height="15" class="svg-ic" aria-hidden="true"><use href="#ic-heart-fill"/></svg>'
+      : '<svg width="15" height="15" class="svg-ic" aria-hidden="true"><use href="#ic-heart"/></svg>';
     btn.classList.toggle('wishlisted', wishlist.includes(id));
+    // Brief pointer-events block to prevent accidental double-tap
+    btn.style.pointerEvents = 'none';
+    setTimeout(() => { btn.style.pointerEvents = ''; }, 400);
   }
   // Refresh wishlist page if open
   if (document.getElementById('wishlistPage').classList.contains('open')) renderWishlistGrid();

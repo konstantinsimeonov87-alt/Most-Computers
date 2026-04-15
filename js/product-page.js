@@ -243,7 +243,10 @@ function openProductPage(id) {
     }
   }
 
-  pdpSwitchTab('specs');
+  // Show reviews tab by default if product has reviews, otherwise specs
+  const _hasPublicRevs = (p.reviews || []).filter(r => !r.pending).length > 0
+    || (() => { try { return (JSON.parse(localStorage.getItem('mc_reviews') || '{}')[p.id] || []).length > 0; } catch(e) { return false; } })();
+  pdpSwitchTab(_hasPublicRevs ? 'reviews' : 'specs');
   pdpUpdateStickyBar(p);
   pdpInitDeliveryTimer();
   pdpRenderRelated(p);

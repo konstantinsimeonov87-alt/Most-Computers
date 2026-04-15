@@ -439,6 +439,8 @@ function resetAllFilters() {
   setPriceGroup(0, _sbPriceAbsMax || 2000, 'pg-all');
   clearBrandSearch();
   applyAdvFilters();
+  // Clear URL params
+  if (typeof updateURL === 'function') updateURL();
 }
 
 // Adv filters applied inside getFilteredSorted directly (no override needed)
@@ -1026,6 +1028,11 @@ function readURLParams() {
     // Show subcat bar and cat-spec filters if a category is active
     if (currentFilter !== 'all') {
       if (typeof renderSubcatBar === 'function') renderSubcatBar(currentFilter);
+      // Activate subcat pill if ?sub= param was present
+      if (currentSubcat && currentSubcat !== 'all') {
+        const subPill = document.querySelector(`.subcat-pill[onclick*="'${currentSubcat}'"]`);
+        if (subPill) { document.querySelectorAll('.subcat-pill').forEach(p => p.classList.remove('active')); subPill.classList.add('active'); }
+      }
       if (typeof renderCatSpecFilters === 'function') renderCatSpecFilters(currentFilter);
       if (typeof bcOnFilterCat === 'function') bcOnFilterCat(currentFilter);
     }

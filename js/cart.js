@@ -12,7 +12,7 @@ function addToCart(id){
   const ex=cart.find(x=>x.id===id);if(ex){ex.qty++;}else{cart.push({...p,qty:1});}
   updateCart();saveCart();
   const btn=document.getElementById('cb-'+id);
-  if(btn){btn.classList.add('added');btn.innerHTML='✓ Добавен';setTimeout(()=>{btn.classList.remove('added');btn.innerHTML='🛒 Добави';},1500);}
+  if(btn){btn.classList.add('added');btn.innerHTML='✓ Добавен';btn.disabled=true;setTimeout(()=>{btn.classList.remove('added');btn.innerHTML='<svg width="15" height="15" class="svg-ic" aria-hidden="true"><use href="#ic-cart"/></svg> Добави в кошница';btn.disabled=false;},1200);}
   showToast(`✓ ${p.name.substring(0,32)}... добавен!`);
   if (!document.getElementById('recPanel')) showRecommended(p);
 }
@@ -70,7 +70,11 @@ function updateCart(){
   });
   const body=document.getElementById('cartBody');
   if(!body)return;
-  if(cart.length===0){body.innerHTML='<div class="cart-empty-msg"><div class="ce-icon"><svg width="44" height="44" class="svg-ic" aria-hidden="true" style="opacity:.25"><use href="#ic-cart"/></svg></div><p>Кошницата е празна.<br>Добави продукти!</p></div>';return;}
+  if(cart.length===0){body.innerHTML='<div class="cart-empty-msg"><div class="ce-icon"><svg width="44" height="44" class="svg-ic" aria-hidden="true" style="opacity:.25"><use href="#ic-cart"/></svg></div><p>Кошницата е празна.<br>Добави продукти!</p></div>';
+    // Return focus to cart icon button when cart becomes empty and panel is open
+    const panel=document.getElementById('cartPanel');
+    if(panel&&panel.classList.contains('open')){const cartBtn=document.querySelector('[onclick*="toggleCart"]')||document.querySelector('#cartIcon');if(cartBtn)cartBtn.focus();}
+    return;}
   let html=cart.map(x=>`<div class="cart-item-row"><div class="ci-emoji">${escHtml(x.emoji||'')}</div><div class="ci-details"><div class="ci-name">${escHtml(x.name||'')}</div><div class="ci-price">${fmtEur(x.price*x.qty)}<span class="text-11-muted-block">${fmtBgn(x.price*x.qty)}</span></div><div class="ci-qty"><button type="button" class="qty-btn" onclick="changeQty(${x.id},-1)">−</button><span class="qty-num">${x.qty}</span><button type="button" class="qty-btn" onclick="changeQty(${x.id},1)">+</button></div></div><button type="button" class="ci-remove" onclick="removeFromCart(${x.id})">×</button></div>`).join('');
   // Free shipping progress bar + delivery row
   const pct=Math.min(100,(total/FREE_SHIP_BGN)*100);

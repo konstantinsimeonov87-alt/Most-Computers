@@ -1128,7 +1128,7 @@ function addToCart(id){
   const ex=cart.find(x=>x.id===id);if(ex){ex.qty++;}else{cart.push({...p,qty:1});}
   updateCart();saveCart();
   const btn=document.getElementById('cb-'+id);
-  if(btn){btn.classList.add('added');btn.innerHTML='✓ Добавен';setTimeout(()=>{btn.classList.remove('added');btn.innerHTML='🛒 Добави';},1500);}
+  if(btn){btn.classList.add('added');btn.innerHTML='✓ Добавен';btn.disabled=true;setTimeout(()=>{btn.classList.remove('added');btn.innerHTML='<svg width="15" height="15" class="svg-ic" aria-hidden="true"><use href="#ic-cart"/></svg> Добави в кошница';btn.disabled=false;},1200);}
   showToast(`✓ ${p.name.substring(0,32)}... добавен!`);
   if (!document.getElementById('recPanel')) showRecommended(p);
 }
@@ -1186,7 +1186,11 @@ function updateCart(){
   });
   const body=document.getElementById('cartBody');
   if(!body)return;
-  if(cart.length===0){body.innerHTML='<div class="cart-empty-msg"><div class="ce-icon"><svg width="44" height="44" class="svg-ic" aria-hidden="true" style="opacity:.25"><use href="#ic-cart"/></svg></div><p>Кошницата е празна.<br>Добави продукти!</p></div>';return;}
+  if(cart.length===0){body.innerHTML='<div class="cart-empty-msg"><div class="ce-icon"><svg width="44" height="44" class="svg-ic" aria-hidden="true" style="opacity:.25"><use href="#ic-cart"/></svg></div><p>Кошницата е празна.<br>Добави продукти!</p></div>';
+    // Return focus to cart icon button when cart becomes empty and panel is open
+    const panel=document.getElementById('cartPanel');
+    if(panel&&panel.classList.contains('open')){const cartBtn=document.querySelector('[onclick*="toggleCart"]')||document.querySelector('#cartIcon');if(cartBtn)cartBtn.focus();}
+    return;}
   let html=cart.map(x=>`<div class="cart-item-row"><div class="ci-emoji">${escHtml(x.emoji||'')}</div><div class="ci-details"><div class="ci-name">${escHtml(x.name||'')}</div><div class="ci-price">${fmtEur(x.price*x.qty)}<span class="text-11-muted-block">${fmtBgn(x.price*x.qty)}</span></div><div class="ci-qty"><button type="button" class="qty-btn" onclick="changeQty(${x.id},-1)">−</button><span class="qty-num">${x.qty}</span><button type="button" class="qty-btn" onclick="changeQty(${x.id},1)">+</button></div></div><button type="button" class="ci-remove" onclick="removeFromCart(${x.id})">×</button></div>`).join('');
   // Free shipping progress bar + delivery row
   const pct=Math.min(100,(total/FREE_SHIP_BGN)*100);
@@ -2496,8 +2500,13 @@ function toggleWishlist(id, e) {
   // Update specific button if visible
   const btn = document.getElementById('wl-' + id);
   if (btn) {
-    btn.textContent = wishlist.includes(id) ? '❤' : '♡';
+    btn.innerHTML = wishlist.includes(id)
+      ? '<svg width="15" height="15" class="svg-ic" aria-hidden="true"><use href="#ic-heart-fill"/></svg>'
+      : '<svg width="15" height="15" class="svg-ic" aria-hidden="true"><use href="#ic-heart"/></svg>';
     btn.classList.toggle('wishlisted', wishlist.includes(id));
+    // Brief pointer-events block to prevent accidental double-tap
+    btn.style.pointerEvents = 'none';
+    setTimeout(() => { btn.style.pointerEvents = ''; }, 400);
   }
   // Refresh wishlist page if open
   if (document.getElementById('wishlistPage').classList.contains('open')) renderWishlistGrid();
@@ -3234,6 +3243,8 @@ function resetAllFilters() {
   setPriceGroup(0, _sbPriceAbsMax || 2000, 'pg-all');
   clearBrandSearch();
   applyAdvFilters();
+  // Clear URL params
+  if (typeof updateURL === 'function') updateURL();
 }
 
 // Adv filters applied inside getFilteredSorted directly (no override needed)
@@ -3821,6 +3832,11 @@ function readURLParams() {
     // Show subcat bar and cat-spec filters if a category is active
     if (currentFilter !== 'all') {
       if (typeof renderSubcatBar === 'function') renderSubcatBar(currentFilter);
+      // Activate subcat pill if ?sub= param was present
+      if (currentSubcat && currentSubcat !== 'all') {
+        const subPill = document.querySelector(`.subcat-pill[onclick*="'${currentSubcat}'"]`);
+        if (subPill) { document.querySelectorAll('.subcat-pill').forEach(p => p.classList.remove('active')); subPill.classList.add('active'); }
+      }
       if (typeof renderCatSpecFilters === 'function') renderCatSpecFilters(currentFilter);
       if (typeof bcOnFilterCat === 'function') bcOnFilterCat(currentFilter);
     }
@@ -7327,7 +7343,10 @@ function openProductPage(id) {
     }
   }
 
-  pdpSwitchTab('specs');
+  // Show reviews tab by default if product has reviews, otherwise specs
+  const _hasPublicRevs = (p.reviews || []).filter(r => !r.pending).length > 0
+    || (() => { try { return (JSON.parse(localStorage.getItem('mc_reviews') || '{}')[p.id] || []).length > 0; } catch(e) { return false; } })();
+  pdpSwitchTab(_hasPublicRevs ? 'reviews' : 'specs');
   pdpUpdateStickyBar(p);
   pdpInitDeliveryTimer();
   pdpRenderRelated(p);

@@ -56,7 +56,8 @@ function getFilteredSorted(){
   if(typeof advFilterStockOnly!=='undefined' && advFilterStockOnly) list=list.filter(p=>p.stock!==false&&p.stock!==0);
   // Price range filter (EUR)
   if(typeof advPriceMin!=='undefined' && (advPriceMin>0 || advPriceMax<(_sbPriceAbsMax||2000))){
-    list=list.filter(p=>{ const eur=p.price/EUR_RATE; return eur>=advPriceMin && eur<=advPriceMax; });
+    const _rate=typeof EUR_RATE!=='undefined'&&EUR_RATE?EUR_RATE:1.95583;
+    list=list.filter(p=>{ const eur=p.price/_rate; return eur>=advPriceMin && eur<=advPriceMax; });
   }
   _filterCache = { key: _cacheKey, list };
   return list;
@@ -285,9 +286,10 @@ function initSidebarFilters() {
   if (el) {
     el.innerHTML = ALL_BRANDS.map(b => {
       const c = brandCounts[b];
+      const esc = b.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
       return `<label class="brand-filter-item">
-        <input type="checkbox" value="${b}" onchange="toggleBrandFilter('${b}',this.checked)">
-        <span>${b}</span>
+        <input type="checkbox" value="${esc}" data-brand="${esc}" onchange="toggleBrandFilter(this.dataset.brand,this.checked)">
+        <span>${esc}</span>
         <span class="brand-count">${c}</span>
       </label>`;
     }).join('');
@@ -902,14 +904,14 @@ function matchesSubcat(p, subcat) {
     work:          () => all.includes('business') || all.includes('thinkpad') || all.includes('latitude') || all.includes('elitebook') || all.includes('бизнес') || all.includes('xps'),
     gaming_l:      () => all.includes('gaming') || all.includes('rog') || all.includes('rtx') || all.includes('геймърски') || all.includes('republic of gamers'),
     ultrabook:     () => all.includes('ultra') || all.includes('air') || all.includes('slim') || p.price < 3000,
-    budget:        () => (p.price / EUR_RATE) < 500,
+    budget:        () => (p.price / (typeof EUR_RATE!=='undefined'&&EUR_RATE?EUR_RATE:1.95583)) < 500,
     convertible:   () => all.includes('2-in-1') || all.includes('2 в 1') || all.includes('convertible') || all.includes('flip') || all.includes('surface pro') || all.includes('yoga'),
-    for_students:  () => (p.price / EUR_RATE) < 700 || all.includes('student') || all.includes('студент') || all.includes('chromebook'),
+    for_students:  () => (p.price / (typeof EUR_RATE!=='undefined'&&EUR_RATE?EUR_RATE:1.95583)) < 700 || all.includes('student') || all.includes('студент') || all.includes('chromebook'),
     for_devs:      () => all.includes('thinkpad') || all.includes('xps') || all.includes('macbook pro') || all.includes('linux') || all.includes('програмист'),
     for_design:    () => all.includes('macbook') || all.includes('design') || all.includes('creator') || all.includes('дизайн') || all.includes('retina') || all.includes('4k display'),
     for_gaming:    () => all.includes('gaming') || all.includes('rtx') || all.includes('rog') || all.includes('rx 6') || all.includes('rx 7'),
     // Desktops
-    office_pc:     () => all.includes('office') || all.includes('офис') || all.includes('business') || (p.price/EUR_RATE < 800 && !all.includes('gaming')),
+    office_pc:     () => all.includes('office') || all.includes('офис') || all.includes('business') || (p.price/(typeof EUR_RATE!=='undefined'&&EUR_RATE?EUR_RATE:1.95583) < 800 && !all.includes('gaming')),
     workstation:   () => all.includes('workstation') || all.includes('xeon') || all.includes('quadro') || p.price > 4000,
     aio:           () => all.includes('all-in-one') || all.includes('aio') || all.includes('imac') || all.includes('моноблок'),
     mac_desktop:   () => brand === 'apple' || all.includes('mac mini') || all.includes('imac') || all.includes('mac studio') || all.includes('mac pro'),
@@ -924,7 +926,7 @@ function matchesSubcat(p, subcat) {
     mon_4k:       () => all.includes('4k') || all.includes('uhd') || all.includes('3840') || all.includes('4к'),
     ultrawide:    () => all.includes('ultrawide') || all.includes('ultra-wide') || all.includes('34"') || all.includes('49"') || all.includes('21:9') || all.includes('32:9'),
     oled_mon:     () => all.includes('oled'),
-    office_mon:   () => !all.includes('gaming') && !all.includes('oled') && (p.price / EUR_RATE) < 600,
+    office_mon:   () => !all.includes('gaming') && !all.includes('oled') && (p.price / (typeof EUR_RATE!=='undefined'&&EUR_RATE?EUR_RATE:1.95583)) < 600,
     // Components
     cpu:           () => all.includes('процесор') || all.includes('processor') || all.includes('cpu') || all.includes('ryzen') || all.includes('core i') || all.includes('core ultra'),
     gpu:           () => all.includes('видеокарт') || all.includes('gpu') || all.includes('geforce') || all.includes('radeon') || all.includes('rtx') || all.includes('rx 6') || all.includes('rx 7') || all.includes('arc'),

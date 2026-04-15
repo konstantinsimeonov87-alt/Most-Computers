@@ -236,10 +236,10 @@ function closeAboutPage() {
   document.body.style.overflow = '';
   if (typeof restorePageMeta === 'function') restorePageMeta();
   if (typeof bcSet === 'function') bcSet([]);
-  try{history.back();}catch(e){}
+  try{history.pushState(null, '', window.location.pathname);}catch(e){}
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  renderHpSubcatsStrip();
-  renderRecentlyDiscounted();
-});
+// renderHpSubcatsStrip and renderRecentlyDiscounted are called
+// directly in main.js — no DOMContentLoaded wrapper needed here
+// (deferred scripts run before DOMContentLoaded, so the handler
+//  would cause a redundant second render on every page load).

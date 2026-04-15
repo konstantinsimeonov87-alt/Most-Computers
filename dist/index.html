@@ -1597,6 +1597,7 @@
 
   <!-- MAIN -->
   <main class="main-container" id="main-content" aria-label="Основно съдържание">
+    <h1 class="sr-only">Most Computers — Онлайн магазин за лаптопи, телефони и електроника</h1>
 
     <!-- SIDEBAR -->
     <aside class="sidebar">
@@ -1686,6 +1687,7 @@
         </div>
         <div class="sfb-body open" id="sfb-brand">
           <div class="brand-search-wrap">
+            <label for="brandSearch" class="sr-only">Търси марка</label>
             <input class="brand-search-input" id="brandSearch" placeholder="🔍  Търси марка..."
               oninput="filterBrandList(this.value)" autocomplete="off">
             <button type="button" class="brand-search-clear" id="brandSearchClear"
@@ -2055,7 +2057,8 @@
         </div>
         <div>
           <div class="newsletter-form">
-            <input type="email" class="nl-input" placeholder="Имейл адрес" id="nlEmail">
+            <label for="nlEmail" class="sr-only">Имейл адрес за абонамент</label>
+            <input type="email" class="nl-input" placeholder="Имейл адрес" id="nlEmail" autocomplete="email">
             <button type="button" class="nl-btn" data-action="subscribeNL">Абонирай се</button>
           </div>
           <div style="margin-top:8px;font-size:11px;color:rgba(255,255,255,0.35);">✓ Без спам &nbsp; ✓ Отписване по
@@ -2182,7 +2185,7 @@
                   </div>
                 </div>
                 <div id="ckEcontOfficeRow" class="ck-field" style="margin-top:14px;">
-                  <label>Еконт офис *</label>
+                  <label for="ckEcontOffice">Еконт офис *</label>
                   <input class="ck-input" id="ckEcontOffice" placeholder="Напр. Еконт — кв. Лозенец, ул. Свети Наум 52"
                     list="econtOfficesList" onblur="ckValidateField(this)" autocomplete="off">
                   <datalist id="econtOfficesList">
@@ -2204,7 +2207,7 @@
                   <div class="ck-field-hint">Въведи офис или избери от списъка. Намери офис на <a href="https://econt.com/offices" target="_blank" rel="noopener" style="color:var(--primary)">econt.com</a></div>
                 </div>
                 <div id="ckAddressSection" style="margin-top:18px;">
-                  <div class="ck-field"><label>Град *</label>
+                  <div class="ck-field"><label for="ckCity">Град *</label>
                     <input class="ck-input" id="ckCity" placeholder="София" list="bgCitiesList"
                       onblur="ckValidateField(this)" autocomplete="address-level2">
                     <datalist id="bgCitiesList">

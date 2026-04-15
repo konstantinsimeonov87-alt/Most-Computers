@@ -287,6 +287,14 @@ document.addEventListener('keydown', e => {
       { id: 'comparePage',          close: closeComparePage, checkFn: el => el.style.display === 'block' },
       { id: 'catPage',              close: () => typeof closeCatPage === 'function' && closeCatPage() },
       { id: 'mobDrawer',            close: () => typeof closeMobMenu === 'function' && closeMobMenu(), checkFn: el => el.classList.contains('open') },
+      { id: 'authBackdrop',         close: () => { document.getElementById('authBackdrop').classList.remove('open'); document.body.style.overflow = ''; } },
+      { id: 'checkoutPage',         close: () => { if (typeof closeCheckout === 'function') closeCheckout(); else { document.getElementById('checkoutPage').classList.remove('open'); document.body.style.overflow = ''; } } },
+      { id: 'blogPage',             close: () => typeof closeBlogPage === 'function' && closeBlogPage() },
+      { id: 'servicePage',          close: () => typeof closeServicePage === 'function' && closeServicePage() },
+      { id: 'deliveryPage',         close: () => typeof closeDeliveryPage === 'function' && closeDeliveryPage() },
+      { id: 'contactsPage',         close: () => typeof closeContactsPage === 'function' && closeContactsPage() },
+      { id: 'aboutPage',            close: () => typeof closeAboutPage === 'function' && closeAboutPage(), checkFn: el => el.classList.contains('open') },
+      { id: 'myOrdersPage',         close: () => typeof closeMyOrders === 'function' && closeMyOrders() },
     ];
     for (const { id, close, checkFn } of panels) {
       const el = document.getElementById(id);
@@ -385,7 +393,9 @@ function releaseFocus(containerEl) {
   const MODAL_IDS = [
     'productModalBackdrop','compareModalBackdrop','quickOrderBackdrop',
     'pdpBackdrop','cartDrawer','searchResultsPage','wishlistPage',
-    'cookieModalBackdrop','pwaIosModal','comparePage'
+    'cookieModalBackdrop','pwaIosModal','comparePage',
+    'authBackdrop','checkoutPage','blogPage','servicePage',
+    'deliveryPage','contactsPage','aboutPage','myOrdersPage'
   ];
   function hookModal(id) {
     const el = document.getElementById(id);

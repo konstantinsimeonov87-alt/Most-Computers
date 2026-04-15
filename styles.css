@@ -1894,12 +1894,12 @@
    background: var(--white);
    border: 1px solid var(--border);
    border-radius: 50%;
-   width: 30px;
-   height: 30px;
+   width: 40px;
+   height: 40px;
    display: flex;
    align-items: center;
    justify-content: center;
-   font-size: 14px;
+   font-size: 16px;
    opacity: 0;
    transition: all 0.2s;
    cursor: pointer;
@@ -2180,7 +2180,7 @@
 
  .newsletter-text p {
    font-size: 13px;
-   color: rgba(255, 255, 255, 0.65);
+   color: rgba(255, 255, 255, 0.88);
    line-height: 1.6;
  }
 
@@ -2413,7 +2413,7 @@
  .footer-col a {
    display: block;
    font-size: 11px;
-   color: rgba(255, 255, 255, 0.6);
+   color: rgba(255, 255, 255, 0.85);
    margin-bottom: 7px;
    transition: color 0.2s;
  }
@@ -2428,7 +2428,7 @@
    align-items: flex-start;
    margin-bottom: 9px;
    font-size: 11px;
-   color: rgba(255, 255, 255, 0.65);
+   color: rgba(255, 255, 255, 0.88);
  }
 
  .footer-contact-icon {
@@ -2595,9 +2595,9 @@
  }
 
  .qty-btn {
-   width: 24px;
-   height: 24px;
-   border-radius: 4px;
+   width: 40px;
+   height: 40px;
+   border-radius: 6px;
    border: 1px solid var(--border);
    background: var(--bg);
    font-size: 14px;
@@ -7492,8 +7492,8 @@
    }
 
    .qty-btn {
-     width: 32px;
-     height: 32px;
+     width: 40px;
+     height: 40px;
      font-size: 18px;
    }
 
@@ -16404,5 +16404,21 @@ body.dark .pg-btn.active { background:var(--primary); color:#fff; }
     white-space: normal;
     max-width: calc(100vw - 32px);
     text-align: center;
+  }
+}
+
+/* ── Mobile: hide secondary card buttons, keep only primary CTA ── */
+@media (max-width: 639px) {
+  .product-card .card-secondary-btns {
+    display: none;
+  }
+  /* PDP add-to-cart sticky button — bigger touch target */
+  .pdp-sticky-bar .pdp-add-btn {
+    min-height: 52px;
+    font-size: 15px;
+  }
+  /* Wishlist always visible on mobile (not opacity:0) */
+  .product-wishlist {
+    opacity: 0.85;
   }
 }

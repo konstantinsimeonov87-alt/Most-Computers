@@ -381,7 +381,7 @@ function makeCard(p,small=false){
         </div>
         ${p.stock!==false&&p.stock!=null&&p.stock<=5?`<div style="font-size:11px;color:var(--sale);font-weight:700;margin-bottom:5px;">🔥 Последни ${p.stock} бр. в наличност!</div>`:''}
         <button type="button" class="add-cart-btn" id="cb-${p.id}" onclick="addToCart(${p.id})" ${p.stock===false?'disabled':''}><svg width="15" height="15" class="svg-ic" aria-hidden="true"><use href="#ic-cart"/></svg> ${p.stock===false?'Изчерпан':'Добави в кошница'}</button>
-        <div class="row-gap-6" style="margin-top:6px;">
+        <div class="row-gap-6 card-secondary-btns" style="margin-top:6px;">
           <button type="button" class="product-quick-view-btn" onclick="openProductPage(${p.id})" title="Бърз преглед" style="flex:1;flex-direction:column;gap:3px;"><svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-eye"/></svg><span style="font-size:10px;color:var(--muted);font-weight:500;">Преглед</span></button>
           <button type="button" onclick="openQuickOrder(${p.id})" title="Бърза поръчка" style="flex:1;flex-direction:column;gap:3px;background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:9px 10px;transition:all 0.2s;display:flex;align-items:center;justify-content:center;" onmouseover="this.style.background='var(--primary-light)'" onmouseout="this.style.background='var(--bg)'"><svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-bolt"/></svg><span style="font-size:10px;color:var(--muted);font-weight:500;">Бърза поръчка</span></button>
           <button type="button" id="cmp-btn-${p.id}" onclick="toggleCompare(${p.id},!compareList.includes(${p.id}))" title="Сравни" style="flex:1;flex-direction:column;gap:3px;background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:9px 10px;transition:all 0.2s;display:flex;align-items:center;justify-content:center;" onmouseover="this.style.background='var(--primary-light)'" onmouseout="this.style.background=compareList.includes(${p.id})?'var(--primary-light)':'var(--bg)'"><svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-compare"/></svg><span style="font-size:10px;color:var(--muted);font-weight:500;">Сравни</span></button>
@@ -681,6 +681,14 @@ document.addEventListener('keydown', e => {
       { id: 'comparePage',          close: closeComparePage, checkFn: el => el.style.display === 'block' },
       { id: 'catPage',              close: () => typeof closeCatPage === 'function' && closeCatPage() },
       { id: 'mobDrawer',            close: () => typeof closeMobMenu === 'function' && closeMobMenu(), checkFn: el => el.classList.contains('open') },
+      { id: 'authBackdrop',         close: () => { document.getElementById('authBackdrop').classList.remove('open'); document.body.style.overflow = ''; } },
+      { id: 'checkoutPage',         close: () => { if (typeof closeCheckout === 'function') closeCheckout(); else { document.getElementById('checkoutPage').classList.remove('open'); document.body.style.overflow = ''; } } },
+      { id: 'blogPage',             close: () => typeof closeBlogPage === 'function' && closeBlogPage() },
+      { id: 'servicePage',          close: () => typeof closeServicePage === 'function' && closeServicePage() },
+      { id: 'deliveryPage',         close: () => typeof closeDeliveryPage === 'function' && closeDeliveryPage() },
+      { id: 'contactsPage',         close: () => typeof closeContactsPage === 'function' && closeContactsPage() },
+      { id: 'aboutPage',            close: () => typeof closeAboutPage === 'function' && closeAboutPage(), checkFn: el => el.classList.contains('open') },
+      { id: 'myOrdersPage',         close: () => typeof closeMyOrders === 'function' && closeMyOrders() },
     ];
     for (const { id, close, checkFn } of panels) {
       const el = document.getElementById(id);
@@ -779,7 +787,9 @@ function releaseFocus(containerEl) {
   const MODAL_IDS = [
     'productModalBackdrop','compareModalBackdrop','quickOrderBackdrop',
     'pdpBackdrop','cartDrawer','searchResultsPage','wishlistPage',
-    'cookieModalBackdrop','pwaIosModal','comparePage'
+    'cookieModalBackdrop','pwaIosModal','comparePage',
+    'authBackdrop','checkoutPage','blogPage','servicePage',
+    'deliveryPage','contactsPage','aboutPage','myOrdersPage'
   ];
   function hookModal(id) {
     const el = document.getElementById(id);
@@ -1191,6 +1201,10 @@ function updateCart(){
     if(deliveryRow) deliveryRow.style.display='flex';
     if(deliveryVal) deliveryVal.textContent='5.99 лв.';
   }
+  // COD fee notice — always visible so no surprise at checkout
+  html += `<div style="font-size:11px;color:var(--muted);padding:6px 10px;background:var(--bg2);border-radius:6px;margin-top:6px;">
+    💳 Карта/превод — без такса &nbsp;|&nbsp; 📦 Наложен платеж — +1.50 лв.
+  </div>`;
   // Promo code hint — show when no promo applied and subtotal ≥ 80 лв.
   if (!promoApplied && total >= 80) {
     html += `<div class="cart-promo-hint" onclick="handleCheckout()" title="Приложи при поръчка">

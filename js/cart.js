@@ -85,6 +85,10 @@ function updateCart(){
     if(deliveryRow) deliveryRow.style.display='flex';
     if(deliveryVal) deliveryVal.textContent='5.99 лв.';
   }
+  // COD fee notice — always visible so no surprise at checkout
+  html += `<div style="font-size:11px;color:var(--muted);padding:6px 10px;background:var(--bg2);border-radius:6px;margin-top:6px;">
+    💳 Карта/превод — без такса &nbsp;|&nbsp; 📦 Наложен платеж — +1.50 лв.
+  </div>`;
   // Promo code hint — show when no promo applied and subtotal ≥ 80 лв.
   if (!promoApplied && total >= 80) {
     html += `<div class="cart-promo-hint" onclick="handleCheckout()" title="Приложи при поръчка">

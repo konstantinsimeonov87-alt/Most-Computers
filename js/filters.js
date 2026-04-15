@@ -287,8 +287,9 @@ function initSidebarFilters() {
     el.innerHTML = ALL_BRANDS.map(b => {
       const c = brandCounts[b];
       const esc = b.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+      const jsEsc = b.replace(/\\/g,'\\\\').replace(/'/g,"\\'"); // escape for JS string literal
       return `<label class="brand-filter-item">
-        <input type="checkbox" value="${esc}" data-brand="${esc}" onchange="toggleBrandFilter(this.dataset.brand,this.checked)">
+        <input type="checkbox" value="${esc}" onchange="toggleBrandFilter('${jsEsc}',this.checked)">
         <span>${esc}</span>
         <span class="brand-count">${c}</span>
       </label>`;

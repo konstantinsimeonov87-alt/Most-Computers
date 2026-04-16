@@ -49,7 +49,7 @@ const APP_SOURCES = [
   'js/currency.js', 'js/data.js', 'js/cards.js', 'js/ui.js',
   'js/gallery.js', 'js/cart.js', 'js/search.js', 'js/auth.js',
   'js/recently-viewed.js', 'js/filters.js', 'js/order-tracker.js',
-  'js/pwa.js', 'js/admin.js', 'js/product-page.js', 'js/pdp-ux.js',
+  'js/pwa.js', 'js/admin-loader.js', 'js/product-page.js', 'js/pdp-ux.js',
   'js/seo.js', 'js/pages.js', 'js/actions.js', 'js/main.js',
   'js/analytics.js',
 ];

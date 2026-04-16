@@ -12,7 +12,7 @@ function _loadAdminScript(cb) {
   if (_adminLoading) return;
   _adminLoading = true;
   const s = document.createElement('script');
-  s.src = 'dist/admin.js?v=' + (typeof SW_VERSION !== 'undefined' ? SW_VERSION : Date.now());
+  s.src = 'js/admin.js?v=' + (typeof SW_VERSION !== 'undefined' ? SW_VERSION : Date.now());
   s.onload = () => {
     _adminLoaded = true;
     _adminLoading = false;

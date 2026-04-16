@@ -3,6 +3,7 @@ let recentSearches = [];
 try { recentSearches = JSON.parse(localStorage.getItem('mc_recent') || '[]'); } catch(e) { localStorage.removeItem('mc_recent'); }
 let searchFocusIdx = -1;
 let searchDebounce = null;
+let _srpQuery = ''; // current SRP query — never embed user input in HTML attributes
 
 const searchInput = document.getElementById('searchInput');
 const searchDropdown = document.getElementById('searchDropdown');
@@ -223,12 +224,13 @@ function showSearchResultsPage(query) {
     srpBc.querySelector('.srp-bc-current').textContent = query;
   }
 
-  // Category filter pills for SRP
+  // Category filter pills for SRP — store query in module var, never embed user input in HTML attributes
+  _srpQuery = query;
   const cats = [...new Set(results.map(p => p.cat))];
   const catLabels = {phones:'Телефони и таблети',laptops:'Лаптопи',desktops:'Десктопи',gaming:'Гейминг',monitors:'Монитори',components:'Компоненти',peripherals:'Периферия',network:'Мрежа',storage:'Съхранение',accessories:'Аксесоари',software:'Софтуер'};
   var _el_srpFilters=document.getElementById('srpFilters'); if(_el_srpFilters) _el_srpFilters.innerHTML = `
-    <button type="button" class="srp-filter-pill active" onclick="srpFilter(this,'',${JSON.stringify(query)})">Всички (${results.length})</button>
-    ${cats.map(c => `<button type="button" class="srp-filter-pill" onclick="srpFilter(this,'${c}',${JSON.stringify(query)})">${catLabels[c]||c} (${results.filter(p=>p.cat===c).length})</button>`).join('')}
+    <button type="button" class="srp-filter-pill active" data-cat="" onclick="srpFilter(this,'')">Всички (${results.length})</button>
+    ${cats.map(c => `<button type="button" class="srp-filter-pill" data-cat="${escHtml(c)}" onclick="srpFilter(this,'${escHtml(c)}')">${escHtml(catLabels[c]||c)} (${results.filter(p=>p.cat===c).length})</button>`).join('')}
   `;
 
   // Show & reset price slider
@@ -268,12 +270,12 @@ function renderSRPGrid(results, query) {
   }
 }
 
-function srpFilter(btn, cat, query) {
+function srpFilter(btn, cat) {
   document.querySelectorAll('.srp-filter-pill').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  const results = searchProducts(query, cat);
+  const results = searchProducts(_srpQuery, cat);
   document.getElementById('srpCount').textContent = `${results.length} резултата`;
-  renderSRPGrid(results, query);
+  renderSRPGrid(results, _srpQuery);
 }
 
 function closeSearchPage() {

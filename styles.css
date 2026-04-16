@@ -3,7 +3,7 @@
   position: absolute;
   top: -100%;
   left: 16px;
-  z-index: 99999;
+  z-index: var(--z-skip);
   padding: 12px 24px;
   background: var(--primary, #bd1105);
   color: #fff;
@@ -60,6 +60,16 @@
    --radius: 12px;
    --radius-sm: 8px;
    --radius-lg: 18px;
+
+   /* ── Z-index скала ── */
+   --z-dropdown: 100;
+   --z-sticky: 200;
+   --z-overlay: 500;
+   --z-modal: 1000;
+   --z-drawer: 2000;
+   --z-toast: 9000;
+   --z-tooltip: 9500;
+   --z-skip: 99999;
  }
 
  /* ── Dark Mode ── */
@@ -2543,6 +2553,7 @@
  .cart-panel-body {
    flex: 1;
    overflow-y: auto;
+   overscroll-behavior: contain;
    padding: 20px 24px;
  }
 
@@ -3290,7 +3301,7 @@
    width: 100%;
    max-width: 860px;
    max-height: 90vh;
-   overflow-y: auto;
+   max-height: 90dvh;-y: auto;
    transform: scale(0.92) translateY(20px);
    transition: transform 0.3s cubic-bezier(0.34, 1.2, 0.64, 1);
    position: relative;
@@ -3883,7 +3894,7 @@
    width: 100%;
    max-width: 1000px;
    max-height: 90vh;
-   overflow-y: auto;
+   max-height: 90dvh;-y: auto;
    transform: translateY(30px);
    transition: transform 0.3s cubic-bezier(0.34, 1.2, 0.64, 1);
    position: relative;
@@ -5819,6 +5830,7 @@
    z-index: 700;
    background: var(--bg);
    overflow-y: auto;
+   overscroll-behavior: contain;
  }
 
  .checkout-page.open {
@@ -6240,6 +6252,7 @@
    top: 80px;
    align-self: start;
    max-height: calc(100vh - 100px);
+   max-height: calc(100dvh - 100px);
    overflow-y: auto;
  }
 
@@ -7007,21 +7020,6 @@
  }
 
  /* ===== DARK MODE ===== */
- /* Force light theme on mobile — dark mode disabled for screens ≤ 768px */
- @media (max-width: 768px) {
-   body.dark {
-     --bg: #f8f9fa;
-     --bg2: #ffffff;
-     --white: #ffffff;
-     --surface: #ffffff;
-     --border: #e5e7eb;
-     --border-light: #f0f0f0;
-     --text: #1a1a2e;
-     --text2: #4a5568;
-     --muted: #6b7280;
-     --shadow-card: 0 1px 4px rgba(0,0,0,0.07);
-   }
- }
 
  body.dark {
    --bg: #0f1117;
@@ -12356,7 +12354,7 @@
    left: 0;
    width: 100%;
    height: 100%;
-   z-index: 9000;
+   z-index: var(--z-toast);
    background: var(--bg);
    overflow-y: auto;
  }
@@ -12439,6 +12437,7 @@
    border-radius: 14px;
    overflow: hidden;
    max-height: calc(100vh - 100px);
+   max-height: calc(100dvh - 100px);
    overflow-y: auto;
  }
 
@@ -15070,6 +15069,18 @@ textarea:focus-visible {
   opacity: 0.45;
   pointer-events: none;
 }
+.card-delivery-hint {
+  font-size: 11px;
+  color: #16a34a;
+  font-weight: 600;
+  margin-bottom: 4px;
+  letter-spacing: 0.01em;
+}
+.card-finance-hint {
+  font-size: 11px;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
 
 /* ===== SRP BREADCRUMB ===== */
 .srp-breadcrumb {
@@ -15861,6 +15872,7 @@ body.dark .pg-btn.active { background:var(--primary); color:#fff; }
     transition: color 0.18s, transform 0.18s;
     min-width: 52px;
     -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
   }
   .bn-item:active {
     transform: scale(0.92);

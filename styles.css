@@ -15454,6 +15454,11 @@ body.dark .pg-btn.active { background:var(--primary); color:#fff; }
   margin-bottom: 12px;
   color: var(--text);
 }
+.cart-upsell-items {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
 .cu-item {
   display: flex;
   align-items: center;
@@ -15468,6 +15473,12 @@ body.dark .pg-btn.active { background:var(--primary); color:#fff; }
   height: 50px;
   object-fit: contain;
   border-radius: 4px;
+}
+.cu-emoji {
+  font-size: 28px;
+  width: 44px;
+  min-width: 44px;
+  text-align: center;
 }
 .cu-info {
   flex: 1;

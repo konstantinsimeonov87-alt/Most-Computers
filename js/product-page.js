@@ -95,7 +95,17 @@ function openProductPage(id) {
   } else {
     oldRow.style.display = 'none';
   }
-  var _el_pdpMonthly=document.getElementById('pdpMonthly'); if(_el_pdpMonthly) _el_pdpMonthly.innerHTML = '';
+  var _el_pdpMonthly=document.getElementById('pdpMonthly');
+  if(_el_pdpMonthly){
+    if(p.price>=999){
+      const mo=Math.ceil(p.price/12);
+      _el_pdpMonthly.innerHTML=`<span>или от <strong>${mo.toFixed(2)} лв./мес.</strong> на 12 вноски</span>`;
+      _el_pdpMonthly.style.display='';
+    } else {
+      _el_pdpMonthly.innerHTML='';
+      _el_pdpMonthly.style.display='none';
+    }
+  }
 
   // Stock
   const inStock = p.stock !== false;

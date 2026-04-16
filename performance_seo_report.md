@@ -1,52 +1,55 @@
-# ⚡ Performance & SEO Report — Most Computers
-**Дата:** 2026-04-16 | **Агент:** Performance & SEO (pipeline: release)
+# ⚡ Performance & SEO Report — mostcomputers.bg
+**Дата:** 2026-04-16
 
 ---
 
-## 📊 Размери на файловете
+## 📊 Размери на файловете (dist/)
 
-| Файл | Source | Dist (min) | Компресия |
-|------|--------|------------|-----------|
-| app.js | 563 KB | 439 KB | -22% |
-| styles.css | 324 KB | 225 KB | -31% (PurgeCSS + minify) |
-| index.html | 254 KB | 254 KB | копиран |
-| products.js | 53 KB | 48 KB | -9% |
-| admin.js | 165 KB | **lazy loaded** | ✅ не блокира |
-| **TOTAL** | | **960 KB** | |
-
-**Оценка:** app.js (439KB) е в рамките за full SPA с 58 продукта и 20 модула. Admin (165KB) е lazy-loaded — не се включва в initial load.
+| Файл | Размер | Статус |
+|------|--------|--------|
+| `app.js` | **306 KB** (↓ от 442 KB) | ✅ След lazy admin split |
+| `dist/js/admin.js` | 137 KB | ✅ Зарежда се само при Admin |
+| `styles.css` | 227 KB | ⚠️ Голям, но PurgeCSS вече е приложен |
+| `index.html` | 249 KB | ⚠️ Голям — включва SVG sprite inline |
+| `products.js` | 48 KB | ✅ Приемливо |
+| **TOTAL (без admin)** | **830 KB** (↓ от 966 KB) | ✅ |
 
 ---
 
-## ⚡ Performance
+## ⚡ Performance — Приоритизирани проблеми
 
-### ✅ Оправено тази сесия
+### ✅ ОПРАВЕН — Критичен: admin.js в main bundle (−136 KB)
+- `js/admin.js` (169 KB source) беше включен в `app.js` за ВСИЧКИ потребители
+- `admin-loader.js` е проектиран за lazy loading, но пътят беше грешен (`dist/admin.js` → `js/admin.js`)
+- **Fix:** `build.js` използва `admin-loader.js` (1.6 KB) вместо `admin.js`
+- **Резултат:** app.js 442 KB → 306 KB (**−31%**)
 
-| Проблем | Fix |
-|---------|-----|
-| `&display=swap` дублиран в Google Fonts URL | Премахнат дубликатът |
+### ⚠️ СРЕДЕН: styles.css 227 KB (минифициран)
+- 16,564 реда, 2,656 CSS правила, 57 media queries
+- PurgeCSS вече работи (намали от 344 KB → 227 KB)
+- `transition: width` на 3 места вместо `transform: scaleX()` (layout thrashing)
 
-### ✅ Чисто (не изисква action)
+**Potential fix:**
+```css
+/* Вместо: */
+.cart-ship-fill { transition: width .4s ease; }
+/* По-добре: */
+.cart-ship-fill { transition: transform .4s ease; transform-origin: left; }
+```
 
-| Проверка | Резултат |
-|----------|----------|
-| Admin.js lazy loading | ✅ Зарежда се само при отваряне |
-| Google Fonts async loading | ✅ `media="print" onload="this.media='all'"` pattern |
-| `font-display: swap` | ✅ В Google Fonts URL параметъра |
-| Image lazy loading | ✅ `loading="lazy"` на product images |
-| `defer` на app.js | ✅ `<script src="app.js" defer>` |
-| Preconnect links | ✅ 5 preconnect, 10 dns-prefetch |
-| CSS custom properties | ✅ 1555 `var()` usages — добра DRY |
-| PurgeCSS | ✅ -17.7KB unused CSS removed |
+### ⚠️ СРЕДЕН: Google Fonts — 3 семейства, много тегла
+```
+Inter: 400, 600, 700, 800
+Outfit: 400, 500, 600, 700, 800, 900
+JetBrains Mono: 400, 500
+```
+- JetBrains Mono се използва на 10+ места (цени, кодове) — не може да се премахне
+- Inter може да се ограничи до 3 тегла (400, 700, 800) — пести ~10-15 KB fonts CSS
+- `font-display: swap` е включен ✅
 
-### 🟡 Наблюдения (без спешен action)
-
-| Проблем | Детайл | Влияние |
-|---------|--------|---------|
-| 3× animated `height`/`width` | Може да предизвика layout thrash | Нисък |
-| 3× `will-change` | Подценено за 26 @keyframes | Нисък |
-| CSS 2550 правила, 324KB | Нормално за SPA с много компоненти | — |
-| 4 inline `<script>` блока | Не блокират (малки) | — |
+### 🟢 НИСЪК: `will-change` само на 2 места
+- Анимациите ползват `transform` (правилно) ✅
+- `will-change: transform` присъства на slider и progress fill ✅
 
 ---
 
@@ -54,43 +57,56 @@
 
 | Елемент | Статус | Детайл |
 |---------|--------|--------|
-| Title tag | ✅ | "Most Computers | Лаптопи, Телефони…" — 59 символа |
-| Meta description | ✅ | 157 символа — в рамките |
-| H1 tag | ✅ | 1 `<h1>` (sr-only) |
-| Canonical URL | ✅ | `<link rel="canonical">` |
-| Open Graph | ✅ | og:title, og:description, og:image |
-| Twitter Card | ✅ | twitter:card |
-| JSON-LD | ✅ | `@graph` schema format |
-| Hreflang | ✅ | Присъства |
-| Robots meta | ✅ | Присъства |
-| Sitemap.xml | ✅ | 67 URLs (6 статични, 10 категории, 51 продукта) |
-| Sitemap lastmod | ✅ | Всички с днешна дата (генерира се при build) |
-| robots.txt | ✅ | `Allow: /` + Sitemap reference |
-| Preconnect DNS | ✅ | 5 preconnect + 10 dns-prefetch |
+| `<title>` | ✅ | 59 символа — в оптималния диапазон (50–60) |
+| `<meta description>` | ✅ | ~155 символа, включва ключови думи |
+| `<h1>` | ✅ | Присъства, `sr-only` (скрит, но семантично коректен) |
+| Canonical URL | ✅ | `https://mostcomputers.bg/` |
+| Hreflang | ✅ | `bg` + `x-default` |
+| Robots meta | ✅ | `index, follow` |
+| Open Graph | ✅ | Пълен комплект (title, desc, image 1200×630, url, type, locale) |
+| Twitter Card | ✅ | `summary_large_image` с всички полета |
+| Schema.org JSON-LD | ✅ | LocalBusiness + WebSite + FAQPage + BreadcrumbList + ItemList |
+| Sitemap.xml | ✅ | 67 URLs, `lastmod` актуален (2026-04-16) |
+| robots.txt | ✅ | `Allow: /`, Sitemap линк |
+| `font-display: swap` | ✅ | В Google Fonts URL |
+| `<script defer>` | ✅ | app.js се зарежда с `defer` |
+| Preload | ✅ | styles.css и app.js са preload-нати |
+| Preconnect | ✅ | fonts.googleapis.com + fonts.gstatic.com + Samsung + Apple |
+| `loading="lazy"` | ✅ | Приложено на изображения под fold-а |
 
 ---
 
-## 📱 PWA Readiness — 9/10
+## 📱 PWA Readiness
 
-| Критерий | Статус | Детайл |
-|----------|--------|--------|
-| manifest.json | ✅ | Пълен — name, icons, shortcuts, screenshots |
-| Maskable icons | ✅ | 192×192 и 512×512 с `purpose: maskable` |
-| Screenshots | ✅ | Wide (1280×720) + Narrow (390×844) |
-| Shortcuts | ✅ | Промоции + Лаптопи |
-| Service Worker | ✅ | Cache-first за images, network-first за HTML/CSS/JS |
-| Offline support | ✅ | Graceful 503 response |
-| Cache invalidation | ✅ | Auto-bump при всеки build |
-| `?cat=laptop` shortcut | ✅ | **Оправено** → `?cat=laptops` (canonical) |
+| Критерий | Статус |
+|----------|--------|
+| manifest.json | ✅ Пълен (name, icons 192/512, screenshots, shortcuts, categories) |
+| Service Worker | ✅ Cache-first за статични assets, version bump при всеки build |
+| Offline поддръжка | ✅ SW кешира app.js, styles.css, index.html |
+| Install prompt | ✅ `beforeinstallprompt` handler в ui.js |
+| `theme_color` | ✅ `#bd1105` (Most Computers red) |
+| HTTPS | ✅ (production) |
+| **PWA Score** | **9/10** |
 
 ---
 
 ## 🎯 Приоритизиран план
 
-| При. | Задача | Ефект | Усилие |
-|------|--------|-------|--------|
-| ✅ Done | `&display=swap` дубликат | Font URL cleanliness | 1 мин |
-| ✅ Done | manifest shortcut canonical URL | PWA install quality | 1 мин |
-| 🟡 P2 | `will-change` на top-used animations | Smooth scroll/modal | 30 мин |
-| 🟡 P3 | `transition: max-height` вместо `height` | No layout thrash | 1 ч |
-| 🟢 P4 | Compress app.js чрез code splitting | -30% initial JS | 2+ ч |
+| # | Задача | Effort | Gain |
+|---|--------|--------|------|
+| ✅ | admin.js lazy split | — | −136 KB app.js |
+| 2 | `transition: width` → `transform: scaleX()` на progress bars | 15 мин | No layout thrashing |
+| 3 | Inter: премахни 600 weight (ограничено ползван) | 5 мин | ~5 KB fonts |
+| 4 | Inline SVG sprite → external sprite file | 2+ ч | −30 KB index.html, cacheable |
+
+---
+
+## 📈 Преди / След
+
+| Метрика | Преди | След |
+|---------|-------|------|
+| app.js (minified) | 442 KB | **306 KB** |
+| Total dist | 966 KB | **830 KB** |
+| Admin JS за обикновен потребител | 136 KB заредени | **0 KB** |
+| npm audit уязвимости | 0 | 0 |
+| Jest тестове | 185/185 | 185/185 |

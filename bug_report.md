@@ -1,53 +1,80 @@
-# Bug Report — mostcomputers.bg
-Дата: 2026-04-08 | Тестове след fix: 185/185 ✅
+# Bug Report — Most Computers
+**Дата:** 2026-04-16 | **Агент:** Bug Hunter (pipeline: release)
 
 ---
 
-## 🔴 Critical
+## Обобщение
 
-### BUG-001 — XSS в product cards (cards.js)
-**Файл:** js/cards.js:7,18,22,23  
-**Проблем:** `p.name`, `p.brand`, `p.img` се вкарват в `alt=""`, `aria-label=""` и innerHTML без escaping. При XML импорт с crafted продуктово ime (`Test" onmouseover="alert(1)`) може да се изпълни произволен JS.  
-**Fix:** Добавен `escHtml()` за `p.name` (→ `_eName`), `p.brand` и `p.img` в `makeCard()`.
+| Severity | Брой | Статус |
+|----------|------|--------|
+| 🔴 Critical | 0 | — |
+| 🟠 Major | 0 | — |
+| 🟡 Minor (security) | 2 | ✅ Оправени |
+| 🟢 Enhancement | 1 | 📋 Документиран |
 
-### BUG-002 — XSS в search dropdown (search.js)
-**Файл:** js/search.js:176,178  
-**Проблем:** `p.name` и `p.brand` се рендират в innerHTML на dropdown без escaping.  
-**Fix:** `highlightMatch(escHtml(p.name), q)` и `escHtml(p.brand)`.
-
-### BUG-003 — Null dereference в submitOrder (cart.js)
-**Файл:** js/cart.js:362-363, 368-369  
-**Проблем:** `document.getElementById(id)` директно се ползва без null check. Ако DOM елементът липсва — TypeError crash при checkout.  
-**Fix:** Добавен `if (!el) return;` преди всяко ползване.
+**Тестове след fix:** 185/185 ✅
 
 ---
 
-## 🟠 Major
+## 🟡 Minor (Security) — Оправени
 
-### BUG-004 — localStorage без try/catch при поръчка (cart.js)
-**Файл:** js/cart.js:387  
-**Проблем:** `JSON.parse(localStorage.getItem('mc_orders'))` без try/catch в setTimeout на submitOrder. В private browsing или при full localStorage, хвърля изключение и поръчката не се записва.  
-**Fix:** Обвито в try/catch.
+### BUG-01 — XSS в admin `previewAefImg()` чрез URL атрибут
+**Файл:** `js/admin.js` — функция `previewAefImg(url)`
 
-### BUG-005 — localStorage без try/catch в countdown (gallery.js)
-**Файл:** js/gallery.js:261,264  
-**Проблем:** Flash sale countdown IIFE чете/пише localStorage без защита. В Safari ITP или private mode — crash при зареждане.  
-**Fix:** Добавени try/catch около двете localStorage операции.
+**Проблем:**
+```js
+// ПРЕДИ (уязвимо)
+preview.innerHTML = `<img src="${url}" alt="...">`
+// url.startsWith('http') е insufficient — 'http://x" onload="alert(1)//'
+// минава проверката и инжектира JS атрибут
+```
+
+**Fix:** Заменено с DOM API — `createElement` + `setAttribute`:
+```js
+// СЛЕД (безопасно)
+const img = document.createElement('img');
+img.setAttribute('src', url);  // setAttribute escape-ва специалните символи
+img.setAttribute('alt', altText);
+```
 
 ---
 
-## 🟡 Minor
+### BUG-02 — Unescaped emoji/name в admin table innerHTML
+**Файл:** `js/admin.js` — `renderAdminProductsTable()`
 
-### BUG-006 — Двоен `class` атрибут на tyPromoRow (index.html)
-**Файл:** index.html:2261  
-**Проблем:** `<div class="ty-total-row" id="tyPromoRow" class="is-hidden">` — двата `class` атрибута са невалидни HTML. Браузърът ползва само първия — `is-hidden` се игнорира, редът е видим при зареждане на thank-you страницата.  
-**Fix:** Обединено в `<div class="ty-total-row is-hidden" id="tyPromoRow">`.
+**Проблем:**
+```js
+// ПРЕДИ (уязвимо при XML import с malicious data)
+tbodyHtml += '...' + p.emoji + '...' + p.name + '...'
+```
+
+**Fix:** Добавен `_esc()` helper + приложен на p.emoji, p.name, p.sku:
+```js
+function _esc(s) {
+  return String(s==null?'':s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+```
 
 ---
 
-## 🟢 Observations (не са бъгове)
+## 🟢 Enhancement — Документиран (без action)
 
-- Дублираните ID-та `bn-home`, `bn-cart` и т.н. са умишлени — JS ги обработва с `querySelectorAll`. OK.
-- `100vh` в admin sidebar е последвано от `100dvh` — правилен Safari fix. OK.
-- `escHtml()` е дефинирана в currency.js и е достъпна глобално. OK.
-- Всички cart/wishlist/auth localStorage операции са в try/catch. OK.
+### ENH-01 — Z-index токени не са приложени навсякъде
+CSS custom properties (`--z-modal`, `--z-toast` и др.) са дефинирани в `:root`, но ~15 legacy стойности все още използват хардкоднати числа. Влияние: нула. Препоръка: мигрирай при следващ major CSS refactor.
+
+---
+
+## ✅ Clean checks
+
+| Проверка | Резултат |
+|----------|----------|
+| localStorage без try/catch | ✅ Всички са wrapped |
+| `eval()` / `new Function()` | ✅ Не са намерени |
+| Дублирани HTML id | ✅ `#bnCartBadge` ×2 е умишлено (querySelectorAll) |
+| Cart XSS (p.name в innerHTML) | ✅ Данни от статичен products[] — безопасни |
+| XML import sanitization | ✅ DOMParser + textContent (inherently safe) |
+| Unhandled fetch promises | ✅ Не са намерени |
+| Race conditions (async) | ✅ Не са намерени |
+| Missing break в switch | ✅ Не са намерени switch statements |

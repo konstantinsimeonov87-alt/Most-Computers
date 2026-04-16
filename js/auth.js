@@ -1,9 +1,9 @@
 // ===== AUTH SYSTEM =====
 let currentUser = null;
 
-// Demo users (in real app this would be server-side)
+// Demo users — client-side only prototype auth (replace with server-side in production)
 const demoUsers = [
-  { email: 'test@test.bg', password: '123456', firstName: 'Иван', lastName: 'Петров', phone: '0888123456' }
+  { email: 'test@test.bg', password: 'demo-only', firstName: 'Иван', lastName: 'Петров', phone: '0888123456' }
 ];
 
 function openAuthModal(tab = 'login') {

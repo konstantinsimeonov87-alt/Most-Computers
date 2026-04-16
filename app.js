@@ -2262,9 +2262,9 @@ if (typeof module !== 'undefined' && module.exports) {
 // ===== AUTH SYSTEM =====
 let currentUser = null;
 
-// Demo users (in real app this would be server-side)
+// Demo users — client-side only prototype auth (replace with server-side in production)
 const demoUsers = [
-  { email: 'test@test.bg', password: '123456', firstName: 'Иван', lastName: 'Петров', phone: '0888123456' }
+  { email: 'test@test.bg', password: 'demo-only', firstName: 'Иван', lastName: 'Петров', phone: '0888123456' }
 ];
 
 function openAuthModal(tab = 'login') {
@@ -4316,6 +4316,7 @@ function dismissPushBanner() {
 
 
 // ===== ADMIN PANEL =====
+function _esc(s) { return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 const _demoOrders = [
   { num:'MC-241890', customer:'Георги Тодоров', email:'g.todorov@mail.bg', phone:'0888 123 456', city:'София', addr:'ул. Витоша 12', items:'MacBook Pro M4', itemsData:[], subtotal:4299, delivery:0, total:4299, payment:'card', deliveryType:'Еконт', status:'paid',     date:'09.03.2026', ts:0 },
   { num:'MC-241889', customer:'Мария Иванова',  email:'m.ivanova@mail.bg', phone:'0877 234 567', city:'Пловдив', addr:'бул. Марица 5', items:'iPhone 16 Pro Max', itemsData:[], subtotal:2599, delivery:5.99, total:2604.99, payment:'cod', deliveryType:'Еконт', status:'shipped',  date:'09.03.2026', ts:0 },
@@ -4496,7 +4497,7 @@ function adminUpdateOrdersBadge() {
 
 // PIN is stored as a djb2 hash — change _ADMIN_H to match your chosen PIN
 // To generate: paste in console → (s=>{let h=5381;for(let i=0;i<s.length;i++)h=((h<<5)+h)^s.charCodeAt(i);return h>>>0})('yourPIN')
-const _ADMIN_H = 2085881665; // djb2('1234') — change both this and your PIN together
+const _ADMIN_H = 2085881665; // djb2 hash of admin PIN — change to match your chosen PIN
 function _djb2(s){let h=5381;for(let i=0;i<s.length;i++)h=((h<<5)+h)^s.charCodeAt(i);return h>>>0;}
 
 function openAdminPage() {
@@ -4799,9 +4800,9 @@ function renderAdminProductsTable() {
           : '<span style="color:#4b5563;font-size:11px;">—</span>';
     tbodyHtml += '<tr id="admin-prod-row-' + p.id + '">'
       + '<td><input type="checkbox" class="admin-prod-cb" data-id="' + p.id + '" onchange="adminUpdateSelection()" style="cursor:pointer;accent-color:#f87171;width:15px;height:15px;"></td>'
-      + '<td><div class="admin-product-thumb">' + p.emoji + '</div></td>'
-      + '<td style="color:#fff;font-weight:600;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + p.name + '</td>'
-      + '<td style="font-family:\'JetBrains Mono\',monospace;font-size:10px;color:#6b7280;">' + (p.sku||'—') + '</td>'
+      + '<td><div class="admin-product-thumb">' + _esc(p.emoji) + '</div></td>'
+      + '<td style="color:#fff;font-weight:600;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + _esc(p.name) + '</td>'
+      + '<td style="font-family:\'JetBrains Mono\',monospace;font-size:10px;color:#6b7280;">' + _esc(p.sku||'—') + '</td>'
       + '<td id="aie-price-' + p.id + '" style="color:#34d399;font-weight:700;cursor:pointer;" onclick="adminInlineEdit(' + p.id + ',\'price\')" title="Клик за редактиране на цена">'
       + (p.price/EUR_RATE).toFixed(2) + ' €<div style="font-size:10px;color:#6b7280;">' + p.price + ' лв.</div></td>'
       + '<td style="color:#9ca3af;">' + (_adminCatNamesMap[normalizeCat(p.cat)]||p.cat) + (p.subcat ? '<div style="margin-top:3px;"><span style="background:rgba(99,102,241,0.15);color:#a5b4fc;padding:1px 7px;border-radius:8px;font-size:10px;font-weight:600;">' + p.subcat + '</span></div>' : '') + '</td>'
@@ -5855,12 +5856,24 @@ function aefUpdateSubcats(selectedId = '') {
 function previewAefImg(url) {
   const preview = document.getElementById('aefImgPreview');
   if (!preview) return;
-  if (url && url.startsWith('http')) {
-    preview.innerHTML = `<img src="${url}" alt="${document.getElementById('aefName')?.value||'Продукт'}" onerror="this.style.display='none';document.getElementById('aefImgPlaceholder').style.display='block'">
-      <span class="aef-img-placeholder" id="aefImgPlaceholder" style="display:none">${document.getElementById('aef-emoji')?.value || '🖼'}</span>`;
-  } else {
-    preview.innerHTML = `<span class="aef-img-placeholder" id="aefImgPlaceholder">${document.getElementById('aef-emoji')?.value || '🖼'}</span>`;
+  preview.innerHTML = '';
+  const emoji = document.getElementById('aef-emoji')?.value || '🖼';
+  const altText = document.getElementById('aefName')?.value || 'Продукт';
+  const placeholder = document.createElement('span');
+  placeholder.className = 'aef-img-placeholder';
+  placeholder.id = 'aefImgPlaceholder';
+  placeholder.textContent = emoji;
+  if (url && url.startsWith('https://')) {
+    const img = document.createElement('img');
+    img.setAttribute('src', url);
+    img.setAttribute('alt', altText);
+    img.setAttribute('loading', 'lazy');
+    img.style.display = 'block';
+    placeholder.style.display = 'none';
+    img.onerror = () => { img.style.display = 'none'; placeholder.style.display = ''; };
+    preview.appendChild(img);
   }
+  preview.appendChild(placeholder);
 }
 
 function buildSpecsUI(specs) {

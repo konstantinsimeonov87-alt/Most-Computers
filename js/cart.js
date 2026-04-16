@@ -260,8 +260,14 @@ function osChangeQty(id, d) {
 }
 
 function selectDeliveryCk(el, idx) {
-  document.querySelectorAll('#checkoutPage .delivery-opt').forEach(o => o.classList.remove('selected'));
+  document.querySelectorAll('#checkoutPage .delivery-opt').forEach(o => {
+    o.classList.remove('selected');
+    o.setAttribute('aria-checked', 'false');
+    o.setAttribute('tabindex', '-1');
+  });
   el.classList.add('selected');
+  el.setAttribute('aria-checked', 'true');
+  el.setAttribute('tabindex', '0');
   ckDeliveryIdx = idx;
   renderOrderSummary();
   // Show/hide Econt office field and address section based on delivery type

@@ -987,11 +987,11 @@
       <div class="qo-body" id="qoFormWrap">
         <div class="qo-form-row">
           <label for="qoName2">Вашето име *</label>
-          <input type="text" class="qo-input" id="qoName2" placeholder="Иван Петров" autocomplete="name">
+          <input type="text" class="qo-input" id="qoName2" placeholder="Иван Петров" autocomplete="name" required aria-required="true">
         </div>
         <div class="qo-form-row">
           <label for="qoPhone">Телефон за връзка *</label>
-          <input type="tel" class="qo-input" id="qoPhone" placeholder="08X XXX XXXX" autocomplete="tel">
+          <input type="tel" class="qo-input" id="qoPhone" placeholder="08X XXX XXXX" autocomplete="tel" required aria-required="true">
         </div>
         <div class="qo-address-toggle">
           <button type="button" class="qo-toggle-btn"
@@ -1310,7 +1310,7 @@
           <!-- Promo code -->
           <div class="cp-promo-row" id="cpPromoRow">
             <div class="cp-promo-wrap">
-              <input class="cp-promo-input" id="cpPromoInput" type="text" placeholder="Промо код…" autocomplete="off">
+              <input class="cp-promo-input" id="cpPromoInput" type="text" placeholder="Промо код…" autocomplete="off" aria-label="Промо код">
               <button type="button" class="cp-promo-btn" onclick="cpApplyPromo()">Приложи</button>
             </div>
             <button type="button" class="cp-clear-btn" onclick="cpClearCart()">
@@ -2129,14 +2129,14 @@
               <div class="checkout-card-body">
                 <div class="ck-row2">
                   <div class="ck-field"><label for="ckFirst">Име *</label><input class="ck-input" id="ckFirst" placeholder="Иван"
-                      onblur="ckValidateField(this)" autocomplete="given-name" aria-describedby="ckFirst-err"><span class="ck-field-error" id="ckFirst-err" role="alert"></span></div>
+                      onblur="ckValidateField(this)" autocomplete="given-name" required aria-required="true" aria-describedby="ckFirst-err"><span class="ck-field-error" id="ckFirst-err" role="alert"></span></div>
                   <div class="ck-field"><label for="ckLast">Фамилия *</label><input class="ck-input" id="ckLast" placeholder="Петров"
-                      onblur="ckValidateField(this)" autocomplete="family-name" aria-describedby="ckLast-err"><span class="ck-field-error" id="ckLast-err" role="alert"></span></div>
+                      onblur="ckValidateField(this)" autocomplete="family-name" required aria-required="true" aria-describedby="ckLast-err"><span class="ck-field-error" id="ckLast-err" role="alert"></span></div>
                 </div>
                 <div class="ck-field"><label for="ckEmail">Имейл *</label><input type="email" class="ck-input" id="ckEmail"
-                    placeholder="ivan@mail.bg" onblur="ckValidateEmail(this)" autocomplete="email" aria-describedby="ckEmail-err"><span class="ck-field-error" id="ckEmail-err" role="alert"></span></div>
+                    placeholder="ivan@mail.bg" onblur="ckValidateEmail(this)" autocomplete="email" required aria-required="true" aria-describedby="ckEmail-err"><span class="ck-field-error" id="ckEmail-err" role="alert"></span></div>
                 <div class="ck-field"><label for="ckPhone">Телефон *</label><input type="tel" class="ck-input" id="ckPhone"
-                    placeholder="0888 123 456" onblur="ckValidatePhone(this)" oninput="ckFormatPhone(this)" autocomplete="tel" aria-describedby="ckPhone-err"><span class="ck-field-error" id="ckPhone-err" role="alert"></span></div>
+                    placeholder="0888 123 456" onblur="ckValidatePhone(this)" oninput="ckFormatPhone(this)" autocomplete="tel" required aria-required="true" aria-describedby="ckPhone-err"><span class="ck-field-error" id="ckPhone-err" role="alert"></span></div>
                 <div class="ck-step-nav">
                   <span class="ck-req-note">* Задължителни полета</span>
                   <button type="button" class="ck-next-btn" onclick="ckNextStep(1)">Продължи към доставка ›</button>
@@ -2152,8 +2152,8 @@
                 <span class="checkout-card-title">2. Начин на доставка</span>
               </div>
               <div class="checkout-card-body">
-                <div class="delivery-opts">
-                  <div class="delivery-opt selected" data-action="selectDeliveryCk(this, 0)">
+                <div class="delivery-opts" role="radiogroup" aria-label="Начин на доставка">
+                  <div class="delivery-opt selected" role="radio" aria-checked="true" tabindex="0" data-action="selectDeliveryCk(this, 0)">
                     <div class="delivery-opt-radio"></div>
                     <div class="delivery-opt-icon">🏃</div>
                     <div class="delivery-opt-info">
@@ -2163,7 +2163,7 @@
                     </div>
                     <div class="delivery-opt-price">3.06 € / 5.99 лв.</div>
                   </div>
-                  <div class="delivery-opt" data-action="selectDeliveryCk(this, 1)">
+                  <div class="delivery-opt" role="radio" aria-checked="false" tabindex="-1" data-action="selectDeliveryCk(this, 1)">
                     <div class="delivery-opt-radio"></div>
                     <div class="delivery-opt-icon">📦</div>
                     <div class="delivery-opt-info">
@@ -2173,7 +2173,7 @@
                     </div>
                     <div class="delivery-opt-price">2.55 € / 4.99 лв.</div>
                   </div>
-                  <div class="delivery-opt" data-action="selectDeliveryCk(this, 2)">
+                  <div class="delivery-opt" role="radio" aria-checked="false" tabindex="-1" data-action="selectDeliveryCk(this, 2)">
                     <div class="delivery-opt-radio"></div>
                     <div class="delivery-opt-icon">🏪</div>
                     <div class="delivery-opt-info">
@@ -2717,17 +2717,17 @@
               <div class="cf-grid">
                 <div class="cf-field">
                   <label for="cfName">Име *</label>
-                  <input type="text" class="cf-input" id="cfName" placeholder="Иван Петров" autocomplete="name">
+                  <input type="text" class="cf-input" id="cfName" placeholder="Иван Петров" autocomplete="name" required aria-required="true">
                 </div>
                 <div class="cf-field">
                   <label for="cfEmail">Имейл *</label>
-                  <input type="email" class="cf-input" id="cfEmail" placeholder="ivan@mail.bg" autocomplete="email">
+                  <input type="email" class="cf-input" id="cfEmail" placeholder="ivan@mail.bg" autocomplete="email" required aria-required="true">
                 </div>
               </div>
               <div class="cf-grid">
                 <div class="cf-field">
                   <label for="cfSubject">Тема *</label>
-                  <input type="text" class="cf-input" id="cfSubject" placeholder="Въпрос относно...">
+                  <input type="text" class="cf-input" id="cfSubject" placeholder="Въпрос относно..." required aria-required="true">
                 </div>
                 <div class="cf-field">
                   <label for="cfType">Тип запитване</label>
@@ -2748,7 +2748,7 @@
               </div>
               <div class="cf-field">
                 <label for="cfMessage">Съобщение *</label>
-                <textarea class="cf-textarea" id="cfMessage" placeholder="Опишете своето запитване..."></textarea>
+                <textarea class="cf-textarea" id="cfMessage" placeholder="Опишете своето запитване..." required aria-required="true"></textarea>
               </div>
               <div class="cf-checkbox-row">
                 <input type="checkbox" class="cf-checkbox" id="cfConsent">
@@ -3266,7 +3266,7 @@
 
 
   <!-- COMPARE BAR -->
-  <div id="compareBar" class="compare-bar"
+  <div id="compareBar" class="compare-bar" role="region" aria-label="Сравнение на продукти"
     style="background:linear-gradient(135deg,#1a1d35,#252840);border-top:1px solid #2d3148;z-index:4000;gap:12px;flex-wrap:wrap;">
     <div style="font-size:13px;font-weight:700;color:#fff;flex:1;min-width:160px;">Сравнение: <span
         id="compareCnt">0</span>/3 продукта</div>
@@ -3803,7 +3803,7 @@
               <span>Продуктът е изчерпан. Уведомете ме при наличност.</span>
             </div>
             <div class="pdp-notify-form" id="pdpNotifyForm">
-              <input type="email" id="pdpNotifyEmail" placeholder="твоят@имейл.bg" class="pdp-notify-input">
+              <input type="email" id="pdpNotifyEmail" placeholder="твоят@имейл.bg" class="pdp-notify-input" aria-label="Имейл за уведомяване при наличност" autocomplete="email">
               <button type="button" class="pdp-notify-btn" data-action="submitNotifyStock">Уведоми ме</button>
             </div>
             <div id="pdpNotifySuccess" style="display:none;color:var(--accent2);font-size:13px;font-weight:700;">✓ Ще те

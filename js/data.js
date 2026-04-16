@@ -43,6 +43,7 @@ const products = [
   { id:11,  sku:'MC-DELL-XPS15-I9', ean:'884116437635', img:'https://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/dell-client-products/notebooks/xps-notebooks/xps-15-9530/media-gallery/gray/notebook-xps-15-9530-gray-gallery-3.psd?fmt=png-alpha&pscan=auto&scl=1&hei=402&wid=402&qlt=100,1&resMode=sharp2&size=402,402', name:'Dell XPS 15 i9 / RTX 4070 32GB',      brand:'Dell',    cat:'laptops',  emoji:'💻', price:3299, old:null, badge:'hot',  pct:0,  rating:4.8, rv:41, stock:8,
     specs:{Процесор:'Intel Core i9-14900H', CPU:'Intel Core i9', RAM:'32 GB', RAM_raw:'32GB', Диск:'1 TB SSD', SSD:'1TB', GPU:'RTX 4070 8GB', Видеокарта:'NVIDIA', Дисплей:'15.6" OLED 3.5K', Диагонал:'15.6"', ОС:'Windows 11', Батерия:'86Wh', Warranty:'24 месеца'},
     desc:'Dell XPS 15 с OLED дисплей 3.5K и RTX 4070 е идеален за творци и разработчици. Intel Core i9-14900H, 32GB RAM и 1TB NVMe SSD осигуряват изключителна производителност при видео монтаж и 3D рендеринг.',
+    bundle:[10, 1], bundleDiscount:12,
     reviews:[{name:'Радослав В.',stars:5,date:'10.03.2025',text:'OLED дисплеят е невероятен!'}] },
   { id:12,  sku:'MC-APPL-AWU2-49', ean:'0194253425007', img:'https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/watch-ultra2-49-titanium-trail-loop-beige-white-M-L-geo?wid=600&hei=600&fmt=png-alpha', name:'Apple Watch Ultra 2 49mm Titanium',   brand:'Apple',   cat:'accessories',   emoji:'⌚', price:1299, old:1599, badge:'sale', pct:19, rating:4.8, rv:112, stock:false,
     specs:{Корпус:'49mm Titanium', Дисплей:'2.1" OLED', GPS:'L1+L2', Батерия:'60 часа', Водоустойчивост:'100m', Чип:'S9'},
@@ -67,6 +68,7 @@ const products = [
   { id:99,  sku:'MC-APPL-MBP16-M4P', ean:'0195949842376', img:'https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/mbp16-m4pro-silver-select-202410?wid=600&hei=600&fmt=png-alpha', name:'MacBook Pro 16" M4 Pro 24GB',         brand:'Apple',   cat:'laptops',  emoji:'💻', price:4299, old:null, badge:'new',  pct:0,  rating:4.9, rv:73, stock:2,
     specs:{Чип:'M4 Pro', CPU:'Apple M4 Pro', RAM:'24 GB', RAM_raw:'24GB', Диск:'512 GB SSD', SSD:'512GB', Видеокарта:'Интегрирана', Дисплей:'16.2" Liquid Retina XDR', Диагонал:'16"', ОС:'macOS', Батерия:'до 24 часа', Порт:'3x Thunderbolt 4', Warranty:'12 месеца'},
     desc:'MacBook Pro с M4 Pro чип предоставя изключителна производителност. До 24 часа батерия.',
+    bundle:[10, 7], bundleDiscount:10,
     reviews:[{name:'Христо В.',stars:5,date:'25.03.2025',text:'Невероятно бърз! Батерията е фантастична.'},{name:'Весела Н.',stars:5,date:'19.03.2025',text:'Перфектен за видео монтаж!'}] },
 
   // ── МОНИТОРИ ────────────────────────────────────────────────────────────────
@@ -274,6 +276,7 @@ const products = [
   { id:266, sku:'MC-LENO-LEGION5-7WBM', ean:'0198158884549', img:'https://portal.mostbg.com/api/images/imageFileData/51333.png', name:'Lenovo Legion 5 15 i7-14700HX RTX 5060 OLED', brand:'Lenovo', cat:'laptops', emoji:'💻', price:2931, old:null, badge:'new', pct:0, rating:4.8, rv:11, stock:7,
     specs:{Процесор:'Intel Core i7-14700HX', CPU:'Intel Core i7', RAM:'32 GB', RAM_raw:'32GB', Диск:'1 TB NVMe SSD', SSD:'1TB', GPU:'RTX 5060 8GB GDDR7', Видеокарта:'NVIDIA', Дисплей:'15.1" WQXGA OLED 165Hz 100% DCI-P3', Диагонал:'15.6"', ОС:'Windows 11 (без)', Батерия:'80 Wh', WiFi:'WiFi 7', Warranty:'24 месеца'},
     desc:'Lenovo Legion 5 с невероятен WQXGA OLED 165Hz дисплей и RTX 5060 GDDR7 е гейминг лаптопът с най-добрия дисплей за класа. Dolby Vision, DisplayHDR True Black 600 и Wi-Fi 7.',
+    bundle:[10, 1], bundleDiscount:12,
     reviews:[{name:'Борис Т.',stars:5,date:'08.04.2026',text:'OLED дисплеят на тази цена е невероятен!'},{name:'Силвия К.',stars:5,date:'05.04.2026',text:'RTX 5060 играе всичко отлично. Препоръчвам!'}] },
 
   { id:267, sku:'MC-LENO-LOQ15-8TBM', ean:'0199274327224', img:'https://portal.mostbg.com/api/images/imageFileData/100478.png', name:'Lenovo LOQ 15 i7-13650HX RTX 5070 FHD G-Sync', brand:'Lenovo', cat:'laptops', emoji:'💻', price:2720, old:null, badge:'new', pct:0, rating:4.7, rv:8, stock:9,

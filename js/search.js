@@ -348,6 +348,16 @@ document.addEventListener('click', e => {
   if (!e.target.closest('.search-wrap')) closeSearchDropdown();
 });
 
+// ===== KEYBOARD SHORTCUT: / or Ctrl+K focuses search =====
+document.addEventListener('keydown', e => {
+  if ((e.key === '/' || (e.ctrlKey && e.key === 'k')) &&
+      !e.target.matches('input,textarea,select,[contenteditable]')) {
+    e.preventDefault();
+    const si = document.getElementById('searchInput');
+    if (si) { si.focus(); si.select(); }
+  }
+});
+
 function handleSearch() { doFullSearch(); }
 function subscribeNL() {
   const input = document.getElementById('nlEmail') || document.getElementById('tyNlEmail');

@@ -250,6 +250,7 @@ function openProductPage(id) {
   pdpSwitchTab(_hasPublicRevs ? 'reviews' : 'specs');
   pdpUpdateStickyBar(p);
   pdpInitDeliveryTimer();
+  pdpRenderBundle(p);
   pdpRenderRelated(p);
   pdpRenderRvCarousel();
   pdpInitZoom();
@@ -880,3 +881,57 @@ document.addEventListener('click', e => {
     pdpSearchDropClose();
   }
 });
+
+// ===== BUNDLE OFFER =====
+function pdpRenderBundle(p) {
+  const wrap = document.getElementById('pdpBundle');
+  if (!wrap) return;
+  if (!p.bundle || !p.bundle.length) { wrap.style.display = 'none'; return; }
+
+  const bundleProds = p.bundle.map(id => products.find(x => x.id === id)).filter(Boolean);
+  if (!bundleProds.length) { wrap.style.display = 'none'; return; }
+
+  const disc = p.bundleDiscount || 10;
+  const allProds = [p, ...bundleProds];
+  const totalFull = allProds.reduce((s, x) => s + x.price, 0);
+  const totalDisc = Math.round(totalFull * (1 - disc / 100));
+  const saving = totalFull - totalDisc;
+
+  const _esc = s => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+  const itemsHtml = allProds.map((x, i) => `
+    <div class="bundle-item" onclick="openProductPage(${x.id})">
+      <div class="bundle-emoji">${x.emoji}</div>
+      <div class="bundle-info">
+        <div class="bundle-item-name">${_esc(x.name.length > 40 ? x.name.slice(0,40)+'…' : x.name)}</div>
+        <div class="bundle-item-price">${fmtEur(x.price)}</div>
+      </div>
+    </div>
+    ${i < allProds.length - 1 ? '<div class="bundle-plus">+</div>' : ''}
+  `).join('');
+
+  wrap.innerHTML = `
+    <div class="bundle-section">
+      <div class="bundle-header">
+        <span class="bundle-tag">🎁 Купи заедно</span>
+        <span class="bundle-save-badge">Спести ${fmtEur(saving)}</span>
+      </div>
+      <div class="bundle-items">${itemsHtml}</div>
+      <div class="bundle-footer">
+        <div class="bundle-totals">
+          <span class="bundle-old-total">${fmtEur(totalFull)}</span>
+          <span class="bundle-new-total">${fmtEur(totalDisc)}</span>
+          <span class="bundle-disc-label">-${disc}% при комплект</span>
+        </div>
+        <button type="button" class="bundle-add-btn" onclick="pdpAddBundle(${JSON.stringify(allProds.map(x=>x.id))})">
+          🛒 Добави всички в кошницата
+        </button>
+      </div>
+    </div>`;
+  wrap.style.display = '';
+}
+
+function pdpAddBundle(ids) {
+  ids.forEach(id => { if (typeof addToCart === 'function') addToCart(id); });
+  showToast('✅ Комплектът е добавен в кошницата!');
+}

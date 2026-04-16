@@ -1908,6 +1908,10 @@
  .product-card:hover .product-wishlist {
    opacity: 1;
  }
+ /* Touch devices: always show wishlist button (no hover available) */
+ @media (hover: none) {
+   .product-wishlist { opacity: 1; }
+ }
 
  .product-wishlist:hover {
    background: #ffe4e4;
@@ -3160,6 +3164,10 @@
    font-size: 13px;
    outline: none;
  }
+ .mob-search input:focus {
+   border-color: var(--primary);
+   box-shadow: 0 0 0 3px rgba(189,17,5,0.12);
+ }
 
  .mob-search button {
    background: var(--primary);
@@ -3701,6 +3709,7 @@
 
  .sort-select:focus {
    border-color: var(--primary);
+   box-shadow: 0 0 0 3px rgba(189,17,5,0.12);
  }
 
  .results-count {
@@ -4114,6 +4123,7 @@
 
  .qo-input:focus {
    border-color: var(--primary);
+   box-shadow: 0 0 0 3px rgba(189,17,5,0.12);
  }
 
  .qo-input.error {

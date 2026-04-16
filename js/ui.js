@@ -71,6 +71,8 @@ function initSectionAnimations() {
 
 // ===== BACK TO TOP =====
 function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+function scrollToFeatured() { document.getElementById('featured')?.scrollIntoView({ behavior: 'smooth' }); }
+function scrollToSale()     { document.getElementById('sale')?.scrollIntoView({ behavior: 'smooth' }); }
 
 function initBackToTop() {
   const btn = document.getElementById('backToTop');

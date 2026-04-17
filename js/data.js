@@ -309,5 +309,7 @@ const _staticProductsMap = Object.fromEntries(products.map(p => [p.id, { old: p.
     });
     parsed.forEach(p => { if (!dataIds.has(p.id)) merged.push(p); });
     products.splice(0, products.length, ...merged);
+    // Re-sync localStorage with corrected merged state
+    try { localStorage.setItem('mc_products', JSON.stringify(products)); } catch(_) {}
   } catch(e) {}
 })();

@@ -351,6 +351,8 @@ const _staticProductsMap = Object.fromEntries(products.map(p => [p.id, { old: p.
     });
     parsed.forEach(p => { if (!dataIds.has(p.id)) merged.push(p); });
     products.splice(0, products.length, ...merged);
+    // Re-sync localStorage with corrected merged state
+    try { localStorage.setItem('mc_products', JSON.stringify(products)); } catch(_) {}
   } catch(e) {}
 })();
 
@@ -3638,10 +3640,10 @@ const CAT_SPEC_FILTERS = {
     { key: 'OS',      label: '🪟 Операционна система', values: ['Windows 11','macOS','Без OS'] },
   ],
   components: [
-    { key: 'Type',      label: '📦 Тип компонент',     values: ['Процесор','Видеокарта','RAM','Дънна платка','SSD NVMe','SSD SATA','HDD','Захранване','Кутия'] },
-    { key: 'Brand',     label: '🏷 Производител',      values: ['Intel','AMD','NVIDIA','ASUS','MSI','Gigabyte','Corsair','Kingston','Samsung','Seasonic'] },
-    { key: 'Socket',    label: '🔩 Сокет / Слот',      values: ['LGA1700','LGA1851','AM4','AM5','DDR4','DDR5','PCIe 4.0','PCIe 5.0'] },
-    { key: 'TDP',       label: '🌡 TDP / Мощност',     values: ['35W','65W','105W','125W','170W','450W','550W','650W','750W','850W'] },
+    { key: 'Тип',      label: '📦 Тип компонент',     values: ['Процесор','Видеокарта','RAM','Дънна платка','SSD NVMe','SSD SATA','HDD','Захранване','Кутия'] },
+    { key: 'Brand',    label: '🏷 Производител',      values: ['Intel','AMD','NVIDIA','ASUS','MSI','Gigabyte','Corsair','Kingston','Samsung','Seasonic'] },
+    { key: 'Socket',   label: '🔩 Сокет / Слот',      values: ['LGA1700','LGA1851','AM4','AM5','DDR4','DDR5','PCIe 4.0','PCIe 5.0'] },
+    { key: 'TDP',      label: '🌡 TDP / Мощност',     values: ['35W','65W','105W','125W','170W','450W','550W','650W','750W','850W'] },
   ],
   peripherals: [
     { key: 'Type',        label: '📦 Тип',             values: ['Монитор','Клавиатура','Мишка','Слушалки','Уеб камера','Принтер'] },

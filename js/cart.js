@@ -64,8 +64,8 @@ function updateCart(){
   // sync PDP mini-header cart badge
   const pdpB = document.getElementById('pdpMhdrCartBadge');
   if(pdpB){pdpB.textContent=count;pdpB.style.display=count>0?'':'none';}
-  // sync bottom nav badge (two nav bars exist — update all)
-  document.querySelectorAll('#bnCartBadge').forEach(bnB => {
+  // sync bottom nav badges (two nav bars exist — update all)
+  document.querySelectorAll('#bnCartBadge, #bnCartBadge2').forEach(bnB => {
     bnB.textContent=count; bnB.classList.toggle('show',count>0);
   });
   const body=document.getElementById('cartBody');

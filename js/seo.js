@@ -441,6 +441,7 @@ let cpBrands = new Set();
 let cpRating = 0;
 let cpSaleOnly = false, cpNewOnly = false;
 let cpSpecFilters = {};
+let cpSubcat = 'all';
 
 let _catPageScrollY = 0;
 function openCatPage(cat) {
@@ -451,6 +452,7 @@ function openCatPage(cat) {
   cpBrands = new Set();
   cpRating = 0; cpSaleOnly = false; cpNewOnly = false;
   cpSpecFilters = {};
+  cpSubcat = 'all';
 
   const m = CAT_META[cat] || { emoji:'🗂', label: cat, sub:'' };
   const cpEmoji = document.getElementById('cpEmoji');
@@ -462,6 +464,8 @@ function openCatPage(cat) {
 
   // Build sidebar HTML
   buildCpSidebar(cat);
+  // Build subcat bar
+  cpRenderSubcatBar(cat);
 
   // Update SEO
   const _catDesc = m.label + ' — ' + m.sub + '. Купи онлайн от Most Computers.';
@@ -720,7 +724,32 @@ function cpResetFilters() {
   if (r0) r0.checked = true;
   const st = document.getElementById('cpSaleToggle'); if (st) st.checked = false;
   const nt = document.getElementById('cpNewToggle'); if (nt) nt.checked = false;
+  cpSubcat = 'all';
   cpUpdateSlider();
+  cpRenderGrid();
+  cpRenderSubcatBar(cpCat);
+}
+
+// ═══════════════════════════════════════
+// SUBCAT BAR IN CAT PAGE
+// ═══════════════════════════════════════
+function cpRenderSubcatBar(cat) {
+  const bar = document.getElementById('cpSubcatBar');
+  if (!bar) return;
+  const subs = typeof SUBCATS !== 'undefined' ? SUBCATS[cat] : null;
+  if (!subs || !subs.length) { bar.innerHTML = ''; bar.style.display = 'none'; return; }
+  bar.style.display = '';
+  bar.innerHTML =
+    `<button type="button" class="subcat-pill active" onclick="cpApplySubcat('all',this)">Всички</button>` +
+    subs.map(s =>
+      `<button type="button" class="subcat-pill" onclick="cpApplySubcat('${s.id}',this)">${s.label}</button>`
+    ).join('');
+}
+
+function cpApplySubcat(id, btn) {
+  cpSubcat = id;
+  document.querySelectorAll('#cpSubcatBar .subcat-pill').forEach(p => p.classList.remove('active'));
+  if (btn) btn.classList.add('active');
   cpRenderGrid();
 }
 
@@ -733,6 +762,9 @@ function cpGetFiltered() {
   if (cpCat === 'new') list = list.filter(p => p.badge === 'new');
   else if (cpCat === 'sale') list = list.filter(p => p.badge === 'sale');
   else if (cpCat !== 'all') list = list.filter(p => normalizeCat(p.cat) === cpCat);
+  // subcat filter
+  if (cpSubcat && cpSubcat !== 'all' && typeof matchesSubcat === 'function')
+    list = list.filter(p => matchesSubcat(p, cpSubcat));
   // price
   list = list.filter(p => { const e = toEur(p.price); return e >= cpPriceMin && e <= cpPriceMax; });
   // brands

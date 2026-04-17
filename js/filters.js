@@ -1181,9 +1181,16 @@ function megaMenuKeepOpen() {
 }
 
 function applySubcatById(id) {
-  // Find and click the subcat pill with this id
   setTimeout(() => {
-    const pill = document.querySelector(`.subcat-pill[onclick*="'${id}'"]`);
+    // catPage is open — use cpApplySubcat
+    if (document.getElementById('catPage')?.classList.contains('open')) {
+      const pill = document.querySelector(`#cpSubcatBar .subcat-pill[onclick*="'${id}'"]`);
+      if (pill) { pill.click(); }
+      else if (typeof cpApplySubcat === 'function') cpApplySubcat(id, null);
+      return;
+    }
+    // Homepage subcat bar
+    const pill = document.querySelector(`#subcatBar .subcat-pill[onclick*="'${id}'"]`);
     if (pill) { pill.click(); }
-  }, 100);
+  }, 150);
 }

@@ -1187,8 +1187,8 @@ function updateCart(){
   // sync PDP mini-header cart badge
   const pdpB = document.getElementById('pdpMhdrCartBadge');
   if(pdpB){pdpB.textContent=count;pdpB.style.display=count>0?'':'none';}
-  // sync bottom nav badge (two nav bars exist — update all)
-  document.querySelectorAll('#bnCartBadge').forEach(bnB => {
+  // sync bottom nav badges (two nav bars exist — update all)
+  document.querySelectorAll('#bnCartBadge, #bnCartBadge2').forEach(bnB => {
     bnB.textContent=count; bnB.classList.toggle('show',count>0);
   });
   const body=document.getElementById('cartBody');
@@ -2563,8 +2563,8 @@ function updateWishlistUI() {
   if (hdrBadge) { hdrBadge.textContent = count; hdrBadge.style.display = count > 0 ? 'flex' : 'none'; }
   const hdrIcon = document.getElementById('wlHdrIcon');
   if (hdrIcon) hdrIcon.textContent = count > 0 ? '❤' : '♡';
-  // Bottom nav badge (two nav bars exist — update all)
-  document.querySelectorAll('#bnWishBadge').forEach(bnBadge => {
+  // Bottom nav badges (two nav bars exist — update all)
+  document.querySelectorAll('#bnWishBadge, #bnWishBadge2').forEach(bnBadge => {
     bnBadge.textContent = count; bnBadge.classList.toggle('show', count > 0);
   });
   // Wishlist count label
@@ -4029,11 +4029,18 @@ function megaMenuKeepOpen() {
 }
 
 function applySubcatById(id) {
-  // Find and click the subcat pill with this id
   setTimeout(() => {
-    const pill = document.querySelector(`.subcat-pill[onclick*="'${id}'"]`);
+    // catPage is open — use cpApplySubcat
+    if (document.getElementById('catPage')?.classList.contains('open')) {
+      const pill = document.querySelector(`#cpSubcatBar .subcat-pill[onclick*="'${id}'"]`);
+      if (pill) { pill.click(); }
+      else if (typeof cpApplySubcat === 'function') cpApplySubcat(id, null);
+      return;
+    }
+    // Homepage subcat bar
+    const pill = document.querySelector(`#subcatBar .subcat-pill[onclick*="'${id}'"]`);
     if (pill) { pill.click(); }
-  }, 100);
+  }, 150);
 }
 
 // ===== ORDER TRACKER =====
@@ -6244,6 +6251,7 @@ let cpBrands = new Set();
 let cpRating = 0;
 let cpSaleOnly = false, cpNewOnly = false;
 let cpSpecFilters = {};
+let cpSubcat = 'all';
 
 let _catPageScrollY = 0;
 function openCatPage(cat) {
@@ -6254,6 +6262,7 @@ function openCatPage(cat) {
   cpBrands = new Set();
   cpRating = 0; cpSaleOnly = false; cpNewOnly = false;
   cpSpecFilters = {};
+  cpSubcat = 'all';
 
   const m = CAT_META[cat] || { emoji:'🗂', label: cat, sub:'' };
   const cpEmoji = document.getElementById('cpEmoji');
@@ -6265,6 +6274,8 @@ function openCatPage(cat) {
 
   // Build sidebar HTML
   buildCpSidebar(cat);
+  // Build subcat bar
+  cpRenderSubcatBar(cat);
 
   // Update SEO
   const _catDesc = m.label + ' — ' + m.sub + '. Купи онлайн от Most Computers.';
@@ -6523,7 +6534,32 @@ function cpResetFilters() {
   if (r0) r0.checked = true;
   const st = document.getElementById('cpSaleToggle'); if (st) st.checked = false;
   const nt = document.getElementById('cpNewToggle'); if (nt) nt.checked = false;
+  cpSubcat = 'all';
   cpUpdateSlider();
+  cpRenderGrid();
+  cpRenderSubcatBar(cpCat);
+}
+
+// ═══════════════════════════════════════
+// SUBCAT BAR IN CAT PAGE
+// ═══════════════════════════════════════
+function cpRenderSubcatBar(cat) {
+  const bar = document.getElementById('cpSubcatBar');
+  if (!bar) return;
+  const subs = typeof SUBCATS !== 'undefined' ? SUBCATS[cat] : null;
+  if (!subs || !subs.length) { bar.innerHTML = ''; bar.style.display = 'none'; return; }
+  bar.style.display = '';
+  bar.innerHTML =
+    `<button type="button" class="subcat-pill active" onclick="cpApplySubcat('all',this)">Всички</button>` +
+    subs.map(s =>
+      `<button type="button" class="subcat-pill" onclick="cpApplySubcat('${s.id}',this)">${s.label}</button>`
+    ).join('');
+}
+
+function cpApplySubcat(id, btn) {
+  cpSubcat = id;
+  document.querySelectorAll('#cpSubcatBar .subcat-pill').forEach(p => p.classList.remove('active'));
+  if (btn) btn.classList.add('active');
   cpRenderGrid();
 }
 
@@ -6536,6 +6572,9 @@ function cpGetFiltered() {
   if (cpCat === 'new') list = list.filter(p => p.badge === 'new');
   else if (cpCat === 'sale') list = list.filter(p => p.badge === 'sale');
   else if (cpCat !== 'all') list = list.filter(p => normalizeCat(p.cat) === cpCat);
+  // subcat filter
+  if (cpSubcat && cpSubcat !== 'all' && typeof matchesSubcat === 'function')
+    list = list.filter(p => matchesSubcat(p, cpSubcat));
   // price
   list = list.filter(p => { const e = toEur(p.price); return e >= cpPriceMin && e <= cpPriceMax; });
   // brands

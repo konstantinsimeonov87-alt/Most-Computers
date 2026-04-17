@@ -291,8 +291,14 @@ const _staticProductsMap = Object.fromEntries(products.map(p => [p.id, { old: p.
     const saved = localStorage.getItem('mc_products');
     if (!saved) return;
     const parsed = JSON.parse(saved);
-    if (Array.isArray(parsed) && parsed.length) {
-      products.splice(0, products.length, ...parsed);
-    }
+    if (!Array.isArray(parsed) || !parsed.length) return;
+    // Merge strategy: data.js is always the base (new/updated products are never lost),
+    // localStorage overrides existing products (preserves admin edits like price/stock),
+    // localStorage-only products (added via XML import) are appended.
+    const lsMap = new Map(parsed.map(p => [p.id, p]));
+    const dataIds = new Set(products.map(p => p.id));
+    const merged = products.map(p => lsMap.has(p.id) ? { ...p, ...lsMap.get(p.id) } : p);
+    parsed.forEach(p => { if (!dataIds.has(p.id)) merged.push(p); });
+    products.splice(0, products.length, ...merged);
   } catch(e) {}
 })();

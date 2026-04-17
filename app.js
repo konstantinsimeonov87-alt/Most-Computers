@@ -323,13 +323,23 @@ const products = [
 let cart=[], compareList=[], modalQtyVal=1, modalProductId=null, quickOrderProductId=null, currentFilter='all', currentSort='bestseller';
 
 // ── Persist & restore products from localStorage ──
+const _LS_VERSION = '20260417b'; // bump when localStorage schema changes
 function persistProducts() {
-  try { localStorage.setItem('mc_products', JSON.stringify(products)); } catch(e) {}
+  try {
+    localStorage.setItem('mc_products', JSON.stringify(products));
+    localStorage.setItem('mc_products_ver', _LS_VERSION);
+  } catch(e) {}
 }
 // Snapshot static badge/pct/old before localStorage may overwrite them
 const _staticProductsMap = Object.fromEntries(products.map(p => [p.id, { old: p.old, pct: p.pct, badge: p.badge }]));
 (function restoreProducts() {
   try {
+    // Clear stale localStorage if it predates the EAN/SKU corruption fix
+    if (localStorage.getItem('mc_products_ver') !== _LS_VERSION) {
+      localStorage.removeItem('mc_products');
+      localStorage.removeItem('mc_products_ver');
+      return;
+    }
     const saved = localStorage.getItem('mc_products');
     if (!saved) return;
     const parsed = JSON.parse(saved);

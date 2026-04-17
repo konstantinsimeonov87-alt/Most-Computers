@@ -2169,6 +2169,7 @@ function xmlParseAndPreview(xmlStr) {
       <td>${p.brand || '—'}</td>
       <td style="color:#34d399;font-weight:700;">${p.price ? p.price+' лв.' : '<span style="color:#f87171">липсва</span>'}</td>
       <td>${p.cat || '—'}</td>
+      <td style="color:#a78bfa;font-size:11px;">${p.subcat || '<span style="color:#4b5563">авто</span>'}</td>
       <td>${p.sku || '—'}</td>
       <td>${p.gallery?.length ? `<span style="color:#34d399">🖼 ${p.gallery.length}</span>` : '<span style="color:#6b7280">—</span>'}</td>
       <td>${p.ok
@@ -2180,6 +2181,15 @@ function xmlParseAndPreview(xmlStr) {
 
   // Store parsed for import
   window._xmlParsedProducts = parsed_products.filter(p => p.ok);
+  window._xmlForceSubcat = '';
+
+  // Build subcat dropdown options from SUBCATS (defined in filters.js / app.js)
+  const _CAT_LABELS_BG = { phones:'Телефони', laptops:'Лаптопи', desktops:'Десктопи', gaming:'Гейминг', monitors:'Монитори', components:'Компоненти', peripherals:'Периферия', network:'Мрежово', storage:'Съхранение', accessories:'Аксесоари' };
+  const _subcatOpts = (typeof SUBCATS !== 'undefined')
+    ? Object.entries(SUBCATS).map(([cat, subs]) =>
+        `<optgroup label="${_CAT_LABELS_BG[cat]||cat}">${subs.map(s=>`<option value="${s.id}">${s.label}</option>`).join('')}</optgroup>`
+      ).join('')
+    : '';
 
   preview.innerHTML = `
     <div class="admin-table-card" style="margin-top:0;">
@@ -2187,7 +2197,7 @@ function xmlParseAndPreview(xmlStr) {
         <div class="admin-table-title">🔍 Преглед — ${parsed_products.length} продукта от XML</div>
       </div>
       <table class="xml-preview-table">
-        <thead><tr><th></th><th>Наименование</th><th>Марка</th><th>Цена</th><th>Категория</th><th>SKU</th><th>Снимки</th><th>Статус</th></tr></thead>
+        <thead><tr><th></th><th>Наименование</th><th>Марка</th><th>Цена</th><th>Категория</th><th>Подкат.</th><th>SKU</th><th>Снимки</th><th>Статус</th></tr></thead>
         <tbody>${rows}</tbody>
       </table>
     </div>
@@ -2197,6 +2207,14 @@ function xmlParseAndPreview(xmlStr) {
         Готови за импорт: <strong>${newCount} нови</strong> продукта
         ${updateCount > 0 ? `+ <strong style="color:#fbbf24">${updateCount} обновявания</strong>` : ''}
         ${errors > 0 ? `<span style="color:#f87171"> · ${errors} с грешки (пропуснати)</span>` : ''}
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap;">
+        <label style="font-size:11px;font-weight:800;color:#6b7280;text-transform:uppercase;letter-spacing:.06em;white-space:nowrap;">Принуди подкатегория:</label>
+        <select id="xmlForceSubcatSelect" style="background:#1a1d35;border:1px solid #2d3148;border-radius:6px;padding:6px 10px;color:#e5e7eb;font-size:12px;font-family:Outfit,sans-serif;cursor:pointer;min-width:200px;" onchange="window._xmlForceSubcat=this.value">
+          <option value="">🔄 Авто (от данните)</option>
+          ${_subcatOpts}
+        </select>
+        <span style="font-size:11px;color:#6b7280;">Избери само ако всички продукти са от един тип</span>
       </div>
       <button type="button" class="xml-import-go" onclick="xmlDoImport()">⬇️ Импортирай сега</button>
     </div>` : ''}
@@ -2209,8 +2227,10 @@ function xmlDoImport() {
 
   let added = 0, updated = 0;
   const maxId = Math.max(...products.map(p=>p.id), 0);
+  const forceSubcat = window._xmlForceSubcat || '';
 
   toImport.forEach((p, i) => {
+    if (forceSubcat) p.subcat = forceSubcat;
     const existsIdx = p.id ? products.findIndex(x=>x.id===p.id) : -1;
     if (existsIdx !== -1) {
       // Update existing

@@ -1,13 +1,6 @@
 // ===== ADMIN PANEL =====
 function _esc(s) { return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-const _demoOrders = [
-  { num:'MC-241890', customer:'Георги Тодоров', email:'g.todorov@mail.bg', phone:'0888 123 456', city:'София', addr:'ул. Витоша 12', items:'MacBook Pro M4', itemsData:[], subtotal:4299, delivery:0, total:4299, payment:'card', deliveryType:'Еконт', status:'paid',     date:'09.03.2026', ts:0 },
-  { num:'MC-241889', customer:'Мария Иванова',  email:'m.ivanova@mail.bg', phone:'0877 234 567', city:'Пловдив', addr:'бул. Марица 5', items:'iPhone 16 Pro Max', itemsData:[], subtotal:2599, delivery:5.99, total:2604.99, payment:'cod', deliveryType:'Еконт', status:'shipped',  date:'09.03.2026', ts:0 },
-  { num:'MC-241887', customer:'Петър Стоянов',  email:'p.stoyanov@mail.bg', phone:'0898 345 678', city:'Варна', addr:'ул. Черно море 3', items:'Sony WH-1000XM6 + iPad Pro', itemsData:[], subtotal:2098, delivery:4.99, total:2102.99, payment:'bank', deliveryType:'Еконт', status:'pending',  date:'08.03.2026', ts:0 },
-  { num:'MC-241885', customer:'Анна Петрова',   email:'a.petrova@mail.bg', phone:'0888 456 789', city:'Бургас', addr:'ул. Алея 7', items:'Samsung OLED TV', itemsData:[], subtotal:1799, delivery:0, total:1799, payment:'card', deliveryType:'Вземи от магазин', status:'paid',     date:'08.03.2026', ts:0 },
-  { num:'MC-241880', customer:'Тодор Николов',  email:'t.nikolov@mail.bg', phone:'0878 567 890', city:'София', addr:'кв. Люлин 14', items:'ASUS ROG Zephyrus', itemsData:[], subtotal:3799, delivery:5.99, total:3804.99, payment:'card', deliveryType:'Еконт', status:'shipped',  date:'07.03.2026', ts:0 },
-  { num:'MC-241874', customer:'Ивана Христова', email:'i.hristova@mail.bg', phone:'0897 678 901', city:'Стара Загора', addr:'ул. Цар Симеон 2', items:'Apple Watch Ultra 2', itemsData:[], subtotal:1299, delivery:4.99, total:1303.99, payment:'cod', deliveryType:'Еконт', status:'cancelled', date:'07.03.2026', ts:0 },
-];
+const _demoOrders = []; // Demo поръчките са премахнати — виждат се само реални от Supabase
 
 // ── Supabase cache ────────────────────────────────────────────────────────────
 let _sbOrders = null; // null = not loaded yet
@@ -246,7 +239,7 @@ function adminUpdateOrdersBadge() {
 
 // PIN is stored as a djb2 hash — change _ADMIN_H to match your chosen PIN
 // To generate: paste in console → (s=>{let h=5381;for(let i=0;i<s.length;i++)h=((h<<5)+h)^s.charCodeAt(i);return h>>>0})('yourPIN')
-const _ADMIN_H = 2085881665; // djb2 hash of admin PIN — change to match your chosen PIN
+const _ADMIN_H = 3533399686; // djb2 hash of admin PIN — change to match your chosen PIN
 function _djb2(s){let h=5381;for(let i=0;i<s.length;i++)h=((h<<5)+h)^s.charCodeAt(i);return h>>>0;}
 
 function openAdminPage() {
@@ -690,7 +683,7 @@ function adminShowTab(tab) {
         <button type="button" class="admin-close-btn" onclick="closeAdminPage()">✕ Затвори</button>
       </div>
       <div class="admin-table-card">
-        <div class="admin-table-header"><div class="admin-table-title">Последни поръчки</div><button type="button" class="admin-table-action" onclick="adminExportCSV()">⬇ CSV</button></div>
+        <div class="admin-table-header"><div class="admin-table-title">Последни поръчки</div><div style="display:flex;gap:8px;"><button type="button" class="admin-table-action" onclick="adminLoadFromSupabase()" style="background:rgba(99,102,241,0.15);color:#818cf8;border-color:rgba(99,102,241,0.3);">↻ Опресни</button><button type="button" class="admin-table-action" onclick="adminExportCSV()">⬇ CSV</button></div></div>
         <table class="admin-table">
           <thead><tr><th>#</th><th>Клиент</th><th>Продукти</th><th>Сума</th><th>Статус</th><th>Дата</th><th></th></tr></thead>
           <tbody>${getAdminOrders().map(o=>`<tr>

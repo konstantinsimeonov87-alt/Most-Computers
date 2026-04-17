@@ -47,14 +47,14 @@ describe('openAdminPage — PIN защита', () => {
     expect(global.showToast).toHaveBeenCalledWith(expect.stringContaining('❌ Грешен PIN!'));
   });
 
-  test('правилен PIN (1234) — adminPage се отваря', () => {
-    global.prompt = jest.fn().mockReturnValue('1234');
+  test('правилен PIN (most2026) — adminPage се отваря', () => {
+    global.prompt = jest.fn().mockReturnValue('most2026');
     openAdminPage();
     expect(document.getElementById('adminPage').classList.contains('open')).toBe(true);
   });
 
   test('правилен PIN — window._adminUnlocked се задава на true', () => {
-    global.prompt = jest.fn().mockReturnValue('1234');
+    global.prompt = jest.fn().mockReturnValue('most2026');
     openAdminPage();
     expect(window._adminUnlocked).toBe(true);
   });

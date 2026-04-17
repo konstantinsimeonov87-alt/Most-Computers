@@ -37,6 +37,11 @@ if (typeof window.supabase !== 'undefined') {
           return false;
         }
         console.log('✅ Поръчка записана в Supabase:', orderData.num);
+
+        // Изпрати имейл потвърждения
+        sb.functions.invoke('send-order-email', { body: orderData })
+          .catch(e => console.error('Email грешка:', e));
+
         return true;
       } catch (e) {
         console.error('Грешка при запис на поръчка:', e);

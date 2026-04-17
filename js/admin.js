@@ -1080,6 +1080,10 @@ function adminShowTab(tab) {
         <div>
           <div style="font-size:13px;font-weight:800;color:#f87171;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid rgba(248,113,113,0.2);">⚠️ Опасна зона</div>
           <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <button type="button" onclick="if(confirm('Нулирай продуктите до source файла?\\nXML-импортираните продукти ще бъдат изгубени — ще останат само базовите от кода.')){localStorage.removeItem('mc_products');location.reload();}"
+              style="background:rgba(251,191,36,0.1);color:#fbbf24;border:1px solid rgba(251,191,36,0.2);border-radius:8px;padding:10px 16px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Outfit',sans-serif;">
+              🔄 Нулирай продуктите към source
+            </button>
             <button type="button" onclick="if(confirm('Изтрий всички продукти?')){products=[];renderGrids();showToast('✓ Всички продукти изтрити');}"
               style="background:rgba(248,113,113,0.1);color:#f87171;border:1px solid rgba(248,113,113,0.2);border-radius:8px;padding:10px 16px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Outfit',sans-serif;">
               🗑 Изтрий всички продукти
@@ -2231,14 +2235,17 @@ function xmlDoImport() {
 
   toImport.forEach((p, i) => {
     if (forceSubcat) p.subcat = forceSubcat;
-    const existsIdx = p.id ? products.findIndex(x=>x.id===p.id) : -1;
+    // Match by EAN or SKU only — never by XML's id (vendor IDs conflict with our IDs)
+    const existsIdx = (p.ean ? products.findIndex(x => x.ean && x.ean === p.ean) : -1) !== -1
+      ? products.findIndex(x => x.ean && x.ean === p.ean)
+      : (p.sku ? products.findIndex(x => x.sku && x.sku === p.sku) : -1);
     if (existsIdx !== -1) {
-      // Update existing
+      // Update existing (matched by EAN/SKU)
       products[existsIdx] = { ...products[existsIdx], ...p, id: products[existsIdx].id };
       updated++;
     } else {
-      // Add new with auto ID if missing
-      p.id = p.id || (maxId + i + 1);
+      // Always generate new ID — ignore XML's id field to avoid conflicts
+      p.id = maxId + i + 1;
       products.push(p);
       added++;
     }

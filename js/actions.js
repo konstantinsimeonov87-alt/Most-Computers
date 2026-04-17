@@ -39,7 +39,12 @@ function runActionString(str, event, button) {
           ? argsStr.split(',').map(a => {
               const wasQuoted = /^['"`]/.test(a.trim());
               a = a.trim().replace(/^['"`]|['"`]$/g, '');
-              return (!wasQuoted && !isNaN(a) && a !== '') ? Number(a) : a;
+              if (!wasQuoted) {
+                if (a === 'this' || a === 'self') return button;
+                if (a === 'event') return event;
+                if (!isNaN(a) && a !== '') return Number(a);
+              }
+              return a;
             })
           : [];
         fn.apply(null, args);

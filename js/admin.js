@@ -2497,15 +2497,24 @@ function xmlStopAutoUpdate() {
 }
 
 async function xmlFetchUrl(url) {
+  const _proxies = [
+    u => `https://corsproxy.io/?url=${encodeURIComponent(u)}`,
+    u => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,
+    u => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(u)}`,
+  ];
   try {
-    const res = await fetch(url, { signal: AbortSignal.timeout(15000) });
+    const res = await fetch(url, { signal: AbortSignal.timeout(10000) });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     return await res.text();
   } catch(e) {
-    const proxy = `https://corsproxy.io/?${encodeURIComponent(url)}`;
-    const res2  = await fetch(proxy, { signal: AbortSignal.timeout(18000) });
-    if (!res2.ok) throw new Error(`HTTP ${res2.status} via proxy`);
-    return await res2.text();
+    for (let i = 0; i < _proxies.length; i++) {
+      try {
+        const rp = await fetch(_proxies[i](url), { signal: AbortSignal.timeout(12000) });
+        if (!rp.ok) continue;
+        return await rp.text();
+      } catch(_) {}
+    }
+    throw new Error('Failed to fetch (CORS блокиран от всички proxy-та)');
   }
 }
 

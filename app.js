@@ -239,15 +239,6 @@ const products = [
     reviews:[{name:'Янита Л.',stars:5,date:'21.03.2025',text:'Използвам го за всичко — новини, рецепти, музика!'},{name:'Огнян Д.',stars:4,date:'11.03.2025',text:'Google Assistant е много полезен.'}] },
 
   // ── КОМПОНЕНТИ ───────────────────────────────────────────────────────────────
-  { id:241, sku:'MC-INTL-I9-14900K', ean:'0735858540773', img:'https://www.bhphotovideo.com/images/images500x500/intel_bx8071514900k_core_i9_14900k_processor_1696436479_1780376.jpg', name:'Intel Core i9-14900K 24-ядрен процесор', brand:'Intel', cat:'components', emoji:'⚙️', price:799, old:999, badge:'sale', pct:20, rating:4.9, rv:87, stock:16,
-    specs:{Тип:'Процесор', Ядра:'24 (8P+16E)', Нишки:'32', Макс_честота:'6.0 GHz', TDP:'125W', Сокет:'LGA1700', Кеш:'36 MB', Памет:'DDR4/DDR5', Brand:'Intel', Socket:'LGA1700'},
-    desc:'Intel Core i9-14900K с 24 ядра и максимална честота 6.0 GHz е флагманският процесор за геймъри и творци. Съвместим с дънни платки Z790.',
-    reviews:[{name:'Добрин В.',stars:5,date:'20.03.2025',text:'Рендерингът е светкавично бърз! Незаменим за видео монтаж.'},{name:'Ралица К.',stars:5,date:'10.03.2025',text:'Играе всичко на максимален FPS без никакво забавяне.'}] },
-
-  { id:242, sku:'MC-AMD-R9-7950X', ean:'0730143314442', img:'https://www.bhphotovideo.com/images/images500x500/amd_100_100000514wof_ryzen_9_7950x_processor_1663270571_1750867.jpg', name:'AMD Ryzen 9 7950X 16-ядрен процесор', brand:'AMD', cat:'components', emoji:'⚙️', price:699, old:899, badge:'sale', pct:22, rating:4.9, rv:64, stock:11,
-    specs:{Тип:'Процесор', Ядра:'16', Нишки:'32', Макс_честота:'5.7 GHz', TDP:'170W', Сокет:'AM5', Кеш:'80 MB', Памет:'DDR5', Brand:'AMD', Socket:'AM5'},
-    desc:'AMD Ryzen 9 7950X с 16 ядра и 80 MB кеш е абсолютният избор за workstation и рендеринг задачи на платформа AM5.',
-    reviews:[{name:'Стоян Б.',stars:5,date:'18.03.2025',text:'В Blender е почти 2x по-бърз от предишния ми i9!'},{name:'Габриела Т.',stars:5,date:'08.03.2025',text:'Compilation времената паднаха наполовина.'}] },
 
   { id:243, sku:'MC-NVID-RTX4090-MSI', ean:'4719072905217', img:'https://www.bhphotovideo.com/images/images500x500/msi_geforce_rtx_4090_gaming_1663609536_1750944.jpg', name:'MSI GeForce RTX 4090 24GB Gaming X Trio', brand:'MSI', cat:'components', emoji:'🎮', price:3299, old:3999, badge:'sale', pct:18, rating:4.9, rv:43, stock:2,
     specs:{Тип:'Видеокарта', GPU:'RTX 4090', VRAM:'24 GB GDDR6X', TDP:'450W', Разъем:'PCIe 5.0', HDMI:'HDMI 2.1', DP:'3x DP 1.4a', Brand:'NVIDIA'},
@@ -274,10 +265,6 @@ const products = [
     desc:'ASUS ROG Strix Z790-E с PCIe 5.0 и WiFi 6E е премиум дънна платка за Intel Core 13/14 поколение. Поддържа DDR5 до 7800 MHz.',
     reviews:[{name:'Кирил Ж.',stars:5,date:'23.03.2025',text:'Безпроблемен оверклок до 7200 MHz на паметта!'},{name:'Боряна М.',stars:5,date:'13.03.2025',text:'Качеството е на ниво. BIOS е интуитивен.'}] },
 
-  { id:248, sku:'MC-MSI-X670EACE', ean:'4719072918774', img:'https://www.bhphotovideo.com/images/images500x500/msi_meg_x670e_ace_atx_am5_1661965793_1750095.jpg', name:'MSI MEG X670E ACE AMD AM5 Дънна платка', brand:'MSI', cat:'components', emoji:'🔩', price:699, old:849, badge:'sale', pct:18, rating:4.8, rv:45, stock:5,
-    specs:{Тип:'Дънна платка', Чипсет:'AMD X670E', Сокет:'AM5', Памет:'DDR5 до 6600 MHz', PCIe:'PCIe 5.0 x16', USB:'USB4 40Gbps', WiFi:'WiFi 6E', Brand:'MSI', Socket:'AM5'},
-    desc:'MSI MEG X670E ACE с AMD X670E чипсет е флагманска дънна платка за Ryzen 7000. PCIe 5.0 за M.2 и USB4 40Gbps.',
-    reviews:[{name:'Владо К.',stars:5,date:'21.03.2025',text:'Ryzen 9 7950X + тази платка = перфектна combo!'},{name:'Деа Й.',stars:4,date:'11.03.2025',text:'Много функционалности, лесна настройка.'}] },
 
   { id:249, sku:'MC-CORS-RM850X-GOLD', ean:'0840006641956', img:'https://www.bhphotovideo.com/images/images500x500/corsair_cp_9020200_na_rm850x_shift_850_watt_1668626720_1752798.jpg', name:'Corsair RM850x 850W 80+ Gold Modular', brand:'Corsair', cat:'components', emoji:'⚡', price:229, old:289, badge:'sale', pct:21, rating:4.9, rv:203, stock:37,
     specs:{Тип:'Захранване', Мощност:'850W', Сертификат:'80+ Gold', Модулно:'Напълно модулно', Вентилатор:'135mm Zero RPM', Гаранция:'10 год.', Brand:'Corsair', TDP:'850W'},

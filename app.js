@@ -334,12 +334,21 @@ const _staticProductsMap = Object.fromEntries(products.map(p => [p.id, { old: p.
     if (!saved) return;
     const parsed = JSON.parse(saved);
     if (!Array.isArray(parsed) || !parsed.length) return;
-    // Merge strategy: data.js is always the base (new/updated products are never lost),
-    // localStorage overrides existing products (preserves admin edits like price/stock),
-    // localStorage-only products (added via XML import) are appended.
+    // Merge strategy:
+    // - data.js is always the base (new products are never lost)
+    // - localStorage overrides ONLY if it's the same product (EAN or SKU match)
+    //   → prevents old XML imports that reused IDs from corrupting data.js products
+    // - localStorage-only products (added via XML import, no data.js match) are appended
     const lsMap = new Map(parsed.map(p => [p.id, p]));
     const dataIds = new Set(products.map(p => p.id));
-    const merged = products.map(p => lsMap.has(p.id) ? { ...p, ...lsMap.get(p.id) } : p);
+    const merged = products.map(p => {
+      if (!lsMap.has(p.id)) return p;
+      const ls = lsMap.get(p.id);
+      const sameProduct = (p.ean && ls.ean && p.ean === ls.ean) ||
+                          (p.sku && ls.sku && p.sku === ls.sku);
+      if (!sameProduct) return p; // ID conflict — data.js wins
+      return { ...p, ...ls, id: p.id };
+    });
     parsed.forEach(p => { if (!dataIds.has(p.id)) merged.push(p); });
     products.splice(0, products.length, ...merged);
   } catch(e) {}

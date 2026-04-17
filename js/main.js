@@ -1,14 +1,18 @@
 // ===== ERROR BOUNDARY =====
+function _isNetworkErr(val) {
+  const s = val ? String(val.message || val) : '';
+  return /fetch|network|NetworkError|Failed to fetch|Load failed|ERR_/i.test(s);
+}
 window.onerror = function(msg, src, line, col, err) {
   console.error('[MC Error]', msg, src, line, col, err);
-  if (typeof showToast === 'function') {
+  if (typeof showToast === 'function' && !_isNetworkErr(msg) && !_isNetworkErr(err)) {
     showToast('⚠️ Нещо се обърка. Моля опресни страницата.');
   }
-  return true; // prevent default browser error
+  return true;
 };
 window.addEventListener('unhandledrejection', function(e) {
   console.error('[MC Unhandled Promise]', e.reason);
-  if (typeof showToast === 'function') {
+  if (typeof showToast === 'function' && !_isNetworkErr(e.reason)) {
     showToast('⚠️ Нещо се обърка. Моля опресни страницата.');
   }
 });

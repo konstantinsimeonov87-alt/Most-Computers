@@ -572,6 +572,10 @@ function submitOrder() {
       _prevOrders.unshift(orderData);
       localStorage.setItem('mc_orders', JSON.stringify(_prevOrders.slice(0, 200)));
     } catch(e) {}
+    // Записване в Supabase (реална база данни)
+    if (typeof saveOrderToSupabase === 'function') {
+      saveOrderToSupabase(orderData).catch(e => console.error('Supabase save failed:', e));
+    }
     // Save address for next order
     try {
       localStorage.setItem('mc_saved_addr', JSON.stringify({

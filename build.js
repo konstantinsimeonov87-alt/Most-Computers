@@ -180,6 +180,13 @@ try {
   if (fs.existsSync(staticSm)) { fs.copyFileSync(staticSm, path.join(DIST, 'sitemap.xml')); log('Copied sitemap.xml (static fallback)'); }
 }
 
+// Copy supabase-client.js (not bundled in app.js — loaded separately)
+const sbClientSrc = path.join(ROOT, 'js/supabase-client.js');
+if (fs.existsSync(sbClientSrc)) {
+  fs.copyFileSync(sbClientSrc, path.join(DIST, 'js/supabase-client.js'));
+  log('Copied js/supabase-client.js');
+}
+
 // Copy images directory if exists
 const imgDir = path.join(ROOT, 'images');
 if (fs.existsSync(imgDir)) {

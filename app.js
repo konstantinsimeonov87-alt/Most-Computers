@@ -2160,6 +2160,7 @@ function showSearchResultsPage(query) {
 
   renderSRPGrid(results, query);
   page.classList.add('open');
+  page.scrollTop = 0;
   document.body.style.overflow = 'hidden';
 }
 

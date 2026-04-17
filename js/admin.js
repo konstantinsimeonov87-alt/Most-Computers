@@ -9,20 +9,85 @@ const _demoOrders = [
   { num:'MC-241874', customer:'Ивана Христова', email:'i.hristova@mail.bg', phone:'0897 678 901', city:'Стара Загора', addr:'ул. Цар Симеон 2', items:'Apple Watch Ultra 2', itemsData:[], subtotal:1299, delivery:4.99, total:1303.99, payment:'cod', deliveryType:'Еконт', status:'cancelled', date:'07.03.2026', ts:0 },
 ];
 
+// ── Supabase cache ────────────────────────────────────────────────────────────
+let _sbOrders = null; // null = not loaded yet
+
+function _sbClient() {
+  return (typeof window.saveOrderToSupabase !== 'undefined' && window._sbInstance)
+    ? window._sbInstance : null;
+}
+
+async function adminLoadFromSupabase() {
+  try {
+    if (typeof window.supabase === 'undefined') return;
+    const { createClient } = window.supabase;
+    if (!window._sbInstance) {
+      window._sbInstance = createClient(
+        'https://zdwzccucqfvlsgxlspby.supabase.co',
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpkd3pjY3VjcWZ2bHNneGxzcGJ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzMzY0MjQsImV4cCI6MjA5MTkxMjQyNH0.tTDSpQFBx1sY1iXsQIRYO0GfoheJsiulk--vxAe7rFg',
+        { auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false } }
+      );
+    }
+    const { data, error } = await window._sbInstance
+      .from('orders')
+      .select('*')
+      .order('created_at', { ascending: false });
+    if (error) { console.error('Admin Supabase fetch:', error.message); return; }
+    _sbOrders = (data || []).map(row => ({
+      num:          row.order_num,
+      customer:     row.customer_name,
+      email:        row.customer_email,
+      phone:        row.customer_phone,
+      addr:         row.delivery_address,
+      deliveryType: row.delivery_type,
+      payment:      row.payment_type,
+      items:        (row.items || []).map(x => x.name + ' ×' + x.qty).join(', '),
+      itemsData:    row.items || [],
+      subtotal:     row.subtotal,
+      delivery:     row.delivery_cost,
+      total:        row.total,
+      status:       row.status || 'pending',
+      note:         row.note || '',
+      date:         row.created_at ? new Date(row.created_at).toLocaleDateString('bg-BG') : '',
+      ts:           row.created_at ? new Date(row.created_at).getTime() : 0,
+      _sbId:        row.id,
+    }));
+    // Sync to localStorage for offline fallback
+    try { localStorage.setItem('mc_orders', JSON.stringify(_sbOrders.slice(0, 200))); } catch(e) {}
+    adminShowTab('orders');
+  } catch(e) { console.error('Admin load error:', e); }
+}
+
+async function adminUpdateStatusInSupabase(num, newStatus) {
+  try {
+    if (!window._sbInstance) return;
+    await window._sbInstance
+      .from('orders')
+      .update({ status: newStatus })
+      .eq('order_num', num);
+  } catch(e) { console.error('Status update error:', e); }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+
 function getAdminOrders() {
+  if (_sbOrders) {
+    // Merge: Supabase orders first, then demo orders not already in list
+    const sbNums = new Set(_sbOrders.map(o => o.num));
+    return [..._sbOrders, ..._demoOrders.filter(o => !sbNums.has(o.num))];
+  }
   try {
     const real = JSON.parse(localStorage.getItem('mc_orders') || '[]');
-    // Merge: real orders first, then demo orders not already in real
     const realNums = new Set(real.map(o => o.num));
     return [...real, ..._demoOrders.filter(o => !realNums.has(o.num))];
   } catch(e) { return _demoOrders; }
 }
 
 function adminSaveOrders(orders) {
-  // Only save real (non-demo) orders
   const demoNums = new Set(_demoOrders.map(o => o.num));
   const real = orders.filter(o => !demoNums.has(o.num));
   try { localStorage.setItem('mc_orders', JSON.stringify(real)); } catch(e) {}
+  if (_sbOrders) _sbOrders = real;
 }
 
 function adminChangeOrderStatus(num, newStatus) {
@@ -31,6 +96,7 @@ function adminChangeOrderStatus(num, newStatus) {
   if (o) {
     o.status = newStatus;
     adminSaveOrders(orders);
+    adminUpdateStatusInSupabase(num, newStatus);
     adminShowTab('orders');
     showToast(`✅ Статус на ${num} → ${adminStatuses[newStatus]}`);
     if (newStatus === 'shipped') adminShowEmailDraft(o);
@@ -208,6 +274,8 @@ function openAdminPage() {
     if (rb) { rb.textContent = pending || ''; rb.style.display = pending > 0 ? '' : 'none'; }
   } catch(e) {}
   adminShowTab('dashboard');
+  // Зареди реални поръчки от Supabase
+  adminLoadFromSupabase();
 }
 function closeAdminPage() {
   document.getElementById('adminPage').classList.remove('open');

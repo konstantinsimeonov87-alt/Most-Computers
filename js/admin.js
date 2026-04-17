@@ -98,7 +98,7 @@ function adminChangeOrderStatus(num, newStatus) {
 
 function adminShowEmailDraft(o) {
   const subject = `Вашата поръчка ${o.num} е изпратена — Most Computers`;
-  const body = `Здравейте ${(o.customer||'').split(' ')[0]},\n\nПоръчка ${o.num} е изпратена с Еконт!\n\nПродукти: ${o.items}\nОбщо: ${fmtBgn(o.total)}\nДата: ${o.date}\n\nБлагодарим за доверието!\n\nЕкипът на Most Computers\nmostcomputers.bg`;
+  const body = `Здравейте ${(o.customer||'').split(' ')[0]},\n\nПоръчка ${o.num} е изпратена с Еконт!\n\nПродукти: ${o.items}\nОбщо: ${fmtEur(o.total)}\nДата: ${o.date}\n\nБлагодарим за доверието!\n\nЕкипът на Most Computers\nmostcomputers.bg`;
   let modal = document.getElementById('adminEmailModal');
   if (!modal) {
     modal = document.createElement('div');
@@ -619,15 +619,15 @@ function adminShowTab(tab) {
         <button type="button" class="admin-close-btn" onclick="closeAdminPage()">✕ Затвори</button>
       </div>
       <div class="admin-stats-grid">
-        <div class="admin-stat-card"><div class="admin-stat-icon">💰</div><div class="admin-stat-val">${thisMoRev.toLocaleString('bg-BG')} лв.</div><div class="admin-stat-label">Приходи този месец</div><div class="admin-stat-delta ${revDelta>=0?'up':'down'}">${revDelta>=0?'↑ +':'↓ '}${Math.abs(revDelta)}% спрямо м.м.</div></div>
+        <div class="admin-stat-card"><div class="admin-stat-icon">💰</div><div class="admin-stat-val">${fmtEur(thisMoRev)}</div><div class="admin-stat-label">Приходи този месец</div><div class="admin-stat-delta ${revDelta>=0?'up':'down'}">${revDelta>=0?'↑ +':'↓ '}${Math.abs(revDelta)}% спрямо м.м.</div></div>
         <div class="admin-stat-card"><div class="admin-stat-icon">📦</div><div class="admin-stat-val">${thisMoCnt}</div><div class="admin-stat-label">Поръчки този месец</div><div class="admin-stat-delta ${cntDelta>=0?'up':'down'}">${cntDelta>=0?'↑ +':'↓ '}${Math.abs(cntDelta)} спрямо м.м.</div></div>
         <div class="admin-stat-card"><div class="admin-stat-icon">👥</div><div class="admin-stat-val">${allOrders.length}</div><div class="admin-stat-label">Общо поръчки</div><div class="admin-stat-delta up">↑ всички времена</div></div>
         <div class="admin-stat-card"><div class="admin-stat-icon">⭐</div><div class="admin-stat-val">4.83</div><div class="admin-stat-label">Среден рейтинг</div><div class="admin-stat-delta up">↑ +0.1 спрямо м.м.</div></div>
-        <div class="admin-stat-card"><div class="admin-stat-icon">🛒</div><div class="admin-stat-val">${avgOrder.toFixed(2)} лв.</div><div class="admin-stat-label">Средна стойност на поръчка</div><div class="admin-stat-delta up">↑ текущ месец</div></div>
+        <div class="admin-stat-card"><div class="admin-stat-icon">🛒</div><div class="admin-stat-val">${fmtEur(avgOrder)}</div><div class="admin-stat-label">Средна стойност на поръчка</div><div class="admin-stat-delta up">↑ текущ месец</div></div>
         <div class="admin-stat-card"><div class="admin-stat-icon">↩</div><div class="admin-stat-val">${cancelledPct}%</div><div class="admin-stat-label">Отказани поръчки</div><div class="admin-stat-delta ${cancelledPct<=3?'up':'down'}">${cancelledPct<=3?'↓ Под нормата':'↑ Над нормата'}</div></div>
       </div>
       <div class="admin-chart-card">
-        <div class="admin-chart-title">📈 Приходи по месеци (лв.)</div>
+        <div class="admin-chart-title">📈 Приходи по месеци (€)</div>
         <div class="admin-chart-bars">
           ${(()=>{
             const monthLabels = ['Яну','Фев','Мар','Апр','Май','Юни','Юли','Авг','Сеп','Окт','Ное','Дек'];
@@ -644,7 +644,7 @@ function adminShowTab(tab) {
             const mx = Math.max(...points.map(p=>p.v), 1);
             return points.map(d=>`
               <div class="admin-bar-wrap">
-                <div class="admin-bar" style="height:${Math.round(d.v/mx*100)}%" data-val="${d.v.toLocaleString('bg-BG')} лв."></div>
+                <div class="admin-bar" style="height:${Math.round(d.v/mx*100)}%" data-val="${fmtEur(d.v)}"></div>
                 <div class="admin-bar-label">${d.m}</div>
               </div>`).join('');
           })()}
@@ -654,7 +654,7 @@ function adminShowTab(tab) {
         <div class="admin-table-header"><div class="admin-table-title">📦 Последни поръчки</div><button type="button" class="admin-table-action" onclick="adminShowTab('orders')">Виж всички →</button></div>
         <table class="admin-table">
           <thead><tr><th>#</th><th>Клиент</th><th>Продукти</th><th>Сума</th><th>Статус</th><th>Дата</th></tr></thead>
-          <tbody>${allOrders.slice(0,4).map(o=>`<tr><td class="mono-11-gray">${o.num}</td><td class="text-white-semibold">${o.customer}</td><td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${o.items}</td><td class="text-success-strong">${fmtBgn(o.total)}</td><td><span class="admin-status ${o.status}">${adminStatuses[o.status]}</span></td><td>${o.date}</td></tr>`).join('')}</tbody>
+          <tbody>${allOrders.slice(0,4).map(o=>`<tr><td class="mono-11-gray">${o.num}</td><td class="text-white-semibold">${o.customer}</td><td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${o.items}</td><td class="text-success-strong">${fmtEur(o.total)}</td><td><span class="admin-status ${o.status}">${adminStatuses[o.status]}</span></td><td>${o.date}</td></tr>`).join('')}</tbody>
         </table>
       </div>
       ${(()=>{
@@ -690,7 +690,7 @@ function adminShowTab(tab) {
             <td class="mono-11-gray">${o.num}</td>
             <td class="text-white-semibold">${o.customer}<div style="font-size:10px;color:#6b7280;">${o.email||''}</div></td>
             <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#9ca3af;">${o.items}</td>
-            <td class="text-success-strong">${fmtBgn(o.total)}</td>
+            <td class="text-success-strong">${fmtEur(o.total)}</td>
             <td><select onchange="adminChangeOrderStatus('${o.num}',this.value)" style="background:#252840;border:1px solid #2d3148;border-radius:6px;padding:3px 6px;color:#e5e7eb;font-size:11px;font-family:'Outfit',sans-serif;cursor:pointer;">
               ${['pending','paid','shipped','cancelled'].map(s=>`<option value="${s}"${o.status===s?' selected':''}>${adminStatuses[s]}</option>`).join('')}
             </select></td>

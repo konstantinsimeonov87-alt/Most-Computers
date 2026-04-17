@@ -2326,18 +2326,29 @@ async function xmlFetchFromUI() {
     let text = null;
     let method = '';
 
+    const _proxies = [
+      u => `https://corsproxy.io/?url=${encodeURIComponent(u)}`,
+      u => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,
+      u => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(u)}`,
+    ];
     try {
       const res = await fetch(url, { signal: AbortSignal.timeout(10000) });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       text = await res.text();
       method = 'директна връзка';
     } catch(e) {
-      // CORS blocked — try CORS proxy
-      const proxy = `https://corsproxy.io/?${encodeURIComponent(url)}`;
-      const res2 = await fetch(proxy, { signal: AbortSignal.timeout(12000) });
-      if (!res2.ok) throw new Error(`HTTP ${res2.status} (proxy)`);
-      text = await res2.text();
-      method = 'CORS proxy';
+      // Direct fetch failed (CORS) — try proxies in sequence
+      for (let i = 0; i < _proxies.length; i++) {
+        try {
+          const proxyUrl = _proxies[i](url);
+          const rp = await fetch(proxyUrl, { signal: AbortSignal.timeout(12000) });
+          if (!rp.ok) continue;
+          text = await rp.text();
+          method = `CORS proxy ${i + 1}`;
+          break;
+        } catch(_) { /* try next */ }
+      }
+      if (!text) throw new Error('Failed to fetch (CORS блокиран от всички proxy-та)');
     }
 
     // Detect element name: <product>, <item>, <offer>, <good>

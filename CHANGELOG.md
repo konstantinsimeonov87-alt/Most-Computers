@@ -5,6 +5,48 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ---
 
+## [v1.6.0] — 2026-04-20 — Backend, XML Import & Stability
+
+### Added
+- Supabase интеграция — поръчките се записват в реална база данни
+- Имейл нотификации при нова поръчка чрез Resend + Supabase Edge Function
+- Подкатегорийна лента в category page (subcat bar) с филтриране по тип
+- Избор на подкатегория директно в XML import preview (dropdown "Принуди subcat")
+- "Нулирай продуктите към source" бутон в Admin Danger Zone
+- Стойностите на поръчки в Admin панела се показват в евро
+- Keyboard shortcut за търсене + skeleton loading на продуктови карти (v1.6 features)
+- Bundle оферти (M-06) и инсталментен хинт за скъпи продукти в PDP
+- Динамичен upsell в кошницата (подобни продукти)
+
+### Fixed
+- XML импорт по URL — правилен CORS proxy формат + 3 fallback proxy-та
+- XML auto-update задача — използва същия 3-proxy механизъм като ръчния импорт
+- Spec филтрите в категорийната страница работят с кирилски ключове (напр. "Тип")
+- Марки без продукти вече не се показват в sidebar с "(undefined)" брой
+- Scroll позицията се нулира при отваряне на SRP
+- `data-action` с `this` в скоби вече работи коректно
+- Grешки от Supabase/CDN вече не показват toast нотификации
+- localStorage корупция при XML импорт — преминато от replace към merge стратегия
+- EAN/SKU identity check предотвратява XML ID конфликти от презаписване на data.js продукти
+- Version stamp изчиства остарялото localStorage при първо зареждане на нова версия
+- Кирилски spec ключ "Тип" в CAT_SPEC_FILTERS за компоненти
+
+### Removed
+- 3 продукта с неправилни изображения от bhphotovideo (ID: 241, 242, 248)
+
+### Security
+- XSS защита в 404 страница — emoji и имена в популярни продукти escape-вани
+- XSS в SRP filter pills чрез JSON.stringify(query) в onclick
+
+### Changed
+- Admin ордерс панел свързан директно към Supabase (вместо localStorage)
+- Admin polish: подобрено форматиране и thank-you страница
+- XML импорт вече игнорира vendor ID и генерира нов вътрешен ID (предотвратява конфликти)
+- Lazy-load на admin.js — премахнати 136 KB от main bundle
+- WCAG 2.1 AA: aria-label на search select, role/tabindex на breadcrumb span, dark mode muted контраст (#64748b → #8a9bb5, 3.86:1 → 6.3:1)
+
+---
+
 ## [Unreleased] — pipeline: release (2026-04-16)
 
 ### Security

@@ -835,6 +835,12 @@ const SUBCAT_SPEC_FILTERS = {
     { key: 'Памет',       label: '🧠 Вид RAM',      values: ['DDR5','DDR4'] },
     { key: 'WiFi',        label: '📡 WiFi',         values: ['WiFi 7','WiFi 6E','WiFi 6'] },
   ],
+  ram: [
+    { key: 'Тип',        label: '💾 Тип памет',    values: ['DDR5','DDR4','DDR3','DDR3L'] },
+    { key: 'Капацитет',  label: '📦 Капацитет',    values: ['8 GB','16 GB','32 GB','64 GB'] },
+    { key: 'Честота',    label: '⚡ Честота',       values: ['3200 MHz','4800 MHz','5200 MHz','5600 MHz','6000 MHz','6400 MHz'] },
+    { key: 'Форм фактор',label: '💻 Форм фактор',  values: ['DIMM','SO-DIMM'] },
+  ],
 };
 
 function renderSubcatBar(cat) {

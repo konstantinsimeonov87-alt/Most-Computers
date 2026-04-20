@@ -60,14 +60,18 @@ function parseProducts(xml) {
       const cleanKey = keyMap[key] || key;
       // Shorten long values
       let cleanVal = val
+        .replace(/[\r\n]+/g, '; ')          // newlines → semicolons
         .replace(/Processor Base Frequency:\s*/i, '')
-        .replace(/Max Memory Size \(dependent on memory type\):/i, 'Макс:')
-        .replace(/; Memory Types:/i, ' | Тип:')
-        .replace(/; Max # of Memory Channels:/i, ' | Канали:')
-        .replace(/; Max Memory Bandwidth:/i, ' | Честота:')
+        .replace(/Max Memory Size \(dependent on memory type\):\s*/i, 'Макс: ')
+        .replace(/;\s*Memory Types:\s*/i, ' | Тип: ')
+        .replace(/;\s*Max # of Memory Channels:\s*/i, ' | Канали: ')
+        .replace(/;\s*Max Memory Bandwidth:\s*/i, ' | ')
+        .replace(/;\s*ECC Memory Supported[^;]*/i, '')
         .replace(/Intel® Smart Cache/i, 'Smart Cache')
         .replace(/Intel® /ig, '')
-        .substring(0, 80);
+        .replace(/\s{2,}/g, ' ')
+        .replace(/'/g, '')                   // remove any stray quotes
+        .substring(0, 100);
       specs[cleanKey] = cleanVal;
     }
 
@@ -105,11 +109,11 @@ function parseProducts(xml) {
       ? displayName.startsWith(brand.toUpperCase()) ? displayName : `${brand.toUpperCase()} ${displayName}`
       : `${brand} ${displayName}`;
 
-    // Description
-    const socket = specs['Сокет'] || '';
-    const cores = specs['Ядра'] || '';
-    const freq = specs['Честота'] || '';
-    const desc = `${brand} ${displayName}${socket ? ' — сокет ' + socket : ''}${cores ? ', ' + cores + ' ядра' : ''}${freq ? ', ' + freq : ''}.`;
+    // Description (safe — no raw values that may contain newlines)
+    const socket = (specs['Сокет'] || '').replace(/[\r\n']/g, '').substring(0, 20);
+    const cores = (specs['Ядра'] || '').replace(/[\r\n']/g, '').substring(0, 5);
+    const tdp = (specs['TDP'] || '').replace(/[\r\n']/g, '').substring(0, 10);
+    const desc = `${brand} ${displayName.replace(/'/g,'')}${socket ? ' — сокет ' + socket : ''}${cores ? ', ' + cores + ' ядра' : ''}${tdp ? ', TDP ' + tdp : ''}.`;
 
     // Emoji
     const emoji = brand === 'AMD' ? '🔴' : '🔵';

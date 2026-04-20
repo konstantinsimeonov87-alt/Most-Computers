@@ -787,10 +787,10 @@ const CAT_SPEC_FILTERS = {
     { key: 'OS',      label: '🪟 Операционна система', values: ['Windows 11','macOS','Без OS'] },
   ],
   components: [
-    { key: 'Тип',      label: '📦 Тип компонент',     values: ['Процесор','Видеокарта','RAM','Дънна платка','SSD NVMe','SSD SATA','HDD','Захранване','Кутия'] },
-    { key: 'Brand',    label: '🏷 Производител',      values: ['Intel','AMD','NVIDIA','ASUS','MSI','Gigabyte','Corsair','Kingston','Samsung','Seasonic'] },
-    { key: 'Socket',   label: '🔩 Сокет / Слот',      values: ['LGA1700','LGA1851','AM4','AM5','DDR4','DDR5','PCIe 4.0','PCIe 5.0'] },
-    { key: 'TDP',      label: '🌡 TDP / Мощност',     values: ['35W','65W','105W','125W','170W','450W','550W','650W','750W','850W'] },
+    { key: 'Тип',      label: '📦 Тип компонент',     values: ['Процесор','Видеокарта','Дънна платка','RAM','SSD NVMe','HDD','Захранване','Кутия','Охлаждане'] },
+    { key: 'Brand',    label: '🏷 Производител',      values: ['Intel','AMD','ASUS','MSI','Gigabyte','ASRock','Sapphire','Palit','PowerColor','Zotac'] },
+    { key: 'Socket',   label: '🔩 Сокет / Слот',      values: ['LGA1851','LGA1700','LGA1200','AM5','AM4','DDR5','DDR4','PCIe 5.0','PCIe 4.0'] },
+    { key: 'TDP',      label: '🌡 TDP / Мощност',     values: ['35 W','45 W','65 W','95 W','105 W','125 W','165 W','250 W','320 W'] },
   ],
   peripherals: [
     { key: 'Type',        label: '📦 Тип',             values: ['Монитор','Клавиатура','Мишка','Слушалки','Уеб камера','Принтер'] },
@@ -812,6 +812,25 @@ const CAT_SPEC_FILTERS = {
   accessories: [
     { key: 'Type',   label: '📦 Тип аксесоар',         values: ['Чанта','Кабел','Зарядно','Хъб','Докинг','Смарт часовник','Смартфон','Таблет','Тонколона','Телевизор'] },
     { key: 'Connection', label: '🔗 Връзка',           values: ['USB-A','USB-C','Bluetooth','WiFi','HDMI'] },
+  ],
+};
+
+// Subcat-specific spec filters (shown when a subcat pill is active)
+const SUBCAT_SPEC_FILTERS = {
+  cpu: [
+    { key: 'Сокет', label: '🔩 Сокет',       values: ['LGA1851','LGA1700','LGA1200','AM5','AM4','TR5'] },
+    { key: 'Ядра',  label: '🧮 Брой ядра',   values: ['4 ядра','6 ядра','8 ядра','10 ядра','12 ядра','16 ядра','20 ядра','24 ядра'] },
+    { key: 'TDP',   label: '🌡 TDP',          values: ['35 W','45 W','58 W','65 W','95 W','105 W','125 W','170 W'] },
+  ],
+  gpu: [
+    { key: 'Памет', label: '💾 Видео памет',  values: ['4 GB','6 GB','8 GB','10 GB','12 GB','16 GB','24 GB'] },
+    { key: 'Слот',  label: '🔌 Интерфейс',   values: ['PCI-E 5.0','PCI-E 4.0','PCI-E 3.0'] },
+  ],
+  motherboard: [
+    { key: 'Сокет',       label: '🔩 Сокет',       values: ['AM5','AM4','LGA1851','LGA1700','LGA1200'] },
+    { key: 'Форм фактор', label: '📐 Форм фактор', values: ['ATX','Micro-ATX','Mini-ITX'] },
+    { key: 'Памет',       label: '🧠 Вид RAM',      values: ['DDR5','DDR4'] },
+    { key: 'WiFi',        label: '📡 WiFi',         values: ['WiFi 7','WiFi 6E','WiFi 6'] },
   ],
 };
 
@@ -838,23 +857,31 @@ function applySubcat(id, btn) {
   currentSubcat = id;
   document.querySelectorAll('.subcat-pill').forEach(p => p.classList.remove('active'));
   if (btn) btn.classList.add('active');
+  if (typeof renderCatSpecFilters === 'function' && currentFilter && currentFilter !== 'all')
+    renderCatSpecFilters(currentFilter, id);
   renderTopGrid();
 }
 
-function renderCatSpecFilters(cat) {
+function renderCatSpecFilters(cat, subcat) {
   const block = document.getElementById('catSpecFilterBlock');
   const inner = document.getElementById('catSpecFiltersInner');
   const title = document.getElementById('catSpecTitle');
   if (!block || !inner) return;
 
   catSpecActiveFilters = {};
-  const specs = CAT_SPEC_FILTERS[cat];
+  const specs = (subcat && subcat !== 'all' && SUBCAT_SPEC_FILTERS[subcat])
+    ? SUBCAT_SPEC_FILTERS[subcat]
+    : CAT_SPEC_FILTERS[cat];
   if (!specs || !specs.length) {
     block.style.display = 'none';
     return;
   }
 
-  if (title) title.textContent = `⚙ ${CAT_LABELS[cat] || cat} — филтри`;
+  const subcatLabels = { cpu:'Процесори', gpu:'Видео карти', motherboard:'Дънни платки', ram:'RAM памет', ssd:'SSD / NVMe', hdd:'HDD дискове' };
+  const titleText = (subcat && subcat !== 'all' && subcatLabels[subcat])
+    ? `⚙ ${subcatLabels[subcat]} — филтри`
+    : `⚙ ${CAT_LABELS[cat] || cat} — филтри`;
+  if (title) title.textContent = titleText;
 
   inner.innerHTML = specs.map(spec => `
     <div class="csf-block">
@@ -976,10 +1003,36 @@ function matchesCatSpec(p) {
   const keys = Object.keys(catSpecActiveFilters);
   if (!keys.length) return true;
   const specsStr = Object.values(p.specs || {}).join(' ');
-  const all = (p.name + ' ' + p.desc + ' ' + specsStr).toLowerCase();
+  const all = (p.name + ' ' + p.desc + ' ' + specsStr).toLowerCase().replace(/\s+/g, ' ');
+  const allNorm = all.replace(/\s/g, '');
   return keys.every(key => {
     const vals = catSpecActiveFilters[key];
-    return [...vals].some(v => all.includes(v.toLowerCase()));
+    if (key === 'Тип') {
+      const typeMap = {
+        'процесор':'cpu','видеокарта':'gpu','дънна платка':'motherboard',
+        'ram':'ram','ssd nvme':'ssd','ssd sata':'ssd','hdd':'hdd',
+        'захранване':'psu','кутия':'case','охлаждане':'cooling',
+      };
+      return [...vals].some(v => {
+        const sub = typeMap[v.toLowerCase()];
+        return sub ? (p.subcat === sub) : all.includes(v.toLowerCase());
+      });
+    }
+    // Cores — "N ядра" filter values matched against numeric spec
+    if (key === 'Ядра') {
+      const coreNum = ((p.specs || {})['Ядра'] || '').trim();
+      return [...vals].some(v => coreNum === (v.match(/^(\d+)/)?.[1] || ''));
+    }
+    // Form factor — exact match to avoid 'ATX' matching 'Micro-ATX'
+    if (key === 'Форм фактор') {
+      const ff = ((p.specs || {})['Форм фактор'] || '').toLowerCase();
+      return [...vals].some(v => ff === v.toLowerCase());
+    }
+    // Direct spec lookup with substring (handles FCLGA1700 matching LGA1700)
+    const specVal = ((p.specs || {})[key] || '').toLowerCase();
+    if (specVal) return [...vals].some(v => specVal.includes(v.toLowerCase()));
+    // Fallback: full-text search with whitespace normalization
+    return [...vals].some(v => all.includes(v.toLowerCase()) || allNorm.includes(v.toLowerCase().replace(/\s/g, '')));
   });
 }
 

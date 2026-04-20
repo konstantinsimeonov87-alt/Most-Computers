@@ -82,7 +82,7 @@
    --border-light: #1e293b;
    --text: #f1f5f9;
    --text2: #94a3b8;
-   --muted: #64748b;
+   --muted: #8a9bb5; /* lightened for WCAG AA 4.5:1 on dark bg #0f172a */
    --primary-light: rgba(189,17,5,0.12);
    --shadow: 0 1px 8px rgba(0,0,0,0.4), 0 2px 4px rgba(0,0,0,0.3);
    --shadow-hover: 0 8px 24px rgba(0,0,0,0.5), 0 2px 8px rgba(0,0,0,0.4);

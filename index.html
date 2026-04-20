@@ -1009,7 +1009,7 @@
           </div>
         </div>
         <div class="qo-form-row">
-          <label>Начин на доставка</label>
+          <label id="qoDeliveryLabel">Начин на доставка</label>
           <div class="qo-delivery-opts">
             <div class="qo-delivery-opt selected" data-action="selectDelivery:this">
               <div class="do-icon">🏃</div>
@@ -1245,7 +1245,7 @@
 
       <!-- Breadcrumb -->
       <div class="cp-breadcrumb">
-        <span class="cp-bc-link" onclick="closeCartPage()">Начало</span>
+        <span class="cp-bc-link" onclick="closeCartPage()" role="button" tabindex="0" onkeydown="if(event.key==='Enter')closeCartPage()">Начало</span>
         <span class="cp-bc-sep">›</span>
         <span class="cp-bc-current">Кошница</span>
       </div>
@@ -1435,7 +1435,7 @@
       </div>
       <div class="search-wrap" role="search" aria-label="Търсене в сайта">
         <div class="search-bar" id="searchBar">
-          <select class="search-select" id="searchCat">
+          <select class="search-select" id="searchCat" aria-label="Категория за търсене">
             <option value="">Всички</option>
             <option value="phones">Телефони и таблети</option>
             <option value="laptops">Лаптопи</option>

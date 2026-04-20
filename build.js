@@ -117,10 +117,17 @@ if (fs.existsSync(cssSrc)) {
   }
 }
 
-// 5. Copy HTML (minification optional — HTML is mostly dynamic)
+// 5. Copy HTML and stamp app.js version with today's date
 console.log('\n📝 Processing HTML...');
-fs.copyFileSync(path.join(ROOT, 'index.html'), path.join(DIST, 'index.html'));
-log('Copied index.html');
+{
+  const today = new Date().toISOString().slice(0,10).replace(/-/g,'');
+  let htmlSrc = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
+  // Update app.js version stamp in preload link and script src
+  htmlSrc = htmlSrc.replace(/app\.js\?v=\d{8}/g, `app.js?v=${today}`);
+  fs.writeFileSync(path.join(ROOT, 'index.html'), htmlSrc);
+  fs.writeFileSync(path.join(DIST, 'index.html'), htmlSrc);
+  log(`Copied index.html (app.js?v=${today})`);
+}
 
 // 6. Bump SW cache version and copy static assets
 console.log('\n📁 Copying assets...');

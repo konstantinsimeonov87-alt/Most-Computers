@@ -818,9 +818,12 @@ const CAT_SPEC_FILTERS = {
 // Subcat-specific spec filters (shown when a subcat pill is active)
 const SUBCAT_SPEC_FILTERS = {
   cpu: [
-    { key: 'Сокет', label: '🔩 Сокет',       values: ['LGA1851','LGA1700','LGA1200','AM5','AM4','TR5'] },
-    { key: 'Ядра',  label: '🧮 Брой ядра',   values: ['4 ядра','6 ядра','8 ядра','10 ядра','12 ядра','16 ядра','20 ядра','24 ядра'] },
-    { key: 'TDP',   label: '🌡 TDP',          values: ['35 W','45 W','58 W','65 W','95 W','105 W','125 W','170 W'] },
+    { key: 'Серия',    label: '📋 Серия',                values: ['Ryzen 9','Ryzen 7','Ryzen 5','Ryzen 3','Core i9','Core i7','Core i5','Core i3','Core Ultra'] },
+    { key: 'Сокет',   label: '🔩 Сокет',                values: ['LGA1851','LGA1700','LGA1200','AM5','AM4'] },
+    { key: 'Ядра',    label: '🧮 Брой ядра',            values: ['4 ядра','6 ядра','8 ядра','10 ядра','12 ядра','16 ядра','20 ядра','24 ядра'] },
+    { key: 'TDP',     label: '🌡 TDP',                  values: ['35 W','45 W','65 W','95 W','105 W','125 W','170 W'] },
+    { key: 'iGPU',    label: '🖥 Интегрирана графика',  values: ['С iGPU','Без iGPU'] },
+    { key: 'Опаковка',label: '📦 Опаковка',             values: ['BOX','TRAY','MPK'] },
   ],
   gpu: [
     { key: 'Памет', label: '💾 Видео памет',  values: ['4 GB','6 GB','8 GB','10 GB','12 GB','16 GB','24 GB'] },
@@ -1017,6 +1020,33 @@ function matchesCatSpec(p) {
         const sub = typeMap[v.toLowerCase()];
         return sub ? (p.subcat === sub) : all.includes(v.toLowerCase());
       });
+    }
+    // CPU Series — extracted from product name
+    if (key === 'Серия') {
+      const n = (p.name || '').toUpperCase();
+      const getSeries = () => {
+        if (/CORE ULTRA/i.test(n)) return 'Core Ultra';
+        if (/RYZEN\s*9|R9-/i.test(n)) return 'Ryzen 9';
+        if (/RYZEN\s*7|R7-/i.test(n)) return 'Ryzen 7';
+        if (/RYZEN\s*5|R5-/i.test(n)) return 'Ryzen 5';
+        if (/RYZEN\s*3|R3-/i.test(n)) return 'Ryzen 3';
+        if (/I9-|CORE I9/i.test(n)) return 'Core i9';
+        if (/I7-|CORE I7/i.test(n)) return 'Core i7';
+        if (/I5-|CORE I5/i.test(n)) return 'Core i5';
+        if (/I3-|CORE I3/i.test(n)) return 'Core i3';
+        return '';
+      };
+      const series = getSeries();
+      return [...vals].some(v => v === series);
+    }
+    // Integrated GPU filter
+    if (key === 'iGPU') {
+      const hasIgpu = !!((p.specs || {})['Интегрирана графика']);
+      return [...vals].some(v => v === 'С iGPU' ? hasIgpu : !hasIgpu);
+    }
+    // Package type — BOX / TRAY / MPK from product name
+    if (key === 'Опаковка') {
+      return [...vals].some(v => new RegExp(v, 'i').test(p.name || ''));
     }
     // Cores — "N ядра" filter values matched against numeric spec
     if (key === 'Ядра') {

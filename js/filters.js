@@ -851,6 +851,17 @@ const SUBCAT_SPEC_FILTERS = {
     { key: 'RPM',        label: '🌀 RPM',           values: ['5400','7200'] },
     { key: 'Форм фактор',label: '📐 Форм фактор',  values: ['3.5"','2.5"'] },
   ],
+  keyboard: [
+    { key: 'Връзка',    label: '📡 Връзка',         values: ['Кабелна','Безжична','Bluetooth'] },
+    { key: 'Тип',       label: '⌨ Тип превключвател', values: ['Механична','Мембранна'] },
+    { key: 'Подредба',  label: '🌐 Подредба',       values: ['BG (Кирилица)','US'] },
+    { key: 'Подсветка', label: '💡 Подсветка',      values: ['RGB','Да'] },
+  ],
+  mouse: [
+    { key: 'Връзка',  label: '📡 Връзка',           values: ['Кабелна','Безжична','Bluetooth','Безжична + BT'] },
+    { key: 'Сензор',  label: '🎯 Сензор',           values: ['Оптичен','Лазерен'] },
+    { key: 'Gaming',  label: '🎮 Gaming',            values: ['Да'] },
+  ],
 };
 
 function renderSubcatBar(cat) {

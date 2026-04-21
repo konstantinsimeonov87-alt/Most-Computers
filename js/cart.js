@@ -568,7 +568,13 @@ function submitOrder() {
       deliveryType: ckDeliveryNames[ckDeliveryIdx],
       status: 'pending',
       date: now.toLocaleDateString('bg-BG'),
-      ts: now.getTime()
+      ts: now.getTime(),
+      b2b: (document.getElementById('ckIsB2B') || {}).checked ? {
+        firma: (document.getElementById('ckFirma') || {}).value || '',
+        eik:   (document.getElementById('ckEIK')   || {}).value || '',
+        vat:   (document.getElementById('ckVAT')   || {}).value || '',
+        mol:   (document.getElementById('ckMOL')   || {}).value || '',
+      } : null
     };
     try {
       _prevOrders.unshift(orderData);
@@ -602,10 +608,10 @@ function closeThankyouPage() {
   document.body.style.overflow = '';
 }
 
-function printInvoice() {
+function printInvoice(num) {
   let orders = [];
   try { orders = JSON.parse(localStorage.getItem('mc_orders') || '[]'); } catch (e) { }
-  const o = orders[0];
+  const o = num ? orders.find(x => x.num === num) : orders[0];
   if (!o) { showToast('⚠️ Няма данни за поръчката'); return; }
 
   const subtotalNoVat = (o.subtotal / 1.2).toFixed(2);
@@ -693,9 +699,9 @@ function printInvoice() {
     </div>
   </div>
   <div class="party">
-    <div class="party-lbl">Клиент / Получател</div>
+    <div class="party-lbl">${o.b2b ? 'Купувач (фирма)' : 'Клиент / Получател'}</div>
     <div class="party-val">
-      <strong>${o.customer || '—'}</strong><br>
+      ${o.b2b ? `<strong>${o.b2b.firma || '—'}</strong><br>ЕИК: ${o.b2b.eik || '—'}<br>${o.b2b.vat ? 'ДДС №: ' + o.b2b.vat + '<br>' : ''}${o.b2b.mol ? 'МОЛ: ' + o.b2b.mol + '<br>' : ''}` : `<strong>${o.customer || '—'}</strong><br>`}
       ${o.addr ? o.addr + '<br>' : ''}
       ${o.city || ''}<br>
       тел.: ${o.phone || '—'}
@@ -752,6 +758,11 @@ function printInvoice() {
   w.document.close();
   w.focus();
   setTimeout(() => w.print(), 500);
+}
+
+function toggleB2BFields(cb) {
+  const el = document.getElementById('ckB2BFields');
+  if (el) el.style.display = cb.checked ? '' : 'none';
 }
 
 // MOBILE MENU

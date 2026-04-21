@@ -339,7 +339,6 @@ function addAllWishlistToCart() {
 
 // ===== MY ORDERS PAGE =====
 function openMyOrders() {
-  if (!currentUser) { openAuthModal('login'); return; }
   renderMyOrders();
   document.getElementById('myOrdersPage').classList.add('open');
   document.body.style.overflow = 'hidden';

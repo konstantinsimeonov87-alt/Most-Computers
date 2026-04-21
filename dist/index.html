@@ -41,7 +41,7 @@
     content="лаптопи, смартфони, телевизори, таблети, аудио, гейминг, Most Computers, онлайн магазин електроника, компютри, аксесоари, Apple, Samsung, ASUS, Sony, Lenovo">
   <link rel="alternate" hreflang="bg" href="https://mostcomputers.bg/">
   <link rel="preload" href="styles.css" as="style">
-  <link rel="preload" href="app.js?v=20260420" as="script">
+  <link rel="preload" href="app.js?v=20260421" as="script">
   <link rel="alternate" hreflang="x-default" href="https://mostcomputers.bg/">
   <link rel="canonical" href="https://mostcomputers.bg/">
   <link rel="sitemap" type="application/xml" href="/sitemap.xml">
@@ -830,7 +830,7 @@
             width="18" height="18" class="svg-ic" aria-hidden="true">
             <use href="#ic-cart" />
           </svg></span>Кошница<span class="mi-arr">›</span></button>
-      <button type="button" class="mob-nav-item" data-action="toggleMobMenu;openWishlistPage"><span class="mi-icon"><svg
+      <button type="button" class="mob-nav-item" data-action="toggleMobMenu;openWishlist"><span class="mi-icon"><svg
             width="18" height="18" class="svg-ic" aria-hidden="true">
             <use href="#ic-heart" />
           </svg></span>Любими<span class="mi-arr">›</span></button>
@@ -2126,6 +2126,22 @@
                     placeholder="ivan@mail.bg" onblur="ckValidateEmail(this)" autocomplete="email" required aria-required="true" aria-describedby="ckEmail-err"><span class="ck-field-error" id="ckEmail-err" role="alert"></span></div>
                 <div class="ck-field"><label for="ckPhone">Телефон *</label><input type="tel" class="ck-input" id="ckPhone"
                     placeholder="0888 123 456" onblur="ckValidatePhone(this)" oninput="ckFormatPhone(this)" autocomplete="tel" required aria-required="true" aria-describedby="ckPhone-err"><span class="ck-field-error" id="ckPhone-err" role="alert"></span></div>
+                <div class="ck-b2b-toggle-row" style="margin-top:12px">
+                  <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;font-weight:600;color:#1a1a1a">
+                    <input type="checkbox" id="ckIsB2B" onchange="toggleB2BFields(this)" style="width:16px;height:16px;cursor:pointer">
+                    Фирмена поръчка (издай фактура с ЕИК)
+                  </label>
+                </div>
+                <div id="ckB2BFields" style="display:none;margin-top:10px;padding:14px;background:#f8f9fa;border-radius:8px;border-left:3px solid #bd1105">
+                  <div class="ck-row2">
+                    <div class="ck-field"><label for="ckFirma">Фирма *</label><input class="ck-input" id="ckFirma" placeholder="Most Computers ЕООД" autocomplete="organization"></div>
+                    <div class="ck-field"><label for="ckEIK">ЕИК / Булстат *</label><input class="ck-input" id="ckEIK" placeholder="203000000" maxlength="13" inputmode="numeric"></div>
+                  </div>
+                  <div class="ck-row2">
+                    <div class="ck-field"><label for="ckVAT">ДДС номер</label><input class="ck-input" id="ckVAT" placeholder="BG203000000" maxlength="14"></div>
+                    <div class="ck-field"><label for="ckMOL">МОЛ</label><input class="ck-input" id="ckMOL" placeholder="Иван Петров"></div>
+                  </div>
+                </div>
                 <div class="ck-step-nav">
                   <span class="ck-req-note">* Задължителни полета</span>
                   <button type="button" class="ck-next-btn" onclick="ckNextStep(1)">Продължи към доставка ›</button>
@@ -2445,7 +2461,7 @@
               пазаруването</button>
             <button type="button" class="ty-btn-outline" data-action="closeCheckoutPageAndTrack">📦 Проследи
               поръчката</button>
-            <button type="button" class="ty-btn-outline" data-action="window.print">🖨 Принтирай</button>
+            <button type="button" class="ty-btn-outline" data-action="printInvoice">📄 Свали фактура</button>
           </div>
 
           <!-- Contact info -->
@@ -2929,7 +2945,7 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
-  <script src="app.js?v=20260420" defer></script>
+  <script src="app.js?v=20260421" defer></script>
   <script src="js/supabase-client.js" defer></script>
 
   <!-- Dark toggle moved to header -->

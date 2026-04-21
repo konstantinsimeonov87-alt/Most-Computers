@@ -29,21 +29,33 @@ function getProp(block, name) {
   return m ? m[1].trim() : '';
 }
 
+function normSpeed(raw) {
+  if (!raw) return '';
+  const s = raw.toString().trim();
+  // "5600MT/s" or "5600 MT/s MHz" → extract number
+  let m = s.match(/(\d[\d\s]*)\s*MT\/s/i);
+  if (m) return m[1].replace(/\s/g, '') + ' MHz';
+  // "DDR5-4800" / "DDR4-3200" → extract after dash
+  m = s.match(/DDR\d-(\d+)/i);
+  if (m) return m[1] + ' MHz';
+  // "4 800 MHz" → "4800 MHz" (space inside number)
+  m = s.match(/^(\d)\s+(\d{3})\s*MHz$/i);
+  if (m) return m[1] + m[2] + ' MHz';
+  // plain "3200" or "3200 MHz"
+  const n = s.replace(/\s*MHz\s*/i, '').trim();
+  return n ? `${n} MHz` : '';
+}
+
 function normCapacity(raw) {
   if (!raw) return '';
-  // Normalize: "16GB", "16 GB", "16G", "16G (1x16GB)", "32GB (2x16GB)" → "16 GB" / "32 GB (Kit)"
   const kitM = raw.match(/\((\d+)x/i);
   const numM = raw.match(/^(\d+)/);
   if (!numM) return raw;
   const num = numM[1];
-  const isKit = kitM ? ` (${kitM[1]}×)` : '';
+  // Only show kit notation for 2+ sticks
+  const kitCount = kitM ? parseInt(kitM[1]) : 1;
+  const isKit = kitCount >= 2 ? ` (${kitCount}×)` : '';
   return `${num} GB${isKit}`;
-}
-
-function normSpeed(raw) {
-  if (!raw) return '';
-  const n = raw.toString().replace(/\s*MHz\s*/i, '').trim();
-  return n ? `${n} MHz` : '';
 }
 
 function normType(raw) {

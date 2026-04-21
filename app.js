@@ -4147,7 +4147,7 @@ const products = [
 
   {id:586,name:'8G DDR4 2666 KINGSPEC',brand:'KingSpec',cat:'components',subcat:'ram',
    price:97,old:null,pct:null,badge:null,emoji:'🟢',sku:'KS2666D4P12008G',ean:null,
-   specs:{'Тип':'DDR4','Капацитет':'8 GB','Честота':'2666MT/s MHz','Форм фактор':'DIMM','Напрежение':'1.2/1.35V'},
+   specs:{'Тип':'DDR4','Капацитет':'8 GB','Честота':'2666 MHz','Форм фактор':'DIMM','Напрежение':'1.2/1.35V'},
    rating:4.4,rv:0,reviews:[],
    desc:'KingSpec 8G DDR4 2666 KINGSPEC — DDR4 DIMM 2666MT/s MHz, 8 GB.',
    img:'https://portal.mostbg.com/api/images/imageFileData/46803.jpeg',stock:false},
@@ -4189,7 +4189,7 @@ const products = [
 
   {id:592,name:'8G DDR4 3200 KINGSPEC',brand:'KingSpec',cat:'components',subcat:'ram',
    price:131,old:null,pct:null,badge:null,emoji:'🟢',sku:'KS3200D4P13508G',ean:'6950509911571',
-   specs:{'Тип':'DDR4','Капацитет':'8 GB','Честота':'3200MT/s MHz','Форм фактор':'DIMM','Напрежение':'1.2/1.35V'},
+   specs:{'Тип':'DDR4','Капацитет':'8 GB','Честота':'3200 MHz','Форм фактор':'DIMM','Напрежение':'1.2/1.35V'},
    rating:4.4,rv:0,reviews:[],
    desc:'KingSpec 8G DDR4 3200 KINGSPEC — DDR4 DIMM 3200MT/s MHz, 8 GB.',
    img:'https://portal.mostbg.com/api/images/imageFileData/46805.jpeg',stock:true},
@@ -4210,7 +4210,7 @@ const products = [
 
   {id:595,name:'8G DDR4 3200 CRUCIAL',brand:'Crucial',cat:'components',subcat:'ram',
    price:124,old:null,pct:null,badge:null,emoji:'🟢',sku:'CT8G4DFRA32A',ean:'649528903549',
-   specs:{'Тип':'DDR4','Капацитет':'8 GB','Честота':'DDR4-3200 MHz','Латентност':'22','Форм фактор':'DIMM','Напрежение':'1.2V'},
+   specs:{'Тип':'DDR4','Капацитет':'8 GB','Честота':'3200 MHz','Латентност':'22','Форм фактор':'DIMM','Напрежение':'1.2V'},
    rating:4.4,rv:0,reviews:[],
    desc:'Crucial 8G DDR4 3200 CRUCIAL — DDR4 DIMM DDR4-3200 MHz, 8 GB, 22.',
    img:'https://portal.mostbg.com/api/images/imageFileData/51062.png',stock:true},
@@ -4238,7 +4238,7 @@ const products = [
 
   {id:599,name:'8G DDR4 3200 TEAM DELTA R WHIT',brand:'TeamGroup',cat:'components',subcat:'ram',
    price:47,old:null,pct:null,badge:null,emoji:'🟢',sku:'TF4D48G3200HC16F01',ean:null,
-   specs:{'Тип':'DDR4','Капацитет':'8 GB (1×)','Честота':'3200 MHz','Латентност':'CL16','Форм фактор':'DIMM','Напрежение':'1.35V'},
+   specs:{'Тип':'DDR4','Капацитет':'8 GB','Честота':'3200 MHz','Латентност':'CL16','Форм фактор':'DIMM','Напрежение':'1.35V'},
    rating:4.4,rv:0,reviews:[],
    desc:'TeamGroup 8G DDR4 3200 TEAM DELTA R WHIT — DDR4 DIMM 3200 MHz, 8 GB (1×), CL16.',
    img:'https://portal.mostbg.com/api/images/imageFileData/45846.jpeg',stock:false},
@@ -4252,14 +4252,14 @@ const products = [
 
   {id:601,name:'8G DDR4 3200 XPG D35G',brand:'ADATA',cat:'components',subcat:'ram',
    price:139,old:null,pct:null,badge:null,emoji:'🟢',sku:'AX4U32008G16A-SBKD35G',ean:'4711085943279',
-   specs:{'Тип':'DDR4','Капацитет':'8 GB','Честота':'3200MT/s MHz','Латентност':'CL16','Форм фактор':'DIMM','Напрежение':'1.35V'},
+   specs:{'Тип':'DDR4','Капацитет':'8 GB','Честота':'3200 MHz','Латентност':'CL16','Форм фактор':'DIMM','Напрежение':'1.35V'},
    rating:4.4,rv:0,reviews:[],
    desc:'ADATA 8G DDR4 3200 XPG D35G — DDR4 DIMM 3200MT/s MHz, 8 GB, CL16.',
    img:'https://portal.mostbg.com/img/ProductInfo/PL_4.gif',stock:true},
 
   {id:602,name:'8G DDR4 3200 XPG D35G WHITE',brand:'ADATA',cat:'components',subcat:'ram',
    price:127,old:null,pct:null,badge:null,emoji:'🟢',sku:'AX4U32008G16A-SWHD35G',ean:'4711085943293',
-   specs:{'Тип':'DDR4','Капацитет':'8 GB','Честота':'3200MT/s MHz','Латентност':'CL 16-20-20','Форм фактор':'DIMM','Напрежение':'1.35V'},
+   specs:{'Тип':'DDR4','Капацитет':'8 GB','Честота':'3200 MHz','Латентност':'CL 16-20-20','Форм фактор':'DIMM','Напрежение':'1.35V'},
    rating:4.4,rv:0,reviews:[],
    desc:'ADATA 8G DDR4 3200 XPG D35G WHITE — DDR4 DIMM 3200MT/s MHz, 8 GB, CL 16-20-20.',
    img:'https://portal.mostbg.com/api/images/imageFileData/50992.png',stock:false},
@@ -4392,7 +4392,7 @@ const products = [
 
   {id:621,name:'2X8G DDR5 5200 KING EXPO BEAST',brand:'Kingston',cat:'components',subcat:'ram',
    price:87,old:null,pct:null,badge:null,emoji:'🟣',sku:'KF552C36BBEK2-16',ean:null,
-   specs:{'Тип':'DDR5','Капацитет':'16 GB','Честота':'5200MT/s MHz','Форм фактор':'DIMM','Напрежение':'1.25V'},
+   specs:{'Тип':'DDR5','Капацитет':'16 GB','Честота':'5200 MHz','Форм фактор':'DIMM','Напрежение':'1.25V'},
    rating:4.4,rv:0,reviews:[],
    desc:'Kingston 2X8G DDR5 5200 KING EXPO BEAST — DDR5 DIMM 5200MT/s MHz, 16 GB.',
    img:'https://portal.mostbg.com/api/images/imageFileData/33474.jpeg',stock:false},
@@ -4455,7 +4455,7 @@ const products = [
 
   {id:630,name:'16G DDR4 3200 KINGSPEC',brand:'KingSpec',cat:'components',subcat:'ram',
    price:234,old:null,pct:null,badge:null,emoji:'🟢',sku:'KS3200D4P13516G',ean:'6950509911595',
-   specs:{'Тип':'DDR4','Капацитет':'16 GB','Честота':'3200MT/s MHz','Форм фактор':'DIMM','Напрежение':'1.2/1.35V'},
+   specs:{'Тип':'DDR4','Капацитет':'16 GB','Честота':'3200 MHz','Форм фактор':'DIMM','Напрежение':'1.2/1.35V'},
    rating:4.4,rv:0,reviews:[],
    desc:'KingSpec 16G DDR4 3200 KINGSPEC — DDR4 DIMM 3200MT/s MHz, 16 GB.',
    img:'https://portal.mostbg.com/api/images/imageFileData/46809.jpeg',stock:false},
@@ -4490,7 +4490,7 @@ const products = [
 
   {id:635,name:'16G DDR4 3200 CRUCIAL',brand:'Crucial',cat:'components',subcat:'ram',
    price:246,old:null,pct:null,badge:null,emoji:'🟢',sku:'CT16G4DFRA32A',ean:'649528903624',
-   specs:{'Тип':'DDR4','Капацитет':'16 GB','Честота':'DDR4-3200 MHz','Латентност':'22','Форм фактор':'DIMM','Напрежение':'1.2V'},
+   specs:{'Тип':'DDR4','Капацитет':'16 GB','Честота':'3200 MHz','Латентност':'22','Форм фактор':'DIMM','Напрежение':'1.2V'},
    rating:4.4,rv:0,reviews:[],
    desc:'Crucial 16G DDR4 3200 CRUCIAL — DDR4 DIMM DDR4-3200 MHz, 16 GB, 22.',
    img:'https://portal.mostbg.com/api/images/imageFileData/51063.png',stock:false},
@@ -4567,7 +4567,7 @@ const products = [
 
   {id:646,name:'16GB DDR5 4800 CRUCIAL',brand:'Crucial',cat:'components',subcat:'ram',
    price:368,old:null,pct:null,badge:null,emoji:'🟣',sku:'CT16G48C40U5',ean:'649528905628',
-   specs:{'Тип':'DDR5','Капацитет':'16 GB','Честота':'DDR5-4800 MHz','Латентност':'40','Форм фактор':'DIMM','Напрежение':'1.1V/(5V ext)'},
+   specs:{'Тип':'DDR5','Капацитет':'16 GB','Честота':'4800 MHz','Латентност':'40','Форм фактор':'DIMM','Напрежение':'1.1V/(5V ext)'},
    rating:4.4,rv:0,reviews:[],
    desc:'Crucial 16GB DDR5 4800 CRUCIAL — DDR5 DIMM DDR5-4800 MHz, 16 GB, 40.',
    img:'https://portal.mostbg.com/api/images/imageFileData/51064.png',stock:true},
@@ -4595,14 +4595,14 @@ const products = [
 
   {id:650,name:'16G DDR5 4800 KINGSPEC',brand:'KingSpec',cat:'components',subcat:'ram',
    price:322,old:null,pct:null,badge:null,emoji:'🟣',sku:'KS4800D5P11016G',ean:'6950509917818',
-   specs:{'Тип':'DDR5','Капацитет':'16 GB','Честота':'4800MT/s MHz','Форм фактор':'DIMM','Напрежение':'1.1~1.35V'},
+   specs:{'Тип':'DDR5','Капацитет':'16 GB','Честота':'4800 MHz','Форм фактор':'DIMM','Напрежение':'1.1~1.35V'},
    rating:4.4,rv:0,reviews:[],
    desc:'KingSpec 16G DDR5 4800 KINGSPEC — DDR5 DIMM 4800MT/s MHz, 16 GB.',
    img:'https://portal.mostbg.com/api/images/imageFileData/46811.jpeg',stock:false},
 
   {id:651,name:'16G DDR5 5200 KINGSPEC',brand:'KingSpec',cat:'components',subcat:'ram',
    price:361,old:null,pct:null,badge:null,emoji:'🟣',sku:'KS5200D5P11016G',ean:'6950509917825',
-   specs:{'Тип':'DDR5','Капацитет':'16 GB','Честота':'5200MT/s MHz','Форм фактор':'DIMM','Напрежение':'1.1V'},
+   specs:{'Тип':'DDR5','Капацитет':'16 GB','Честота':'5200 MHz','Форм фактор':'DIMM','Напрежение':'1.1V'},
    rating:4.4,rv:0,reviews:[],
    desc:'KingSpec 16G DDR5 5200 KINGSPEC — DDR5 DIMM 5200MT/s MHz, 16 GB.',
    img:'https://portal.mostbg.com/api/images/imageFileData/51095.png',stock:false},
@@ -4616,21 +4616,21 @@ const products = [
 
   {id:653,name:'16G DDR5 4800 ADATA',brand:'ADATA',cat:'components',subcat:'ram',
    price:343,old:null,pct:null,badge:null,emoji:'🟣',sku:'AD5U480016G-S',ean:'4711085936448',
-   specs:{'Тип':'DDR5','Капацитет':'16 GB','Честота':'4800 MT/s MHz','Форм фактор':'DIMM'},
+   specs:{'Тип':'DDR5','Капацитет':'16 GB','Честота':'4800 MHz','Форм фактор':'DIMM'},
    rating:4.4,rv:0,reviews:[],
    desc:'ADATA 16G DDR5 4800 ADATA — DDR5 DIMM 4800 MT/s MHz, 16 GB.',
    img:'https://portal.mostbg.com/api/images/imageFileData/29449.png',stock:false},
 
   {id:654,name:'16G DDR5 5600 KINGSPEC',brand:'KingSpec',cat:'components',subcat:'ram',
    price:367,old:null,pct:null,badge:null,emoji:'🟣',sku:'KS5600D5P12516G',ean:'6950509932903',
-   specs:{'Тип':'DDR5','Капацитет':'16 GB','Честота':'5600MT/s MHz','Форм фактор':'DIMM','Напрежение':'1.35V/1.45V'},
+   specs:{'Тип':'DDR5','Капацитет':'16 GB','Честота':'5600 MHz','Форм фактор':'DIMM','Напрежение':'1.35V/1.45V'},
    rating:4.4,rv:0,reviews:[],
    desc:'KingSpec 16G DDR5 5600 KINGSPEC — DDR5 DIMM 5600MT/s MHz, 16 GB.',
    img:'https://portal.mostbg.com/api/images/imageFileData/46812.jpeg',stock:true},
 
   {id:655,name:'16G DDR5 6000 KINGSPEC',brand:'KingSpec',cat:'components',subcat:'ram',
    price:393,old:null,pct:null,badge:null,emoji:'🟣',sku:'KS6000D5P12516G',ean:'6950509932699',
-   specs:{'Тип':'DDR5','Капацитет':'16 GB','Честота':'6000 MT/s MHz','Форм фактор':'DIMM','Напрежение':'1.1V'},
+   specs:{'Тип':'DDR5','Капацитет':'16 GB','Честота':'6000 MHz','Форм фактор':'DIMM','Напрежение':'1.1V'},
    rating:4.4,rv:0,reviews:[],
    desc:'KingSpec 16G DDR5 6000 KINGSPEC — DDR5 DIMM 6000 MT/s MHz, 16 GB.',
    img:'https://portal.mostbg.com/api/images/imageFileData/51096.png',stock:true},
@@ -4679,14 +4679,14 @@ const products = [
 
   {id:662,name:'16G DDR5 6000 XPG BLADE RGB WH',brand:'ADATA',cat:'components',subcat:'ram',
    price:470,old:null,pct:null,badge:null,emoji:'🟣',sku:'AX5U6000C3016G-SLABRWH',ean:'4711085944894',
-   specs:{'Тип':'DDR5','Капацитет':'16 GB','Честота':'6000MT/s MHz','Латентност':'CL 30-40-40','Форм фактор':'DIMM','Напрежение':'1.1V'},
+   specs:{'Тип':'DDR5','Капацитет':'16 GB','Честота':'6000 MHz','Латентност':'CL 30-40-40','Форм фактор':'DIMM','Напрежение':'1.1V'},
    rating:4.4,rv:0,reviews:[],
    desc:'ADATA 16G DDR5 6000 XPG BLADE RGB WH — DDR5 DIMM 6000MT/s MHz, 16 GB, CL 30-40-40.',
    img:'https://portal.mostbg.com/api/images/imageFileData/50996.png',stock:true},
 
   {id:663,name:'2X16G DDR5 6000 XPG CASTER RGB',brand:'ADATA',cat:'components',subcat:'ram',
    price:532,old:null,pct:null,badge:null,emoji:'🟣',sku:'AX5U6000C3016G-DCCARGY',ean:'4711085941046',
-   specs:{'Тип':'DDR5','Капацитет':'32 GB','Честота':'6000 MT/s MHz','Латентност':'30-32','Форм фактор':'DIMM','Напрежение':'1.35V-1.4V'},
+   specs:{'Тип':'DDR5','Капацитет':'32 GB','Честота':'6000 MHz','Латентност':'30-32','Форм фактор':'DIMM','Напрежение':'1.35V-1.4V'},
    rating:4.4,rv:0,reviews:[],
    desc:'ADATA 2X16G DDR5 6000 XPG CASTER RGB — DDR5 DIMM 6000 MT/s MHz, 32 GB, 30-32.',
    img:'https://portal.mostbg.com/api/images/imageFileData/44811.png',stock:false},
@@ -4931,7 +4931,7 @@ const products = [
 
   {id:698,name:'2X16G DDR5 6000 XPG NEON RGB',brand:'ADATA',cat:'components',subcat:'ram',
    price:518,old:null,pct:null,badge:null,emoji:'🟣',sku:'AX5U6000C3016G-DCLANRSG',ean:'4711085948977',
-   specs:{'Тип':'DDR5','Капацитет':'16 GB','Честота':'6000 MT/s MHz','Латентност':'30-40-40','Форм фактор':'DIMM','Напрежение':'1.35V'},
+   specs:{'Тип':'DDR5','Капацитет':'16 GB','Честота':'6000 MHz','Латентност':'30-40-40','Форм фактор':'DIMM','Напрежение':'1.35V'},
    rating:4.4,rv:0,reviews:[],
    desc:'ADATA 2X16G DDR5 6000 XPG NEON RGB — DDR5 DIMM 6000 MT/s MHz, 16 GB, 30-40-40.',
    img:'https://portal.mostbg.com/api/images/imageFileData/44928.png',stock:false},
@@ -5085,7 +5085,7 @@ const products = [
 
   {id:720,name:'32G DDR5 5200 KING EXPO BEAST',brand:'Kingston',cat:'components',subcat:'ram',
    price:139,old:null,pct:null,badge:null,emoji:'🟣',sku:'KF552C36BBE-32',ean:null,
-   specs:{'Тип':'DDR5','Капацитет':'32 GB','Честота':'5200MT/s MHz','Форм фактор':'DIMM','Напрежение':'1.25V'},
+   specs:{'Тип':'DDR5','Капацитет':'32 GB','Честота':'5200 MHz','Форм фактор':'DIMM','Напрежение':'1.25V'},
    rating:4.4,rv:0,reviews:[],
    desc:'Kingston 32G DDR5 5200 KING EXPO BEAST — DDR5 DIMM 5200MT/s MHz, 32 GB.',
    img:'https://portal.mostbg.com/api/images/imageFileData/33475.png',stock:false},
@@ -5099,14 +5099,14 @@ const products = [
 
   {id:722,name:'32G DDR5 5600 KING EXPO BEAST',brand:'Kingston',cat:'components',subcat:'ram',
    price:162,old:null,pct:null,badge:null,emoji:'🟣',sku:'KF556C36BBE-32',ean:null,
-   specs:{'Тип':'DDR5','Капацитет':'32 GB','Честота':'5600MT/s MHz','Латентност':'CL36','Форм фактор':'DIMM','Напрежение':'1.25V'},
+   specs:{'Тип':'DDR5','Капацитет':'32 GB','Честота':'5600 MHz','Латентност':'CL36','Форм фактор':'DIMM','Напрежение':'1.25V'},
    rating:4.4,rv:0,reviews:[],
    desc:'Kingston 32G DDR5 5600 KING EXPO BEAST — DDR5 DIMM 5600MT/s MHz, 32 GB, CL36.',
    img:'https://portal.mostbg.com/api/images/imageFileData/33473.png',stock:false},
 
   {id:723,name:'32G DDR5 6000 KING EXPO BEAST',brand:'Kingston',cat:'components',subcat:'ram',
    price:821,old:null,pct:null,badge:null,emoji:'🟣',sku:'KF560C36BBE-32',ean:null,
-   specs:{'Тип':'DDR5','Капацитет':'32 GB','Честота':'6000MT/s MHz','Форм фактор':'DIMM','Напрежение':'1.35V'},
+   specs:{'Тип':'DDR5','Капацитет':'32 GB','Честота':'6000 MHz','Форм фактор':'DIMM','Напрежение':'1.35V'},
    rating:4.4,rv:0,reviews:[],
    desc:'Kingston 32G DDR5 6000 KING EXPO BEAST — DDR5 DIMM 6000MT/s MHz, 32 GB.',
    img:'https://portal.mostbg.com/api/images/imageFileData/33472.png',stock:true},
@@ -5253,7 +5253,7 @@ const products = [
 
   {id:744,name:'8G DDR4 3200 KINGSPEC SODIMM',brand:'KingSpec',cat:'components',subcat:'ram',
    price:86,old:null,pct:null,badge:null,emoji:'💻',sku:'KS3200D4N12008G',ean:'6950509911632',
-   specs:{'Тип':'DDR4','Капацитет':'8 GB','Честота':'3200MT/s MHz','Форм фактор':'SO-DIMM','Напрежение':'1.2V'},
+   specs:{'Тип':'DDR4','Капацитет':'8 GB','Честота':'3200 MHz','Форм фактор':'SO-DIMM','Напрежение':'1.2V'},
    rating:4.4,rv:0,reviews:[],
    desc:'KingSpec 8G DDR4 3200 KINGSPEC SODIMM — DDR4 SO-DIMM 3200MT/s MHz, 8 GB.',
    img:'https://portal.mostbg.com/api/images/imageFileData/46815.jpeg',stock:true},
@@ -5358,7 +5358,7 @@ const products = [
 
   {id:759,name:'8G DDR5 5600 KCP556SS6-8 SODIM',brand:'Kingston',cat:'components',subcat:'ram',
    price:86,old:null,pct:null,badge:null,emoji:'💻',sku:'KCP556SS6-8',ean:'0740617335019',
-   specs:{'Тип':'DDR5','Капацитет':'8 GB','Честота':'5600MT/s MHz','Латентност':'CL46','Форм фактор':'SO-DIMM','Напрежение':'1.1V'},
+   specs:{'Тип':'DDR5','Капацитет':'8 GB','Честота':'5600 MHz','Латентност':'CL46','Форм фактор':'SO-DIMM','Напрежение':'1.1V'},
    rating:4.4,rv:0,reviews:[],
    desc:'Kingston 8G DDR5 5600 KCP556SS6-8 SODIM — DDR5 SO-DIMM 5600MT/s MHz, 8 GB, CL46.',
    img:'https://portal.mostbg.com/api/images/imageFileData/45512.jpeg',stock:false},
@@ -5400,7 +5400,7 @@ const products = [
 
   {id:765,name:'16G DDR4 3200 KINGSPEC SODIMM',brand:'KingSpec',cat:'components',subcat:'ram',
    price:202,old:null,pct:null,badge:null,emoji:'💻',sku:'KS3200D4N12016G',ean:'6950509911656',
-   specs:{'Тип':'DDR4','Капацитет':'16 GB','Честота':'3200MT/s MHz','Форм фактор':'SO-DIMM','Напрежение':'1.2V'},
+   specs:{'Тип':'DDR4','Капацитет':'16 GB','Честота':'3200 MHz','Форм фактор':'SO-DIMM','Напрежение':'1.2V'},
    rating:4.4,rv:0,reviews:[],
    desc:'KingSpec 16G DDR4 3200 KINGSPEC SODIMM — DDR4 SO-DIMM 3200MT/s MHz, 16 GB.',
    img:'https://portal.mostbg.com/api/images/imageFileData/46819.jpeg',stock:true},
@@ -5498,7 +5498,7 @@ const products = [
 
   {id:779,name:'16G DDR5 4800 ADATA SODIMM',brand:'ADATA',cat:'components',subcat:'ram',
    price:351,old:null,pct:null,badge:null,emoji:'💻',sku:'AD5S480016G-S',ean:'4711085936592',
-   specs:{'Тип':'DDR5','Капацитет':'16 GB','Честота':'4 800 MHz','Форм фактор':'SO-DIMM'},
+   specs:{'Тип':'DDR5','Капацитет':'16 GB','Честота':'4800 MHz','Форм фактор':'SO-DIMM'},
    rating:4.4,rv:0,reviews:[],
    desc:'ADATA 16G DDR5 4800 ADATA SODIMM — DDR5 SO-DIMM 4 800 MHz, 16 GB.',
    img:'https://portal.mostbg.com/api/images/imageFileData/31258.png',stock:true},
@@ -5526,7 +5526,7 @@ const products = [
 
   {id:783,name:'32G DDR5 CSODIMM 6400 KINGSTON',brand:'Kingston',cat:'components',subcat:'ram',
    price:741,old:null,pct:null,badge:null,emoji:'💻',sku:'KVR64V52BS8-32',ean:null,
-   specs:{'Тип':'DDR5','Капацитет':'32 GB','Честота':'6400 MT/s MHz','Латентност':'CL52','Форм фактор':'SO-DIMM','Напрежение':'1.1V'},
+   specs:{'Тип':'DDR5','Капацитет':'32 GB','Честота':'6400 MHz','Латентност':'CL52','Форм фактор':'SO-DIMM','Напрежение':'1.1V'},
    rating:4.4,rv:0,reviews:[],
    desc:'Kingston 32G DDR5 CSODIMM 6400 KINGSTON — DDR5 SO-DIMM 6400 MT/s MHz, 32 GB, CL52.',
    img:'https://portal.mostbg.com/api/images/imageFileData/52222.png',stock:true},
@@ -5582,7 +5582,7 @@ const products = [
 
   {id:791,name:'16G DDR5 CSODIMM 6400 SAMSUNG',brand:'Samsung',cat:'components',subcat:'ram',
    price:495,old:null,pct:null,badge:null,emoji:'💻',sku:'',ean:null,
-   specs:{'Тип':'DDR5','Капацитет':'16 GB','Честота':'6400 MT/s MHz','Латентност':'CL52','Форм фактор':'SO-DIMM','Напрежение':'1.1V'},
+   specs:{'Тип':'DDR5','Капацитет':'16 GB','Честота':'6400 MHz','Латентност':'CL52','Форм фактор':'SO-DIMM','Напрежение':'1.1V'},
    rating:4.4,rv:0,reviews:[],
    desc:'Samsung 16G DDR5 CSODIMM 6400 SAMSUNG — DDR5 SO-DIMM 6400 MT/s MHz, 16 GB, CL52.',
    img:'https://portal.mostbg.com/api/images/imageFileData/52335.png',stock:true},
@@ -5603,7 +5603,7 @@ const products = [
 
   {id:794,name:'32G DDR5 4800 ADATA SODIMM',brand:'ADATA',cat:'components',subcat:'ram',
    price:437,old:null,pct:null,badge:null,emoji:'💻',sku:'AD5S480032G-S',ean:'4711085936622',
-   specs:{'Тип':'DDR5','Капацитет':'32 GB','Честота':'4800MT/s MHz','Форм фактор':'SO-DIMM'},
+   specs:{'Тип':'DDR5','Капацитет':'32 GB','Честота':'4800 MHz','Форм фактор':'SO-DIMM'},
    rating:4.4,rv:0,reviews:[],
    desc:'ADATA 32G DDR5 4800 ADATA SODIMM — DDR5 SO-DIMM 4800MT/s MHz, 32 GB.',
    img:'https://portal.mostbg.com/api/images/imageFileData/32472.jpeg',stock:false},

@@ -444,7 +444,7 @@ let cpSpecFilters = {};
 let cpSubcat = 'all';
 
 let _catPageScrollY = 0;
-function openCatPage(cat) {
+function openCatPage(cat, preSubcat) {
   _catPageScrollY = window.scrollY || document.documentElement.scrollTop;
   cpCat = cat;
   cpSort = 'bestseller';
@@ -452,7 +452,7 @@ function openCatPage(cat) {
   cpBrands = new Set();
   cpRating = 0; cpSaleOnly = false; cpNewOnly = false;
   cpSpecFilters = {};
-  cpSubcat = 'all';
+  cpSubcat = preSubcat || 'all';
 
   const m = CAT_META[cat] || { emoji:'🗂', label: cat, sub:'' };
   const cpEmoji = document.getElementById('cpEmoji');
@@ -466,6 +466,13 @@ function openCatPage(cat) {
   buildCpSidebar(cat);
   // Build subcat bar
   cpRenderSubcatBar(cat);
+
+  // Highlight pre-selected subcat pill if provided
+  if (preSubcat && preSubcat !== 'all') {
+    document.querySelectorAll('#cpSubcatBar .subcat-pill').forEach(p => p.classList.remove('active'));
+    const activePill = document.querySelector(`#cpSubcatBar .subcat-pill[onclick*="'${preSubcat}'"]`);
+    if (activePill) activePill.classList.add('active');
+  }
 
   // Update SEO
   const _catDesc = m.label + ' — ' + m.sub + '. Купи онлайн от Most Computers.';

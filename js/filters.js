@@ -662,6 +662,7 @@ const SUBCATS = {
     { id: 'cpu',         label: '⚙ Процесори' },
     { id: 'gpu',         label: '🎮 Видео карти' },
     { id: 'ram',         label: '🧠 RAM памет' },
+    { id: 'ssd_hdd',     label: '💿 SSD / HDD дискове' },
     { id: 'ssd',         label: '💿 SSD / NVMe' },
     { id: 'hdd',         label: '💾 HDD дискове' },
     { id: 'motherboard', label: '🔩 Дънни платки' },
@@ -1003,7 +1004,7 @@ function matchesSubcat(p, subcat) {
     cpu:           () => all.includes('процесор') || all.includes('processor') || all.includes('cpu') || all.includes('ryzen') || all.includes('core i') || all.includes('core ultra'),
     gpu:           () => all.includes('видеокарт') || all.includes('gpu') || all.includes('geforce') || all.includes('radeon') || all.includes('rtx') || all.includes('rx 6') || all.includes('rx 7') || all.includes('arc'),
     ram:           () => all.includes(' ram') || all.includes('памет') || all.includes('ddr4') || all.includes('ddr5') || all.includes('dimm') || all.includes('sodimm'),
-    ssd_hdd:       () => all.includes('ssd') || all.includes('hdd') || all.includes('nvme') || all.includes('диск') || all.includes('m.2'),
+    ssd_hdd:       () => p.subcat === 'ssd' || p.subcat === 'hdd' || all.includes('ssd') || all.includes('hdd') || all.includes('nvme') || all.includes('диск'),
     ssd:           () => all.includes('ssd') || all.includes('nvme') || all.includes('m.2') || all.includes('solid state'),
     hdd:           () => (all.includes('hdd') || all.includes('hard drive') || all.includes('твърд диск') || all.includes(' hd ')) && !all.includes('ssd') && !all.includes('nvme'),
     motherboard:   () => all.includes('дънна') || all.includes('motherboard') || all.includes('mainboard') || all.includes('платка'),
@@ -1260,8 +1261,8 @@ function megaMenuOpen(catEl, cat) {
   // Render columns
   const cols = data.map(col => `
     <div class="mega-col">
-      <div class="mega-col-title" onclick="openCatPage('${cat}'); applySubcatById('${col.id}')">${col.title}</div>
-      ${col.items.map(item => `<span class="mega-item" onclick="openCatPage('${cat}'); applySubcatById('${col.id}')">${item}</span>`).join('')}
+      <div class="mega-col-title" onclick="openCatPage('${cat}','${col.id}')">${col.title}</div>
+      ${col.items.map(item => `<span class="mega-item" onclick="openCatPage('${cat}','${col.id}')">${item}</span>`).join('')}
       <span class="mega-item mega-item-all" onclick="openCatPage('${cat}')">Всички</span>
     </div>
   `).join('');

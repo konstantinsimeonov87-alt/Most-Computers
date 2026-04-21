@@ -14473,6 +14473,7 @@ const SUBCATS = {
     { id: 'cpu',         label: '⚙ Процесори' },
     { id: 'gpu',         label: '🎮 Видео карти' },
     { id: 'ram',         label: '🧠 RAM памет' },
+    { id: 'ssd_hdd',     label: '💿 SSD / HDD дискове' },
     { id: 'ssd',         label: '💿 SSD / NVMe' },
     { id: 'hdd',         label: '💾 HDD дискове' },
     { id: 'motherboard', label: '🔩 Дънни платки' },
@@ -14814,7 +14815,7 @@ function matchesSubcat(p, subcat) {
     cpu:           () => all.includes('процесор') || all.includes('processor') || all.includes('cpu') || all.includes('ryzen') || all.includes('core i') || all.includes('core ultra'),
     gpu:           () => all.includes('видеокарт') || all.includes('gpu') || all.includes('geforce') || all.includes('radeon') || all.includes('rtx') || all.includes('rx 6') || all.includes('rx 7') || all.includes('arc'),
     ram:           () => all.includes(' ram') || all.includes('памет') || all.includes('ddr4') || all.includes('ddr5') || all.includes('dimm') || all.includes('sodimm'),
-    ssd_hdd:       () => all.includes('ssd') || all.includes('hdd') || all.includes('nvme') || all.includes('диск') || all.includes('m.2'),
+    ssd_hdd:       () => p.subcat === 'ssd' || p.subcat === 'hdd' || all.includes('ssd') || all.includes('hdd') || all.includes('nvme') || all.includes('диск'),
     ssd:           () => all.includes('ssd') || all.includes('nvme') || all.includes('m.2') || all.includes('solid state'),
     hdd:           () => (all.includes('hdd') || all.includes('hard drive') || all.includes('твърд диск') || all.includes(' hd ')) && !all.includes('ssd') && !all.includes('nvme'),
     motherboard:   () => all.includes('дънна') || all.includes('motherboard') || all.includes('mainboard') || all.includes('платка'),
@@ -15071,8 +15072,8 @@ function megaMenuOpen(catEl, cat) {
   // Render columns
   const cols = data.map(col => `
     <div class="mega-col">
-      <div class="mega-col-title" onclick="openCatPage('${cat}'); applySubcatById('${col.id}')">${col.title}</div>
-      ${col.items.map(item => `<span class="mega-item" onclick="openCatPage('${cat}'); applySubcatById('${col.id}')">${item}</span>`).join('')}
+      <div class="mega-col-title" onclick="openCatPage('${cat}','${col.id}')">${col.title}</div>
+      ${col.items.map(item => `<span class="mega-item" onclick="openCatPage('${cat}','${col.id}')">${item}</span>`).join('')}
       <span class="mega-item mega-item-all" onclick="openCatPage('${cat}')">Всички</span>
     </div>
   `).join('');
@@ -17340,7 +17341,7 @@ let cpSpecFilters = {};
 let cpSubcat = 'all';
 
 let _catPageScrollY = 0;
-function openCatPage(cat) {
+function openCatPage(cat, preSubcat) {
   _catPageScrollY = window.scrollY || document.documentElement.scrollTop;
   cpCat = cat;
   cpSort = 'bestseller';
@@ -17348,7 +17349,7 @@ function openCatPage(cat) {
   cpBrands = new Set();
   cpRating = 0; cpSaleOnly = false; cpNewOnly = false;
   cpSpecFilters = {};
-  cpSubcat = 'all';
+  cpSubcat = preSubcat || 'all';
 
   const m = CAT_META[cat] || { emoji:'🗂', label: cat, sub:'' };
   const cpEmoji = document.getElementById('cpEmoji');
@@ -17362,6 +17363,13 @@ function openCatPage(cat) {
   buildCpSidebar(cat);
   // Build subcat bar
   cpRenderSubcatBar(cat);
+
+  // Highlight pre-selected subcat pill if provided
+  if (preSubcat && preSubcat !== 'all') {
+    document.querySelectorAll('#cpSubcatBar .subcat-pill').forEach(p => p.classList.remove('active'));
+    const activePill = document.querySelector(`#cpSubcatBar .subcat-pill[onclick*="'${preSubcat}'"]`);
+    if (activePill) activePill.classList.add('active');
+  }
 
   // Update SEO
   const _catDesc = m.label + ' — ' + m.sub + '. Купи онлайн от Most Computers.';

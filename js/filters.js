@@ -670,7 +670,6 @@ const SUBCATS = {
     { id: 'cooling',     label: '❄ Охлаждане' },
   ],
   peripherals: [
-    { id: 'monitor',      label: '🖥 Монитори' },
     { id: 'keyboard',     label: '⌨ Клавиатури' },
     { id: 'mouse',        label: '🖱 Мишки' },
     { id: 'headphones',   label: '🎧 Слушалки' },
@@ -690,12 +689,9 @@ const SUBCATS = {
     { id: 'flash',        label: '📱 Флаш памет' },
   ],
   accessories: [
-    { id: 'bag',          label: '🎒 Чанти' },
-    { id: 'cable',        label: '🔌 Кабели и зарядни' },
-    { id: 'hub',          label: '🔀 Хъбове / Адаптери' },
-    { id: 'smart_dev',    label: '⌚ Смарт устройства' },
-    { id: 'mobile_acc',   label: '📱 Телефони и таблети' },
-    { id: 'av',           label: '📺 Аудио / Видео' },
+    { id: 'projector',    label: '🎥 Проектори' },
+    { id: 'chair',        label: '🪑 Gaming столове' },
+    { id: 'controller',   label: '🎮 Контролери' },
   ],
 };
 
@@ -746,10 +742,8 @@ const MEGA_MENU = {
     { title: 'Носители', id: 'ext_drive', items: ['Портативни SSD', 'Портативни HDD', 'USB Flash', 'SD карти'] },
   ],
   accessories: [
-    { title: 'Периферни аксесоари', id: 'cable', items: ['Кабели USB-C/HDMI', 'Зарядни', 'Хъбове', 'Докинг станции'] },
-    { title: 'Носене', id: 'bag', items: ['Чанти за лаптоп', 'Раници', 'Калъфи и протектори'] },
-    { title: 'Смарт и мобилни', id: 'smart_dev', items: ['Смарт часовници', 'Смартфони', 'Таблети', 'Smart Home'] },
-    { title: 'Аудио / Видео', id: 'av', items: ['Тонколони', 'Телевизори', 'Фотоапарати', 'Action камери'] },
+    { title: 'Проектори', id: 'projector', items: ['Full HD проектори', '4K проектори', 'Лазерни проектори', 'Мини проектори'] },
+    { title: 'Gaming аксесоари', id: 'chair', items: ['Gaming столове', 'Геймпадове', 'Контролери'] },
   ],
 };
 
@@ -810,8 +804,9 @@ const CAT_SPEC_FILTERS = {
     { key: 'Interface', label: '🔌 Интерфейс',         values: ['USB-C','USB-A','Thunderbolt','Ethernet'] },
   ],
   accessories: [
-    { key: 'Type',   label: '📦 Тип аксесоар',         values: ['Чанта','Кабел','Зарядно','Хъб','Докинг','Смарт часовник','Смартфон','Таблет','Тонколона','Телевизор'] },
-    { key: 'Connection', label: '🔗 Връзка',           values: ['USB-A','USB-C','Bluetooth','WiFi','HDMI'] },
+    { key: 'Резолюция', label: '🔍 Резолюция (проектор)', values: ['4K UHD','Full HD','WXGA','XGA','SVGA'] },
+    { key: 'Тип',       label: '⚙ Технология',           values: ['Лазерен','LED','DLP','Gaming стол','Геймпад'] },
+    { key: 'WiFi',      label: '📡 WiFi',                 values: ['Да'] },
   ],
 };
 

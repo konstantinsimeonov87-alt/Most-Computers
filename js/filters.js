@@ -862,6 +862,18 @@ const SUBCAT_SPEC_FILTERS = {
     { key: 'Сензор',  label: '🎯 Сензор',           values: ['Оптичен','Лазерен'] },
     { key: 'Gaming',  label: '🎮 Gaming',            values: ['Да'] },
   ],
+  headphones: [
+    { key: 'Тип',      label: '🎧 Тип',              values: ['Слушалки','Тапи','Тонколони'] },
+    { key: 'Връзка',   label: '📡 Връзка',           values: ['Кабелна','Bluetooth','Кабелна + BT'] },
+    { key: 'Микрофон', label: '🎙 Микрофон',         values: ['Да'] },
+    { key: 'Gaming',   label: '🎮 Gaming',            values: ['Да'] },
+  ],
+  projector: [
+    { key: 'Резолюция', label: '🔍 Резолюция',       values: ['4K UHD','Full HD','WXGA','XGA','SVGA'] },
+    { key: 'Яркост',    label: '💡 Яркост',          values: ['1000 lm','1500 lm','3000 lm','3500 lm','4000 lm','4500 lm','5000 lm','6000 lm'] },
+    { key: 'Тип',       label: '⚙ Технология',       values: ['Лазерен','LED','DLP'] },
+    { key: 'WiFi',      label: '📡 WiFi',             values: ['Да'] },
+  ],
 };
 
 function renderSubcatBar(cat) {

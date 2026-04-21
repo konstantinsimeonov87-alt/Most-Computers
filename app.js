@@ -12521,6 +12521,171 @@ function closeThankyouPage() {
   document.body.style.overflow = '';
 }
 
+function printInvoice() {
+  let orders = [];
+  try { orders = JSON.parse(localStorage.getItem('mc_orders') || '[]'); } catch(e) {}
+  const o = orders[0];
+  if (!o) { showToast('⚠️ Няма данни за поръчката'); return; }
+
+  const subtotalNoVat = (o.subtotal / 1.2).toFixed(2);
+  const vatAmt        = (o.subtotal - subtotalNoVat).toFixed(2);
+  const invNum        = 'ФК-' + o.num.replace('MC-', '');
+  const date          = new Date(o.ts || Date.now()).toLocaleDateString('bg-BG', {day:'2-digit',month:'2-digit',year:'numeric'});
+  const payLabel      = o.payment === 'card' ? 'Банкова карта' : o.payment === 'cod' ? 'Наложен платеж' : 'Банков превод';
+  const delivLabel    = o.delivery === 0 ? 'Безплатна' : Number(o.delivery).toFixed(2) + ' лв.';
+
+  const rows = (o.itemsData || []).map((x, i) => `
+    <tr>
+      <td>${i + 1}</td>
+      <td>${x.name}</td>
+      <td style="text-align:center">${x.qty}</td>
+      <td style="text-align:right">${(x.price / 1.2).toFixed(2)} лв.</td>
+      <td style="text-align:right">20%</td>
+      <td style="text-align:right">${(x.price * x.qty).toFixed(2)} лв.</td>
+    </tr>`).join('');
+
+  const html = `<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="UTF-8">
+<title>Фактура ${invNum} — Most Computers</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:Arial,Helvetica,sans-serif;font-size:12px;color:#1a1a1a;padding:40px;max-width:820px;margin:auto}
+  .hdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:28px;padding-bottom:20px;border-bottom:3px solid #bd1105}
+  .hdr-logo{font-size:22px;font-weight:900;color:#bd1105;letter-spacing:-0.5px}
+  .hdr-logo span{color:#1a1a1a}
+  .hdr-company{font-size:11px;color:#555;line-height:1.7;margin-top:4px}
+  .hdr-right{text-align:right}
+  .hdr-right h1{font-size:30px;font-weight:900;letter-spacing:-1px;color:#1a1a1a}
+  .hdr-right .meta{font-size:11px;color:#555;margin-top:4px;line-height:1.7}
+  .parties{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px}
+  .party{background:#f8f9fa;border-radius:8px;padding:14px 16px;border-left:3px solid #bd1105}
+  .party-lbl{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:#bd1105;margin-bottom:6px}
+  .party-val{font-size:12px;line-height:1.8;color:#1a1a1a}
+  table{width:100%;border-collapse:collapse;margin-bottom:16px;font-size:11.5px}
+  thead tr{background:#1a1a1a;color:#fff}
+  th{padding:8px 10px;text-align:left;font-weight:700;font-size:11px}
+  td{padding:7px 10px;border-bottom:1px solid #e5e7eb}
+  tr:nth-child(even) td{background:#f9fafb}
+  .totals-wrap{display:flex;justify-content:flex-end;margin-bottom:24px}
+  .totals{width:300px}
+  .tot-row{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid #e5e7eb;font-size:12px}
+  .tot-row.vat{color:#555}
+  .tot-row.final{font-weight:800;font-size:15px;border-top:2px solid #1a1a1a;border-bottom:none;padding-top:10px;margin-top:4px;color:#bd1105}
+  .payment-info{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:12px 16px;font-size:11.5px;margin-bottom:32px;color:#166534}
+  .sigs{display:grid;grid-template-columns:1fr 1fr;gap:60px;margin-top:40px}
+  .sig-line{border-top:1px solid #aaa;padding-top:6px;font-size:11px;color:#555;margin-top:50px}
+  .legal{font-size:10px;color:#9ca3af;text-align:center;margin-top:24px;line-height:1.6;border-top:1px solid #e5e7eb;padding-top:12px}
+  @media print{body{padding:20px}@page{margin:1.5cm}}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div>
+    <div class="hdr-logo">Most <span>Computers</span></div>
+    <div class="hdr-company">
+      Most Computers ЕООД &nbsp;|&nbsp; ЕИК: 203000000<br>
+      ДДС №: BG203000000<br>
+      бул. „Шипченски проход" бл.240, 1111 София<br>
+      тел.: +359 2 919 1823 &nbsp;|&nbsp; office@mostcomputers.bg
+    </div>
+  </div>
+  <div class="hdr-right">
+    <h1>ФАКТУРА</h1>
+    <div class="meta">
+      № ${invNum}<br>
+      Дата: ${date}<br>
+      Поръчка: ${o.num}
+    </div>
+  </div>
+</div>
+
+<div class="parties">
+  <div class="party">
+    <div class="party-lbl">Продавач</div>
+    <div class="party-val">
+      <strong>Most Computers ЕООД</strong><br>
+      ЕИК: 203000000<br>
+      ДДС №: BG203000000<br>
+      бул. „Шипченски проход" бл.240<br>
+      1111 София, България
+    </div>
+  </div>
+  <div class="party">
+    <div class="party-lbl">Клиент / Получател</div>
+    <div class="party-val">
+      <strong>${o.customer || '—'}</strong><br>
+      ${o.addr ? o.addr + '<br>' : ''}
+      ${o.city || ''}<br>
+      тел.: ${o.phone || '—'}
+    </div>
+  </div>
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th style="width:28px">№</th>
+      <th>Описание на стоката / услугата</th>
+      <th style="width:42px;text-align:center">Бр.</th>
+      <th style="width:110px;text-align:right">Ед.цена без ДДС</th>
+      <th style="width:60px;text-align:right">ДДС %</th>
+      <th style="width:110px;text-align:right">Сума с ДДС</th>
+    </tr>
+  </thead>
+  <tbody>
+    ${rows}
+    <tr>
+      <td colspan="5" style="text-align:right;font-size:11px;color:#555">Доставка (${o.deliveryType || 'Куриер'})</td>
+      <td style="text-align:right">${delivLabel}</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="totals-wrap">
+  <div class="totals">
+    <div class="tot-row"><span>Данъчна основа (без ДДС):</span><span>${subtotalNoVat} лв.</span></div>
+    <div class="tot-row vat"><span>ДДС 20%:</span><span>${vatAmt} лв.</span></div>
+    <div class="tot-row"><span>Доставка:</span><span>${delivLabel}</span></div>
+    <div class="tot-row final"><span>ОБЩО ДЪЛЖИМО:</span><span>${Number(o.total).toFixed(2)} лв.</span></div>
+  </div>
+</div>
+
+<div class="payment-info">
+  ✅ Начин на плащане: <strong>${payLabel}</strong>
+  ${o.payment === 'bank' ? ' &nbsp;|&nbsp; IBAN: BG…  BIC: …  Most Computers ЕООД' : ''}
+  &nbsp;|&nbsp; Плащането е извършено.
+</div>
+
+<div class="sigs">
+  <div>
+    <div style="font-size:11px;color:#555;margin-bottom:4px;">Съставил (Most Computers ЕООД):</div>
+    <div class="sig-line">Подпис и печат</div>
+  </div>
+  <div>
+    <div style="font-size:11px;color:#555;margin-bottom:4px;">Получил:</div>
+    <div class="sig-line">Подпис</div>
+  </div>
+</div>
+
+<div class="legal">
+  Фактурата е издадена на ${date} от Most Computers ЕООД — регистрирано по ЗДДС лице.<br>
+  Валидна е без подпис и печат по чл. 6, ал. 1 от Наредба № Н-18 / 13.12.2006 г.
+</div>
+
+</body>
+</html>`;
+
+  const w = window.open('', '_blank', 'width=860,height=950,scrollbars=yes');
+  if (!w) { showToast('⚠️ Разреши pop-up прозорците в браузъра'); return; }
+  w.document.write(html);
+  w.document.close();
+  w.focus();
+  setTimeout(() => w.print(), 500);
+}
+
 // MOBILE MENU
 function toggleMobMenu(){
   const overlay = document.getElementById('mobOverlay');

@@ -11920,21 +11920,21 @@ function showToast(msg){const t=document.getElementById('toast');if(!t)return;t.
 
 
 // CART
-function saveCart(){try{localStorage.setItem('mc_cart',JSON.stringify(cart.map(x=>({id:x.id,qty:x.qty}))));} catch(e){}}
-function loadCart(){
-  try{
-    const saved=JSON.parse(localStorage.getItem('mc_cart')||'[]');
-    if(saved.length){cart=saved.map(x=>{const p=products.find(p=>p.id===x.id);return p?{...p,qty:x.qty}:null;}).filter(Boolean);updateCart();}
-  }catch(e){}
+function saveCart() { try { localStorage.setItem('mc_cart', JSON.stringify(cart.map(x => ({ id: x.id, qty: x.qty })))); } catch (e) { } }
+function loadCart() {
+  try {
+    const saved = JSON.parse(localStorage.getItem('mc_cart') || '[]');
+    if (saved.length) { cart = saved.map(x => { const p = products.find(p => p.id === x.id); return p ? { ...p, qty: x.qty } : null; }).filter(Boolean); updateCart(); }
+  } catch (e) { }
 }
 
-function addToCart(id){
-  const p=products.find(x=>x.id===id);if(!p)return;
-  const ex=cart.find(x=>x.id===id);if(ex){ex.qty++;}else{cart.push({...p,qty:1});}
-  updateCart();saveCart();
-  const btn=document.getElementById('cb-'+id);
-  if(btn){btn.classList.add('added');btn.innerHTML='✓ Добавен';btn.disabled=true;setTimeout(()=>{btn.classList.remove('added');btn.innerHTML='<svg width="15" height="15" class="svg-ic" aria-hidden="true"><use href="#ic-cart"/></svg> Добави в кошница';btn.disabled=false;},1200);}
-  showToast(`✓ ${p.name.substring(0,32)}... добавен!`);
+function addToCart(id) {
+  const p = products.find(x => x.id === id); if (!p) return;
+  const ex = cart.find(x => x.id === id); if (ex) { ex.qty++; } else { cart.push({ ...p, qty: 1 }); }
+  updateCart(); saveCart();
+  const btn = document.getElementById('cb-' + id);
+  if (btn) { btn.classList.add('added'); btn.innerHTML = '✓ Добавен'; btn.disabled = true; setTimeout(() => { btn.classList.remove('added'); btn.innerHTML = '<svg width="15" height="15" class="svg-ic" aria-hidden="true"><use href="#ic-cart"/></svg> Добави в кошница'; btn.disabled = false; }, 1200); }
+  showToast(`✓ ${p.name.substring(0, 32)}... добавен!`);
   if (!document.getElementById('recPanel')) showRecommended(p);
 }
 
@@ -11954,7 +11954,7 @@ function showRecommended(p) {
       <div onclick="openProductPage(${r.id})" style="display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--border);cursor:pointer;">
         <div style="font-size:22px;min-width:34px;text-align:center;">${r.emoji}</div>
         <div style="flex:1;min-width:0;">
-          <div style="font-size:12px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${r.name.length>32?r.name.substring(0,32)+'…':r.name}</div>
+          <div style="font-size:12px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${r.name.length > 32 ? r.name.substring(0, 32) + '…' : r.name}</div>
           <div style="font-size:12px;color:var(--primary);font-weight:700;">${fmtEur(r.price)}</div>
         </div>
         <button type="button" onclick="event.stopPropagation();addToCart(${r.id})" style="background:var(--primary);color:#fff;border:none;border-radius:8px;padding:5px 10px;font-size:11px;cursor:pointer;white-space:nowrap;font-family:'Outfit',sans-serif;font-weight:700;">+</button>
@@ -11964,7 +11964,7 @@ function showRecommended(p) {
   requestAnimationFrame(() => { panel.style.opacity = '1'; panel.style.transform = 'translateY(0)'; });
   panel._t = setTimeout(() => { panel.style.opacity = '0'; setTimeout(() => panel.remove(), 280); }, 8000);
 }
-function addToCartById(id){addToCart(id);}
+function addToCartById(id) { addToCart(id); }
 const FREE_SHIP_BGN = Math.round(100 * EUR_RATE * 100) / 100; // 100 EUR в лева
 
 // Social proof counter — random-ish but deterministic per day so it feels real
@@ -11978,37 +11978,39 @@ const FREE_SHIP_BGN = Math.round(100 * EUR_RATE * 100) / 100; // 100 EUR в ле
   txt.textContent = `${n} души поръчаха от нас днес`;
   sp.style.display = '';
 })();
-function updateCart(){
-  const count=cart.reduce((s,x)=>s+x.qty,0),total=cart.reduce((s,x)=>s+x.price*x.qty,0);
-  const badge=document.getElementById('cartBadge');if(badge)badge.textContent=count;
-  const cartTotalEl=document.getElementById('cartTotal');if(cartTotalEl)cartTotalEl.textContent=fmtEur(total) + ' / ' + fmtBgn(total);
+function updateCart() {
+  const count = cart.reduce((s, x) => s + x.qty, 0), total = cart.reduce((s, x) => s + x.price * x.qty, 0);
+  const badge = document.getElementById('cartBadge'); if (badge) badge.textContent = count;
+  const cartTotalEl = document.getElementById('cartTotal'); if (cartTotalEl) cartTotalEl.textContent = fmtEur(total) + ' / ' + fmtBgn(total);
   // sync PDP mini-header cart badge
   const pdpB = document.getElementById('pdpMhdrCartBadge');
-  if(pdpB){pdpB.textContent=count;pdpB.style.display=count>0?'':'none';}
+  if (pdpB) { pdpB.textContent = count; pdpB.style.display = count > 0 ? '' : 'none'; }
   // sync bottom nav badges (two nav bars exist — update all)
   document.querySelectorAll('#bnCartBadge, #bnCartBadge2').forEach(bnB => {
-    bnB.textContent=count; bnB.classList.toggle('show',count>0);
+    bnB.textContent = count; bnB.classList.toggle('show', count > 0);
   });
-  const body=document.getElementById('cartBody');
-  if(!body)return;
-  if(cart.length===0){body.innerHTML='<div class="cart-empty-msg"><div class="ce-icon"><svg width="44" height="44" class="svg-ic" aria-hidden="true" style="opacity:.25"><use href="#ic-cart"/></svg></div><p>Кошницата е празна.<br>Добави продукти!</p></div>';
+  const body = document.getElementById('cartBody');
+  if (!body) return;
+  if (cart.length === 0) {
+    body.innerHTML = '<div class="cart-empty-msg"><div class="ce-icon"><svg width="44" height="44" class="svg-ic" aria-hidden="true" style="opacity:.25"><use href="#ic-cart"/></svg></div><p>Кошницата е празна.<br>Добави продукти!</p></div>';
     // Return focus to cart icon button when cart becomes empty and panel is open
-    const panel=document.getElementById('cartPanel');
-    if(panel&&panel.classList.contains('open')){const cartBtn=document.querySelector('[onclick*="toggleCart"]')||document.querySelector('#cartIcon');if(cartBtn)cartBtn.focus();}
-    return;}
-  let html=cart.map(x=>`<div class="cart-item-row"><div class="ci-emoji">${escHtml(x.emoji||'')}</div><div class="ci-details"><div class="ci-name">${escHtml(x.name||'')}</div><div class="ci-price">${fmtEur(x.price*x.qty)}<span class="text-11-muted-block">${fmtBgn(x.price*x.qty)}</span></div><div class="ci-qty"><button type="button" class="qty-btn" onclick="changeQty(${x.id},-1)">−</button><span class="qty-num">${x.qty}</span><button type="button" class="qty-btn" onclick="changeQty(${x.id},1)">+</button></div></div><button type="button" class="ci-remove" onclick="removeFromCart(${x.id})">×</button></div>`).join('');
+    const panel = document.getElementById('cartPanel');
+    if (panel && panel.classList.contains('open')) { const cartBtn = document.querySelector('[onclick*="toggleCart"]') || document.querySelector('#cartIcon'); if (cartBtn) cartBtn.focus(); }
+    return;
+  }
+  let html = cart.map(x => `<div class="cart-item-row"><div class="ci-emoji">${escHtml(x.emoji || '')}</div><div class="ci-details"><div class="ci-name">${escHtml(x.name || '')}</div><div class="ci-price">${fmtEur(x.price * x.qty)}<span class="text-11-muted-block">${fmtBgn(x.price * x.qty)}</span></div><div class="ci-qty"><button type="button" class="qty-btn" onclick="changeQty(${x.id},-1)">−</button><span class="qty-num">${x.qty}</span><button type="button" class="qty-btn" onclick="changeQty(${x.id},1)">+</button></div></div><button type="button" class="ci-remove" onclick="removeFromCart(${x.id})">×</button></div>`).join('');
   // Free shipping progress bar + delivery row
-  const pct=Math.min(100,(total/FREE_SHIP_BGN)*100);
-  const deliveryRow=document.getElementById('cartDeliveryRow');
-  const deliveryVal=document.getElementById('cartDeliveryVal');
-  if(total>=FREE_SHIP_BGN){
-    html+=`<div class="cart-ship-bar"><div class="cart-ship-msg ship-free">🎉 Имаш безплатна доставка!</div><div class="cart-ship-progress"><div class="cart-ship-fill" style="transform:scaleX(1)"></div></div></div>`;
-    if(deliveryRow) deliveryRow.style.display='none';
-  }else{
-    const rem=(FREE_SHIP_BGN-total).toFixed(2);
-    html+=`<div class="cart-ship-bar"><div class="cart-ship-msg">Добави още <strong>${rem} лв.</strong> за безплатна доставка!</div><div class="cart-ship-progress"><div class="cart-ship-fill" style="transform:scaleX(${(pct/100).toFixed(3)})"></div></div></div>`;
-    if(deliveryRow) deliveryRow.style.display='flex';
-    if(deliveryVal) deliveryVal.textContent='5.99 лв.';
+  const pct = Math.min(100, (total / FREE_SHIP_BGN) * 100);
+  const deliveryRow = document.getElementById('cartDeliveryRow');
+  const deliveryVal = document.getElementById('cartDeliveryVal');
+  if (total >= FREE_SHIP_BGN) {
+    html += `<div class="cart-ship-bar"><div class="cart-ship-msg ship-free">🎉 Имаш безплатна доставка!</div><div class="cart-ship-progress"><div class="cart-ship-fill" style="transform:scaleX(1)"></div></div></div>`;
+    if (deliveryRow) deliveryRow.style.display = 'none';
+  } else {
+    const rem = (FREE_SHIP_BGN - total).toFixed(2);
+    html += `<div class="cart-ship-bar"><div class="cart-ship-msg">Добави още <strong>${rem} лв.</strong> за безплатна доставка!</div><div class="cart-ship-progress"><div class="cart-ship-fill" style="transform:scaleX(${(pct / 100).toFixed(3)})"></div></div></div>`;
+    if (deliveryRow) deliveryRow.style.display = 'flex';
+    if (deliveryVal) deliveryVal.textContent = '5.99 лв.';
   }
   // COD fee notice — always visible so no surprise at checkout
   html += `<div style="font-size:11px;color:var(--muted);padding:6px 10px;background:var(--bg2);border-radius:6px;margin-top:6px;">
@@ -12021,67 +12023,67 @@ function updateCart(){
     </div>`;
   }
   // Recently viewed not in cart
-  try{
-    const rvIds=JSON.parse(localStorage.getItem('mc_rv')||'[]');
-    const inCart=new Set(cart.map(x=>x.id));
-    const rvItems=rvIds.map(id=>products.find(p=>p.id===id)).filter(p=>p&&!inCart.has(p.id)).slice(0,3);
-    if(rvItems.length){
-      html+=`<div class="cart-rv-section"><div class="cart-rv-title">Забрави ли нещо?</div><div class="cart-rv-list">${rvItems.map(p=>`<div class="cart-rv-item"><div class="cart-rv-emoji">${escHtml(p.emoji||'')}</div><div class="cart-rv-info"><div class="cart-rv-name">${escHtml(p.name.length>28?p.name.substring(0,28)+'…':p.name)}</div><div class="cart-rv-price">${fmtEur(p.price)}</div></div><button type="button" class="cart-rv-add" onclick="addToCart(${p.id})" title="Добави">+</button></div>`).join('')}</div></div>`;
+  try {
+    const rvIds = JSON.parse(localStorage.getItem('mc_rv') || '[]');
+    const inCart = new Set(cart.map(x => x.id));
+    const rvItems = rvIds.map(id => products.find(p => p.id === id)).filter(p => p && !inCart.has(p.id)).slice(0, 3);
+    if (rvItems.length) {
+      html += `<div class="cart-rv-section"><div class="cart-rv-title">Забрави ли нещо?</div><div class="cart-rv-list">${rvItems.map(p => `<div class="cart-rv-item"><div class="cart-rv-emoji">${escHtml(p.emoji || '')}</div><div class="cart-rv-info"><div class="cart-rv-name">${escHtml(p.name.length > 28 ? p.name.substring(0, 28) + '…' : p.name)}</div><div class="cart-rv-price">${fmtEur(p.price)}</div></div><button type="button" class="cart-rv-add" onclick="addToCart(${p.id})" title="Добави">+</button></div>`).join('')}</div></div>`;
     }
-  }catch(e){}
-  body.innerHTML=html;
+  } catch (e) { }
+  body.innerHTML = html;
   // Sidebar upsell — show 2 products from cart categories not already in cart
-  const upsellEl=document.getElementById('cartUpsell');
-  if(upsellEl){
-    const inCart=new Set(cart.map(x=>x.id));
-    const cats=cart.map(x=>x.cat);
-    let upsellProds=products.filter(x=>!inCart.has(x.id)&&cats.includes(x.cat)&&x.stock!==false).sort((a,b)=>(b.rv||0)-(a.rv||0)).slice(0,2);
-    if(!upsellProds.length) upsellProds=products.filter(x=>!inCart.has(x.id)&&x.stock!==false).sort((a,b)=>(b.rv||0)-(a.rv||0)).slice(0,2);
-    if(upsellProds.length){
-      upsellEl.style.display='';
-      upsellEl.innerHTML=`<div class="cart-upsell-title">⚡ Може да те заинтересува</div><div class="cart-upsell-items">${upsellProds.map(p=>`<div class="cu-item"><div class="cu-emoji">${escHtml(p.emoji||'')}</div><div class="cu-info"><div class="cu-name">${escHtml(p.name.length>30?p.name.substring(0,30)+'…':p.name)}</div><div class="cu-price">${fmtEur(p.price)}</div></div><button type="button" class="cu-add" onclick="addToCart(${p.id})" title="Добави в кошницата">+</button></div>`).join('')}</div>`;
+  const upsellEl = document.getElementById('cartUpsell');
+  if (upsellEl) {
+    const inCart = new Set(cart.map(x => x.id));
+    const cats = cart.map(x => x.cat);
+    let upsellProds = products.filter(x => !inCart.has(x.id) && cats.includes(x.cat) && x.stock !== false).sort((a, b) => (b.rv || 0) - (a.rv || 0)).slice(0, 2);
+    if (!upsellProds.length) upsellProds = products.filter(x => !inCart.has(x.id) && x.stock !== false).sort((a, b) => (b.rv || 0) - (a.rv || 0)).slice(0, 2);
+    if (upsellProds.length) {
+      upsellEl.style.display = '';
+      upsellEl.innerHTML = `<div class="cart-upsell-title">⚡ Може да те заинтересува</div><div class="cart-upsell-items">${upsellProds.map(p => `<div class="cu-item"><div class="cu-emoji">${escHtml(p.emoji || '')}</div><div class="cu-info"><div class="cu-name">${escHtml(p.name.length > 30 ? p.name.substring(0, 30) + '…' : p.name)}</div><div class="cu-price">${fmtEur(p.price)}</div></div><button type="button" class="cu-add" onclick="addToCart(${p.id})" title="Добави в кошницата">+</button></div>`).join('')}</div>`;
     } else {
-      upsellEl.style.display='none';
+      upsellEl.style.display = 'none';
     }
   }
   // Sync cart page if open
-  if(typeof renderCartPageSummary==='function'&&document.getElementById('cartPage')?.style.display!=='none'){renderCartPageSummary();}
+  if (typeof renderCartPageSummary === 'function' && document.getElementById('cartPage')?.style.display !== 'none') { renderCartPageSummary(); }
 }
-function changeQty(id,d){const i=cart.find(x=>x.id===id);if(!i)return;i.qty+=d;if(i.qty<=0)cart=cart.filter(x=>x.id!==id);updateCart();saveCart();}
-function removeFromCart(id){
-  const removed=cart.find(x=>x.id===id);
-  cart=cart.filter(x=>x.id!==id);
-  updateCart();saveCart();
-  if(!removed)return;
+function changeQty(id, d) { const i = cart.find(x => x.id === id); if (!i) return; i.qty += d; if (i.qty <= 0) cart = cart.filter(x => x.id !== id); updateCart(); saveCart(); }
+function removeFromCart(id) {
+  const removed = cart.find(x => x.id === id);
+  cart = cart.filter(x => x.id !== id);
+  updateCart(); saveCart();
+  if (!removed) return;
   // Undo toast
-  const t=document.getElementById('toast');
-  if(!t)return;
+  const t = document.getElementById('toast');
+  if (!t) return;
   clearTimeout(t._timer);
-  t.innerHTML='';
-  const _rSpan=document.createElement('span');
-  _rSpan.textContent=removed.name.substring(0,28)+'… премахнат. ';
-  const _rBtn=document.createElement('button');
-  _rBtn.type='button'; _rBtn.onclick=undoRemoveCart;
-  _rBtn.style.cssText='margin-left:8px;background:rgba(255,255,255,0.25);border:none;border-radius:5px;padding:2px 8px;cursor:pointer;font-family:inherit;font-size:12px;font-weight:700;color:#fff;';
-  _rBtn.textContent='Отмяна';
+  t.innerHTML = '';
+  const _rSpan = document.createElement('span');
+  _rSpan.textContent = removed.name.substring(0, 28) + '… премахнат. ';
+  const _rBtn = document.createElement('button');
+  _rBtn.type = 'button'; _rBtn.onclick = undoRemoveCart;
+  _rBtn.style.cssText = 'margin-left:8px;background:rgba(255,255,255,0.25);border:none;border-radius:5px;padding:2px 8px;cursor:pointer;font-family:inherit;font-size:12px;font-weight:700;color:#fff;';
+  _rBtn.textContent = 'Отмяна';
   t.appendChild(_rSpan); t.appendChild(_rBtn);
   t.classList.add('show');
-  t._undoItem=removed;
-  t._timer=setTimeout(()=>{t.classList.remove('show');t._undoItem=null;},4500);
+  t._undoItem = removed;
+  t._timer = setTimeout(() => { t.classList.remove('show'); t._undoItem = null; }, 4500);
 }
-function undoRemoveCart(){
-  const t=document.getElementById('toast');
-  if(!t||!t._undoItem)return;
-  const item=t._undoItem;
-  t._undoItem=null;
+function undoRemoveCart() {
+  const t = document.getElementById('toast');
+  if (!t || !t._undoItem) return;
+  const item = t._undoItem;
+  t._undoItem = null;
   clearTimeout(t._timer);
   t.classList.remove('show');
-  const ex=cart.find(x=>x.id===item.id);
-  if(ex){ex.qty+=item.qty;}else{cart.push(item);}
-  updateCart();saveCart();
-  showToast('✓ '+item.name.substring(0,28)+'… върнат в кошницата');
+  const ex = cart.find(x => x.id === item.id);
+  if (ex) { ex.qty += item.qty; } else { cart.push(item); }
+  updateCart(); saveCart();
+  showToast('✓ ' + item.name.substring(0, 28) + '… върнат в кошницата');
 }
-function toggleCart(){document.getElementById('cartOverlay').classList.toggle('open');document.getElementById('cartPanel').classList.toggle('open');}
+function toggleCart() { document.getElementById('cartOverlay').classList.toggle('open'); document.getElementById('cartPanel').classList.toggle('open'); }
 // ===== CHECKOUT & THANK YOU =====
 let ckDeliveryIdx = 0;
 let ckDeliveryCosts = [5.99, 4.99, 0];
@@ -12103,11 +12105,11 @@ function handleCheckout() {
     const sa = JSON.parse(localStorage.getItem('mc_saved_addr') || 'null');
     if (sa) {
       if (sa.phone && !document.getElementById('ckPhone').value) document.getElementById('ckPhone').value = sa.phone;
-      if (sa.city)  document.getElementById('ckCity').value  = sa.city;
-      if (sa.addr)  document.getElementById('ckAddr').value  = sa.addr;
-      if (sa.zip)   document.getElementById('ckZip').value   = sa.zip;
+      if (sa.city) document.getElementById('ckCity').value = sa.city;
+      if (sa.addr) document.getElementById('ckAddr').value = sa.addr;
+      if (sa.zip) document.getElementById('ckZip').value = sa.zip;
     }
-  } catch(e) {}
+  } catch (e) { }
   renderOrderSummary();
   document.getElementById('checkoutPage').classList.add('open');
   document.getElementById('cartPanel').classList.remove('open');
@@ -12115,14 +12117,14 @@ function handleCheckout() {
   document.body.style.overflow = 'hidden';
   showCheckoutStep(1);
   // Clear previous validation states
-  document.querySelectorAll('#checkoutPage .ck-input').forEach(el => el.classList.remove('error','valid'));
+  document.querySelectorAll('#checkoutPage .ck-input').forEach(el => el.classList.remove('error', 'valid'));
   // Populate estimated delivery dates
-  const fmt = d => d.toLocaleDateString('bg-BG', { weekday:'long', day:'numeric', month:'long' });
+  const fmt = d => d.toLocaleDateString('bg-BG', { weekday: 'long', day: 'numeric', month: 'long' });
   const now = new Date();
-  const workDay = (d, n) => { let c = new Date(d); let added = 0; while(added < n){ c.setDate(c.getDate()+1); if(c.getDay()!==0&&c.getDay()!==6) added++; } return c; };
-  const d0 = document.getElementById('delivDate0'); if(d0) d0.textContent = '· до ' + fmt(workDay(now,2));
-  const d1 = document.getElementById('delivDate1'); if(d1) d1.textContent = '· до ' + fmt(workDay(now,3));
-  const d2 = document.getElementById('delivDate2'); if(d2) d2.textContent = '· готово днес';
+  const workDay = (d, n) => { let c = new Date(d); let added = 0; while (added < n) { c.setDate(c.getDate() + 1); if (c.getDay() !== 0 && c.getDay() !== 6) added++; } return c; };
+  const d0 = document.getElementById('delivDate0'); if (d0) d0.textContent = '· до ' + fmt(workDay(now, 2));
+  const d1 = document.getElementById('delivDate1'); if (d1) d1.textContent = '· до ' + fmt(workDay(now, 3));
+  const d2 = document.getElementById('delivDate2'); if (d2) d2.textContent = '· готово днес';
 }
 
 function closeCheckoutPage() {
@@ -12140,9 +12142,9 @@ function renderOrderSummary() {
 
   document.getElementById('osSummaryItems').innerHTML = cart.map(x => `
     <div class="os-item">
-      <div class="os-emoji">${escHtml(x.emoji||'')}</div>
+      <div class="os-emoji">${escHtml(x.emoji || '')}</div>
       <div class="os-item-info">
-        <div class="os-item-name">${escHtml(x.name||'')}</div>
+        <div class="os-item-name">${escHtml(x.name || '')}</div>
         <div class="os-qty-ctrl">
           <button type="button" class="os-qty-btn" onclick="osChangeQty(${x.id},-1)">−</button>
           <span class="os-qty-num">${x.qty}</span>
@@ -12166,8 +12168,8 @@ function renderOrderSummary() {
 }
 
 function selectCheckoutMode(mode) {
-  const guestOpt   = document.getElementById('ckModeGuest');
-  const loginOpt   = document.getElementById('ckModeLogin');
+  const guestOpt = document.getElementById('ckModeGuest');
+  const loginOpt = document.getElementById('ckModeLogin');
   const guestRadio = document.getElementById('ckModeGuestRadio');
   const loginRadio = document.getElementById('ckModeLoginRadio');
   if (mode === 'guest') {
@@ -12222,12 +12224,12 @@ function selectPayment(el, type) {
 }
 
 function formatCardNum(el) {
-  let v = el.value.replace(/\D/g,'').substring(0,16);
-  el.value = v.replace(/(.{4})/g,'$1 ').trim();
+  let v = el.value.replace(/\D/g, '').substring(0, 16);
+  el.value = v.replace(/(.{4})/g, '$1 ').trim();
 }
 function formatExpiry(el) {
-  let v = el.value.replace(/\D/g,'').substring(0,4);
-  if (v.length >= 2) v = v.substring(0,2) + '/' + v.substring(2);
+  let v = el.value.replace(/\D/g, '').substring(0, 4);
+  if (v.length >= 2) v = v.substring(0, 2) + '/' + v.substring(2);
   el.value = v;
 }
 
@@ -12242,7 +12244,7 @@ function applyPromo(codeArg) {
   try {
     const stored = JSON.parse(localStorage.getItem('mc_promo_codes') || '[]');
     if (stored.length) codes = stored;
-  } catch(e) {}
+  } catch (e) { }
 
   const match = codes.find(c => c.code === code && c.active !== false);
   if (match) {
@@ -12253,7 +12255,7 @@ function applyPromo(codeArg) {
       const stored = JSON.parse(localStorage.getItem('mc_promo_codes') || '[]');
       const mc = stored.find(c => c.code === code);
       if (mc) { mc.uses = (mc.uses || 0) + 1; localStorage.setItem('mc_promo_codes', JSON.stringify(stored)); }
-    } catch(e) {}
+    } catch (e) { }
     if (inputEl) { document.getElementById('promoOk').classList.add('show'); inputEl.disabled = true; }
     renderOrderSummary();
     showToast(`✓ Промо код приложен — -${promoDiscountPct}%!`);
@@ -12264,8 +12266,8 @@ function applyPromo(codeArg) {
 }
 
 function showCheckoutStep(n) {
-  [1,2,3].forEach(i => {
-    const card = document.getElementById('ck-step'+i);
+  [1, 2, 3].forEach(i => {
+    const card = document.getElementById('ck-step' + i);
     if (card) card.style.display = i === n ? '' : 'none';
   });
   updateCheckoutSteps(n);
@@ -12273,7 +12275,7 @@ function showCheckoutStep(n) {
   if (page) page.scrollTo({ top: 0, behavior: 'smooth' });
   // Auto-focus first empty required input in the new step
   setTimeout(() => {
-    const card = document.getElementById('ck-step'+n);
+    const card = document.getElementById('ck-step' + n);
     if (!card) return;
     const inputs = card.querySelectorAll('input.ck-input:not([disabled])');
     const firstEmpty = Array.from(inputs).find(el => !el.value.trim() && el.offsetParent !== null);
@@ -12289,15 +12291,15 @@ function ckNextStep(current) {
 function validateCkStep(step) {
   if (step === 1) {
     let valid = true;
-    ['ckFirst','ckLast'].forEach(id => {
+    ['ckFirst', 'ckLast'].forEach(id => {
       const el = document.getElementById(id);
-      if (el && !el.value.trim()) { el.classList.add('error'); el.classList.remove('valid'); el.setAttribute('aria-invalid','true'); valid = false; }
-      else if (el) el.setAttribute('aria-invalid','false');
+      if (el && !el.value.trim()) { el.classList.add('error'); el.classList.remove('valid'); el.setAttribute('aria-invalid', 'true'); valid = false; }
+      else if (el) el.setAttribute('aria-invalid', 'false');
     });
     const email = document.getElementById('ckEmail');
     if (email && (!email.value.trim() || !email.value.includes('@'))) {
-      email.classList.add('error'); email.classList.remove('valid'); email.setAttribute('aria-invalid','true'); valid = false;
-    } else if (email) { email.setAttribute('aria-invalid','false'); }
+      email.classList.add('error'); email.classList.remove('valid'); email.setAttribute('aria-invalid', 'true'); valid = false;
+    } else if (email) { email.setAttribute('aria-invalid', 'false'); }
     const phone = document.getElementById('ckPhone');
     if (phone) { ckValidatePhone(phone); if (phone.classList.contains('error')) valid = false; }
     if (!valid) showToast('⚠️ Попълни всички задължителни полета!');
@@ -12309,13 +12311,13 @@ function validateCkStep(step) {
     // Validate Econt office if Econt selected
     const officeEl = document.getElementById('ckEcontOffice');
     if (officeEl && !officeEl.classList.contains('is-hidden')) {
-      if (!officeEl.value.trim()) { officeEl.classList.add('error'); officeEl.classList.remove('valid'); officeEl.setAttribute('aria-invalid','true'); valid = false; }
-      else { officeEl.classList.remove('error'); officeEl.classList.add('valid'); officeEl.setAttribute('aria-invalid','false'); }
+      if (!officeEl.value.trim()) { officeEl.classList.add('error'); officeEl.classList.remove('valid'); officeEl.setAttribute('aria-invalid', 'true'); valid = false; }
+      else { officeEl.classList.remove('error'); officeEl.classList.add('valid'); officeEl.setAttribute('aria-invalid', 'false'); }
     }
-    ['ckCity','ckAddr'].forEach(id => {
+    ['ckCity', 'ckAddr'].forEach(id => {
       const el = document.getElementById(id);
-      if (el && !el.value.trim()) { el.classList.add('error'); el.classList.remove('valid'); el.setAttribute('aria-invalid','true'); valid = false; }
-      else if (el) { el.classList.remove('error'); el.setAttribute('aria-invalid','false'); }
+      if (el && !el.value.trim()) { el.classList.add('error'); el.classList.remove('valid'); el.setAttribute('aria-invalid', 'true'); valid = false; }
+      else if (el) { el.classList.remove('error'); el.setAttribute('aria-invalid', 'false'); }
     });
     if (!valid) showToast('⚠️ Попълни адреса за доставка!');
     return valid;
@@ -12330,10 +12332,10 @@ function _ckSetError(el, msg) {
 
 function ckValidateField(el) {
   if (!el.value.trim()) {
-    el.classList.add('error'); el.classList.remove('valid'); el.setAttribute('aria-invalid','true');
+    el.classList.add('error'); el.classList.remove('valid'); el.setAttribute('aria-invalid', 'true');
     _ckSetError(el, 'Полето е задължително.');
   } else {
-    el.classList.remove('error'); el.classList.add('valid'); el.setAttribute('aria-invalid','false');
+    el.classList.remove('error'); el.classList.add('valid'); el.setAttribute('aria-invalid', 'false');
     _ckSetError(el, '');
   }
 }
@@ -12362,17 +12364,17 @@ function ckFormatPhone(el) {
   if (v.startsWith('+')) {
     // keep international prefix as-is
   } else if (v.length > 4) {
-    v = v.substring(0,4) + ' ' + v.substring(4, 7) + (v.length > 7 ? ' ' + v.substring(7, 11) : '');
+    v = v.substring(0, 4) + ' ' + v.substring(4, 7) + (v.length > 7 ? ' ' + v.substring(7, 11) : '');
   }
   el.value = v;
 }
 
 function updateCheckoutSteps(active) {
-  [1,2,3].forEach(n => {
-    const step = document.getElementById('cs'+n);
-    const num = document.getElementById('csn'+n);
+  [1, 2, 3].forEach(n => {
+    const step = document.getElementById('cs' + n);
+    const num = document.getElementById('csn' + n);
     if (!step) return;
-    step.classList.remove('active','done');
+    step.classList.remove('active', 'done');
     if (n < active) {
       step.classList.add('done');
       if (num) num.textContent = '✓';
@@ -12394,22 +12396,22 @@ function submitOrder() {
   // Validate required fields — skip city/address for pickup (ckDeliveryIdx === 2)
   const isPickup = ckDeliveryIdx === 2;
   const required = [
-    ['ckFirst','Ime'], ['ckLast','Familiya'], ['ckEmail','Email'], ['ckPhone','Telefon'],
-    ...(!isPickup ? [['ckCity','Grad'], ['ckAddr','Adres']] : [])
+    ['ckFirst', 'Ime'], ['ckLast', 'Familiya'], ['ckEmail', 'Email'], ['ckPhone', 'Telefon'],
+    ...(!isPickup ? [['ckCity', 'Grad'], ['ckAddr', 'Adres']] : [])
   ];
   let valid = true;
   required.forEach(([id]) => {
     const el = document.getElementById(id);
     if (!el) return;
-    if (!el.value.trim()) { el.classList.add('error'); el.setAttribute('aria-invalid','true'); valid = false; }
-    else { el.classList.remove('error'); el.setAttribute('aria-invalid','false'); }
+    if (!el.value.trim()) { el.classList.add('error'); el.setAttribute('aria-invalid', 'true'); valid = false; }
+    else { el.classList.remove('error'); el.setAttribute('aria-invalid', 'false'); }
   });
   if (ckPaymentType === 'card') {
-    ['ckCardNum','ckCardName','ckCardExp','ckCardCvv'].forEach(id => {
+    ['ckCardNum', 'ckCardName', 'ckCardExp', 'ckCardCvv'].forEach(id => {
       const el = document.getElementById(id);
       if (!el) return;
-      if (!el.value.trim()) { el.classList.add('error'); el.setAttribute('aria-invalid','true'); valid = false; }
-      else { el.classList.remove('error'); el.setAttribute('aria-invalid','false'); }
+      if (!el.value.trim()) { el.classList.add('error'); el.setAttribute('aria-invalid', 'true'); valid = false; }
+      else { el.classList.remove('error'); el.setAttribute('aria-invalid', 'false'); }
     });
   }
   if (!valid) { showToast('Моля попълни всички задължителни полета!'); return; }
@@ -12424,22 +12426,22 @@ function submitOrder() {
   setTimeout(() => {
     // Build order data — sequential number based on existing order count
     let _prevOrders = [];
-    try { _prevOrders = JSON.parse(localStorage.getItem('mc_orders') || '[]'); } catch(e) {}
+    try { _prevOrders = JSON.parse(localStorage.getItem('mc_orders') || '[]'); } catch (e) { }
     const orderNum = 'MC-' + String(_prevOrders.length + 1).padStart(6, '0');
-    const subtotal = cart.reduce((s,x) => s + x.price*x.qty, 0);
+    const subtotal = cart.reduce((s, x) => s + x.price * x.qty, 0);
     const delivery = ckDeliveryCosts[ckDeliveryIdx];
     const codFee = ckPaymentType === 'cod' ? 1.50 : 0;
     const promoDisc = promoApplied ? subtotal * ((promoDiscountPct || 10) / 100) : 0;
     const total = subtotal + delivery + codFee - promoDisc;
-    const payNames = {card:'Карта', cod:'Наложен платеж', bank:'Банков превод'};
+    const payNames = { card: 'Карта', cod: 'Наложен платеж', bank: 'Банков превод' };
     const now = new Date();
     const delivDays = ckDeliveryIdx === 2 ? 0 : ckDeliveryIdx === 1 ? 3 : 2;
     const delivDate = new Date(now.getTime() + delivDays * 86400000);
-    const fmt = d => d.toLocaleDateString('bg-BG', {day:'numeric',month:'long'});
+    const fmt = d => d.toLocaleDateString('bg-BG', { day: 'numeric', month: 'long' });
 
     // Populate thank-you page
-    const _set = (id, val) => { const el = document.getElementById(id); if(el) el.textContent = val; };
-    const _setHTML = (id, val) => { const el = document.getElementById(id); if(el) el.innerHTML = val; };
+    const _set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+    const _setHTML = (id, val) => { const el = document.getElementById(id); if (el) el.innerHTML = val; };
     _set('tyOrderNum', orderNum);
     _set('tyEmail', document.getElementById('ckEmail').value);
     _set('tyDeliveryDate', ckDeliveryIdx === 2 ? 'При вземане от магазин' : fmt(delivDate));
@@ -12458,17 +12460,17 @@ function submitOrder() {
     _set('tyDeliveryCost', delivery === 0 ? 'Безплатно' : fmtEur(delivery) + ' / ' + fmtBgn(delivery));
     _set('tyTotal', fmtEur(total) + ' / ' + fmtBgn(total));
     if (promoApplied) {
-      const tyPromoRow = document.getElementById('tyPromoRow'); if(tyPromoRow) tyPromoRow.style.display = '';
+      const tyPromoRow = document.getElementById('tyPromoRow'); if (tyPromoRow) tyPromoRow.style.display = '';
       _set('tyPromoAmt', '-' + fmtEur(promoDisc) + ' / ' + fmtBgn(promoDisc));
     }
     _setHTML('tyItems', cart.map(x => `
       <div class="ty-item">
-        <div class="ty-item-emoji">${escHtml(x.emoji||'')}</div>
+        <div class="ty-item-emoji">${escHtml(x.emoji || '')}</div>
         <div class="ty-item-info">
-          <div class="ty-item-name">${escHtml(x.name||'')}</div>
-          <div class="ty-item-meta">${escHtml(x.brand||'')} · Количество: ${Number(x.qty)||0}</div>
+          <div class="ty-item-name">${escHtml(x.name || '')}</div>
+          <div class="ty-item-meta">${escHtml(x.brand || '')} · Количество: ${Number(x.qty) || 0}</div>
         </div>
-        <div class="ty-item-price">${fmtEur(x.price*x.qty)}<span class="text-11-muted-block">${fmtBgn(x.price*x.qty)}</span></div>
+        <div class="ty-item-price">${fmtEur(x.price * x.qty)}<span class="text-11-muted-block">${fmtBgn(x.price * x.qty)}</span></div>
       </div>`).join(''));
 
     // Save order to localStorage
@@ -12481,7 +12483,7 @@ function submitOrder() {
       addr: _isPickup ? 'бул. „Шипченски проход" бл.240' : (_econtOffice ? 'Офис: ' + _econtOffice + ', ' : '') + document.getElementById('ckAddr').value + (document.getElementById('ckZip').value ? ', ' + document.getElementById('ckZip').value : ''),
       note: document.getElementById('ckNote').value || '',
       items: cart.map(x => x.name + ' ×' + x.qty).join(', '),
-      itemsData: cart.map(x => ({id:x.id, name:x.name, brand:x.brand, emoji:x.emoji, price:x.price, qty:x.qty})),
+      itemsData: cart.map(x => ({ id: x.id, name: x.name, brand: x.brand, emoji: x.emoji, price: x.price, qty: x.qty })),
       subtotal, delivery, total,
       payment: ckPaymentType,
       deliveryType: ckDeliveryNames[ckDeliveryIdx],
@@ -12492,7 +12494,7 @@ function submitOrder() {
     try {
       _prevOrders.unshift(orderData);
       localStorage.setItem('mc_orders', JSON.stringify(_prevOrders.slice(0, 200)));
-    } catch(e) {}
+    } catch (e) { }
     // Записване в Supabase (реална база данни)
     if (typeof saveOrderToSupabase === 'function') {
       saveOrderToSupabase(orderData).catch(e => console.error('Supabase save failed:', e));
@@ -12501,17 +12503,17 @@ function submitOrder() {
     try {
       localStorage.setItem('mc_saved_addr', JSON.stringify({
         phone: document.getElementById('ckPhone').value,
-        city:  document.getElementById('ckCity').value,
-        addr:  document.getElementById('ckAddr').value,
-        zip:   document.getElementById('ckZip').value,
+        city: document.getElementById('ckCity').value,
+        addr: document.getElementById('ckAddr').value,
+        zip: document.getElementById('ckZip').value,
       }));
-    } catch(e) {}
+    } catch (e) { }
 
     // Show thank-you page, clear cart
     closeCheckoutPage();
     document.getElementById('thankyouPage').classList.add('open');
     cart = [];
-    updateCart();saveCart();
+    updateCart(); saveCart();
     promoApplied = false;
   }, 800);
 }
@@ -12523,16 +12525,16 @@ function closeThankyouPage() {
 
 function printInvoice() {
   let orders = [];
-  try { orders = JSON.parse(localStorage.getItem('mc_orders') || '[]'); } catch(e) {}
+  try { orders = JSON.parse(localStorage.getItem('mc_orders') || '[]'); } catch (e) { }
   const o = orders[0];
   if (!o) { showToast('⚠️ Няма данни за поръчката'); return; }
 
   const subtotalNoVat = (o.subtotal / 1.2).toFixed(2);
-  const vatAmt        = (o.subtotal - subtotalNoVat).toFixed(2);
-  const invNum        = 'ФК-' + o.num.replace('MC-', '');
-  const date          = new Date(o.ts || Date.now()).toLocaleDateString('bg-BG', {day:'2-digit',month:'2-digit',year:'numeric'});
-  const payLabel      = o.payment === 'card' ? 'Банкова карта' : o.payment === 'cod' ? 'Наложен платеж' : 'Банков превод';
-  const delivLabel    = o.delivery === 0 ? 'Безплатна' : Number(o.delivery).toFixed(2) + ' лв.';
+  const vatAmt = (o.subtotal - subtotalNoVat).toFixed(2);
+  const invNum = 'ФК-' + o.num.replace('MC-', '');
+  const date = new Date(o.ts || Date.now()).toLocaleDateString('bg-BG', { day: '2-digit', month: '2-digit', year: 'numeric' });
+  const payLabel = o.payment === 'card' ? 'Банкова карта' : o.payment === 'cod' ? 'Наложен платеж' : 'Банков превод';
+  const delivLabel = o.delivery === 0 ? 'Безплатна' : Number(o.delivery).toFixed(2) + ' лв.';
 
   const rows = (o.itemsData || []).map((x, i) => `
     <tr>
@@ -12574,8 +12576,6 @@ function printInvoice() {
   .tot-row.vat{color:#555}
   .tot-row.final{font-weight:800;font-size:15px;border-top:2px solid #1a1a1a;border-bottom:none;padding-top:10px;margin-top:4px;color:#bd1105}
   .payment-info{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:12px 16px;font-size:11.5px;margin-bottom:32px;color:#166534}
-  .sigs{display:grid;grid-template-columns:1fr 1fr;gap:60px;margin-top:40px}
-  .sig-line{border-top:1px solid #aaa;padding-top:6px;font-size:11px;color:#555;margin-top:50px}
   .legal{font-size:10px;color:#9ca3af;text-align:center;margin-top:24px;line-height:1.6;border-top:1px solid #e5e7eb;padding-top:12px}
   @media print{body{padding:20px}@page{margin:1.5cm}}
 </style>
@@ -12659,17 +12659,6 @@ function printInvoice() {
   &nbsp;|&nbsp; Плащането е извършено.
 </div>
 
-<div class="sigs">
-  <div>
-    <div style="font-size:11px;color:#555;margin-bottom:4px;">Съставил (Most Computers ЕООД):</div>
-    <div class="sig-line">Подпис и печат</div>
-  </div>
-  <div>
-    <div style="font-size:11px;color:#555;margin-bottom:4px;">Получил:</div>
-    <div class="sig-line">Подпис</div>
-  </div>
-</div>
-
 <div class="legal">
   Фактурата е издадена на ${date} от Most Computers ЕООД — регистрирано по ЗДДС лице.<br>
   Валидна е без подпис и печат по чл. 6, ал. 1 от Наредба № Н-18 / 13.12.2006 г.
@@ -12687,21 +12676,21 @@ function printInvoice() {
 }
 
 // MOBILE MENU
-function toggleMobMenu(){
+function toggleMobMenu() {
   const overlay = document.getElementById('mobOverlay');
-  const drawer  = document.getElementById('mobDrawer');
-  const isOpen  = drawer.classList.toggle('open');
+  const drawer = document.getElementById('mobDrawer');
+  const isOpen = drawer.classList.toggle('open');
   overlay.classList.toggle('open', isOpen);
   document.body.style.overflow = isOpen ? 'hidden' : '';
 }
-function closeMobMenu(){
+function closeMobMenu() {
   document.getElementById('mobOverlay').classList.remove('open');
   document.getElementById('mobDrawer').classList.remove('open');
   document.body.style.overflow = '';
 }
-function handleMobSearch(){
-  const q=document.getElementById('mobSearchInput').value.trim();
-  if(q){
+function handleMobSearch() {
+  const q = document.getElementById('mobSearchInput').value.trim();
+  if (q) {
     document.getElementById('searchInput').value = q;
     toggleMobMenu();
     showSearchResultsPage(q);
@@ -12755,7 +12744,7 @@ function renderCartPage() {
     const badgeHtml = x.badge === 'sale'
       ? `<span class="cp-badge cp-badge-sale">Промо -${save}%</span>`
       : x.badge === 'new' ? `<span class="cp-badge cp-badge-new">Ново</span>`
-      : x.badge === 'hot' ? `<span class="cp-badge cp-badge-hot">Горещо</span>` : '';
+        : x.badge === 'hot' ? `<span class="cp-badge cp-badge-hot">Горещо</span>` : '';
 
     const imgHtml = x.img
       ? `<img src="${x.img}" alt="${x.name}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="cp-item-emoji is-hidden">${x.emoji}</span>`
@@ -12793,9 +12782,9 @@ function renderCartPageSummary() {
   const el = document.getElementById('cpSummary');
   if (!el) return;
   const subtotal = cart.reduce((s, x) => s + x.price * x.qty, 0);
-  const savings  = cart.reduce((s, x) => s + (x.old ? (x.old - x.price) * x.qty : 0), 0);
+  const savings = cart.reduce((s, x) => s + (x.old ? (x.old - x.price) * x.qty : 0), 0);
   const delivery = subtotal >= FREE_SHIP_BGN ? 0 : 9.99;
-  const total    = subtotal + delivery;
+  const total = subtotal + delivery;
 
   if (cart.length === 0) {
     el.innerHTML = '<div style="text-align:center;color:var(--muted);padding:24px 0;font-size:13px;">Добави продукти в кошницата</div>';
@@ -12803,7 +12792,7 @@ function renderCartPageSummary() {
   }
 
   el.innerHTML = `
-    <div class="cp-sum-row"><span>Продукти (${cart.reduce((s,x)=>s+x.qty,0)} бр.)</span><span>${fmtEur(subtotal)}<small>${fmtBgn(subtotal)}</small></span></div>
+    <div class="cp-sum-row"><span>Продукти (${cart.reduce((s, x) => s + x.qty, 0)} бр.)</span><span>${fmtEur(subtotal)}<small>${fmtBgn(subtotal)}</small></span></div>
     ${savings > 0 ? `<div class="cp-sum-row cp-sum-save"><span>✓ Спестяваш</span><span>−${fmtEur(savings)}</span></div>` : ''}
     <div class="cp-sum-row"><span>Доставка</span><span>${delivery === 0 ? '<b style="color:var(--accent2)">Безплатна</b>' : fmtEur(delivery)}</span></div>
     <div class="cp-sum-row"><span>ДДС (вкл.)</span><span>${fmtEur(total * 0.2)}</span></div>
@@ -12827,7 +12816,7 @@ function renderCartPageUpsell() {
       <div class="cp-upsell-item" onclick="openProductPage(${p.id});closeCartPage()">
         <div class="cp-upsell-emoji">${p.emoji}</div>
         <div class="cp-upsell-info">
-          <div class="cp-upsell-name">${p.name.length > 40 ? p.name.substring(0,40)+'…' : p.name}</div>
+          <div class="cp-upsell-name">${p.name.length > 40 ? p.name.substring(0, 40) + '…' : p.name}</div>
           <div class="cp-upsell-price">${fmtEur(p.price)} / ${fmtBgn(p.price)}</div>
         </div>
         <button class="cp-upsell-add" onclick="event.stopPropagation();cpAddUpsell(${p.id})">+ Добави</button>
@@ -12873,8 +12862,8 @@ if (typeof module !== 'undefined' && module.exports) {
     addToCart, removeFromCart, changeQty,
     applyPromo, renderOrderSummary, formatCardNum, formatExpiry,
     _resetCheckout: () => { ckDeliveryIdx = 0; ckPaymentType = 'card'; promoApplied = false; },
-    _setDelivery:   (idx) => { ckDeliveryIdx = idx; },
-    _setPayment:    (type) => { ckPaymentType = type; },
+    _setDelivery: (idx) => { ckDeliveryIdx = idx; },
+    _setPayment: (type) => { ckPaymentType = type; },
   };
 }
 

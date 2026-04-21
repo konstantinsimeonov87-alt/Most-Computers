@@ -838,8 +838,18 @@ const SUBCAT_SPEC_FILTERS = {
   ram: [
     { key: 'Тип',        label: '💾 Тип памет',    values: ['DDR5','DDR4','DDR3','DDR3L'] },
     { key: 'Капацитет',  label: '📦 Капацитет',    values: ['8 GB','16 GB','32 GB','64 GB'] },
-    { key: 'Честота',    label: '⚡ Честота',       values: ['3200 MHz','4800 MHz','5200 MHz','5600 MHz','6000 MHz','6400 MHz'] },
+    { key: 'Честота',    label: '⚡ Честота',       values: ['3200 MHz','3600 MHz','4800 MHz','5200 MHz','5600 MHz','6000 MHz','6400 MHz'] },
     { key: 'Форм фактор',label: '💻 Форм фактор',  values: ['DIMM','SO-DIMM'] },
+  ],
+  ssd: [
+    { key: 'Интерфейс',  label: '🔌 Интерфейс',    values: ['NVMe PCIe Gen4','NVMe PCIe Gen3','SATA III'] },
+    { key: 'Капацитет',  label: '📦 Капацитет',    values: ['120 GB','240 GB','250 GB','256 GB','480 GB','500 GB','512 GB','1 TB','2 TB','4 TB'] },
+    { key: 'Форм фактор',label: '📐 Форм фактор',  values: ['M.2 2280','M.2 2242','2.5"'] },
+  ],
+  hdd: [
+    { key: 'Капацитет',  label: '📦 Капацитет',    values: ['500 GB','1 TB','2 TB','4 TB','6 TB','8 TB','10 TB'] },
+    { key: 'RPM',        label: '🌀 RPM',           values: ['5400','7200'] },
+    { key: 'Форм фактор',label: '📐 Форм фактор',  values: ['3.5"','2.5"'] },
   ],
 };
 

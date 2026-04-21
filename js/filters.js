@@ -869,6 +869,12 @@ const SUBCAT_SPEC_FILTERS = {
     { key: 'Тип',       label: '⚙ Технология',       values: ['Лазерен','LED','DLP'] },
     { key: 'WiFi',      label: '📡 WiFi',             values: ['Да'] },
   ],
+  chair: [
+    { key: 'Материал', label: '🪑 Материал', values: ['Mesh','Плат'] },
+  ],
+  controller: [
+    { key: 'Връзка', label: '📡 Връзка', values: ['Безжичен','Кабелен'] },
+  ],
 };
 
 function renderSubcatBar(cat) {

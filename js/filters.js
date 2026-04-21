@@ -768,10 +768,10 @@ const CAT_SPEC_FILTERS = {
     { key: 'RAM',   label: '🧠 Оперативна памет',       values: ['16 GB','32 GB','64 GB'] },
   ],
   monitors: [
-    { key: 'Resolution',  label: '🔍 Резолюция',        values: ['Full HD 1080p','QHD 1440p','4K UHD','Ultra-Wide'] },
-    { key: 'RefreshRate', label: '⚡ Честота опресняване', values: ['60 Hz','144 Hz','165 Hz','240 Hz','360 Hz'] },
-    { key: 'Panel',       label: '🖥 Тип панел',        values: ['IPS','VA','OLED','Mini-LED'] },
-    { key: 'Size',        label: '📐 Диагонал',         values: ['24"','27"','32"','34"','49"'] },
+    { key: 'Панел',      label: '🖥 Тип панел',         values: ['IPS','VA','OLED','TN','QLED'] },
+    { key: 'Резолюция',  label: '🔍 Резолюция',         values: ['FHD','QHD','4K','UW-QHD','UW-FHD'] },
+    { key: 'Честота',    label: '⚡ Честота',            values: ['60 Hz','75 Hz','100 Hz','120 Hz','144 Hz','165 Hz','180 Hz','200 Hz','240 Hz','280 Hz','360 Hz'] },
+    { key: 'Размер',     label: '📐 Диагонал',          values: ['22"','24"','27"','31.5"','32"','34"','49"'] },
   ],
   laptops: [
     { key: 'CPU',     label: '💻 Процесор',            values: ['Intel Core i5','Intel Core i7','Intel Core i9','Intel Core Ultra','AMD Ryzen 5','AMD Ryzen 7','AMD Ryzen 9','Apple M3','Apple M4'] },

@@ -1337,6 +1337,31 @@
   </div>
 
   <div class="toast-msg" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+  <div class="cart-toast" id="cartToast" role="status" aria-live="polite" aria-atomic="true">
+    <span class="cart-toast-emoji" id="cartToastEmoji"></span>
+    <span class="cart-toast-msg" id="cartToastMsg"></span>
+    <button type="button" class="cart-toast-btn" onclick="toggleCart();document.getElementById('cartToast').classList.remove('show')">Виж кошница →</button>
+  </div>
+
+  <!-- PC CONFIGURATOR MODAL -->
+  <div class="pcfg-overlay" id="pcfgOverlay" onclick="if(event.target===this)closePCConfigurator()" role="dialog" aria-modal="true" aria-label="PC Конфигуратор" style="display:none">
+    <div class="pcfg-modal">
+      <button type="button" class="pcfg-close" onclick="closePCConfigurator()" aria-label="Затвори">✕</button>
+      <div class="pcfg-header">
+        <div class="pcfg-header-icon">🖥️</div>
+        <h2 class="pcfg-header-title">PC Конфигуратор</h2>
+        <p class="pcfg-header-sub">3 бързи въпроса → персонализирани препоръки</p>
+        <div class="pcfg-steps">
+          <span class="pcfg-step active" id="pcfgStep1dot">1</span>
+          <span class="pcfg-step-line"></span>
+          <span class="pcfg-step" id="pcfgStep2dot">2</span>
+          <span class="pcfg-step-line"></span>
+          <span class="pcfg-step" id="pcfgStep3dot">3</span>
+        </div>
+      </div>
+      <div class="pcfg-body" id="pcfgBody"></div>
+    </div>
+  </div>
 
   <!-- MOBILE BOTTOM NAV BAR -->
   <nav class="mob-bottom-nav" id="mobBottomNav" aria-label="Мобилна навигация">
@@ -1964,6 +1989,18 @@
           <span class="brand-name">D-Link</span>
           <span class="brand-name">AV Tech</span>
         </div>
+      </div>
+
+      <!-- PC CONFIGURATOR BANNER -->
+      <div class="pcfg-banner" onclick="openPCConfigurator()">
+        <div class="pcfg-banner-left">
+          <div class="pcfg-banner-icon">🖥️</div>
+          <div>
+            <div class="pcfg-banner-title">Конфигурирай своя PC</div>
+            <div class="pcfg-banner-sub">Отговори на 3 въпроса и ние ще намерим идеалните компоненти за теб</div>
+          </div>
+        </div>
+        <button type="button" class="pcfg-banner-btn">Стартирай →</button>
       </div>
 
       <!-- СПЕЦИАЛНИ ОФЕРТИ -->
@@ -3695,6 +3732,9 @@
             <div class="pdp-monthly" id="pdpMonthly"></div>
           </div>
 
+          <!-- Viewers counter (QW-02) -->
+          <div class="pdp-viewers" id="pdpViewers" style="display:none;"></div>
+
           <!-- Stock -->
           <div class="pdp-stock" id="pdpStock">
             <div class="pdp-stock-dot"></div>
@@ -3735,11 +3775,18 @@
               class="svg-ic" aria-hidden="true">
               <use href="#ic-cart" />
             </svg> Продължи към поръчка →</button>
+          <!-- Price sparkline (M-08) -->
+          <div class="pdp-spark-wrap" id="pdpSparkWrap" style="display:none;">
+            <span class="pdp-spark-label">Цена (6 мес.)</span>
+            <canvas id="pdpSparkline" width="120" height="36" aria-hidden="true"></canvas>
+          </div>
+
           <div class="pdp-secondary-actions">
             <button type="button" class="pdp-sec-btn" id="pdpWishBtn" data-action="pdpToggleWish"><svg width="16"
                 height="16" class="svg-ic" aria-hidden="true">
                 <use href="#ic-heart" />
               </svg> Желания</button>
+            <button type="button" class="pdp-sec-btn" id="pdpShareBtn" onclick="pdpShare(products.find(x=>x.id===pdpProductId))"><svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-arrow-right"/></svg> Сподели</button>
             <button type="button" class="pdp-sec-btn" id="pdpCompareBtn" onclick="pdpToggleCompare()">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">

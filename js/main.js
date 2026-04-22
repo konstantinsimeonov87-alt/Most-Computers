@@ -101,10 +101,22 @@ initSidebarFilters();
 renderGrids();
 loadCart();
 renderHpSubcatsStrip();
-renderRecentlyDiscounted();
+renderRecentlyDiscovered();
 renderRecentlyViewed();
 initSectionAnimations();
 initScrollAnimations();
+
+// QW-06: Clickable brands bar
+(function() {
+  document.querySelectorAll('.brand-name').forEach(function(el) {
+    el.style.cursor = 'pointer';
+    el.addEventListener('click', function() {
+      var brand = el.textContent.trim();
+      document.getElementById('searchInput') && (document.getElementById('searchInput').value = brand);
+      showSearchResultsPage(brand);
+    });
+  });
+})();
 
 // 404 popular products grid
 (function() {

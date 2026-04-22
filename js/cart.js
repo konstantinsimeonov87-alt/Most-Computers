@@ -13,7 +13,15 @@ function addToCart(id) {
   updateCart(); saveCart();
   const btn = document.getElementById('cb-' + id);
   if (btn) { btn.classList.add('added'); btn.innerHTML = '✓ Добавен'; btn.disabled = true; setTimeout(() => { btn.classList.remove('added'); btn.innerHTML = '<svg width="15" height="15" class="svg-ic" aria-hidden="true"><use href="#ic-cart"/></svg> Добави в кошница'; btn.disabled = false; }, 1200); }
-  showToast(`✓ ${p.name.substring(0, 32)}... добавен!`);
+  (function showCartToast(prod) {
+    var ct = document.getElementById('cartToast');
+    if (!ct) { showToast('✓ ' + prod.name.substring(0, 32) + '… добавен!'); return; }
+    document.getElementById('cartToastEmoji').textContent = prod.emoji || '🛒';
+    document.getElementById('cartToastMsg').textContent = prod.name.substring(0, 36) + (prod.name.length > 36 ? '…' : '') + ' добавен!';
+    ct.classList.add('show');
+    clearTimeout(ct._timer);
+    ct._timer = setTimeout(function() { ct.classList.remove('show'); }, 3500);
+  })(p);
   if (!document.getElementById('recPanel')) showRecommended(p);
 }
 

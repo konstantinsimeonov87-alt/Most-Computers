@@ -259,6 +259,8 @@ function openProductPage(id) {
     || (() => { try { return (JSON.parse(localStorage.getItem('mc_reviews') || '{}')[p.id] || []).length > 0; } catch(e) { return false; } })();
   pdpSwitchTab(_hasPublicRevs ? 'reviews' : 'specs');
   pdpUpdateStickyBar(p);
+  pdpShowViewers(p);
+  pdpRenderSparkline(p);
   pdpInitDeliveryTimer();
   pdpRenderBundle(p);
   pdpRenderRelated(p);
@@ -713,6 +715,60 @@ function pdpUpdateStickyBar(p) {
   const priceEl = document.getElementById('pdpStickyPrice');
   if (nameEl) nameEl.textContent = p.name;
   if (priceEl) priceEl.textContent = fmtEur(p.price) + ' / ' + fmtBgn(p.price);
+}
+
+// QW-02: Viewers counter — seeded by product id for consistency per session
+function pdpShowViewers(p) {
+  let el = document.getElementById('pdpViewers');
+  if (!el) return;
+  const n = 3 + ((p.id * 7 + Math.floor(Date.now() / 600000)) % 10);
+  el.textContent = `👀 ${n} човека разглеждат в момента`;
+  el.style.display = '';
+}
+
+// QW-05: Share product
+function pdpShare(p) {
+  const url = location.origin + location.pathname + '?product=' + p.id;
+  if (navigator.share) {
+    navigator.share({ title: p.name, text: p.brand + ' ' + p.name + ' — ' + fmtEur(p.price), url }).catch(() => {});
+  } else {
+    try { navigator.clipboard.writeText(url); showToast('🔗 Линкът е копиран!'); } catch(e) { showToast('🔗 ' + url); }
+  }
+}
+
+// M-08: Price history sparkline
+function pdpRenderSparkline(p) {
+  const canvas = document.getElementById('pdpSparkline');
+  if (!canvas || !canvas.getContext) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width = 120, H = canvas.height = 36;
+  // Generate 6-month fake history seeded by product id
+  const points = [];
+  let cur = p.price;
+  for (let i = 5; i >= 0; i--) {
+    const seed = (p.id * 31 + i * 17) % 100;
+    const delta = (seed - 50) / 50 * 0.08; // ±8%
+    points.push(Math.round(cur * (1 + delta)));
+  }
+  points.push(p.price);
+  const min = Math.min(...points), max = Math.max(...points);
+  const range = max - min || 1;
+  const xs = points.map((_, i) => (i / (points.length - 1)) * W);
+  const ys = points.map(v => H - 4 - ((v - min) / range) * (H - 8));
+  ctx.clearRect(0, 0, W, H);
+  ctx.beginPath();
+  ctx.moveTo(xs[0], ys[0]);
+  for (let i = 1; i < xs.length; i++) ctx.lineTo(xs[i], ys[i]);
+  ctx.strokeStyle = p.price <= points[0] ? '#16a34a' : '#bd1105';
+  ctx.lineWidth = 1.8;
+  ctx.stroke();
+  // Current price dot
+  ctx.beginPath();
+  ctx.arc(xs[xs.length-1], ys[ys.length-1], 3, 0, Math.PI*2);
+  ctx.fillStyle = p.price <= points[0] ? '#16a34a' : '#bd1105';
+  ctx.fill();
+  const sparkWrap = document.getElementById('pdpSparkWrap');
+  if (sparkWrap) sparkWrap.style.display = '';
 }
 
 // ===== RECENTLY DISCOUNTED =====

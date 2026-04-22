@@ -667,6 +667,7 @@ const SUBCATS = {
     { id: 'hdd',         label: '💾 HDD дискове' },
     { id: 'motherboard', label: '🔩 Дънни платки' },
     { id: 'psu',         label: '⚡ Захранвания' },
+    { id: 'case_cooling',label: '❄ Кутии и охлаждане' },
     { id: 'case',        label: '🗄 Кутии' },
     { id: 'cooling',     label: '❄ Охлаждане' },
   ],
@@ -693,6 +694,9 @@ const SUBCATS = {
     { id: 'projector',    label: '🎥 Проектори' },
     { id: 'chair',        label: '🪑 Gaming столове' },
     { id: 'controller',   label: '🎮 Контролери' },
+    { id: 'av',           label: '📺 Телевизори и AV' },
+    { id: 'smart_dev',    label: '⌚ Смарт устройства' },
+    { id: 'hub',          label: '🔌 USB хъбове' },
   ],
 };
 
@@ -962,6 +966,18 @@ function hideCatSpecFilters() {
 function matchesSubcat(p, subcat) {
   if (subcat === 'all') return true;
   if (p.subcat === subcat) return true;
+
+  // Products with a known component subcat: block cross-subcat false positives.
+  // Broad name-based rules (e.g. ' w ' matching CPUs for psu, 'ddr4' matching CPUs for ram)
+  // would otherwise show wrong products. Products without p.subcat fall through to name-based rules.
+  const _knownCompSubcats = ['cpu','gpu','ram','ssd','hdd','motherboard','psu','case','cooling'];
+  const _compGroups = { ssd_hdd: ['ssd','hdd'], case_cooling: ['case','cooling'] };
+  if (_knownCompSubcats.includes(p.subcat)) {
+    const groupMembers = _compGroups[subcat];
+    if (groupMembers) return groupMembers.includes(p.subcat); // ssd_hdd, case_cooling
+    if (_knownCompSubcats.includes(subcat)) return false;     // wrong component type
+  }
+
   const name  = (p.name  || '').toLowerCase();
   const desc  = (p.desc  || '').toLowerCase();
   const brand = (p.brand || '').toLowerCase();
@@ -1008,7 +1024,8 @@ function matchesSubcat(p, subcat) {
     ssd:           () => all.includes('ssd') || all.includes('nvme') || all.includes('m.2') || all.includes('solid state'),
     hdd:           () => (all.includes('hdd') || all.includes('hard drive') || all.includes('твърд диск') || all.includes(' hd ')) && !all.includes('ssd') && !all.includes('nvme'),
     motherboard:   () => all.includes('дънна') || all.includes('motherboard') || all.includes('mainboard') || all.includes('платка'),
-    psu:           () => all.includes('захранван') || all.includes('psu') || all.includes('power supply') || all.includes(' w ') || (all.includes('watt') && !all.includes('battery')),
+    psu:           () => all.includes('захранван') || all.includes('psu') || all.includes('power supply') || all.includes('watt'),
+    gaming_pc:     () => all.includes('desktop') || all.includes('настолен') || all.includes('tower') || all.includes('gaming desktop') || (p.emoji === '🖥' && !all.includes('monitor')),
     case_cooling:  () => all.includes('кутия') || all.includes('chassis') || all.includes('case') || all.includes('охлади') || all.includes('cooler') || all.includes('cooling'),
     case:          () => all.includes('кутия') || all.includes('chassis') || (all.includes('case') && !all.includes('cooler') && !all.includes('cooling')),
     cooling:       () => all.includes('охлади') || all.includes('cooler') || all.includes('cooling') || all.includes('fan') || all.includes('вентилатор') || all.includes('water cool') || all.includes('aio cooler'),

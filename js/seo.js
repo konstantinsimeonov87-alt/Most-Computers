@@ -380,8 +380,8 @@ function renderHpCats() {
 const HP_SUBCATS = [
   { cat:'laptops',    id:'gaming_l',    label:'Gaming лаптопи',        icon:'🎮', trending:true  },
   { cat:'components', id:'gpu',         label:'Видеокарти',            icon:'🎴', trending:true  },
-  { cat:'peripherals',id:'monitor',     label:'Монитори',              icon:'🖥', trending:true  },
-  { cat:'desktops',   id:'gaming_pc',   label:'Gaming PC',             icon:'🕹'                },
+  { cat:'monitors',   id:'all',          label:'Монитори',              icon:'🖥', trending:true  },
+  { cat:'gaming',     id:'gaming_pc_s', label:'Gaming PC',             icon:'🕹'                },
   { cat:'components', id:'cpu',         label:'Процесори',             icon:'⚡'                },
   { cat:'laptops',    id:'ultrabook',   label:'Ултрабуци',             icon:'💼'                },
   { cat:'peripherals',id:'keyboard',    label:'Клавиатури',            icon:'⌨️'               },

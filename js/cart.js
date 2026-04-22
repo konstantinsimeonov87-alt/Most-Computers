@@ -86,17 +86,17 @@ function updateCart() {
     html += `<div class="cart-ship-bar"><div class="cart-ship-msg ship-free">🎉 Имаш безплатна доставка!</div><div class="cart-ship-progress"><div class="cart-ship-fill" style="transform:scaleX(1)"></div></div></div>`;
     if (deliveryRow) deliveryRow.style.display = 'none';
   } else {
-    const rem = (FREE_SHIP_BGN - total).toFixed(2);
-    html += `<div class="cart-ship-bar"><div class="cart-ship-msg">Добави още <strong>${rem} лв.</strong> за безплатна доставка!</div><div class="cart-ship-progress"><div class="cart-ship-fill" style="transform:scaleX(${(pct / 100).toFixed(3)})"></div></div></div>`;
+    const remEur = ((FREE_SHIP_BGN - total) / EUR_RATE).toFixed(2);
+    html += `<div class="cart-ship-bar"><div class="cart-ship-msg">Добави още <strong>${remEur} €</strong> за безплатна доставка!</div><div class="cart-ship-progress"><div class="cart-ship-fill" style="transform:scaleX(${(pct / 100).toFixed(3)})"></div></div></div>`;
     if (deliveryRow) deliveryRow.style.display = 'flex';
-    if (deliveryVal) deliveryVal.textContent = '5.99 лв.';
+    if (deliveryVal) deliveryVal.textContent = (5.99 / EUR_RATE).toFixed(2) + ' €';
   }
   // COD fee notice — always visible so no surprise at checkout
   html += `<div style="font-size:11px;color:var(--muted);padding:6px 10px;background:var(--bg2);border-radius:6px;margin-top:6px;">
-    💳 Карта/превод — без такса &nbsp;|&nbsp; 📦 Наложен платеж — +1.50 лв.
+    💳 Карта/превод — без такса &nbsp;|&nbsp; 📦 Наложен платеж — +0.77 €
   </div>`;
   // Promo code hint — show when no promo applied and subtotal ≥ 80 лв.
-  if (!promoApplied && total >= 80) {
+  if (!promoApplied && total >= Math.round(40 * EUR_RATE)) {
     html += `<div class="cart-promo-hint" onclick="handleCheckout()" title="Приложи при поръчка">
       🎁 Имаш промо код? <strong>MOSTCOMP10</strong> дава <strong>-10%</strong> от поръчката!
     </div>`;
@@ -619,16 +619,16 @@ function printInvoice(num) {
   const invNum = 'ФК-' + o.num.replace('MC-', '');
   const date = new Date(o.ts || Date.now()).toLocaleDateString('bg-BG', { day: '2-digit', month: '2-digit', year: 'numeric' });
   const payLabel = o.payment === 'card' ? 'Банкова карта' : o.payment === 'cod' ? 'Наложен платеж' : 'Банков превод';
-  const delivLabel = o.delivery === 0 ? 'Безплатна' : Number(o.delivery).toFixed(2) + ' лв.';
+  const delivLabel = o.delivery === 0 ? 'Безплатна' : (Number(o.delivery) / EUR_RATE).toFixed(2) + ' €';
 
   const rows = (o.itemsData || []).map((x, i) => `
     <tr>
       <td>${i + 1}</td>
       <td>${x.name}</td>
       <td style="text-align:center">${x.qty}</td>
-      <td style="text-align:right">${(x.price / 1.2).toFixed(2)} лв.</td>
+      <td style="text-align:right">${toEur(x.price / 1.2).toFixed(2)} €</td>
       <td style="text-align:right">20%</td>
-      <td style="text-align:right">${(x.price * x.qty).toFixed(2)} лв.</td>
+      <td style="text-align:right">${toEur(x.price * x.qty).toFixed(2)} €</td>
     </tr>`).join('');
 
   const html = `<!DOCTYPE html>
@@ -731,10 +731,10 @@ function printInvoice(num) {
 
 <div class="totals-wrap">
   <div class="totals">
-    <div class="tot-row"><span>Данъчна основа (без ДДС):</span><span>${subtotalNoVat} лв.</span></div>
-    <div class="tot-row vat"><span>ДДС 20%:</span><span>${vatAmt} лв.</span></div>
+    <div class="tot-row"><span>Данъчна основа (без ДДС):</span><span>${(Number(subtotalNoVat)/EUR_RATE).toFixed(2)} €</span></div>
+    <div class="tot-row vat"><span>ДДС 20%:</span><span>${(Number(vatAmt)/EUR_RATE).toFixed(2)} €</span></div>
     <div class="tot-row"><span>Доставка:</span><span>${delivLabel}</span></div>
-    <div class="tot-row final"><span>ОБЩО ДЪЛЖИМО:</span><span>${Number(o.total).toFixed(2)} лв.</span></div>
+    <div class="tot-row final"><span>ОБЩО ДЪЛЖИМО:</span><span>${(Number(o.total)/EUR_RATE).toFixed(2)} €</span></div>
   </div>
 </div>
 

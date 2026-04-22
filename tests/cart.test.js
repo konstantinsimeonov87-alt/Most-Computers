@@ -163,7 +163,8 @@ describe('FREE_SHIP_BGN = 200', () => {
   });
 
   test('хинтът показва точната оставаща сума', () => {
-    addToCart(99); // 15 лв. → трябват 195.58 - 15 = 180.58 лв. още
-    expect(document.getElementById('cartBody').innerHTML).toContain('180.58 лв.');
+    addToCart(99); // 15 лв. → трябват (195.58 - 15) / 1.95583 ≈ 92.33 €
+    const rem = ((195.58 - 15) / 1.95583).toFixed(2);
+    expect(document.getElementById('cartBody').innerHTML).toContain(rem + ' €');
   });
 });

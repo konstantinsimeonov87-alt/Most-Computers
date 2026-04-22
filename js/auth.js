@@ -420,7 +420,7 @@ function printOrder(num) {
   const _h = s => escHtml(String(s||''));
   const payLabel = o.payment==='card'?'Карта':o.payment==='cod'?'Наложен платеж':'Банков превод';
   const items = (o.itemsData && o.itemsData.length)
-    ? o.itemsData.map(x => `<tr><td>${_h(x.emoji||'')}${_h(x.name||'')}</td><td>${_h(x.brand||'')}</td><td style="text-align:center;">×${Number(x.qty)||0}</td><td style="text-align:right;font-weight:700;">${(x.price*x.qty).toFixed(2)} лв.<br><span style="font-size:10px;color:#6b7280;">${((x.price*x.qty)/1.95583).toFixed(2)} €</span></td></tr>`).join('')
+    ? o.itemsData.map(x => `<tr><td>${_h(x.emoji||'')}${_h(x.name||'')}</td><td>${_h(x.brand||'')}</td><td style="text-align:center;">×${Number(x.qty)||0}</td><td style="text-align:right;font-weight:700;">${((x.price*x.qty)/1.95583).toFixed(2)} €<br><span style="font-size:10px;color:#6b7280;">${(x.price*x.qty).toFixed(2)} лв.</span></td></tr>`).join('')
     : `<tr><td colspan="4" style="color:#9ca3af;text-align:center;padding:16px;">${_h(o.items||'—')}</td></tr>`;
   const win = window.open('', '_blank', 'width=760,height=700');
   if (!win) { showToast('⚠️ Попъп прозорецът е блокиран. Разреши попъпи за този сайт.'); return; }
@@ -489,9 +489,9 @@ function printOrder(num) {
         <tbody>${items}</tbody>
       </table>
       <div class="totals">
-        <div class="tot-row"><span>Продукти</span><span>${subtotal.toFixed(2)} лв.</span></div>
-        <div class="tot-row"><span>Доставка</span><span>${delivery===0?'Безплатно':delivery.toFixed(2)+' лв.'}</span></div>
-        <div class="tot-row grand"><span>Общо</span><span>${o.total.toFixed(2)} лв. / ${(o.total/1.95583).toFixed(2)} €</span></div>
+        <div class="tot-row"><span>Продукти</span><span>${(subtotal/1.95583).toFixed(2)} €</span></div>
+        <div class="tot-row"><span>Доставка</span><span>${delivery===0?'Безплатно':(delivery/1.95583).toFixed(2)+' €'}</span></div>
+        <div class="tot-row grand"><span>Общо</span><span>${(o.total/1.95583).toFixed(2)} € / ${o.total.toFixed(2)} лв.</span></div>
       </div>
       <div class="footer">
         <span>Most Computers ЕООД &nbsp;·&nbsp; ЕИК 123456789</span>

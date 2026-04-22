@@ -595,9 +595,11 @@ let relatedOffset = 0;
 function renderRelated(currentId) {
   const p = products.find(x => x.id === currentId);
   if (!p) return;
-  // Same category, different product; fallback to all if <3
-  let related = products.filter(x => x.id !== currentId && x.cat === p.cat);
-  if (related.length < 3) related = products.filter(x => x.id !== currentId).slice(0, 6);
+  // Same subcat, similar price (±35%); fallback to same cat; fallback to all
+  let related = products.filter(x => x.id !== currentId && x.subcat && x.subcat === p.subcat
+    && Math.abs(x.price - p.price) / p.price <= 0.35);
+  if (related.length < 3) related = products.filter(x => x.id !== currentId && x.cat === p.cat);
+  if (related.length < 3) related = products.filter(x => x.id !== currentId);
   related = related.slice(0, 8);
 
   const track = document.getElementById('relatedTrack');

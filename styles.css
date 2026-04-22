@@ -7763,6 +7763,16 @@
    font-weight: 500;
  }
 
+ .megamenu-cat-card.has-subcats { align-items: flex-start; }
+ .mega-comp-subcats { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
+ .mega-comp-sub {
+   font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 20px;
+   background: var(--bg2); border: 1px solid var(--border); cursor: pointer;
+   color: var(--text2); transition: all .18s; white-space: nowrap;
+ }
+ .mega-comp-sub em { font-style: normal; color: var(--muted); font-weight: 500; }
+ .mega-comp-sub:hover { background: var(--primary-light); color: var(--primary); border-color: var(--primary); }
+
  .megamenu-section-title {
    font-size: 18px;
    font-weight: 800;

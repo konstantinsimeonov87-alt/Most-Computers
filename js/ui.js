@@ -218,16 +218,36 @@ const megaCategories = [
 ];
 const megaBrands = ['Intel', 'ASUS', 'Acer', 'Microsoft', 'Lenovo', 'Gigabyte', 'LG', 'HP', 'ADATA', 'Sapphire', 'Tenda', 'Kingston', 'Seagate', 'AMD', 'Seasonic', 'ASRock', 'Repotec', 'Realme', 'MSI', 'Tuncmatik', 'Palit', 'Nokia', 'Dynac', 'Cooler Master', 'Fractal', 'NZXT', 'Canon', 'Fnatic', 'GeIL', 'FSP Group', 'Omega', 'Inform UPS', 'QNAP', 'D-Link', 'AV Tech', 'HyperX', 'Anker'];
 
+const _compSubcats = [
+  { id:'cpu',         label:'💻 Процесори' },
+  { id:'gpu',         label:'🎮 Видео карти' },
+  { id:'ram',         label:'🧠 RAM памет' },
+  { id:'motherboard', label:'🔌 Дънни платки' },
+  { id:'ssd',         label:'💾 SSD дискове' },
+  { id:'hdd',         label:'🖴 HDD дискове' },
+  { id:'case',        label:'🖥 Кутии' },
+  { id:'psu',         label:'⚡ Захранвания' },
+  { id:'cooling',     label:'❄ Охлаждане' },
+];
+
 function openMegamenu() {
   // Render cats
   const catsEl = document.getElementById('megamenuCats');
   if (!catsEl) return;
   catsEl.innerHTML = megaCategories.map(c => {
-    const count = products.filter(p=>p.cat===c.cat).length;
-    return `<div class="megamenu-cat-card" onclick="megaFilterCat('${c.cat}')">
+    const count = products.filter(p=>p.cat===c.cat||normalizeCat(p.cat)===c.cat).length;
+    const isComp = c.cat === 'components';
+    const subcatHtml = isComp ? `<div class="mega-comp-subcats" id="megaCompSubcats">${
+      _compSubcats.map(s => {
+        const sc = products.filter(p => (p.cat==='components'||normalizeCat(p.cat)==='components') && p.subcat===s.id).length;
+        return sc > 0 ? `<span class="mega-comp-sub" onclick="event.stopPropagation();megaFilterCompSubcat('${s.id}')">${s.label} <em>${sc}</em></span>` : '';
+      }).join('')
+    }</div>` : '';
+    return `<div class="megamenu-cat-card${isComp?' has-subcats':''}" onclick="megaFilterCat('${c.cat}')">
       <div class="megamenu-cat-icon">${c.icon}</div>
       <div class="megamenu-cat-name">${c.name}</div>
       <div class="megamenu-cat-count">${count} продукта</div>
+      ${subcatHtml}
     </div>`;
   }).join('');
 
@@ -258,6 +278,12 @@ function megaFilterCat(cat) {
   closeMegamenu();
   if (typeof openCatPage === 'function') openCatPage(cat);
   else filterCat(cat);
+}
+
+function megaFilterCompSubcat(subcat) {
+  closeMegamenu();
+  if (typeof openCatPage === 'function') openCatPage('components', subcat);
+  else filterCat('components');
 }
 
 function megaFilterBrand(brand) {

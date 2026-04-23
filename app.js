@@ -13019,6 +13019,7 @@ setTimeout(initLazyImages, 900);
 // ===== MEGAMENU =====
 const megaCategories = [
   { cat:'components',  icon:'<svg width="32" height="32" class="svg-ic" aria-hidden="true"><use href="#ic-cpu"/></svg>',     name:'Компоненти' },
+  { cat:'phones',      icon:'<svg width="32" height="32" class="svg-ic" aria-hidden="true"><use href="#ic-phone"/></svg>',   name:'Телефони' },
   { cat:'monitors',    icon:'<svg width="32" height="32" class="svg-ic" aria-hidden="true"><use href="#ic-monitor"/></svg>', name:'Монитори' },
   { cat:'peripherals', icon:'<svg width="32" height="32" class="svg-ic" aria-hidden="true"><use href="#ic-mouse"/></svg>',   name:'Периферия' },
   { cat:'accessories', icon:'<svg width="32" height="32" class="svg-ic" aria-hidden="true"><use href="#ic-tag"/></svg>',     name:'Аксесоари' },

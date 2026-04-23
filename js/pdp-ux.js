@@ -114,8 +114,8 @@ function pdpRenderRatingBreakdown(revs) {
   if (!revs || !revs.length) { wrap.style.display = 'none'; return; }
   const counts = [0, 0, 0, 0, 0];
   revs.forEach(function(r) {
-    const i = Math.round(r.stars) - 1;
-    if (i >= 0 && i < 5) counts[i]++;
+    const i = Math.min(4, Math.max(0, Math.round(r.stars) - 1));
+    counts[i]++;
   });
   const avg = (revs.reduce(function(s, r) { return s + r.stars; }, 0) / revs.length).toFixed(1);
   const total = revs.length;

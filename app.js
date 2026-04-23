@@ -12800,17 +12800,17 @@ function showSkeletons(containerId, count=8) {
 
 // ===== COOKIE BANNER =====
 function initCookies() {
-  if (!localStorage.getItem('mc_cookies_set')) {
+  try { if (!localStorage.getItem('mc_cookies_set')) {
     setTimeout(() => document.getElementById('cookieBanner').classList.add('show'), 1200);
-  }
+  } } catch(e) {}
 }
 function acceptCookies() {
-  localStorage.setItem('mc_cookies_set', 'all');
+  try { localStorage.setItem('mc_cookies_set', 'all'); } catch(e) {}
   hideCookieBanner();
   showToast('🍪 Бисквитките са приети');
 }
 function declineCookies() {
-  localStorage.setItem('mc_cookies_set', 'essential');
+  try { localStorage.setItem('mc_cookies_set', 'essential'); } catch(e) {}
   hideCookieBanner();
 }
 function hideCookieBanner() {
@@ -12831,7 +12831,7 @@ function saveCookieSettings() {
     marketing: document.getElementById('ck-marketing')?.checked || false,
     functional: document.getElementById('ck-functional')?.checked || false,
   };
-  localStorage.setItem('mc_cookies_set', JSON.stringify(prefs));
+  try { localStorage.setItem('mc_cookies_set', JSON.stringify(prefs)); } catch(e) {}
   closeCookieSettingsDirect();
   hideCookieBanner();
   showToast('⚙ Настройките са запазени');
@@ -18248,8 +18248,8 @@ function pdpRenderRatingBreakdown(revs) {
   if (!revs || !revs.length) { wrap.style.display = 'none'; return; }
   const counts = [0, 0, 0, 0, 0];
   revs.forEach(function(r) {
-    const i = Math.round(r.stars) - 1;
-    if (i >= 0 && i < 5) counts[i]++;
+    const i = Math.min(4, Math.max(0, Math.round(r.stars) - 1));
+    counts[i]++;
   });
   const avg = (revs.reduce(function(s, r) { return s + r.stars; }, 0) / revs.length).toFixed(1);
   const total = revs.length;
@@ -19905,7 +19905,7 @@ initSidebarFilters();
 renderGrids();
 loadCart();
 renderHpSubcatsStrip();
-renderRecentlyDiscovered();
+renderRecentlyDiscounted();
 renderRecentlyViewed();
 initSectionAnimations();
 initScrollAnimations();
@@ -19927,7 +19927,7 @@ initScrollAnimations();
   const g = document.getElementById('err404Grid');
   if (!g) return;
   const top4 = [...products].sort((a, b) => b.rating - a.rating).slice(0, 4);
-  g.innerHTML = top4.map(p => `<div class="err-popular-card" onclick="close404();openProductModal(${p.id})"><div class="err-popular-emoji">${escHtml(p.emoji||'')}</div><div><div class="err-popular-name">${escHtml((p.name||'').substring(0,22))}…</div><div class="err-popular-price">${p.price} лв.</div></div></div>`).join('');
+  g.innerHTML = top4.map(p => `<div class="err-popular-card" onclick="close404();openProductModal(${p.id})"><div class="err-popular-emoji">${escHtml(p.emoji||'')}</div><div><div class="err-popular-name">${escHtml((p.name||'').substring(0,22))}…</div><div class="err-popular-price">${fmtEur(p.price)}</div></div></div>`).join('');
 })();
 
 

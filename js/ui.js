@@ -18,17 +18,17 @@ function showSkeletons(containerId, count=8) {
 
 // ===== COOKIE BANNER =====
 function initCookies() {
-  if (!localStorage.getItem('mc_cookies_set')) {
+  try { if (!localStorage.getItem('mc_cookies_set')) {
     setTimeout(() => document.getElementById('cookieBanner').classList.add('show'), 1200);
-  }
+  } } catch(e) {}
 }
 function acceptCookies() {
-  localStorage.setItem('mc_cookies_set', 'all');
+  try { localStorage.setItem('mc_cookies_set', 'all'); } catch(e) {}
   hideCookieBanner();
   showToast('🍪 Бисквитките са приети');
 }
 function declineCookies() {
-  localStorage.setItem('mc_cookies_set', 'essential');
+  try { localStorage.setItem('mc_cookies_set', 'essential'); } catch(e) {}
   hideCookieBanner();
 }
 function hideCookieBanner() {
@@ -49,7 +49,7 @@ function saveCookieSettings() {
     marketing: document.getElementById('ck-marketing')?.checked || false,
     functional: document.getElementById('ck-functional')?.checked || false,
   };
-  localStorage.setItem('mc_cookies_set', JSON.stringify(prefs));
+  try { localStorage.setItem('mc_cookies_set', JSON.stringify(prefs)); } catch(e) {}
   closeCookieSettingsDirect();
   hideCookieBanner();
   showToast('⚙ Настройките са запазени');

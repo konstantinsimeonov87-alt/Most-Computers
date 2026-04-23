@@ -101,7 +101,7 @@ initSidebarFilters();
 renderGrids();
 loadCart();
 renderHpSubcatsStrip();
-renderRecentlyDiscovered();
+renderRecentlyDiscounted();
 renderRecentlyViewed();
 initSectionAnimations();
 initScrollAnimations();
@@ -123,6 +123,6 @@ initScrollAnimations();
   const g = document.getElementById('err404Grid');
   if (!g) return;
   const top4 = [...products].sort((a, b) => b.rating - a.rating).slice(0, 4);
-  g.innerHTML = top4.map(p => `<div class="err-popular-card" onclick="close404();openProductModal(${p.id})"><div class="err-popular-emoji">${escHtml(p.emoji||'')}</div><div><div class="err-popular-name">${escHtml((p.name||'').substring(0,22))}…</div><div class="err-popular-price">${p.price} лв.</div></div></div>`).join('');
+  g.innerHTML = top4.map(p => `<div class="err-popular-card" onclick="close404();openProductModal(${p.id})"><div class="err-popular-emoji">${escHtml(p.emoji||'')}</div><div><div class="err-popular-name">${escHtml((p.name||'').substring(0,22))}…</div><div class="err-popular-price">${fmtEur(p.price)}</div></div></div>`).join('');
 })();
 

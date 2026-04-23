@@ -122,7 +122,8 @@ async function main() {
 
     if (inStock === null) { notFound++; continue; }
 
-    const newStockStr = inStock ? 'stock:true' : 'stock:false';
+    if (!inStock) { notFound++; continue; } // never mark as out-of-stock
+    const newStockStr = 'stock:true';
     const oldStockMatch = block.match(/\bstock:(true|false)\b/);
     if (!oldStockMatch) continue;
 

@@ -114,9 +114,7 @@ function openProductPage(id) {
   const stockNum = typeof p.stock === 'number' && p.stock > 0 ? p.stock : null;
   let stockTxt = 'Изчерпан';
   if (inStock) {
-    if (stockNum !== null && stockNum <= 5) stockTxt = `🔥 Само ${stockNum} бр. в наличност!`;
-    else if (stockNum !== null && stockNum <= 10) stockTxt = `⚡ Последни ${stockNum} бр.`;
-    else stockTxt = '✓ В наличност';
+    stockTxt = '✓ В наличност';
   }
   document.getElementById('pdpStockTxt').textContent = stockTxt;
   // Show/hide back-in-stock notify button

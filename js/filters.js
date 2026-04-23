@@ -35,7 +35,7 @@ function getFilteredSorted(){
     typeof catSpecActiveFilters!=='undefined'?JSON.stringify(Object.fromEntries(Object.entries(catSpecActiveFilters).map(([k,v])=>[k,[...v]]))):'{}',
   ]);
   if (_filterCache && _filterCache.key === _cacheKey) return _filterCache.list;
-  let list=currentFilter==='all'?[...products]:products.filter(p=>normalizeCat(p.cat)===currentFilter);
+  let list=(currentFilter==='all'?[...products]:products.filter(p=>normalizeCat(p.cat)===currentFilter)).filter(p=>p.stock!==false);
   // Subcat filter
   if(typeof matchesSubcat==='function' && currentSubcat && currentSubcat!=='all')
     list=list.filter(p=>matchesSubcat(p, currentSubcat));
@@ -158,12 +158,13 @@ function renderTopGrid(){
   updateLiveCount(list.length);
 }
 function renderGrids(){
-  const _flashProds=[...products].filter(p=>p.old&&p.pct>0).sort((a,b)=>b.pct-a.pct).slice(0,5);
+  const _inStock = p => p.stock !== false;
+  const _flashProds=[...products].filter(p=>_inStock(p)&&p.old&&p.pct>0).sort((a,b)=>b.pct-a.pct).slice(0,5);
   const flashSection=document.getElementById('sale');
   if(flashSection) flashSection.style.display=_flashProds.length?'':'none';
   const fg=document.getElementById('flashGrid'); if(fg) fg.innerHTML=_flashProds.map(p=>makeCard(p,true)).join('');
   renderTopGrid();
-  const _saleProds=products.filter(p=>p.badge==='sale');
+  const _saleProds=products.filter(p=>_inStock(p)&&p.badge==='sale');
   const sg=document.getElementById('specialGrid');
   if(sg){
     sg.innerHTML=_saleProds.slice(0,8).map(p=>makeCard(p)).join('');
@@ -172,7 +173,7 @@ function renderGrids(){
     sg.closest('.section-wrap').style.display=_saleProds.length?'':'none';
   }
   // Slide 1 — cheapest flash-sale product
-  const _s1Prods = [...products].filter(p=>p.old&&p.pct>0).sort((a,b)=>a.price-b.price);
+  const _s1Prods = [...products].filter(p=>_inStock(p)&&p.old&&p.pct>0).sort((a,b)=>a.price-b.price);
   const _s1el = document.getElementById('slide1Price');
   if(_s1Prods.length && _s1el) {
     const _s1min = _s1Prods[0], _s1max = _s1Prods[_s1Prods.length-1];
@@ -182,7 +183,7 @@ function renderGrids(){
   const _s2 = products.find(p=>p.id===99);
   const _s2el = document.getElementById('slide2Price');
   if(_s2 && _s2el) _s2el.innerHTML = `${(_s2.price/EUR_RATE).toFixed(2)} € / ${_s2.price} лв. <small>с ДДС</small>`;
-  const ng=document.getElementById('newGrid'); if(ng) ng.innerHTML=products.filter(p=>p.badge==='new').concat(products.filter(p=>p.badge==='hot')).slice(0,5).map(p=>makeCard(p,true)).join('');
+  const ng=document.getElementById('newGrid'); if(ng) ng.innerHTML=products.filter(p=>_inStock(p)&&p.badge==='new').concat(products.filter(p=>_inStock(p)&&p.badge==='hot')).slice(0,5).map(p=>makeCard(p,true)).join('');
   // Promo strip — update free delivery threshold with current EUR rate
   const _freeDelEur = 100;
   const _freeDelBgn = (Math.round(_freeDelEur * EUR_RATE * 100) / 100).toFixed(2);

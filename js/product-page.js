@@ -774,7 +774,7 @@ function renderRecentlyDiscounted() {
   const el = document.getElementById('recentlyDiscountedGrid');
   if (!el) return;
   const discounted = products
-    .filter(p => p.old && p.old > p.price)
+    .filter(p => p.stock !== false && p.old && p.old > p.price)
     .sort((a,b) => ((b.old-b.price)/b.old) - ((a.old-a.price)/a.old))
     .slice(0, 5);
   if (!discounted.length) { el.closest('.section-wrap')?.remove(); return; }

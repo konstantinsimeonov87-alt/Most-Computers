@@ -41,7 +41,7 @@
     content="лаптопи, смартфони, телевизори, таблети, аудио, гейминг, Most Computers, онлайн магазин електроника, компютри, аксесоари, Apple, Samsung, ASUS, Sony, Lenovo">
   <link rel="alternate" hreflang="bg" href="https://mostcomputers.bg/">
   <link rel="preload" href="styles.css" as="style">
-  <link rel="preload" href="app.js?v=20260422" as="script">
+  <link rel="preload" href="app.js?v=20260423" as="script">
   <link rel="alternate" hreflang="x-default" href="https://mostcomputers.bg/">
   <link rel="canonical" href="https://mostcomputers.bg/">
   <link rel="sitemap" type="application/xml" href="/sitemap.xml">
@@ -1343,26 +1343,6 @@
     <button type="button" class="cart-toast-btn" onclick="toggleCart();document.getElementById('cartToast').classList.remove('show')">Виж кошница →</button>
   </div>
 
-  <!-- PC CONFIGURATOR MODAL -->
-  <div class="pcfg-overlay" id="pcfgOverlay" onclick="if(event.target===this)closePCConfigurator()" role="dialog" aria-modal="true" aria-label="PC Конфигуратор" style="display:none">
-    <div class="pcfg-modal">
-      <button type="button" class="pcfg-close" onclick="closePCConfigurator()" aria-label="Затвори">✕</button>
-      <div class="pcfg-header">
-        <div class="pcfg-header-icon">🖥️</div>
-        <h2 class="pcfg-header-title">PC Конфигуратор</h2>
-        <p class="pcfg-header-sub">3 бързи въпроса → персонализирани препоръки</p>
-        <div class="pcfg-steps">
-          <span class="pcfg-step active" id="pcfgStep1dot">1</span>
-          <span class="pcfg-step-line"></span>
-          <span class="pcfg-step" id="pcfgStep2dot">2</span>
-          <span class="pcfg-step-line"></span>
-          <span class="pcfg-step" id="pcfgStep3dot">3</span>
-        </div>
-      </div>
-      <div class="pcfg-body" id="pcfgBody"></div>
-    </div>
-  </div>
-
   <!-- MOBILE BOTTOM NAV BAR -->
   <nav class="mob-bottom-nav" id="mobBottomNav" aria-label="Мобилна навигация">
     <button type="button" class="bn-item active" data-action="scrollToTop" id="bn-home">
@@ -1989,18 +1969,6 @@
           <span class="brand-name">D-Link</span>
           <span class="brand-name">AV Tech</span>
         </div>
-      </div>
-
-      <!-- PC CONFIGURATOR BANNER -->
-      <div class="pcfg-banner" onclick="openPCConfigurator()">
-        <div class="pcfg-banner-left">
-          <div class="pcfg-banner-icon">🖥️</div>
-          <div>
-            <div class="pcfg-banner-title">Конфигурирай своя PC</div>
-            <div class="pcfg-banner-sub">Отговори на 3 въпроса и ние ще намерим идеалните компоненти за теб</div>
-          </div>
-        </div>
-        <button type="button" class="pcfg-banner-btn">Стартирай →</button>
       </div>
 
       <!-- СПЕЦИАЛНИ ОФЕРТИ -->
@@ -2982,7 +2950,7 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
-  <script src="app.js?v=20260422" defer></script>
+  <script src="app.js?v=20260423" defer></script>
   <script src="js/supabase-client.js" defer></script>
 
   <!-- Dark toggle moved to header -->

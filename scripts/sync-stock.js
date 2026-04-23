@@ -21,6 +21,7 @@ const CATEGORIES = [
   { id: 9,  name: 'Cases/PSU' },
   { id: 10, name: 'Keyboards' },
   { id: 11, name: 'Mice' },
+  { id: 12, name: 'Printers' },
   { id: 21, name: 'Laptops' },
   { id: 22, name: 'Multimedia' },
   { id: 32, name: 'Phones' },

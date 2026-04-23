@@ -61,6 +61,8 @@
   <link rel="preconnect" href="https://store.storeimages.cdn-apple.com" crossorigin>
   <link rel="preconnect" href="https://images.samsung.com" crossorigin>
   <link rel="preconnect" href="https://portal.mostbg.com" crossorigin>
+  <link rel="preconnect" href="https://images.icecat.biz" crossorigin>
+  <link rel="dns-prefetch" href="//images.icecat.biz">
   <link rel="preconnect" href="https://zdwzccucqfvlsgxlspby.supabase.co" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Outfit:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"
     media="print" onload="this.media='all'">
@@ -1793,7 +1795,7 @@
         <button type="button" class="sidebar-promo-btn" data-action="openDeliveryPage">Научи повече</button>
       </div>
     </aside>
-    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleMobileFilters()"></div>
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleMobileFilters()" role="button" tabindex="-1" aria-label="Затвори филтрите"></div>
 
     <!-- CONTENT -->
     <div id="mainContent" class="content-area">
@@ -2094,7 +2096,7 @@
               </div>
               <div class="checkout-card-body">
                 <div class="ck-mode-row">
-                  <div class="ck-mode-opt selected" id="ckModeGuest" onclick="selectCheckoutMode('guest')">
+                  <div class="ck-mode-opt selected" id="ckModeGuest" onclick="selectCheckoutMode('guest')" role="radio" aria-checked="true" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')selectCheckoutMode('guest')">
                     <div class="ck-mode-icon">👤</div>
                     <div class="ck-mode-info">
                       <div class="ck-mode-title">Поръчай като гост</div>
@@ -2102,7 +2104,7 @@
                     </div>
                     <div class="ck-mode-radio" id="ckModeGuestRadio"></div>
                   </div>
-                  <div class="ck-mode-opt" id="ckModeLogin" onclick="selectCheckoutMode('login')">
+                  <div class="ck-mode-opt" id="ckModeLogin" onclick="selectCheckoutMode('login')" role="radio" aria-checked="false" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')selectCheckoutMode('login')">
                     <div class="ck-mode-icon">⚡</div>
                     <div class="ck-mode-info">
                       <div class="ck-mode-title">Влез в профила си</div>
@@ -4002,7 +4004,7 @@
     </div>
 
     <!-- Mobile bottom sheet -->
-    <div class="pdp-bs-overlay" id="pdpBsOverlay" onclick="pdpBsClose()" style="display:none;"></div>
+    <div class="pdp-bs-overlay" id="pdpBsOverlay" onclick="pdpBsClose()" style="display:none;" role="button" tabindex="-1" aria-label="Затвори"></div>
     <div class="pdp-bottom-sheet" id="pdpBottomSheet">
       <div class="pdp-bs-handle"></div>
       <div class="pdp-bs-product">
@@ -4147,7 +4149,7 @@
         <div class="cat-page-subtitle" id="cpSubtitle"></div>
       </div>
     </div>
-    <div id="cpSidebarOverlay" class="cp-sidebar-overlay" onclick="cpCloseSidebar()"></div>
+    <div id="cpSidebarOverlay" class="cp-sidebar-overlay" onclick="cpCloseSidebar()" role="button" tabindex="-1" aria-label="Затвори"></div>
     <button type="button" class="cp-filter-btn" onclick="cpOpenSidebar()">&#127912; Филтри <span
         id="cpActiveFiltersCount"></span></button>
     <div class="cat-page-inner">

@@ -264,11 +264,15 @@ function selectCheckoutMode(mode) {
     loginOpt?.classList.remove('selected');
     guestRadio?.classList.add('checked');
     loginRadio?.classList.remove('checked');
+    guestOpt?.setAttribute('aria-checked', 'true');
+    loginOpt?.setAttribute('aria-checked', 'false');
   } else {
     loginOpt?.classList.add('selected');
     guestOpt?.classList.remove('selected');
     loginRadio?.classList.add('checked');
     guestRadio?.classList.remove('checked');
+    loginOpt?.setAttribute('aria-checked', 'true');
+    guestOpt?.setAttribute('aria-checked', 'false');
     if (typeof openAuthModal === 'function') openAuthModal('login');
   }
 }
@@ -881,7 +885,7 @@ function renderCartPageSummary() {
   if (!el) return;
   const subtotal = cart.reduce((s, x) => s + x.price * x.qty, 0);
   const savings = cart.reduce((s, x) => s + (x.old ? (x.old - x.price) * x.qty : 0), 0);
-  const delivery = subtotal >= FREE_SHIP_BGN ? 0 : 9.99;
+  const delivery = subtotal >= FREE_SHIP_BGN ? 0 : Math.round(9.99 * EUR_RATE * 100) / 100;
   const total = subtotal + delivery;
 
   if (cart.length === 0) {
@@ -896,7 +900,7 @@ function renderCartPageSummary() {
     <div class="cp-sum-row"><span>ДДС (вкл.)</span><span>${fmtEur(total * 0.2)}</span></div>
     <hr class="cp-sum-divider">
     <div class="cp-sum-row cp-sum-total"><span>Общо</span><span>${fmtEur(total)}<small>${fmtBgn(total)}</small></span></div>
-    ${subtotal < FREE_SHIP_BGN ? `<div class="cp-ship-hint">Добави още <b>${fmtBgn(FREE_SHIP_BGN - subtotal)}</b> за безплатна доставка</div>` : ''}`;
+    ${subtotal < FREE_SHIP_BGN ? `<div class="cp-ship-hint">Добави още <b>${fmtEur(FREE_SHIP_BGN - subtotal)}</b> за безплатна доставка</div>` : ''}`;
 }
 
 function renderCartPageUpsell() {

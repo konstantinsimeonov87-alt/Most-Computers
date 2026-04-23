@@ -13018,27 +13018,27 @@ setTimeout(initLazyImages, 900);
 
 // ===== MEGAMENU =====
 const megaCategories = [
-  { cat:'components',  icon:'<svg width="32" height="32" class="svg-ic" aria-hidden="true"><use href="#ic-cpu"/></svg>',     name:'Компоненти' },
-  { cat:'phones',      icon:'<svg width="32" height="32" class="svg-ic" aria-hidden="true"><use href="#ic-phone"/></svg>',   name:'Телефони' },
-  { cat:'monitors',    icon:'<svg width="32" height="32" class="svg-ic" aria-hidden="true"><use href="#ic-monitor"/></svg>', name:'Монитори' },
-  { cat:'peripherals', icon:'<svg width="32" height="32" class="svg-ic" aria-hidden="true"><use href="#ic-mouse"/></svg>',   name:'Периферия' },
-  { cat:'accessories', icon:'<svg width="32" height="32" class="svg-ic" aria-hidden="true"><use href="#ic-tag"/></svg>',     name:'Аксесоари' },
+  { cat:'laptops',     icon:'<svg width="32" height="32" class="svg-ic" aria-hidden="true"><use href="#ic-laptop"/></svg>', name:'Лаптопи' },
+  { cat:'desktops',    icon:'<svg width="32" height="32" class="svg-ic" aria-hidden="true"><use href="#ic-desktop"/></svg>', name:'Настолни компютри' },
+  { cat:'components',  icon:'<svg width="32" height="32" class="svg-ic" aria-hidden="true"><use href="#ic-cpu"/></svg>', name:'Компоненти' },
+  { cat:'peripherals', icon:'<svg width="32" height="32" class="svg-ic" aria-hidden="true"><use href="#ic-mouse"/></svg>', name:'Периферия' },
+  { cat:'network',     icon:'<svg width="32" height="32" class="svg-ic" aria-hidden="true"><use href="#ic-wifi"/></svg>', name:'Мрежово оборудване' },
+  { cat:'storage',     icon:'<svg width="32" height="32" class="svg-ic" aria-hidden="true"><use href="#ic-storage"/></svg>', name:'Сървъри и сторидж' },
+  { cat:'software',    icon:'<svg width="32" height="32" class="svg-ic" aria-hidden="true"><use href="#ic-tag"/></svg>', name:'Софтуер' },
+  { cat:'accessories', icon:'<svg width="32" height="32" class="svg-ic" aria-hidden="true"><use href="#ic-truck"/></svg>', name:'Аксесоари' },
 ];
-const megaBrands = ['Lenovo', 'Fractal Design', 'MSI', 'Nokia', 'Asus', 'Fortron', 'CANON', 'ADATA', 'Seasonic', 'Acer', 'BitFenix', 'ASRock', 'Realme', 'Omega', 'Cooler Master', 'Gigabyte'];
+const megaBrands = ['Intel', 'ASUS', 'Acer', 'Microsoft', 'Lenovo', 'Gigabyte', 'LG', 'HP', 'ADATA', 'Sapphire', 'Tenda', 'Kingston', 'Seagate', 'AMD', 'Seasonic', 'ASRock', 'Repotec', 'Realme', 'MSI', 'Tuncmatik', 'Palit', 'Nokia', 'Dynac', 'Cooler Master', 'Fractal', 'NZXT', 'Canon', 'Fnatic', 'GeIL', 'FSP Group', 'Omega', 'Inform UPS', 'QNAP', 'D-Link', 'AV Tech', 'HyperX', 'Anker'];
 
 const _compSubcats = [
-  { id:'motherboard', label:'🔌 Дънни платки' },
-  { id:'ssd',         label:'💾 SSD дискове' },
-  { id:'ram',         label:'🧠 RAM памет' },
   { id:'cpu',         label:'💻 Процесори' },
   { id:'gpu',         label:'🎮 Видео карти' },
+  { id:'ram',         label:'🧠 RAM памет' },
+  { id:'motherboard', label:'🔌 Дънни платки' },
+  { id:'ssd',         label:'💾 SSD дискове' },
   { id:'hdd',         label:'🖴 HDD дискове' },
-];
-const _periSubcats = [
-  { id:'mouse',       label:'🖱 Мишки' },
-  { id:'keyboard',    label:'⌨ Клавиатури' },
-  { id:'headphones',  label:'🎧 Слушалки' },
-  { id:'printer',     label:'🖨 Принтери' },
+  { id:'case',        label:'🖥 Кутии' },
+  { id:'psu',         label:'⚡ Захранвания' },
+  { id:'cooling',     label:'❄ Охлаждане' },
 ];
 
 function openMegamenu() {
@@ -13046,17 +13046,11 @@ function openMegamenu() {
   const catsEl = document.getElementById('megamenuCats');
   if (!catsEl) return;
   catsEl.innerHTML = megaCategories.map(c => {
-    const count = products.filter(p=>p.stock!==false&&(p.cat===c.cat||normalizeCat(p.cat)===c.cat)).length;
+    const count = products.filter(p=>p.cat===c.cat||normalizeCat(p.cat)===c.cat).length;
     const isComp = c.cat === 'components';
-    const isPeri = c.cat === 'peripherals';
     const subcatHtml = isComp ? `<div class="mega-comp-subcats" id="megaCompSubcats">${
       _compSubcats.map(s => {
-        const sc = products.filter(p => p.stock!==false && (p.cat==='components'||normalizeCat(p.cat)==='components') && p.subcat===s.id).length;
-        return sc > 0 ? `<span class="mega-comp-sub" onclick="event.stopPropagation();megaFilterCompSubcat('${s.id}')">${s.label} <em>${sc}</em></span>` : '';
-      }).join('')
-    }</div>` : isPeri ? `<div class="mega-comp-subcats">${
-      _periSubcats.map(s => {
-        const sc = products.filter(p => p.stock!==false && normalizeCat(p.cat)==='peripherals' && p.subcat===s.id).length;
+        const sc = products.filter(p => (p.cat==='components'||normalizeCat(p.cat)==='components') && p.subcat===s.id).length;
         return sc > 0 ? `<span class="mega-comp-sub" onclick="event.stopPropagation();megaFilterCompSubcat('${s.id}')">${s.label} <em>${sc}</em></span>` : '';
       }).join('')
     }</div>` : '';

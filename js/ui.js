@@ -213,7 +213,7 @@ const megaCategories = [
   { cat:'peripherals', icon:'<svg width="32" height="32" class="svg-ic" aria-hidden="true"><use href="#ic-mouse"/></svg>',   name:'Периферия' },
   { cat:'accessories', icon:'<svg width="32" height="32" class="svg-ic" aria-hidden="true"><use href="#ic-tag"/></svg>',     name:'Аксесоари' },
 ];
-const megaBrands = ['Intel', 'ASUS', 'Acer', 'Microsoft', 'Lenovo', 'Gigabyte', 'LG', 'HP', 'ADATA', 'Sapphire', 'Tenda', 'Kingston', 'Seagate', 'AMD', 'Seasonic', 'ASRock', 'Repotec', 'Realme', 'MSI', 'Tuncmatik', 'Palit', 'Nokia', 'Dynac', 'Cooler Master', 'Fractal', 'NZXT', 'Canon', 'Fnatic', 'GeIL', 'FSP Group', 'Omega', 'Inform UPS', 'QNAP', 'D-Link', 'AV Tech', 'HyperX', 'Anker'];
+const megaBrands = ['Lenovo', 'Fractal Design', 'MSI', 'Nokia', 'Asus', 'Fortron', 'CANON', 'ADATA', 'Seasonic', 'Acer', 'BitFenix', 'ASRock', 'Realme', 'Omega', 'Cooler Master', 'Gigabyte'];
 
 const _compSubcats = [
   { id:'motherboard', label:'🔌 Дънни платки' },

@@ -140,14 +140,10 @@ async function main() {
     const block = src.slice(start, end);
 
     // Skip if already has a good image (unless --all)
+    // NOTE: --all truly overwrites ALL products from gallery — promo images can be
+    // stored as imageFileData URLs that isPromoUrl() cannot detect by name alone.
     const hasImg = /\bimg:'[^']+'/.test(block);
     if (hasImg && !FORCE_ALL) { skipped++; continue; }
-
-    // Skip if existing image is already a valid (non-promo) URL
-    if (hasImg && FORCE_ALL) {
-      const existingUrl = (block.match(/\bimg:'([^']+)'/) || [])[1];
-      if (existingUrl && !isPromoUrl(existingUrl)) { skipped++; continue; }
-    }
 
     // Find image via SKU or EAN
     const skuM = block.match(/\bsku:'([^']+)'/);

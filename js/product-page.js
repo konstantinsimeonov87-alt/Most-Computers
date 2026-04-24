@@ -401,8 +401,9 @@ function pdpSwitchTab(tab) {
     } catch(e) {}
     const publicRevs = displayRevs.filter(r => !r.pending);
     if (typeof pdpRenderRatingBreakdown === 'function') pdpRenderRatingBreakdown(publicRevs);
+    const _escR = s => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
     revEl.innerHTML = publicRevs.length
-      ? publicRevs.map(r => `<div class="review-item"><div class="review-header"><span class="review-name">${r.name}</span><span class="review-stars">${starsHTML(r.stars)}</span><span class="review-date">${r.date}</span></div><div class="review-text">${r.text}</div></div>`).join('')
+      ? publicRevs.map(r => `<div class="review-item"><div class="review-header"><span class="review-name">${_escR(r.name)}</span><span class="review-stars">${starsHTML(r.stars)}</span><span class="review-date">${_escR(r.date)}</span></div><div class="review-text">${_escR(r.text)}</div></div>`).join('')
       : '<p style="color:var(--muted);font-size:13px;">Все още няма ревюта за този продукт.</p>';
   }
 }

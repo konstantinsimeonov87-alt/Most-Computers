@@ -636,7 +636,7 @@ function printInvoice(num) {
   const rows = (o.itemsData || []).map((x, i) => `
     <tr>
       <td>${i + 1}</td>
-      <td>${x.name}</td>
+      <td>${escHtml(x.name||'')}</td>
       <td style="text-align:center">${x.qty}</td>
       <td style="text-align:right">${toEur(x.price / 1.2).toFixed(2)} €</td>
       <td style="text-align:right">20%</td>

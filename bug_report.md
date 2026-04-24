@@ -1,5 +1,30 @@
 # Bug Report — Most Computers
-**Последна актуализация:** 2026-04-21 | **Агент:** Bug Hunter | **Тестове след fix:** 185/185 ✅
+**Последна актуализация:** 2026-04-24 | **Агент:** Bug Hunter | **Тестове след fix:** 185/185 ✅
+
+---
+
+## Сесия 2026-04-24 — Пълен одит
+
+### 🔴 BUG-010 — XSS в ревюта на продуктова страница ✅ Fixed
+- **Файл:** `js/product-page.js` — ред 404-405
+- **Стъпки:** Потребителят въвежда `<script>alert(1)</script>` в ревю → отваря продукт
+- **Действително:** JS се изпълнява (XSS чрез localStorage)
+- **Fix:** HTML escaping с `_escR()` за `r.name`, `r.date`, `r.text` — **commit:** `3549d4f`
+
+### 🔴 BUG-011 — XSS в printInvoice ✅ Fixed
+- **Файл:** `js/cart.js` — ред 639
+- **Описание:** `${x.name}` без HTML escaping в `document.write()` HTML
+- **Fix:** Заменено с `${escHtml(x.name||'')}` — **commit:** `3549d4f`
+
+### 🟡 BUG-012 — Дата за доставка в thank-you не отчита почивни дни
+- **Файл:** `js/cart.js` — ред 530
+- **Описание:** `new Date(now + delivDays * 86400000)` — calendar days, не work days. `handleCheckout()` ползва `workDay()` helper за checkout UI, но thank-you page ползва прост offset.
+- **Статус:** Отворен
+
+### 🟢 ENH-005 — 100vh без dvh fallback в admin layout
+- **Файл:** `styles.css` — ред 8902
+- **Описание:** `min-height: 100vh` без `100dvh` — мобилни браузъри с address bar
+- **Статус:** Отворен (Low priority)
 
 ---
 

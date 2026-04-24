@@ -45,8 +45,11 @@ try {
 
 // 3. Bundle app.js from source files (correct load order)
 console.log('\n📦 Bundling app.js...');
+// data.js is built as a SEPARATE bundle (lazy-loaded before app.js in HTML)
+// This reduces app.js from ~2.2MB to ~400KB for faster TTI
+const DATA_SRC = 'js/data.js';
 const APP_SOURCES = [
-  'js/currency.js', 'js/data.js', 'js/cards.js', 'js/ui.js',
+  'js/currency.js', 'js/cards.js', 'js/ui.js',
   'js/gallery.js', 'js/cart.js', 'js/search.js', 'js/auth.js',
   'js/recently-viewed.js', 'js/filters.js', 'js/order-tracker.js',
   'js/pwa.js', 'js/admin-loader.js', 'js/product-page.js', 'js/pdp-ux.js',
@@ -58,13 +61,14 @@ const bundle = APP_SOURCES.map(f => {
   return fs.readFileSync(path.join(ROOT, f), 'utf8');
 }).join('\n');
 fs.writeFileSync(path.join(ROOT, 'app.js'), bundle);
-log(`app.js bundled — ${(bundle.length/1024).toFixed(0)} KB from ${APP_SOURCES.length} files`);
+log(`app.js bundled — ${(bundle.length/1024).toFixed(0)} KB from ${APP_SOURCES.length} files (data.js split out)`);
 
 // 4. Minify JavaScript
 console.log('\n📦 Minifying JavaScript...');
 const jsFiles = [
   { src: 'products.js', dst: 'products.js' },
-  { src: 'app.js', dst: 'app.js' },
+  { src: DATA_SRC,      dst: 'data.js' },
+  { src: 'app.js',      dst: 'app.js' },
   { src: 'js/admin.js', dst: 'js/admin.js' },
 ];
 jsFiles.forEach(({ src, dst }) => {
@@ -117,16 +121,17 @@ if (fs.existsSync(cssSrc)) {
   }
 }
 
-// 5. Copy HTML and stamp app.js version with today's date
+// 5. Copy HTML and stamp app.js + data.js version with today's date
 console.log('\n📝 Processing HTML...');
 {
   const today = new Date().toISOString().slice(0,10).replace(/-/g,'');
   let htmlSrc = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
-  // Update app.js version stamp in preload link and script src
+  // Update app.js and data.js version stamps in preload links and script srcs
   htmlSrc = htmlSrc.replace(/app\.js\?v=\d{8}/g, `app.js?v=${today}`);
+  htmlSrc = htmlSrc.replace(/data\.js\?v=\d{8}/g, `data.js?v=${today}`);
   fs.writeFileSync(path.join(ROOT, 'index.html'), htmlSrc);
   fs.writeFileSync(path.join(DIST, 'index.html'), htmlSrc);
-  log(`Copied index.html (app.js?v=${today})`);
+  log(`Copied index.html (app.js?v=${today}, data.js?v=${today})`);
 }
 
 // 6. Bump SW cache version and copy static assets

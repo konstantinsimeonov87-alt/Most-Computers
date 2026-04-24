@@ -1,5 +1,5 @@
 // ===== DATA =====
-const products = [
+var products = [
   // ── GPU Import — 2026-04-20 — categoryId=7 (Most BG) — 34 видеокарти ──
   {id:1,name:'PowerColor Radeon RX 580 8GB GDDR5',brand:'PowerColor',cat:'components',subcat:'gpu',
    price:314,old:null,pct:null,badge:null,emoji:'🎮',sku:'1A1-G003028MBG',ean:null,

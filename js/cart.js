@@ -527,7 +527,8 @@ function submitOrder() {
     const payNames = { card: 'Карта', cod: 'Наложен платеж', bank: 'Банков превод' };
     const now = new Date();
     const delivDays = ckDeliveryIdx === 2 ? 0 : ckDeliveryIdx === 1 ? 3 : 2;
-    const delivDate = new Date(now.getTime() + delivDays * 86400000);
+    const _addWorkDays = (d, n) => { let c = new Date(d); let added = 0; while (added < n) { c.setDate(c.getDate() + 1); if (c.getDay() !== 0 && c.getDay() !== 6) added++; } return c; };
+    const delivDate = delivDays > 0 ? _addWorkDays(now, delivDays) : now;
     const fmt = d => d.toLocaleDateString('bg-BG', { day: 'numeric', month: 'long' });
 
     // Populate thank-you page

@@ -16608,20 +16608,37 @@ function updateURL() {
   history.replaceState(null, '', newUrl);
 }
 
+// Allowed canonical categories + sort values — used to validate URL params before querySelector
+const _VALID_CATS = new Set(['all','laptops','desktops','gaming','components','monitors','peripherals','phones','network','storage','software','accessories']);
+const _VALID_SORTS = new Set(['bestseller','price-asc','price-desc','rating','discount','new']);
+
 function readURLParams() {
   const params = new URLSearchParams(location.search);
   if (params.get('cat') && params.get('cat') !== 'all') {
-    currentFilter = params.get('cat');
-    // Activate correct pill
-    const pill = document.querySelector(`.filter-pill[onclick*="'${currentFilter}'"]`);
+    const rawCat = params.get('cat');
+    currentFilter = _VALID_CATS.has(rawCat) ? rawCat : normalizeCat(rawCat);
+    // Find pill by data-cat attribute (safe) or by iterating
+    const pill = document.querySelector(`.filter-pill[data-cat="${currentFilter}"]`) ||
+      [...document.querySelectorAll('.filter-pill')].find(b => b.dataset.cat === currentFilter);
     if (pill) { document.querySelectorAll('.filter-pill').forEach(b=>b.classList.remove('active')); pill.classList.add('active'); }
   }
-  if (params.get('sort')) { currentSort = params.get('sort'); const sel = document.querySelector('.sort-select'); if(sel) sel.value = currentSort; }
-  if (params.get('brand')) { params.get('brand').split(',').forEach(b => { advFilterBrands.add(b); const cb = document.querySelector(`#brandFilterList input[value="${b}"]`); if(cb) cb.checked=true; }); }
+  if (params.get('sort')) {
+    const rawSort = params.get('sort');
+    if (_VALID_SORTS.has(rawSort)) { currentSort = rawSort; const sel = document.querySelector('.sort-select'); if(sel) sel.value = currentSort; }
+  }
+  if (params.get('brand')) {
+    params.get('brand').split(',').forEach(b => {
+      if (!b || b.length > 60) return; // basic sanity check
+      advFilterBrands.add(b);
+      // Use safe attribute match via iteration instead of querySelector template literal
+      const inputs = document.querySelectorAll('#brandFilterList input[type="checkbox"]');
+      inputs.forEach(cb => { if (cb.value === b) cb.checked = true; });
+    });
+  }
   if (params.get('rating')) { advFilterRating = parseFloat(params.get('rating')); const rb = document.querySelector(`input[name="ratingFilter"][value="${advFilterRating}"]`); if(rb) rb.checked=true; }
   if (params.get('sale') === '1') { advFilterSaleOnly=true; const el=document.getElementById('saleOnlyToggle'); if(el) el.checked=true; }
   if (params.get('new') === '1') { advFilterNewOnly=true; const el=document.getElementById('newOnlyToggle'); if(el) el.checked=true; }
-  if (params.get('sub')) { currentSubcat = params.get('sub'); }
+  if (params.get('sub')) { currentSubcat = params.get('sub').replace(/[^a-z0-9_-]/gi, ''); } // strip special chars
   if (params.get('stock') === '1') { advFilterStockOnly=true; const el=document.getElementById('stockOnlyToggle'); if(el) el.checked=true; }
   if (params.get('priceMin')) { advPriceMin=parseFloat(params.get('priceMin')); const el=document.getElementById('sbPriceMin'); if(el) el.value=advPriceMin; }
   if (params.get('priceMax')) { advPriceMax=parseFloat(params.get('priceMax')); const el=document.getElementById('sbPriceMax'); if(el) el.value=advPriceMax; }
@@ -16633,10 +16650,15 @@ function readURLParams() {
     // Show subcat bar and cat-spec filters if a category is active
     if (currentFilter !== 'all') {
       if (typeof renderSubcatBar === 'function') renderSubcatBar(currentFilter);
-      // Activate subcat pill if ?sub= param was present
+      // Activate subcat pill if ?sub= param was present (safe iteration, no template literal in selector)
       if (currentSubcat && currentSubcat !== 'all') {
-        const subPill = document.querySelector(`.subcat-pill[onclick*="'${currentSubcat}'"]`);
-        if (subPill) { document.querySelectorAll('.subcat-pill').forEach(p => p.classList.remove('active')); subPill.classList.add('active'); }
+        const subPills = document.querySelectorAll('.subcat-pill');
+        subPills.forEach(p => {
+          if (p.dataset.sub === currentSubcat || (p.dataset.cat === currentSubcat)) {
+            document.querySelectorAll('.subcat-pill').forEach(x => x.classList.remove('active'));
+            p.classList.add('active');
+          }
+        });
       }
       if (typeof renderCatSpecFilters === 'function') renderCatSpecFilters(currentFilter);
       if (typeof bcOnFilterCat === 'function') bcOnFilterCat(currentFilter);

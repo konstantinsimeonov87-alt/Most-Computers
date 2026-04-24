@@ -1,116 +1,90 @@
-# ♿ Accessibility Report — Most Computers
-**Дата:** 2026-04-09 | **Стандарт:** WCAG 2.1 Level AA
+# ♿ Accessibility Report — Most Computers (WCAG 2.1 AA)
+**Дата:** 2026-04-24 | **Агент:** Accessibility Auditor | **Стандарт:** WCAG 2.1 AA
 
 ---
 
-## 📋 Резюме
+## Резюме
 
-| Severity | Брой | Статус |
-|----------|------|--------|
-| 🔴 A (Critical) | 3 | ✅ Оправени |
-| 🟠 AA (Required) | 5 | ✅ Оправени |
-| 🟡 Препоръки | 4 | ⚠ Документирани |
-
----
-
-## Checklist
-
-| # | WCAG | Ниво | Статус | Описание |
-|---|------|------|--------|----------|
-| 1 | 1.3.1 Info and Relationships | A | ✅ *fix* | Два `<main>` landmark-а — вторият сменен на `<div>` |
-| 2 | 1.3.1 Info and Relationships | A | ✅ *fix* | Всички `<label>` в форми добавени с `for` атрибут |
-| 3 | 4.1.2 Name, Role, Value | A | ✅ *fix* | Close бутони в модали без accessible name → добавен `aria-label="Затвори"` |
-| 4 | 1.3.5 Identify Input Purpose | AA | ✅ *fix* | Checkout + auth форми без `autocomplete` → добавени `given-name`, `family-name`, `email`, `tel`, `current-password`, `new-password` |
-| 5 | 1.4.3 Contrast Minimum | AA | ✅ *fix* | `--muted` (#9ca3af, 2.41:1) → #6b7280 (4.63:1) |
-| 6 | 2.4.1 Bypass Blocks | A | ✅ | Skip-to-content линк е наличен; `.skip-link:focus` показва outline |
-| 7 | 2.4.1 Bypass Blocks | A | ✅ *fix* | `.skip-to-content:focus` имаше `outline: none` → поправено |
-| 8 | 2.1.1 Keyboard | A | ✅ | `trapFocus()` имплементиран за всички модали; Escape затваря |
-| 9 | 1.3.1 Semantic HTML | A | ✅ | `<header>`, `<main>`, `<footer>`, `<nav>`, `<aside>` правилно използвани |
-| 10 | 2.4.6 Headings | AA | ✅ | Единствен `<h1>` (PDP); hero използва `<h2>`; footer — `<h3>` |
-| 11 | 4.1.3 Status Messages | AA | ✅ | Toast: `role="status" aria-live="polite"`; cart badge: `aria-live="polite"` |
-| 12 | 4.1.2 Dialogs | AA | ✅ | Модали: `role="dialog" aria-modal="true" aria-label="..."` |
-| 13 | 1.1.1 Non-text Content | A | ✅ | Product images: alt се задава динамично от `p.name` в JS |
-| 14 | 1.1.1 SVG иконки | A | ✅ | Всички SVG спрайт икони с `aria-hidden="true"` |
-| 15 | 2.3.1 Three Flashes | A | ✅ | Няма флашващо съдържание |
-| 16 | 1.4.4 Resize Text | AA | ✅ | `rem`/`em` единици; layout гъвкав при zoom |
-| 17 | 2.3.3 Animation | AAA | ✅ | `prefers-reduced-motion` media query с `transition-duration: 0.01ms` |
-| 18 | 1.4.3 Primary color contrast | AA | ✅ | `#bd1105` на бяло: 6.47:1 ✅; бяло на `#bd1105`: 6.47:1 ✅ |
-| 19 | 1.4.3 Text2 contrast | AA | ✅ | `--text2` (#555e6d) на `--bg`: 6.22:1 ✅ |
-| 20 | 1.4.3 Sale badge | AA | ⚠ | `#ff3030` на бяло: 3.67:1 — под 4.5:1 за малък текст |
+| Ниво | Намерени | Fixed | Отворени |
+|------|----------|-------|---------|
+| 🔴 A (Critical) | 3 | 3 | 0 |
+| 🟠 AA (Required) | 1 | 0 | 1 |
+| ✅ Преминати | 14+ | — | — |
 
 ---
 
-## 🔴 Оправени критични проблеми
+## WCAG Checklist
 
-### A11Y-001 — Два `<main>` landmark-а (WCAG 1.3.1 / Level A)
-- **Файл:** `index.html:1742`
-- **Проблем:** `<main id="mainContent">` беше вложен в `<main id="main-content">`. Страницата трябва да има само един `<main>`.
-- **Fix:** Вторият `<main>` заменен с `<div id="mainContent" class="content-area">`.
-
-### A11Y-002 — Close бутони без accessible name (WCAG 4.1.2 / Level A)
-- **Файл:** `index.html:799, 899, 2472`
-- **Проблем:** `<button class="modal-close">` съдържаше само `<svg aria-hidden>` — screen reader четеше "button" без описание.
-- **Fix:** Добавен `aria-label="Затвори"` на product modal close, compare modal close, cookie modal close.
-
-### A11Y-003 — `<label>` без `for` атрибут (WCAG 1.3.1 / Level A)
-- **Файл:** `index.html` — quick order, auth login/register форми
-- **Проблем:** Labels бяха визуално свързани с inputs чрез DOM proximity, но не програмно — screen readers не ги четяха като двойки.
-- **Fix:** Добавени `for="inputId"` атрибути.
-
----
-
-## 🟠 Оправени AA проблеми
-
-### A11Y-004 — Липсващ `autocomplete` в checkout и auth форми (WCAG 1.3.5 / Level AA)
-- **Файл:** `index.html` — `#ckFirst`, `#ckLast`, `#ckEmail`, `#ckPhone`, login/register
-- **Проблем:** Личните данни не бяха маркирани с autocomplete атрибути — браузъри и password managers не могат да автодопълнят.
-- **Fix:** Добавени `autocomplete="given-name"`, `family-name`, `email`, `tel`, `current-password`, `new-password`.
-
-### A11Y-005 — `--muted` цвят с недостатъчен контраст (WCAG 1.4.3 / Level AA)
-- **Файл:** `styles.css:52`
-- **Проблем:** `--muted: #9ca3af` на `--bg: #f8f9fa` = **2.41:1** — под изискваното 4.5:1.
-  - Използва се за: product specs meta, рейтинг брой, secondary info текст.
-- **Fix:** `--muted: #6b7280` → контраст **4.63:1** ✅
-
-### A11Y-006 — `.skip-to-content:focus` с `outline: none` (WCAG 2.4.7 / Level AA)
-- **Файл:** `styles.css:15939`
-- **Проблем:** Skip link показваше се при фокус, но без visible focus indicator.
-- **Fix:** `outline: 3px solid #fff; outline-offset: 2px;`
+| # | WCAG критерий | Ниво | Статус | Описание |
+|---|---|---|---|---|
+| 1 | 1.1.1 Non-text Content | A | ✅ PASS | Product card images имат `alt="${продуктово_име}"` (динамично) |
+| 2 | 1.1.1 Non-text Content | A | ✅ PASS | SVG иконки имат `aria-hidden="true"` навсякъде |
+| 3 | 1.3.1 Info and Relationships | A | ✅ FIXED | Checkout labels без `for` → добавен `for` на ckAddr/ckZip/ckNote/ckCardNum/ckCardName/ckCardExp/ckCardCvv |
+| 4 | 1.3.1 Landmarks | A | ✅ PASS | `<main>`, `<nav>`, `<header>`, `<footer>`, `<aside>` — всички използвани |
+| 5 | 1.4.3 Contrast (Minimum) | AA | ✅ PASS | `--text` (#1a1a1a) на `--bg` (#f8f9fa) ≈ 17:1 |
+| 6 | 1.4.3 Contrast | AA | ✅ PASS | `--primary` (#bd1105) на бяло (#fff) ≈ 6.4:1 |
+| 7 | 1.4.3 Contrast | AA | ✅ PASS | `--muted` (#626878) на `--bg` ≈ 5.4:1 (коментар в CSS потвърждава) |
+| 8 | 1.4.4 Resize text | AA | ✅ PASS | Responsive layout — zoom до 200% работи |
+| 9 | 2.1.1 Keyboard | A | ✅ FIXED | Mobile drawer close: добавен `aria-label="Затвори меню"` |
+| 10 | 2.1.1 Keyboard | A | ✅ FIXED | Accordion toggles: добавен `aria-expanded="false"` с runtime toggle |
+| 11 | 2.4.1 Bypass Blocks | A | ✅ PASS | Skip link „Прескочи към съдържанието" присъства (line 239) |
+| 12 | 2.4.2 Page Titled | A | ✅ PASS | Title: „Most Computers — Лаптопи, телефони, компютри" (59 chars) |
+| 13 | 2.4.7 Focus Visible | AA | ⚠️ PARTIAL | Глобален `:focus-visible` дефиниран, но 30 `outline: none` могат да override-нат |
+| 14 | 3.1.1 Language of Page | A | ✅ PASS | `<html lang="bg">` |
+| 15 | 3.3.1 Error Identification | A | ✅ PASS | Error messages с `role="alert"` и `aria-describedby` |
+| 16 | 3.3.2 Labels or Instructions | A | ✅ PASS | Всички inputs имат `<label for="...">` или `aria-label` |
+| 17 | 4.1.2 Name, Role, Value | A | ✅ PASS | Диалози: `role="dialog"`, `aria-modal="true"`, `aria-label` |
+| 18 | 4.1.3 Status Messages | AA | ✅ PASS | Toast: `role="status"`, `aria-live="polite"`, `aria-atomic="true"` |
+| 19 | 2.3.1 Three Flashes | A | ✅ PASS | Без flickering/flash контент |
+| 20 | 1.4.12 Text Spacing | AA | ✅ PASS | CSS не хардкодира `line-height` в px |
+| 21 | 2.5.3 Label in Name | A | ✅ PASS | Видимите текстове съответстват на `aria-label` стойностите |
 
 ---
 
-## 🟡 Препоръки (не са оправени автоматично)
+## 🔴 Fixed Issues
 
-### A11Y-007 — Sale badge контраст `#ff3030` (WCAG 1.4.3)
-- `#ff3030` на бял фон: 3.67:1 — FAIL за нормален текст, PASS за bold/large ≥18px.
-- Sale badge текстът обикновено е 10-12px bold → технически FAIL.
-- **Препоръка:** Потъмни до `#cc0000` (5.9:1) или добави тъмен текст.
+### A11Y-001 — Mobile menu close button без accessible name ✅ Fixed
+- **Файл:** `index.html:608`
+- **Проблем:** `<button class="mob-drawer-close">` имаше само `<svg aria-hidden="true">` — нямаше достъпно ime
+- **WCAG:** 4.1.2 Name, Role, Value (Level A)
+- **Fix:** Добавен `aria-label="Затвори меню"`
 
-### A11Y-008 — Форми в checkout без error association (WCAG 3.3.1)
-- Грешките се показват визуално (red border), но `aria-describedby` не свързва error message с полето.
-- **Препоръка:** Добави `aria-describedby="fieldId-error"` + `<span id="fieldId-error" role="alert">`.
+### A11Y-002 — Accordion toggles без aria-expanded ✅ Fixed
+- **Файл:** `index.html:655`
+- **Проблем:** `mob-accordion-toggle` не съобщаваше expanded/collapsed state на screen readers
+- **WCAG:** 4.1.2 Name, Role, Value (Level A)
+- **Fix:** Добавен `aria-expanded="false"` + runtime toggle в onclick handler
 
-### A11Y-009 — Две skip link дефиниции (WCAG 2.4.1)
-- `index.html:177` → `#mainContent` и `index.html:542` → `#main-content` — два skip links
-- **Препоръка:** Остави само `.skip-link` (line 177, по-добре стайлизиран).
-
-### A11Y-010 — Contact форма без `for` атрибути
-- `#cfName`, `#cfEmail`, `#cfPhone` — labels без `for`.
-- **Препоръка:** Добави при следваща итерация (нископриоритетно).
+### A11Y-003 — Checkout форма с неасоциирани labels ✅ Fixed
+- **Файл:** `index.html:2242-2286`
+- **Проблем:** `<label>Адрес *</label>` без `for` — не е свързан с `<input id="ckAddr">`
+- **Засегнати:** ckAddr, ckZip, ckNote, ckCardNum, ckCardName, ckCardExp, ckCardCvv
+- **WCAG:** 1.3.1 Info and Relationships (Level A)
+- **Fix:** Добавен `for="..."` на всички засегнати label елементи
 
 ---
 
-## ✅ Позитивни находки
+## 🟠 Open Issues
 
-- ✅ `trapFocus()` / `releaseFocus()` за всички модали (focus lock + restore)
-- ✅ `role="dialog" aria-modal="true"` на всички модали
-- ✅ Toast с `role="status" aria-live="polite" aria-atomic="true"`
-- ✅ Cart badge с `aria-live="polite"`
-- ✅ Skip-to-content link с правилна имплементация
-- ✅ SVG sprite: всички икони с `aria-hidden="true"`
-- ✅ Sidebar cat-items: `role="button" tabindex="0"` с `onkeydown` Enter/Space handler
-- ✅ `prefers-reduced-motion` media query покрива всички transitions
-- ✅ Header buttons с `aria-label` (cart, wishlist, search, profile, dark mode)
-- ✅ Breadcrumb `<nav aria-label="Breadcrumb">`
-- ✅ `.sr-only` utility class дефинирана в CSS
-- ✅ PDP `<h1 id="pdpName">` — единствен H1 на страницата
+### A11Y-004 — 30 `outline: none` overrides (AA — Low priority)
+- **Файл:** `styles.css` (30 места)
+- **Проблем:** Component-specific `outline: none` на `:focus` може да override глобалния `:focus-visible`
+- **WCAG:** 2.4.7 Focus Visible (Level AA)
+- **Препоръка:** Замени с `outline: none` само на `:focus:not(:focus-visible)` pattern
+
+---
+
+## ✅ Добри практики (вече в сайта)
+
+- **sr-only клас** дефиниран и използван (screen-reader-only текстове)
+- **prefers-reduced-motion** с wildcard `*` (line 15031) — изключва всички анимации
+- **autocomplete атрибути**: `email`, `tel`, `given-name`, `family-name`, `street-address`, `postal-code`
+- **aria-live regions**: toast (`polite`) и error spans (`role="alert"`) правилно имплементирани
+- **focus trap в модали**: `role="dialog"` + `aria-modal="true"` навсякъде
+- **Emoji fallback**: `aria-hidden="true"` — не се четат от screen readers
+
+---
+
+## Тестове след fix
+- ✅ 185/185 Jest тестове
+- ✅ Build успешен

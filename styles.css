@@ -2086,6 +2086,25 @@
    background: var(--new);
  }
 
+ /* Card secondary action buttons */
+ .card-sec-btn {
+   flex: 1;
+   flex-direction: column;
+   gap: 3px;
+   background: var(--bg);
+   border: 1px solid var(--border);
+   border-radius: 7px;
+   padding: 9px 10px;
+   transition: background 0.2s, border-color 0.2s;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   cursor: pointer;
+ }
+ .card-sec-btn:hover { background: var(--primary-light); border-color: rgba(189,17,5,0.2); }
+ .card-sec-btn.active { background: var(--primary-light); }
+ .card-sec-btn-label { font-size: 10px; color: var(--muted); font-weight: 500; }
+
  /* ===== PROMO BANNER ===== */
  .promo-banner {
    border-radius: 12px;
@@ -5921,19 +5940,19 @@
 
  .checkout-close-btn {
    background: none;
-   border: 1px solid var(--border);
+   border: none;
    border-radius: 8px;
-   padding: 6px 14px;
-   font-size: 13px;
-   font-weight: 600;
-   color: var(--text2);
+   padding: 4px 10px;
+   font-size: 22px;
+   font-weight: 400;
+   color: var(--muted);
    cursor: pointer;
-   transition: all 0.2s;
+   transition: color 0.2s;
+   line-height: 1;
  }
 
  .checkout-close-btn:hover {
-   border-color: var(--primary);
-   color: var(--primary);
+   color: var(--text);
  }
 
  .checkout-body {

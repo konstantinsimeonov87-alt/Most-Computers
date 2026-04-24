@@ -605,7 +605,7 @@
   <div class="mob-drawer" id="mobDrawer">
     <div class="mob-drawer-header">
       <span class="mob-drawer-title">Most <span style="color:var(--primary)">Computers</span></span>
-      <button type="button" class="mob-drawer-close" data-action="toggleMobMenu"><svg width="20" height="20"
+      <button type="button" class="mob-drawer-close" data-action="toggleMobMenu" aria-label="Затвори меню"><svg width="20" height="20"
           class="svg-ic" aria-hidden="true">
           <use href="#ic-close" />
         </svg></button>
@@ -653,7 +653,7 @@
     <!-- Categories - Accordion -->
     <div class="mob-nav-section mob-accordion">
       <button class="mob-accordion-toggle"
-        onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')" type="button">
+        onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open');this.setAttribute('aria-expanded',this.classList.contains('open'))" type="button" aria-expanded="false">
         <span>📦 Категории</span>
         <span class="mob-acc-arrow">›</span>
       </button>
@@ -661,7 +661,7 @@
         <!-- LAPTOP -->
         <div class="mob-sub-accordion">
           <button class="mob-sub-accordion-toggle"
-            onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')" type="button">
+            onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open');this.setAttribute('aria-expanded',this.classList.contains('open'))" type="button" aria-expanded="false">
             <div style="display:flex;align-items:center;gap:12px;"><span class="mi-icon"><svg width="18" height="18"
                   class="svg-ic" aria-hidden="true">
                   <use href="#ic-laptop" />
@@ -686,7 +686,7 @@
         <!-- MOBILE -->
         <div class="mob-sub-accordion">
           <button class="mob-sub-accordion-toggle"
-            onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')" type="button">
+            onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open');this.setAttribute('aria-expanded',this.classList.contains('open'))" type="button" aria-expanded="false">
             <div style="display:flex;align-items:center;gap:12px;"><span class="mi-icon"><svg width="18" height="18"
                   class="svg-ic" aria-hidden="true">
                   <use href="#ic-phone" />
@@ -709,7 +709,7 @@
         <!-- TABLET -->
         <div class="mob-sub-accordion">
           <button class="mob-sub-accordion-toggle"
-            onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')" type="button">
+            onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open');this.setAttribute('aria-expanded',this.classList.contains('open'))" type="button" aria-expanded="false">
             <div style="display:flex;align-items:center;gap:12px;"><span class="mi-icon"><svg width="18" height="18"
                   class="svg-ic" aria-hidden="true">
                   <use href="#ic-tablet" />
@@ -732,7 +732,7 @@
         <!-- AUDIO -->
         <div class="mob-sub-accordion">
           <button class="mob-sub-accordion-toggle"
-            onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')" type="button">
+            onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open');this.setAttribute('aria-expanded',this.classList.contains('open'))" type="button" aria-expanded="false">
             <div style="display:flex;align-items:center;gap:12px;"><span class="mi-icon"><svg width="18" height="18"
                   class="svg-ic" aria-hidden="true">
                   <use href="#ic-headphones" />
@@ -757,7 +757,7 @@
         <!-- TV -->
         <div class="mob-sub-accordion">
           <button class="mob-sub-accordion-toggle"
-            onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')" type="button">
+            onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open');this.setAttribute('aria-expanded',this.classList.contains('open'))" type="button" aria-expanded="false">
             <div style="display:flex;align-items:center;gap:12px;"><span class="mi-icon"><svg width="18" height="18"
                   class="svg-ic" aria-hidden="true">
                   <use href="#ic-tv" />
@@ -2079,7 +2079,7 @@
               <div class="cs-num" id="csn3">3</div><span>Плащане</span>
             </div>
           </div>
-          <button type="button" class="checkout-close-btn" data-action="closeCheckoutPage">× Затвори</button>
+          <button type="button" class="checkout-close-btn" data-action="closeCheckoutPage" title="Обратно към магазина">‹</button>
         </div>
 
         <div class="checkout-body">
@@ -2239,13 +2239,13 @@
                     </datalist>
                   </div>
                   <div class="ck-row2">
-                    <div class="ck-field"><label>Адрес *</label><input class="ck-input" id="ckAddr"
+                    <div class="ck-field"><label for="ckAddr">Адрес *</label><input class="ck-input" id="ckAddr"
                         placeholder="ул. Примерна 1" onblur="ckValidateField(this)" autocomplete="street-address"></div>
-                    <div class="ck-field"><label>Пощ. код</label><input class="ck-input" id="ckZip" placeholder="5000"
+                    <div class="ck-field"><label for="ckZip">Пощ. код</label><input class="ck-input" id="ckZip" placeholder="5000"
                         autocomplete="postal-code"></div>
                   </div>
                 </div>
-                <div class="ck-field"><label>Бележка към поръчка</label><input class="ck-input" id="ckNote"
+                <div class="ck-field"><label for="ckNote">Бележка към поръчка</label><input class="ck-input" id="ckNote"
                     placeholder="Допълнителна информация..."></div>
                 <div class="ck-step-nav">
                   <button type="button" class="ck-next-btn" onclick="ckNextStep(2)">Продължи към плащане ›</button>
@@ -2276,14 +2276,14 @@
                       <span class="card-icon">MC</span>
                       <span class="card-icon">Maestro</span>
                     </div>
-                    <div class="ck-field"><label>Номер на карта *</label><input class="ck-input" id="ckCardNum"
+                    <div class="ck-field"><label for="ckCardNum">Номер на карта *</label><input class="ck-input" id="ckCardNum"
                         placeholder="1234 5678 9012 3456" maxlength="19" oninput="formatCardNum(this)"></div>
                     <div class="ck-row3">
-                      <div class="ck-field"><label>Картодържател *</label><input class="ck-input" id="ckCardName"
+                      <div class="ck-field"><label for="ckCardName">Картодържател *</label><input class="ck-input" id="ckCardName"
                           placeholder="IVAN PETROV"></div>
-                      <div class="ck-field"><label>Валидност *</label><input class="ck-input" id="ckCardExp"
+                      <div class="ck-field"><label for="ckCardExp">Валидност *</label><input class="ck-input" id="ckCardExp"
                           placeholder="MM/YY" maxlength="5" oninput="formatExpiry(this)"></div>
-                      <div class="ck-field"><label>CVV *</label><input class="ck-input" id="ckCardCvv" placeholder="123"
+                      <div class="ck-field"><label for="ckCardCvv">CVV *</label><input class="ck-input" id="ckCardCvv" placeholder="123"
                           maxlength="3" type="password"></div>
                     </div>
                   </div>

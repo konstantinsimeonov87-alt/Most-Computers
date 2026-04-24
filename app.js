@@ -12799,9 +12799,9 @@ function makeCard(p,small=false){
         ${p.stock!==false?`<div class="card-delivery-hint">📦 Доставка до 2 работни дни</div>`:''}
         <button type="button" class="add-cart-btn" id="cb-${p.id}" onclick="addToCart(${p.id})" ${p.stock===false?'disabled':''}><svg width="15" height="15" class="svg-ic" aria-hidden="true"><use href="#ic-cart"/></svg> ${p.stock===false?'Изчерпан':'Добави в кошница'}</button>
         <div class="row-gap-6 card-secondary-btns" style="margin-top:6px;">
-          <button type="button" class="product-quick-view-btn" onclick="openProductPage(${p.id})" title="Бърз преглед" style="flex:1;flex-direction:column;gap:3px;"><svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-eye"/></svg><span style="font-size:10px;color:var(--muted);font-weight:500;">Преглед</span></button>
-          <button type="button" onclick="openQuickOrder(${p.id})" title="Бърза поръчка" style="flex:1;flex-direction:column;gap:3px;background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:9px 10px;transition:all 0.2s;display:flex;align-items:center;justify-content:center;" onmouseover="this.style.background='var(--primary-light)'" onmouseout="this.style.background='var(--bg)'"><svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-bolt"/></svg><span style="font-size:10px;color:var(--muted);font-weight:500;">Бърза поръчка</span></button>
-          <button type="button" id="cmp-btn-${p.id}" onclick="toggleCompare(${p.id},!compareList.includes(${p.id}))" title="Сравни" style="flex:1;flex-direction:column;gap:3px;background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:9px 10px;transition:all 0.2s;display:flex;align-items:center;justify-content:center;" onmouseover="this.style.background='var(--primary-light)'" onmouseout="this.style.background=compareList.includes(${p.id})?'var(--primary-light)':'var(--bg)'"><svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-compare"/></svg><span style="font-size:10px;color:var(--muted);font-weight:500;">Сравни</span></button>
+          <button type="button" class="card-sec-btn product-quick-view-btn" onclick="openProductPage(${p.id})" title="Бърз преглед"><svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-eye"/></svg><span class="card-sec-btn-label">Преглед</span></button>
+          <button type="button" class="card-sec-btn" onclick="openQuickOrder(${p.id})" title="Бърза поръчка"><svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-bolt"/></svg><span class="card-sec-btn-label">Бърза поръчка</span></button>
+          <button type="button" class="card-sec-btn" id="cmp-btn-${p.id}" onclick="toggleCompare(${p.id},!compareList.includes(${p.id}))" title="Сравни"><svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-compare"/></svg><span class="card-sec-btn-label">Сравни</span></button>
         </div>
       </div>
     </div>
@@ -12924,12 +12924,6 @@ function syncBnCartBadge() {
 
 // ===== DARK MODE =====
 (function(){
-  // On mobile screens, always force light mode and clear any saved dark preference
-  if (window.innerWidth <= 768) {
-    document.body.classList.remove('dark');
-    try { localStorage.setItem('mc_dark', '0'); } catch(e){}
-    return;
-  }
   const saved = localStorage.getItem('mc_dark');
   if(saved === '1') document.body.classList.add('dark');
 })();
@@ -17195,6 +17189,9 @@ function openProductPage(id) {
   if (!document.getElementById('catPage')?.classList.contains('open')) {
     _pdpScrollY = window.scrollY || document.documentElement.scrollTop;
   }
+  // Hide main sr-only H1 so only the product H1 is active for screen readers
+  const mainH1 = document.querySelector('main h1.sr-only');
+  if (mainH1) mainH1.setAttribute('aria-hidden', 'true');
   pdpProductId = id;
   pdpQtyVal = 1;
   addToRecentlyViewed(id);
@@ -17525,6 +17522,9 @@ function closeProductPage() {
   pdpSearchDropClose();
   const _st = document.getElementById('pdpScrollTop');
   if (_st) _st.style.display = 'none';
+  // Restore main H1 visibility for screen readers
+  const mainH1 = document.querySelector('main h1.sr-only');
+  if (mainH1) mainH1.removeAttribute('aria-hidden');
   document.getElementById('pdpBackdrop').classList.remove('open');
   // Keep body locked if cat-page is still open
   if (!document.getElementById('catPage')?.classList.contains('open')) {

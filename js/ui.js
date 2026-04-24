@@ -113,12 +113,6 @@ function syncBnCartBadge() {
 
 // ===== DARK MODE =====
 (function(){
-  // On mobile screens, always force light mode and clear any saved dark preference
-  if (window.innerWidth <= 768) {
-    document.body.classList.remove('dark');
-    try { localStorage.setItem('mc_dark', '0'); } catch(e){}
-    return;
-  }
   const saved = localStorage.getItem('mc_dark');
   if(saved === '1') document.body.classList.add('dark');
 })();

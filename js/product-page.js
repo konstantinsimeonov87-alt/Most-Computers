@@ -13,6 +13,9 @@ function openProductPage(id) {
   if (!document.getElementById('catPage')?.classList.contains('open')) {
     _pdpScrollY = window.scrollY || document.documentElement.scrollTop;
   }
+  // Hide main sr-only H1 so only the product H1 is active for screen readers
+  const mainH1 = document.querySelector('main h1.sr-only');
+  if (mainH1) mainH1.setAttribute('aria-hidden', 'true');
   pdpProductId = id;
   pdpQtyVal = 1;
   addToRecentlyViewed(id);
@@ -343,6 +346,9 @@ function closeProductPage() {
   pdpSearchDropClose();
   const _st = document.getElementById('pdpScrollTop');
   if (_st) _st.style.display = 'none';
+  // Restore main H1 visibility for screen readers
+  const mainH1 = document.querySelector('main h1.sr-only');
+  if (mainH1) mainH1.removeAttribute('aria-hidden');
   document.getElementById('pdpBackdrop').classList.remove('open');
   // Keep body locked if cat-page is still open
   if (!document.getElementById('catPage')?.classList.contains('open')) {

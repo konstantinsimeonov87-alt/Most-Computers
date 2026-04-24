@@ -2346,7 +2346,7 @@ const products = [
    specs:{'Чипсет':'AMD/Intel B650','Памет':'4× DDR5','SATA3':'4×SATA3','RAID':'Да','M.2':'2xM2','PCIe x16':'2×PCIEx16','PCIe x1':'1xPCIEx1','Изходи':'HDMI / DP','Форм фактор':'ATX','Сокет':'AM5'},
    rating:4.4,rv:0,reviews:[],
    desc:'ASUS дънна платка ASUS TUF GAMING B650M-PLUS WIF.',
-   img:'https://portal.mostbg.com/api/images/imageFileData/42331.png',stock:false},
+   img:'https://portal.mostbg.com/api/images/imageFileData/42331.png',stock:true},
 
   {id:330,name:'ASUS TUF GAMING B650M-PLUS',brand:'ASUS',cat:'components',subcat:'motherboard',
    price:330,old:null,pct:null,badge:null,emoji:'⚙️',sku:'90MB1BG0-M0EAY0',ean:'4711081912392',
@@ -2486,7 +2486,7 @@ const products = [
    specs:{'Чипсет':'AMD/Intel X870','Памет':'4× DDR5','SATA3':'4×SATA3','RAID':'Да','M.2':'4xM2','PCIe x16':'2×PCIEx16','PCIe x1':'1xPCIEx1','Изходи':'HDMI','Форм фактор':'ATX','Сокет':'AM5'},
    rating:4.4,rv:0,reviews:[],
    desc:'ASUS дънна платка ASUS TUF GAMIN X870E-PLUS WIF7.',
-   img:'https://portal.mostbg.com/api/images/imageFileData/48227.png',stock:false},
+   img:'https://portal.mostbg.com/api/images/imageFileData/48227.png',stock:true},
 
   {id:350,name:'ASUS ROG STRIX X870E-E GAM WIF',brand:'ASUS',cat:'components',subcat:'motherboard',
    price:987,old:null,pct:null,badge:null,emoji:'⚙️',sku:'90MB1IB0-M0EAY0',ean:'4711387724163',
@@ -2507,7 +2507,7 @@ const products = [
    specs:{'Форм фактор':'ATX','Сокет':'AM5'},
    rating:4.4,rv:0,reviews:[],
    desc:'ASUS дънна платка ASUS ROG CROSSHAIR X870E HERO.',
-   img:'https://portal.mostbg.com/api/images/imageFileData/48242.png',stock:false},
+   img:'https://portal.mostbg.com/api/images/imageFileData/48242.png',stock:true},
 
   {id:353,name:'ASUS X870 MAX GAMING WIFI7 W',brand:'ASUS',cat:'components',subcat:'motherboard',
    price:613,old:null,pct:null,badge:null,emoji:'⚙️',sku:'90MB1LZ0-M0EAY0',ean:'4711636007856',
@@ -2591,7 +2591,7 @@ const products = [
    specs:{'Чипсет':'AMD/Intel B760','Памет':'2× DDR4','SATA3':'4×SATA3','RAID':'Да','M.2':'2xM2','PCIe x16':'1×PCIEx16','PCIe x1':'2xPCIEx1','Изходи':'HDMI / VGA','Форм фактор':'ATX','Сокет':'LGA1700'},
    rating:4.4,rv:0,reviews:[],
    desc:'ASUS дънна платка ASUS PRIME B760M-K D4.',
-   img:'https://portal.mostbg.com/api/images/imageFileData/33672.png',stock:false},
+   img:'https://portal.mostbg.com/api/images/imageFileData/33672.png',stock:true},
 
   {id:365,name:'ASUS PRIME B760M-A WIFI D4',brand:'ASUS',cat:'components',subcat:'motherboard',
    price:206,old:null,pct:null,badge:null,emoji:'⚙️',sku:'90MB1CX0-M1EAY0',ean:'4711081982661',
@@ -2647,14 +2647,14 @@ const products = [
    specs:{'Памет':'4× DDR4','SATA3':'4×SATA3','RAID':'Да','M.2':'3xM2','PCIe x16':'2×PCIEx16','PCIe x1':'2xPCIEx1','Изходи':'HDMI / DP / VGA','Форм фактор':'ATX','Сокет':'LGA1700'},
    rating:4.4,rv:0,reviews:[],
    desc:'ASUS дънна платка ASUS PRIME B760-PLUS D4.',
-   img:'https://portal.mostbg.com/api/images/imageFileData/33677.png',stock:false},
+   img:'https://portal.mostbg.com/api/images/imageFileData/33677.png',stock:true},
 
   {id:373,name:'ASUS PRIME B760-PLUS /1700',brand:'ASUS',cat:'components',subcat:'motherboard',
    price:196,old:null,pct:null,badge:null,emoji:'⚙️',sku:'90MB1EF0-M1EAY0',ean:'4711387102985',
    specs:{'Чипсет':'AMD/Intel B760','Памет':'4× DDR5','SATA3':'4×SATA3','RAID':'Да','M.2':'3xM2','PCIe x16':'2×PCIEx16','PCIe x1':'2xPCIEx1','Изходи':'HDMI / DP / VGA','Форм фактор':'ATX','Сокет':'LGA1700'},
    rating:4.4,rv:0,reviews:[],
    desc:'ASUS дънна платка ASUS PRIME B760-PLUS /1700.',
-   img:'https://portal.mostbg.com/api/images/imageFileData/35101.png',stock:false},
+   img:'https://portal.mostbg.com/api/images/imageFileData/35101.png',stock:true},
 
   {id:374,name:'ASUS TUF GAMIN B760-PLUS WIFI',brand:'ASUS',cat:'components',subcat:'motherboard',
    price:342,old:null,pct:null,badge:null,emoji:'⚙️',sku:'90MB1ER0-M1EAY0',ean:'4711387009499',
@@ -2717,7 +2717,7 @@ const products = [
    specs:{'Чипсет':'AMD/Intel B860','Памет':'4× DDR5','SATA3':'4×SATA3','RAID':'Да','M.2':'3xM2','PCIe x16':'1×PCIEx16','PCIe x1':'1xPCIEx1','Изходи':'HDMI / DP','Форм фактор':'ATX','Сокет':'LGA1700'},
    rating:4.4,rv:0,reviews:[],
    desc:'ASUS дънна платка ASUS TUF GAMIN B860M-PLUS WIFI.',
-   img:'https://portal.mostbg.com/api/images/imageFileData/45493.png',stock:false},
+   img:'https://portal.mostbg.com/api/images/imageFileData/45493.png',stock:true},
 
   {id:383,name:'ASUS PRIME B860-PLUS WIFI',brand:'ASUS',cat:'components',subcat:'motherboard',
    price:352,old:null,pct:null,badge:null,emoji:'⚙️',sku:'90MB1K50-M0EAY0',ean:'4711387814697',
@@ -2780,7 +2780,7 @@ const products = [
    specs:{'Форм фактор':'ATX','Сокет':'LGA1700'},
    rating:4.4,rv:0,reviews:[],
    desc:'ASUS дънна платка ASUS ROG STRIX Z890-F GAM WIFI.',
-   img:'https://portal.mostbg.com/api/images/imageFileData/48267.png',stock:false},
+   img:'https://portal.mostbg.com/api/images/imageFileData/48267.png',stock:true},
 
   {id:392,name:'ASUS ROG STRIX Z890-E GAM WIFI',brand:'ASUS',cat:'components',subcat:'motherboard',
    price:902,old:null,pct:null,badge:null,emoji:'⚙️',sku:'90MB1IM0-M0EAY0',ean:'4711387756133',
@@ -9096,7 +9096,7 @@ const products = [
    specs:{'Връзка':'Кабелна','Тип':'Мембранна'},
    rating:4.2,rv:0,reviews:[],
    desc:'ASUS ASUS U2000 KB+MOUSE BLACK W11 — клавиатура мембранна, кабелна.',
-   img:'https://images.icecat.biz/img/gallery_mediums/b49fc11f2362b503c299c092f054ae02be3e74b9.jpg',stock:true},
+   img:'https://images.icecat.biz/img/gallery_mediums/b49fc11f2362b503c299c092f054ae02be3e74b9.jpg',stock:false},
 
   {id:1293,name:'ASUS W5000 WL KB+MOUSE BLACK',brand:'ASUS',cat:'peripherals',subcat:'keyboard',
    price:65,old:null,pct:null,badge:null,emoji:'⌨',sku:'90XB0430-BKM3K0',ean:null,

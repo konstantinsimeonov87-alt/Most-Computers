@@ -2430,7 +2430,7 @@ var products = [
    specs:{'Чипсет':'AMD/Intel X870','Памет':'4× DDR5','SATA3':'4×SATA3','RAID':'Да','M.2':'4xM2','PCIe x16':'2×PCIEx16','Изходи':'HDMI','Форм фактор':'ATX','Сокет':'AM5'},
    rating:4.4,rv:0,reviews:[],
    desc:'ASUS дънна платка ASUS PRIME X870-P WIFI /AM5.',
-   img:'https://portal.mostbg.com/api/images/imageFileData/42338.png',stock:false},
+   img:'https://portal.mostbg.com/api/images/imageFileData/42338.png',stock:true},
 
   {id:348,name:'ASUS TUF GAMING X870-PLUS WIFI',brand:'ASUS',cat:'components',subcat:'motherboard',
    price:647,old:null,pct:null,badge:null,emoji:'⚙️',sku:'90MB1IU0-M0EAY0',ean:'4711387723609',
@@ -3111,7 +3111,7 @@ var products = [
    specs:{'Сокет':'FCLGA1700','Ядра':'14','Нишки':'20','Честота':'Max Turbo Frequency:5.3 GHz; Performance-core Max Turbo Frequency:5.3 GHz; Efficient-core Max Turbo ','Кеш':'20 MB','Памет':'Макс: 192 GB | Тип: Up to DDR5 5600 MT/s; Up to DDR4 3200 MT/s | Канали: 2 | 89.6 GB/s','Интегрирана графика':'UHD Graphics 770','TDP':'125 W'},
    rating:4.5,rv:0,reviews:[],
    desc:'Intel I5-14600K 5.3GHZ 20MB BOX 1700 — сокет FCLGA1700, 14 ядра, TDP 125 W.',
-   img:'https://portal.mostbg.com/api/images/imageFileData/37391.jpeg',stock:true},
+   img:'https://portal.mostbg.com/api/images/imageFileData/37391.jpeg',stock:false},
 
   {id:445,name:'INTEL I5-14600K 5.3GHZ 20M TRAY 1700',brand:'Intel',cat:'components',subcat:'cpu',
    price:388,old:null,pct:null,badge:null,emoji:'🔵',sku:'CM8071504821015',ean:null,
@@ -4710,7 +4710,7 @@ var products = [
    specs:{'Тип':'DDR5','Капацитет':'16 GB','Честота':'6000 MHz','Латентност':'CL36','Форм фактор':'DIMM','Напрежение':'1.4V'},
    rating:4.4,rv:0,reviews:[],
    desc:'Kingston 16G DDR5 6000 KING EXPO WH — DDR5 DIMM 6000 MHz, 16 GB, CL36.',
-   img:'https://portal.mostbg.com/api/images/imageFileData/100203.png',stock:true},
+   img:'https://portal.mostbg.com/api/images/imageFileData/100203.png',stock:false},
 
   {id:673,name:'16G DDR5 6400 FURY BEAST BLK',brand:'Kingston',cat:'components',subcat:'ram',
    price:120,old:null,pct:null,badge:null,emoji:'🟣',sku:'KF564C32BB-16',ean:null,
@@ -8234,7 +8234,7 @@ var products = [
    specs:{'Размер':'27\'','Панел':'IPS','Резолюция':'1920×1080 (FHD)','Честота':'100 Hz','Отклик':'1ms','Тонколони':'Да'},
    rating:4.3,rv:0,reviews:[],
    desc:'MSI MSI 27 PRO MP273AP — 27" монитор, IPS, 1920×1080 (FHD), 100 Hz.',
-   img:'https://portal.mostbg.com/api/images/imageFileData/47454.png',stock:true},
+   img:'https://portal.mostbg.com/api/images/imageFileData/47454.png',stock:false},
 
   {id:1176,name:'MSI 27 MAG 274F',brand:'MSI',cat:'monitors',subcat:'monitor',
    price:239,old:null,pct:null,badge:null,emoji:'🎮',sku:'9S6-3CE41H-001',ean:'4711377277105',
@@ -9054,7 +9054,7 @@ var products = [
    specs:{'Връзка':'Кабелна','Тип':'Мембранна'},
    rating:4.2,rv:0,reviews:[],
    desc:'ASUS ASUS U2000 KB+MOUSE BLACK W11 — клавиатура мембранна, кабелна.',
-   img:'https://portal.mostbg.com/api/images/imageFileData/100686.png',stock:false},
+   img:'https://portal.mostbg.com/api/images/imageFileData/100686.png',stock:true},
 
   {id:1293,name:'ASUS W5000 WL KB+MOUSE BLACK',brand:'ASUS',cat:'peripherals',subcat:'keyboard',
    price:65,old:null,pct:null,badge:null,emoji:'⌨',sku:'90XB0430-BKM3K0',ean:null,
@@ -11016,7 +11016,7 @@ var products = [
    specs:{'Тип':'Gaming стол','Материал':'Mesh'},
    rating:4.2,rv:0,reviews:[],
    desc:'Fractal Design FD REFINE GAMING CHAIR MESH DK — gaming стол.',
-   img:'https://portal.mostbg.com/api/images/imageFileData/43432.jpeg',stock:true},
+   img:'https://portal.mostbg.com/api/images/imageFileData/43432.jpeg',stock:false},
 
   {id:1573,name:'FD REFINE GAMING CHAIR MESH LI',brand:'Fractal Design',cat:'accessories',subcat:'chair',
    price:739,old:null,pct:null,badge:null,emoji:'🪑',sku:'FD-CH-RE1M-02',ean:null,
@@ -11728,7 +11728,7 @@ const _laptops = [
   {id:2194,name:'ASUS X1504ZA-NJ886',brand:'Asus',cat:'laptops',subcat:null,price:874,old:null,pct:null,badge:null,emoji:'💻',sku:'90NB1021-M01960',ean:'4711387637760',specs:{'Процесор':'Intel Core i5-1235U Processor 1.3 GHz (12M Cache, up to 4.4 GHz, 10 cores)','RAM':'16 (8GB DDR4 on board + 8GB DDR4 SO-DIMM) GB, On board memory: 8GB DDR4 on board','GPU':'Intel Iris X Graphics','Екран':'15.60 ", 1920 X 1080, FHD/LED/60Hz/Anti-glare display','SSD':'512 GB','Тегло':'1.70 kg','Батерия':'42WHrs, 3S1P, 3-cell Li-ion'},rating:4.7,rv:18,reviews:[],desc:'ASUS X1504ZA-NJ886 — Intel Core i5-1235U Processor 1.3 GHz (12M Cache, up to 4.4 GHz, 10 cores), 16 (8GB DDR4 on board + 8GB DDR4 SO-DIMM) GB RAM, Екран 15.60 "',img:'https://portal.mostbg.com/api/images/imageFileData/40496.jpeg',stock:false},
   {id:2195,name:'ASUS X1605VA-MB588',brand:'Asus',cat:'laptops',subcat:null,price:1039,old:null,pct:null,badge:null,emoji:'💻',sku:'90NB10N3-M00T00',ean:'4711387510636',specs:{'Процесор':'Intel Core i5-1335U Processor 1.3 GHz (12MB Cache, up to 4.6 GHz, 10 cores, 12 Threads)','RAM':'8 GB, DDR4 16GB','GPU':'Intel Iris X Graphics','Екран':'16.00 (inch), 1920 x 1200, 16:10 aspect ratio','SSD':'512GB M.2 NVMe PCIe 4.0 SSD','Тегло':'1.88 Kg','Батерия':'42WHrs, 3S1P, 3-cell Li-ion'},rating:4.9,rv:26,reviews:[],desc:'ASUS X1605VA-MB588 — Intel Core i5-1335U Processor 1.3 GHz (12MB Cache, up to 4.6 GHz, 10 cores, 12 Threads), 8 GB RAM, Екран 16.00 (inch)',img:'https://portal.mostbg.com/api/images/imageFileData/41477.jpeg',stock:false},
   {id:2196,name:'ASUS X1605VA-MB1530',brand:'Asus',cat:'laptops',subcat:null,price:783,old:null,pct:null,badge:null,emoji:'💻',sku:'90NB10N3-M020E0',ean:'4711387841310',specs:{'Процесор':'Intel Core i5-1334U Processor 1.3 GHz (12MB Cache, up to 4.6 GHz, 10 cores, 12 Threads)','RAM':'16GB, 8GB DDR4 on board','GPU':'Intel Iris X Graphics','Екран':'16", 1920 x 1200, WUXGA, IPS-level Pane, Anti-glare display, 16:10, 60Hz, 300nits, 45% NTSC, T V Rheinland-certified','SSD':'512GB','ОС':'None','Тегло':'1.88 kg','Батерия':'42WHrs, 3S1P, 3-cell Li-ion'},rating:4.3,rv:3,reviews:[],desc:'ASUS X1605VA-MB1530 — Intel Core i5-1334U Processor 1.3 GHz (12MB Cache, up to 4.6 GHz, 10 cores, 12 Threads), 16GB RAM, Екран 16"',img:'https://portal.mostbg.com/api/images/imageFileData/45705.png',stock:false},
-  {id:2197,name:'ASUS X1605VA-SH2192',brand:'Asus',cat:'laptops',subcat:null,price:1132,old:null,pct:null,badge:null,emoji:'💻',sku:'90NB10N2-M02NB0',ean:'4711636168472',specs:{'Процесор':'Intel Core i5-13420H Processor 2.1 GHz (12MB Cache, up to 4.6 GHz, 8 cores, 12 Threads)','RAM':'16GB, 8GB DDR4 on board','GPU':'Intel UHD Graphics','Екран':'16.0", 1920 x 1200, FHD, OLED 16:10 aspect ratio, LED Backlit, 0.2ms response time, 60Hz refresh rate, 300nits, 95% DCI-P3 color gamut, 1,000,000:1, 1.07 billion colors, Glossy display, 70% less harmful blue light, T V Rheinland-certified','SSD':'1TB','ОС':'None','Тегло':'1.88 kg','Батерия':'50WHrs, 3S1P, 3-cell Li-ion'},rating:3.9,rv:23,reviews:[],desc:'ASUS X1605VA-SH2192 — Intel Core i5-13420H Processor 2.1 GHz (12MB Cache, up to 4.6 GHz, 8 cores, 12 Threads), 16GB RAM, Екран 16.0"',img:'https://portal.mostbg.com/api/images/imageFileData/48919.jpeg',stock:true},
+  {id:2197,name:'ASUS X1605VA-SH2192',brand:'Asus',cat:'laptops',subcat:null,price:1132,old:null,pct:null,badge:null,emoji:'💻',sku:'90NB10N2-M02NB0',ean:'4711636168472',specs:{'Процесор':'Intel Core i5-13420H Processor 2.1 GHz (12MB Cache, up to 4.6 GHz, 8 cores, 12 Threads)','RAM':'16GB, 8GB DDR4 on board','GPU':'Intel UHD Graphics','Екран':'16.0", 1920 x 1200, FHD, OLED 16:10 aspect ratio, LED Backlit, 0.2ms response time, 60Hz refresh rate, 300nits, 95% DCI-P3 color gamut, 1,000,000:1, 1.07 billion colors, Glossy display, 70% less harmful blue light, T V Rheinland-certified','SSD':'1TB','ОС':'None','Тегло':'1.88 kg','Батерия':'50WHrs, 3S1P, 3-cell Li-ion'},rating:3.9,rv:23,reviews:[],desc:'ASUS X1605VA-SH2192 — Intel Core i5-13420H Processor 2.1 GHz (12MB Cache, up to 4.6 GHz, 8 cores, 12 Threads), 16GB RAM, Екран 16.0"',img:'https://portal.mostbg.com/api/images/imageFileData/48919.jpeg',stock:false},
   {id:2198,name:'ASUS X1605VA-SH2222W',brand:'Asus',cat:'laptops',subcat:null,price:1649,old:null,pct:null,badge:null,emoji:'💻',sku:'90NB10N3-M02PB0',ean:'4711636168465',specs:{'Процесор':'Intel Core i9-13900H Processor 2.6 GHz (24MB Cache, up to 5.4 GHz, 14 cores, 20 Threads)','RAM':'16GB, 8GB DDR4 on board','GPU':'Intel Iris X Graphics','Екран':'16.0", 1920 x 1200, FHD, OLED 16:10 aspect ratio, LED Backlit, 0.2ms response time, 60Hz refresh rate, 300nits, 95% DCI-P3 color gamut, 1,000,000:1, 1.07 billion colors, Glossy display, 70% less harmful blue light, T V Rheinland-certified','SSD':'1TB','ОС':'Windows 11 Home - ASUS recommends Windows 11 Pro for business;1-month trial for new Microsoft 365 customers. Credit card required','Тегло':'1.88 kg','Батерия':'50WHrs, 3S1P, 3-cell Li-ion'},rating:4.1,rv:14,reviews:[],desc:'ASUS X1605VA-SH2222W — Intel Core i9-13900H Processor 2.6 GHz (24MB Cache, up to 5.4 GHz, 14 cores, 20 Threads), 16GB RAM, Екран 16.0"',img:'https://portal.mostbg.com/api/images/imageFileData/48926.png',stock:false},
   {id:2199,name:'ASUS X1605VA-SH2557',brand:'Asus',cat:'laptops',subcat:null,price:1814,old:null,pct:null,badge:null,emoji:'💻',sku:'90NB13W2-M00PT0',ean:'4711636420860',specs:{'Процесор':'Intel Core 9 Processor 270H 2.7 GHz (24MB Cache, up to 5.8 GHz, 14 cores, 20 Threads)','RAM':'24GB, 8GB DDR5 on board','GPU':'Intel Graphics','Екран':'16", 1920 x 1200','SSD':'1TB','ОС':'None','Тегло':'1.88 kg','Батерия':'50WHrs, 3S1P, 3-cell Li-ion'},rating:4.9,rv:17,reviews:[],desc:'ASUS X1605VA-SH2557 — Intel Core 9 Processor 270H 2.7 GHz (24MB Cache, up to 5.8 GHz, 14 cores, 20 Threads), 24GB RAM, Екран 16"',img:'https://portal.mostbg.com/api/images/imageFileData/52625.png',stock:true},
   {id:2200,name:'ASUS X1607QA-MB006W',brand:'Asus',cat:'laptops',subcat:null,price:1324,old:null,pct:null,badge:null,emoji:'💻',sku:'90NB15Z2-M006F0',ean:'4711387873601',specs:{'Процесор':'Snapdragon® X X1 26 100 Processor (30MB Cache, up to 2.97GHz, 8 cores, 8 Threads); Qualcomm® Hexagon™ NPU up to 45TOPS','RAM':'16GB, LPDDR5X on board','GPU':'Qualcomm Adreno GPU','Екран':'16.0", 1920 x 1200, WUXGA, LED Backlit, IPS-level Panel, Anti-glare display, 16:10, 60Hz, 300nits, 45% NTSC color gamut','SSD':'512GB','ОС':'Windows 11 Home - ASUS recommends Windows 11 Pro for business;Office: 1-month trial for new Microsoft 365 customers. Credit card required','Тегло':'1.76 kg','Батерия':'50WHrs, 3S1P, 3-cell Li-ion'},rating:3.9,rv:28,reviews:[],desc:'ASUS X1607QA-MB006W — Snapdragon® X X1 26 100 Processor (30MB Cache, up to 2.97GHz, 8 cores, 8 Threads); Qualcomm® Hexagon™ NPU up to 45TOPS, 16GB RAM, Qualcomm Adreno GPU',img:'https://portal.mostbg.com/api/images/imageFileData/45219.png',stock:true},

@@ -2528,7 +2528,7 @@ var products = [
    specs:{'Чипсет':'AMD/Intel B660','Памет':'4× DDR4','SATA3':'4×SATA3','M.2':'3xM2','PCIe x16':'2×PCIEx16','PCIe x1':'2xPCIEx1','Изходи':'HDMI / DP / VGA','Форм фактор':'ATX','Сокет':'LGA1700'},
    rating:4.4,rv:0,reviews:[],
    desc:'ASUS дънна платка ASUS PRIME B660-PLUS D4 /1700.',
-   img:'https://portal.mostbg.com/api/images/imageFileData/33058.png',stock:false},
+   img:'https://portal.mostbg.com/api/images/imageFileData/33058.png',stock:true},
 
   {id:362,name:'ASUS PRIME B760M-PLUS',brand:'ASUS',cat:'components',subcat:'motherboard',
    price:266,old:null,pct:null,badge:null,emoji:'⚙️',sku:'90MB1GY0-M0EAY0',ean:'4711387469910',

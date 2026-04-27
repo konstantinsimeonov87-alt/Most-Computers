@@ -6756,7 +6756,7 @@ var products = [
    specs:{'Капацитет':'500 GB','Интерфейс':'NVMe PCIe Gen4','Форм фактор':'M.2 2280'},
    rating:4.3,rv:0,reviews:[],
    desc:'Emtec EMTEC X400 500G M2 PCIE4 — NVMe SSD 500 GB, NVMe PCIe Gen4, M.2 2280.',
-   img:'https://portal.mostbg.com/api/images/imageFileData/45206.png',stock:false},
+   img:'https://portal.mostbg.com/api/images/imageFileData/45206.png',stock:true},
 
   {id:965,name:'EMTEC X410 4T M2 PCIE4',brand:'Emtec',cat:'components',subcat:'ssd',
    price:726,old:null,pct:null,badge:null,emoji:'⚡',sku:'ECSSD4TX410',ean:'3126170178923',

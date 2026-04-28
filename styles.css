@@ -1716,14 +1716,18 @@
  }
  .slide-img-wrap-4 {
    flex: 1;
-   height: 260px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
    pointer-events: none;
-   background-image: url('https://portal.mostbg.com/api/images/imageFileData/52423.png');
-   background-size: contain;
-   background-repeat: no-repeat;
-   background-position: center;
-   background-color: #141414;
-   background-blend-mode: multiply;
+ }
+ .slide-product-img-4 {
+   width: 100%;
+   max-width: 290px;
+   height: 260px;
+   object-fit: contain;
+   display: block;
+   filter: url(#removeWhiteBg) drop-shadow(0 6px 32px rgba(189,17,5,.5));
  }
 
  /* Slide-3 countdown */

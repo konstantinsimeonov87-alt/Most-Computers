@@ -575,7 +575,7 @@ function buildCpSidebar(cat) {
       </div>
     </div>`;
 
-  // ── Availability toggles (right after price) ──
+  // ── Availability toggles ──
   html += `<div class="sidebar-filter-block" style="border-bottom:1px solid var(--border);padding:16px;">
     <div class="sfb-title" style="font-size:12px;font-weight:800;color:var(--text2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;">📦 Наличност</div>
     <div class="stock-filter-list">

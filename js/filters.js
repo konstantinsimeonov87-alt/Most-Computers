@@ -925,7 +925,7 @@ function renderCatSpecFilters(cat, subcat) {
   let specs = (subcat && subcat !== 'all' && SUBCAT_SPEC_FILTERS[subcat])
     ? SUBCAT_SPEC_FILTERS[subcat]
     : CAT_SPEC_FILTERS[cat];
-  if (cat === 'components' && specs) specs = specs.filter(s => !['Тип','Socket','TDP'].includes(s.key));
+  if (cat === 'components') specs = [];
   if (!specs || !specs.length) {
     block.style.display = 'none';
     return;

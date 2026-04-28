@@ -142,10 +142,9 @@ const swPath = path.join(ROOT, 'sw.js');
 if (fs.existsSync(swPath)) {
   const newVer = require('crypto').randomBytes(4).toString('hex');
   let swSrc = fs.readFileSync(swPath, 'utf8');
-  swSrc = swSrc.replace(
-    /\/\/ Most Computers — Service Worker [a-f0-9]+\nconst CACHE = 'mc-[a-f0-9]+';/,
-    `// Most Computers — Service Worker ${newVer}\nconst CACHE = 'mc-${newVer}';`
-  );
+  swSrc = swSrc
+    .replace(/\/\/ Most Computers — Service Worker [a-f0-9]+/, `// Most Computers — Service Worker ${newVer}`)
+    .replace(/const CACHE = 'mc-[a-f0-9]+';/, `const CACHE = 'mc-${newVer}';`);
   fs.writeFileSync(swPath, swSrc);
   log(`sw.js cache version bumped → mc-${newVer}`);
 }

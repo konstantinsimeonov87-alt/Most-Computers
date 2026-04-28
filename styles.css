@@ -1727,7 +1727,7 @@
    height: 260px;
    object-fit: contain;
    display: block;
-   filter: url(#removeWhiteBg) drop-shadow(0 6px 32px rgba(189,17,5,.5));
+   filter: drop-shadow(0 6px 32px rgba(189,17,5,.5));
  }
 
  /* Slide-3 countdown */

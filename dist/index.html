@@ -1628,6 +1628,9 @@
         <div class="cat-item" role="button" tabindex="0" data-action="openCatPage('storage')" onmouseenter="megaMenuOpen(this,'storage')" onmouseleave="megaMenuClose()" ontouchstart="megaMenuTouchHandler(this,'storage',event)" onkeydown="if(event.key==='Enter'||event.key===' ') { event.preventDefault(); this.click(); }"><span class="cat-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-storage"/></svg></span> Съхранение <span class="cat-arrow">›</span></div>
       </div>
 
+      <!-- FILTERS (hidden on home page, shown when category selected) -->
+      <div id="sidebarFilters" class="sidebar-filters">
+
       <!-- PRICE SLIDER -->
       <div class="sidebar-filter-block">
         <div class="sfb-header" data-action="toggleSfb('sfb-price')">
@@ -1800,6 +1803,8 @@
         </div>
       </div>
 
+      </div><!-- /sidebarFilters -->
+
       <div class="sidebar-promo">
         <div class="sidebar-promo-title"><svg width="16" height="16" class="svg-ic" aria-hidden="true">
             <use href="#ic-truck" />
@@ -1866,6 +1871,47 @@
         <div class="hero-right-panel" id="heroRightPanel"></div>
       </div>
 
+      <!-- CATEGORY CARDS -->
+      <div class="hp-cats-section" id="hpCatsSection">
+        <div class="hp-cats-header">
+          <div class="hp-cats-title">🗂 Разгледай по категории</div>
+          <span class="hp-cats-all" data-action="openMegamenu">Всички категории →</span>
+        </div>
+        <div class="hp-cats-grid" id="hpCatsGrid"></div>
+      </div>
+
+      <!-- TRUST BAR -->
+      <div class="trust-bar">
+        <div class="trust-item">
+          <svg width="22" height="22" class="svg-ic trust-icon" aria-hidden="true"><use href="#ic-truck"/></svg>
+          <div class="trust-text">
+            <span class="trust-title">Безплатна доставка</span>
+            <span class="trust-sub">При поръчки над 100 €</span>
+          </div>
+        </div>
+        <div class="trust-item">
+          <svg width="22" height="22" class="svg-ic trust-icon" aria-hidden="true"><use href="#ic-shield"/></svg>
+          <div class="trust-text">
+            <span class="trust-title">24 месеца гаранция</span>
+            <span class="trust-sub">Официален сервиз</span>
+          </div>
+        </div>
+        <div class="trust-item">
+          <svg width="22" height="22" class="svg-ic trust-icon" aria-hidden="true"><use href="#ic-return"/></svg>
+          <div class="trust-text">
+            <span class="trust-title">14 дни връщане</span>
+            <span class="trust-sub">Без въпроси</span>
+          </div>
+        </div>
+        <div class="trust-item">
+          <svg width="22" height="22" class="svg-ic trust-icon" aria-hidden="true"><use href="#ic-check"/></svg>
+          <div class="trust-text">
+            <span class="trust-title">Сигурно плащане</span>
+            <span class="trust-sub">Карта, наложен платеж</span>
+          </div>
+        </div>
+      </div>
+
       <!-- FLASH SALE -->
       <div class="flash-sale-section section-wrap" id="sale">
         <div class="flash-header">
@@ -1886,25 +1932,16 @@
         <div class="products-row cols5" id="flashGrid"></div>
       </div>
 
-      <!-- TOP SEDMICHNI -->
+      <!-- BROWSE ALL PRODUCTS -->
       <div class="section-wrap" id="featured">
         <div class="section-header">
           <div class="section-header-left">
             <div class="section-accent"></div>
             <div>
-              <h2 class="section-title">Топ седмични намаления</h2>
-              <div class="section-subtitle">Най-купуваните продукти тази седмица</div>
+              <h2 class="section-title">Всички продукти</h2>
+              <div class="section-subtitle">Разгледай целия каталог или избери категория</div>
             </div>
           </div>
-          <a href="#" class="view-all-link" data-action="openCatPage('sale')">Виж всички →</a>
-        </div>
-        <!-- HP Category Cards -->
-        <div class="hp-cats-section" id="hpCatsSection">
-          <div class="hp-cats-header">
-            <div class="hp-cats-title">🗂 Разгледай по категории</div>
-            <span class="hp-cats-all" data-action="openMegamenu">Всички категории →</span>
-          </div>
-          <div class="hp-cats-grid" id="hpCatsGrid"></div>
         </div>
         <button type="button" class="mobile-filter-toggle" data-action="toggleMobileFilters" aria-label="Отвори филтри">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -1999,41 +2036,20 @@
         </div>
       </div>
 
-      <!-- СПЕЦИАЛНИ ОФЕРТИ -->
-      <div class="section-wrap">
+      <!-- BESTSELLERS -->
+      <div class="section-wrap" id="bestsellersSection">
         <div class="section-header">
           <div class="section-header-left">
-            <div class="section-accent" style="background:var(--sale)"></div>
+            <div class="section-accent" style="background:#7c3aed"></div>
             <div>
-              <h2 class="section-title"><svg width="16" height="16" class="svg-ic" aria-hidden="true">
-                  <use href="#ic-spark" />
-                </svg> Специални оферти</h2>
-              <div class="section-subtitle">Продукти с най-голямо намаление</div>
+              <h2 class="section-title">🏆 Най-продавани</h2>
+              <div class="section-subtitle">Продукти с най-висок рейтинг и най-много покупки</div>
             </div>
           </div>
-          <a href="#" class="view-all-link" data-action="openCatPage('sale')">Виж всички →</a>
+          <a href="#" class="view-all-link" data-action="openCatPage('all','all','bestseller')">Виж всички →</a>
         </div>
-        <div class="products-row" id="specialGrid"></div>
-        <div id="specialGridMore" style="display:none;text-align:center;margin-top:16px;">
-          <button type="button" class="load-more-btn" data-action="openCatPage('sale')">Виж всички намаления →</button>
-        </div>
+        <div class="products-row cols5" id="bestsellersGrid"></div>
       </div>
-
-      <!-- НАСКОРО НАМАЛЕНИ -->
-      <div class="section-wrap" id="recentlyDiscountedSection">
-        <div class="section-header">
-          <div class="section-header-left">
-            <div class="section-accent" style="background:#f59e0b"></div>
-            <div>
-              <h2 class="section-title">🔻 Наскоро намалени</h2>
-              <div class="section-subtitle">Продукти с най-прясно добавено намаление</div>
-            </div>
-          </div>
-          <a href="#" class="view-all-link" data-action="openCatPage('sale');">Виж всички →</a>
-        </div>
-        <div class="products-row" id="recentlyDiscountedGrid"></div>
-      </div>
-
 
       <!-- RECENTLY VIEWED -->
       <div class="recently-viewed-section" id="recentlyViewedSection" style="display:none">

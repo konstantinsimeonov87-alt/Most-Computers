@@ -2830,6 +2830,7 @@ function applyFilter(btn,cat){
   }
   // Breadcrumb
   if(typeof bcOnFilterCat==='function') bcOnFilterCat(cat);
+  updateSidebarFiltersVisibility();
   renderTopGrid();
 }
 function applySort(val){currentSort=val;topGridPage=1;renderTopGrid();}
@@ -2907,6 +2908,13 @@ function renderTopGrid(){
   compareList.forEach(id => { const cb = document.getElementById('cmp-' + id); if (cb) cb.checked = true; });
   updateLiveCount(list.length);
 }
+function updateSidebarFiltersVisibility() {
+  const el = document.getElementById('sidebarFilters');
+  if (!el) return;
+  const active = currentFilter && currentFilter !== 'all';
+  el.classList.toggle('visible', active);
+}
+
 function renderGrids(){
   const _inStock = p => p.stock !== false;
   const _flashProds=[...products].filter(p=>_inStock(p)&&p.old&&p.pct>0).sort((a,b)=>b.pct-a.pct).slice(0,5);
@@ -2914,13 +2922,13 @@ function renderGrids(){
   if(flashSection) flashSection.style.display=_flashProds.length?'':'none';
   const fg=document.getElementById('flashGrid'); if(fg) fg.innerHTML=_flashProds.map(p=>makeCard(p,true)).join('');
   renderTopGrid();
-  const _saleProds=products.filter(p=>_inStock(p)&&p.badge==='sale');
-  const sg=document.getElementById('specialGrid');
-  if(sg){
-    sg.innerHTML=_saleProds.slice(0,8).map(p=>makeCard(p)).join('');
-    const _sgMore=document.getElementById('specialGridMore');
-    if(_sgMore) _sgMore.style.display=_saleProds.length>8?'':'none';
-    sg.closest('.section-wrap').style.display=_saleProds.length?'':'none';
+  // Bestsellers grid — top rated products not tied to discounts
+  const bg=document.getElementById('bestsellersGrid');
+  if(bg){
+    const _best=[...products].filter(p=>_inStock(p)).sort((a,b)=>(b.rating*Math.log1p(b.rv||1))-(a.rating*Math.log1p(a.rv||1))).slice(0,5);
+    bg.innerHTML=_best.map(p=>makeCard(p,true)).join('');
+    const bs=document.getElementById('bestsellersSection');
+    if(bs) bs.style.display=_best.length?'':'none';
   }
   // Slide 1 — cheapest flash-sale product
   const _s1Prods = [...products].filter(p=>_inStock(p)&&p.old&&p.pct>0).sort((a,b)=>a.price-b.price);
@@ -3196,6 +3204,7 @@ function resetAllFilters() {
   applyAdvFilters();
   // Clear URL params
   if (typeof updateURL === 'function') updateURL();
+  updateSidebarFiltersVisibility();
 }
 
 // Adv filters applied inside getFilteredSorted directly (no override needed)
@@ -3955,6 +3964,7 @@ function readURLParams() {
       if (typeof renderCatSpecFilters === 'function') renderCatSpecFilters(currentFilter);
       if (typeof bcOnFilterCat === 'function') bcOnFilterCat(currentFilter);
     }
+    updateSidebarFiltersVisibility();
     renderTopGrid();
     updateActiveFiltersBar();
   }

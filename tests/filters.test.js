@@ -144,9 +144,8 @@ describe('renderGrids — видимост на секции', () => {
       <div id="sale" class="flash-sale-section"></div>
       <div id="flashGrid"></div>
       <div id="topGrid"></div>
-      <div class="section-wrap">
-        <div id="specialGrid"></div>
-        <div id="specialGridMore" style="display:none"></div>
+      <div id="bestsellersSection" class="section-wrap">
+        <div id="bestsellersGrid"></div>
       </div>
       <div id="newGrid"></div>
       <span id="topSortCount"></span>
@@ -188,16 +187,16 @@ describe('renderGrids — видимост на секции', () => {
     expect(document.getElementById('sale').style.display).not.toBe('none');
   });
 
-  test('Специални оферти секцията се крие при 0 sale продукти', () => {
-    global.products = PRODUCTS.filter(p => p.badge !== 'sale');
+  test('Bestsellers секцията се крие при 0 продукта', () => {
+    global.products = [];
     renderGrids();
-    expect(document.getElementById('specialGrid').closest('.section-wrap').style.display).toBe('none');
+    expect(document.getElementById('bestsellersSection').style.display).toBe('none');
   });
 
-  test('Специални оферти се показва при sale продукти', () => {
+  test('Bestsellers секцията се показва при налични продукти', () => {
     global.products = [...PRODUCTS];
     renderGrids();
-    expect(document.getElementById('specialGrid').closest('.section-wrap').style.display).not.toBe('none');
+    expect(document.getElementById('bestsellersSection').style.display).not.toBe('none');
   });
 });
 

@@ -22,6 +22,7 @@
     "jest": "^30.3.0",
     "jest-environment-jsdom": "^30.3.0",
     "jsdom": "^28.1.0",
+    "pngjs": "^7.0.0",
     "postcss": "^8.5.9",
     "purgecss": "^8.0.0"
   }

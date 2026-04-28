@@ -6,7 +6,15 @@
       "Skill(update-config)",
       "Skill(update-config:*)",
       "WebFetch(domain:konstantinsimeonov87-alt.github.io)",
-      "WebSearch"
+      "WebSearch",
+      "WebFetch(domain:mostcomputers.bg)",
+      "WebFetch(domain:most.traveldatabank.biz)",
+      "WebFetch(domain:portal.mostbg.com)",
+      "WebFetch(domain:www.mostcomputers.bg)",
+      "Read(//c/Users/user/Downloads/**)"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\user\\.claude\\projects\\c--Users-user-Desktop-New-folder\\memory"
     ]
   }
 }

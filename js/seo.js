@@ -782,8 +782,14 @@ function cpGetFiltered() {
   if (cpSaleOnly) list = list.filter(p => p.badge === 'sale' || p.old);
   if (cpNewOnly)  list = list.filter(p => p.badge === 'new');
   // Spec filters
+  const _типToSubcat = {'процесор':'cpu','видеокарта':'gpu','дънна платка':'motherboard','ram':'ram','ssd nvme':'ssd','hdd':'hdd','захранване':'psu','кутия':'case','охлаждане':'cooling'};
   Object.entries(cpSpecFilters).forEach(([key, vals]) => {
     if (!vals || !vals.size) return;
+    // 'Тип' filter for components maps label → subcat
+    if (key === 'Тип') {
+      const subcats = [...vals].map(v => _типToSubcat[v.toLowerCase()]).filter(Boolean);
+      if (subcats.length) { list = list.filter(p => subcats.includes(p.subcat)); return; }
+    }
     list = list.filter(p => {
       const sv = p.specs[key] || p.specs[Object.keys(p.specs).find(k => k.toLowerCase() === key.toLowerCase()) || ''] || '';
       if (sv) return [...vals].some(v => sv.toString().toLowerCase().includes(v.toLowerCase()));

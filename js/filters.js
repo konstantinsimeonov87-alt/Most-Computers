@@ -922,9 +922,10 @@ function renderCatSpecFilters(cat, subcat) {
   if (!block || !inner) return;
 
   catSpecActiveFilters = {};
-  const specs = (subcat && subcat !== 'all' && SUBCAT_SPEC_FILTERS[subcat])
+  let specs = (subcat && subcat !== 'all' && SUBCAT_SPEC_FILTERS[subcat])
     ? SUBCAT_SPEC_FILTERS[subcat]
     : CAT_SPEC_FILTERS[cat];
+  if (cat === 'components' && specs) specs = specs.filter(s => s.key !== 'Тип');
   if (!specs || !specs.length) {
     block.style.display = 'none';
     return;

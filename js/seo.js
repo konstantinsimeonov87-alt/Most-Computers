@@ -439,7 +439,7 @@ let cpSort = 'bestseller';
 let cpPriceMin = 0, cpPriceMax = 2000;
 let cpBrands = new Set();
 let cpRating = 0;
-let cpSaleOnly = false, cpNewOnly = false;
+let cpSaleOnly = false, cpNewOnly = false, cpStockOnly = false;
 let cpSpecFilters = {};
 let cpSubcat = 'all';
 
@@ -450,8 +450,9 @@ function openCatPage(cat, preSubcat) {
   cpSort = 'bestseller';
   cpPriceMin = 0; cpPriceMax = 2000;
   cpBrands = new Set();
-  cpRating = 0; cpSaleOnly = false; cpNewOnly = false;
+  cpRating = 0; cpSaleOnly = false; cpNewOnly = false; cpStockOnly = false;
   cpSpecFilters = {};
+
   cpSubcat = preSubcat || 'all';
 
   const m = CAT_META[cat] || { emoji:'🗂', label: cat, sub:'' };
@@ -574,6 +575,25 @@ function buildCpSidebar(cat) {
       </div>
     </div>`;
 
+  // ── Availability toggles (right after price) ──
+  html += `<div class="sidebar-filter-block" style="border-bottom:1px solid var(--border);padding:16px;">
+    <div class="sfb-title" style="font-size:12px;font-weight:800;color:var(--text2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;">📦 Наличност</div>
+    <div class="stock-filter-list">
+      <div class="stock-toggle-row">
+        <span class="text-13">✅ Само налични</span>
+        <label class="stock-toggle"><input type="checkbox" id="cpStockToggle" onchange="cpApplyFilters()"><span class="stock-slider-toggle"></span></label>
+      </div>
+      <div class="stock-toggle-row" style="margin-top:8px;">
+        <span class="text-13">🔥 Само намалени</span>
+        <label class="stock-toggle"><input type="checkbox" id="cpSaleToggle" onchange="cpApplyFilters()"><span class="stock-slider-toggle"></span></label>
+      </div>
+      <div class="stock-toggle-row" style="margin-top:8px;">
+        <span class="text-13">🆕 Само нови</span>
+        <label class="stock-toggle"><input type="checkbox" id="cpNewToggle" onchange="cpApplyFilters()"><span class="stock-slider-toggle"></span></label>
+      </div>
+    </div>
+  </div>`;
+
   // ── Spec filters ──
   const specs = CAT_SPEC_FILTERS[cat];
   if (specs && specs.length) {
@@ -621,20 +641,6 @@ function buildCpSidebar(cat) {
     </div>
   </div>`;
 
-  // ── Toggles ──
-  html += `<div class="sidebar-filter-block" style="border-bottom:1px solid var(--border);padding:16px;">
-    <div class="sfb-title" style="font-size:12px;font-weight:800;color:var(--text2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;">📦 Наличност</div>
-    <div class="stock-filter-list">
-      <div class="stock-toggle-row">
-        <span class="text-13">🔥 Само намалени</span>
-        <label class="stock-toggle"><input type="checkbox" id="cpSaleToggle" onchange="cpApplyFilters()"><span class="stock-slider-toggle"></span></label>
-      </div>
-      <div class="stock-toggle-row" style="margin-top:8px;">
-        <span class="text-13">🆕 Само нови</span>
-        <label class="stock-toggle"><input type="checkbox" id="cpNewToggle" onchange="cpApplyFilters()"><span class="stock-slider-toggle"></span></label>
-      </div>
-    </div>
-  </div>`;
 
   // ── Reset button ──
   html += `<div style="padding:12px 16px 16px;">
@@ -676,6 +682,7 @@ function cpRatingChange(rb) {
 
 function cpApplyFilters() {
   if (!document.getElementById('catPage')?.classList.contains('open')) return;
+  cpStockOnly = document.getElementById('cpStockToggle')?.checked || false;
   cpSaleOnly = document.getElementById('cpSaleToggle')?.checked || false;
   cpNewOnly  = document.getElementById('cpNewToggle')?.checked || false;
   cpRenderGrid();
@@ -729,6 +736,7 @@ function cpResetFilters() {
   document.querySelectorAll('#cpBrandList input[type=checkbox]').forEach(c => c.checked = false);
   const r0 = document.querySelector('input[name="cpRating"][value="0"]');
   if (r0) r0.checked = true;
+  const sk = document.getElementById('cpStockToggle'); if (sk) sk.checked = false;
   const st = document.getElementById('cpSaleToggle'); if (st) st.checked = false;
   const nt = document.getElementById('cpNewToggle'); if (nt) nt.checked = false;
   cpSubcat = 'all';
@@ -779,6 +787,7 @@ function cpGetFiltered() {
   // rating
   if (cpRating > 0) list = list.filter(p => p.rating >= cpRating);
   // toggles
+  if (cpStockOnly) list = list.filter(p => p.stock !== false);
   if (cpSaleOnly) list = list.filter(p => p.badge === 'sale' || p.old);
   if (cpNewOnly)  list = list.filter(p => p.badge === 'new');
   // Spec filters

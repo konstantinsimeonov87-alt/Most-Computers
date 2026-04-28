@@ -255,6 +255,23 @@ function goSlide(n){if(!slides.length||!slides[n])return;slides[currentSlide].cl
 let _heroSliderIv=null;
 if(slides.length){if(_heroSliderIv)clearInterval(_heroSliderIv);_heroSliderIv=setInterval(()=>goSlide((currentSlide+1)%slides.length),5000);}
 
+// SALE SLIDE COUNTDOWN — counts down to end of day
+(function(){
+  const el = document.getElementById('saleCountdown');
+  if(!el) return;
+  function update(){
+    const now = new Date();
+    const eod = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59);
+    const diff = Math.max(0, Math.floor((eod - now) / 1000));
+    const h = String(Math.floor(diff / 3600)).padStart(2,'0');
+    const m = String(Math.floor((diff % 3600) / 60)).padStart(2,'0');
+    const s = String(diff % 60).padStart(2,'0');
+    el.innerHTML = `⏱ Офертата изтича след <b>${h}:${m}:${s}</b>`;
+  }
+  update();
+  setInterval(update, 1000);
+})();
+
 // COUNTDOWN — persistent across page reloads via localStorage
 (function(){
   const DURATION = 4*3600; // 4 hours flash sale window

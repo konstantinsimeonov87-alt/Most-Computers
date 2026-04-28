@@ -41,8 +41,8 @@
     content="лаптопи, смартфони, телевизори, таблети, аудио, гейминг, Most Computers, онлайн магазин електроника, компютри, аксесоари, Samsung, ASUS, Sony, Lenovo, MSI">
   <link rel="alternate" hreflang="bg" href="https://mostcomputers.bg/">
   <link rel="preload" href="styles.css" as="style">
-  <link rel="preload" href="data.js?v=20260424" as="script">
-  <link rel="preload" href="app.js?v=20260424" as="script">
+  <link rel="preload" href="data.js?v=20260428" as="script">
+  <link rel="preload" href="app.js?v=20260428" as="script">
   <link rel="alternate" hreflang="x-default" href="https://mostcomputers.bg/">
   <link rel="canonical" href="https://mostcomputers.bg/">
   <link rel="sitemap" type="application/xml" href="/sitemap.xml">
@@ -948,6 +948,13 @@
         <button type="button" class="related-nav next" id="relatedNext" data-action="relatedNav:1">›</button>
       </div>
     </div>
+    <!-- ALSO BOUGHT -->
+    <div class="modal-related" id="alsoBoughtSection" style="display:none;">
+      <div class="modal-related-title">🛒 Хората също купуват</div>
+      <div class="related-track-wrap">
+        <div class="related-track" id="alsoBoughtTrack"></div>
+      </div>
+    </div>
   </div>
   </div>
 
@@ -1824,15 +1831,26 @@
             <h2 class="slide-title">До -60% на избрани продукти</h2>
             <div class="slide-sub">Ограничено количество. Побързай!</div>
             <div class="slide-price">Спести до <b>409.03 €</b> / 800 лв.</div>
+            <div class="slide-countdown" id="saleCountdown"></div>
             <button type="button" class="slide-btn dark" style="color:#ff3d00;"
-              data-action="scrollToSale">Виж намаленията
-              →</button>
+              data-action="scrollToSale">Виж намаленията →</button>
             <div class="slide-emoji">🏷</div>
+          </div>
+          <div class="slide slide-4">
+            <div class="slide-text">
+              <div class="slide-badge">🏆 Флагман</div>
+              <h2 class="slide-title">Lenovo Legion Pro 7<br>RTX 5090 · 16″</h2>
+              <div class="slide-sub">Core Ultra 9 · 64GB DDR5-6400 · 2TB SSD · 2560×1600</div>
+              <div class="slide-price" id="slide4Price">4 632.56 € / 9 060 лв. <small>с ДДС</small></div>
+              <button type="button" class="slide-btn slide-btn-red" data-action="openProductPage(1884)">Разгледай Legion Pro 7 →</button>
+            </div>
+            <div class="slide-img-wrap slide-img-wrap-4"><img src="https://portal.mostbg.com/api/images/imageFileData/52423.png" alt="Lenovo Legion Pro 7 gaming laptop" class="slide-product-img slide-product-img-4" loading="eager"></div>
           </div>
           <div class="slider-dots">
             <button type="button" class="dot active" data-action="goSlide(0)" aria-label="Слайд 1"></button>
             <button type="button" class="dot" data-action="goSlide(1)" aria-label="Слайд 2"></button>
             <button type="button" class="dot" data-action="goSlide(2)" aria-label="Слайд 3"></button>
+            <button type="button" class="dot" data-action="goSlide(3)" aria-label="Слайд 4"></button>
           </div>
         </div>
         <div class="hero-right-panel" id="heroRightPanel"></div>
@@ -2950,8 +2968,8 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
-  <script src="data.js?v=20260424" defer></script>
-  <script src="app.js?v=20260424" defer></script>
+  <script src="data.js?v=20260428" defer></script>
+  <script src="app.js?v=20260428" defer></script>
   <script src="js/supabase-client.js" defer></script>
 
   <!-- Dark toggle moved to header -->
@@ -3699,6 +3717,10 @@
               <span class="pdp-price-save" id="pdpSave"></span>
             </div>
             <div class="pdp-monthly" id="pdpMonthly"></div>
+            <div class="pdp-ship-bar" id="pdpShipBar" style="display:none;">
+              <div class="pdp-ship-bar-text" id="pdpShipBarText"></div>
+              <div class="pdp-ship-bar-track"><div class="pdp-ship-bar-fill" id="pdpShipBarFill"></div></div>
+            </div>
           </div>
 
           <!-- Viewers counter (QW-02) -->

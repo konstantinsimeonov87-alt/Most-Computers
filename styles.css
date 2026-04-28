@@ -1688,6 +1688,87 @@
    display: block;
  }
 
+ /* slide-4 Lenovo Legion — Carbon + Red Glow */
+ .slide-4 {
+   background: linear-gradient(135deg, #0a0a0a 0%, #141414 50%, #1c1c1c 100%);
+   color: #fff;
+   flex-direction: row !important;
+   align-items: center;
+   padding: 36px 32px;
+ }
+ .slide-4::before {
+   content: '';
+   position: absolute;
+   top: -80px; right: -80px;
+   width: 320px; height: 320px;
+   background: radial-gradient(circle, rgba(189,17,5,.2) 0%, transparent 65%);
+   pointer-events: none;
+ }
+ .slide-4 .slide-text {
+   flex: 0 0 54%;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+ }
+ .slide-btn-red {
+   background: #bd1105 !important;
+   color: #fff !important;
+ }
+ .slide-img-wrap-4 {
+   flex: 1;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   pointer-events: none;
+ }
+ .slide-product-img-4 {
+   width: 100%;
+   max-width: 290px;
+   height: 260px;
+   object-fit: contain;
+   display: block;
+   filter: drop-shadow(0 8px 40px rgba(189,17,5,.45));
+   mask-image: radial-gradient(ellipse 82% 88% at 55% 50%, black 45%, transparent 100%);
+   -webkit-mask-image: radial-gradient(ellipse 82% 88% at 55% 50%, black 45%, transparent 100%);
+ }
+
+ /* Slide-3 countdown */
+ .slide-countdown {
+   font-size: 13px;
+   opacity: .9;
+   margin-bottom: 14px;
+   font-weight: 600;
+ }
+
+ /* Card warranty badge */
+ .card-warranty {
+   font-size: 11px;
+   color: var(--muted);
+   margin-top: 3px;
+ }
+
+ /* PDP free shipping bar */
+ .pdp-ship-bar {
+   margin-top: 10px;
+   padding: 10px 14px;
+   background: var(--bg2, #f3f4f6);
+   border-radius: 8px;
+   font-size: 12px;
+ }
+ .pdp-ship-bar-text { margin-bottom: 6px; color: var(--text2); }
+ .pdp-ship-bar-track {
+   height: 5px;
+   background: var(--border, #e5e7eb);
+   border-radius: 99px;
+   overflow: hidden;
+ }
+ .pdp-ship-bar-fill {
+   height: 100%;
+   border-radius: 99px;
+   transition: width .4s ease;
+   background: var(--primary);
+ }
+
  .slider-dots {
    position: absolute;
    bottom: 16px;
@@ -7492,17 +7573,17 @@
      padding: 28px 24px;
    }
 
-   .slide-2 {
+   .slide-2, .slide-4 {
      flex-direction: column !important;
      align-items: flex-start;
      padding: 28px 24px;
    }
 
-   .slide-img-wrap {
+   .slide-img-wrap, .slide-img-wrap-4 {
      display: none;
    }
 
-   .slide-2 .slide-text {
+   .slide-2 .slide-text, .slide-4 .slide-text {
      flex: unset;
    }
 

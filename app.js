@@ -71,6 +71,7 @@ function makeCard(p,small=false){
           ${p.old?`<div class="price-old">${fmtEur(p.old)}</div><div class="price-save">-${save}%</div>`:''}
         </div>
         ${p.stock!==false?`<div class="card-delivery-hint">📦 Доставка до 2 работни дни</div>`:''}
+        ${p.stock!==false?`<div class="card-warranty">🛡 2г. гаранция</div>`:''}
         <button type="button" class="add-cart-btn" id="cb-${p.id}" onclick="addToCart(${p.id})" ${p.stock===false?'disabled':''}><svg width="15" height="15" class="svg-ic" aria-hidden="true"><use href="#ic-cart"/></svg> ${p.stock===false?'Изчерпан':'Добави в кошница'}</button>
         <div class="row-gap-6 card-secondary-btns" style="margin-top:6px;">
           <button type="button" class="card-sec-btn product-quick-view-btn" onclick="openProductPage(${p.id})" title="Бърз преглед"><svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-eye"/></svg><span class="card-sec-btn-label">Преглед</span></button>
@@ -800,6 +801,23 @@ const slides=document.querySelectorAll('.slide'),dots=document.querySelectorAll(
 function goSlide(n){if(!slides.length||!slides[n])return;slides[currentSlide].classList.remove('active');dots[currentSlide].classList.remove('active');dots[currentSlide].removeAttribute('aria-current');currentSlide=n;slides[currentSlide].classList.add('active');dots[currentSlide].classList.add('active');dots[currentSlide].setAttribute('aria-current','true');}
 let _heroSliderIv=null;
 if(slides.length){if(_heroSliderIv)clearInterval(_heroSliderIv);_heroSliderIv=setInterval(()=>goSlide((currentSlide+1)%slides.length),5000);}
+
+// SALE SLIDE COUNTDOWN — counts down to end of day
+(function(){
+  const el = document.getElementById('saleCountdown');
+  if(!el) return;
+  function update(){
+    const now = new Date();
+    const eod = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59);
+    const diff = Math.max(0, Math.floor((eod - now) / 1000));
+    const h = String(Math.floor(diff / 3600)).padStart(2,'0');
+    const m = String(Math.floor((diff % 3600) / 60)).padStart(2,'0');
+    const s = String(diff % 60).padStart(2,'0');
+    el.innerHTML = `⏱ Офертата изтича след <b>${h}:${m}:${s}</b>`;
+  }
+  update();
+  setInterval(update, 1000);
+})();
 
 // COUNTDOWN — persistent across page reloads via localStorage
 (function(){
@@ -2911,10 +2929,14 @@ function renderGrids(){
     const _s1min = _s1Prods[0], _s1max = _s1Prods[_s1Prods.length-1];
     _s1el.innerHTML = `от <b>${(_s1min.price/EUR_RATE).toFixed(2)} €</b> / ${_s1min.price} лв. <small>вместо ${(_s1min.old/EUR_RATE).toFixed(2)} € / ${_s1min.old} лв.</small>`;
   }
-  // Slide 2 — sync price from products array (id:99 = MacBook Pro M4)
-  const _s2 = products.find(p=>p.id===99);
+  // Slide 2 — sync price from products array (id:1600 = MSI Katana 15)
+  const _s2 = products.find(p=>p.id===1600);
   const _s2el = document.getElementById('slide2Price');
   if(_s2 && _s2el) _s2el.innerHTML = `${(_s2.price/EUR_RATE).toFixed(2)} € / ${_s2.price} лв. <small>с ДДС</small>`;
+  // Slide 4 — sync price from products array (id:1884 = Lenovo Legion Pro 7 RTX 5090)
+  const _s4 = products.find(p=>p.id===1884);
+  const _s4el = document.getElementById('slide4Price');
+  if(_s4 && _s4el) _s4el.innerHTML = `${(_s4.price/EUR_RATE).toFixed(2)} € / ${_s4.price} лв. <small>с ДДС</small>`;
   const ng=document.getElementById('newGrid'); if(ng) ng.innerHTML=products.filter(p=>_inStock(p)&&p.badge==='new').concat(products.filter(p=>_inStock(p)&&p.badge==='hot')).slice(0,5).map(p=>makeCard(p,true)).join('');
   // Promo strip — update free delivery threshold with current EUR rate
   const _freeDelEur = 100;
@@ -3956,6 +3978,8 @@ if (!_urlHooked) {
   openProductModal = function(id) {
     _baseOpenProductModal(id);
     renderRelated(id);
+    renderAlsoBought(id);
+    updatePdpShipBar();
     updateURL();
     document.dispatchEvent(new CustomEvent('mc:productopen', {detail: id}));
   };
@@ -5047,6 +5071,66 @@ function showModalSkeleton() {
   }, { passive: true });
 })();
 
+
+// ===== FREE SHIPPING BAR (QW-08) =====
+function updatePdpShipBar() {
+  const bar = document.getElementById('pdpShipBar');
+  const txt = document.getElementById('pdpShipBarText');
+  const fill = document.getElementById('pdpShipBarFill');
+  if (!bar || !txt || !fill) return;
+  const FREE_SHIP_EUR = 100;
+  let cartTotal = 0;
+  try {
+    const cart = JSON.parse(localStorage.getItem('mc_cart') || '[]');
+    cartTotal = cart.reduce((s, i) => {
+      const pr = products.find(x => x.id === i.id);
+      return s + (pr ? pr.price * i.qty : 0);
+    }, 0);
+  } catch(e) {}
+  const cartEur = cartTotal / EUR_RATE;
+  const pct = Math.min(100, Math.round(cartEur / FREE_SHIP_EUR * 100));
+  fill.style.width = pct + '%';
+  if (cartEur >= FREE_SHIP_EUR) {
+    txt.innerHTML = '✅ Имаш безплатна доставка!';
+    fill.style.background = 'var(--success, #22c55e)';
+  } else {
+    const need = (FREE_SHIP_EUR - cartEur).toFixed(2);
+    txt.innerHTML = `🚚 Добави още <b>${need} €</b> за безплатна доставка`;
+    fill.style.background = 'var(--primary)';
+  }
+  bar.style.display = '';
+}
+
+// ===== ALSO BOUGHT (QW-06) =====
+function renderAlsoBought(currentId) {
+  const section = document.getElementById('alsoBoughtSection');
+  const track = document.getElementById('alsoBoughtTrack');
+  if (!section || !track) return;
+  let topIds = [];
+  try {
+    const log = JSON.parse(localStorage.getItem('mc_analytics_log') || '[]');
+    const freq = {};
+    log.filter(e => e.event === 'add_to_cart' && e.id !== currentId)
+       .forEach(e => { freq[e.id] = (freq[e.id] || 0) + 1; });
+    topIds = Object.entries(freq).sort((a,b)=>b[1]-a[1]).slice(0,4).map(([id])=>parseInt(id));
+  } catch(e) {}
+  // Fallback: top rated from same category
+  if (topIds.length < 2) {
+    const p = products.find(x => x.id === currentId);
+    const catTop = p ? [...products].filter(x => x.id !== currentId && x.cat === p.cat)
+      .sort((a,b) => b.rating - a.rating).slice(0,4).map(x=>x.id) : [];
+    topIds = [...new Set([...topIds, ...catTop])].slice(0,4);
+  }
+  const items = topIds.map(id => products.find(x=>x.id===id)).filter(Boolean);
+  if (items.length < 2) { section.style.display = 'none'; return; }
+  track.innerHTML = items.map(r => `
+    <div class="related-card" onclick="openProductModal(${r.id})">
+      <span class="related-card-emoji">${escHtml(r.emoji||'')}</span>
+      <div class="related-card-name">${escHtml(r.name)}</div>
+      <div class="related-card-price">${fmtEur(r.price)}</div>
+    </div>`).join('');
+  section.style.display = '';
+}
 
 // ===== 4. RELATED CAROUSEL =====
 let relatedOffset = 0;

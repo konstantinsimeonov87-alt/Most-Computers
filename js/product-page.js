@@ -597,6 +597,66 @@ function showModalSkeleton() {
 })();
 
 
+// ===== FREE SHIPPING BAR (QW-08) =====
+function updatePdpShipBar() {
+  const bar = document.getElementById('pdpShipBar');
+  const txt = document.getElementById('pdpShipBarText');
+  const fill = document.getElementById('pdpShipBarFill');
+  if (!bar || !txt || !fill) return;
+  const FREE_SHIP_EUR = 100;
+  let cartTotal = 0;
+  try {
+    const cart = JSON.parse(localStorage.getItem('mc_cart') || '[]');
+    cartTotal = cart.reduce((s, i) => {
+      const pr = products.find(x => x.id === i.id);
+      return s + (pr ? pr.price * i.qty : 0);
+    }, 0);
+  } catch(e) {}
+  const cartEur = cartTotal / EUR_RATE;
+  const pct = Math.min(100, Math.round(cartEur / FREE_SHIP_EUR * 100));
+  fill.style.width = pct + '%';
+  if (cartEur >= FREE_SHIP_EUR) {
+    txt.innerHTML = '✅ Имаш безплатна доставка!';
+    fill.style.background = 'var(--success, #22c55e)';
+  } else {
+    const need = (FREE_SHIP_EUR - cartEur).toFixed(2);
+    txt.innerHTML = `🚚 Добави още <b>${need} €</b> за безплатна доставка`;
+    fill.style.background = 'var(--primary)';
+  }
+  bar.style.display = '';
+}
+
+// ===== ALSO BOUGHT (QW-06) =====
+function renderAlsoBought(currentId) {
+  const section = document.getElementById('alsoBoughtSection');
+  const track = document.getElementById('alsoBoughtTrack');
+  if (!section || !track) return;
+  let topIds = [];
+  try {
+    const log = JSON.parse(localStorage.getItem('mc_analytics_log') || '[]');
+    const freq = {};
+    log.filter(e => e.event === 'add_to_cart' && e.id !== currentId)
+       .forEach(e => { freq[e.id] = (freq[e.id] || 0) + 1; });
+    topIds = Object.entries(freq).sort((a,b)=>b[1]-a[1]).slice(0,4).map(([id])=>parseInt(id));
+  } catch(e) {}
+  // Fallback: top rated from same category
+  if (topIds.length < 2) {
+    const p = products.find(x => x.id === currentId);
+    const catTop = p ? [...products].filter(x => x.id !== currentId && x.cat === p.cat)
+      .sort((a,b) => b.rating - a.rating).slice(0,4).map(x=>x.id) : [];
+    topIds = [...new Set([...topIds, ...catTop])].slice(0,4);
+  }
+  const items = topIds.map(id => products.find(x=>x.id===id)).filter(Boolean);
+  if (items.length < 2) { section.style.display = 'none'; return; }
+  track.innerHTML = items.map(r => `
+    <div class="related-card" onclick="openProductModal(${r.id})">
+      <span class="related-card-emoji">${escHtml(r.emoji||'')}</span>
+      <div class="related-card-name">${escHtml(r.name)}</div>
+      <div class="related-card-price">${fmtEur(r.price)}</div>
+    </div>`).join('');
+  section.style.display = '';
+}
+
 // ===== 4. RELATED CAROUSEL =====
 let relatedOffset = 0;
 function renderRelated(currentId) {

@@ -179,10 +179,14 @@ function renderGrids(){
     const _s1min = _s1Prods[0], _s1max = _s1Prods[_s1Prods.length-1];
     _s1el.innerHTML = `от <b>${(_s1min.price/EUR_RATE).toFixed(2)} €</b> / ${_s1min.price} лв. <small>вместо ${(_s1min.old/EUR_RATE).toFixed(2)} € / ${_s1min.old} лв.</small>`;
   }
-  // Slide 2 — sync price from products array (id:99 = MacBook Pro M4)
-  const _s2 = products.find(p=>p.id===99);
+  // Slide 2 — sync price from products array (id:1600 = MSI Katana 15)
+  const _s2 = products.find(p=>p.id===1600);
   const _s2el = document.getElementById('slide2Price');
   if(_s2 && _s2el) _s2el.innerHTML = `${(_s2.price/EUR_RATE).toFixed(2)} € / ${_s2.price} лв. <small>с ДДС</small>`;
+  // Slide 4 — sync price from products array (id:1884 = Lenovo Legion Pro 7 RTX 5090)
+  const _s4 = products.find(p=>p.id===1884);
+  const _s4el = document.getElementById('slide4Price');
+  if(_s4 && _s4el) _s4el.innerHTML = `${(_s4.price/EUR_RATE).toFixed(2)} € / ${_s4.price} лв. <small>с ДДС</small>`;
   const ng=document.getElementById('newGrid'); if(ng) ng.innerHTML=products.filter(p=>_inStock(p)&&p.badge==='new').concat(products.filter(p=>_inStock(p)&&p.badge==='hot')).slice(0,5).map(p=>makeCard(p,true)).join('');
   // Promo strip — update free delivery threshold with current EUR rate
   const _freeDelEur = 100;
@@ -1224,6 +1228,8 @@ if (!_urlHooked) {
   openProductModal = function(id) {
     _baseOpenProductModal(id);
     renderRelated(id);
+    renderAlsoBought(id);
+    updatePdpShipBar();
     updateURL();
     document.dispatchEvent(new CustomEvent('mc:productopen', {detail: id}));
   };

@@ -3443,10 +3443,14 @@ const SUBCATS = {
     { id: 'printer',      label: '🖨 Принтери' },
   ],
   network: [
-    { id: 'router',       label: '📶 Рутери' },
-    { id: 'switch',       label: '🔌 Суичове' },
-    { id: 'ap',           label: '📡 Access Points' },
-    { id: 'mesh',         label: '🔗 Mesh системи' },
+    { id: 'router',   label: '📡 Рутери' },
+    { id: 'mesh',     label: '🕸️ Mesh системи' },
+    { id: 'switch',   label: '🔀 Суичове' },
+    { id: 'ap',       label: '📶 Access Points' },
+    { id: 'adapter',  label: '🔌 WiFi адаптери' },
+    { id: 'outdoor',  label: '🏔️ Outdoor CPE' },
+    { id: 'sfp',      label: '🔗 SFP модули' },
+    { id: 'cable',    label: '🔗 Мрежови кабели' },
   ],
   storage: [
     { id: 'nas',          label: '🗄 NAS устройства' },
@@ -3503,8 +3507,10 @@ const MEGA_MENU = {
     { title: 'Аудио и видео', id: 'headphones', items: ['Слушалки', 'Тонколони', 'Уеб камери', 'Принтери'] },
   ],
   network: [
-    { title: 'Рутери', id: 'router', items: ['WiFi 7', 'WiFi 6E', 'WiFi 6', 'Dual Band'] },
-    { title: 'Мрежова инфра', id: 'switch', items: ['Mesh системи', 'Суичове 8p', 'Суичове 16p+', 'Access Points', 'PoE'] },
+    { title: 'Рутери', id: 'router', items: ['WiFi 7', 'WiFi 6E', 'WiFi 6', 'Gaming рутери', 'ADSL/VDSL', '4G LTE'] },
+    { title: 'Mesh и AP', id: 'mesh', items: ['Mesh системи', 'Asus ZenWiFi', 'Tenda Nova/MW', 'Access Points', 'Range Extenders'] },
+    { title: 'Суичове', id: 'switch', items: ['5 порта', '8 порта', '16 порта', '24+ порта', 'PoE суичове', 'Managed'] },
+    { title: 'Адаптери и SFP', id: 'adapter', items: ['USB WiFi адаптери', 'USB LAN адаптери', '2.5G / 10G карти', 'SFP модули', 'Outdoor CPE'] },
   ],
   storage: [
     { title: 'Сторидж', id: 'nas', items: ['NAS устройства', 'Сървъри', 'Rack системи'] },
@@ -3563,9 +3569,9 @@ const CAT_SPEC_FILTERS = {
     { key: 'Connection',  label: '🔗 Връзка',          values: ['USB','Bluetooth','Безжична','2.4GHz'] },
   ],
   network: [
-    { key: 'WiFi',   label: '📡 WiFi стандарт',        values: ['WiFi 5','WiFi 6','WiFi 6E','WiFi 7'] },
-    { key: 'Ports',  label: '🔌 Портове',              values: ['4 порта','8 порта','16+ порта','PoE'] },
-    { key: 'Type',   label: '📦 Тип',                  values: ['Рутер','Суич','Access Point','Mesh нод'] },
+    { key: 'WiFi',  label: '📡 WiFi стандарт', values: ['WiFi 4','WiFi 5','WiFi 6','WiFi 6E','WiFi 7'] },
+    { key: 'Ports', label: '🔌 Портове',        values: ['4 порта','5 порта','8 порта','16 порта','24 порта','PoE'] },
+    { key: 'Type',  label: '📦 Тип устройство', values: ['Рутер','Mesh нод','Суич','Access Point','USB адаптер','Outdoor CPE','SFP модул','Кабел'] },
   ],
   storage: [
     { key: 'Type',      label: '💾 Тип',               values: ['NAS','Сървър','Портативен SSD','Портативен HDD','USB Flash','SD карта'] },
@@ -3643,6 +3649,27 @@ const SUBCAT_SPEC_FILTERS = {
   ],
   controller: [
     { key: 'Връзка', label: '📡 Връзка', values: ['Безжичен','Кабелен'] },
+  ],
+  // Network subcats
+  router: [
+    { key: 'WiFi',  label: '📡 WiFi стандарт', values: ['WiFi 7','WiFi 6E','WiFi 6','WiFi 5','4G LTE'] },
+    { key: 'Band',  label: '📻 Диапазони',      values: ['Tri-band','Dual-band','Single-band'] },
+    { key: 'Speed', label: '⚡ Скорост',         values: ['AXE7800+','AX6000+','AX3000+','AX1800','AC1200','AC1000'] },
+  ],
+  mesh: [
+    { key: 'WiFi',  label: '📡 WiFi стандарт', values: ['WiFi 7','WiFi 6E','WiFi 6','WiFi 5'] },
+    { key: 'Pack',  label: '📦 Брой нодове',   values: ['1 нод','2 нода','3 нода'] },
+    { key: 'Band',  label: '📻 Диапазони',      values: ['Tri-band','Dual-band'] },
+  ],
+  switch: [
+    { key: 'Ports', label: '🔌 Брой портове', values: ['4 порта','5 порта','8 порта','16 порта','24 порта'] },
+    { key: 'Speed', label: '⚡ Скорост',        values: ['Gigabit','Fast Ethernet (100M)','10 Gigabit'] },
+    { key: 'PoE',   label: '⚡ PoE захранване', values: ['PoE','PoE+'] },
+  ],
+  adapter: [
+    { key: 'Type',  label: '📦 Тип',         values: ['USB WiFi','USB Ethernet','PCIe карта','Bluetooth'] },
+    { key: 'Speed', label: '⚡ Скорост',      values: ['300 Mbps','650 Mbps','900 Mbps','2.5 Gbps','10 Gbps'] },
+    { key: 'WiFi',  label: '📡 WiFi',         values: ['WiFi 6','WiFi 5','WiFi 4'] },
   ],
 };
 

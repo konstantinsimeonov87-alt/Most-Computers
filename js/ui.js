@@ -63,7 +63,7 @@ function initSectionAnimations() {
       if (e.isIntersecting) { e.target.classList.add('sa-visible'); obs.unobserve(e.target); }
     });
   }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
-  document.querySelectorAll('.section-wrap, .banner-row, .promo-strip, .hp-cats-grid, .sfb-block').forEach(el => {
+  document.querySelectorAll('.section-wrap:not(#featured), .banner-row, .promo-strip, .hp-cats-grid, .sfb-block').forEach(el => {
     el.classList.add('sa-el');
     obs.observe(el);
   });

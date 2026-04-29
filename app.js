@@ -149,7 +149,7 @@ function initSectionAnimations() {
       if (e.isIntersecting) { e.target.classList.add('sa-visible'); obs.unobserve(e.target); }
     });
   }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
-  document.querySelectorAll('.section-wrap, .banner-row, .promo-strip, .hp-cats-grid, .sfb-block').forEach(el => {
+  document.querySelectorAll('.section-wrap:not(#featured), .banner-row, .promo-strip, .hp-cats-grid, .sfb-block').forEach(el => {
     el.classList.add('sa-el');
     obs.observe(el);
   });
@@ -2959,7 +2959,7 @@ function renderGrids(){
   renderPromoBanner();
   updateWishlistUI();
   if(typeof initLazyImages==='function') initLazyImages();
-  if(typeof renderHpSubcatsStrip==='function') renderHpSubcatsStrip();
+  if(typeof renderHpCats==='function') renderHpCats();
 }
 
 function renderHeroPanel(){
@@ -7342,7 +7342,7 @@ initDataActions();
 initSidebarFilters();
 renderGrids();
 loadCart();
-renderHpSubcatsStrip();
+// renderHpCats already called inside renderGrids()
 renderRecentlyDiscounted();
 renderRecentlyViewed();
 initSectionAnimations();

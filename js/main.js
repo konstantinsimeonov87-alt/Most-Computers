@@ -100,7 +100,7 @@ initDataActions();
 initSidebarFilters();
 renderGrids();
 loadCart();
-renderHpSubcatsStrip();
+// renderHpCats already called inside renderGrids()
 renderRecentlyDiscounted();
 renderRecentlyViewed();
 initSectionAnimations();

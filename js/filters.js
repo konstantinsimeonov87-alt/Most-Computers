@@ -209,7 +209,7 @@ function renderGrids(){
   renderPromoBanner();
   updateWishlistUI();
   if(typeof initLazyImages==='function') initLazyImages();
-  if(typeof renderHpSubcatsStrip==='function') renderHpSubcatsStrip();
+  if(typeof renderHpCats==='function') renderHpCats();
 }
 
 function renderHeroPanel(){

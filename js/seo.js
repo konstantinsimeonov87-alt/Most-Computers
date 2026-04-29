@@ -353,7 +353,7 @@ const CAT_META = {
   new:        { emoji:'🆕', icon:'ic-star',       label:'Нови продукти',        sub:'Пресни пристигания', badge:'NEW' },
   sale:       { emoji:'%',  icon:'ic-tag',        label:'Намаления',            sub:'До -60% на избрани продукти', badge:'SALE' },
 };
-const HP_CAT_ORDER = ['laptops','desktops','components','peripherals','network','storage','accessories'];
+const HP_CAT_ORDER = ['laptops','desktops','components','monitors','peripherals','network','storage','accessories'];
 
 // ═══════════════════════════════════════
 // RENDER HOMEPAGE CATEGORY CARDS (kept for fallback)
@@ -380,7 +380,8 @@ function renderHpCats() {
 const HP_SUBCATS = [
   { cat:'laptops',    id:'gaming_l',    label:'Gaming лаптопи',        icon:'🎮', trending:true  },
   { cat:'components', id:'gpu',         label:'Видеокарти',            icon:'🎴', trending:true  },
-  { cat:'monitors',   id:'all',          label:'Монитори',              icon:'🖥', trending:true  },
+  { cat:'monitors',   id:'gaming_mon',   label:'Gaming монитори',       icon:'🎮', trending:true  },
+  { cat:'monitors',   id:'oled_mon',    label:'OLED монитори',         icon:'✨', trending:true  },
   { cat:'gaming',     id:'gaming_pc_s', label:'Gaming PC',             icon:'🕹'                },
   { cat:'components', id:'cpu',         label:'Процесори',             icon:'⚡'                },
   { cat:'laptops',    id:'ultrabook',   label:'Ултрабуци',             icon:'💼'                },

@@ -3417,10 +3417,11 @@ const SUBCATS = {
   ],
   monitors: [
     { id: 'gaming_mon',   label: '🎮 Gaming 144Hz+' },
-    { id: 'mon_4k',       label: '🖥 4K / UHD' },
-    { id: 'ultrawide',    label: '↔ UltraWide' },
+    { id: 'mon_4k',       label: '🔭 4K / UHD' },
     { id: 'oled_mon',     label: '✨ OLED' },
+    { id: 'ultrawide',    label: '↔️ UltraWide' },
     { id: 'office_mon',   label: '💼 Офис монитори' },
+    { id: 'tv',           label: '📺 Телевизори' },
   ],
   components: [
     { id: 'cpu',         label: '⚙ Процесори' },
@@ -3491,9 +3492,10 @@ const MEGA_MENU = {
     { title: 'Периферия', id: 'gaming_mouse', items: ['Геймърски мишки', 'Механични клавиатури', 'Геймърски слушалки'] },
   ],
   monitors: [
-    { title: 'Gaming монитори', id: 'gaming_mon', items: ['144Hz', '165Hz', '240Hz', '360Hz', 'QHD Gaming', '4K Gaming'] },
-    { title: 'По резолюция', id: 'mon_4k', items: ['4K UHD 3840×2160', 'QHD 2560×1440', 'Full HD 1080p'] },
-    { title: 'По тип', id: 'oled_mon', items: ['OLED монитори', 'IPS панели', 'VA панели', 'UltraWide 21:9', 'Curved'] },
+    { title: 'Gaming монитори', id: 'gaming_mon', items: ['144Hz FHD', '144Hz QHD', '165Hz', '240Hz', '360Hz', 'G-Sync / FreeSync'] },
+    { title: 'По резолюция', id: 'mon_4k', items: ['4K UHD 3840×2160', 'QHD 2560×1440', 'Full HD 1920×1080', 'WUXGA 1920×1200'] },
+    { title: 'По технология', id: 'oled_mon', items: ['OLED монитори', 'IPS панели', 'VA панели', 'UltraWide 21:9', 'Curved'] },
+    { title: 'Телевизори', id: 'tv', items: ['Smart TV 24-27"', 'Smart TV 32"', 'Smart TV 40-55"', 'QLED TV', '4K UHD TV'] },
   ],
   components: [
     { title: 'Процесори', id: 'cpu', items: ['Intel Core i5/i7/i9', 'Intel Core Ultra', 'AMD Ryzen 5/7/9', 'AMD Threadripper'] },
@@ -3537,10 +3539,10 @@ const CAT_SPEC_FILTERS = {
     { key: 'RAM',   label: '🧠 Оперативна памет',       values: ['16 GB','32 GB','64 GB'] },
   ],
   monitors: [
-    { key: 'Панел',      label: '🖥 Тип панел',         values: ['IPS','VA','OLED','TN','QLED'] },
-    { key: 'Резолюция',  label: '🔍 Резолюция',         values: ['FHD','QHD','4K','UW-QHD','UW-FHD'] },
-    { key: 'Честота',    label: '⚡ Честота',            values: ['60 Hz','75 Hz','100 Hz','120 Hz','144 Hz','165 Hz','180 Hz','200 Hz','240 Hz','280 Hz','360 Hz'] },
-    { key: 'Размер',     label: '📐 Диагонал',          values: ['22"','24"','27"','31.5"','32"','34"','49"'] },
+    { key: 'Панел',     label: '🖥 Тип панел',  values: ['IPS','VA','OLED','TN'] },
+    { key: 'Резолюция', label: '🔍 Резолюция',  values: ['FHD 1920×1080','QHD 2560×1440','4K 3840×2160','WUXGA 1920×1200','UltraWide'] },
+    { key: 'Честота',   label: '⚡ Честота',     values: ['60Hz','75Hz','100Hz','120Hz','144Hz','165Hz','180Hz','240Hz','360Hz'] },
+    { key: 'Размер',    label: '📐 Диагонал',   values: ['23"','24"','27"','31.5"','32"','34"','40"+'] },
   ],
   laptops: [
     { key: 'CPU',     label: '💻 Процесор',            values: ['Intel Core i5','Intel Core i7','Intel Core i9','Intel Core Ultra','AMD Ryzen 5','AMD Ryzen 7','AMD Ryzen 9'] },
@@ -3649,6 +3651,32 @@ const SUBCAT_SPEC_FILTERS = {
   ],
   controller: [
     { key: 'Връзка', label: '📡 Връзка', values: ['Безжичен','Кабелен'] },
+  ],
+  // Monitor subcats
+  gaming_mon: [
+    { key: 'Честота',   label: '⚡ Честота',     values: ['144Hz','165Hz','180Hz','200Hz','240Hz','360Hz'] },
+    { key: 'Панел',     label: '🖥 Панел',        values: ['IPS','VA','OLED','TN'] },
+    { key: 'Резолюция', label: '🔍 Резолюция',   values: ['FHD 1920×1080','QHD 2560×1440','4K 3840×2160'] },
+    { key: 'Размер',    label: '📐 Диагонал',     values: ['24"','27"','32"','34"'] },
+  ],
+  mon_4k: [
+    { key: 'Размер',    label: '📐 Диагонал',    values: ['27"','32"','34"','40"+'] },
+    { key: 'Панел',     label: '🖥 Панел',        values: ['IPS','VA','OLED'] },
+    { key: 'Честота',   label: '⚡ Честота',      values: ['60Hz','120Hz','144Hz','160Hz'] },
+  ],
+  oled_mon: [
+    { key: 'Размер',    label: '📐 Диагонал',    values: ['27"','34"','45"','49"'] },
+    { key: 'Честота',   label: '⚡ Честота',      values: ['120Hz','144Hz','165Hz','240Hz'] },
+    { key: 'Резолюция', label: '🔍 Резолюция',   values: ['FHD 1920×1080','QHD 2560×1440','4K 3840×2160','UltraWide'] },
+  ],
+  office_mon: [
+    { key: 'Размер',    label: '📐 Диагонал',    values: ['23"','24"','27"','32"'] },
+    { key: 'Панел',     label: '🖥 Панел',        values: ['IPS','VA'] },
+    { key: 'Резолюция', label: '🔍 Резолюция',   values: ['FHD 1920×1080','QHD 2560×1440','WUXGA 1920×1200'] },
+  ],
+  tv: [
+    { key: 'Размер',    label: '📐 Диагонал',    values: ['24"','27"','32"','40"','43"','50"','55"'] },
+    { key: 'Резолюция', label: '🔍 Резолюция',   values: ['Full HD','4K UHD','QLED'] },
   ],
   // Network subcats
   router: [
@@ -3803,11 +3831,13 @@ function matchesSubcat(p, subcat) {
     gaming_kb:       () => all.includes('keyboard') || all.includes('клавиатур') || (p.emoji === '⌨'),
     gaming_headset:  () => all.includes('headset') || all.includes('headphone') || all.includes('слушалк') || (p.emoji === '🎧'),
     // Monitors
-    gaming_mon:   () => all.includes('hz') && (parseInt(all.match(/(\d+)hz/)?.[1]||0) >= 144 || all.includes('144') || all.includes('165') || all.includes('240') || all.includes('360')),
-    mon_4k:       () => all.includes('4k') || all.includes('uhd') || all.includes('3840') || all.includes('4к'),
-    ultrawide:    () => all.includes('ultrawide') || all.includes('ultra-wide') || all.includes('34"') || all.includes('49"') || all.includes('21:9') || all.includes('32:9'),
-    oled_mon:     () => all.includes('oled'),
-    office_mon:   () => !all.includes('gaming') && !all.includes('oled') && (p.price / (typeof EUR_RATE!=='undefined'&&EUR_RATE?EUR_RATE:1.95583)) < 600,
+    tv:         () => p.subcat === 'tv' || all.includes(' tv ') || all.match(/^tv /) || all.includes('qled') || all.includes('smart tv') || all.includes('телевизор'),
+    gaming_mon: () => p.subcat === 'gaming_mon' || (all.includes('hz') && parseInt(all.match(/(\d+)hz/)?.[1]||0) >= 144),
+    mon_4k:     () => p.subcat === 'mon_4k' || all.includes('4k') || all.includes('uhd') || all.includes('3840') || all.includes('4к'),
+    ultrawide:  () => p.subcat === 'ultrawide' || all.includes('ultrawide') || all.includes('ultra-wide') || all.includes('21:9') || all.includes('32:9'),
+    oled_mon:   () => p.subcat === 'oled_mon' || all.includes('oled'),
+    office_mon: () => p.subcat === 'office_mon' || (!all.includes('gaming') && !all.includes('oled') && !all.includes(' tv ') && (p.price / (typeof EUR_RATE!=='undefined'&&EUR_RATE?EUR_RATE:1.95583)) < 600),
+    monitor:    () => (normalizeCat(p.cat) === 'peripherals' || p.cat === 'monitors') && (all.includes('монитор') || all.includes('monitor') || (all.includes('hz') && (all.includes('ips') || all.includes('oled') || all.includes('va') || all.includes('qhd') || all.includes('4k') || all.includes('1440')))),
     // Components
     cpu:           () => all.includes('процесор') || all.includes('processor') || all.includes('cpu') || all.includes('ryzen') || all.includes('core i') || all.includes('core ultra'),
     gpu:           () => all.includes('видеокарт') || all.includes('gpu') || all.includes('geforce') || all.includes('radeon') || all.includes('rtx') || all.includes('rx 6') || all.includes('rx 7') || all.includes('arc'),
@@ -3822,7 +3852,6 @@ function matchesSubcat(p, subcat) {
     case:          () => all.includes('кутия') || all.includes('chassis') || (all.includes('case') && !all.includes('cooler') && !all.includes('cooling')),
     cooling:       () => all.includes('охлади') || all.includes('cooler') || all.includes('cooling') || all.includes('fan') || all.includes('вентилатор') || all.includes('water cool') || all.includes('aio cooler'),
     // Peripherals
-    monitor:       () => (normalizeCat(p.cat) === 'peripherals') && (all.includes('монитор') || all.includes('monitor') || (all.includes('hz') && (all.includes('ips') || all.includes('oled') || all.includes('va') || all.includes('qhd') || all.includes('4k') || all.includes('1440')))),
     keyboard:      () => all.includes('клавиатур') || all.includes('keyboard'),
     mouse:         () => all.includes('мишк') || all.includes('mouse') || all.includes('trackpad'),
     headphones:    () => all.includes('слушалк') || all.includes('headphone') || all.includes('headset') || all.includes('earphone') || all.includes('earbud'),
@@ -6400,7 +6429,7 @@ const CAT_META = {
   new:        { emoji:'🆕', icon:'ic-star',       label:'Нови продукти',        sub:'Пресни пристигания', badge:'NEW' },
   sale:       { emoji:'%',  icon:'ic-tag',        label:'Намаления',            sub:'До -60% на избрани продукти', badge:'SALE' },
 };
-const HP_CAT_ORDER = ['laptops','desktops','components','peripherals','network','storage','accessories'];
+const HP_CAT_ORDER = ['laptops','desktops','components','monitors','peripherals','network','storage','accessories'];
 
 // ═══════════════════════════════════════
 // RENDER HOMEPAGE CATEGORY CARDS (kept for fallback)
@@ -6427,7 +6456,8 @@ function renderHpCats() {
 const HP_SUBCATS = [
   { cat:'laptops',    id:'gaming_l',    label:'Gaming лаптопи',        icon:'🎮', trending:true  },
   { cat:'components', id:'gpu',         label:'Видеокарти',            icon:'🎴', trending:true  },
-  { cat:'monitors',   id:'all',          label:'Монитори',              icon:'🖥', trending:true  },
+  { cat:'monitors',   id:'gaming_mon',   label:'Gaming монитори',       icon:'🎮', trending:true  },
+  { cat:'monitors',   id:'oled_mon',    label:'OLED монитори',         icon:'✨', trending:true  },
   { cat:'gaming',     id:'gaming_pc_s', label:'Gaming PC',             icon:'🕹'                },
   { cat:'components', id:'cpu',         label:'Процесори',             icon:'⚡'                },
   { cat:'laptops',    id:'ultrabook',   label:'Ултрабуци',             icon:'💼'                },

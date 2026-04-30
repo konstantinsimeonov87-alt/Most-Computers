@@ -36,6 +36,7 @@ const CATEGORIES = [
   { id: 22, name: 'Multimedia' },
   { id: 32, name: 'Phones' },
   { id: 34, name: 'Desktops' },
+  { id: 15, name: 'Network' },
 ];
 
 function fetchXml(categoryId) {

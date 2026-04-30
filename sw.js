@@ -1,10 +1,5 @@
-// Most Computers — Service Worker 994f7e1
-// Most Computers — Service Worker 3766f4d
-const CACHE = 'mc-994f7e1';
-=======
-// Most Computers — Service Worker 56481315
-const CACHE = 'mc-994f7e1';
->>>>>>> fb1145d (feat(printers): add Принтери as standalone category with 26 Canon products)
+// Most Computers — Service Worker b6b7c05f
+const CACHE = 'mc-b6b7c05f';
 const PRECACHE = [
   './',
   './index.html',

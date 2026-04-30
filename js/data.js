@@ -4997,7 +4997,7 @@ var products = [
    specs:{'Тип':'DDR5','Капацитет':'64 GB','Честота':'6400 MHz','Латентност':'CL52','Форм фактор':'DIMM'},
    rating:4.4,rv:0,reviews:[],
    desc:'Kingston 64G DDR5 6400 KINGSTON — DDR5 DIMM 6400 MHz, 64 GB, CL52.',
-   img:'https://portal.mostbg.com/api/images/imageFileData/45260.jpeg',stock:false},
+   img:'https://portal.mostbg.com/api/images/imageFileData/45260.jpeg',stock:true},
 
   {id:714,name:'32G DDR4 3200 ADATA',brand:'ADATA',cat:'components',subcat:'ram',
    price:507,old:null,pct:null,badge:null,emoji:'🟢',sku:'AD4U320032G22-SGN',ean:'4711085933485',
@@ -7394,7 +7394,7 @@ var products = [
    specs:{'Размер':'23.80\'','Панел':'IPS','Резолюция':'1920×1080 (FHD)','Честота':'180 Hz','Отклик':'1ms'},
    rating:4.3,rv:0,reviews:[],
    desc:'LG 24 LG 24GS60F-B — 23.80" монитор, IPS, 1920×1080 (FHD), 180 Hz.',
-   img:'https://portal.mostbg.com/api/images/imageFileData/41147.jpeg',stock:false},
+   img:'https://portal.mostbg.com/api/images/imageFileData/41147.jpeg',stock:true},
 
   {id:1056,name:'24 LG 24G411A-B',brand:'LG',cat:'monitors',subcat:'monitor',
    price:182,old:null,pct:null,badge:null,emoji:'🖥',sku:'24G411A-B.AEU',ean:'8806096571583',
@@ -7415,14 +7415,14 @@ var products = [
    specs:{'Размер':'23.80\'','Панел':'IPS','Резолюция':'1920×1080 (FHD)','Честота':'100 Hz','Отклик':'5ms','Тонколони':'Да'},
    rating:4.3,rv:0,reviews:[],
    desc:'LG 24 LG 24BA550-B — 23.80" монитор, IPS, 1920×1080 (FHD), 100 Hz.',
-   img:'https://portal.mostbg.com/api/images/imageFileData/41790.jpeg',stock:false},
+   img:'https://portal.mostbg.com/api/images/imageFileData/41790.jpeg',stock:true},
 
   {id:1059,name:'24 LG 24U41YA-B',brand:'LG',cat:'monitors',subcat:'monitor',
    price:162,old:null,pct:null,badge:null,emoji:'🖥',sku:'24U41YA-B.AEUQ',ean:null,
    specs:{'Размер':'23.8\'','Панел':'IPS','Резолюция':'1920×1080 (FHD)','Честота':'120 Hz','Отклик':'5ms'},
    rating:4.3,rv:0,reviews:[],
    desc:'LG 24 LG 24U41YA-B — 23.8" монитор, IPS, 1920×1080 (FHD), 120 Hz.',
-   img:'https://portal.mostbg.com/api/images/imageFileData/52336.png',stock:false},
+   img:'https://portal.mostbg.com/api/images/imageFileData/52336.png',stock:true},
 
   {id:1060,name:'26 LG 26WQ500-B IPS ULTRA WIDЕ',brand:'LG',cat:'monitors',subcat:'monitor',
    price:261,old:null,pct:null,badge:null,emoji:'🖥',sku:'26WQ500-B.AEU',ean:'8806091731418',
@@ -7541,7 +7541,7 @@ var products = [
    specs:{'Размер':'27\'','Панел':'IPS','Резолюция':'2560×1440 (QHD)','Честота':'200 Hz','Отклик':'1ms'},
    rating:4.3,rv:0,reviews:[],
    desc:'LG 27 LG 27G610A-B — 27" монитор, IPS, 2560×1440 (QHD), 200 Hz.',
-   img:'https://portal.mostbg.com/api/images/imageFileData/50222.png',stock:false},
+   img:'https://portal.mostbg.com/api/images/imageFileData/50222.png',stock:true},
 
   {id:1077,name:'27 LG 27G411A-B',brand:'LG',cat:'monitors',subcat:'monitor',
    price:197,old:null,pct:null,badge:null,emoji:'🖥',sku:'27G411A-B.AEU',ean:'8806096567449',
@@ -7590,7 +7590,7 @@ var products = [
    specs:{'Размер':'31.5\'','Панел':'IPS','Резолюция':'3840×2160 (4K)','Честота':'60 Hz','Отклик':'5ms','Тонколони':'Да'},
    rating:4.3,rv:0,reviews:[],
    desc:'LG 32 LG 32UN650K-W — 31.5" монитор, IPS, 3840×2160 (4K), 60 Hz.',
-   img:'https://portal.mostbg.com/api/images/imageFileData/44832.png',stock:false},
+   img:'https://portal.mostbg.com/api/images/imageFileData/44832.png',stock:true},
 
   {id:1084,name:'32 LG 32UP550N-W',brand:'LG',cat:'monitors',subcat:'monitor',
    price:649,old:null,pct:null,badge:null,emoji:'🔲',sku:'32UP550N-W.AEU',ean:null,
@@ -7646,7 +7646,7 @@ var products = [
    specs:{'Размер':'34\'','Панел':'VA','Резолюция':'3440×1440 (UW-QHD)','Честота':'100 Hz','Отклик':'5ms','Curved':'Да'},
    rating:4.3,rv:0,reviews:[],
    desc:'LG 34 LG 34WR50QK-B — 34" монитор, VA, 3440×1440 (UW-QHD), 100 Hz.',
-   img:'https://portal.mostbg.com/api/images/imageFileData/45964.jpeg',stock:false},
+   img:'https://portal.mostbg.com/api/images/imageFileData/45964.jpeg',stock:true},
 
   {id:1092,name:'32 LG 32GX850A-B',brand:'LG',cat:'monitors',subcat:'monitor',
    price:1974,old:null,pct:null,badge:null,emoji:'✨',sku:'32GX850A.AEU',ean:'8806096592595',

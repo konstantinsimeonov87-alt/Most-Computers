@@ -1,6 +1,6 @@
 <<<<<<< Updated upstream
-// Most Computers — Service Worker 74110d69
-const CACHE = 'mc-74110d69';
+// Most Computers — Service Worker 5545d91b
+const CACHE = 'mc-5545d91b';
 =======
 // Most Computers — Service Worker 02bdf516
 const CACHE = 'mc-02bdf516';

@@ -3545,7 +3545,7 @@ var products = [
    specs:{'Manufacturer':'AMD','Сокет':'AM4','Ядра':'8','Нишки':'16','Честота':'Max. Boost Clock: Up to 4.6 GHz;Base Clock: 3.4 GHz','Кеш':'L1 Cache: 512 KB;L2 Cache: 4 MB;L3 Cache: 32 MB','Max. PCI Express Lanes':'24 , 20 (Total/Usable)','Памет':'NVMe Support: Boot , RAID0 , RAID1 , RAID10;System Memory Type: DDR4;Memory Channels: 2;Max. Memory:','Fan':'Yes','Интегрирана графика':'Discrete Graphics Card Required'},
    rating:4.5,rv:0,reviews:[],
    desc:'AMD AMD RYZEN 7 5700X MPK — сокет AM4, 8 ядра.',
-   img:'https://portal.mostbg.com/api/images/imageFileData/51901.png',stock:true},
+   img:'https://portal.mostbg.com/api/images/imageFileData/51901.png',stock:false},
 
   {id:507,name:'AMD RYZEN 7 5700X BOX',brand:'AMD',cat:'components',subcat:'cpu',
    price:306,old:null,pct:null,badge:null,emoji:'🔴',sku:'100-100000926WOF',ean:'730143314275',
@@ -5249,7 +5249,7 @@ var products = [
    specs:{'Тип':'DDR4','Капацитет':'8 GB','Честота':'3200 MHz','Латентност':'CL 22','Форм фактор':'SO-DIMM'},
    rating:4.4,rv:0,reviews:[],
    desc:'ADATA 8GB DDR4 3200 ADATA SODIMM — DDR4 SO-DIMM 3200 MHz, 8 GB, CL 22.',
-   img:'https://portal.mostbg.com/api/images/imageFileData/28800.jpeg',stock:true},
+   img:'https://portal.mostbg.com/api/images/imageFileData/28800.jpeg',stock:false},
 
   {id:750,name:'8GB DDR4 3200 SODIMM',brand:'Generic',cat:'components',subcat:'ram',
    price:87,old:null,pct:null,badge:null,emoji:'💻',sku:'',ean:null,
@@ -6497,7 +6497,7 @@ var products = [
    specs:{'Капацитет':'256 GB','Интерфейс':'SATA III','Форм фактор':'2.5\''},
    rating:4.3,rv:0,reviews:[],
    desc:'ADATA ADATA SSD SU650 256GB 3D NAND — SSD 256 GB, SATA III, 2.5".',
-   img:'https://portal.mostbg.com/api/images/imageFileData/36406.png',stock:true},
+   img:'https://portal.mostbg.com/api/images/imageFileData/36406.png',stock:false},
 
   {id:928,name:'ADATA SSD SU650 480GB 3D NAND',brand:'ADATA',cat:'components',subcat:'ssd',
    price:140,old:null,pct:null,badge:null,emoji:'💾',sku:'ASU650SS-480GT-R',ean:'4713218461179',
@@ -7541,7 +7541,7 @@ var products = [
    specs:{'Размер':'27\'','Панел':'IPS','Резолюция':'2560×1440 (QHD)','Честота':'200 Hz','Отклик':'1ms'},
    rating:4.3,rv:0,reviews:[],
    desc:'LG 27 LG 27G610A-B — 27" монитор, IPS, 2560×1440 (QHD), 200 Hz.',
-   img:'https://portal.mostbg.com/api/images/imageFileData/50222.png',stock:true},
+   img:'https://portal.mostbg.com/api/images/imageFileData/50222.png',stock:false},
 
   {id:1077,name:'27 LG 27G411A-B',brand:'LG',cat:'monitors',subcat:'monitor',
    price:197,old:null,pct:null,badge:null,emoji:'🖥',sku:'27G411A-B.AEU',ean:'8806096567449',
@@ -10610,7 +10610,7 @@ var products = [
    specs:{'Яркост':'3500 lm','Резолюция':'XGA','Тип':'DLP','Хвърляне':'Кратко','WiFi':'Да'},
    rating:4.2,rv:0,reviews:[],
    desc:'Acer PROJECTOR ACER S1286H 3500LM — проектор XGA.',
-   img:'https://portal.mostbg.com/api/images/imageFileData/19296.png',stock:true},
+   img:'https://portal.mostbg.com/api/images/imageFileData/19296.png',stock:false},
 
   {id:1515,name:'PROJECTOR ACER S1286HN 3500LM',brand:'Acer',cat:'accessories',subcat:'projector',
    price:916,old:null,pct:null,badge:null,emoji:'🎥',sku:'MR.JQG11.001',ean:null,
@@ -11369,7 +11369,7 @@ const _laptops = [
   {id:1835,name:'Lenovo LEGION 5 15/ 83LY0084BM',brand:'Lenovo',cat:'laptops',subcat:'gaming_l',price:2583,old:null,pct:null,badge:null,emoji:'🎮',sku:'83LY0084BM',ean:'0198158884976',specs:{'Процесор':'Intel® Core i7-13650HX, 14C (6P + 8E) / 20T, P-core 2.6 / 4.9GHz, E-core 1.9 / 3.6GHz, 24MB','RAM':'32GB (2x16GB), SO-DIMM DDR5-4800','GPU':'NVIDIA® GeForce RTX™ 5060 8GB GDDR7, Boost Clock 2497MHz, TGP 115W, 572 AI TOPS','Екран':'15.3", 1920x1200, WUXGA IPS 300nits Anti-glare, 100% sRGB, 165Hz, Dolby Vision®, G-SYNC®','SSD':'1TB','ОС':'None','Тегло':'Starting at 2.1 kg','Батерия':'80Wh'},rating:5.0,rv:0,reviews:[],desc:'Lenovo LEGION 5 15/ 83LY0084BM — Intel® Core i7-13650HX, 14C (6P + 8E) / 20T, P-core 2.6 / 4.9GHz, E-core 1.9 / 3.6GHz, 24MB, 32GB (2x16GB) RAM, NVIDIA® GeForce RTX™ 5060 8GB GDDR7, Boost Clock 2497MH',img:'https://portal.mostbg.com/api/images/imageFileData/50438.png',stock:false},
   {id:1836,name:'Lenovo LEGION 5 15/ 83LY0082BM',brand:'Lenovo',cat:'laptops',subcat:'gaming_l',price:2249,old:null,pct:null,badge:null,emoji:'🎮',sku:'83LY0082BM',ean:'0198158884952',specs:{'Процесор':'Intel® Core i7-13650HX, 14C (6P + 8E) / 20T, P-core up to 4.9GHz, E-core up to 3.6GHz, 24MB Intel Smart Cache','RAM':'24GB (2x12GB), SODIMM DDR5-4800','GPU':'NVIDIA® GeForce RTX™ 5050 8GB GDDR7, Boost Clock 2662MHz, TGP 115W, 440 AI TOPS','Екран':'15.3", 1920x1200, WUXGA IPS 300nits Anti-glare, 100% sRGB, 165Hz, Dolby Vision®, G-SYNC®','SSD':'1TB','ОС':'None','Тегло':'Starting at 2.1 kg','Батерия':'80Wh'},rating:5.0,rv:24,reviews:[],desc:'Lenovo LEGION 5 15/ 83LY0082BM — Intel® Core i7-13650HX, 14C (6P + 8E) / 20T, P-core up to 4.9GHz, E-core up to 3.6GHz, 24MB Intel Smart Cache, 24GB (2x12GB) RAM, NVIDIA® GeForce RTX™ 5050 8GB GDDR7,',img:'https://portal.mostbg.com/api/images/imageFileData/50680.png',stock:false},
   {id:1837,name:'Lenovo LEGION 5 15/ 83LY0080BM',brand:'Lenovo',cat:'laptops',subcat:'gaming_l',price:3356,old:null,pct:null,badge:null,emoji:'🎮',sku:'83LY0080BM',ean:'0198158884570',specs:{'Процесор':'Intel Core™ i9-14900HX, 24C (8P + 16E) / 32T, P-core 2.2 / 5.8GHz, E-core 1.6 / 4.1GHz, 36MB Intel® Smart Cache','RAM':'32GB (2x16GB), SODIMM DDR5-5600','GPU':'NVIDIA GeForce RTX™ 5070 8GB GDDR7, Boost Clock 2347MHz, TGP 115W, 798 AI TOPS','Екран':'15.1", 2560x1600','SSD':'2TB (2x 1TB)','ОС':'None','Тегло':'Starting at 1.9 kg','Батерия':'80Wh'},rating:4.5,rv:14,reviews:[],desc:'Lenovo LEGION 5 15/ 83LY0080BM — Intel Core™ i9-14900HX, 24C (8P + 16E) / 32T, P-core 2.2 / 5.8GHz, E-core 1.6 / 4.1GHz, 36MB Intel® Smart Cache, 32GB (2x16GB) RAM, NVIDIA GeForce RTX™ 5070 8GB GDDR7,',img:'https://portal.mostbg.com/api/images/imageFileData/52830.png',stock:false},
-  {id:1838,name:'Lenovo LEGION 5 15/ 83LY00LFBM',brand:'Lenovo',cat:'laptops',subcat:'gaming_l',price:2410,old:null,pct:null,badge:null,emoji:'🎮',sku:'83LY00LFBM',ean:'0199272542599',specs:{'Процесор':'Intel® Core™ i7-13650HX, 14C (6P + 8E) / 20T, P-core up to 4.9GHz, E-core up to 3.6GHz, 24MB Intel Smart Cache','RAM':'16GB, SODIMM DDR5-4800','GPU':'NVIDIA® GeForce RTX™ 5060 8GB GDDR7, Boost Clock 2497MHz, TGP 115W, 572 AI TOPS','Екран':'15.3", 1920x1200','SSD':'1TB','ОС':'None','Тегло':'Starting at 2.1 kg','Батерия':'80Wh'},rating:4.2,rv:24,reviews:[],desc:'Lenovo LEGION 5 15/ 83LY00LFBM — Intel® Core™ i7-13650HX, 14C (6P + 8E) / 20T, P-core up to 4.9GHz, E-core up to 3.6GHz, 24MB Intel Smart Cache, 16GB RAM, NVIDIA® GeForce RTX™ 5060 8GB GDDR7, Boost Cl',img:'https://portal.mostbg.com/api/images/imageFileData/51874.png',stock:true},
+  {id:1838,name:'Lenovo LEGION 5 15/ 83LY00LFBM',brand:'Lenovo',cat:'laptops',subcat:'gaming_l',price:2410,old:null,pct:null,badge:null,emoji:'🎮',sku:'83LY00LFBM',ean:'0199272542599',specs:{'Процесор':'Intel® Core™ i7-13650HX, 14C (6P + 8E) / 20T, P-core up to 4.9GHz, E-core up to 3.6GHz, 24MB Intel Smart Cache','RAM':'16GB, SODIMM DDR5-4800','GPU':'NVIDIA® GeForce RTX™ 5060 8GB GDDR7, Boost Clock 2497MHz, TGP 115W, 572 AI TOPS','Екран':'15.3", 1920x1200','SSD':'1TB','ОС':'None','Тегло':'Starting at 2.1 kg','Батерия':'80Wh'},rating:4.2,rv:24,reviews:[],desc:'Lenovo LEGION 5 15/ 83LY00LFBM — Intel® Core™ i7-13650HX, 14C (6P + 8E) / 20T, P-core up to 4.9GHz, E-core up to 3.6GHz, 24MB Intel Smart Cache, 16GB RAM, NVIDIA® GeForce RTX™ 5060 8GB GDDR7, Boost Cl',img:'https://portal.mostbg.com/api/images/imageFileData/51874.png',stock:false},
   {id:1839,name:'Lenovo LEGION 5 15/ 83LY00S0BM',brand:'Lenovo',cat:'laptops',subcat:'gaming_l',price:2981,old:null,pct:null,badge:null,emoji:'🎮',sku:'83LY00S0BM',ean:'0199274189082',specs:{'Процесор':'Intel Core™ i7-13650HX, 14C (6P + 8E) / 20T, P-core up to 4.9GHz, E-core up to 3.6GHz, 24MB Intel® Smart Cache','RAM':'32 (2x16GB), SODIMM DDR5-4800 Max Memory: Up to 32GB DDR5-4800 offering','GPU':'NVIDIA GeForce RTX™ 5070 8GB GDDR7, Boost Clock 2347MHz, TGP 115W, 798 AI TOPS','Екран':'15.3", 1920x1200, WUXGA IPS 300nits Anti-glare, 100% sRGB, 165Hz, Dolby Vision®','SSD':'1TB','ОС':'None','Тегло':'Starting at 2.1 kg','Батерия':'80Wh'},rating:4.6,rv:26,reviews:[],desc:'Lenovo LEGION 5 15/ 83LY00S0BM — Intel Core™ i7-13650HX, 14C (6P + 8E) / 20T, P-core up to 4.9GHz, E-core up to 3.6GHz, 24MB Intel® Smart Cache, 32 (2x16GB) RAM, NVIDIA GeForce RTX™ 5070 8GB GDDR7, Bo',img:'https://portal.mostbg.com/api/images/imageFileData/100286.png',stock:true},
   {id:1840,name:'Lenovo LEGION 5 15/ 83LY00S1BM',brand:'Lenovo',cat:'laptops',subcat:'gaming_l',price:3584,old:null,pct:null,badge:null,emoji:'🎮',sku:'83LY00S1BM',ean:'0199274189105',specs:{'Процесор':'Intel Core™ i7-14700HX, 20C (8P + 12E) / 28T, P-core 2.1 / 5.5GHz, E-core 1.5 / 3.9GHz, 33MB Intel® Smart Cache','RAM':'32GB (2x 16GB), SODIMM DDR5-5600 Max Memory: Up to 32GB DDR5-5600 offering','GPU':'NVIDIA GeForce RTX™ 5070 8GB GDDR7, Boost Clock 2347MHz, TGP 115W, 798 AI TOPS','Екран':'15.1", 2560x1600, WQXGA OLED 1000nits (peak) / 500nits (typical) glossy, 100% DCI-P3, 165Hz, Dolby Vision®, DisplayHDR™ True Black 600','SSD':'1TB','ОС':'None','Тегло':'Starting at 1.9 kg','Батерия':'80Wh'},rating:4.7,rv:5,reviews:[],desc:'Lenovo LEGION 5 15/ 83LY00S1BM — Intel Core™ i7-14700HX, 20C (8P + 12E) / 28T, P-core 2.1 / 5.5GHz, E-core 1.5 / 3.9GHz, 33MB Intel® Smart Cache, 32GB (2x 16GB) RAM, NVIDIA GeForce RTX™ 5070 8GB GDDR7',img:'https://portal.mostbg.com/api/images/imageFileData/100545.png',stock:true},
   {id:1841,name:'Lenovo LEGION 5 15/ 83LY00RVBM',brand:'Lenovo',cat:'laptops',subcat:'gaming_l',price:2688,old:null,pct:null,badge:null,emoji:'🎮',sku:'83LY00RVBM',ean:'0199274188979',specs:{'Процесор':'Intel Core™ i7-13650HX, 14C (6P + 8E) / 20T, P-core up to 4.9GHz, E-core up to 3.6GHz, 24MB Intel® Smart Cache','RAM':'32 (2x16GB), SODIMM DDR5-4800 Max Memory: Up to 32GB DDR5-4800 offering','GPU':'NVIDIA GeForce RTX™ 5060 8GB GDDR7, Boost Clock 2497MHz, TGP 115W, 572 AI TOPS','Екран':'15.3", 1920x1200, WUXGA IPS 300nits Anti-glare, 100% sRGB, 165Hz, Dolby Vision®','SSD':'1TB','ОС':'None','Тегло':'Starting at 2.1 kg','Батерия':'80Wh'},rating:3.9,rv:5,reviews:[],desc:'Lenovo LEGION 5 15/ 83LY00RVBM — Intel Core™ i7-13650HX, 14C (6P + 8E) / 20T, P-core up to 4.9GHz, E-core up to 3.6GHz, 24MB Intel® Smart Cache, 32 (2x16GB) RAM, NVIDIA GeForce RTX™ 5060 8GB GDDR7, Bo',img:'https://portal.mostbg.com/api/images/imageFileData/100297.png',stock:true},

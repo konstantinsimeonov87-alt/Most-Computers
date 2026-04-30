@@ -153,10 +153,9 @@ function checkOpenNow() {
   const time = h * 60 + m;
 
   let isOpen = false;
-  // Mon-Fri 09:30-18:30
-  if (day >= 1 && day <= 5 && time >= 570 && time < 1110) isOpen = true;
-  // Sat 10:00-14:00
-  if (day === 6 && time >= 600 && time < 840) isOpen = true;
+  // Mon-Fri 09:30-18:15
+  if (day >= 1 && day <= 5 && time >= 570 && time < 1095) isOpen = true;
+  // Sat-Sun: closed
 
   // Highlight today in table
   const rows = document.querySelectorAll('#hoursTable tr');

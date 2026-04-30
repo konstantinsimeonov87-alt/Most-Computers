@@ -2760,6 +2760,7 @@ function normalizeCat(cat) {
     monitor:'monitors',  monitors:'monitors',  display:'monitors',
     audio:'peripherals', camera:'peripherals', peripherals:'peripherals',
     print:'printers',    printer:'printers',   printers:'printers',
+    ups:'ups',           ups_home:'ups',       ups_office:'ups',    ups_server:'ups',
     phone:'phones',      phones:'phones',      mobile:'phones',
     tablet:'phones',     smartphones:'phones',
     tv:'accessories',    smart:'accessories',
@@ -3126,7 +3127,7 @@ function updateActiveFiltersBar() {
   window._afRemove = [];
   const active = [];
   // Category chip
-  const _catLabels = { phones:'📱 Телефони', laptops:'💻 Лаптопи', desktops:'🖥 Настолни', gaming:'🎮 Гейминг', monitors:'🖥 Монитори', components:'⚙️ Компоненти', peripherals:'🖱 Периферия', network:'📡 Мрежово', storage:'💾 Сторидж', software:'📀 Софтуер', accessories:'🎒 Аксесоари', printers:'🖨 Принтери' };
+  const _catLabels = { phones:'📱 Телефони', laptops:'💻 Лаптопи', desktops:'🖥 Настолни', gaming:'🎮 Гейминг', monitors:'🖥 Монитори', components:'⚙️ Компоненти', peripherals:'🖱 Периферия', network:'📡 Мрежово', storage:'💾 Сторидж', software:'📀 Софтуер', accessories:'🎒 Аксесоари', printers:'🖨 Принтери', ups:'⚡ UPS устройства' };
   if (currentFilter && currentFilter !== 'all') {
     const idx = window._afRemove.length;
     window._afRemove.push(() => {
@@ -3448,6 +3449,12 @@ const SUBCATS = {
     { id: 'laser',      label: '⚡ Лазерни принтери' },
     { id: 'portable',   label: '🎒 Преносими принтери' },
   ],
+  ups: [
+    { id: 'ups_home',    label: '🏠 Домашни (до 1KVA)' },
+    { id: 'ups_office',  label: '🏢 За офиса (1-3KVA)' },
+    { id: 'ups_server',  label: '🖥️ Сървърни / Онлайн' },
+    { id: 'ups_battery', label: '🔋 Резервни батерии' },
+  ],
   network: [
     { id: 'router',   label: '📡 Рутери' },
     { id: 'mesh',     label: '🕸️ Mesh системи' },
@@ -3529,6 +3536,12 @@ const MEGA_MENU = {
     { title: 'Сторидж', id: 'nas', items: ['NAS устройства', 'Сървъри', 'Rack системи'] },
     { title: 'Носители', id: 'ext_drive', items: ['Портативни SSD', 'Портативни HDD', 'USB Flash', 'SD карти'] },
   ],
+  ups: [
+    { title: 'Домашни UPS', id: 'ups_home', items: ['До 800VA', 'Fortron Nano', 'Fortron FP серия', 'Inform Guardian', 'Hikvision DS-UPS'] },
+    { title: 'Офис UPS', id: 'ups_office', items: ['1-2 KVA', 'AVR защита', 'С USB мониторинг', 'Repotec', 'Fortron IFP'] },
+    { title: 'Сървърни / Онлайн', id: 'ups_server', items: ['Чиста синусоида', 'Онлайн double-conversion', 'Inform Sinus', 'Fortron Champ', 'Tuncmatik PowerUp'] },
+    { title: 'Резервни батерии', id: 'ups_battery', items: ['12V/7Ah', '12V/9Ah', '12V/12Ah', '12V/18Ah', 'Sunlight', 'Fortron'] },
+  ],
   accessories: [
     { title: 'Проектори', id: 'projector', items: ['Full HD проектори', '4K проектори', 'Лазерни проектори', 'Мини проектори', 'Бизнес проектори'] },
     { title: 'Смарт устройства', id: 'smart_dev', items: ['Смарт часовници', 'Фитнес тракери', 'Смарт говорители', 'Смарт лампи', 'Умен дом'] },
@@ -3595,6 +3608,12 @@ const CAT_SPEC_FILTERS = {
     { key: 'Type',      label: '💾 Тип',               values: ['NAS','Сървър','Портативен SSD','Портативен HDD','USB Flash','SD карта'] },
     { key: 'Capacity',  label: '📦 Капацитет',         values: ['256 GB','512 GB','1 TB','2 TB','4 TB','8 TB+'] },
     { key: 'Interface', label: '🔌 Интерфейс',         values: ['USB-C','USB-A','Thunderbolt','Ethernet'] },
+  ],
+  ups: [
+    { key: 'Мощност',    label: '⚡ Мощност (VA/KVA)',    values: ['600VA','800VA','850VA','1KVA','1.5KVA','2KVA','3KVA','6KVA+'] },
+    { key: 'Тип',        label: '🔌 Тип UPS',             values: ['Линейно-интерактивен','Онлайн / Чиста синусоида','Резервна батерия'] },
+    { key: 'Свързаност', label: '🔗 Свързаност',          values: ['USB'] },
+    { key: 'AVR',        label: '🛡 AVR защита',          values: ['Да'] },
   ],
   accessories: [
     { key: 'Тип',       label: '⚙ Вид аксесоар',         values: ['Проектор','Смарт часовник','Фитнес тракер','Gaming стол','Контролер','USB хъб','Чанта'] },
@@ -3913,6 +3932,11 @@ function matchesSubcat(p, subcat) {
     sfp:           () => all.includes('sfp') || all.includes('gbic') || all.includes('mini-gbic') || all.includes('exp module') || all.includes('mod-gm') || all.includes('mod-fm') || all.includes('mod-mg') || all.includes('aoc-e10'),
     outdoor:       () => all.includes('outdoor') || all.includes('cpe') || all.includes('ptp') || /\bo[136]\b/.test(all),
     cable:         () => (p.cat === 'network') && (all.includes('utp') || all.includes('ftp') || all.includes('patch cab') || all.includes('305m') || (all.includes('100m') && all.includes('cat'))),
+    // UPS
+    ups_home:      () => p.subcat === 'ups_home'   || (p.cat === 'ups' && !p.subcat),
+    ups_office:    () => p.subcat === 'ups_office',
+    ups_server:    () => p.subcat === 'ups_server'  || (p.cat === 'ups' && (all.includes('online') || all.includes('on-line') || all.includes('чиста синусоида') || all.includes('double-conversion'))),
+    ups_battery:   () => p.subcat === 'ups_battery' || (p.cat === 'ups' && (all.includes('battery') || all.includes('batt') || all.includes('батер'))),
     // Storage
     nas:           () => all.includes('nas') || all.includes('network attached') || all.includes('qnap') || all.includes('synology'),
     server:        () => all.includes('сървър') || all.includes('server') || all.includes('rack'),
@@ -4017,7 +4041,7 @@ function updateURL() {
 }
 
 // Allowed canonical categories + sort values — used to validate URL params before querySelector
-const _VALID_CATS = new Set(['all','laptops','desktops','gaming','components','monitors','peripherals','phones','network','storage','software','accessories','printers']);
+const _VALID_CATS = new Set(['all','laptops','desktops','gaming','components','monitors','peripherals','phones','network','storage','software','accessories','printers','ups']);
 const _VALID_SORTS = new Set(['bestseller','price-asc','price-desc','rating','discount','new']);
 
 function readURLParams() {
@@ -6359,6 +6383,7 @@ function generateSitemap() {
     { url: '/?cat=storage', priority: '0.7', freq: 'weekly' },
     { url: '/?cat=accessories', priority: '0.7', freq: 'weekly' },
     { url: '/?cat=printers', priority: '0.7', freq: 'weekly' },
+    { url: '/?cat=ups',      priority: '0.7', freq: 'weekly' },
   ];
   const productPages = products.map(p => ({
     url: `/?product=${p.id}`,
@@ -6475,6 +6500,7 @@ const CAT_META = {
   storage:    { emoji:'💾', icon:'ic-storage',    label:'Сървъри и сторидж',    sub:'NAS, Сървъри, Външни дискове', badge:null },
   accessories:{ emoji:'🎒', icon:'ic-mouse',      label:'Аксесоари',            sub:'Чанти, Кабели, Smart Home, TV', badge:null },
   printers:   { emoji:'🖨', icon:'ic-printer',    label:'Принтери',             sub:'Мастиленоструйни, MegaTank, Лазерни', badge:null },
+  ups:        { emoji:'⚡', icon:'ic-ups',        label:'UPS устройства',       sub:'Домашни, Офис, Онлайн / Чиста синусоида', badge:null },
   new:        { emoji:'🆕', icon:'ic-star',       label:'Нови продукти',        sub:'Пресни пристигания', badge:'NEW' },
   sale:       { emoji:'%',  icon:'ic-tag',        label:'Намаления',            sub:'До -60% на избрани продукти', badge:'SALE' },
 };
@@ -6529,6 +6555,8 @@ const HP_SUBCATS = [
   { cat:'printers',   id:'megatank',     label:'MegaTank принтери',     icon:'♾️'               },
   { cat:'printers',   id:'inkjet_aio',  label:'Мастиленоструйни МФУ',  icon:'🖨'                },
   { cat:'components', id:'case_cooling',label:'Кутии и охлаждане',     icon:'❄️'               },
+  { cat:'ups',        id:'ups_home',    label:'Домашни UPS',            icon:'🏠'                },
+  { cat:'ups',        id:'ups_server',  label:'Онлайн UPS (синусоида)', icon:'⚡'                },
 ];
 
 const HP_SUBCATS_VISIBLE = 10;

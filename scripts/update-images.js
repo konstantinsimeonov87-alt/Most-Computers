@@ -37,6 +37,12 @@ const CATEGORIES = [
   { id: 32, name: 'Phones' },
   { id: 34, name: 'Desktops' },
   { id: 15, name: 'Network' },
+  { id:  7, name: 'GPU' },
+  { id: 14, name: 'Webcams' },
+  { id: 19, name: 'Flash/USB' },
+  { id: 33, name: 'Cooling' },
+  { id: 16, name: 'UPS' },
+  { id: 17, name: 'Scanners' },
 ];
 
 function fetchXml(categoryId) {
@@ -62,8 +68,9 @@ function isPromoUrl(url) {
 }
 
 /**
- * Builds a map: SKU/EAN → first valid gallery image URL
+ * Builds a map: SKU/EAN/name → first valid gallery image URL
  * Only extracts <pictureUrl> from INSIDE <gallery>…</gallery>
+ * Also indexes by product name for fallback matching (handles regional SKU variants)
  */
 function parseImageMap(xml) {
   const map = new Map();
@@ -72,12 +79,9 @@ function parseImageMap(xml) {
   while ((m = productRe.exec(xml)) !== null) {
     const block = m[0];
 
-    const skuM   = block.match(/<PartNumber>(.*?)<\/PartNumber>/i);
-    const eanM   = block.match(/<EAN>(\d{8,14})<\/EAN>/i);
-    if (!skuM && !eanM) continue;
-
-    const sku = skuM ? skuM[1].trim() : null;
-    const ean = eanM ? eanM[1].trim() : null;
+    const skuM  = block.match(/<PartNumber>(.*?)<\/PartNumber>/i);
+    const eanM  = block.match(/<EAN>(\d{8,14})<\/EAN>/i);
+    const nameM = block.match(/<name>(.*?)<\/name>/i);
 
     // Extract ONLY the <gallery> section — ignore everything outside it
     const galleryM = block.match(/<gallery>([\s\S]*?)<\/gallery>/i);
@@ -93,8 +97,57 @@ function parseImageMap(xml) {
     }
     if (!firstGoodUrl) continue;
 
-    if (sku)              map.set(sku, firstGoodUrl);
-    if (ean)              map.set('EAN:' + ean, firstGoodUrl);
+    const sku = skuM ? skuM[1].trim() : null;
+    const ean = eanM ? eanM[1].trim() : null;
+
+    if (sku)  map.set(sku, firstGoodUrl);
+    if (ean)  map.set('EAN:' + ean, firstGoodUrl);
+    // SKU-prefix fallback: same model family, sibling variant (first-wins, 6-char prefix)
+    if (sku && sku.length >= 6) {
+      const pfx = sku.substring(0, 6);
+      if (!map.has('SKUPFX:' + pfx)) map.set('SKUPFX:' + pfx, firstGoodUrl);
+    }
+    if (nameM) {
+      const fullName = nameM[1].trim().toLowerCase();
+      map.set('NAME:' + fullName, firstGoodUrl);
+      // Index by base model name — handles two common XML name formats:
+      //   "LENOVO LOQ 15IRX10 /83JE019ABM"  → strip "/CODE"
+      //   "LENOVO LOQ 15IRX10  83JE00AABM"  → strip trailing " CODE"
+      let baseName = fullName.replace(/\s*\/\s*\S+$/, '').trim();
+      if (baseName === fullName) {
+        // No slash — try stripping a trailing alphanumeric code (≥5 chars)
+        baseName = fullName.replace(/\s+[a-z0-9\-]{5,}$/i, '').trim();
+      }
+      if (baseName && baseName !== fullName) map.set('BASE:' + baseName, firstGoodUrl);
+
+      // Cross-variant fallback: strip all trailing dash-codes, then trailing
+      // space-separated variant code, to find the bare model family.
+      // e.g. "ASUS X1607QA-MB006W" → "asus x1607qa"
+      //      "ACER EXTENSA EX215-23" → "acer extensa ex215"
+      //      "MSI THIN 15 B12UCX-1467XBG" → "msi thin 15"
+      let crossKey = fullName;
+      // Strip trailing /CODE or / CODE
+      crossKey = crossKey.replace(/\s*\/\s*\S+$/, '').trim();
+      // Repeatedly strip trailing -code segments
+      let prev;
+      do {
+        prev = crossKey;
+        crossKey = crossKey.replace(/-[a-z0-9]{2,}$/gi, '').trim();
+      } while (crossKey !== prev && crossKey.length > 0);
+      // Strip trailing space-separated variant token when ≥4 tokens remain
+      // (avoids stripping the model series name itself)
+      const xTokens = crossKey.split(/\s+/);
+      if (xTokens.length >= 4) {
+        const last = xTokens[xTokens.length - 1];
+        if (/^[a-z]{1,3}[0-9][a-z0-9]*$/i.test(last)) {
+          crossKey = xTokens.slice(0, -1).join(' ').trim();
+        }
+      }
+      // Only set CROSS: if it meaningfully differs from full/base name and is ≥2 words
+      if (crossKey && crossKey !== fullName && crossKey !== baseName && crossKey.includes(' ')) {
+        if (!map.has('CROSS:' + crossKey)) map.set('CROSS:' + crossKey, firstGoodUrl);
+      }
+    }
   }
   return map;
 }
@@ -146,12 +199,41 @@ async function main() {
     const hasImg = /\bimg:'[^']+'/.test(block);
     if (hasImg && !FORCE_ALL) { skipped++; continue; }
 
-    // Find image via SKU or EAN
-    const skuM = block.match(/\bsku:'([^']+)'/);
-    const eanM = block.match(/\bean:'(\d{8,14})'/);
+    // Find image via SKU, EAN, or product name (fallback for regional SKU variants)
+    const skuM  = block.match(/\bsku:'([^']+)'/);
+    const eanM  = block.match(/\bean:'(\d{8,14})'/);
+    const nameM = block.match(/\bname:'([^']+)'/);
     let newUrl = null;
-    if (skuM && imageMap.has(skuM[1]))           newUrl = imageMap.get(skuM[1]);
-    else if (eanM && imageMap.has('EAN:' + eanM[1])) newUrl = imageMap.get('EAN:' + eanM[1]);
+    if (skuM && imageMap.has(skuM[1]))                newUrl = imageMap.get(skuM[1]);
+    if (!newUrl && eanM && imageMap.has('EAN:' + eanM[1])) newUrl = imageMap.get('EAN:' + eanM[1]);
+    // SKU-prefix sibling: same model family, different variant
+    if (!newUrl && skuM && skuM[1].length >= 6) {
+      const pfx = skuM[1].substring(0, 6);
+      if (imageMap.has('SKUPFX:' + pfx)) newUrl = imageMap.get('SKUPFX:' + pfx);
+    }
+    if (!newUrl && nameM) {
+      const n = nameM[1].trim().toLowerCase();
+      if (imageMap.has('NAME:' + n)) newUrl = imageMap.get('NAME:' + n);
+      if (!newUrl) {
+        const base = n.replace(/\s*\/\s*\S+$/, '').trim();
+        if (base && imageMap.has('BASE:' + base)) newUrl = imageMap.get('BASE:' + base);
+      }
+      if (!newUrl) {
+        // Cross-variant: same model family, different variant code
+        let crossKey = n.replace(/\s*\/\s*\S+$/, '').trim();
+        let prev;
+        do { prev = crossKey; crossKey = crossKey.replace(/-[a-z0-9]{2,}$/gi, '').trim(); }
+        while (crossKey !== prev && crossKey.length > 0);
+        const xTok = crossKey.split(/\s+/);
+        if (xTok.length >= 4) {
+          const last = xTok[xTok.length - 1];
+          if (/^[a-z]{1,3}[0-9][a-z0-9]*$/i.test(last)) crossKey = xTok.slice(0, -1).join(' ');
+        }
+        if (crossKey && crossKey !== n && crossKey.includes(' ') && imageMap.has('CROSS:' + crossKey)) {
+          newUrl = imageMap.get('CROSS:' + crossKey);
+        }
+      }
+    }
 
     if (!newUrl) { notFound++; continue; }
 

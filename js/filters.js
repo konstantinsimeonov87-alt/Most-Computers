@@ -711,11 +711,12 @@ const SUBCATS = {
   ],
   accessories: [
     { id: 'projector',    label: '🎥 Проектори' },
+    { id: 'smart_dev',    label: '⌚ Смарт устройства' },
     { id: 'chair',        label: '🪑 Gaming столове' },
     { id: 'controller',   label: '🎮 Контролери' },
-    { id: 'av',           label: '📺 Телевизори и AV' },
-    { id: 'smart_dev',    label: '⌚ Смарт устройства' },
-    { id: 'hub',          label: '🔌 USB хъбове' },
+    { id: 'hub',          label: '🔌 USB хъбове и зарядни' },
+    { id: 'bag',          label: '🎒 Чанти и калъфи' },
+    { id: 'av',           label: '🔊 Тонколони и AV' },
   ],
 };
 
@@ -769,8 +770,10 @@ const MEGA_MENU = {
     { title: 'Носители', id: 'ext_drive', items: ['Портативни SSD', 'Портативни HDD', 'USB Flash', 'SD карти'] },
   ],
   accessories: [
-    { title: 'Проектори', id: 'projector', items: ['Full HD проектори', '4K проектори', 'Лазерни проектори', 'Мини проектори'] },
-    { title: 'Gaming аксесоари', id: 'chair', items: ['Gaming столове', 'Геймпадове', 'Контролери'] },
+    { title: 'Проектори', id: 'projector', items: ['Full HD проектори', '4K проектори', 'Лазерни проектори', 'Мини проектори', 'Бизнес проектори'] },
+    { title: 'Смарт устройства', id: 'smart_dev', items: ['Смарт часовници', 'Фитнес тракери', 'Смарт говорители', 'Смарт лампи', 'Умен дом'] },
+    { title: 'Gaming аксесоари', id: 'chair', items: ['Gaming столове', 'Контролери', 'Геймпадове', 'Рулета и джойстици'] },
+    { title: 'Аксесоари', id: 'hub', items: ['USB хъбове', 'Зарядни устройства', 'Чанти за лаптоп', 'Тонколони'] },
   ],
 };
 
@@ -831,9 +834,10 @@ const CAT_SPEC_FILTERS = {
     { key: 'Interface', label: '🔌 Интерфейс',         values: ['USB-C','USB-A','Thunderbolt','Ethernet'] },
   ],
   accessories: [
+    { key: 'Тип',       label: '⚙ Вид аксесоар',         values: ['Проектор','Смарт часовник','Фитнес тракер','Gaming стол','Контролер','USB хъб','Чанта'] },
     { key: 'Резолюция', label: '🔍 Резолюция (проектор)', values: ['4K UHD','Full HD','WXGA','XGA','SVGA'] },
-    { key: 'Тип',       label: '⚙ Технология',           values: ['Лазерен','LED','DLP','Gaming стол','Геймпад'] },
     { key: 'WiFi',      label: '📡 WiFi',                 values: ['Да'] },
+    { key: 'Връзка',    label: '📡 Връзка',               values: ['Bluetooth','Безжична','Кабелна'] },
   ],
 };
 
@@ -901,6 +905,11 @@ const SUBCAT_SPEC_FILTERS = {
   ],
   controller: [
     { key: 'Връзка', label: '📡 Връзка', values: ['Безжичен','Кабелен'] },
+  ],
+  smart_dev: [
+    { key: 'Тип',    label: '⌚ Вид устройство',  values: ['Смарт часовник','Фитнес тракер','Смарт говорител','Таблет'] },
+    { key: 'Връзка', label: '📡 Свързаност',      values: ['Bluetooth','WiFi','4G/LTE'] },
+    { key: 'ОС',     label: '💻 Операционна система', values: ['Android','Wear OS','iOS','Независима'] },
   ],
   // Monitor subcats
   gaming_mon: [

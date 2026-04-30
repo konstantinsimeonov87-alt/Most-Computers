@@ -5713,7 +5713,7 @@ var products = [
    specs:{'Капацитет':'8 TB','Интерфейс':'SATA III','Форм фактор':'3.5\'','RPM':'5400','Кеш':'256 MB'},
    rating:4.3,rv:0,reviews:[],
    desc:'Seagate 8T SG ST8000VX010 — хард диск 8 TB, SATA III, 3.5".',
-   img:'https://portal.mostbg.com/api/images/imageFileData/36454.png',stock:false},
+   img:'https://portal.mostbg.com/api/images/imageFileData/36454.png',stock:true},
 
   {id:816,name:'10T SG ST10000VE001',brand:'Seagate',cat:'components',subcat:'hdd',
    price:642,old:null,pct:null,badge:null,emoji:'🖴',sku:'ST10000VE001',ean:'8719706029452',

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 — Страницата не е намерена | Most Computers</title>
+  <meta name="description" content="Страницата, която търсиш, не съществува. Върни се в Most Computers.">
+  <meta name="robots" content="noindex, nofollow">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: #fff;
+      color: #111;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 32px 24px;
+    }
+
+    .logo {
+      font-size: 15px;
+      font-weight: 900;
+      color: #bd1105;
+      letter-spacing: .05em;
+      text-decoration: none;
+      margin-bottom: 36px;
+      align-self: flex-start;
+    }
+    .logo span { color: #111; }
+
+    .illo { width: 140px; height: 140px; margin-bottom: 8px; }
+
+    .error-title {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: #111;
+      margin: 10px 0 4px;
+    }
+    .error-sub {
+      font-size: 10px;
+      color: #888;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    hr {
+      width: 36px;
+      border: none;
+      border-top: 2px solid #bd1105;
+      margin: 24px auto;
+    }
+
+    .help-title {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .help-desc {
+      font-size: 12px;
+      color: #666;
+      line-height: 1.7;
+      max-width: 300px;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .form {
+      width: 100%;
+      max-width: 320px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: #444;
+    }
+    input, textarea {
+      width: 100%;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 10px 12px;
+      font-size: 12px;
+      font-family: inherit;
+      outline: none;
+      resize: none;
+      transition: border-color .15s;
+    }
+    input:focus, textarea:focus { border-color: #bd1105; }
+    textarea { height: 80px; }
+
+    .btn {
+      background: #bd1105;
+      color: #fff;
+      border: none;
+      padding: 12px 16px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: inherit;
+      transition: background .15s;
+    }
+    .btn:hover { background: #9a0e04; }
+    .btn span { font-size: 16px; }
+
+    .home {
+      margin-top: 16px;
+      font-size: 11px;
+      color: #bd1105;
+      text-decoration: none;
+      font-weight: 700;
+      letter-spacing: .04em;
+    }
+    .home:hover { text-decoration: underline; }
+
+    .countdown {
+      margin-top: 10px;
+      font-size: 10px;
+      color: #bbb;
+      letter-spacing: .04em;
+    }
+    .countdown span { color: #bd1105; font-weight: 700; }
+
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: #111;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      transition: transform .3s;
+      white-space: nowrap;
+      z-index: 999;
+    }
+    .toast.show { transform: translateX(-50%) translateY(0); }
+
+    @media (max-width: 480px) {
+      .illo { width: 110px; height: 110px; }
+    }
+  </style>
+</head>
+<body>
+
+  <a class="logo" href="/">Most<span>Computers</span></a>
+
+  <!-- Hanging monitor — black body, white screen, red wire & hook -->
+  <svg class="illo" viewBox="0 0 140 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Hanging wire — red -->
+    <line x1="70" y1="0" x2="70" y2="16" stroke="#bd1105" stroke-width="2.5" stroke-linecap="round"/>
+    <!-- Hook — red -->
+    <path d="M56 16 Q70 8 84 16" fill="none" stroke="#bd1105" stroke-width="2.5" stroke-linecap="round"/>
+    <!-- Monitor outer — black -->
+    <rect x="8" y="18" width="124" height="90" rx="8" fill="#111"/>
+    <!-- Screen area — dark, slightly lighter than body -->
+    <rect x="16" y="26" width="108" height="74" rx="4" fill="#222"/>
+    <!-- Top bar dots (browser-like) -->
+    <circle cx="27" cy="33" r="3.5" fill="#444"/>
+    <circle cx="38" cy="33" r="3.5" fill="#444"/>
+    <circle cx="49" cy="33" r="3.5" fill="#444"/>
+    <!-- 404 text — white on dark screen -->
+    <text x="70" y="82" text-anchor="middle" fill="#ffffff" font-size="40" font-weight="900" font-family="Segoe UI,system-ui,sans-serif">404</text>
+    <!-- Stand neck -->
+    <rect x="57" y="108" width="26" height="14" fill="#111"/>
+    <!-- Stand base -->
+    <rect x="38" y="121" width="64" height="8" rx="4" fill="#333"/>
+  </svg>
+
+  <div class="error-title">Страницата не е намерена</div>
+  <div class="error-sub">The page you were looking for doesn't exist.</div>
+
+  <hr>
+
+  <div class="help-title">Можем да помогнем!</div>
+  <div class="help-desc">
+    Нещо се е объркало. Възможно е линкът да е остарял
+    или адресът да е изписан грешно.<br>
+    Ако виждаш тази страница многократно, уведоми ни.
+  </div>
+
+  <form class="form" onsubmit="handleSubmit(event)">
+    <label for="err-email">Твоят имейл</label>
+    <input id="err-email" type="email" placeholder="email@example.com" autocomplete="email">
+
+    <label for="err-msg">Съобщение</label>
+    <textarea id="err-msg" placeholder="Опиши проблема..."></textarea>
+
+    <button type="submit" class="btn">Изпрати заявка <span>›</span></button>
+  </form>
+
+  <a class="home" href="/">← Назад към началото</a>
+  <div class="countdown">Автоматично пренасочване след <span id="sec">10</span> сек.</div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    let s = 10;
+    const el = document.getElementById('sec');
+    const t = setInterval(() => {
+      s--;
+      if (el) el.textContent = s;
+      if (s <= 0) { clearInterval(t); window.location.href = '/'; }
+    }, 1000);
+
+    function handleSubmit(e) {
+      e.preventDefault();
+      const email = document.getElementById('err-email').value.trim();
+      const msg   = document.getElementById('err-msg').value.trim();
+      if (!email || !msg) { showToast('⚠️ Попълни всички полета'); return; }
+      try {
+        const reports = JSON.parse(localStorage.getItem('mc_404_reports') || '[]');
+        reports.unshift({ email, msg, url: document.referrer || '(direct)', ts: Date.now() });
+        localStorage.setItem('mc_404_reports', JSON.stringify(reports.slice(0, 50)));
+      } catch(err) {}
+      document.getElementById('err-email').value = '';
+      document.getElementById('err-msg').value = '';
+      showToast('✅ Заявката е изпратена! Благодарим.');
+    }
+
+    function showToast(txt) {
+      const t = document.getElementById('toast');
+      t.textContent = txt;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 3000);
+    }
+  </script>
+</body>
+</html>

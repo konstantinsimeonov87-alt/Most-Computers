@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mostcomputers.bg/sitemap.xml

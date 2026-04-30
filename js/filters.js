@@ -1,6 +1,6 @@
 // ── Canonical category normalization ─────────────────────────────────────────
-// Maps any cat value (old-style or XML-imported) → one of the 11 canonical cats:
-// laptops | desktops | gaming | components | monitors | peripherals | phones | network | storage | software | accessories
+// Maps any cat value (old-style or XML-imported) → one of the 12 canonical cats:
+// laptops | desktops | gaming | components | monitors | peripherals | phones | network | storage | software | accessories | printers
 function normalizeCat(cat) {
   const m = {
     laptop:'laptops',    laptops:'laptops',
@@ -8,8 +8,8 @@ function normalizeCat(cat) {
     gaming:'gaming',     game:'gaming',
     components:'components', component:'components',
     monitor:'monitors',  monitors:'monitors',  display:'monitors',
-    audio:'peripherals', camera:'peripherals',
-    print:'peripherals', peripherals:'peripherals',
+    audio:'peripherals', camera:'peripherals', peripherals:'peripherals',
+    print:'printers',    printer:'printers',   printers:'printers',
     phone:'phones',      phones:'phones',      mobile:'phones',
     tablet:'phones',     smartphones:'phones',
     tv:'accessories',    smart:'accessories',
@@ -376,7 +376,7 @@ function updateActiveFiltersBar() {
   window._afRemove = [];
   const active = [];
   // Category chip
-  const _catLabels = { phones:'📱 Телефони', laptops:'💻 Лаптопи', desktops:'🖥 Настолни', gaming:'🎮 Гейминг', monitors:'🖥 Монитори', components:'⚙️ Компоненти', peripherals:'🖱 Периферия', network:'📡 Мрежово', storage:'💾 Сторидж', software:'📀 Софтуер', accessories:'🎒 Аксесоари' };
+  const _catLabels = { phones:'📱 Телефони', laptops:'💻 Лаптопи', desktops:'🖥 Настолни', gaming:'🎮 Гейминг', monitors:'🖥 Монитори', components:'⚙️ Компоненти', peripherals:'🖱 Периферия', network:'📡 Мрежово', storage:'💾 Сторидж', software:'📀 Софтуер', accessories:'🎒 Аксесоари', printers:'🖨 Принтери' };
   if (currentFilter && currentFilter !== 'all') {
     const idx = window._afRemove.length;
     window._afRemove.push(() => {
@@ -691,7 +691,12 @@ const SUBCATS = {
     { id: 'mouse',        label: '🖱 Мишки' },
     { id: 'headphones',   label: '🎧 Слушалки' },
     { id: 'webcam',       label: '📷 Уеб камери' },
-    { id: 'printer',      label: '🖨 Принтери' },
+  ],
+  printers: [
+    { id: 'inkjet_aio', label: '🖨️ Мастиленоструйни МФУ' },
+    { id: 'megatank',   label: '♾️ MegaTank (резервоар)' },
+    { id: 'laser',      label: '⚡ Лазерни принтери' },
+    { id: 'portable',   label: '🎒 Преносими принтери' },
   ],
   network: [
     { id: 'router',   label: '📡 Рутери' },
@@ -757,7 +762,12 @@ const MEGA_MENU = {
   ],
   peripherals: [
     { title: 'Въвеждане', id: 'keyboard', items: ['Механични клавиатури', 'Офис мишки', 'Trackpad', 'Геймпадове'] },
-    { title: 'Аудио и видео', id: 'headphones', items: ['Слушалки', 'Тонколони', 'Уеб камери', 'Принтери'] },
+    { title: 'Аудио и видео', id: 'headphones', items: ['Слушалки', 'Тонколони', 'Уеб камери'] },
+  ],
+  printers: [
+    { title: 'Мастиленоструйни МФУ', id: 'inkjet_aio', items: ['Домашен МФУ', 'С WiFi', 'С факс и ADF', 'A3 формат', 'Двустранен печат'] },
+    { title: 'MegaTank', id: 'megatank', items: ['PIXMA G серия', 'MAXIFY GX серия', 'Без касети', 'Висок капацитет'] },
+    { title: 'Лазерни', id: 'laser', items: ['Монохромни', 'Цветни лазерни', 'За офис'] },
   ],
   network: [
     { title: 'Рутери', id: 'router', items: ['WiFi 7', 'WiFi 6E', 'WiFi 6', 'Gaming рутери', 'ADSL/VDSL', '4G LTE'] },
@@ -817,11 +827,14 @@ const CAT_SPEC_FILTERS = {
     { key: 'TDP',      label: '🌡 TDP / Мощност',     values: ['35 W','45 W','65 W','95 W','105 W','125 W','165 W','250 W','320 W'] },
   ],
   peripherals: [
-    { key: 'Type',        label: '📦 Тип',             values: ['Монитор','Клавиатура','Мишка','Слушалки','Уеб камера','Принтер'] },
-    { key: 'Resolution',  label: '🔍 Резолюция',       values: ['Full HD 1080p','QHD 1440p','4K UHD','Ultra-Wide'] },
-    { key: 'RefreshRate', label: '⚡ Честота',         values: ['60 Hz','144 Hz','165 Hz','240 Hz+','360 Hz'] },
-    { key: 'Panel',       label: '🖥 Тип панел',       values: ['IPS','VA','OLED','Mini-LED'] },
+    { key: 'Type',        label: '📦 Тип',             values: ['Клавиатура','Мишка','Слушалки','Уеб камера'] },
     { key: 'Connection',  label: '🔗 Връзка',          values: ['USB','Bluetooth','Безжична','2.4GHz'] },
+  ],
+  printers: [
+    { key: 'Функции',    label: '⚙ Функции',          values: ['Принт, Копиране, Сканиране','Принт, Копиране, Сканиране, Факс','Принт'] },
+    { key: 'WiFi',       label: '📡 WiFi',             values: ['Да'] },
+    { key: 'Двустранен', label: '🔄 Двустранен печат', values: ['Да'] },
+    { key: 'Хартия',     label: '📄 Формат хартия',   values: ['A3', 'A4'] },
   ],
   network: [
     { key: 'WiFi',  label: '📡 WiFi стандарт', values: ['WiFi 4','WiFi 5','WiFi 6','WiFi 6E','WiFi 7'] },
@@ -910,6 +923,26 @@ const SUBCAT_SPEC_FILTERS = {
     { key: 'Тип',    label: '⌚ Вид устройство',  values: ['Смарт часовник','Фитнес тракер','Смарт говорител','Таблет'] },
     { key: 'Връзка', label: '📡 Свързаност',      values: ['Bluetooth','WiFi','4G/LTE'] },
     { key: 'ОС',     label: '💻 Операционна система', values: ['Android','Wear OS','iOS','Независима'] },
+  ],
+  // Printer subcats
+  inkjet_aio: [
+    { key: 'WiFi',       label: '📡 WiFi',             values: ['Да'] },
+    { key: 'Двустранен', label: '🔄 Двустранен печат', values: ['Да'] },
+    { key: 'Функции',    label: '⚙ Функции',          values: ['Принт, Копиране, Сканиране, Факс','Принт, Копиране, Сканиране'] },
+    { key: 'Хартия',     label: '📄 Формат',           values: ['A3', 'A4'] },
+  ],
+  megatank: [
+    { key: 'WiFi',       label: '📡 WiFi',             values: ['Да'] },
+    { key: 'Двустранен', label: '🔄 Двустранен печат', values: ['Да'] },
+    { key: 'Функции',    label: '⚙ Функции',          values: ['Принт, Копиране, Сканиране, Факс','Принт, Копиране, Сканиране','Принт'] },
+  ],
+  laser: [
+    { key: 'WiFi',       label: '📡 WiFi',             values: ['Да'] },
+    { key: 'Двустранен', label: '🔄 Двустранен печат', values: ['Да'] },
+    { key: 'Функции',    label: '⚙ Функции',          values: ['Принт, Копиране, Сканиране','Принт'] },
+  ],
+  portable: [
+    { key: 'WiFi',       label: '📡 WiFi',             values: ['Да'] },
   ],
   // Monitor subcats
   gaming_mon: [
@@ -1115,7 +1148,12 @@ function matchesSubcat(p, subcat) {
     mouse:         () => all.includes('мишк') || all.includes('mouse') || all.includes('trackpad'),
     headphones:    () => all.includes('слушалк') || all.includes('headphone') || all.includes('headset') || all.includes('earphone') || all.includes('earbud'),
     webcam:        () => all.includes('webcam') || all.includes('уеб камер') || all.includes('web camera'),
-    printer:       () => all.includes('принтер') || all.includes('printer') || all.includes('лазер') || all.includes('laser') || all.includes('mfp'),
+    printer:       () => p.cat === 'printers' || all.includes('принтер') || all.includes('printer') || all.includes('lbp') || all.includes('pixma') || all.includes('maxify'),
+    // Printers
+    inkjet_aio:    () => p.subcat === 'inkjet_aio' || (p.cat === 'printers' && (all.includes('ts') || all.includes('tr') || all.includes('mg')) && !all.includes('megatank') && !all.includes('laser')),
+    megatank:      () => p.subcat === 'megatank' || (p.cat === 'printers' && (all.includes('g1430') || all.includes('g2') || all.includes('g3') || all.includes('gx10') || all.includes('gx20') || all.includes('megatank') || all.includes('резервоар'))),
+    laser:         () => p.subcat === 'laser' || (p.cat === 'printers' && (all.includes('laser') || all.includes('лазер') || all.includes('lbp') || all.includes('mf664'))),
+    portable:      () => p.subcat === 'portable' || (p.cat === 'printers' && (all.includes('portable') || all.includes('bx110') || all.includes('battery') || all.includes('батерия'))),
     // Network
     router:        () => all.includes('router') || all.includes('рутер') || all.includes('wi-fi') || all.includes('4g lte') || /dsl-n\d+u/i.test(all),
     switch:        () => all.includes('switch') || all.includes('суич'),
@@ -1229,7 +1267,7 @@ function updateURL() {
 }
 
 // Allowed canonical categories + sort values — used to validate URL params before querySelector
-const _VALID_CATS = new Set(['all','laptops','desktops','gaming','components','monitors','peripherals','phones','network','storage','software','accessories']);
+const _VALID_CATS = new Set(['all','laptops','desktops','gaming','components','monitors','peripherals','phones','network','storage','software','accessories','printers']);
 const _VALID_SORTS = new Set(['bestseller','price-asc','price-desc','rating','discount','new']);
 
 function readURLParams() {

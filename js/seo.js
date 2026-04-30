@@ -235,6 +235,7 @@ function generateSitemap() {
     { url: '/?cat=network', priority: '0.7', freq: 'weekly' },
     { url: '/?cat=storage', priority: '0.7', freq: 'weekly' },
     { url: '/?cat=accessories', priority: '0.7', freq: 'weekly' },
+    { url: '/?cat=printers', priority: '0.7', freq: 'weekly' },
   ];
   const productPages = products.map(p => ({
     url: `/?product=${p.id}`,
@@ -350,6 +351,7 @@ const CAT_META = {
   network:    { emoji:'📡', icon:'ic-wifi',       label:'Мрежово оборудване',   sub:'Рутери, Суичове, Mesh, AP', badge:null },
   storage:    { emoji:'💾', icon:'ic-storage',    label:'Сървъри и сторидж',    sub:'NAS, Сървъри, Външни дискове', badge:null },
   accessories:{ emoji:'🎒', icon:'ic-mouse',      label:'Аксесоари',            sub:'Чанти, Кабели, Smart Home, TV', badge:null },
+  printers:   { emoji:'🖨', icon:'ic-printer',    label:'Принтери',             sub:'Мастиленоструйни, MegaTank, Лазерни', badge:null },
   new:        { emoji:'🆕', icon:'ic-star',       label:'Нови продукти',        sub:'Пресни пристигания', badge:'NEW' },
   sale:       { emoji:'%',  icon:'ic-tag',        label:'Намаления',            sub:'До -60% на избрани продукти', badge:'SALE' },
 };
@@ -401,7 +403,8 @@ const HP_SUBCATS = [
   { cat:'accessories',id:'hub',         label:'USB хъбове',            icon:'🔌'                },
   { cat:'components', id:'psu',         label:'Захранвания',           icon:'🔋'                },
   { cat:'laptops',    id:'for_design',  label:'За дизайн',             icon:'🎨'                },
-  { cat:'peripherals',id:'printer',     label:'Принтери',              icon:'🖨'                },
+  { cat:'printers',   id:'megatank',     label:'MegaTank принтери',     icon:'♾️'               },
+  { cat:'printers',   id:'inkjet_aio',  label:'Мастиленоструйни МФУ',  icon:'🖨'                },
   { cat:'components', id:'case_cooling',label:'Кутии и охлаждане',     icon:'❄️'               },
 ];
 

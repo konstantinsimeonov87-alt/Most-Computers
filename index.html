@@ -807,6 +807,8 @@
             class="mi-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true">
               <use href="#ic-wifi" />
             </svg></span>Мрежово оборудване<span class="mi-arr">›</span></button>
+        <button type="button" class="mob-nav-item" data-action="toggleMobMenu;filterCat:ups"><span
+            class="mi-icon">⚡</span>UPS устройства<span class="mi-arr">›</span></button>
         <button type="button" class="mob-nav-item" data-action="toggleMobMenu;filterCat:components"><span
             class="mi-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true">
               <use href="#ic-cpu" />
@@ -1609,6 +1611,7 @@
         <div class="cat-item" role="button" tabindex="0" data-action="openCatPage('peripherals')" onmouseenter="megaMenuOpen(this,'peripherals')" onmouseleave="megaMenuClose()" ontouchstart="megaMenuTouchHandler(this,'peripherals',event)" onkeydown="if(event.key==='Enter'||event.key===' ') { event.preventDefault(); this.click(); }"><span class="cat-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-headphones"/></svg></span> Аудио и слушалки <span class="cat-arrow">›</span></div>
         <div class="cat-item" role="button" tabindex="0" data-action="openCatPage('network')" onmouseenter="megaMenuOpen(this,'network')" onmouseleave="megaMenuClose()" ontouchstart="megaMenuTouchHandler(this,'network',event)" onkeydown="if(event.key==='Enter'||event.key===' ') { event.preventDefault(); this.click(); }"><span class="cat-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-wifi"/></svg></span> Мрежово оборудване <span class="cat-arrow">›</span></div>
         <div class="cat-item" role="button" tabindex="0" data-action="openCatPage('printers')" onmouseenter="megaMenuOpen(this,'printers')" onmouseleave="megaMenuClose()" ontouchstart="megaMenuTouchHandler(this,'printers',event)" onkeydown="if(event.key==='Enter'||event.key===' ') { event.preventDefault(); this.click(); }"><span class="cat-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-printer"/></svg></span> Принтери <span class="cat-arrow">›</span></div>
+        <div class="cat-item" role="button" tabindex="0" data-action="openCatPage('ups')" onmouseenter="megaMenuOpen(this,'ups')" onmouseleave="megaMenuClose()" ontouchstart="megaMenuTouchHandler(this,'ups',event)" onkeydown="if(event.key==='Enter'||event.key===' ') { event.preventDefault(); this.click(); }"><span class="cat-icon">⚡</span> UPS устройства <span class="cat-arrow">›</span></div>
         <div class="cat-item" role="button" tabindex="0" data-action="openCatPage('accessories')" onmouseenter="megaMenuOpen(this,'accessories')" onmouseleave="megaMenuClose()" ontouchstart="megaMenuTouchHandler(this,'accessories',event)" onkeydown="if(event.key==='Enter'||event.key===' ') { event.preventDefault(); this.click(); }"><span class="cat-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-mouse"/></svg></span> Аксесоари <span class="cat-arrow">›</span></div>
         <div class="cat-item" role="button" tabindex="0" data-action="openCatPage('monitors')" onmouseenter="megaMenuOpen(this,'monitors')" onmouseleave="megaMenuClose()" ontouchstart="megaMenuTouchHandler(this,'monitors',event)" onkeydown="if(event.key==='Enter'||event.key===' ') { event.preventDefault(); this.click(); }"><span class="cat-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-monitor"/></svg></span> Монитори <span class="cat-arrow">›</span></div>
         <div class="cat-item" role="button" tabindex="0" data-action="openCatPage('desktops')" onmouseenter="megaMenuOpen(this,'desktops')" onmouseleave="megaMenuClose()" ontouchstart="megaMenuTouchHandler(this,'desktops',event)" onkeydown="if(event.key==='Enter'||event.key===' ') { event.preventDefault(); this.click(); }"><span class="cat-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-desktop"/></svg></span> Десктопи <span class="cat-arrow">›</span></div>
@@ -3473,6 +3476,7 @@
               <option value="components">🔲 Компоненти</option>
               <option value="peripherals">🖱 Периферия</option>
               <option value="network">📡 Мрежово оборудване</option>
+              <option value="ups">⚡ UPS устройства</option>
               <option value="storage">💾 Съхранение</option>
               <option value="accessories">🎒 Аксесоари</option>
             </select>

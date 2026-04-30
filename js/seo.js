@@ -236,6 +236,7 @@ function generateSitemap() {
     { url: '/?cat=storage', priority: '0.7', freq: 'weekly' },
     { url: '/?cat=accessories', priority: '0.7', freq: 'weekly' },
     { url: '/?cat=printers', priority: '0.7', freq: 'weekly' },
+    { url: '/?cat=ups',      priority: '0.7', freq: 'weekly' },
   ];
   const productPages = products.map(p => ({
     url: `/?product=${p.id}`,
@@ -352,6 +353,7 @@ const CAT_META = {
   storage:    { emoji:'💾', icon:'ic-storage',    label:'Сървъри и сторидж',    sub:'NAS, Сървъри, Външни дискове', badge:null },
   accessories:{ emoji:'🎒', icon:'ic-mouse',      label:'Аксесоари',            sub:'Чанти, Кабели, Smart Home, TV', badge:null },
   printers:   { emoji:'🖨', icon:'ic-printer',    label:'Принтери',             sub:'Мастиленоструйни, MegaTank, Лазерни', badge:null },
+  ups:        { emoji:'⚡', icon:'ic-ups',        label:'UPS устройства',       sub:'Домашни, Офис, Онлайн / Чиста синусоида', badge:null },
   new:        { emoji:'🆕', icon:'ic-star',       label:'Нови продукти',        sub:'Пресни пристигания', badge:'NEW' },
   sale:       { emoji:'%',  icon:'ic-tag',        label:'Намаления',            sub:'До -60% на избрани продукти', badge:'SALE' },
 };
@@ -406,6 +408,8 @@ const HP_SUBCATS = [
   { cat:'printers',   id:'megatank',     label:'MegaTank принтери',     icon:'♾️'               },
   { cat:'printers',   id:'inkjet_aio',  label:'Мастиленоструйни МФУ',  icon:'🖨'                },
   { cat:'components', id:'case_cooling',label:'Кутии и охлаждане',     icon:'❄️'               },
+  { cat:'ups',        id:'ups_home',    label:'Домашни UPS',            icon:'🏠'                },
+  { cat:'ups',        id:'ups_server',  label:'Онлайн UPS (синусоида)', icon:'⚡'                },
 ];
 
 const HP_SUBCATS_VISIBLE = 10;

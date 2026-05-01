@@ -610,7 +610,7 @@ var products = [
    specs:{'Чипсет':'AMD/Intel X870','Памет':'4× DDR5','SATA3':'6×SATA3','RAID':'Да','M.2':'4xM2','PCIe x16':'2×PCIEx16','Изходи':'HDMI','Форм фактор':'ATX','Сокет':'AM5'},
    rating:4.4,rv:0,reviews:[],
    desc:'ASRock дънна платка ASROCK X870E TAICHI /AM5.',
-   img:'https://portal.mostbg.com/api/images/imageFileData/46036.png',stock:true},
+   img:'https://portal.mostbg.com/api/images/imageFileData/46036.png',stock:false},
 
   {id:88,name:'ASROCK X870E NOVA WIFI /AM5',brand:'ASRock',cat:'components',subcat:'motherboard',
    price:583,old:null,pct:null,badge:null,emoji:'⚙️',sku:'X870E NOVA WIFI',ean:'4710483949654',
@@ -4255,7 +4255,7 @@ var products = [
    specs:{'Тип':'DDR5','Капацитет':'8 GB','Честота':'5600 MHz','Латентност':'CL46','Форм фактор':'DIMM','Напрежение':'1.1V'},
    rating:4.4,rv:0,reviews:[],
    desc:'Kingston 8G DDR5 5600 KINGSTON — DDR5 DIMM 5600 MHz, 8 GB, CL46.',
-   img:'https://portal.mostbg.com/api/images/imageFileData/38931.jpeg',stock:false},
+   img:'https://portal.mostbg.com/api/images/imageFileData/38931.jpeg',stock:true},
 
   {id:608,name:'8G DDR5 5600',brand:'Generic',cat:'components',subcat:'ram',
    price:130,old:null,pct:null,badge:null,emoji:'🟢',sku:'8G DDR5 5600',ean:null,
@@ -6490,7 +6490,7 @@ var products = [
    specs:{'Капацитет':'240 GB','Интерфейс':'SATA III','Форм фактор':'2.5\''},
    rating:4.3,rv:0,reviews:[],
    desc:'ADATA ADATA SSD SU650 240GB 3D NAND — SSD 240 GB, SATA III, 2.5".',
-   img:'https://portal.mostbg.com/api/images/imageFileData/14733.jpeg',stock:true},
+   img:'https://portal.mostbg.com/api/images/imageFileData/14733.jpeg',stock:false},
 
   {id:927,name:'ADATA SSD SU650 256GB 3D NAND',brand:'ADATA',cat:'components',subcat:'ssd',
    price:93,old:null,pct:null,badge:null,emoji:'💾',sku:'ASU650SS-256GT-R',ean:'4711085931511',
@@ -6511,7 +6511,7 @@ var products = [
    specs:{'Капацитет':'512 GB','Интерфейс':'SATA III','Форм фактор':'2.5\''},
    rating:4.3,rv:0,reviews:[],
    desc:'ADATA ADATA SSD SU650 512GB 3D NAND — SSD 512 GB, SATA III, 2.5".',
-   img:'https://portal.mostbg.com/api/images/imageFileData/36412.png',stock:true},
+   img:'https://portal.mostbg.com/api/images/imageFileData/36412.png',stock:false},
 
   {id:930,name:'ADATA SSD SU650 960GB 3D NAND',brand:'ADATA',cat:'components',subcat:'ssd',
    price:275,old:null,pct:null,badge:null,emoji:'💾',sku:'ASU650SS-960GT-R',ean:'4713218461186',
@@ -10547,7 +10547,7 @@ var products = [
    specs:{},
    rating:4.2,rv:0,reviews:[],
    desc:'Acer PROJECTOR ACER PL6520 6000LM.',
-   img:'https://portal.mostbg.com/api/images/imageFileData/100982.png',stock:true},
+   img:'https://portal.mostbg.com/api/images/imageFileData/100982.png',stock:false},
 
   {id:1506,name:'PROJECTOR ACER PD1500 1500LM',brand:'Acer',cat:'accessories',subcat:'projector',
    price:826,old:null,pct:null,badge:null,emoji:'🎥',sku:'MR.JY011.001',ean:'4711474216120',

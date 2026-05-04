@@ -2935,15 +2935,15 @@ function _ensureTopSortBar() {
   const bar = document.createElement('div');
   bar.id = 'topSortBar';
   bar.className = 'top-sort-bar';
-  bar.innerHTML = `<span class="top-sort-label">Сортирай:</span>
+  bar.innerHTML = `<span class="top-sort-count" id="topSortCount"></span>
+    <span class="top-sort-label">Сортирай:</span>
     <select class="sort-select" id="topSortSelect" onchange="applySort(this.value)">
       <option value="bestseller">🏆 Най-продавани</option>
       <option value="price-asc">Цена ↑</option>
       <option value="price-desc">Цена ↓</option>
       <option value="rating">⭐ Рейтинг</option>
       <option value="discount">% Отстъпка</option>
-    </select>
-    <span class="top-sort-count" id="topSortCount"></span>`;
+    </select>`;
   grid.before(bar);
 }
 

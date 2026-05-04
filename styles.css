@@ -7753,6 +7753,59 @@
    }
  }
 
+ /* ── Small phones (≤480px) ───────────────────────────────── */
+ @media(max-width:480px) {
+   .product-body {
+     padding: 10px 12px;
+   }
+   .price-current {
+     font-size: 16px;
+   }
+   .price-current .price-bgn {
+     font-size: 11px;
+   }
+   .add-cart-btn {
+     padding: 10px 12px;
+     font-size: 13px;
+   }
+ }
+
+ /* ── Slider dots — 44×44px tap target on mobile ─────────── */
+ @media(max-width:768px) {
+   .slider-dots {
+     gap: 0;
+     bottom: 8px;
+   }
+   .dot {
+     width: 44px;
+     height: 44px;
+     border-radius: 50%;
+     background: transparent !important;
+     position: relative;
+   }
+   .dot.active {
+     width: 44px;
+     border-radius: 50%;
+     background: transparent !important;
+   }
+   .dot::after {
+     content: '';
+     position: absolute;
+     top: 50%; left: 50%;
+     transform: translate(-50%,-50%);
+     width: 8px; height: 8px;
+     border-radius: 50%;
+     background: rgba(255,255,255,0.4);
+     transition: all 0.2s;
+   }
+   .dot.active::after {
+     width: 24px;
+     height: 8px;
+     border-radius: 4px;
+     background: #fff;
+   }
+ }
+
  /* Lazy image fade-in */
  .product-img-real {
    opacity: 0;

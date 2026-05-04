@@ -1247,9 +1247,10 @@ function validateCkStep(step) {
   if (step === 2) {
     let valid = true;
     if (ckDeliveryIdx === 2) return true; // pickup — no address needed
-    // Validate Econt office if Econt selected
+    // Validate Econt office if Econt selected (check row visibility, not a non-existent CSS class)
     const officeEl = document.getElementById('ckEcontOffice');
-    if (officeEl && !officeEl.classList.contains('is-hidden')) {
+    const officeRow = document.getElementById('ckEcontOfficeRow');
+    if (officeEl && officeRow && officeRow.style.display !== 'none') {
       if (!officeEl.value.trim()) { officeEl.classList.add('error'); officeEl.classList.remove('valid'); officeEl.setAttribute('aria-invalid', 'true'); valid = false; }
       else { officeEl.classList.remove('error'); officeEl.classList.add('valid'); officeEl.setAttribute('aria-invalid', 'false'); }
     }

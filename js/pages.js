@@ -67,7 +67,7 @@ function _svcMapInit() {
   if (!window.L) return;
   const el = document.getElementById('svcLeafletMap');
   if (!el) return;
-  if (_svcMap) { _svcMap.invalidateSize(); return; }
+  if (_svcMap) { setTimeout(() => _svcMap.invalidateSize(), 200); return; }
   _svcMap = L.map(el, { zoomControl: true, scrollWheelZoom: false }).setView([42.679938, 23.359063], 16);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
@@ -82,6 +82,7 @@ function _svcMapInit() {
   L.marker([42.679938, 23.359063], { icon: pinIcon })
     .addTo(_svcMap)
     .bindPopup('<strong>Most Computers</strong><br>бул. Шипченски проход 240');
+  setTimeout(() => _svcMap.invalidateSize(), 200);
 }
 function closeServicePage() {
   document.getElementById('servicePage').classList.remove('open');
@@ -128,7 +129,7 @@ function _contactsMapInit() {
   if (!window.L) return;
   const el = document.getElementById('contactsLeafletMap');
   if (!el) return;
-  if (_contactsMap) { _contactsMap.invalidateSize(); return; }
+  if (_contactsMap) { setTimeout(() => _contactsMap.invalidateSize(), 200); return; }
   _contactsMap = L.map(el, { zoomControl: true, scrollWheelZoom: false }).setView([42.679938, 23.359063], 16);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
@@ -143,6 +144,7 @@ function _contactsMapInit() {
   L.marker([42.679938, 23.359063], { icon: pinIcon })
     .addTo(_contactsMap)
     .bindPopup('<strong>Most Computers</strong><br>бул. Шипченски проход 240');
+  setTimeout(() => _contactsMap.invalidateSize(), 200);
 }
 
 function closeContactsPage() {

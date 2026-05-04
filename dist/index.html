@@ -71,9 +71,19 @@
   <!-- Google Analytics 4 -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-HE0YMD8BQ7"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-HE0YMD8BQ7');</script>
-  <!-- Critical CSS: skeleton cards render before styles.css finishes loading -->
+  <!-- Critical CSS: hero + skeleton — renders before styles.css finishes loading -->
   <style>
     :root{--border:#e5e7eb;--bg2:#f3f4f6;--card:#fff;--radius:12px;--radius-lg:16px}
+    /* Hero — makes LCP element visible immediately */
+    .hero-slider{border-radius:12px;overflow:hidden;position:relative;min-height:320px}
+    .slide{display:none;height:320px;border-radius:12px;padding:40px 48px;position:relative;overflow:hidden}
+    .slide.active{display:flex;flex-direction:column;justify-content:center}
+    .slide-1{background:linear-gradient(135deg,#bd1105 0%,#9a0e04 100%);color:#fff}
+    .slide-title{font-size:32px;font-weight:900;line-height:1.1;margin-bottom:10px;letter-spacing:-1px}
+    .slide-badge{display:inline-block;background:rgba(255,255,255,.2);color:#fff;padding:4px 14px;border-radius:20px;font-size:11px;font-weight:700;text-transform:uppercase;margin-bottom:14px;border:1px solid rgba(255,255,255,.3)}
+    .slide-sub{font-size:14px;opacity:.85;margin-bottom:24px}
+    .slide-emoji{position:absolute;right:40px;bottom:20px;font-size:100px;opacity:.18;line-height:1}
+    /* Skeleton shimmer */
     @keyframes skeleton-shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
     .skeleton{background:linear-gradient(90deg,var(--border) 25%,var(--bg2) 50%,var(--border) 75%);background-size:200% 100%;animation:skeleton-shimmer 1.4s ease infinite;border-radius:6px}
     .skeleton-card{background:var(--card);border-radius:var(--radius-lg);padding:16px;border:1px solid var(--border);overflow:hidden}
@@ -2993,10 +3003,9 @@
   </footer>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV/XN/sp38=" crossorigin="" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
   <script src="data.js?v=20260504" defer></script>
   <script src="app.js?v=20260504" defer></script>
-  <script src="js/supabase-client.js" defer></script>
+  <!-- Supabase loaded lazily on first checkout attempt (~50 KiB saved on initial load) -->
 
   <!-- Dark toggle moved to header -->
 

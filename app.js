@@ -1026,8 +1026,22 @@ let ckDeliveryNames = ['Еконт', 'Еконт', 'Вземи от магази
 let ckPaymentType = 'card';
 let promoApplied = false;
 
+function _loadSupabase() {
+  if (typeof window.supabase !== 'undefined' || document.querySelector('script[data-sb]')) return;
+  const s = document.createElement('script');
+  s.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+  s.dataset.sb = '1';
+  s.onload = function() {
+    const sc = document.createElement('script');
+    sc.src = 'js/supabase-client.js';
+    document.head.appendChild(sc);
+  };
+  document.head.appendChild(s);
+}
+
 function handleCheckout() {
   if (cart.length === 0) { showToast('Добави продукти в кошницата!'); return; }
+  _loadSupabase();
   // Pre-fill from logged-in user
   if (currentUser) {
     document.getElementById('ckFirst').value = currentUser.firstName || '';
@@ -5894,9 +5908,13 @@ function pdpInitSwipe() {
     if (Math.abs(dx) > 40) {
       pdpGalleryNav(dx < 0 ? 1 : -1);
       wrap.classList.remove('swipe-bounce');
-      void wrap.offsetWidth; // reflow to restart animation
-      wrap.classList.add('swipe-bounce');
-      setTimeout(function(){ wrap.classList.remove('swipe-bounce'); }, 320);
+      // Double rAF restarts the animation without a forced synchronous reflow
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          wrap.classList.add('swipe-bounce');
+          setTimeout(function(){ wrap.classList.remove('swipe-bounce'); }, 320);
+        });
+      });
     }
   }, { passive: true });
   wrap._swipeInited = true;

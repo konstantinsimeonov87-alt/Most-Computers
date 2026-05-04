@@ -183,9 +183,13 @@ function pdpInitSwipe() {
     if (Math.abs(dx) > 40) {
       pdpGalleryNav(dx < 0 ? 1 : -1);
       wrap.classList.remove('swipe-bounce');
-      void wrap.offsetWidth; // reflow to restart animation
-      wrap.classList.add('swipe-bounce');
-      setTimeout(function(){ wrap.classList.remove('swipe-bounce'); }, 320);
+      // Double rAF restarts the animation without a forced synchronous reflow
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          wrap.classList.add('swipe-bounce');
+          setTimeout(function(){ wrap.classList.remove('swipe-bounce'); }, 320);
+        });
+      });
     }
   }, { passive: true });
   wrap._swipeInited = true;

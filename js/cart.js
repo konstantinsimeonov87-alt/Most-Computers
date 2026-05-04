@@ -178,8 +178,22 @@ let ckDeliveryNames = ['Еконт', 'Еконт', 'Вземи от магази
 let ckPaymentType = 'card';
 let promoApplied = false;
 
+function _loadSupabase() {
+  if (typeof window.supabase !== 'undefined' || document.querySelector('script[data-sb]')) return;
+  const s = document.createElement('script');
+  s.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+  s.dataset.sb = '1';
+  s.onload = function() {
+    const sc = document.createElement('script');
+    sc.src = 'js/supabase-client.js';
+    document.head.appendChild(sc);
+  };
+  document.head.appendChild(s);
+}
+
 function handleCheckout() {
   if (cart.length === 0) { showToast('Добави продукти в кошницата!'); return; }
+  _loadSupabase();
   // Pre-fill from logged-in user
   if (currentUser) {
     document.getElementById('ckFirst').value = currentUser.firstName || '';

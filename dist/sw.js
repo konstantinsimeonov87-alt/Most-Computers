@@ -1,10 +1,5 @@
-// Most Computers — Service Worker cdcf0a74
-// Most Computers — Service Worker 5c6bfabe
-const CACHE = 'mc-cdcf0a74';
-=======
-// Most Computers — Service Worker 02bdf516
-const CACHE = 'mc-fe15a7b';
->>>>>>> Stashed changes
+// Most Computers — Service Worker f782bf65
+const CACHE = 'mc-f782bf65';
 const PRECACHE = [
   './',
   './index.html',
@@ -29,27 +24,34 @@ self.addEventListener('activate', e => {
   );
 });
 
-// Fetch — cache-first for same-origin, network-first for images
+// Fetch — cache-first for images (same-origin + portal.mostbg.com), network-first for rest
 self.addEventListener('fetch', e => {
   const { request } = e;
   const url = new URL(request.url);
 
-  // Skip non-GET and cross-origin
-  if (request.method !== 'GET' || url.origin !== location.origin) return;
+  // Skip non-GET
+  if (request.method !== 'GET') return;
 
-  // Images: cache-first with network fallback
-  if (/\.(png|jpg|jpeg|webp|gif|svg|ico)$/i.test(url.pathname)) {
+  // Images: cache-first (same-origin OR portal.mostbg.com product images)
+  const isImage = /\.(png|jpg|jpeg|webp|gif|svg|ico)$/i.test(url.pathname);
+  const isPortalImg = url.hostname === 'portal.mostbg.com' && isImage;
+  const isSameOriginImg = url.origin === location.origin && isImage;
+
+  if (isSameOriginImg || isPortalImg) {
     e.respondWith(
-      caches.match(request).then(cached => cached || fetch(request).then(res => {
+      caches.match(request).then(cached => cached || fetch(request, { mode: 'cors' }).then(res => {
         if (res.ok) {
           const clone = res.clone();
           caches.open(CACHE).then(c => c.put(request, clone));
         }
         return res;
-      }))
+      }).catch(() => caches.match(request)))
     );
     return;
   }
+
+  // Cross-origin (non-image): skip SW
+  if (url.origin !== location.origin) return;
 
   // Everything else: network-first, fall back to cache
   e.respondWith(

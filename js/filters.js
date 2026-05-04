@@ -247,13 +247,15 @@ function renderPromoBanner(){
     { p:saleP, cls:'dark', badge:`🔥 -${saleP.pct}%`, sub: saleP.desc ? saleP.desc.slice(0,80)+'…' : saleP.name },
   ];
   banner.innerHTML = themes.map(({p,cls,badge,sub})=>`
-    <div class="promo-half ${cls}">
-      <span class="badge">${badge}</span>
-      <h3>${p.name.length>36?p.name.slice(0,36)+'…':p.name}</h3>
-      <p>${sub}</p>
-      <div class="promo-price">${(p.price/EUR_RATE).toFixed(2)} € / ${p.price} лв.</div>
-      <button type="button" class="promo-btn" onclick="addToCart(${p.id})">Добави в кошница +</button>
-      <div class="promo-emoji">${p.emoji}</div>
+    <div class="promo-half ${cls}" onclick="openProductPage(${p.id})" style="cursor:pointer;">
+      <div class="promo-half-content">
+        <span class="badge">${badge}</span>
+        <h3>${p.name.length>40?p.name.slice(0,40)+'…':p.name}</h3>
+        <p>${sub}</p>
+        <div class="promo-price">${(p.price/EUR_RATE).toFixed(2)} € / ${p.price} лв.</div>
+        <button type="button" class="promo-btn" onclick="event.stopPropagation();addToCart(${p.id})">Добави в кошница +</button>
+      </div>
+      ${p.img?`<img src="${p.img}" alt="${p.name}" class="promo-img" loading="lazy">`:`<div class="promo-emoji">${p.emoji}</div>`}
     </div>`).join('');
 }
 

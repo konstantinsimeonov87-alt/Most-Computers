@@ -7083,6 +7083,7 @@ function closeBlogPage() {
   if (typeof bcSet === 'function') bcSet([]);
   try { history.pushState(null, '', window.location.pathname); } catch(e) {}
 }
+let _svcMap = null;
 function openServicePage() {
   document.getElementById('servicePage').classList.add('open');
   document.body.style.overflow = 'hidden';
@@ -7090,6 +7091,27 @@ function openServicePage() {
   if (typeof bcOnPage === 'function') bcOnPage('Сервизен център');
   try { history.pushState({ page: 'service' }, '', '?page=service'); } catch(e) {}
   _svcTrkInit();
+  _svcMapInit();
+}
+function _svcMapInit() {
+  if (!window.L) return;
+  const el = document.getElementById('svcLeafletMap');
+  if (!el) return;
+  if (_svcMap) { _svcMap.invalidateSize(); return; }
+  _svcMap = L.map(el, { zoomControl: true, scrollWheelZoom: false }).setView([42.679938, 23.359063], 16);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    maxZoom: 19
+  }).addTo(_svcMap);
+  const pinIcon = L.divIcon({
+    className: '',
+    html: '<svg width="28" height="36" viewBox="0 0 28 36" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 0C6.268 0 0 6.268 0 14c0 9.333 14 22 14 22s14-12.667 14-22C28 6.268 21.732 0 14 0z" fill="#bd1105"/><circle cx="14" cy="14" r="5.5" fill="#fff"/></svg>',
+    iconSize: [28, 36],
+    iconAnchor: [14, 36]
+  });
+  L.marker([42.679938, 23.359063], { icon: pinIcon })
+    .addTo(_svcMap)
+    .bindPopup('<strong>Most Computers</strong><br>бул. Шипченски проход 240');
 }
 function closeServicePage() {
   document.getElementById('servicePage').classList.remove('open');

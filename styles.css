@@ -16821,3 +16821,19 @@ body.dark .svc-trk-label { background:var(--bg2); }
 body.dark .svc-result    { background:var(--bg2); }
 body.dark .svc-history   { background:var(--bg2); }
 body.dark .svc-copy-btn  { background:var(--bg2); }
+
+/* ===== FAQ ACCORDION ===== */
+#serviceFaq details summary { user-select:none; }
+#serviceFaq details summary span {
+  display:inline-block;
+  transition:transform .25s ease;
+  flex-shrink:0;
+}
+#serviceFaq details[open] summary span { transform:rotate(45deg); }
+#serviceFaq details > div {
+  animation:faq-slide .2s ease;
+}
+@keyframes faq-slide {
+  from { opacity:0; transform:translateY(-4px); }
+  to   { opacity:1; transform:translateY(0); }
+}

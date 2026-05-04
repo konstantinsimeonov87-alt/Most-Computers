@@ -2829,10 +2829,21 @@
    border: none;
    color: var(--muted);
    font-size: 18px;
-   transition: color 0.2s;
+   transition: color 0.2s, transform 0.15s;
+   min-width: 32px;
+   min-height: 32px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   border-radius: 6px;
  }
 
  .ci-remove:hover {
+   color: var(--sale);
+ }
+
+ .ci-remove:active {
+   transform: scale(0.78);
    color: var(--sale);
  }
 
@@ -6188,6 +6199,20 @@
   .ck-req-note {
     width: 100%;
   }
+  /* iOS: prevent auto-zoom on input focus (font-size must be ≥16px) */
+  .ck-input, .qo-input {
+    font-size: 16px;
+  }
+  /* notch / home-indicator safe area */
+  .checkout-body {
+    padding-bottom: max(14px, env(safe-area-inset-bottom));
+  }
+  .cart-panel {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .cart-panel-header {
+    padding-top: max(16px, env(safe-area-inset-top));
+  }
 }
 
  /* Left: form */
@@ -6285,6 +6310,7 @@
    gap: 14px;
    cursor: pointer;
    transition: all 0.2s;
+   min-height: 52px;
  }
 
  .delivery-opt.selected {
@@ -6293,8 +6319,8 @@
  }
 
  .delivery-opt-radio {
-   width: 18px;
-   height: 18px;
+   width: 22px;
+   height: 22px;
    border-radius: 50%;
    border: 2px solid var(--border);
    flex-shrink: 0;
@@ -6362,6 +6388,7 @@
    gap: 14px;
    cursor: pointer;
    transition: all 0.2s;
+   min-height: 52px;
  }
 
  .payment-opt.selected {
@@ -6370,8 +6397,8 @@
  }
 
  .payment-opt-radio {
-   width: 18px;
-   height: 18px;
+   width: 22px;
+   height: 22px;
    border-radius: 50%;
    border: 2px solid var(--border);
    flex-shrink: 0;
@@ -8966,11 +8993,12 @@
    display: flex;
    align-items: center;
    gap: 9px;
-   padding: 5px 6px;
+   padding: 7px 6px;
    border-radius: 6px;
    cursor: pointer;
    transition: background 0.15s;
    font-size: 13px;
+   min-height: 36px;
  }
 
  .brand-filter-item:hover {
@@ -8978,11 +9006,22 @@
  }
 
  .brand-filter-item input[type=checkbox] {
-   width: 15px;
-   height: 15px;
+   width: 18px;
+   height: 18px;
    accent-color: var(--primary);
    cursor: pointer;
    flex-shrink: 0;
+ }
+
+ @media (max-width: 768px) {
+   .brand-filter-item {
+     padding: 10px 8px;
+     min-height: 44px;
+   }
+   .brand-filter-item input[type=checkbox] {
+     width: 20px;
+     height: 20px;
+   }
  }
 
  .brand-filter-item .brand-count {

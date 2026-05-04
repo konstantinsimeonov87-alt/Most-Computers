@@ -452,6 +452,22 @@ function closeMobileFilters() {
   document.body.style.overflow = '';
 }
 
+// Swipe-to-close for mobile filter sidebar
+(function() {
+  let _sfStartX = 0;
+  document.addEventListener('touchstart', function(e) {
+    const sb = document.querySelector('.sidebar.mobile-open');
+    if (sb && sb.contains(e.target)) _sfStartX = e.touches[0].clientX;
+    else _sfStartX = 0;
+  }, { passive: true });
+  document.addEventListener('touchend', function(e) {
+    if (!_sfStartX) return;
+    const dx = _sfStartX - e.changedTouches[0].clientX;
+    if (dx > 60) closeMobileFilters(); // swipe left → close
+    _sfStartX = 0;
+  }, { passive: true });
+})();
+
 // ===== FOCUS TRAP =====
 const FOCUSABLE = 'a[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])';
 
@@ -845,6 +861,30 @@ if(slides.length){if(_heroSliderIv)clearInterval(_heroSliderIv);_heroSliderIv=se
 // TOAST
 function showToast(msg){const t=document.getElementById('toast');if(!t)return;t.textContent=msg;t.classList.add('show');clearTimeout(t._timer);t._timer=setTimeout(()=>t.classList.remove('show'),2800);}
 
+
+// Modal gallery swipe navigation (mobile)
+(function() {
+  let _mgStartX = 0, _mgStartY = 0, _mgActive = false;
+  document.addEventListener('touchstart', function(e) {
+    const zw = document.getElementById('modalZoomWrap');
+    if (zw && zw.contains(e.target) && e.touches.length === 1) {
+      _mgStartX = e.touches[0].clientX;
+      _mgStartY = e.touches[0].clientY;
+      _mgActive = true;
+    } else {
+      _mgActive = false;
+    }
+  }, { passive: true });
+  document.addEventListener('touchend', function(e) {
+    if (!_mgActive) return;
+    _mgActive = false;
+    const dx = e.changedTouches[0].clientX - _mgStartX;
+    const dy = e.changedTouches[0].clientY - _mgStartY;
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 48) {
+      galleryNav(dx > 0 ? -1 : 1);
+    }
+  }, { passive: true });
+})();
 
 // CART
 function saveCart() { try { localStorage.setItem('mc_cart', JSON.stringify(cart.map(x => ({ id: x.id, qty: x.qty })))); } catch (e) { } }
@@ -1667,12 +1707,29 @@ function toggleMobMenu() {
   const drawer = document.getElementById('mobDrawer');
   const isOpen = drawer.classList.toggle('open');
   overlay.classList.toggle('open', isOpen);
-  document.body.style.overflow = isOpen ? 'hidden' : '';
+  // iOS scroll bleed-through fix: position:fixed prevents inertial scroll behind drawer
+  if (isOpen) {
+    document.body.dataset.scrollY = window.scrollY;
+    document.body.style.cssText += ';overflow:hidden;position:fixed;top:-' + window.scrollY + 'px;width:100%';
+  } else {
+    const scrollY = parseInt(document.body.dataset.scrollY || '0', 10);
+    document.body.style.cssText = document.body.style.cssText.replace(/overflow:[^;]+;position:fixed;top:[^;]+;width:[^;]+;?/g, '');
+    document.body.style.overflow = '';
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.width = '';
+    window.scrollTo(0, scrollY);
+  }
 }
 function closeMobMenu() {
   document.getElementById('mobOverlay').classList.remove('open');
   document.getElementById('mobDrawer').classList.remove('open');
+  const scrollY = parseInt(document.body.dataset.scrollY || '0', 10);
   document.body.style.overflow = '';
+  document.body.style.position = '';
+  document.body.style.top = '';
+  document.body.style.width = '';
+  window.scrollTo(0, scrollY);
 }
 function handleMobSearch() {
   const q = document.getElementById('mobSearchInput').value.trim();

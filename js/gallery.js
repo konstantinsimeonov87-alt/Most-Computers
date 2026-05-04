@@ -298,3 +298,27 @@ if(slides.length){if(_heroSliderIv)clearInterval(_heroSliderIv);_heroSliderIv=se
 // TOAST
 function showToast(msg){const t=document.getElementById('toast');if(!t)return;t.textContent=msg;t.classList.add('show');clearTimeout(t._timer);t._timer=setTimeout(()=>t.classList.remove('show'),2800);}
 
+
+// Modal gallery swipe navigation (mobile)
+(function() {
+  let _mgStartX = 0, _mgStartY = 0, _mgActive = false;
+  document.addEventListener('touchstart', function(e) {
+    const zw = document.getElementById('modalZoomWrap');
+    if (zw && zw.contains(e.target) && e.touches.length === 1) {
+      _mgStartX = e.touches[0].clientX;
+      _mgStartY = e.touches[0].clientY;
+      _mgActive = true;
+    } else {
+      _mgActive = false;
+    }
+  }, { passive: true });
+  document.addEventListener('touchend', function(e) {
+    if (!_mgActive) return;
+    _mgActive = false;
+    const dx = e.changedTouches[0].clientX - _mgStartX;
+    const dy = e.changedTouches[0].clientY - _mgStartY;
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 48) {
+      galleryNav(dx > 0 ? -1 : 1);
+    }
+  }, { passive: true });
+})();

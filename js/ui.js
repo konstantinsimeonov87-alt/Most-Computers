@@ -366,6 +366,22 @@ function closeMobileFilters() {
   document.body.style.overflow = '';
 }
 
+// Swipe-to-close for mobile filter sidebar
+(function() {
+  let _sfStartX = 0;
+  document.addEventListener('touchstart', function(e) {
+    const sb = document.querySelector('.sidebar.mobile-open');
+    if (sb && sb.contains(e.target)) _sfStartX = e.touches[0].clientX;
+    else _sfStartX = 0;
+  }, { passive: true });
+  document.addEventListener('touchend', function(e) {
+    if (!_sfStartX) return;
+    const dx = _sfStartX - e.changedTouches[0].clientX;
+    if (dx > 60) closeMobileFilters(); // swipe left → close
+    _sfStartX = 0;
+  }, { passive: true });
+})();
+
 // ===== FOCUS TRAP =====
 const FOCUSABLE = 'a[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])';
 

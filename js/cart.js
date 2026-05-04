@@ -819,12 +819,29 @@ function toggleMobMenu() {
   const drawer = document.getElementById('mobDrawer');
   const isOpen = drawer.classList.toggle('open');
   overlay.classList.toggle('open', isOpen);
-  document.body.style.overflow = isOpen ? 'hidden' : '';
+  // iOS scroll bleed-through fix: position:fixed prevents inertial scroll behind drawer
+  if (isOpen) {
+    document.body.dataset.scrollY = window.scrollY;
+    document.body.style.cssText += ';overflow:hidden;position:fixed;top:-' + window.scrollY + 'px;width:100%';
+  } else {
+    const scrollY = parseInt(document.body.dataset.scrollY || '0', 10);
+    document.body.style.cssText = document.body.style.cssText.replace(/overflow:[^;]+;position:fixed;top:[^;]+;width:[^;]+;?/g, '');
+    document.body.style.overflow = '';
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.width = '';
+    window.scrollTo(0, scrollY);
+  }
 }
 function closeMobMenu() {
   document.getElementById('mobOverlay').classList.remove('open');
   document.getElementById('mobDrawer').classList.remove('open');
+  const scrollY = parseInt(document.body.dataset.scrollY || '0', 10);
   document.body.style.overflow = '';
+  document.body.style.position = '';
+  document.body.style.top = '';
+  document.body.style.width = '';
+  window.scrollTo(0, scrollY);
 }
 function handleMobSearch() {
   const q = document.getElementById('mobSearchInput').value.trim();

@@ -630,6 +630,7 @@ function switchGalleryImg(idx) {
 
 function galleryNav(dir) {
   const total = galleryImages.length;
+  if (!total) return;
   switchGalleryImg((galleryIdx + dir + total) % total);
 }
 

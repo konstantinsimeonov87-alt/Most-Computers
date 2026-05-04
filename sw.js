@@ -1,9 +1,9 @@
-// Most Computers — Service Worker 6e3c978
+// Most Computers — Service Worker cdcf0a74
 // Most Computers — Service Worker 5c6bfabe
-const CACHE = 'mc-6e3c978';
+const CACHE = 'mc-cdcf0a74';
 =======
 // Most Computers — Service Worker 02bdf516
-const CACHE = 'mc-6e3c978';
+const CACHE = 'mc-fe15a7b';
 >>>>>>> Stashed changes
 const PRECACHE = [
   './',

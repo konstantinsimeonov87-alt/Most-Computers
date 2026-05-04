@@ -8066,7 +8066,7 @@ var products = [
    specs:{'Размер':'27\''},
    rating:4.3,rv:0,reviews:[],
    desc:'Lenovo 27 Lenovo 27Q-11 / 67D3GAC1EU — 27" монитор.',
-   img:'https://portal.mostbg.com/api/images/imageFileData/100717.png',stock:true},
+   img:'https://portal.mostbg.com/api/images/imageFileData/100717.png',stock:false},
 
   {id:1152,name:'27 Lenovo 27Q-10 / 68CFGACBEU',brand:'Lenovo',cat:'monitors',subcat:'monitor',
    price:884,old:null,pct:null,badge:null,emoji:'🖥',sku:'68CFGACBEU',ean:null,

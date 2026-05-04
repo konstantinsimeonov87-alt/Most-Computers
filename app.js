@@ -7089,6 +7089,7 @@ function openServicePage() {
   if (typeof setPageMeta === 'function') setPageMeta('Сервизен център — Most Computers', 'Сертифициран сервиз за лаптопи, компютри и електроника. Диагностика, ремонт и гаранционно обслужване в Most Computers.');
   if (typeof bcOnPage === 'function') bcOnPage('Сервизен център');
   try { history.pushState({ page: 'service' }, '', '?page=service'); } catch(e) {}
+  _svcTrkInit();
 }
 function closeServicePage() {
   document.getElementById('servicePage').classList.remove('open');
@@ -7202,6 +7203,196 @@ function checkOpenNow() {
 }
 
 
+
+// ===== SERVICE TRACKER =====
+let _svcTrkInited = false;
+const _SVCTRK_LAST = 'svcTrkLast';
+const _SVCTRK_HIST = 'svcTrkHist';
+
+function _svcEsc(s) {
+  return String(s == null ? '' : s)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+function _svcTrkInit() {
+  if (_svcTrkInited) return;
+  const form = document.getElementById('svcTrkForm');
+  if (!form) return;
+  _svcTrkInited = true;
+
+  const inputOrder    = document.getElementById('svcTrkOrder');
+  const inputWarranty = document.getElementById('svcTrkWarranty');
+  const errEl         = document.getElementById('svcTrkErr');
+
+  inputWarranty.addEventListener('input', e => {
+    const v = e.target.value.replace(/\D/g, '');
+    if (e.target.value !== v) e.target.value = v;
+    inputWarranty.classList.remove('svc-err');
+    errEl.style.display = 'none';
+    _svcTrkClearResult();
+  });
+  inputOrder.addEventListener('input', () => {
+    inputOrder.classList.remove('svc-err');
+    errEl.style.display = 'none';
+    _svcTrkClearResult();
+  });
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    _svcTrkSearch(inputOrder.value.trim(), inputWarranty.value.trim());
+  });
+
+  // Restore last result from localStorage
+  try {
+    const saved = JSON.parse(localStorage.getItem(_SVCTRK_LAST) || 'null');
+    if (saved && saved.searchType && saved.searchValue) {
+      if (saved.searchType === 'order') inputOrder.value = saved.searchValue;
+      else inputWarranty.value = saved.searchValue;
+      _svcTrkShowResult(saved, true);
+    }
+  } catch(e) {}
+  _svcTrkUpdateHistory();
+}
+
+function _svcTrkSearch(order, warranty) {
+  const inputOrder    = document.getElementById('svcTrkOrder');
+  const inputWarranty = document.getElementById('svcTrkWarranty');
+  const errEl         = document.getElementById('svcTrkErr');
+  inputOrder.classList.remove('svc-err');
+  inputWarranty.classList.remove('svc-err');
+
+  if (!order && !warranty) {
+    errEl.style.display = 'block';
+    inputOrder.classList.add('svc-err');
+    inputWarranty.classList.add('svc-err');
+    return;
+  }
+  const val = order || warranty;
+  if (val.length < 3) {
+    errEl.style.display = 'block';
+    (order ? inputOrder : inputWarranty).classList.add('svc-err');
+    return;
+  }
+  errEl.style.display = 'none';
+
+  const btn    = document.getElementById('svcTrkBtn');
+  const btnTxt = document.getElementById('svcTrkBtnTxt');
+  const loader = document.getElementById('svcTrkLoader');
+  btn.disabled = true;
+  btnTxt.textContent = 'Проверяваме…';
+  loader.style.display = 'inline-block';
+  _svcTrkClearResult();
+
+  const searchType  = order ? 'order' : 'warranty';
+  const searchValue = val;
+
+  // TODO: replace setTimeout with real API fetch
+  setTimeout(() => {
+    btn.disabled = false;
+    btnTxt.textContent = '🔍 Провери статус';
+    loader.style.display = 'none';
+
+    if (searchValue.endsWith('0')) {
+      _svcTrkShowError('⚠️ Няма намерена поръчка с този номер. Проверете дали номерът е изписан правилно.');
+    } else {
+      const demo = { found:true, status:'В ремонт', updatedAt:'20.11.2025',
+        step:'Изчаква резервни части', location:'Сервизен център — София', searchType, searchValue };
+      _svcTrkShowResult(demo, false);
+      localStorage.setItem(_SVCTRK_LAST, JSON.stringify(demo));
+      _svcTrkSaveHistory(demo);
+      _svcTrkUpdateHistory();
+    }
+  }, 1200);
+}
+
+function _svcTrkPillClass(status) {
+  const s = (status || '').toLowerCase();
+  if (s.includes('ремонт'))                    return 'svc-pill-repair';
+  if (s.includes('изчаква') || s.includes('части')) return 'svc-pill-waiting';
+  if (s.includes('готов')   || s.includes('получаване')) return 'svc-pill-ready';
+  return 'svc-pill-default';
+}
+
+function _svcTrkShowResult(data, fromCache) {
+  if (!data || !data.found) { _svcTrkShowError('⚠️ Няма намерена поръчка с този номер.'); return; }
+  const box       = document.getElementById('svcTrkResult');
+  const pill      = _svcTrkPillClass(data.status);
+  const isReady   = pill === 'svc-pill-ready';
+  const typeLabel = data.searchType === 'order' ? 'Сервизна поръчка' : 'Гаранционна карта';
+  const sv        = _svcEsc(data.searchValue || '');
+
+  box.innerHTML = `
+    <div class="svc-result-ok">✅ Поръчката е намерена</div>
+    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px;">
+      <span class="svc-result-label">${typeLabel} → ${sv}</span>
+      <button type="button" class="svc-copy-btn"
+        onclick="navigator.clipboard&&navigator.clipboard.writeText('${sv}').then(()=>{this.textContent='Копирано';setTimeout(()=>this.textContent='Копирай номер',1500)})">Копирай номер</button>
+    </div>
+    <div class="svc-result-row"><span class="svc-result-label">Статус:</span> ${_svcEsc(data.status)} <span class="svc-pill ${pill}">${_svcEsc(data.status)}</span></div>
+    <div class="svc-result-row"><span class="svc-result-label">Последна актуализация:</span> ${_svcEsc(data.updatedAt || '—')}</div>
+    <div class="svc-result-row"><span class="svc-result-label">Етап:</span> ${_svcEsc(data.step || '—')}</div>
+    <div class="svc-result-row"><span class="svc-result-label">Локация:</span> ${_svcEsc(data.location || '—')}</div>
+    ${isReady ? '<div class="svc-ready-note">✅ Ремонтът е приключил. Носете сервизния протокол при получаване.</div>' : ''}
+    ${fromCache ? '<div style="margin-top:8px;font-size:12px;color:var(--muted);"><em>Показан е последният резултат от предишно търсене.</em></div>' : ''}
+  `;
+  box.style.display = 'block';
+  requestAnimationFrame(() => box.classList.add('show'));
+}
+
+function _svcTrkShowError(msg) {
+  const box = document.getElementById('svcTrkResult');
+  box.innerHTML = `
+    <div class="svc-result-err">${_svcEsc(msg)}</div>
+    <div style="font-size:13px;color:var(--text2);">Проверете дали номерът е изписан правилно и опитайте отново.</div>
+    <div style="margin-top:8px;font-size:13px;">При нужда от съдействие: <a href="tel:0700144 11" style="color:var(--primary);font-weight:700;">0700 144 11</a></div>
+  `;
+  box.style.display = 'block';
+  requestAnimationFrame(() => box.classList.add('show'));
+}
+
+function _svcTrkClearResult() {
+  const box = document.getElementById('svcTrkResult');
+  if (!box) return;
+  box.classList.remove('show');
+  box.style.display = 'none';
+  box.innerHTML = '';
+}
+
+function _svcTrkGetHistory() {
+  try { return JSON.parse(localStorage.getItem(_SVCTRK_HIST) || '[]'); } catch(e) { return []; }
+}
+
+function _svcTrkSaveHistory(data) {
+  const h = _svcTrkGetHistory().filter(i => !(i.searchType === data.searchType && i.searchValue === data.searchValue));
+  h.unshift({ searchType: data.searchType, searchValue: data.searchValue, status: data.status });
+  localStorage.setItem(_SVCTRK_HIST, JSON.stringify(h.slice(0, 3)));
+}
+
+function _svcTrkUpdateHistory() {
+  const box  = document.getElementById('svcTrkHistory');
+  const list = document.getElementById('svcTrkHistList');
+  if (!box || !list) return;
+  const h = _svcTrkGetHistory();
+  if (!h.length) { box.style.display = 'none'; return; }
+  list.innerHTML = h.map(item => {
+    const label = item.searchType === 'order' ? 'Поръчка' : 'Гаранция';
+    const sv    = _svcEsc(item.searchValue || '');
+    const st    = _svcEsc(item.status || '');
+    const type  = _svcEsc(item.searchType || '');
+    return `<li style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;gap:6px;flex-wrap:wrap;">
+      <span style="font-size:13px;">${label} → ${sv} — ${st}</span>
+      <button type="button" class="svc-copy-btn" onclick="_svcTrkRepeat('${type}','${sv}')">Повтори</button>
+    </li>`;
+  }).join('');
+  box.style.display = 'block';
+}
+
+function _svcTrkRepeat(type, value) {
+  const inputOrder    = document.getElementById('svcTrkOrder');
+  const inputWarranty = document.getElementById('svcTrkWarranty');
+  if (!inputOrder) return;
+  if (type === 'order') { inputOrder.value = value; inputWarranty.value = ''; _svcTrkSearch(value, ''); }
+  else                  { inputOrder.value = ''; inputWarranty.value = value; _svcTrkSearch('', value); }
+}
 
 // ===== REVIEW FORM =====
 let rfRating = 0;

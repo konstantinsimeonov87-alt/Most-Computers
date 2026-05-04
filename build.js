@@ -63,11 +63,27 @@ const bundle = APP_SOURCES.map(f => {
 fs.writeFileSync(path.join(ROOT, 'app.js'), bundle);
 log(`app.js bundled — ${(bundle.length/1024).toFixed(0)} KB from ${APP_SOURCES.length} files (data.js split out)`);
 
+// 4a. Strip null/empty fields from data.js before minification
+console.log('\n🧹 Stripping null fields from data.js...');
+const tmpDataPath = path.join(ROOT, '_tmp_data_stripped.js');
+{
+  let dataContent = fs.readFileSync(path.join(ROOT, DATA_SRC), 'utf8');
+  const beforeStrip = dataContent.length;
+  dataContent = dataContent
+    .replace(/,\s*old\s*:\s*null/g, '')
+    .replace(/,\s*pct\s*:\s*null/g, '')
+    .replace(/,\s*badge\s*:\s*null/g, '')
+    .replace(/,\s*reviews\s*:\s*\[\]/g, '')
+    .replace(/,\s*ean\s*:\s*null/g, '');
+  fs.writeFileSync(tmpDataPath, dataContent);
+  log(`data.js stripped: ${(beforeStrip/1024).toFixed(0)} KB → ${(dataContent.length/1024).toFixed(0)} KB (-${((beforeStrip-dataContent.length)/1024).toFixed(0)} KB)`);
+}
+
 // 4. Minify JavaScript
 console.log('\n📦 Minifying JavaScript...');
 const jsFiles = [
   { src: 'products.js', dst: 'products.js' },
-  { src: DATA_SRC,      dst: 'data.js' },
+  { src: '_tmp_data_stripped.js', dst: 'data.js' },
   { src: 'app.js',      dst: 'app.js' },
   { src: 'js/admin.js', dst: 'js/admin.js' },
 ];
@@ -86,6 +102,8 @@ jsFiles.forEach(({ src, dst }) => {
     fs.copyFileSync(srcPath, dstPath);
   }
 });
+// Clean up temp file
+if (fs.existsSync(tmpDataPath)) fs.unlinkSync(tmpDataPath);
 
 // 4. PurgeCSS + Minify CSS
 console.log('\n🎨 Purging + Minifying CSS...');

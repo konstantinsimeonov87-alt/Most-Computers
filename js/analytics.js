@@ -8,7 +8,7 @@
 
   // ── Config ──────────────────────────────────────────────────────────────────
   const IS_DEV = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
-  const GA4_ID = 'G-XXXXXXXXXX'; // замени с реален Measurement ID от GA4
+  const GA4_ID = 'G-HE0YMD8BQ7';
   const FB_PIXEL = ''; // опционален Meta Pixel ID
 
   // ── Core trackEvent ──────────────────────────────────────────────────────────

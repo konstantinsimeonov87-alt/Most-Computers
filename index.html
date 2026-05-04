@@ -71,10 +71,8 @@
   <!-- Google Analytics 4 -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-HE0YMD8BQ7"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-HE0YMD8BQ7');</script>
-  <!-- Critical CSS: hero + skeleton — renders before styles.css finishes loading -->
+  <!-- Critical CSS: hero visibility before styles.css loads (no CSS vars — avoids cascade reflow) -->
   <style>
-    :root{--border:#e5e7eb;--bg2:#f3f4f6;--card:#fff;--radius:12px;--radius-lg:16px}
-    /* Hero — makes LCP element visible immediately */
     .hero-slider{border-radius:12px;overflow:hidden;position:relative;min-height:320px}
     .slide{display:none;height:320px;border-radius:12px;padding:40px 48px;position:relative;overflow:hidden}
     .slide.active{display:flex;flex-direction:column;justify-content:center}
@@ -83,14 +81,14 @@
     .slide-badge{display:inline-block;background:rgba(255,255,255,.2);color:#fff;padding:4px 14px;border-radius:20px;font-size:11px;font-weight:700;text-transform:uppercase;margin-bottom:14px;border:1px solid rgba(255,255,255,.3)}
     .slide-sub{font-size:14px;opacity:.85;margin-bottom:24px}
     .slide-emoji{position:absolute;right:40px;bottom:20px;font-size:100px;opacity:.18;line-height:1}
-    /* Skeleton shimmer */
+    /* Skeleton — hardcoded values, no CSS vars to avoid cascade recalc when styles.css loads */
     @keyframes skeleton-shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
-    .skeleton{background:linear-gradient(90deg,var(--border) 25%,var(--bg2) 50%,var(--border) 75%);background-size:200% 100%;animation:skeleton-shimmer 1.4s ease infinite;border-radius:6px}
-    .skeleton-card{background:var(--card);border-radius:var(--radius-lg);padding:16px;border:1px solid var(--border);overflow:hidden}
-    .sk-img{height:180px;margin-bottom:12px;border-radius:var(--radius)}
+    .skeleton{background:linear-gradient(90deg,#e5e7eb 25%,#f3f4f6 50%,#e5e7eb 75%);background-size:200% 100%;animation:skeleton-shimmer 1.4s ease infinite;border-radius:6px}
+    .skeleton-card{background:#fff;border-radius:16px;padding:16px;border:1px solid #e5e7eb;overflow:hidden}
+    .sk-img{height:180px;margin-bottom:12px;border-radius:12px}
     .sk-body{display:flex;flex-direction:column;gap:8px}
     .sk-brand{height:11px;width:38%}.sk-title{height:14px;width:85%}.sk-title2{height:14px;width:62%}
-    .sk-price{height:22px;width:48%;margin-top:4px}.sk-btn{height:38px;width:100%;margin-top:8px;border-radius:var(--radius)}
+    .sk-price{height:22px;width:48%;margin-top:4px}.sk-btn{height:38px;width:100%;margin-top:8px;border-radius:12px}
   </style>
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
@@ -1938,7 +1936,7 @@
             </div>
           </div>
         </div>
-        <div class="products-row cols5" id="flashGrid"><div class="skeleton-card" aria-hidden="true"><div class="skeleton sk-img"></div><div class="sk-body"><div class="skeleton sk-brand"></div><div class="skeleton sk-title"></div><div class="skeleton sk-price"></div><div class="skeleton sk-btn"></div></div></div><div class="skeleton-card" aria-hidden="true"><div class="skeleton sk-img"></div><div class="sk-body"><div class="skeleton sk-brand"></div><div class="skeleton sk-title"></div><div class="skeleton sk-price"></div><div class="skeleton sk-btn"></div></div></div><div class="skeleton-card" aria-hidden="true"><div class="skeleton sk-img"></div><div class="sk-body"><div class="skeleton sk-brand"></div><div class="skeleton sk-title"></div><div class="skeleton sk-price"></div><div class="skeleton sk-btn"></div></div></div><div class="skeleton-card" aria-hidden="true"><div class="skeleton sk-img"></div><div class="sk-body"><div class="skeleton sk-brand"></div><div class="skeleton sk-title"></div><div class="skeleton sk-price"></div><div class="skeleton sk-btn"></div></div></div><div class="skeleton-card" aria-hidden="true"><div class="skeleton sk-img"></div><div class="sk-body"><div class="skeleton sk-brand"></div><div class="skeleton sk-title"></div><div class="skeleton sk-price"></div><div class="skeleton sk-btn"></div></div></div></div>
+        <div class="products-row cols5" id="flashGrid" style="min-height:280px"></div>
       </div>
 
       <!-- BROWSE ALL PRODUCTS -->
@@ -1962,7 +1960,7 @@
           Филтри и сортиране
         </button>
         <div class="subcat-bar" id="subcatBar"></div>
-        <div class="products-row" id="topGrid"><div class="skeleton-card" aria-hidden="true"><div class="skeleton sk-img"></div><div class="sk-body"><div class="skeleton sk-brand"></div><div class="skeleton sk-title"></div><div class="skeleton sk-title2"></div><div class="skeleton sk-price"></div><div class="skeleton sk-btn"></div></div></div><div class="skeleton-card" aria-hidden="true"><div class="skeleton sk-img"></div><div class="sk-body"><div class="skeleton sk-brand"></div><div class="skeleton sk-title"></div><div class="skeleton sk-title2"></div><div class="skeleton sk-price"></div><div class="skeleton sk-btn"></div></div></div><div class="skeleton-card" aria-hidden="true"><div class="skeleton sk-img"></div><div class="sk-body"><div class="skeleton sk-brand"></div><div class="skeleton sk-title"></div><div class="skeleton sk-title2"></div><div class="skeleton sk-price"></div><div class="skeleton sk-btn"></div></div></div><div class="skeleton-card" aria-hidden="true"><div class="skeleton sk-img"></div><div class="sk-body"><div class="skeleton sk-brand"></div><div class="skeleton sk-title"></div><div class="skeleton sk-title2"></div><div class="skeleton sk-price"></div><div class="skeleton sk-btn"></div></div></div><div class="skeleton-card" aria-hidden="true"><div class="skeleton sk-img"></div><div class="sk-body"><div class="skeleton sk-brand"></div><div class="skeleton sk-title"></div><div class="skeleton sk-title2"></div><div class="skeleton sk-price"></div><div class="skeleton sk-btn"></div></div></div><div class="skeleton-card" aria-hidden="true"><div class="skeleton sk-img"></div><div class="sk-body"><div class="skeleton sk-brand"></div><div class="skeleton sk-title"></div><div class="skeleton sk-title2"></div><div class="skeleton sk-price"></div><div class="skeleton sk-btn"></div></div></div><div class="skeleton-card" aria-hidden="true"><div class="skeleton sk-img"></div><div class="sk-body"><div class="skeleton sk-brand"></div><div class="skeleton sk-title"></div><div class="skeleton sk-title2"></div><div class="skeleton sk-price"></div><div class="skeleton sk-btn"></div></div></div><div class="skeleton-card" aria-hidden="true"><div class="skeleton sk-img"></div><div class="sk-body"><div class="skeleton sk-brand"></div><div class="skeleton sk-title"></div><div class="skeleton sk-title2"></div><div class="skeleton sk-price"></div><div class="skeleton sk-btn"></div></div></div></div>
+        <div class="products-row" id="topGrid" style="min-height:560px"></div>
       </div>
 
       <!-- PROMO BANNER -->

@@ -671,15 +671,15 @@ function openProductModal(id){
   if(p.old){oe.textContent=fmtEur(p.old)+' / '+fmtBgn(p.old);se.textContent='-'+Math.round((p.old-p.price)/p.old*100)+'%';se.style.display='';}else{oe.textContent='';se.style.display='none';}
   document.getElementById('modalMonthly').innerHTML='';
   document.getElementById('modalQty').textContent='1';
-  document.getElementById('modalSpecs').innerHTML=Object.keys(p.specs).slice(0,4).map(k=>`<div class="spec-chip"><div class="spec-chip-key">${_esc(k)}</div><div class="spec-chip-val">${_esc(p.specs[k])}</div></div>`).join('');
+  document.getElementById('modalSpecs').innerHTML=Object.keys(p.specs||{}).slice(0,4).map(k=>`<div class="spec-chip"><div class="spec-chip-key">${_esc(k)}</div><div class="spec-chip-val">${_esc(p.specs[k])}</div></div>`).join('');
   let b='';if(p.badge==='sale')b+='<span class="badge badge-sale">Промо</span>';if(p.badge==='new')b+='<span class="badge badge-new">Ново</span>';if(p.badge==='hot')b+='<span class="badge badge-hot">Горещо</span>';
   document.getElementById('modalBadges').innerHTML=b;
   document.getElementById('modalDesc').textContent=p.desc;
   var _el_modalSpecsFull=document.getElementById('modalSpecsFull'); if(_el_modalSpecsFull) _el_modalSpecsFull.innerHTML =
     `<div class="spec-chip"><div class="spec-chip-key">SKU</div><div class="spec-chip-val mono-12">${_esc(p.sku)}</div></div>` +
     `<div class="spec-chip"><div class="spec-chip-key">EAN</div><div class="spec-chip-val mono-12">${_esc(p.ean)}</div></div>` +
-    Object.entries(p.specs).map(([k,v])=>`<div class="spec-chip"><div class="spec-chip-key">${_esc(k)}</div><div class="spec-chip-val">${_esc(v)}</div></div>`).join('');
-  document.getElementById('modalReviews').innerHTML=p.reviews.map(r=>`<div class="review-item"><div class="review-header"><span class="review-name">${_esc(r.name)}</span><span class="review-stars">${starsHTML(r.stars)}</span><span class="review-date">${_esc(r.date)}</span></div><div class="review-text">${_esc(r.text)}</div></div>`).join('');
+    Object.entries(p.specs||{}).map(([k,v])=>`<div class="spec-chip"><div class="spec-chip-key">${_esc(k)}</div><div class="spec-chip-val">${_esc(v)}</div></div>`).join('');
+  document.getElementById('modalReviews').innerHTML=(p.reviews||[]).map(r=>`<div class="review-item"><div class="review-header"><span class="review-name">${_esc(r.name)}</span><span class="review-stars">${starsHTML(r.stars)}</span><span class="review-date">${_esc(r.date)}</span></div><div class="review-text">${_esc(r.text)}</div></div>`).join('');
   switchTab('desc');
   document.getElementById('productModalBackdrop').classList.add('open');document.body.style.overflow='hidden';
 }
@@ -942,16 +942,17 @@ function showRecommended(p) {
 function addToCartById(id) { addToCart(id); }
 const FREE_SHIP_BGN = Math.round(100 * EUR_RATE * 100) / 100; // 100 EUR в лева
 
-// Social proof counter — random-ish but deterministic per day so it feels real
+// Social proof — shown only when real order count exists
 (function initCartSocialProof() {
   const sp = document.getElementById('cartSocialProof');
   const txt = document.getElementById('cartSpText');
   if (!sp || !txt) return;
-  // Seed by day so number changes daily but stays stable per session
-  const seed = Math.floor(Date.now() / 86400000);
-  const n = 28 + (seed % 41); // 28–68
-  txt.textContent = `${n} души поръчаха от нас днес`;
-  sp.style.display = '';
+  let orders = [];
+  try { orders = JSON.parse(localStorage.getItem('mc_orders') || '[]'); } catch (e) {}
+  if (orders.length > 0) {
+    txt.textContent = `Вие имате ${orders.length} ${orders.length === 1 ? 'поръчка' : 'поръчки'} при нас`;
+    sp.style.display = '';
+  }
 })();
 function updateCart() {
   const count = cart.reduce((s, x) => s + x.qty, 0), total = cart.reduce((s, x) => s + x.price * x.qty, 0);
@@ -1444,7 +1445,7 @@ function submitOrder() {
     const orderNum = 'MC-' + String(_prevOrders.length + 1).padStart(6, '0');
     const subtotal = cart.reduce((s, x) => s + x.price * x.qty, 0);
     const delivery = ckDeliveryCosts[ckDeliveryIdx];
-    const codFee = ckPaymentType === 'cod' ? 1.50 : 0;
+    const codFee = ckPaymentType === 'cod' ? (1.50 / EUR_RATE) : 0;
     const promoDisc = promoApplied ? subtotal * ((promoDiscountPct || 10) / 100) : 0;
     const total = subtotal + delivery + codFee - promoDisc;
     const payNames = { card: 'Карта', cod: 'Наложен платеж', bank: 'Банков превод' };
@@ -1550,7 +1551,7 @@ function printInvoice(num) {
   const o = num ? orders.find(x => x.num === num) : orders[0];
   if (!o) { showToast('⚠️ Няма данни за поръчката'); return; }
 
-  const subtotalNoVat = (o.subtotal / 1.2).toFixed(2);
+  const subtotalNoVat = o.subtotal / 1.2;
   const vatAmt = (o.subtotal - subtotalNoVat).toFixed(2);
   const invNum = 'ФК-' + o.num.replace('MC-', '');
   const date = new Date(o.ts || Date.now()).toLocaleDateString('bg-BG', { day: '2-digit', month: '2-digit', year: 'numeric' });
@@ -1637,10 +1638,10 @@ function printInvoice(num) {
   <div class="party">
     <div class="party-lbl">${o.b2b ? 'Купувач (фирма)' : 'Клиент / Получател'}</div>
     <div class="party-val">
-      ${o.b2b ? `<strong>${o.b2b.firma || '—'}</strong><br>ЕИК: ${o.b2b.eik || '—'}<br>${o.b2b.vat ? 'ДДС №: ' + o.b2b.vat + '<br>' : ''}${o.b2b.mol ? 'МОЛ: ' + o.b2b.mol + '<br>' : ''}` : `<strong>${o.customer || '—'}</strong><br>`}
-      ${o.addr ? o.addr + '<br>' : ''}
-      ${o.city || ''}<br>
-      тел.: ${o.phone || '—'}
+      ${o.b2b ? `<strong>${escHtml(o.b2b.firma || '—')}</strong><br>ЕИК: ${escHtml(o.b2b.eik || '—')}<br>${o.b2b.vat ? 'ДДС №: ' + escHtml(o.b2b.vat) + '<br>' : ''}${o.b2b.mol ? 'МОЛ: ' + escHtml(o.b2b.mol) + '<br>' : ''}` : `<strong>${escHtml(o.customer || '—')}</strong><br>`}
+      ${o.addr ? escHtml(o.addr) + '<br>' : ''}
+      ${escHtml(o.city || '')}<br>
+      тел.: ${escHtml(o.phone || '—')}
     </div>
   </div>
 </div>
@@ -6391,13 +6392,13 @@ function injectProductSchema(p) {
       "availability": p.stock === false ? "https://schema.org/OutOfStock" : "https://schema.org/InStock",
       "seller": { "@type": "Organization", "name": "Most Computers" }
     },
-    "aggregateRating": {
+    ...(p.rv > 0 ? { "aggregateRating": {
       "@type": "AggregateRating",
       "ratingValue": p.rating,
       "reviewCount": p.rv,
       "bestRating": 5,
       "worstRating": 1
-    }
+    }} : {})
   };
   if (Array.isArray(p.reviews) && p.reviews.length > 0) {
     schema.review = p.reviews.slice(0, 5).map(r => ({
@@ -6504,9 +6505,7 @@ function generateSitemap() {
 }
 
 // Init URL params on load
-document.addEventListener('DOMContentLoaded', () => {
-  setTimeout(readURLParams, 100);
-});
+document.addEventListener('DOMContentLoaded', readURLParams);
 
 
 

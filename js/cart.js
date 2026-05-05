@@ -54,16 +54,17 @@ function showRecommended(p) {
 function addToCartById(id) { addToCart(id); }
 const FREE_SHIP_BGN = Math.round(100 * EUR_RATE * 100) / 100; // 100 EUR в лева
 
-// Social proof counter — random-ish but deterministic per day so it feels real
+// Social proof — shown only when real order count exists
 (function initCartSocialProof() {
   const sp = document.getElementById('cartSocialProof');
   const txt = document.getElementById('cartSpText');
   if (!sp || !txt) return;
-  // Seed by day so number changes daily but stays stable per session
-  const seed = Math.floor(Date.now() / 86400000);
-  const n = 28 + (seed % 41); // 28–68
-  txt.textContent = `${n} души поръчаха от нас днес`;
-  sp.style.display = '';
+  let orders = [];
+  try { orders = JSON.parse(localStorage.getItem('mc_orders') || '[]'); } catch (e) {}
+  if (orders.length > 0) {
+    txt.textContent = `Вие имате ${orders.length} ${orders.length === 1 ? 'поръчка' : 'поръчки'} при нас`;
+    sp.style.display = '';
+  }
 })();
 function updateCart() {
   const count = cart.reduce((s, x) => s + x.qty, 0), total = cart.reduce((s, x) => s + x.price * x.qty, 0);
@@ -556,7 +557,7 @@ function submitOrder() {
     const orderNum = 'MC-' + String(_prevOrders.length + 1).padStart(6, '0');
     const subtotal = cart.reduce((s, x) => s + x.price * x.qty, 0);
     const delivery = ckDeliveryCosts[ckDeliveryIdx];
-    const codFee = ckPaymentType === 'cod' ? 1.50 : 0;
+    const codFee = ckPaymentType === 'cod' ? (1.50 / EUR_RATE) : 0;
     const promoDisc = promoApplied ? subtotal * ((promoDiscountPct || 10) / 100) : 0;
     const total = subtotal + delivery + codFee - promoDisc;
     const payNames = { card: 'Карта', cod: 'Наложен платеж', bank: 'Банков превод' };
@@ -662,7 +663,7 @@ function printInvoice(num) {
   const o = num ? orders.find(x => x.num === num) : orders[0];
   if (!o) { showToast('⚠️ Няма данни за поръчката'); return; }
 
-  const subtotalNoVat = (o.subtotal / 1.2).toFixed(2);
+  const subtotalNoVat = o.subtotal / 1.2;
   const vatAmt = (o.subtotal - subtotalNoVat).toFixed(2);
   const invNum = 'ФК-' + o.num.replace('MC-', '');
   const date = new Date(o.ts || Date.now()).toLocaleDateString('bg-BG', { day: '2-digit', month: '2-digit', year: 'numeric' });
@@ -749,10 +750,10 @@ function printInvoice(num) {
   <div class="party">
     <div class="party-lbl">${o.b2b ? 'Купувач (фирма)' : 'Клиент / Получател'}</div>
     <div class="party-val">
-      ${o.b2b ? `<strong>${o.b2b.firma || '—'}</strong><br>ЕИК: ${o.b2b.eik || '—'}<br>${o.b2b.vat ? 'ДДС №: ' + o.b2b.vat + '<br>' : ''}${o.b2b.mol ? 'МОЛ: ' + o.b2b.mol + '<br>' : ''}` : `<strong>${o.customer || '—'}</strong><br>`}
-      ${o.addr ? o.addr + '<br>' : ''}
-      ${o.city || ''}<br>
-      тел.: ${o.phone || '—'}
+      ${o.b2b ? `<strong>${escHtml(o.b2b.firma || '—')}</strong><br>ЕИК: ${escHtml(o.b2b.eik || '—')}<br>${o.b2b.vat ? 'ДДС №: ' + escHtml(o.b2b.vat) + '<br>' : ''}${o.b2b.mol ? 'МОЛ: ' + escHtml(o.b2b.mol) + '<br>' : ''}` : `<strong>${escHtml(o.customer || '—')}</strong><br>`}
+      ${o.addr ? escHtml(o.addr) + '<br>' : ''}
+      ${escHtml(o.city || '')}<br>
+      тел.: ${escHtml(o.phone || '—')}
     </div>
   </div>
 </div>

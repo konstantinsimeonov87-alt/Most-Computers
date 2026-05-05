@@ -223,6 +223,13 @@ if (fs.existsSync(imgDir)) {
   log('Copied images/');
 }
 
+// Copy icons directory (PWA app icons)
+const iconsDir = path.join(ROOT, 'icons');
+if (fs.existsSync(iconsDir)) {
+  fs.cpSync(iconsDir, path.join(DIST, 'icons'), { recursive: true });
+  log('Copied icons/');
+}
+
 // 7. Summary
 console.log(`\n${BOLD}📊 Build Summary${RESET}`);
 let totalSize = 0;

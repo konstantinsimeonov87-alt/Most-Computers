@@ -1,11 +1,12 @@
-// Most Computers — Service Worker d843904e
-const CACHE = 'mc-d843904e';
+// Most Computers — Service Worker ca81b513
+const CACHE = 'mc-ca81b513';
 const PRECACHE = [
   './',
   './index.html',
   './styles.css',
   './products.js',
   './app.js',
+  './js/data.js',
 ];
 
 // Install — precache shell

@@ -146,13 +146,13 @@ function injectProductSchema(p) {
       "availability": p.stock === false ? "https://schema.org/OutOfStock" : "https://schema.org/InStock",
       "seller": { "@type": "Organization", "name": "Most Computers" }
     },
-    "aggregateRating": {
+    ...(p.rv > 0 ? { "aggregateRating": {
       "@type": "AggregateRating",
       "ratingValue": p.rating,
       "reviewCount": p.rv,
       "bestRating": 5,
       "worstRating": 1
-    }
+    }} : {})
   };
   if (Array.isArray(p.reviews) && p.reviews.length > 0) {
     schema.review = p.reviews.slice(0, 5).map(r => ({
@@ -259,9 +259,7 @@ function generateSitemap() {
 }
 
 // Init URL params on load
-document.addEventListener('DOMContentLoaded', () => {
-  setTimeout(readURLParams, 100);
-});
+document.addEventListener('DOMContentLoaded', readURLParams);
 
 
 

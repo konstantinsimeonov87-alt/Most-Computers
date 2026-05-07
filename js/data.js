@@ -4549,7 +4549,7 @@ var products = [
    specs:{'Тип':'DDR5','Капацитет':'16 GB','Честота':'5600 MHz','Латентност':'CL46','Форм фактор':'DIMM','Напрежение':'1.1V'},
    rating:4.4,rv:0,reviews:[],
    desc:'Kingston 16G DDR5 5600 KINGSTON — DDR5 DIMM 5600 MHz, 16 GB, CL46.',
-   img:'https://portal.mostbg.com/api/images/imageFileData/38927.jpeg',stock:false},
+   img:'https://portal.mostbg.com/api/images/imageFileData/38927.jpeg',stock:true},
 
   {id:650,name:'16G DDR5 4800 KINGSPEC',brand:'KingSpec',cat:'components',subcat:'ram',
    price:322,old:null,pct:null,badge:null,emoji:'🟣',sku:'KS4800D5P11016G',ean:'6950509917818',
@@ -4612,7 +4612,7 @@ var products = [
    specs:{'Тип':'DDR5','Капацитет':'16 GB','Честота':'5600 MHz','Латентност':'CL36','Форм фактор':'DIMM','Напрежение':'1.25V'},
    rating:4.4,rv:0,reviews:[],
    desc:'Kingston 16G DDR5 5600 KING EXPO B RGB — DDR5 DIMM 5600 MHz, 16 GB, CL36.',
-   img:'https://portal.mostbg.com/api/images/imageFileData/33606.jpeg',stock:false},
+   img:'https://portal.mostbg.com/api/images/imageFileData/33606.jpeg',stock:true},
 
   {id:659,name:'16G DDR5 6000 ADATA LANCER',brand:'ADATA',cat:'components',subcat:'ram',
    price:422,old:null,pct:null,badge:null,emoji:'🟣',sku:'AX5U6000C4016G-CLABK',ean:null,
@@ -4724,7 +4724,7 @@ var products = [
    specs:{'Тип':'DDR5','Капацитет':'16 GB','Честота':'6400 MHz','Латентност':'CL32','Форм фактор':'DIMM','Напрежение':'1.4V'},
    rating:4.4,rv:0,reviews:[],
    desc:'Kingston 16G DDR5 6400 KINGS EXPO BEAST — DDR5 DIMM 6400 MHz, 16 GB, CL32.',
-   img:'https://portal.mostbg.com/api/images/imageFileData/100216.jpg',stock:false},
+   img:'https://portal.mostbg.com/api/images/imageFileData/100216.jpg',stock:true},
 
   {id:675,name:'16G DDR5 6800 KING RENEGADE',brand:'Kingston',cat:'components',subcat:'ram',
    price:117,old:null,pct:null,badge:null,emoji:'🟣',sku:'KF568C36RS-16',ean:null,
@@ -5067,14 +5067,14 @@ var products = [
    specs:{'Тип':'DDR5','Капацитет':'32 GB','Честота':'6000 MHz','Форм фактор':'DIMM','Напрежение':'1.35V'},
    rating:4.4,rv:0,reviews:[],
    desc:'Kingston 32G DDR5 6000 KING EXPO BEAST — DDR5 DIMM 6000MT/s MHz, 32 GB.',
-   img:'https://portal.mostbg.com/api/images/imageFileData/33472.png',stock:true},
+   img:'https://portal.mostbg.com/api/images/imageFileData/33472.png',stock:false},
 
   {id:724,name:'32G DDR5 6000 KING FURY BEAST',brand:'Kingston',cat:'components',subcat:'ram',
    price:968,old:null,pct:null,badge:null,emoji:'🟢',sku:'KF560C36BBE2-32',ean:null,
    specs:{'Тип':'DDR4','Форм фактор':'DIMM'},
    rating:4.4,rv:0,reviews:[],
    desc:'Kingston 32G DDR5 6000 KING FURY BEAST — DDR4 DIMM.',
-   img:'https://portal.mostbg.com/api/images/imageFileData/37086.jpeg',stock:false},
+   img:'https://portal.mostbg.com/api/images/imageFileData/37086.jpeg',stock:true},
 
   {id:725,name:'32G DDR5 6000 KING EXPO WHITE',brand:'Kingston',cat:'components',subcat:'ram',
    price:845,old:null,pct:null,badge:null,emoji:'🟣',sku:'KF560C30BWE-32',ean:null,
@@ -5916,7 +5916,7 @@ var products = [
    specs:{'Капацитет':'256 GB','Интерфейс':'SATA III','Форм фактор':'2.5\''},
    rating:4.3,rv:0,reviews:[],
    desc:'Kingston KINGSTON SKC600/256G 2.5 — SSD 256 GB, SATA III, 2.5".',
-   img:'https://portal.mostbg.com/api/images/imageFileData/23240.jpeg',stock:false},
+   img:'https://portal.mostbg.com/api/images/imageFileData/23240.jpeg',stock:true},
 
   {id:845,name:'KINGSTON SKC600/512G 2.5',brand:'Kingston',cat:'components',subcat:'ssd',
    price:264,old:null,pct:null,badge:null,emoji:'💾',sku:'SKC600/512G',ean:'0740617300253',
@@ -6504,7 +6504,7 @@ var products = [
    specs:{'Капацитет':'480 GB','Интерфейс':'SATA III','Форм фактор':'2.5\''},
    rating:4.3,rv:0,reviews:[],
    desc:'ADATA ADATA SSD SU650 480GB 3D NAND — SSD 480 GB, SATA III, 2.5".',
-   img:'https://portal.mostbg.com/api/images/imageFileData/16189.jpeg',stock:true},
+   img:'https://portal.mostbg.com/api/images/imageFileData/16189.jpeg',stock:false},
 
   {id:929,name:'ADATA SSD SU650 512GB 3D NAND',brand:'ADATA',cat:'components',subcat:'ssd',
    price:147,old:null,pct:null,badge:null,emoji:'💾',sku:'ASU650SS-512GT-R',ean:'4711085931528',

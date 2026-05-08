@@ -1051,7 +1051,7 @@ var products = [
    specs:{'Чипсет':'AMD/Intel B650','Памет':'4× DDR5','SATA3':'4×SATA3','RAID':'Да','M.2':'3xM2','PCIe x16':'3×PCIEx16','Изходи':'HDMI / DP','Форм фактор':'ATX','Сокет':'AM5'},
    rating:4.4,rv:0,reviews:[],
    desc:'Gigabyte дънна платка GB B650 GAMING X AX V2 /AM5.',
-   img:'https://portal.mostbg.com/api/images/imageFileData/42793.png',stock:false},
+   img:'https://portal.mostbg.com/api/images/imageFileData/42793.png',stock:true},
 
   {id:151,name:'GB B650M GAMING PLUS WF /AM5',brand:'Gigabyte',cat:'components',subcat:'motherboard',
    price:242,old:null,pct:null,badge:null,emoji:'⚙️',sku:'B650M GAMING PLUS WF 1.3',ean:null,

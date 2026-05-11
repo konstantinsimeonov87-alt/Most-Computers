@@ -11407,6 +11407,18 @@
    text-underline-offset: 2px;
  }
 
+ /* E — spec badges */
+ #pdpSpecBadges {
+   display: flex;
+   flex-wrap: wrap;
+   gap: 5px;
+   margin-bottom: 10px;
+ }
+ #pdpSpecBadges span {
+   transition: opacity .15s;
+ }
+ #pdpSpecBadges span:hover { opacity: .8; }
+
  .pdp-price-block {
    background: transparent;
    border: 1px solid var(--border);

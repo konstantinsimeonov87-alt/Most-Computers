@@ -238,9 +238,13 @@ function pdpRenderRelated(p) {
   var title   = document.getElementById('pdpRelatedTitle');
   if (!section || !scroll) return;
   var all = (typeof products !== 'undefined') ? products : [];
-  var related = all.filter(function(x) { return x.id !== p.id && x.cat === p.cat; })
-    .sort(function() { return Math.random() - 0.5; })
-    .slice(0, 14);
+  // A: prefer same subcat first, fallback to same cat
+  var related = p.subcat
+    ? all.filter(function(x) { return x.id !== p.id && x.subcat === p.subcat; })
+    : [];
+  if (related.length < 4)
+    related = all.filter(function(x) { return x.id !== p.id && x.cat === p.cat; });
+  related = related.sort(function() { return Math.random() - 0.5; }).slice(0, 14);
   if (related.length < 2) { section.style.display = 'none'; return; }
   if (title) {
     var catLabel = (typeof CAT_LABELS !== 'undefined' && CAT_LABELS[p.cat]) ? CAT_LABELS[p.cat] : '';

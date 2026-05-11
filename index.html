@@ -3906,7 +3906,7 @@
           <div class="pdp-badges" id="pdpBadges"></div>
           <div class="pdp-brand" id="pdpBrand"></div>
           <h1 class="pdp-name" id="pdpName"></h1>
-          <div class="pdp-meta">
+          <div class="pdp-meta" style="display:none;">
             <div>SKU: <span id="pdpSku">—</span></div>
             <div>EAN: <span id="pdpEan">—</span></div>
             <div>Гаранция: <span id="pdpWarranty">24 месеца</span></div>
@@ -3916,6 +3916,9 @@
             <span id="pdpRv" style="font-size:12px;color:var(--muted);" onclick="pdpSwitchTab('reviews')" role="button"
               tabindex="0"></span>
           </div>
+
+          <!-- E: Spec badges (speed class, capacity class, etc.) -->
+          <div id="pdpSpecBadges" style="display:none;flex-wrap:wrap;gap:5px;margin-bottom:2px;"></div>
 
           <!-- Price block -->
           <div class="pdp-price-block">

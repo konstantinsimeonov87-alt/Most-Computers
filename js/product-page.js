@@ -23,15 +23,28 @@ function openProductPage(id) {
   // Breadcrumb (inline — no wrapper needed)
   const _bcCatLabel = (typeof CAT_LABELS !== 'undefined' ? CAT_LABELS[p.cat] : null) || p.cat;
   if (typeof bcSet === 'function') {
-    const _bcCatFn = () => {
-      closeProductPage();
-      filterCat(p.cat);
-      bcSet([{ label: _bcCatLabel, fn: _bcCatFn }]);
-    };
-    bcSet([
-      { label: _bcCatLabel, url: `https://mostcomputers.bg/?cat=${p.cat}`, fn: _bcCatFn },
-      { label: p.name, url: `https://mostcomputers.bg/?product=${p.id}`, fn: null }
-    ]);
+    const _bcCatFn = () => { closeProductPage(); filterCat(p.cat); bcSet([{ label: _bcCatLabel, fn: _bcCatFn }]); };
+    // D: find subcat label from SUBCAT_DEFS
+    const _subcatLabel = (() => {
+      if (!p.subcat || typeof SUBCATS === 'undefined') return null;
+      const subs = SUBCATS[p.cat] || [];
+      const found = subs.find(s => s.id === p.subcat);
+      return found ? found.label : null;
+    })();
+    const _bcItems = [
+      { label: _bcCatLabel, url: `https://mostcomputers.bg/?cat=${p.cat}`, fn: _bcCatFn }
+    ];
+    if (_subcatLabel) {
+      const _bcSubFn = () => {
+        closeProductPage();
+        if (typeof openCatPage === 'function') openCatPage(p.cat);
+        if (typeof applySubcatById === 'function') setTimeout(() => applySubcatById(p.subcat), 50);
+        bcSet([{ label: _bcCatLabel, fn: _bcCatFn }]);
+      };
+      _bcItems.push({ label: _subcatLabel, url: `https://mostcomputers.bg/?cat=${p.cat}`, fn: _bcSubFn });
+    }
+    _bcItems.push({ label: p.name, url: `https://mostcomputers.bg/?product=${p.id}`, fn: null });
+    bcSet(_bcItems);
   }
   document.title = p.name + ' | Most Computers';
 
@@ -80,8 +93,112 @@ function openProductPage(id) {
   // Brand / Name / Rating
   document.getElementById('pdpBrand').textContent = p.brand || '';
   document.getElementById('pdpName').textContent  = p.name;
-  document.getElementById('pdpStars').innerHTML   = starsHTML(p.rating);
-  document.getElementById('pdpRv').textContent    = `${p.rating} (${p.rv} ревюта)`;
+  const _hasRv = p.rv && p.rv > 0;
+  const _starsEl = document.getElementById('pdpStars');
+  const _rvEl    = document.getElementById('pdpRv');
+  if (_hasRv) {
+    _starsEl.innerHTML = starsHTML(p.rating);
+    _starsEl.style.display = '';
+    _rvEl.textContent = `${p.rating} (${p.rv} ревюта)`;
+    _rvEl.style.cssText = 'font-size:12px;color:var(--muted);cursor:pointer;';
+  } else {
+    _starsEl.innerHTML = '';
+    _starsEl.style.display = 'none';
+    _rvEl.innerHTML = '⭐ <span style="color:var(--primary);font-weight:600;">Бъди първи да напишеш ревю</span>';
+    _rvEl.style.cssText = 'font-size:11.5px;cursor:pointer;';
+  }
+
+  // E: Spec badges — universal across all categories
+  (function renderSpecBadges(prod) {
+    const wrap = document.getElementById('pdpSpecBadges');
+    if (!wrap) return;
+    const sp = prod.specs || {};
+    const name = (prod.name || '').toUpperCase();
+    const badges = [];
+    const b = (text, color) => `<span style="display:inline-flex;align-items:center;padding:3px 8px;border-radius:5px;font-size:10.5px;font-weight:700;border:1.5px solid ${color};color:${color};background:${color}18;white-space:nowrap;">${text}</span>`;
+
+    // Storage — speed class
+    if (prod.subcat === 'microsd' || prod.subcat === 'sd_card' || prod.subcat === 'cf_card') {
+      if (name.includes('U3') || (sp['Интерфейс']||'').includes('U3')) badges.push(b('U3 ⚡','#3b82f6'));
+      else if (name.includes('U1')) badges.push(b('U1','#64748b'));
+      if (name.includes('V30') || (sp['Интерфейс']||'').includes('V30')) badges.push(b('V30 🎥','#8b5cf6'));
+      else if (name.includes('V10')) badges.push(b('V10','#64748b'));
+      if (name.includes('A2')) badges.push(b('A2 📱','#10b981'));
+      else if (name.includes('A1')) badges.push(b('A1 📱','#10b981'));
+      if (sp['Скорост четене']) badges.push(b('↓ ' + sp['Скорост четене'],'#f59e0b'));
+      if (sp['Скорост запис'])  badges.push(b('↑ ' + sp['Скорост запис'], '#f59e0b'));
+    }
+    // USB flash
+    if (prod.subcat === 'usb_flash') {
+      if (name.includes('USB3.2') || (sp['Интерфейс']||'').includes('3.2')) badges.push(b('USB 3.2 ⚡','#3b82f6'));
+      else if (name.includes('USB3') || (sp['Интерфейс']||'').includes('3.0') || (sp['Интерфейс']||'').includes('3.1')) badges.push(b('USB 3.0 ⚡','#3b82f6'));
+      else badges.push(b('USB 2.0','#64748b'));
+      if (name.includes('TYPE-C') || name.includes('USB-C') || name.includes('/DT70') || (sp['Интерфейс']||'').toLowerCase().includes('type-c')) badges.push(b('USB-C','#6d28d9'));
+      if (name.includes('DUAL') || name.includes('OTG')) badges.push(b('Dual OTG','#0ea5e9'));
+      if (sp['Скорост четене']) badges.push(b('↓ ' + sp['Скорост четене'],'#f59e0b'));
+    }
+    // RAM
+    if (prod.subcat === 'ram') {
+      const iface = (sp['Интерфейс'] || sp['Type'] || '').toUpperCase();
+      if (iface.includes('DDR5')) badges.push(b('DDR5','#8b5cf6'));
+      else if (iface.includes('DDR4')) badges.push(b('DDR4','#3b82f6'));
+      else if (iface.includes('DDR3')) badges.push(b('DDR3','#64748b'));
+      const freq = sp['Честота'] || sp['Speed'] || sp['Frequency'] || '';
+      if (freq) badges.push(b(freq,'#f59e0b'));
+      const cap = sp['Капацитет'] || sp['Capacity'] || '';
+      if (cap) badges.push(b(cap,'#10b981'));
+    }
+    // SSD/HDD
+    if (prod.subcat === 'ssd' || prod.subcat === 'hdd') {
+      const iface = (sp['Интерфейс'] || sp['Interface'] || '').toUpperCase();
+      if (iface.includes('NVME') || iface.includes('M.2')) badges.push(b('NVMe M.2','#8b5cf6'));
+      else if (iface.includes('SATA')) badges.push(b('SATA','#3b82f6'));
+      const cap = sp['Капацитет'] || sp['Capacity'] || '';
+      if (cap) badges.push(b(cap,'#10b981'));
+      if (sp['Скорост четене']) badges.push(b('↓ ' + sp['Скорост четене'],'#f59e0b'));
+    }
+    // GPU
+    if (prod.subcat === 'gpu') {
+      const vram = sp['VRAM'] || sp['Видеопамет'] || sp['Memory'] || '';
+      if (vram) badges.push(b(vram + ' VRAM','#8b5cf6'));
+      const conn = sp['Конектор'] || sp['Interface'] || '';
+      if (conn.toUpperCase().includes('PCIE 5')) badges.push(b('PCIe 5.0','#f59e0b'));
+      else if (conn.toUpperCase().includes('PCIE 4')) badges.push(b('PCIe 4.0','#f59e0b'));
+    }
+    // CPU
+    if (prod.subcat === 'cpu') {
+      const cores = sp['Ядра'] || sp['Cores'] || '';
+      if (cores) badges.push(b(cores + ' ядра','#3b82f6'));
+      const socket = sp['Сокет'] || sp['Socket'] || '';
+      if (socket) badges.push(b(socket,'#6d28d9'));
+      const tdp = sp['TDP'] || '';
+      if (tdp) badges.push(b(tdp + ' TDP','#f59e0b'));
+    }
+    // Monitors
+    if (prod.cat === 'monitors' || prod.subcat === 'gaming_mon' || prod.subcat === 'mon_4k') {
+      const hz = sp['Честота'] || sp['Refresh rate'] || '';
+      if (hz) badges.push(b(hz,'#8b5cf6'));
+      const panel = sp['Тип панел'] || sp['Panel'] || '';
+      if (panel) badges.push(b(panel,'#3b82f6'));
+      const res = sp['Резолюция'] || sp['Resolution'] || '';
+      if (res) badges.push(b(res,'#10b981'));
+    }
+    // Network
+    if (prod.cat === 'network') {
+      const wifi = sp['WiFi'] || sp['Стандарт'] || '';
+      if (wifi) badges.push(b(wifi,'#3b82f6'));
+      const ports = sp['Портове'] || sp['Ports'] || '';
+      if (ports) badges.push(b(ports,'#10b981'));
+    }
+
+    if (badges.length) {
+      wrap.innerHTML = badges.join('');
+      wrap.style.display = 'flex';
+    } else {
+      wrap.innerHTML = '';
+      wrap.style.display = 'none';
+    }
+  })(p);
 
   // Price
   const priceBgn = p.price;

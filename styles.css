@@ -27,10 +27,10 @@
 
    /* ── Акценти ── */
    --accent: #ff3d00;
-   --accent2: #34c759;
+   --accent2: #1a6b35;
    /* Apple green */
    --sale: #cc0000;
-   --new: #1a9e3f;
+   --new: #1a6b35;
    --promo: #c44f00;
 
    /* ── Фонове (Apple Store) ── */
@@ -13774,12 +13774,12 @@
  }
 
  .nav-btn-google {
-   background: #4285F4;
+   background: #1765d4;
    color: #fff;
  }
 
  .nav-btn-google:hover {
-   background: #2b6fd4;
+   background: #1254b3;
    color: #fff;
  }
 

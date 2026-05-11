@@ -113,17 +113,19 @@ function adminShowEmailDraft(o) {
         <button type="button" onclick="document.getElementById('adminEmailModal').remove()" style="background:none;border:none;color:#9ca3af;font-size:22px;cursor:pointer;line-height:1;">×</button>
       </div>
       <div style="font-size:11px;color:#9ca3af;margin-bottom:5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;">До:</div>
-      <div style="background:#252840;border:1px solid #2d3148;border-radius:8px;padding:9px 14px;color:#e5e7eb;font-size:13px;margin-bottom:12px;">${o.email||'—'}</div>
+      <div style="background:#252840;border:1px solid #2d3148;border-radius:8px;padding:9px 14px;color:#e5e7eb;font-size:13px;margin-bottom:12px;">${_esc(o.email||'—')}</div>
       <div style="font-size:11px;color:#9ca3af;margin-bottom:5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;">Относно:</div>
-      <div style="background:#252840;border:1px solid #2d3148;border-radius:8px;padding:9px 14px;color:#e5e7eb;font-size:13px;margin-bottom:12px;">${subject}</div>
+      <div style="background:#252840;border:1px solid #2d3148;border-radius:8px;padding:9px 14px;color:#e5e7eb;font-size:13px;margin-bottom:12px;">${_esc(subject)}</div>
       <div style="font-size:11px;color:#9ca3af;margin-bottom:5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;">Съдържание:</div>
-      <textarea id="adminEmailBody" style="width:100%;box-sizing:border-box;background:#252840;border:1px solid #2d3148;border-radius:8px;padding:12px 14px;color:#e5e7eb;font-size:13px;font-family:'Outfit',sans-serif;resize:vertical;min-height:180px;outline:none;">${body}</textarea>
+      <textarea id="adminEmailBody" style="width:100%;box-sizing:border-box;background:#252840;border:1px solid #2d3148;border-radius:8px;padding:12px 14px;color:#e5e7eb;font-size:13px;font-family:'Outfit',sans-serif;resize:vertical;min-height:180px;outline:none;"></textarea>
       <div style="display:flex;gap:10px;margin-top:16px;justify-content:flex-end;">
         <button type="button" onclick="document.getElementById('adminEmailModal').remove()" style="background:#252840;border:1px solid #2d3148;border-radius:8px;padding:9px 18px;color:#9ca3af;font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;cursor:pointer;">Отказ</button>
         <button type="button" onclick="adminCopyEmailDraft()" style="background:linear-gradient(135deg,#6366f1,#8b5cf6);border:none;border-radius:8px;padding:9px 18px;color:#fff;font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;cursor:pointer;">📋 Копирай</button>
         <button type="button" onclick="adminOpenMailto(${JSON.stringify(o.email||'')},${JSON.stringify(subject)})" style="background:linear-gradient(135deg,#10b981,#059669);border:none;border-radius:8px;padding:9px 18px;color:#fff;font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;cursor:pointer;">✉️ Имейл клиент</button>
       </div>
     </div>`;
+  const bodyTA = document.getElementById('adminEmailBody');
+  if (bodyTA) bodyTA.value = body;
   modal.style.display = 'flex';
   modal.onclick = e => { if (e.target === modal) modal.remove(); };
 }

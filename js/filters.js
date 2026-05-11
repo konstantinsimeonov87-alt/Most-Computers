@@ -48,7 +48,7 @@ function getFilteredSorted(){
   else if(currentSort==='price-asc')list.sort((a,b)=>a.price-b.price);
   else if(currentSort==='price-desc')list.sort((a,b)=>b.price-a.price);
   else if(currentSort==='rating')list.sort((a,b)=>b.rating-a.rating);
-  else if(currentSort==='discount')list.sort((a,b)=>b.pct-a.pct);
+  else if(currentSort==='discount')list.sort((a,b)=>(b.pct||0)-(a.pct||0));
   // Advanced sidebar filters
   if(typeof advFilterBrands!=='undefined' && advFilterBrands.size>0) list=list.filter(p=>advFilterBrands.has(p.brand));
   if(typeof advFilterRating!=='undefined' && advFilterRating>0) list=list.filter(p=>p.rating>=advFilterRating);

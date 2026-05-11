@@ -171,11 +171,11 @@ function undoRemoveCart() {
   updateCart(); saveCart();
   showToast('✓ ' + item.name.substring(0, 28) + '… върнат в кошницата');
 }
-function toggleCart() { document.getElementById('cartOverlay').classList.toggle('open'); document.getElementById('cartPanel').classList.toggle('open'); }
+function toggleCart() { const co=document.getElementById('cartOverlay'),cp=document.getElementById('cartPanel'); if(co)co.classList.toggle('open'); if(cp)cp.classList.toggle('open'); }
 // ===== CHECKOUT & THANK YOU =====
 let ckDeliveryIdx = 0;
 let ckDeliveryCosts = [5.99, 4.99, 0];
-let ckDeliveryNames = ['Еконт', 'Еконт', 'Вземи от магазин'];
+let ckDeliveryNames = ['Еконт', 'Speedy', 'Вземи от магазин'];
 let ckPaymentType = 'card';
 let promoApplied = false;
 
@@ -902,16 +902,17 @@ function renderCartPage() {
       : x.badge === 'new' ? `<span class="cp-badge cp-badge-new">Ново</span>`
         : x.badge === 'hot' ? `<span class="cp-badge cp-badge-hot">Горещо</span>` : '';
 
+    const _xName = escHtml(x.name||''); const _xBrand = escHtml(x.brand||''); const _xSku = escHtml(x.sku||'');
     const imgHtml = x.img
-      ? `<img src="${x.img}" alt="${x.name}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="cp-item-emoji is-hidden">${x.emoji}</span>`
+      ? `<img src="${escHtml(x.img)}" alt="${_xName}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="cp-item-emoji is-hidden">${x.emoji}</span>`
       : `<span class="cp-item-emoji">${x.emoji}</span>`;
 
     return `<div class="cp-card">
       <div class="cp-item-thumb">${imgHtml}</div>
       <div class="cp-item-info">
-        <div class="cp-item-brand">${x.brand}</div>
-        <div class="cp-item-name">${x.name}</div>
-        <div class="cp-item-sku">${x.sku || ''}</div>
+        <div class="cp-item-brand">${_xBrand}</div>
+        <div class="cp-item-name">${_xName}</div>
+        <div class="cp-item-sku">${_xSku}</div>
         <div class="cp-item-badges">${badgeHtml}</div>
       </div>
       <div class="cp-item-right">

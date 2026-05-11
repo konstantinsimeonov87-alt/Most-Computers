@@ -218,8 +218,8 @@ function openProductPage(id) {
   var _el_pdpMonthly=document.getElementById('pdpMonthly');
   if(_el_pdpMonthly){
     if(p.price>=999){
-      const mo=Math.ceil(p.price/12);
-      _el_pdpMonthly.innerHTML=`<span>или от <strong>${mo.toFixed(2)} лв./мес.</strong> на 12 вноски</span>`;
+      const mo=Math.ceil(p.price/12/EUR_RATE*100)/100;
+      _el_pdpMonthly.innerHTML=`<span>или от <strong>${mo.toFixed(2)} €/мес.</strong> на 12 вноски</span>`;
       _el_pdpMonthly.style.display='';
     } else {
       _el_pdpMonthly.innerHTML='';
@@ -234,7 +234,7 @@ function openProductPage(id) {
   const stockNum = typeof p.stock === 'number' && p.stock > 0 ? p.stock : null;
   let stockTxt = 'Изчерпан';
   if (inStock) {
-    stockTxt = '✓ В наличност';
+    stockTxt = (stockNum !== null && stockNum <= 5) ? `⚠️ Само ${stockNum} бр. в наличност` : '✓ В наличност';
   }
   document.getElementById('pdpStockTxt').textContent = stockTxt;
   // Show/hide back-in-stock notify button
@@ -983,7 +983,7 @@ function rfSetStar(n) {
 function submitPdpReview() {
   const name = document.getElementById('rfName')?.value.trim();
   const text = document.getElementById('rfText')?.value.trim();
-  if (!name) { showToast('⚠️ Въведи твоето ime'); return; }
+  if (!name) { showToast('⚠️ Въведи твоето име'); return; }
   if (!rfStarVal) { showToast('⚠️ Избери рейтинг'); return; }
   if (!text || text.length < 10) { showToast('⚠️ Ревюто трябва да е поне 10 символа'); return; }
 

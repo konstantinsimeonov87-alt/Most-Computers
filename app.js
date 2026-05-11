@@ -1061,11 +1061,11 @@ function undoRemoveCart() {
   updateCart(); saveCart();
   showToast('✓ ' + item.name.substring(0, 28) + '… върнат в кошницата');
 }
-function toggleCart() { document.getElementById('cartOverlay').classList.toggle('open'); document.getElementById('cartPanel').classList.toggle('open'); }
+function toggleCart() { const co=document.getElementById('cartOverlay'),cp=document.getElementById('cartPanel'); if(co)co.classList.toggle('open'); if(cp)cp.classList.toggle('open'); }
 // ===== CHECKOUT & THANK YOU =====
 let ckDeliveryIdx = 0;
 let ckDeliveryCosts = [5.99, 4.99, 0];
-let ckDeliveryNames = ['Еконт', 'Еконт', 'Вземи от магазин'];
+let ckDeliveryNames = ['Еконт', 'Speedy', 'Вземи от магазин'];
 let ckPaymentType = 'card';
 let promoApplied = false;
 
@@ -1792,16 +1792,17 @@ function renderCartPage() {
       : x.badge === 'new' ? `<span class="cp-badge cp-badge-new">Ново</span>`
         : x.badge === 'hot' ? `<span class="cp-badge cp-badge-hot">Горещо</span>` : '';
 
+    const _xName = escHtml(x.name||''); const _xBrand = escHtml(x.brand||''); const _xSku = escHtml(x.sku||'');
     const imgHtml = x.img
-      ? `<img src="${x.img}" alt="${x.name}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="cp-item-emoji is-hidden">${x.emoji}</span>`
+      ? `<img src="${escHtml(x.img)}" alt="${_xName}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="cp-item-emoji is-hidden">${x.emoji}</span>`
       : `<span class="cp-item-emoji">${x.emoji}</span>`;
 
     return `<div class="cp-card">
       <div class="cp-item-thumb">${imgHtml}</div>
       <div class="cp-item-info">
-        <div class="cp-item-brand">${x.brand}</div>
-        <div class="cp-item-name">${x.name}</div>
-        <div class="cp-item-sku">${x.sku || ''}</div>
+        <div class="cp-item-brand">${_xBrand}</div>
+        <div class="cp-item-name">${_xName}</div>
+        <div class="cp-item-sku">${_xSku}</div>
         <div class="cp-item-badges">${badgeHtml}</div>
       </div>
       <div class="cp-item-right">
@@ -2894,7 +2895,7 @@ function getFilteredSorted(){
   else if(currentSort==='price-asc')list.sort((a,b)=>a.price-b.price);
   else if(currentSort==='price-desc')list.sort((a,b)=>b.price-a.price);
   else if(currentSort==='rating')list.sort((a,b)=>b.rating-a.rating);
-  else if(currentSort==='discount')list.sort((a,b)=>b.pct-a.pct);
+  else if(currentSort==='discount')list.sort((a,b)=>(b.pct||0)-(a.pct||0));
   // Advanced sidebar filters
   if(typeof advFilterBrands!=='undefined' && advFilterBrands.size>0) list=list.filter(p=>advFilterBrands.has(p.brand));
   if(typeof advFilterRating!=='undefined' && advFilterRating>0) list=list.filter(p=>p.rating>=advFilterRating);
@@ -4943,8 +4944,8 @@ function openProductPage(id) {
   var _el_pdpMonthly=document.getElementById('pdpMonthly');
   if(_el_pdpMonthly){
     if(p.price>=999){
-      const mo=Math.ceil(p.price/12);
-      _el_pdpMonthly.innerHTML=`<span>или от <strong>${mo.toFixed(2)} лв./мес.</strong> на 12 вноски</span>`;
+      const mo=Math.ceil(p.price/12/EUR_RATE*100)/100;
+      _el_pdpMonthly.innerHTML=`<span>или от <strong>${mo.toFixed(2)} €/мес.</strong> на 12 вноски</span>`;
       _el_pdpMonthly.style.display='';
     } else {
       _el_pdpMonthly.innerHTML='';
@@ -4959,7 +4960,7 @@ function openProductPage(id) {
   const stockNum = typeof p.stock === 'number' && p.stock > 0 ? p.stock : null;
   let stockTxt = 'Изчерпан';
   if (inStock) {
-    stockTxt = '✓ В наличност';
+    stockTxt = (stockNum !== null && stockNum <= 5) ? `⚠️ Само ${stockNum} бр. в наличност` : '✓ В наличност';
   }
   document.getElementById('pdpStockTxt').textContent = stockTxt;
   // Show/hide back-in-stock notify button
@@ -5708,7 +5709,7 @@ function rfSetStar(n) {
 function submitPdpReview() {
   const name = document.getElementById('rfName')?.value.trim();
   const text = document.getElementById('rfText')?.value.trim();
-  if (!name) { showToast('⚠️ Въведи твоето ime'); return; }
+  if (!name) { showToast('⚠️ Въведи твоето име'); return; }
   if (!rfStarVal) { showToast('⚠️ Избери рейтинг'); return; }
   if (!text || text.length < 10) { showToast('⚠️ Ревюто трябва да е поне 10 символа'); return; }
 

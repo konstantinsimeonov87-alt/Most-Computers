@@ -3098,7 +3098,7 @@ function renderPromoBanner(){
         <div class="promo-price">${(p.price/EUR_RATE).toFixed(2)} € / ${p.price} лв.</div>
         <button type="button" class="promo-btn" onclick="event.stopPropagation();addToCart(${p.id})">Добави в кошница +</button>
       </div>
-      ${p.img?`<img src="${p.img}" alt="${p.name}" class="promo-img" width="110" height="110" loading="lazy" decoding="async">`:`<div class="promo-emoji">${p.emoji}</div>`}
+      ${p.img?`<picture><source srcset="${p.img.replace(/portal\.mostbg\.com\/api\/images\/imageFileData\/(\d+)\.[a-z]+/,(_,id)=>`images/products/${id}.webp`)}" type="image/webp"><img src="${p.img}" alt="${p.name}" class="promo-img" width="110" height="110" loading="lazy" decoding="async"></picture>`:`<div class="promo-emoji">${p.emoji}</div>`}
     </div>`).join('');
 }
 

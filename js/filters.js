@@ -238,11 +238,11 @@ function renderHeroPanel(){
 function renderPromoBanner(){
   const banner = document.getElementById('promoBanner');
   if(!banner) return;
-  const newP  = products.find(p=>p.id===30)  || [...products].filter(p=>p.badge==='new'||p.badge==='hot').sort((a,b)=>b.rating-a.rating)[0];
-  const saleP = products.find(p=>p.id===3159) || [...products].filter(p=>p.badge==='sale').sort((a,b)=>b.pct-a.pct)[0];
+  const newP  = products.find(p=>p.id===32)   || [...products].filter(p=>p.badge==='new'||p.badge==='hot').sort((a,b)=>b.rating-a.rating)[0];
+  const saleP = products.find(p=>p.id===3160)  || [...products].filter(p=>p.badge==='sale').sort((a,b)=>b.pct-a.pct)[0];
   if(!newP||!saleP) return;
   const themes = [
-    { p:newP,  cls:'blue', badge:`🆕 Ново`,      sub: newP.desc  ? newP.desc.slice(0,80)+'…'  : newP.name },
+    { p:newP,  cls:'blue', badge:`🆕 Ново`,           sub: newP.desc  ? newP.desc.slice(0,80)+'…'  : newP.name },
     { p:saleP, cls:'dark', badge:`🔥 -${saleP.pct}%`, sub: saleP.desc ? saleP.desc.slice(0,80)+'…' : saleP.name },
   ];
   banner.innerHTML = themes.map(({p,cls,badge,sub})=>`
@@ -254,7 +254,7 @@ function renderPromoBanner(){
         <div class="promo-price">${(p.price/EUR_RATE).toFixed(2)} € / ${p.price} лв.</div>
         <button type="button" class="promo-btn" onclick="event.stopPropagation();addToCart(${p.id})">Добави в кошница +</button>
       </div>
-      ${p.img?`<img src="${p.img}" alt="${p.name}" class="promo-img" loading="lazy">`:`<div class="promo-emoji">${p.emoji}</div>`}
+      ${p.img?`<img src="${p.img}" alt="${p.name}" class="promo-img" width="110" height="110" loading="lazy" decoding="async">`:`<div class="promo-emoji">${p.emoji}</div>`}
     </div>`).join('');
 }
 

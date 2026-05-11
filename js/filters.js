@@ -93,7 +93,7 @@ function _ensureTopSortBar() {
   bar.id = 'topSortBar';
   bar.className = 'top-sort-bar';
   bar.innerHTML = `<span class="top-sort-count" id="topSortCount"></span>
-    <span class="top-sort-label">Сортирай:</span>
+    <label for="topSortSelect" class="top-sort-label">Сортирай:</label>
     <select class="sort-select" id="topSortSelect" onchange="applySort(this.value)">
       <option value="bestseller">🏆 Най-продавани</option>
       <option value="price-asc">Цена ↑</option>

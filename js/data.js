@@ -4101,7 +4101,7 @@ var products = [
    specs:{'Тип':'DDR4','Капацитет':'8 GB','Честота':'2666 MHz','Форм фактор':'DIMM','Напрежение':'1.2 V'},
    rating:4.4,rv:0,reviews:[],
    desc:'ADATA 8G DDR4 2666 ADATA PREMIER — DDR4 DIMM 2666 MHz, 8 GB.',
-   img:'https://portal.mostbg.com/api/images/imageFileData/52507.png',stock:false},
+   img:'https://portal.mostbg.com/api/images/imageFileData/52507.png',stock:true},
 
   {id:586,name:'8G DDR4 2666 KINGSPEC',brand:'KingSpec',cat:'components',subcat:'ram',
    price:97,old:null,pct:null,badge:null,emoji:'🟢',sku:'KS2666D4P12008G',ean:null,
@@ -4115,7 +4115,7 @@ var products = [
    specs:{'Тип':'DDR4','Капацитет':'8 GB','Честота':'3200 MHz','Форм фактор':'DIMM','Напрежение':'1.2V'},
    rating:4.4,rv:0,reviews:[],
    desc:'ADATA 8G DDR4 3200 ADATA PREMIER — DDR4 DIMM 3200 MHz, 8 GB.',
-   img:'https://portal.mostbg.com/api/images/imageFileData/52508.png',stock:false},
+   img:'https://portal.mostbg.com/api/images/imageFileData/52508.png',stock:true},
 
   {id:588,name:'8G DDR4 2666 TEAM ELITE',brand:'TeamGroup',cat:'components',subcat:'ram',
    price:104,old:null,pct:null,badge:null,emoji:'🟢',sku:'TED48G2666C1901',ean:'0765441637061',
@@ -4206,7 +4206,7 @@ var products = [
    specs:{'Тип':'DDR4','Капацитет':'8 GB','Честота':'3200 MHz','Форм фактор':'DIMM','Напрежение':'1.35V'},
    rating:4.4,rv:0,reviews:[],
    desc:'ADATA 8G DDR4 3200 XPG D35/BK — DDR4 DIMM 3200 MHz, 8 GB.',
-   img:'https://portal.mostbg.com/api/images/imageFileData/35115.png',stock:false},
+   img:'https://portal.mostbg.com/api/images/imageFileData/35115.png',stock:true},
 
   {id:601,name:'8G DDR4 3200 XPG D35G',brand:'ADATA',cat:'components',subcat:'ram',
    price:139,old:null,pct:null,badge:null,emoji:'🟢',sku:'AX4U32008G16A-SBKD35G',ean:'4711085943279',
@@ -4220,7 +4220,7 @@ var products = [
    specs:{'Тип':'DDR4','Капацитет':'8 GB','Честота':'3200 MHz','Латентност':'CL 16-20-20','Форм фактор':'DIMM','Напрежение':'1.35V'},
    rating:4.4,rv:0,reviews:[],
    desc:'ADATA 8G DDR4 3200 XPG D35G WHITE — DDR4 DIMM 3200MT/s MHz, 8 GB, CL 16-20-20.',
-   img:'https://portal.mostbg.com/api/images/imageFileData/50992.png',stock:false},
+   img:'https://portal.mostbg.com/api/images/imageFileData/50992.png',stock:true},
 
   {id:603,name:'8G DDR4 3200 KINGSTON 1RX8',brand:'Kingston',cat:'components',subcat:'ram',
    price:94,old:null,pct:null,badge:null,emoji:'🟢',sku:'KVR32N22S8/8',ean:'0740617296068',
@@ -4269,7 +4269,7 @@ var products = [
    specs:{'Тип':'DDR5','Капацитет':'8 GB','Честота':'5600 MHz','Форм фактор':'DIMM','Напрежение':'1.1V'},
    rating:4.4,rv:0,reviews:[],
    desc:'ADATA 8G DDR5 5600 ADATA — DDR5 DIMM 5600 MHz, 8 GB.',
-   img:'https://portal.mostbg.com/api/images/imageFileData/37544.jpeg',stock:false},
+   img:'https://portal.mostbg.com/api/images/imageFileData/37544.jpeg',stock:true},
 
   {id:610,name:'8G DDR5 5600 KINGSTON BEAST',brand:'Kingston',cat:'components',subcat:'ram',
    price:233,old:null,pct:null,badge:null,emoji:'🟣',sku:'KF556C40BB-8',ean:'0740617325942',
@@ -4472,7 +4472,7 @@ var products = [
    specs:{'Тип':'DDR4','Капацитет':'16 GB','Честота':'3200 MHz','Форм фактор':'DIMM','Напрежение':'1.35V'},
    rating:4.4,rv:0,reviews:[],
    desc:'ADATA 16G DDR4 3200 XPG D35/BK — DDR4 DIMM 3200 MHz, 16 GB.',
-   img:'https://portal.mostbg.com/api/images/imageFileData/35111.png',stock:false},
+   img:'https://portal.mostbg.com/api/images/imageFileData/35111.png',stock:true},
 
   {id:639,name:'16G DDR4 3200 KINGSTON',brand:'Kingston',cat:'components',subcat:'ram',
    price:264,old:null,pct:null,badge:null,emoji:'🟢',sku:'KVR32N22S8/16',ean:'0740617310863',
@@ -4493,7 +4493,7 @@ var products = [
    specs:{'Тип':'DDR4','Капацитет':'16 GB','Честота':'3200 MHz','Латентност':'CL 16-20-20','Форм фактор':'DIMM','Напрежение':'1.35V'},
    rating:4.4,rv:0,reviews:[],
    desc:'ADATA 16G DDR4 3200 XPG SPECT D35G — DDR4 DIMM 3200 MHz, 16 GB, CL 16-20-20.',
-   img:'https://portal.mostbg.com/api/images/imageFileData/38250.png',stock:false},
+   img:'https://portal.mostbg.com/api/images/imageFileData/38250.png',stock:true},
 
   {id:642,name:'2X16G DDR4 3200 XPG D35',brand:'ADATA',cat:'components',subcat:'ram',
    price:400,old:null,pct:null,badge:null,emoji:'🟢',sku:'AX4U320016G16A-DTBKD35',ean:'4711085942845',
@@ -4507,7 +4507,7 @@ var products = [
    specs:{'Тип':'DDR4','Капацитет':'32 GB','Честота':'3200 MHz','Латентност':'CL 16-20-20','Форм фактор':'DIMM','Напрежение':'1.35V'},
    rating:4.4,rv:0,reviews:[],
    desc:'ADATA 2X16G DDR4 3200 XPG D35G — DDR4 DIMM 3200 MHz, 32 GB, CL 16-20-20.',
-   img:'https://portal.mostbg.com/api/images/imageFileData/36028.jpeg',stock:false},
+   img:'https://portal.mostbg.com/api/images/imageFileData/36028.jpeg',stock:true},
 
   {id:644,name:'16G DDR4 3733 KINGS FURY BEAST',brand:'Kingston',cat:'components',subcat:'ram',
    price:57,old:null,pct:null,badge:null,emoji:'🟢',sku:'KF437C19BB1/16',ean:null,
@@ -4577,7 +4577,7 @@ var products = [
    specs:{'Тип':'DDR5','Капацитет':'16 GB','Честота':'4800 MHz','Форм фактор':'DIMM'},
    rating:4.4,rv:0,reviews:[],
    desc:'ADATA 16G DDR5 4800 ADATA — DDR5 DIMM 4800 MT/s MHz, 16 GB.',
-   img:'https://portal.mostbg.com/api/images/imageFileData/29449.png',stock:false},
+   img:'https://portal.mostbg.com/api/images/imageFileData/29449.png',stock:true},
 
   {id:654,name:'16G DDR5 5600 KINGSPEC',brand:'KingSpec',cat:'components',subcat:'ram',
    price:367,old:null,pct:null,badge:null,emoji:'🟣',sku:'KS5600D5P12516G',ean:'6950509932903',
@@ -5018,14 +5018,14 @@ var products = [
    specs:{'Тип':'DDR5','Капацитет':'32 GB','Честота':'4800 MHz','Форм фактор':'DIMM','Напрежение':'1.1V'},
    rating:4.4,rv:0,reviews:[],
    desc:'ADATA 32G DDR5 4800 ADATA — DDR5 DIMM 4800 MHz, 32 GB.',
-   img:'https://portal.mostbg.com/api/images/imageFileData/31611.jpeg',stock:false},
+   img:'https://portal.mostbg.com/api/images/imageFileData/31611.jpeg',stock:true},
 
   {id:717,name:'32G DDR5 5600 ADATA',brand:'ADATA',cat:'components',subcat:'ram',
    price:665,old:null,pct:null,badge:null,emoji:'🟣',sku:'AD5U560032G-S',ean:'4711085939296',
    specs:{'Тип':'DDR5','Капацитет':'32 GB','Честота':'5600 MHz','Форм фактор':'DIMM','Напрежение':'1.1V'},
    rating:4.4,rv:0,reviews:[],
    desc:'ADATA 32G DDR5 5600 ADATA — DDR5 DIMM 5600 MHz, 32 GB.',
-   img:'https://portal.mostbg.com/api/images/imageFileData/34874.jpeg',stock:false},
+   img:'https://portal.mostbg.com/api/images/imageFileData/34874.jpeg',stock:true},
 
   {id:718,name:'32G DDR5 4800 KINGSTON',brand:'Kingston',cat:'components',subcat:'ram',
    price:129,old:null,pct:null,badge:null,emoji:'🟣',sku:'KVR48U40BD8-32',ean:null,
@@ -6490,14 +6490,14 @@ var products = [
    specs:{'Капацитет':'240 GB','Интерфейс':'SATA III','Форм фактор':'2.5\''},
    rating:4.3,rv:0,reviews:[],
    desc:'ADATA ADATA SSD SU650 240GB 3D NAND — SSD 240 GB, SATA III, 2.5".',
-   img:'https://portal.mostbg.com/api/images/imageFileData/14733.jpeg',stock:false},
+   img:'https://portal.mostbg.com/api/images/imageFileData/14733.jpeg',stock:true},
 
   {id:927,name:'ADATA SSD SU650 256GB 3D NAND',brand:'ADATA',cat:'components',subcat:'ssd',
    price:93,old:null,pct:null,badge:null,emoji:'💾',sku:'ASU650SS-256GT-R',ean:'4711085931511',
    specs:{'Капацитет':'256 GB','Интерфейс':'SATA III','Форм фактор':'2.5\''},
    rating:4.3,rv:0,reviews:[],
    desc:'ADATA ADATA SSD SU650 256GB 3D NAND — SSD 256 GB, SATA III, 2.5".',
-   img:'https://portal.mostbg.com/api/images/imageFileData/36406.png',stock:false},
+   img:'https://portal.mostbg.com/api/images/imageFileData/36406.png',stock:true},
 
   {id:928,name:'ADATA SSD SU650 480GB 3D NAND',brand:'ADATA',cat:'components',subcat:'ssd',
    price:140,old:null,pct:null,badge:null,emoji:'💾',sku:'ASU650SS-480GT-R',ean:'4713218461179',
@@ -6511,7 +6511,7 @@ var products = [
    specs:{'Капацитет':'512 GB','Интерфейс':'SATA III','Форм фактор':'2.5\''},
    rating:4.3,rv:0,reviews:[],
    desc:'ADATA ADATA SSD SU650 512GB 3D NAND — SSD 512 GB, SATA III, 2.5".',
-   img:'https://portal.mostbg.com/api/images/imageFileData/36412.png',stock:false},
+   img:'https://portal.mostbg.com/api/images/imageFileData/36412.png',stock:true},
 
   {id:930,name:'ADATA SSD SU650 960GB 3D NAND',brand:'ADATA',cat:'components',subcat:'ssd',
    price:275,old:null,pct:null,badge:null,emoji:'💾',sku:'ASU650SS-960GT-R',ean:'4713218461186',
@@ -6581,7 +6581,7 @@ var products = [
    specs:{'Капацитет':'500 GB','Интерфейс':'NVMe PCIe Gen4','Форм фактор':'M.2 2280'},
    rating:4.3,rv:0,reviews:[],
    desc:'ADATA ADATA LEGEND 860 500G M2 2280 — NVMe SSD 500 GB, NVMe PCIe Gen4, M.2 2280.',
-   img:'https://portal.mostbg.com/api/images/imageFileData/46341.png',stock:false},
+   img:'https://portal.mostbg.com/api/images/imageFileData/46341.png',stock:true},
 
   {id:940,name:'ADATA LEGEND 860 1TB M2 2280',brand:'ADATA',cat:'components',subcat:'ssd',
    price:315,old:null,pct:null,badge:null,emoji:'⚡',sku:'SLEG-860-1000GCS',ean:'4711085949493',

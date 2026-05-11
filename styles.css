@@ -15887,15 +15887,27 @@ body.dark .pg-btn.active { background:var(--primary); color:#fff; }
 /* 2. Cart Upsell / Cross-sell */
 .cart-upsell {
   padding: 16px;
-  background: var(--bg);
+  background: #fff8f0;
+  border: 1px solid #f59e0b44;
+  border-top: 3px solid #f59e0b;
   border-radius: 10px;
-  margin-top: 16px;
+  margin-bottom: 14px;
+}
+html[data-theme="dark"] .cart-upsell {
+  background: #2a1f0a;
+  border-color: #92400e44;
+  border-top-color: #f59e0b;
 }
 .cart-upsell-title {
-  font-size: 13px;
-  font-weight: 700;
+  font-size: 12px;
+  font-weight: 800;
   margin-bottom: 12px;
-  color: var(--text);
+  color: #92400e;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+html[data-theme="dark"] .cart-upsell-title {
+  color: #fbbf24;
 }
 .cart-upsell-items {
   display: flex;

@@ -767,12 +767,12 @@ function openComparePage(){
   document.body.style.overflow='hidden';
 }
 function removeCompare(id){compareList=compareList.filter(x=>x!==id);const btn=document.getElementById('cmp-btn-'+id);if(btn)btn.style.background='var(--bg)';updateCompareBar();}
-function clearCompare(){compareList.forEach(id=>{const cb=document.getElementById('cmp-'+id);if(cb)cb.checked=false;});compareList=[];updateCompareBar();}
+function clearCompare(){compareList.forEach(id=>{const btn=document.getElementById('cmp-btn-'+id);if(btn)btn.style.background='var(--bg)';});compareList=[];updateCompareBar();}
 function openCompareModal(){
   if(compareList.length<2){showToast('Избери поне 2 продукта!');return;}
   const prods=compareList.map(id=>products.find(x=>x.id===id)).filter(Boolean);
   if(prods.length<2){showToast('Избери поне 2 налични продукта!');return;}
-  const allKeys=[...new Set(prods.flatMap(p=>Object.keys(p.specs)))];
+  const allKeys=[...new Set(prods.flatMap(p=>Object.keys(p.specs||{})))];
   const minP=Math.min(...prods.map(p=>p.price)),maxR=Math.max(...prods.map(p=>p.rating));
   let html=`<thead><tr><th>Продукт</th>`;
   prods.forEach(p=>html+=`<td class="cmp-product-header"><span class="cmp-emoji">${p.emoji}</span><div class="cmp-name">${p.name}</div><div class="cmp-price">${fmtEur(p.price)}<span class="text-11-muted-block">${fmtBgn(p.price)}</span></div><button type="button" class="cmp-add-btn" onclick="addToCart(${p.id})">🛒 Добави</button></td>`);
@@ -781,7 +781,7 @@ function openCompareModal(){
   html+=`</tr><tr><th>Рейтинг</th>`;
   prods.forEach(p=>html+=`<td class="${p.rating===maxR?'cmp-highlight':''}">${starsHTML(p.rating)} ${p.rating}</td>`);
   html+=`</tr>`;
-  allKeys.forEach(k=>{html+=`<tr><th>${_esc(k)}</th>`;prods.forEach(p=>html+=`<td>${_esc(p.specs[k]||'—')}</td>`);html+=`</tr>`;});
+  allKeys.forEach(k=>{html+=`<tr><th>${_esc(k)}</th>`;prods.forEach(p=>html+=`<td>${_esc((p.specs||{})[k]||'—')}</td>`);html+=`</tr>`;});
   html+=`</tbody>`;
   document.getElementById('compareTableModal').innerHTML=html;
   document.getElementById('compareModalBackdrop').classList.add('open');document.body.style.overflow='hidden';

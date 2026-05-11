@@ -4029,7 +4029,7 @@
    right: 0;
    background: var(--text);
    color: #fff;
-   z-index: 520;
+   z-index: 9200;
    padding: 14px 24px;
    display: flex;
    align-items: center;

@@ -343,7 +343,7 @@ var products = [
    specs:{'Чипсет':'AMD B550','Сокет':'AM4','Форм фактор':'ATX','Памет':'4× DDR4','SATA':'6× SATA3','M.2':'2× (Gen4)','PCIe':'3× x16 / 1× x1','USB':'USB 3.2 Gen2','RGB':'RGB headers','Изходи':'HDMI / DisplayPort'},
    rating:4.7,rv:0,reviews:[],
    desc:'ASRock B550 PG Riptide — gaming ATX с 3× PCIe x16, RGB хедъри и USB 3.2 Gen2 за Ryzen 5000.',
-   img:'./images/products/40455.webp',stock:true},
+   img:'./images/products/40455.webp',stock:false},
 
   // ── Motherboard Import (full) — 2026-04-20 — categoryId=2 — 350 дънни платки ──
   {id:50,name:'ASROCK A620M-HDV/M.2  /AM5',brand:'ASRock',cat:'components',subcat:'motherboard',

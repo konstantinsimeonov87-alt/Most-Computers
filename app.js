@@ -976,7 +976,24 @@ function updateCart() {
     if (panel && panel.classList.contains('open')) { const cartBtn = document.querySelector('[onclick*="toggleCart"]') || document.querySelector('#cartIcon'); if (cartBtn) cartBtn.focus(); }
     return;
   }
-  let html = cart.map(x => `<div class="cart-item-row"><div class="ci-emoji">${escHtml(x.emoji || '')}</div><div class="ci-details"><div class="ci-name">${escHtml(x.name || '')}</div><div class="ci-price">${fmtEur(x.price * x.qty)}<span class="text-11-muted-block">${fmtBgn(x.price * x.qty)}</span></div><div class="ci-qty"><button type="button" class="qty-btn" onclick="changeQty(${x.id},-1)">−</button><span class="qty-num">${x.qty}</span><button type="button" class="qty-btn" onclick="changeQty(${x.id},1)">+</button></div></div><button type="button" class="ci-remove" onclick="removeFromCart(${x.id})">×</button></div>`).join('');
+  let html = cart.map(x => {
+    const name = escHtml(x.name || '');
+    const shortName = x.name && x.name.length > 38 ? escHtml(x.name.substring(0, 38)) + '…' : name;
+    const unitPrice = x.qty > 1 ? `<span class="ci-unit">${fmtEur(x.price)} / бр.</span>` : '';
+    return `<div class="cart-item-row">
+      <button type="button" class="ci-emoji-btn" onclick="openProductPage(${x.id})" title="Виж продукта">${escHtml(x.emoji || '')}</button>
+      <div class="ci-details">
+        <div class="ci-top-row">
+          <button type="button" class="ci-name-btn" onclick="openProductPage(${x.id})" title="Виж продукта">${shortName}</button>
+          <button type="button" class="ci-remove" onclick="removeFromCart(${x.id})" aria-label="Премахни">×</button>
+        </div>
+        <div class="ci-bottom-row">
+          <div class="ci-qty"><button type="button" class="qty-btn" onclick="changeQty(${x.id},-1)">−</button><span class="qty-num">${x.qty}</span><button type="button" class="qty-btn" onclick="changeQty(${x.id},1)">+</button></div>
+          <div class="ci-price-wrap">${unitPrice}<span class="ci-price">${fmtEur(x.price * x.qty)}</span></div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
   // Free shipping progress bar + delivery row
   const pct = Math.min(100, (total / FREE_SHIP_BGN) * 100);
   const deliveryRow = document.getElementById('cartDeliveryRow');
@@ -989,16 +1006,6 @@ function updateCart() {
     html += `<div class="cart-ship-bar"><div class="cart-ship-msg">Добави още <strong>${remEur} €</strong> за безплатна доставка!</div><div class="cart-ship-progress"><div class="cart-ship-fill" style="transform:scaleX(${(pct / 100).toFixed(3)})"></div></div></div>`;
     if (deliveryRow) deliveryRow.style.display = 'flex';
     if (deliveryVal) deliveryVal.textContent = (5.99 / EUR_RATE).toFixed(2) + ' €';
-  }
-  // COD fee notice — always visible so no surprise at checkout
-  html += `<div style="font-size:11px;color:var(--muted);padding:6px 10px;background:var(--bg2);border-radius:6px;margin-top:6px;">
-    💳 Карта/превод — без такса &nbsp;|&nbsp; 📦 Наложен платеж — +0.77 €
-  </div>`;
-  // Promo code hint — show when no promo applied and subtotal ≥ 80 лв.
-  if (!promoApplied && total >= Math.round(40 * EUR_RATE)) {
-    html += `<div class="cart-promo-hint" onclick="handleCheckout()" title="Приложи при поръчка">
-      🎁 Имаш промо код? <strong>MOSTCOMP10</strong> дава <strong>-10%</strong> от поръчката!
-    </div>`;
   }
   // Recently viewed not in cart
   try {
@@ -1089,21 +1096,7 @@ function handleCheckout() {
     }
   } catch (e) { }
   renderOrderSummary();
-  // Checkout upsell — right column, above order summary
-  (function() {
-    const el = document.getElementById('ckUpsell');
-    if (!el) return;
-    const inCart = new Set(cart.map(x => x.id));
-    const cats = cart.map(x => x.cat);
-    let prods = products.filter(x => !inCart.has(x.id) && cats.includes(x.cat) && x.stock !== false).sort((a, b) => (b.rv || 0) - (a.rv || 0)).slice(0, 2);
-    if (!prods.length) prods = products.filter(x => !inCart.has(x.id) && x.stock !== false).sort((a, b) => (b.rv || 0) - (a.rv || 0)).slice(0, 2);
-    if (prods.length) {
-      el.style.display = '';
-      el.innerHTML = `<div class="cart-upsell-title">⚡ Може да те заинтересува</div><div class="cart-upsell-items">${prods.map(p => `<div class="cu-item"><div class="cu-emoji">${escHtml(p.emoji || '')}</div><div class="cu-info"><div class="cu-name">${escHtml(p.name.length > 32 ? p.name.substring(0, 32) + '…' : p.name)}</div><div class="cu-price">${fmtEur(p.price)}</div></div><button type="button" class="cu-add" onclick="addToCart(${p.id})" title="Добави в кошницата">+</button></div>`).join('')}</div>`;
-    } else {
-      el.style.display = 'none';
-    }
-  })();
+  _startCkUpsell();
   document.getElementById('checkoutPage').classList.add('open');
   document.getElementById('cartPanel').classList.remove('open');
   document.getElementById('cartOverlay').classList.remove('open');
@@ -1120,7 +1113,84 @@ function handleCheckout() {
   const d2 = document.getElementById('delivDate2'); if (d2) d2.textContent = '· готово днес';
 }
 
+let _ckUpsellTimer = null;
+let _ckUpsellPool = [];
+
+function _cuItemHtml(p) {
+  const inCart = cart.find(x => x.id === p.id);
+  const qty = inCart ? inCart.qty : 0;
+  const qtyCtrl = qty > 0
+    ? `<div class="cu-qty"><button type="button" class="cu-qty-btn" onclick="cuChangeQty(${p.id},-1)">−</button><span class="cu-qty-num">${qty}</span><button type="button" class="cu-qty-btn" onclick="cuChangeQty(${p.id},1)">+</button></div>`
+    : `<button type="button" class="cu-add" onclick="cuChangeQty(${p.id},1)" title="Добави в кошницата">+</button>`;
+  return `<div class="cu-item" id="cu-item-${p.id}">
+    <button type="button" class="cu-link" onclick="openProductPage(${p.id})" title="Виж продукта">
+      <div class="cu-emoji">${escHtml(p.emoji || '')}</div>
+      <div class="cu-info">
+        <div class="cu-name">${escHtml(p.name.length > 32 ? p.name.substring(0, 32) + '…' : p.name)}</div>
+        <div class="cu-price">${fmtEur(p.price)}</div>
+      </div>
+    </button>
+    ${qtyCtrl}
+  </div>`;
+}
+
+function cuChangeQty(id, delta) {
+  const inCart = cart.find(x => x.id === id);
+  if (delta > 0) {
+    addToCart(id);
+  } else if (inCart && inCart.qty > 1) {
+    changeQty(id, -1);
+  } else {
+    removeFromCart(id);
+  }
+  // Re-render only this item's qty control
+  const p = _ckUpsellPool.find(x => x.id === id);
+  if (!p) return;
+  const el = document.getElementById('cu-item-' + id);
+  if (!el) return;
+  const updated = cart.find(x => x.id === id);
+  const qty = updated ? updated.qty : 0;
+  const oldCtrl = el.querySelector('.cu-qty, .cu-add');
+  if (!oldCtrl) return;
+  const newHtml = qty > 0
+    ? `<div class="cu-qty"><button type="button" class="cu-qty-btn" onclick="cuChangeQty(${id},-1)">−</button><span class="cu-qty-num">${qty}</span><button type="button" class="cu-qty-btn" onclick="cuChangeQty(${id},1)">+</button></div>`
+    : `<button type="button" class="cu-add" onclick="cuChangeQty(${id},1)" title="Добави в кошницата">+</button>`;
+  oldCtrl.outerHTML = newHtml;
+}
+window.cuChangeQty = cuChangeQty;
+
+function _startCkUpsell() {
+  const el = document.getElementById('ckUpsell');
+  if (!el) return;
+  if (_ckUpsellTimer) { clearInterval(_ckUpsellTimer); _ckUpsellTimer = null; }
+  const inCartIds = new Set(cart.map(x => x.id));
+  const cats = cart.map(x => x.cat);
+  let pool = products.filter(x => !inCartIds.has(x.id) && cats.includes(x.cat) && x.stock !== false).sort((a, b) => (b.rv || 0) - (a.rv || 0)).slice(0, 8);
+  if (pool.length < 2) pool = products.filter(x => !inCartIds.has(x.id) && x.stock !== false).sort((a, b) => (b.rv || 0) - (a.rv || 0)).slice(0, 8);
+  if (pool.length < 2) { el.style.display = 'none'; return; }
+  _ckUpsellPool = pool;
+  el.style.display = '';
+  let idx = 0;
+  const render = () => {
+    const pair = [pool[idx % pool.length], pool[(idx + 1) % pool.length]];
+    const items = el.querySelector('.cart-upsell-items');
+    if (items) {
+      items.style.opacity = '0';
+      setTimeout(() => {
+        items.innerHTML = pair.map(p => _cuItemHtml(p)).join('');
+        items.style.opacity = '1';
+      }, 300);
+    } else {
+      el.innerHTML = `<div class="cart-upsell-title">⚡ Може да те заинтересува</div><div class="cart-upsell-items" style="transition:opacity .3s">${pair.map(p => _cuItemHtml(p)).join('')}</div>`;
+    }
+    idx = (idx + 2) % pool.length;
+  };
+  render();
+  _ckUpsellTimer = setInterval(render, 6000);
+}
+
 function closeCheckoutPage() {
+  if (_ckUpsellTimer) { clearInterval(_ckUpsellTimer); _ckUpsellTimer = null; }
   document.getElementById('checkoutPage').classList.remove('open');
   document.body.style.overflow = '';
 }
@@ -1254,6 +1324,7 @@ function applyPromo(codeArg) {
       if (mc) { mc.uses = (mc.uses || 0) + 1; localStorage.setItem('mc_promo_codes', JSON.stringify(stored)); }
     } catch (e) { }
     if (inputEl) { document.getElementById('promoOk').classList.add('show'); inputEl.disabled = true; }
+    const hint = document.getElementById('ckPromoHint'); if (hint) hint.style.display = 'none';
     renderOrderSummary();
     showToast(`✓ Промо код приложен — -${promoDiscountPct}%!`);
   } else {

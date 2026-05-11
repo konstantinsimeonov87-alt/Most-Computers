@@ -113,8 +113,10 @@ function syncBnCartBadge() {
 
 // ===== DARK MODE =====
 (function(){
-  const saved = localStorage.getItem('mc_dark');
-  if(saved === '1') document.body.classList.add('dark');
+  try {
+    const saved = localStorage.getItem('mc_dark');
+    if(saved === '1') document.body.classList.add('dark');
+  } catch(e) {}
 })();
 function _applyTheme(dark) {
   document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');

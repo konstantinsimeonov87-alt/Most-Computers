@@ -557,7 +557,7 @@ function submitOrder() {
     const orderNum = 'MC-' + String(_prevOrders.length + 1).padStart(6, '0');
     const subtotal = cart.reduce((s, x) => s + x.price * x.qty, 0);
     const delivery = ckDeliveryCosts[ckDeliveryIdx];
-    const codFee = ckPaymentType === 'cod' ? (1.50 / EUR_RATE) : 0;
+    const codFee = ckPaymentType === 'cod' ? 1.50 : 0;
     const promoDisc = promoApplied ? subtotal * ((promoDiscountPct || 10) / 100) : 0;
     const total = subtotal + delivery + codFee - promoDisc;
     const payNames = { card: 'Карта', cod: 'Наложен платеж', bank: 'Банков превод' };
@@ -921,11 +921,11 @@ function renderCartPage() {
           <div class="cp-item-bgn">${fmtBgn(x.price * x.qty)}</div>
         </div>
         <div class="cp-qty-wrap">
-          <button class="cp-qty-btn" onclick="cpChangeQty(${x.id},-1)">−</button>
+          <button type="button" class="cp-qty-btn" onclick="cpChangeQty(${x.id},-1)">−</button>
           <span class="cp-qty-val">${x.qty}</span>
-          <button class="cp-qty-btn" onclick="cpChangeQty(${x.id},1)">+</button>
+          <button type="button" class="cp-qty-btn" onclick="cpChangeQty(${x.id},1)">+</button>
         </div>
-        <button class="cp-remove-btn" onclick="cpRemoveItem(${x.id})" title="Премахни">×</button>
+        <button type="button" class="cp-remove-btn" onclick="cpRemoveItem(${x.id})" title="Премахни">×</button>
       </div>
     </div>`;
   }).join('');
@@ -975,7 +975,7 @@ function renderCartPageUpsell() {
           <div class="cp-upsell-name">${p.name.length > 40 ? p.name.substring(0, 40) + '…' : p.name}</div>
           <div class="cp-upsell-price">${fmtEur(p.price)} / ${fmtBgn(p.price)}</div>
         </div>
-        <button class="cp-upsell-add" onclick="event.stopPropagation();cpAddUpsell(${p.id})">+ Добави</button>
+        <button type="button" class="cp-upsell-add" onclick="event.stopPropagation();cpAddUpsell(${p.id})">+ Добави</button>
       </div>`).join('')}`;
 }
 

@@ -86,7 +86,24 @@ function updateCart() {
     if (panel && panel.classList.contains('open')) { const cartBtn = document.querySelector('[onclick*="toggleCart"]') || document.querySelector('#cartIcon'); if (cartBtn) cartBtn.focus(); }
     return;
   }
-  let html = cart.map(x => `<div class="cart-item-row"><div class="ci-emoji">${escHtml(x.emoji || '')}</div><div class="ci-details"><div class="ci-name">${escHtml(x.name || '')}</div><div class="ci-price">${fmtEur(x.price * x.qty)}<span class="text-11-muted-block">${fmtBgn(x.price * x.qty)}</span></div><div class="ci-qty"><button type="button" class="qty-btn" onclick="changeQty(${x.id},-1)">−</button><span class="qty-num">${x.qty}</span><button type="button" class="qty-btn" onclick="changeQty(${x.id},1)">+</button></div></div><button type="button" class="ci-remove" onclick="removeFromCart(${x.id})">×</button></div>`).join('');
+  let html = cart.map(x => {
+    const name = escHtml(x.name || '');
+    const shortName = x.name && x.name.length > 38 ? escHtml(x.name.substring(0, 38)) + '…' : name;
+    const unitPrice = x.qty > 1 ? `<span class="ci-unit">${fmtEur(x.price)} / бр.</span>` : '';
+    return `<div class="cart-item-row">
+      <button type="button" class="ci-emoji-btn" onclick="openProductPage(${x.id})" title="Виж продукта">${escHtml(x.emoji || '')}</button>
+      <div class="ci-details">
+        <div class="ci-top-row">
+          <button type="button" class="ci-name-btn" onclick="openProductPage(${x.id})" title="Виж продукта">${shortName}</button>
+          <button type="button" class="ci-remove" onclick="removeFromCart(${x.id})" aria-label="Премахни">×</button>
+        </div>
+        <div class="ci-bottom-row">
+          <div class="ci-qty"><button type="button" class="qty-btn" onclick="changeQty(${x.id},-1)">−</button><span class="qty-num">${x.qty}</span><button type="button" class="qty-btn" onclick="changeQty(${x.id},1)">+</button></div>
+          <div class="ci-price-wrap">${unitPrice}<span class="ci-price">${fmtEur(x.price * x.qty)}</span></div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
   // Free shipping progress bar + delivery row
   const pct = Math.min(100, (total / FREE_SHIP_BGN) * 100);
   const deliveryRow = document.getElementById('cartDeliveryRow');

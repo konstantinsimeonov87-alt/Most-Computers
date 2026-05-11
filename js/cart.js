@@ -217,16 +217,61 @@ function handleCheckout() {
 }
 
 let _ckUpsellTimer = null;
+let _ckUpsellPool = [];
+
+function _cuItemHtml(p) {
+  const inCart = cart.find(x => x.id === p.id);
+  const qty = inCart ? inCart.qty : 0;
+  const qtyCtrl = qty > 0
+    ? `<div class="cu-qty"><button type="button" class="cu-qty-btn" onclick="cuChangeQty(${p.id},-1)">−</button><span class="cu-qty-num">${qty}</span><button type="button" class="cu-qty-btn" onclick="cuChangeQty(${p.id},1)">+</button></div>`
+    : `<button type="button" class="cu-add" onclick="cuChangeQty(${p.id},1)" title="Добави в кошницата">+</button>`;
+  return `<div class="cu-item" id="cu-item-${p.id}">
+    <button type="button" class="cu-link" onclick="openProductPage(${p.id})" title="Виж продукта">
+      <div class="cu-emoji">${escHtml(p.emoji || '')}</div>
+      <div class="cu-info">
+        <div class="cu-name">${escHtml(p.name.length > 32 ? p.name.substring(0, 32) + '…' : p.name)}</div>
+        <div class="cu-price">${fmtEur(p.price)}</div>
+      </div>
+    </button>
+    ${qtyCtrl}
+  </div>`;
+}
+
+function cuChangeQty(id, delta) {
+  const inCart = cart.find(x => x.id === id);
+  if (delta > 0) {
+    addToCart(id);
+  } else if (inCart && inCart.qty > 1) {
+    changeQty(id, -1);
+  } else {
+    removeFromCart(id);
+  }
+  // Re-render only this item's qty control
+  const p = _ckUpsellPool.find(x => x.id === id);
+  if (!p) return;
+  const el = document.getElementById('cu-item-' + id);
+  if (!el) return;
+  const updated = cart.find(x => x.id === id);
+  const qty = updated ? updated.qty : 0;
+  const oldCtrl = el.querySelector('.cu-qty, .cu-add');
+  if (!oldCtrl) return;
+  const newHtml = qty > 0
+    ? `<div class="cu-qty"><button type="button" class="cu-qty-btn" onclick="cuChangeQty(${id},-1)">−</button><span class="cu-qty-num">${qty}</span><button type="button" class="cu-qty-btn" onclick="cuChangeQty(${id},1)">+</button></div>`
+    : `<button type="button" class="cu-add" onclick="cuChangeQty(${id},1)" title="Добави в кошницата">+</button>`;
+  oldCtrl.outerHTML = newHtml;
+}
+window.cuChangeQty = cuChangeQty;
 
 function _startCkUpsell() {
   const el = document.getElementById('ckUpsell');
   if (!el) return;
   if (_ckUpsellTimer) { clearInterval(_ckUpsellTimer); _ckUpsellTimer = null; }
-  const inCart = new Set(cart.map(x => x.id));
+  const inCartIds = new Set(cart.map(x => x.id));
   const cats = cart.map(x => x.cat);
-  let pool = products.filter(x => !inCart.has(x.id) && cats.includes(x.cat) && x.stock !== false).sort((a, b) => (b.rv || 0) - (a.rv || 0)).slice(0, 8);
-  if (pool.length < 2) pool = products.filter(x => !inCart.has(x.id) && x.stock !== false).sort((a, b) => (b.rv || 0) - (a.rv || 0)).slice(0, 8);
+  let pool = products.filter(x => !inCartIds.has(x.id) && cats.includes(x.cat) && x.stock !== false).sort((a, b) => (b.rv || 0) - (a.rv || 0)).slice(0, 8);
+  if (pool.length < 2) pool = products.filter(x => !inCartIds.has(x.id) && x.stock !== false).sort((a, b) => (b.rv || 0) - (a.rv || 0)).slice(0, 8);
   if (pool.length < 2) { el.style.display = 'none'; return; }
+  _ckUpsellPool = pool;
   el.style.display = '';
   let idx = 0;
   const render = () => {
@@ -235,11 +280,11 @@ function _startCkUpsell() {
     if (items) {
       items.style.opacity = '0';
       setTimeout(() => {
-        items.innerHTML = pair.map(p => `<div class="cu-item"><div class="cu-emoji">${escHtml(p.emoji || '')}</div><div class="cu-info"><div class="cu-name">${escHtml(p.name.length > 32 ? p.name.substring(0, 32) + '…' : p.name)}</div><div class="cu-price">${fmtEur(p.price)}</div></div><button type="button" class="cu-add" onclick="addToCart(${p.id})" title="Добави в кошницата">+</button></div>`).join('');
+        items.innerHTML = pair.map(p => _cuItemHtml(p)).join('');
         items.style.opacity = '1';
       }, 300);
     } else {
-      el.innerHTML = `<div class="cart-upsell-title">⚡ Може да те заинтересува</div><div class="cart-upsell-items" style="transition:opacity .3s">${pair.map(p => `<div class="cu-item"><div class="cu-emoji">${escHtml(p.emoji || '')}</div><div class="cu-info"><div class="cu-name">${escHtml(p.name.length > 32 ? p.name.substring(0, 32) + '…' : p.name)}</div><div class="cu-price">${fmtEur(p.price)}</div></div><button type="button" class="cu-add" onclick="addToCart(${p.id})" title="Добави в кошницата">+</button></div>`).join('')}</div>`;
+      el.innerHTML = `<div class="cart-upsell-title">⚡ Може да те заинтересува</div><div class="cart-upsell-items" style="transition:opacity .3s">${pair.map(p => _cuItemHtml(p)).join('')}</div>`;
     }
     idx = (idx + 2) % pool.length;
   };

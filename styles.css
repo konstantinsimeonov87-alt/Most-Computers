@@ -15918,11 +15918,53 @@ html[data-theme="dark"] .cart-upsell-title {
 .cu-item {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
   background: var(--white);
   padding: 10px;
   border-radius: 8px;
   border: 1px solid var(--border);
+}
+.cu-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-align: left;
+}
+.cu-link:hover .cu-name { color: var(--primary); }
+.cu-qty {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+.cu-qty-btn {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 15px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s;
+  line-height: 1;
+}
+.cu-qty-btn:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
+.cu-qty-num {
+  min-width: 20px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 700;
 }
 .cu-img {
   width: 50px;

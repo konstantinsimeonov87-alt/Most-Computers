@@ -15885,7 +15885,8 @@ body.dark .pg-btn.active { background:var(--primary); color:#fff; }
 .cart-upsell {
   padding: 16px;
   background: var(--bg);
-  border-top: 1px solid var(--border);
+  border-radius: 10px;
+  margin-top: 16px;
 }
 .cart-upsell-title {
   font-size: 13px;

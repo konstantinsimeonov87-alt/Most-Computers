@@ -409,48 +409,6 @@ function _svcTrkRepeat(type, value) {
   else                  { inputOrder.value = ''; inputWarranty.value = value; _svcTrkSearch('', value); }
 }
 
-// ===== REVIEW FORM =====
-let rfRating = 0;
-function rfSetStar(v) {
-  rfRating = v;
-  const labels = ['', 'Лошо', 'Незадоволително', 'Добро', 'Много добро', 'Отлично'];
-  document.querySelectorAll('.rf-star').forEach(s => {
-    s.classList.toggle('active', parseInt(s.dataset.v) <= v);
-    s.style.color = parseInt(s.dataset.v) <= v ? '#fbbf24' : '';
-  });
-  const lbl = document.getElementById('rfStarLabel');
-  if (lbl) lbl.textContent = labels[v] || '';
-}
-function submitPdpReview() {
-  const name = document.getElementById('rfName')?.value.trim();
-  const text = document.getElementById('rfText')?.value.trim();
-  if (!name) { showToast('⚠️ Въведи своето име'); return; }
-  if (!rfRating) { showToast('⚠️ Избери рейтинг'); return; }
-  if (!text || text.length < 10) { showToast('⚠️ Ревюто трябва да е поне 10 символа'); return; }
-
-  const now = new Date();
-  const dateStr = now.toLocaleDateString('bg-BG', { day:'2-digit', month:'2-digit', year:'numeric' });
-  const newRev = { name, stars: rfRating, text, date: dateStr, pending: true, productId: pdpProductId };
-
-  // Persist to localStorage — pending until admin approves
-  try {
-    const saved = JSON.parse(localStorage.getItem('mc_reviews') || '{}');
-    if (!saved[pdpProductId]) saved[pdpProductId] = [];
-    saved[pdpProductId].unshift(newRev);
-    localStorage.setItem('mc_reviews', JSON.stringify(saved));
-  } catch(e) {}
-
-  // Reset form
-  document.getElementById('rfName').value = '';
-  document.getElementById('rfText').value = '';
-  rfRating = 0;
-  document.querySelectorAll('.rf-star').forEach(s => { s.classList.remove('active'); s.style.color = ''; });
-  const lbl = document.getElementById('rfStarLabel');
-  if (lbl) lbl.textContent = 'Избери рейтинг';
-  showToast('✅ Ревюто е изпратено и ще бъде публикувано след преглед!');
-}
-
-
 // ===== ABOUT PAGE =====
 function openAboutPage() {
   const page = document.getElementById('aboutPage');

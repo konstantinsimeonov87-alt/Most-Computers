@@ -377,8 +377,7 @@ function openProductPage(id) {
     || (() => { try { return (JSON.parse(localStorage.getItem('mc_reviews') || '{}')[p.id] || []).length > 0; } catch(e) { return false; } })();
   pdpSwitchTab(_hasPublicRevs ? 'reviews' : 'specs');
   pdpUpdateStickyBar(p);
-  pdpShowViewers(p);
-  pdpRenderSparkline(p);
+  // pdpShowViewers и pdpRenderSparkline премахнати — генерираха фалшиви данни
   pdpInitDeliveryTimer();
   pdpRenderBundle(p);
   pdpRenderRelated(p);

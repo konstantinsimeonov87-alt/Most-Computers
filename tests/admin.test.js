@@ -1,7 +1,7 @@
 'use strict';
 /**
  * Тестове за Admin PIN защита (js/admin.js)
- * Покрива: openAdminPage — PIN валидация, window._adminUnlocked
+ * Покрива: openAdminPage — PIN валидация, module-level _adminUnlocked
  */
 
 // ── глобали, нужни на admin.js ────────────────────────────────────────────────
@@ -18,7 +18,7 @@ global.closeDropdown        = jest.fn();
 global.close404             = jest.fn();
 global.openProductModal     = jest.fn();
 
-const { openAdminPage, closeAdminPage } = require('../../js/admin.js');
+const { openAdminPage, closeAdminPage, _resetAdminUnlocked } = require('../../js/admin.js');
 
 function setupAdminDOM() {
   document.body.innerHTML = `<div id="adminPage"></div>`;
@@ -29,7 +29,7 @@ describe('openAdminPage — PIN защита', () => {
   beforeEach(() => {
     setupAdminDOM();
     global.showToast.mockClear();
-    delete window._adminUnlocked;
+    _resetAdminUnlocked();
     delete window._adminScriptLoaded;
     sessionStorage.clear();
   });
@@ -53,10 +53,12 @@ describe('openAdminPage — PIN защита', () => {
     expect(document.getElementById('adminPage').classList.contains('open')).toBe(true);
   });
 
-  test('правилен PIN — window._adminUnlocked се задава на true', () => {
+  test('правилен PIN — при повторно отваряне не пита за PIN отново', () => {
     global.prompt = jest.fn().mockReturnValue('most2026');
-    openAdminPage();
-    expect(window._adminUnlocked).toBe(true);
+    openAdminPage(); // отключва
+    global.prompt.mockClear();
+    openAdminPage(); // вече отключено — без prompt
+    expect(global.prompt).not.toHaveBeenCalled();
   });
 
   test('null (затваряне на prompt) — adminPage остава затворен', () => {
@@ -65,9 +67,10 @@ describe('openAdminPage — PIN защита', () => {
     expect(document.getElementById('adminPage').classList.contains('open')).toBe(false);
   });
 
-  test('вече отключен (_adminUnlocked = true) — не пита за PIN', () => {
-    window._adminUnlocked = true;
-    global.prompt = jest.fn();
+  test('вече отключен — не пита за PIN', () => {
+    global.prompt = jest.fn().mockReturnValue('most2026');
+    openAdminPage(); // отключва с PIN
+    global.prompt = jest.fn(); // нов mock — не трябва да се извика
     openAdminPage();
     expect(global.prompt).not.toHaveBeenCalled();
     expect(document.getElementById('adminPage').classList.contains('open')).toBe(true);
@@ -78,8 +81,8 @@ describe('openAdminPage — PIN защита', () => {
 describe('closeAdminPage', () => {
   beforeEach(() => {
     setupAdminDOM();
-    window._adminUnlocked = true;
-    document.getElementById('adminPage').classList.add('open');
+    global.prompt = jest.fn().mockReturnValue('most2026');
+    openAdminPage(); // отключва и отваря adminPage
     document.body.style.overflow = 'hidden';
   });
 

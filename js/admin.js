@@ -244,8 +244,9 @@ function adminUpdateOrdersBadge() {
 const _ADMIN_H = 3533399686; // djb2 hash of admin PIN — change to match your chosen PIN
 function _djb2(s){let h=5381;for(let i=0;i<s.length;i++)h=((h<<5)+h)^s.charCodeAt(i);return h>>>0;}
 
+let _adminUnlocked = false;
 function openAdminPage() {
-  if (!window._adminUnlocked) {
+  if (!_adminUnlocked) {
     const _attempts = parseInt(sessionStorage.getItem('_adm_att')||'0');
     if (_attempts >= 5) { showToast('❌ Твърде много опити. Затвори и отвори отново браузъра.'); return; }
     const pin = prompt('Въведи PIN за достъп до администрацията:');
@@ -256,7 +257,7 @@ function openAdminPage() {
       return;
     }
     sessionStorage.removeItem('_adm_att');
-    window._adminUnlocked = true;
+    _adminUnlocked = true;
   }
   document.getElementById('adminPage').classList.add('open');
   document.body.style.overflow='hidden';
@@ -1521,7 +1522,8 @@ function adminShowTab(tab) {
 })();
 
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { openAdminPage, closeAdminPage, inferSubcat, mapCatGeneric, XML_FEED_CAT_MAP };
+  module.exports = { openAdminPage, closeAdminPage, inferSubcat, mapCatGeneric, XML_FEED_CAT_MAP,
+    _resetAdminUnlocked: () => { _adminUnlocked = false; } };
 }
 
 // ===== ADMIN PRODUCT EDITOR =====

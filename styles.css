@@ -12542,6 +12542,23 @@
    margin-top: auto;
  }
 
+ .mob-dark-toggle {
+   display: flex;
+   align-items: center;
+   gap: 8px;
+   width: 100%;
+   padding: 10px 0;
+   background: none;
+   border: none;
+   color: var(--text);
+   font-size: 14px;
+   font-weight: 500;
+   cursor: pointer;
+   margin-bottom: 10px;
+   border-bottom: 1px solid var(--border);
+ }
+ .mob-dark-toggle svg { flex-shrink: 0; }
+
  .mob-contact-row {
    display: flex;
    flex-direction: column;

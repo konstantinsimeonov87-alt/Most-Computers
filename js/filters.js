@@ -720,7 +720,11 @@ const SUBCATS = {
     { id: 'nas',          label: '🗄 NAS устройства' },
     { id: 'server',       label: '🖥 Сървъри' },
     { id: 'ext_drive',    label: '💾 Външни дискове' },
-    { id: 'flash',        label: '📱 Флаш памет' },
+    { id: 'usb_flash',    label: '💾 USB флашки' },
+    { id: 'microsd',      label: '📱 microSD карти' },
+    { id: 'sd_card',      label: '📷 SD карти' },
+    { id: 'cf_card',      label: '📷 CF карти' },
+    { id: 'card_reader',  label: '🔌 Четци за карти' },
   ],
   accessories: [
     { id: 'projector',    label: '🎥 Проектори' },
@@ -785,7 +789,9 @@ const MEGA_MENU = {
   ],
   storage: [
     { title: 'Сторидж', id: 'nas', items: ['NAS устройства', 'Сървъри', 'Rack системи'] },
-    { title: 'Носители', id: 'ext_drive', items: ['Портативни SSD', 'Портативни HDD', 'USB Flash', 'SD карти'] },
+    { title: 'Носители', id: 'ext_drive', items: ['Портативни SSD', 'Портативни HDD'] },
+    { title: 'Флаш памет', id: 'usb_flash', items: ['USB флашки', 'USB-C флашки', 'Dual OTG флашки'] },
+    { title: 'Карти', id: 'microsd', items: ['microSD карти', 'SD карти', 'CF карти', 'Четци за карти'] },
   ],
   ups: [
     { title: 'Домашни UPS', id: 'ups_home', items: ['До 800VA', 'Fortron Nano', 'Fortron FP серия', 'Inform Guardian', 'Hikvision DS-UPS'] },
@@ -856,9 +862,9 @@ const CAT_SPEC_FILTERS = {
     { key: 'Type',  label: '📦 Тип устройство', values: ['Рутер','Mesh нод','Суич','Access Point','USB адаптер','Outdoor CPE','SFP модул','Кабел'] },
   ],
   storage: [
-    { key: 'Type',      label: '💾 Тип',               values: ['NAS','Сървър','Портативен SSD','Портативен HDD','USB Flash','SD карта'] },
-    { key: 'Capacity',  label: '📦 Капацитет',         values: ['256 GB','512 GB','1 TB','2 TB','4 TB','8 TB+'] },
-    { key: 'Interface', label: '🔌 Интерфейс',         values: ['USB-C','USB-A','Thunderbolt','Ethernet'] },
+    { key: 'Type',      label: '💾 Тип',               values: ['NAS','Сървър','Портативен SSD','Портативен HDD','USB Flash','SD карта','microSD','CF карта','Четец'] },
+    { key: 'Capacity',  label: '📦 Капацитет',         values: ['16 GB','32 GB','64 GB','128 GB','256 GB','512 GB','1 TB','2 TB','4 TB','8 TB+'] },
+    { key: 'Interface', label: '🔌 Интерфейс',         values: ['USB-C','USB-A','USB 3.0','USB 3.2','Thunderbolt','Ethernet','microSD','SD'] },
   ],
   ups: [
     { key: 'Мощност',    label: '⚡ Мощност (VA/KVA)',    values: ['600VA','800VA','850VA','1KVA','1.5KVA','2KVA','3KVA','6KVA+'] },
@@ -1192,7 +1198,12 @@ function matchesSubcat(p, subcat) {
     nas:           () => all.includes('nas') || all.includes('network attached') || all.includes('qnap') || all.includes('synology'),
     server:        () => all.includes('сървър') || all.includes('server') || all.includes('rack'),
     ext_drive:     () => all.includes('portable') || all.includes('портативен') || all.includes('external') || all.includes('външен'),
-    flash:         () => all.includes('usb flash') || all.includes('флаш') || all.includes('sd card') || all.includes('microsd') || all.includes('sd карт'),
+    flash:         () => p.subcat === 'usb_flash' || p.subcat === 'microsd' || p.subcat === 'sd_card' || p.subcat === 'cf_card' || p.subcat === 'card_reader',
+    usb_flash:     () => p.subcat === 'usb_flash',
+    microsd:       () => p.subcat === 'microsd',
+    sd_card:       () => p.subcat === 'sd_card',
+    cf_card:       () => p.subcat === 'cf_card',
+    card_reader:   () => p.subcat === 'card_reader',
     // Accessories
     bag:           () => all.includes('чант') || all.includes('bag') || all.includes('backpack') || all.includes('case') || all.includes('sleeve'),
     cable:         () => all.includes('кабел') || all.includes('cable') || all.includes('cord') || all.includes('зарядн') || all.includes('charger'),

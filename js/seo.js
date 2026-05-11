@@ -392,6 +392,8 @@ const HP_SUBCATS = [
   { cat:'network',    id:'mesh',        label:'Mesh Wi-Fi системи',    icon:'🕸️'               },
   { cat:'network',    id:'adapter',     label:'Wi-Fi адаптери',        icon:'🔌'                },
   { cat:'storage',    id:'nas',         label:'NAS / Сторидж',         icon:'💾'                },
+  { cat:'storage',    id:'usb_flash',   label:'USB флашки',             icon:'💾'                },
+  { cat:'storage',    id:'microsd',     label:'microSD карти',          icon:'📱'                },
   { cat:'laptops',    id:'for_students',label:'Студентски лаптопи',    icon:'🎓'                },
   { cat:'peripherals',id:'mouse',       label:'Геймърски мишки',       icon:'🖱'                },
   { cat:'peripherals',id:'webcam',      label:'Уеб камери',            icon:'📸'                },

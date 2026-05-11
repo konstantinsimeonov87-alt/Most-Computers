@@ -199,21 +199,7 @@ function handleCheckout() {
     }
   } catch (e) { }
   renderOrderSummary();
-  // Checkout upsell — right column, above order summary
-  (function() {
-    const el = document.getElementById('ckUpsell');
-    if (!el) return;
-    const inCart = new Set(cart.map(x => x.id));
-    const cats = cart.map(x => x.cat);
-    let prods = products.filter(x => !inCart.has(x.id) && cats.includes(x.cat) && x.stock !== false).sort((a, b) => (b.rv || 0) - (a.rv || 0)).slice(0, 2);
-    if (!prods.length) prods = products.filter(x => !inCart.has(x.id) && x.stock !== false).sort((a, b) => (b.rv || 0) - (a.rv || 0)).slice(0, 2);
-    if (prods.length) {
-      el.style.display = '';
-      el.innerHTML = `<div class="cart-upsell-title">⚡ Може да те заинтересува</div><div class="cart-upsell-items">${prods.map(p => `<div class="cu-item"><div class="cu-emoji">${escHtml(p.emoji || '')}</div><div class="cu-info"><div class="cu-name">${escHtml(p.name.length > 32 ? p.name.substring(0, 32) + '…' : p.name)}</div><div class="cu-price">${fmtEur(p.price)}</div></div><button type="button" class="cu-add" onclick="addToCart(${p.id})" title="Добави в кошницата">+</button></div>`).join('')}</div>`;
-    } else {
-      el.style.display = 'none';
-    }
-  })();
+  _startCkUpsell();
   document.getElementById('checkoutPage').classList.add('open');
   document.getElementById('cartPanel').classList.remove('open');
   document.getElementById('cartOverlay').classList.remove('open');
@@ -230,7 +216,39 @@ function handleCheckout() {
   const d2 = document.getElementById('delivDate2'); if (d2) d2.textContent = '· готово днес';
 }
 
+let _ckUpsellTimer = null;
+
+function _startCkUpsell() {
+  const el = document.getElementById('ckUpsell');
+  if (!el) return;
+  if (_ckUpsellTimer) { clearInterval(_ckUpsellTimer); _ckUpsellTimer = null; }
+  const inCart = new Set(cart.map(x => x.id));
+  const cats = cart.map(x => x.cat);
+  let pool = products.filter(x => !inCart.has(x.id) && cats.includes(x.cat) && x.stock !== false).sort((a, b) => (b.rv || 0) - (a.rv || 0)).slice(0, 8);
+  if (pool.length < 2) pool = products.filter(x => !inCart.has(x.id) && x.stock !== false).sort((a, b) => (b.rv || 0) - (a.rv || 0)).slice(0, 8);
+  if (pool.length < 2) { el.style.display = 'none'; return; }
+  el.style.display = '';
+  let idx = 0;
+  const render = () => {
+    const pair = [pool[idx % pool.length], pool[(idx + 1) % pool.length]];
+    const items = el.querySelector('.cart-upsell-items');
+    if (items) {
+      items.style.opacity = '0';
+      setTimeout(() => {
+        items.innerHTML = pair.map(p => `<div class="cu-item"><div class="cu-emoji">${escHtml(p.emoji || '')}</div><div class="cu-info"><div class="cu-name">${escHtml(p.name.length > 32 ? p.name.substring(0, 32) + '…' : p.name)}</div><div class="cu-price">${fmtEur(p.price)}</div></div><button type="button" class="cu-add" onclick="addToCart(${p.id})" title="Добави в кошницата">+</button></div>`).join('');
+        items.style.opacity = '1';
+      }, 300);
+    } else {
+      el.innerHTML = `<div class="cart-upsell-title">⚡ Може да те заинтересува</div><div class="cart-upsell-items" style="transition:opacity .3s">${pair.map(p => `<div class="cu-item"><div class="cu-emoji">${escHtml(p.emoji || '')}</div><div class="cu-info"><div class="cu-name">${escHtml(p.name.length > 32 ? p.name.substring(0, 32) + '…' : p.name)}</div><div class="cu-price">${fmtEur(p.price)}</div></div><button type="button" class="cu-add" onclick="addToCart(${p.id})" title="Добави в кошницата">+</button></div>`).join('')}</div>`;
+    }
+    idx = (idx + 2) % pool.length;
+  };
+  render();
+  _ckUpsellTimer = setInterval(render, 6000);
+}
+
 function closeCheckoutPage() {
+  if (_ckUpsellTimer) { clearInterval(_ckUpsellTimer); _ckUpsellTimer = null; }
   document.getElementById('checkoutPage').classList.remove('open');
   document.body.style.overflow = '';
 }

@@ -117,16 +117,6 @@ function updateCart() {
     if (deliveryRow) deliveryRow.style.display = 'flex';
     if (deliveryVal) deliveryVal.textContent = (5.99 / EUR_RATE).toFixed(2) + ' €';
   }
-  // COD fee notice — always visible so no surprise at checkout
-  html += `<div style="font-size:11px;color:var(--muted);padding:6px 10px;background:var(--bg2);border-radius:6px;margin-top:6px;">
-    💳 Карта/превод — без такса &nbsp;|&nbsp; 📦 Наложен платеж — +0.77 €
-  </div>`;
-  // Promo code hint — show when no promo applied and subtotal ≥ 80 лв.
-  if (!promoApplied && total >= Math.round(40 * EUR_RATE)) {
-    html += `<div class="cart-promo-hint" onclick="handleCheckout()" title="Приложи при поръчка">
-      🎁 Имаш промо код? <strong>MOSTCOMP10</strong> дава <strong>-10%</strong> от поръчката!
-    </div>`;
-  }
   // Recently viewed not in cart
   try {
     const rvIds = JSON.parse(localStorage.getItem('mc_rv') || '[]');
@@ -444,6 +434,7 @@ function applyPromo(codeArg) {
       if (mc) { mc.uses = (mc.uses || 0) + 1; localStorage.setItem('mc_promo_codes', JSON.stringify(stored)); }
     } catch (e) { }
     if (inputEl) { document.getElementById('promoOk').classList.add('show'); inputEl.disabled = true; }
+    const hint = document.getElementById('ckPromoHint'); if (hint) hint.style.display = 'none';
     renderOrderSummary();
     showToast(`✓ Промо код приложен — -${promoDiscountPct}%!`);
   } else {

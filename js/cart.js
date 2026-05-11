@@ -120,20 +120,6 @@ function updateCart() {
     }
   } catch (e) { }
   body.innerHTML = html;
-  // Sidebar upsell — show 2 products from cart categories not already in cart
-  const upsellEl = document.getElementById('cartUpsell');
-  if (upsellEl) {
-    const inCart = new Set(cart.map(x => x.id));
-    const cats = cart.map(x => x.cat);
-    let upsellProds = products.filter(x => !inCart.has(x.id) && cats.includes(x.cat) && x.stock !== false).sort((a, b) => (b.rv || 0) - (a.rv || 0)).slice(0, 2);
-    if (!upsellProds.length) upsellProds = products.filter(x => !inCart.has(x.id) && x.stock !== false).sort((a, b) => (b.rv || 0) - (a.rv || 0)).slice(0, 2);
-    if (upsellProds.length) {
-      upsellEl.style.display = '';
-      upsellEl.innerHTML = `<div class="cart-upsell-title">⚡ Може да те заинтересува</div><div class="cart-upsell-items">${upsellProds.map(p => `<div class="cu-item"><div class="cu-emoji">${escHtml(p.emoji || '')}</div><div class="cu-info"><div class="cu-name">${escHtml(p.name.length > 30 ? p.name.substring(0, 30) + '…' : p.name)}</div><div class="cu-price">${fmtEur(p.price)}</div></div><button type="button" class="cu-add" onclick="addToCart(${p.id})" title="Добави в кошницата">+</button></div>`).join('')}</div>`;
-    } else {
-      upsellEl.style.display = 'none';
-    }
-  }
   // Sync cart page if open
   if (typeof renderCartPageSummary === 'function' && document.getElementById('cartPage')?.style.display !== 'none') { renderCartPageSummary(); }
 }
@@ -213,6 +199,21 @@ function handleCheckout() {
     }
   } catch (e) { }
   renderOrderSummary();
+  // Checkout upsell — right column, above order summary
+  (function() {
+    const el = document.getElementById('ckUpsell');
+    if (!el) return;
+    const inCart = new Set(cart.map(x => x.id));
+    const cats = cart.map(x => x.cat);
+    let prods = products.filter(x => !inCart.has(x.id) && cats.includes(x.cat) && x.stock !== false).sort((a, b) => (b.rv || 0) - (a.rv || 0)).slice(0, 2);
+    if (!prods.length) prods = products.filter(x => !inCart.has(x.id) && x.stock !== false).sort((a, b) => (b.rv || 0) - (a.rv || 0)).slice(0, 2);
+    if (prods.length) {
+      el.style.display = '';
+      el.innerHTML = `<div class="cart-upsell-title">⚡ Може да те заинтересува</div><div class="cart-upsell-items">${prods.map(p => `<div class="cu-item"><div class="cu-emoji">${escHtml(p.emoji || '')}</div><div class="cu-info"><div class="cu-name">${escHtml(p.name.length > 32 ? p.name.substring(0, 32) + '…' : p.name)}</div><div class="cu-price">${fmtEur(p.price)}</div></div><button type="button" class="cu-add" onclick="addToCart(${p.id})" title="Добави в кошницата">+</button></div>`).join('')}</div>`;
+    } else {
+      el.style.display = 'none';
+    }
+  })();
   document.getElementById('checkoutPage').classList.add('open');
   document.getElementById('cartPanel').classList.remove('open');
   document.getElementById('cartOverlay').classList.remove('open');

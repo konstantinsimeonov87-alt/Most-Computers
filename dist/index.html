@@ -871,6 +871,10 @@
 
     <!-- Bottom contacts -->
     <div class="mob-drawer-bottom">
+      <button type="button" class="mob-dark-toggle" data-action="toggleDarkMode" aria-label="Превключи тъмен режим">
+        <svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-moon"/></svg>
+        <span>Тъмен режим</span>
+      </button>
       <div class="mob-contact-row">
         <div class="mob-contact-item">📞 Офис: <a href="tel:+35929191823">(+359 2) 91 823</a></div>
         <div class="mob-contact-item">🔧 Сервиз: <a href="tel:+35970014411">0700 144 11</a></div>
@@ -1229,8 +1233,6 @@
         <p>Кошницата е празна.<br>Добави продукти!</p>
       </div>
     </div>
-    <!-- Cross-sell / Upsell -->
-    <div class="cart-upsell" id="cartUpsell" style="display:none;"></div>
 
     <div class="cart-panel-footer">
       <div class="cart-subtotal">
@@ -2396,6 +2398,7 @@
 
           <!-- RIGHT: Order summary -->
           <div class="order-summary">
+            <div class="cart-upsell" id="ckUpsell" style="display:none;"></div>
             <div class="os-card">
               <div class="os-header">
                 🛒 Поръчка
@@ -3905,7 +3908,7 @@
         <div class="pdp-info">
           <div class="pdp-badges" id="pdpBadges"></div>
           <div class="pdp-brand" id="pdpBrand"></div>
-          <h1 class="pdp-name" id="pdpName"></h1>
+          <h2 class="pdp-name" id="pdpName"></h2>
           <div class="pdp-meta">
             <div>SKU: <span id="pdpSku">—</span></div>
             <div>EAN: <span id="pdpEan">—</span></div>

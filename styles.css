@@ -6210,12 +6210,15 @@
    border: none;
    border-radius: 8px;
    padding: 4px 10px;
-   font-size: 22px;
-   font-weight: 400;
+   font-size: 13px;
+   font-weight: 500;
    color: var(--muted);
    cursor: pointer;
    transition: color 0.2s;
    line-height: 1;
+   display: flex;
+   align-items: center;
+   gap: 2px;
  }
 
  .checkout-close-btn:hover {

@@ -11,7 +11,8 @@
       "WebFetch(domain:most.traveldatabank.biz)",
       "WebFetch(domain:portal.mostbg.com)",
       "WebFetch(domain:www.mostcomputers.bg)",
-      "Read(//c/Users/user/Downloads/**)"
+      "Read(//c/Users/user/Downloads/**)",
+      "WebFetch(domain:zdwzccucqfvlsgxlspby.supabase.co)"
     ],
     "additionalDirectories": [
       "c:\\Users\\user\\.claude\\projects\\c--Users-user-Desktop-New-folder\\memory"

@@ -228,7 +228,7 @@
    padding: 14px 20px;
    display: flex;
    align-items: center;
-   gap: 24px;
+   gap: 16px;
  }
 
  .logo-wrap {
@@ -262,7 +262,8 @@
  }
 
  .search-wrap {
-   flex: 1;
+   flex: 2;
+   max-width: 680px;
    position: relative;
  }
 

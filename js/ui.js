@@ -143,22 +143,6 @@ function toggleDarkMode() {
 
 try { localStorage.removeItem('mc_lang'); } catch(e){}
 
-// ===== LIVE CHAT =====
-let chatOpen = false;
-setTimeout(() => { const dot = document.getElementById('chatDot'); if(dot) dot.style.display = 'block'; }, 5000);
-function toggleChat(){
-  chatOpen = !chatOpen;
-  document.getElementById('liveChatPopup').classList.toggle('show', chatOpen);
-  const ic = document.getElementById('chatBtnIcon'); if(ic) ic.textContent = chatOpen ? '×' : '💬';
-  const dot = document.getElementById('chatDot'); if(dot && chatOpen) dot.style.display = 'none';
-}
-document.addEventListener('click', e => {
-  if(chatOpen && !e.target.closest('#liveChatWrap')){
-    chatOpen = false;
-    document.getElementById('liveChatPopup').classList.remove('show');
-    const ic = document.getElementById('chatBtnIcon'); if(ic) ic.textContent = '💬';
-  }
-});
 
 
 // ===== LAZY IMAGE LOADING =====

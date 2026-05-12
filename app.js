@@ -229,22 +229,6 @@ function toggleDarkMode() {
 
 try { localStorage.removeItem('mc_lang'); } catch(e){}
 
-// ===== LIVE CHAT =====
-let chatOpen = false;
-setTimeout(() => { const dot = document.getElementById('chatDot'); if(dot) dot.style.display = 'block'; }, 5000);
-function toggleChat(){
-  chatOpen = !chatOpen;
-  document.getElementById('liveChatPopup').classList.toggle('show', chatOpen);
-  const ic = document.getElementById('chatBtnIcon'); if(ic) ic.textContent = chatOpen ? '×' : '💬';
-  const dot = document.getElementById('chatDot'); if(dot && chatOpen) dot.style.display = 'none';
-}
-document.addEventListener('click', e => {
-  if(chatOpen && !e.target.closest('#liveChatWrap')){
-    chatOpen = false;
-    document.getElementById('liveChatPopup').classList.remove('show');
-    const ic = document.getElementById('chatBtnIcon'); if(ic) ic.textContent = '💬';
-  }
-});
 
 
 // ===== LAZY IMAGE LOADING =====
@@ -1013,7 +997,7 @@ function updateCart() {
     const inCart = new Set(cart.map(x => x.id));
     const rvItems = rvIds.map(id => products.find(p => p.id === id)).filter(p => p && !inCart.has(p.id)).slice(0, 3);
     if (rvItems.length) {
-      html += `<div class="cart-rv-section"><div class="cart-rv-title">Забрави ли нещо?</div><div class="cart-rv-list">${rvItems.map(p => `<div class="cart-rv-item"><div class="cart-rv-emoji">${escHtml(p.emoji || '')}</div><div class="cart-rv-info"><div class="cart-rv-name">${escHtml(p.name.length > 28 ? p.name.substring(0, 28) + '…' : p.name)}</div><div class="cart-rv-price">${fmtEur(p.price)}</div></div><button type="button" class="cart-rv-add" onclick="addToCart(${p.id})" title="Добави">+</button></div>`).join('')}</div></div>`;
+      html += `<div class="cart-rv-section"><div class="cart-rv-title">Забрави ли нещо?</div><div class="cart-rv-list">${rvItems.map(p => `<div class="cart-rv-item"><button type="button" class="cart-rv-link" onclick="openProductPage(${p.id})" title="Виж продукта"><div class="cart-rv-emoji">${escHtml(p.emoji || '')}</div><div class="cart-rv-info"><div class="cart-rv-name">${escHtml(p.name.length > 28 ? p.name.substring(0, 28) + '…' : p.name)}</div><div class="cart-rv-price">${fmtEur(p.price)}</div></div></button><button type="button" class="cart-rv-add" onclick="addToCart(${p.id})" title="Добави">+</button></div>`).join('')}</div></div>`;
     }
   } catch (e) { }
   body.innerHTML = html;
@@ -3143,7 +3127,10 @@ function renderHeroPanel(){
   ];
   panel.innerHTML = picks.filter(x=>x.p).map(({p,label,cls})=>`
     <div class="mini-promo ${cls}">
-      <div class="mini-promo-emoji">${p.emoji}</div>
+      ${p.img
+        ? `<img class="mini-promo-img" src="${p.img}" alt="${p.name.replace(/"/g,'')}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">`
+        : ''}
+      <div class="mini-promo-emoji" style="${p.img?'display:none':''}"> ${p.emoji}</div>
       <div class="mini-promo-text">
         <div class="mini-promo-label">${label}</div>
         <div class="mini-promo-name">${p.name.length>32?p.name.slice(0,32)+'…':p.name}</div>

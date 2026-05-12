@@ -209,18 +209,65 @@ function openCompareModal(){
   if(prods.length<2){showToast('Избери поне 2 налични продукта!');return;}
   const allKeys=[...new Set(prods.flatMap(p=>Object.keys(p.specs||{})))];
   const minP=Math.min(...prods.map(p=>p.price)),maxR=Math.max(...prods.map(p=>p.rating));
+
+  // Detect diff rows
+  function _isDiff(vals){ return new Set(vals).size>1; }
+  function _bestNumIdx(vals){
+    const nums=vals.map(v=>parseFloat(String(v).replace(/[^\d.]/g,'')));
+    if(nums.some(isNaN))return -1;
+    const mx=Math.max(...nums);
+    return nums.findIndex(n=>n===mx);
+  }
+
   let html=`<thead><tr><th>Продукт</th>`;
-  prods.forEach(p=>html+=`<td class="cmp-product-header"><span class="cmp-emoji">${p.emoji}</span><div class="cmp-name">${p.name}</div><div class="cmp-price">${fmtEur(p.price)}<span class="text-11-muted-block">${fmtBgn(p.price)}</span></div><button type="button" class="cmp-add-btn" onclick="addToCart(${p.id})">🛒 Добави</button></td>`);
-  html+=`</tr></thead><tbody><tr><th>Цена</th>`;
-  prods.forEach(p=>html+=`<td class="${p.price===minP?'cmp-highlight':''}">${fmtEur(p.price)}<span class="text-11-muted-block">${fmtBgn(p.price)}</span></td>`);
-  html+=`</tr><tr><th>Рейтинг</th>`;
-  prods.forEach(p=>html+=`<td class="${p.rating===maxR?'cmp-highlight':''}">${starsHTML(p.rating)} ${p.rating}</td>`);
+  prods.forEach(p=>html+=`<td class="cmp-product-header"><span class="cmp-emoji">${p.img?`<img src="${p.img}" alt="" style="width:60px;height:60px;object-fit:contain;" onerror="this.style.display='none'">`:p.emoji}</span><div class="cmp-name">${_esc(p.name)}</div><div class="cmp-price">${fmtEur(p.price)}<span class="text-11-muted-block">${fmtBgn(p.price)}</span></div><button type="button" class="cmp-add-btn" onclick="addToCart(${p.id})">🛒 Добави</button></td>`);
+  html+=`</tr></thead><tbody>`;
+  // Price row — lowest is best
+  const priceDiff=_isDiff(prods.map(p=>p.price));
+  html+=`<tr class="${priceDiff?'cmp-diff-row':''}"><th>Цена${priceDiff?'<span class="cmp-diff-badge">!</span>':''}</th>`;
+  prods.forEach(p=>html+=`<td class="${p.price===minP?'cmp-best':''}">${fmtEur(p.price)}<span class="text-11-muted-block">${fmtBgn(p.price)}</span></td>`);
+  // Rating row
+  const ratingDiff=_isDiff(prods.map(p=>p.rating));
+  html+=`</tr><tr class="${ratingDiff?'cmp-diff-row':''}"><th>Рейтинг${ratingDiff?'<span class="cmp-diff-badge">!</span>':''}</th>`;
+  prods.forEach(p=>html+=`<td class="${p.rating===maxR?'cmp-best':''}">${starsHTML(p.rating)} ${p.rating}</td>`);
   html+=`</tr>`;
-  allKeys.forEach(k=>{html+=`<tr><th>${_esc(k)}</th>`;prods.forEach(p=>html+=`<td>${_esc((p.specs||{})[k]||'—')}</td>`);html+=`</tr>`;});
+
+  // Spec rows
+  let diffCount=0;
+  const specRows=allKeys.map(k=>{
+    const vals=prods.map(p=>String((p.specs||{})[k]||'—'));
+    const diff=_isDiff(vals);
+    if(diff)diffCount++;
+    const bestIdx=diff?_bestNumIdx(vals):-1;
+    let row=`<tr class="${diff?'cmp-diff-row':''}" data-cmp-diff="${diff?'1':'0'}"><th>${_esc(k)}${diff?'<span class="cmp-diff-badge">!</span>':''}</th>`;
+    vals.forEach((v,i)=>{ row+=`<td class="${diff&&i===bestIdx?'cmp-best':''}">${_esc(v)}</td>`; });
+    row+=`</tr>`;
+    return row;
+  });
+  html+=specRows.join('');
   html+=`</tbody>`;
+
   document.getElementById('compareTableModal').innerHTML=html;
-  document.getElementById('compareModalBackdrop').classList.add('open');document.body.style.overflow='hidden';
+
+  // Inject toggle above table
+  const wrap=document.getElementById('compareTableModal').closest('.cmp-modal-body, .compare-modal-body, [class*="cmp"]') || document.getElementById('compareModalBackdrop').querySelector('.cmp-modal-inner, .compare-inner') || document.getElementById('compareModalBackdrop');
+  const tableEl=document.getElementById('compareTableModal');
+  if(tableEl && !tableEl.previousElementSibling?.classList?.contains('cmp-diff-only-toggle')){
+    const tog=document.createElement('label');
+    tog.className='cmp-diff-only-toggle';
+    tog.innerHTML=`<input type="checkbox" id="cmpDiffOnly" onchange="cmpToggleDiffOnly(this.checked)"><span>Покажи само разликите</span><span class="cmp-diff-count">(${diffCount} разлики)</span>`;
+    tableEl.parentNode.insertBefore(tog, tableEl);
+  }
+
+  document.getElementById('compareModalBackdrop').classList.add('open');
+  document.body.style.overflow='hidden';
 }
+function cmpToggleDiffOnly(on){
+  document.querySelectorAll('#compareTableModal tr[data-cmp-diff]').forEach(tr=>{
+    tr.style.display=(on && tr.dataset.cmpDiff==='0')?'none':'';
+  });
+}
+window.cmpToggleDiffOnly = cmpToggleDiffOnly;
 function closeCompareModal(e){if(e.target===e.currentTarget)closeCompareModalDirect();}
 function closeCompareModalDirect(){document.getElementById('compareModalBackdrop').classList.remove('open');document.body.style.overflow='';}
 

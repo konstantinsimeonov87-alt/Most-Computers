@@ -1,9 +1,9 @@
-// Most Computers — Service Worker 491bd5a
+// Most Computers — Service Worker 8de7d60
 // Most Computers — Service Worker 4271eba
-const CACHE = 'mc-491bd5a';
+const CACHE = 'mc-8de7d60';
 =======
 // Most Computers — Service Worker 49caff49
-const CACHE = 'mc-491bd5a';
+const CACHE = 'mc-8de7d60';
 >>>>>>> c54ba61 (fix(images): remove promotional/corrupt product images and add runtime filter)
 const PRECACHE = [
   './',

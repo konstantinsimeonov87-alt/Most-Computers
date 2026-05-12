@@ -43,11 +43,19 @@ if (typeof module !== 'undefined' && module.exports) {
 
 function starsHTML(r){return '★'.repeat(Math.round(r))+'☆'.repeat(5-Math.round(r));}
 
+// Filter out promotional/banner images that contain keywords indicating
+// they are not real product photos (e.g. Icecat promo banners).
+function isSafeImgUrl(url) {
+  if (!url) return false;
+  return !/promotion|promo|banner|PL_|promotionGroup/i.test(url);
+}
+
 function makeCard(p,small=false){
   const save=p.old?Math.round(((p.old-p.price)/p.old)*100):0;
   const _eName = escHtml(p.name);
-  const imgHtml = p.img
-    ? `<img class="product-img-real" src="${escHtml(p.img)}" alt="${_eName}" itemprop="image" loading="lazy" width="300" height="300" decoding="async" onload="this.classList.add('img-loaded')" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="product-img-emoji is-hidden" aria-hidden="true">${p.emoji}</span>`
+  const safeImg = isSafeImgUrl(p.img) ? p.img : null;
+  const imgHtml = safeImg
+    ? `<img class="product-img-real" src="${escHtml(safeImg)}" alt="${_eName}" itemprop="image" loading="lazy" width="300" height="300" decoding="async" onload="this.classList.add('img-loaded')" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="product-img-emoji is-hidden" aria-hidden="true">${p.emoji}</span>`
     : `<span class="product-img-emoji">${p.emoji}</span>`;
   return `<article class="product-card pos-rel" itemscope itemtype="https://schema.org/Product">
     <div class="product-badge-wrap">

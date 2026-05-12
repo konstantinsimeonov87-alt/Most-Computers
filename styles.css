@@ -15164,7 +15164,7 @@
   box-shadow: 4px 4px 32px rgba(0,0,0,0.13);
   padding: 0;
   min-width: 520px;
-  max-width: 860px;
+  max-width: 960px;
   pointer-events: auto;
   flex-direction: column;
 }
@@ -15194,8 +15194,8 @@
   gap: 0;
 }
 .mega-col {
-  min-width: 140px;
-  flex: 1 1 140px;
+  min-width: 160px;
+  flex: 1 1 160px;
   padding: 0 20px 12px 0;
 }
 .mega-col-title {
@@ -15220,7 +15220,6 @@
   padding: 3px 0;
   cursor: pointer;
   transition: color .15s;
-  white-space: nowrap;
 }
 .mega-item:hover {
   color: var(--primary);

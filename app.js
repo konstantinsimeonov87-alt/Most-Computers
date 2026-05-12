@@ -4268,6 +4268,12 @@ function readURLParams() {
     updateActiveFiltersBar();
   }
   if (params.get('product')) { setTimeout(()=>openProductPage(parseInt(params.get('product'))),400); }
+  // Auto-open cat page on direct link/bookmark (?cat=laptops or ?cat=laptops&sub=gaming_l)
+  const _urlCat = params.get('cat');
+  if (_urlCat && _urlCat !== 'all' && _VALID_CATS.has(_urlCat)) {
+    const _urlSub = params.get('sub') || null;
+    setTimeout(() => { if (typeof openCatPage === 'function') openCatPage(_urlCat, _urlSub); }, 350);
+  }
 }
 
 // URL + skeleton + carousel hooks — using var to avoid redeclaration
@@ -6927,15 +6933,16 @@ function openCatPage(cat, preSubcat) {
   // Update SEO
   const _catDesc = m.label + ' — ' + m.sub + '. Купи онлайн от Most Computers.';
   setPageMeta(m.label + ' | Most Computers', _catDesc);
+  const _subSuffix = (preSubcat && preSubcat !== 'all') ? '&sub=' + encodeURIComponent(preSubcat) : '';
   const ogUrl = document.querySelector('meta[property="og:url"]');
-  if (ogUrl) ogUrl.setAttribute('content', `https://mostcomputers.bg/?cat=${cat}`);
+  if (ogUrl) ogUrl.setAttribute('content', `https://mostcomputers.bg/?cat=${cat}${_subSuffix}`);
   const canonical = document.querySelector('link[rel="canonical"]');
-  if (canonical) canonical.setAttribute('href', `https://mostcomputers.bg/?cat=${cat}`);
+  if (canonical) canonical.setAttribute('href', `https://mostcomputers.bg/?cat=${cat}${_subSuffix}`);
 
   // Open page first so grid element is visible, then render
   document.getElementById('catPage').classList.add('open');
   document.body.style.overflow = 'hidden';
-  try{history.pushState({ catPage: cat }, '', '?cat=' + cat);}catch(e){}
+  try{history.pushState({ catPage: cat, subcat: preSubcat || 'all' }, '', '?cat=' + cat + _subSuffix);}catch(e){}
   // Render after page is shown
   cpRenderGrid();
 }
@@ -6979,7 +6986,8 @@ window.addEventListener('popstate', e => {
   if (e.state?.catPage) {
     const pg = document.getElementById('catPage');
     if (pg && !pg.classList.contains('open')) {
-      openCatPage(e.state.catPage);
+      const _sub = e.state.subcat && e.state.subcat !== 'all' ? e.state.subcat : null;
+      openCatPage(e.state.catPage, _sub);
     }
   } else {
     // Navigated back to homepage
@@ -7215,6 +7223,12 @@ function cpApplySubcat(id, btn) {
   document.querySelectorAll('#cpSubcatBar .subcat-pill').forEach(p => p.classList.remove('active'));
   if (btn) btn.classList.add('active');
   cpRenderGrid();
+  const _sp = (id && id !== 'all') ? '&sub=' + encodeURIComponent(id) : '';
+  try { history.replaceState({ catPage: cpCat, subcat: id }, '', '?cat=' + cpCat + _sp); } catch(e) {}
+  const _can = document.querySelector('link[rel="canonical"]');
+  if (_can) _can.setAttribute('href', `https://mostcomputers.bg/?cat=${cpCat}${_sp}`);
+  const _og = document.querySelector('meta[property="og:url"]');
+  if (_og) _og.setAttribute('content', `https://mostcomputers.bg/?cat=${cpCat}${_sp}`);
 }
 
 // ═══════════════════════════════════════

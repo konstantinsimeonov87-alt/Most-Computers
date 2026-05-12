@@ -1365,6 +1365,12 @@ function readURLParams() {
     updateActiveFiltersBar();
   }
   if (params.get('product')) { setTimeout(()=>openProductPage(parseInt(params.get('product'))),400); }
+  // Auto-open cat page on direct link/bookmark (?cat=laptops or ?cat=laptops&sub=gaming_l)
+  const _urlCat = params.get('cat');
+  if (_urlCat && _urlCat !== 'all' && _VALID_CATS.has(_urlCat)) {
+    const _urlSub = params.get('sub') || null;
+    setTimeout(() => { if (typeof openCatPage === 'function') openCatPage(_urlCat, _urlSub); }, 350);
+  }
 }
 
 // URL + skeleton + carousel hooks — using var to avoid redeclaration

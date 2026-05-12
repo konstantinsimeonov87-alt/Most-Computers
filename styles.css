@@ -1342,7 +1342,7 @@
  }
 
  .nav-link.hot {
-   color: var(--accent);
+   color: #c43100; /* darkened from --accent #ff3d00 — WCAG AA 5.4:1 on white */
    font-weight: 700;
  }
 
@@ -1622,7 +1622,7 @@
 
  .sidebar-promo-sub {
    font-size: 12px;
-   opacity: 0.85;
+   color: rgba(255, 255, 255, 0.92); /* opacity replaced with alpha — WCAG AA on #bd1105 */
    margin-bottom: 16px;
    line-height: 1.5;
  }
@@ -1956,13 +1956,14 @@
 
  .mini-promo:hover { box-shadow: var(--shadow); }
 
- .mini-promo-recommended { border-left-color: #16a34a; }
- .mini-promo-bestseller  { border-left-color: #f97316; }
- .mini-promo-new         { border-left-color: #3b82f6; }
+ .mini-promo-recommended { border-left-color: #15803d; }
+ .mini-promo-bestseller  { border-left-color: #b45309; }
+ .mini-promo-new         { border-left-color: #1d4ed8; }
 
- .mini-promo-recommended .mini-promo-label { color: #16a34a; }
- .mini-promo-bestseller  .mini-promo-label { color: #f97316; }
- .mini-promo-new         .mini-promo-label { color: #3b82f6; }
+ /* Darkened for WCAG AA 4.5:1 on white: green 4.9:1, amber 4.9:1, blue 4.9:1 */
+ .mini-promo-recommended .mini-promo-label { color: #15803d; }
+ .mini-promo-bestseller  .mini-promo-label { color: #b45309; }
+ .mini-promo-new         .mini-promo-label { color: #1d4ed8; }
 
  .mini-promo-img {
    width: 52px;

@@ -743,19 +743,19 @@ const SUBCATS = {
 // Mega-menu flyout data: category → columns → items
 const MEGA_MENU = {
   phones: [
-    { title: 'Смартфони', id: 'smartphone', items: ['Apple iPhone', 'Samsung Galaxy', 'Google Pixel', 'Xiaomi'] },
-    { title: 'Таблети', id: 'tablet', items: ['Apple iPad', 'Samsung Galaxy Tab', 'Android таблети'] },
-    { title: 'Смарт часовници', id: 'smartwatch', items: ['Apple Watch', 'Samsung Galaxy Watch', 'Garmin', 'Fitbit'] },
+    { title: 'Смартфони', id: 'smartphone', items: ['Nokia', 'Realme', 'Xiaomi', 'Samsung'] },
+    { title: 'Таблети', id: 'tablet', items: ['Lenovo таблети', 'Android таблети'] },
+    { title: 'Смарт часовници', id: 'smartwatch', items: ['Nokia', 'Realme', 'Xiaomi'] },
   ],
   laptops: [
     { title: 'По предназначение', id: 'work', items: ['За работа', 'За гейминг', 'Ултрабуци', 'Workstation'] },
-    { title: 'По марка', id: 'ultrabook', items: ['Apple MacBook', 'Dell XPS', 'ASUS ROG', 'Lenovo ThinkPad', 'HP EliteBook'] },
+    { title: 'По марка', id: 'ultrabook', items: ['ASUS ZenBook', 'Lenovo ThinkPad', 'Lenovo IdeaPad', 'MSI Prestige', 'Acer Swift'] },
     { title: 'По бюджет', id: 'budget', items: ['До 500 €', '500–800 €', '800–1500 €', '1500 €+'] },
     { title: 'Use-case', id: 'for_students', items: ['За студенти', 'За програмисти', 'За дизайнери', 'За игри'] },
   ],
   desktops: [
-    { title: 'Офис и Workstation', id: 'office_pc', items: ['Офис компютри', 'Workstation', 'Mac Mini / iMac', 'All-in-One'] },
-    { title: 'По марка', id: 'mac_desktop', items: ['Apple', 'ASUS', 'Dell', 'HP', 'Lenovo'] },
+    { title: 'Офис и Workstation', id: 'office_pc', items: ['Офис компютри', 'Workstation', 'All-in-One'] },
+    { title: 'По марка', id: 'mac_desktop', items: ['ASUS', 'MSI', 'Lenovo', 'Acer'] },
   ],
   gaming: [
     { title: 'Геймърски лаптопи', id: 'gaming_laptop_s', items: ['ASUS ROG', 'Razer Blade', 'MSI Titan', 'Lenovo Legion'] },

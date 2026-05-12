@@ -537,22 +537,36 @@ function closeCatPage() {
 
 // Back button support
 window.addEventListener('popstate', e => {
-  // If we navigated back to a cat page state, keep or re-open it
   if (e.state?.catPage) {
     const pg = document.getElementById('catPage');
     if (pg && !pg.classList.contains('open')) {
       const _sub = e.state.subcat && e.state.subcat !== 'all' ? e.state.subcat : null;
       openCatPage(e.state.catPage, _sub);
     }
+  } else if (e.state?.page === 'blog') {
+    if (e.state.post) {
+      if (typeof openBlogPost === 'function') openBlogPost(e.state.post);
+    } else {
+      const postView = document.getElementById('blogPostView');
+      if (postView && postView.style.display !== 'none') {
+        if (typeof closeBlogPost === 'function') closeBlogPost();
+      } else if (typeof openBlogPage === 'function') {
+        openBlogPage();
+      }
+    }
   } else {
-    // Navigated back to homepage
+    // Navigated back to homepage — close all overlays
     const pg = document.getElementById('catPage');
     if (pg) pg.classList.remove('open');
+    const blogPg = document.getElementById('blogPage');
+    if (blogPg) blogPg.classList.remove('open');
     const pdp = document.getElementById('pdpBackdrop');
     if (pdp) pdp.classList.remove('open');
     const modal = document.getElementById('productModalBackdrop');
     if (modal) modal.classList.remove('open');
     document.body.style.overflow = '';
+    const _ld = document.getElementById('_blogPostLD');
+    if (_ld) _ld.remove();
   }
 });
 

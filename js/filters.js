@@ -1371,6 +1371,22 @@ function readURLParams() {
     const _urlSub = params.get('sub') || null;
     setTimeout(() => { if (typeof openCatPage === 'function') openCatPage(_urlCat, _urlSub); }, 350);
   }
+  // Auto-open blog or blog post on direct link
+  const _urlPage = params.get('page');
+  if (_urlPage === 'blog') {
+    const _urlPost = params.get('post');
+    if (_urlPost) {
+      setTimeout(() => { if (typeof openBlogPost === 'function') openBlogPost(_urlPost); }, 350);
+    } else {
+      setTimeout(() => { if (typeof openBlogPage === 'function') openBlogPage(); }, 350);
+    }
+  } else if (_urlPage === 'service') {
+    setTimeout(() => { if (typeof openServicePage === 'function') openServicePage(); }, 350);
+  } else if (_urlPage === 'delivery') {
+    setTimeout(() => { if (typeof openDeliveryPage === 'function') openDeliveryPage(); }, 350);
+  } else if (_urlPage === 'contacts') {
+    setTimeout(() => { if (typeof openContactsPage === 'function') openContactsPage(); }, 350);
+  }
 }
 
 // URL + skeleton + carousel hooks — using var to avoid redeclaration

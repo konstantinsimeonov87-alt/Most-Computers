@@ -1,4 +1,9 @@
 // CART
+function _prodThumb(p, size) {
+  if (!p.img) return `<span style="font-size:${Math.round(size*0.65)}px;line-height:1;">${escHtml(p.emoji||'')}</span>`;
+  return `<img src="${p.img}" alt="" width="${size}" height="${size}" style="width:${size}px;height:${size}px;object-fit:contain;border-radius:4px;" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='inline'"><span style="font-size:${Math.round(size*0.65)}px;line-height:1;display:none;">${escHtml(p.emoji||'')}</span>`;
+}
+
 function saveCart() { try { localStorage.setItem('mc_cart', JSON.stringify(cart.map(x => ({ id: x.id, qty: x.qty })))); } catch (e) { } }
 function loadCart() {
   try {
@@ -39,7 +44,7 @@ function showRecommended(p) {
     <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:10px;">Клиентите купуват и…</div>
     ${recs.map(r => `
       <div onclick="openProductPage(${r.id})" style="display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--border);cursor:pointer;">
-        <div style="font-size:22px;min-width:34px;text-align:center;">${r.emoji}</div>
+        <div style="min-width:34px;text-align:center;">${_prodThumb(r, 34)}</div>
         <div style="flex:1;min-width:0;">
           <div style="font-size:12px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${r.name.length > 32 ? r.name.substring(0, 32) + '…' : r.name}</div>
           <div style="font-size:12px;color:var(--primary);font-weight:700;">${fmtEur(r.price)}</div>
@@ -91,7 +96,7 @@ function updateCart() {
     const shortName = x.name && x.name.length > 38 ? escHtml(x.name.substring(0, 38)) + '…' : name;
     const unitPrice = x.qty > 1 ? `<span class="ci-unit">${fmtEur(x.price)} / бр.</span>` : '';
     return `<div class="cart-item-row">
-      <button type="button" class="ci-emoji-btn" onclick="openProductPage(${x.id})" title="Виж продукта">${escHtml(x.emoji || '')}</button>
+      <button type="button" class="ci-emoji-btn" onclick="openProductPage(${x.id})" title="Виж продукта">${_prodThumb(x, 44)}</button>
       <div class="ci-details">
         <div class="ci-top-row">
           <button type="button" class="ci-name-btn" onclick="openProductPage(${x.id})" title="Виж продукта">${shortName}</button>
@@ -123,7 +128,7 @@ function updateCart() {
     const inCart = new Set(cart.map(x => x.id));
     const rvItems = rvIds.map(id => products.find(p => p.id === id)).filter(p => p && !inCart.has(p.id)).slice(0, 3);
     if (rvItems.length) {
-      html += `<div class="cart-rv-section"><div class="cart-rv-title">Забрави ли нещо?</div><div class="cart-rv-list">${rvItems.map(p => `<div class="cart-rv-item"><button type="button" class="cart-rv-link" onclick="openProductPage(${p.id})" title="Виж продукта"><div class="cart-rv-emoji">${escHtml(p.emoji || '')}</div><div class="cart-rv-info"><div class="cart-rv-name">${escHtml(p.name.length > 28 ? p.name.substring(0, 28) + '…' : p.name)}</div><div class="cart-rv-price">${fmtEur(p.price)}</div></div></button><button type="button" class="cart-rv-add" onclick="addToCart(${p.id})" title="Добави">+</button></div>`).join('')}</div></div>`;
+      html += `<div class="cart-rv-section"><div class="cart-rv-title">Забрави ли нещо?</div><div class="cart-rv-list">${rvItems.map(p => `<div class="cart-rv-item"><button type="button" class="cart-rv-link" onclick="openProductPage(${p.id})" title="Виж продукта"><div class="cart-rv-emoji">${_prodThumb(p, 36)}</div><div class="cart-rv-info"><div class="cart-rv-name">${escHtml(p.name.length > 28 ? p.name.substring(0, 28) + '…' : p.name)}</div><div class="cart-rv-price">${fmtEur(p.price)}</div></div></button><button type="button" class="cart-rv-add" onclick="addToCart(${p.id})" title="Добави">+</button></div>`).join('')}</div></div>`;
     }
   } catch (e) { }
   body.innerHTML = html;

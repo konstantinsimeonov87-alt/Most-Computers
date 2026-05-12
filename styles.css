@@ -2864,17 +2864,22 @@
  }
 
  .ci-emoji-btn {
-   font-size: 30px;
+   width: 48px;
+   height: 48px;
    flex-shrink: 0;
-   background: none;
-   border: none;
+   background: var(--bg2);
+   border: 1px solid var(--border-light);
    cursor: pointer;
    padding: 2px;
    border-radius: 8px;
    line-height: 1;
+   display: flex;
+   align-items: center;
+   justify-content: center;
    transition: transform 0.15s;
+   overflow: hidden;
  }
- .ci-emoji-btn:hover { transform: scale(1.12); }
+ .ci-emoji-btn:hover { transform: scale(1.06); }
 
  .ci-details {
    flex: 1;
@@ -15680,7 +15685,7 @@ textarea:focus-visible {
 .cart-rv-item { display: flex; align-items: center; gap: 10px; padding: 7px 10px; background: var(--bg2); border-radius: 9px; }
 .cart-rv-link { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; background: none; border: none; padding: 0; cursor: pointer; text-align: left; }
 .cart-rv-link:hover .cart-rv-name { color: var(--primary); }
-.cart-rv-emoji { font-size: 22px; flex-shrink: 0; }
+.cart-rv-emoji { width: 36px; height: 36px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; overflow: hidden; background: var(--bg); border-radius: 6px; }
 .cart-rv-info { flex: 1; min-width: 0; }
 .cart-rv-name { font-size: 12px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .cart-rv-price { font-size: 11px; color: var(--primary); font-weight: 700; margin-top: 1px; }

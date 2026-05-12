@@ -290,7 +290,7 @@ const megaCategories = [
   { cat:'software',    icon:'<svg width="32" height="32" class="svg-ic" aria-hidden="true"><use href="#ic-tag"/></svg>', name:'Софтуер' },
   { cat:'accessories', icon:'<svg width="32" height="32" class="svg-ic" aria-hidden="true"><use href="#ic-truck"/></svg>', name:'Аксесоари' },
 ];
-const megaBrands = ['Intel', 'ASUS', 'Acer', 'Microsoft', 'Lenovo', 'Gigabyte', 'LG', 'HP', 'ADATA', 'Sapphire', 'Tenda', 'Kingston', 'Seagate', 'AMD', 'Seasonic', 'ASRock', 'Repotec', 'Realme', 'MSI', 'Tuncmatik', 'Palit', 'Nokia', 'Dynac', 'Cooler Master', 'Fractal', 'NZXT', 'Canon', 'Fnatic', 'GeIL', 'FSP Group', 'Omega', 'Inform UPS', 'QNAP', 'D-Link', 'AV Tech', 'HyperX', 'Anker'];
+const megaBrands = ['Intel', 'ASUS', 'Acer', 'Microsoft', 'Lenovo', 'Gigabyte', 'LG', 'ADATA', 'Sapphire', 'Tenda', 'Kingston', 'Seagate', 'AMD', 'Seasonic', 'ASRock', 'Repotec', 'Realme', 'MSI', 'Tuncmatik', 'Palit', 'Nokia', 'Cooler Master', 'Fractal', 'NZXT', 'Canon', 'Fnatic', 'FSP Group', 'Omega', 'Inform UPS', 'QNAP', 'D-Link', 'A4Tech', 'Logitech', 'TeamGroup', 'KingSpec', 'Kingston'];
 
 const _compSubcats = [
   { id:'cpu',         label:'💻 Процесори' },
@@ -554,6 +554,61 @@ function initScrollAnimations() {
 }
 
 
+
+// ── Overlay search bars (catPage + megamenu topbars) ────────────────────────
+// Single handler for all .overlay-search-input elements.
+// Mobile: icon toggles the bar open/closed. Desktop: bar always visible.
+(function () {
+  function initOverlaySearch(wrap) {
+    var iconBtn = wrap.querySelector('.overlay-search-icon-btn');
+    var bar = wrap.querySelector('.overlay-search-bar');
+    var input = wrap.querySelector('.overlay-search-input');
+    var clearBtn = wrap.querySelector('.overlay-search-clear');
+    if (!input) return;
+
+    // Mobile toggle
+    if (iconBtn) {
+      iconBtn.addEventListener('click', function () {
+        var isOpen = bar.classList.toggle('open');
+        iconBtn.setAttribute('aria-expanded', isOpen);
+        if (isOpen) { input.focus(); }
+      });
+    }
+
+    var debounce;
+    input.addEventListener('input', function () {
+      var q = input.value.trim();
+      clearBtn.style.display = q ? '' : 'none';
+      clearTimeout(debounce);
+      if (q.length >= 2) {
+        debounce = setTimeout(function () {
+          if (typeof showSearchResultsPage === 'function') showSearchResultsPage(q);
+        }, 320);
+      }
+    });
+
+    input.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') {
+        var q = input.value.trim();
+        if (q && typeof showSearchResultsPage === 'function') showSearchResultsPage(q);
+      }
+      if (e.key === 'Escape') {
+        input.value = '';
+        clearBtn.style.display = 'none';
+        bar.classList.remove('open');
+        if (iconBtn) iconBtn.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    clearBtn.addEventListener('click', function () {
+      input.value = '';
+      clearBtn.style.display = 'none';
+      input.focus();
+    });
+  }
+
+  document.querySelectorAll('.overlay-search-wrap').forEach(initOverlaySearch);
+}());
 
 // ===== RECENTLY VIEWED =====
 let recentlyViewed = [];
@@ -1339,19 +1394,19 @@ const SUBCATS = {
 // Mega-menu flyout data: category → columns → items
 const MEGA_MENU = {
   phones: [
-    { title: 'Смартфони', id: 'smartphone', items: ['Apple iPhone', 'Samsung Galaxy', 'Google Pixel', 'Xiaomi'] },
-    { title: 'Таблети', id: 'tablet', items: ['Apple iPad', 'Samsung Galaxy Tab', 'Android таблети'] },
-    { title: 'Смарт часовници', id: 'smartwatch', items: ['Apple Watch', 'Samsung Galaxy Watch', 'Garmin', 'Fitbit'] },
+    { title: 'Смартфони', id: 'smartphone', items: ['Nokia', 'Realme', 'Xiaomi', 'Samsung'] },
+    { title: 'Таблети', id: 'tablet', items: ['Lenovo таблети', 'Android таблети'] },
+    { title: 'Смарт часовници', id: 'smartwatch', items: ['Nokia', 'Realme', 'Xiaomi'] },
   ],
   laptops: [
     { title: 'По предназначение', id: 'work', items: ['За работа', 'За гейминг', 'Ултрабуци', 'Workstation'] },
-    { title: 'По марка', id: 'ultrabook', items: ['Apple MacBook', 'Dell XPS', 'ASUS ROG', 'Lenovo ThinkPad', 'HP EliteBook'] },
+    { title: 'По марка', id: 'ultrabook', items: ['ASUS ZenBook', 'Lenovo ThinkPad', 'Lenovo IdeaPad', 'MSI Prestige', 'Acer Swift'] },
     { title: 'По бюджет', id: 'budget', items: ['До 500 €', '500–800 €', '800–1500 €', '1500 €+'] },
     { title: 'Use-case', id: 'for_students', items: ['За студенти', 'За програмисти', 'За дизайнери', 'За игри'] },
   ],
   desktops: [
-    { title: 'Офис и Workstation', id: 'office_pc', items: ['Офис компютри', 'Workstation', 'Mac Mini / iMac', 'All-in-One'] },
-    { title: 'По марка', id: 'mac_desktop', items: ['Apple', 'ASUS', 'Dell', 'HP', 'Lenovo'] },
+    { title: 'Офис и Workstation', id: 'office_pc', items: ['Офис компютри', 'Workstation', 'All-in-One'] },
+    { title: 'По марка', id: 'mac_desktop', items: ['ASUS', 'MSI', 'Lenovo', 'Acer'] },
   ],
   gaming: [
     { title: 'Геймърски лаптопи', id: 'gaming_laptop_s', items: ['ASUS ROG', 'Razer Blade', 'MSI Titan', 'Lenovo Legion'] },

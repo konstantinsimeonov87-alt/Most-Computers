@@ -3525,7 +3525,7 @@ const blogPosts = [
     date: '07 Март 2026', dateISO: '2026-03-07', read: '5 мин', author: 'Most Computers',
     summary: 'Тествахме новия MacBook Pro M4 Pro в реални условия — видео монтаж, код и gaming. Ето резултатите.',
     metaDesc: 'MacBook Pro M4 Pro ревю — производителност, батерия, дисплей. Струва ли си цената? Тест в реални условия от Most Computers.',
-    tags: ['MacBook', 'Apple', 'лаптопи', 'ревю'],
+    tags: ['MacBook', 'лаптопи', 'ревю'],
     body: `<h2>Дизайн и конструкция</h2>
 <p>MacBook Pro M4 Pro запазва емблематичния алуминиев корпус в Space Black. При 14-инчовия модел тежи 1.55 кг — незначително повече от M3, но усещането за качество е на ниво. Notch-ът е намален с 20% спрямо предишното поколение.</p>
 <h2>Производителност — M4 Pro чип</h2>
@@ -3561,21 +3561,21 @@ const blogPosts = [
     slug: 'top-5-bejichni-slushalki-2026',
     emoji: '🎧', cat: 'Топ 5', title: 'Най-добри безжични слушалки за 2026',
     date: '28 Февруари 2026', dateISO: '2026-02-28', read: '4 мин', author: 'Most Computers',
-    summary: 'Sony, Bose, Apple — кои слушалки дават най-добро качество за парите си?',
-    metaDesc: 'Топ 5 безжични слушалки за 2026 — Sony WH-1000XM6, Bose QC45, Apple AirPods Max. Коя да избереш?',
-    tags: ['слушалки', 'Sony', 'Bose', 'Apple', 'топ 5'],
+    summary: 'Sony, Bose, ANC технология — кои слушалки дават най-добро качество за парите си?',
+    metaDesc: 'Топ 5 безжични слушалки за 2026 — Sony WH-1000XM6, Bose QC45, Jabra. Коя да избереш?',
+    tags: ['слушалки', 'аудио', 'топ 5'],
     body: `<h2>1. Sony WH-1000XM6 — Най-добро шумопотискане</h2>
 <p>Sony продължава да доминира в сегмента на ANC слушалките. XM6 предлага 40 ч. автономия, Multipoint свързване с 2 устройства и подобрен процесор V2 за по-прецизно шумопотискане. Звукът е наситен и детайлен, особено при Hi-Res Wireless с LDAC кодек.</p>
 <h2>2. Bose QuietComfort Ultra</h2>
 <p>Bose е поставил акцент върху Immersive Audio — пространствен звук, който се адаптира спрямо движенията на главата. Ако пътуваш много и шумопотискането е приоритет, QC Ultra е равностоен конкурент на Sony.</p>
-<h2>3. Apple AirPods Max (2025)</h2>
-<p>С новия USB-C порт и актуализирани H2 чипове, AirPods Max вече имат смисъл за iOS потребителите. Интеграцията с Apple екосистемата е безупречна — автоматично превключване между iPhone, iPad и Mac за секунди.</p>
-<h2>4. Jabra Evolve2 85 — За офиса</h2>
+<h2>3. Jabra Evolve2 85 — За офиса</h2>
 <p>Ако работиш в open space, Jabra предлага 8-микрофонен array за кристални обаждания, 37 ч. батерия и сертификация за Microsoft Teams. Звукът е малко по-неутрален от Sony, но за видеоконференции е идеален.</p>
-<h2>5. Sennheiser Momentum 4</h2>
+<h2>4. Sennheiser Momentum 4</h2>
 <p>Германска инженерия, 60 ч. батерия и естествен звук без прекомерна обработка. Momentum 4 е изборът на аудиофилите с бюджет под 350 €.</p>
+<h2>5. Logitech Zone Vibe 130 — Бюджетен избор</h2>
+<p>Лека безжична слушалка с 22 ч. батерия, вграден микрофон и Teams/Zoom сертификация. За под 100 € е трудно да се намери по-добър офис вариант.</p>
 <h2>Заключение</h2>
-<p>За повечето хора — <strong>Sony WH-1000XM6</strong>. За Apple потребители — <strong>AirPods Max</strong>. За офис употреба — <strong>Jabra Evolve2 85</strong>.</p>`
+<p>За повечето хора — <strong>Sony WH-1000XM6</strong>. За офис употреба — <strong>Jabra Evolve2 85</strong>. На бюджет — <strong>Logitech Zone Vibe 130</strong>.</p>`
   },
   {
     slug: 'kak-da-izberem-monitor-rabota-vkashti',
@@ -3599,7 +3599,7 @@ const blogPosts = [
 <h2>Препоръки по бюджет</h2>
 <ul>
 <li><strong>до 200 €</strong> — LG 27MN60T (IPS, 1080p, 75Hz)</li>
-<li><strong>до 350 €</strong> — Dell U2722D (IPS, 1440p, USB-C 90W)</li>
+<li><strong>до 350 €</strong> — LG 27QN850-B (IPS, 1440p, USB-C 60W)</li>
 <li><strong>до 600 €</strong> — LG 27UK850 (IPS, 4K, USB-C)</li>
 <li><strong>без ограничение</strong> — ASUS ProArt PA329CRV (4K OLED, 144Hz)</li>
 </ul>`
@@ -3661,7 +3661,7 @@ const reviewPosts = [
   { emoji:'⭐', title:'Sony WH-1000XM6 — 9.4/10', sub:'Най-добрите ANC слушалки на пазара' },
   { emoji:'⭐', title:'ASUS ROG Zephyrus G16 — 9.1/10', sub:'Мощ и стил в тънко тяло' },
   { emoji:'⭐', title:'Samsung S95C OLED — 9.6/10', sub:'Безкомпромисен телевизор' },
-  { emoji:'⭐', title:'iPad Pro M4 — 8.8/10', sub:'Лаптоп в тялото на таблет' },
+  { emoji:'⭐', title:'Lenovo LOQ 15 RTX 4050 — 8.7/10', sub:'Най-добрият геймърски лаптоп за парите' },
 ];
 
 function openBlogPage() {

@@ -1,17 +1,12 @@
-// Most Computers — Service Worker 593b296a
-// Most Computers — Service Worker 4271eba
-const CACHE = 'mc-593b296a';
-=======
-// Most Computers — Service Worker 49caff49
-const CACHE = 'mc-1d63def';
->>>>>>> c54ba61 (fix(images): remove promotional/corrupt product images and add runtime filter)
+// Most Computers — Service Worker 1ea498ff
+const CACHE = 'mc-1ea498ff';
 const PRECACHE = [
   './',
   './index.html',
   './styles.css',
   './products.js',
   './app.js',
-  './js/data.js',
+  './data.js',
 ];
 
 // Install — precache shell

@@ -733,6 +733,12 @@ function updateCompareBar(){
   if(preview) preview.innerHTML=html;
 }
 
+function _cmpThumb(p, size) {
+  const safeImg = p.img && (typeof isSafeImgUrl === 'function' ? isSafeImgUrl(p.img) : true) ? p.img : null;
+  if (!safeImg) return `<span style="font-size:${Math.round(size*0.65)}px;display:block;margin-bottom:6px;">${p.emoji||''}</span>`;
+  return `<img src="${safeImg}" alt="" width="${size}" height="${size}" loading="lazy" style="width:${size}px;height:${size}px;object-fit:contain;border-radius:6px;display:block;margin:0 auto 6px;" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span style="font-size:${Math.round(size*0.65)}px;display:none;margin-bottom:6px;">${p.emoji||''}</span>`;
+}
+
 function openComparePage(){
   if(compareList.length<2){showToast('Избери поне 2 продукта за сравнение!');return;}
   const prods=compareList.map(id=>products.find(x=>x.id===id)).filter(Boolean);
@@ -741,7 +747,7 @@ function openComparePage(){
   const minP=Math.min(...prods.map(p=>p.price)),maxR=Math.max(...prods.map(p=>p.rating));
   let html=`<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;font-size:13px;">`;
   html+=`<thead><tr><th style="text-align:left;padding:12px;background:var(--bg2);border-radius:8px 0 0 0;">Продукт</th>`;
-  prods.forEach(p=>html+=`<td style="padding:16px;text-align:center;background:var(--bg2);border-left:1px solid var(--border);"><span style="font-size:36px;display:block;margin-bottom:8px;">${p.emoji}</span><div style="font-weight:800;font-size:14px;margin-bottom:4px;">${p.name}</div><div style="font-size:18px;font-weight:900;color:var(--primary);">${fmtEur(p.price)}</div><div style="font-size:11px;color:var(--muted);">${fmtBgn(p.price)}</div><button type="button" onclick="addToCart(${p.id})" style="margin-top:10px;background:var(--primary);color:#fff;border:none;border-radius:8px;padding:8px 16px;font-size:12px;font-weight:700;cursor:pointer;">🛒 Добави</button></td>`);
+  prods.forEach(p=>html+=`<td style="padding:16px;text-align:center;background:var(--bg2);border-left:1px solid var(--border);">${_cmpThumb(p,64)}<div style="font-weight:800;font-size:14px;margin-bottom:4px;">${p.name}</div><div style="font-size:18px;font-weight:900;color:var(--primary);">${fmtEur(p.price)}</div><div style="font-size:11px;color:var(--muted);">${fmtBgn(p.price)}</div><button type="button" onclick="addToCart(${p.id})" style="margin-top:10px;background:var(--primary);color:#fff;border:none;border-radius:8px;padding:8px 16px;font-size:12px;font-weight:700;cursor:pointer;">🛒 Добави</button></td>`);
   html+=`</tr></thead><tbody>`;
   html+=`<tr><th style="text-align:left;padding:10px 12px;background:var(--bg);border-top:1px solid var(--border);">Цена</th>`;
   prods.forEach(p=>html+=`<td style="padding:10px 12px;text-align:center;border-top:1px solid var(--border);border-left:1px solid var(--border);${p.price===minP?'background:var(--primary-light);font-weight:800;color:var(--primary);':''}">${fmtEur(p.price)}</td>`);
@@ -777,7 +783,7 @@ function openCompareModal(){
   }
 
   let html=`<thead><tr><th>Продукт</th>`;
-  prods.forEach(p=>html+=`<td class="cmp-product-header"><span class="cmp-emoji">${p.img?`<img src="${p.img}" alt="" style="width:60px;height:60px;object-fit:contain;" onerror="this.style.display='none'">`:p.emoji}</span><div class="cmp-name">${_esc(p.name)}</div><div class="cmp-price">${fmtEur(p.price)}<span class="text-11-muted-block">${fmtBgn(p.price)}</span></div><button type="button" class="cmp-add-btn" onclick="addToCart(${p.id})">🛒 Добави</button></td>`);
+  prods.forEach(p=>html+=`<td class="cmp-product-header"><span class="cmp-emoji">${_cmpThumb(p,60)}</span><div class="cmp-name">${_esc(p.name)}</div><div class="cmp-price">${fmtEur(p.price)}<span class="text-11-muted-block">${fmtBgn(p.price)}</span></div><button type="button" class="cmp-add-btn" onclick="addToCart(${p.id})">🛒 Добави</button></td>`);
   html+=`</tr></thead><tbody>`;
   // Price row — lowest is best
   const priceDiff=_isDiff(prods.map(p=>p.price));

@@ -52,6 +52,7 @@ const APP_SOURCES = [
   'js/currency.js', 'js/cards.js', 'js/ui.js',
   'js/recently-viewed.js', 'js/filters.js', 'js/seo.js',
   'js/actions.js', 'js/auth.js', 'js/order-tracker.js',
+  'js/lazy-proxy.js',
   'js/main.js',
 ];
 

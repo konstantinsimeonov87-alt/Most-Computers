@@ -4759,4 +4759,6 @@ function closeAdminPage() {
     var el = document.getElementById('recentlyDiscountedGrid');
     if (el) renderRecentlyDiscounted();
   }
+  // Replay any calls that arrived before lazy bundle finished loading
+  if (typeof _drainLazyQueue === 'function') _drainLazyQueue();
 }());

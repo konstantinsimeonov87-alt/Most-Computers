@@ -1985,7 +1985,9 @@ function readURLParams() {
   }
 }
 
-// URL + skeleton + carousel hooks — using var to avoid redeclaration
+// URL hooks for critical-bundle functions (applyFilter, applySort, applyAdvFilters).
+// Patches for openProductModal / closeProductModalDirect are in lazy-init.js because
+// those functions live in the lazy bundle (gallery.js).
 var _urlHooked = false;
 if (!_urlHooked) {
   _urlHooked = true;
@@ -1998,30 +2000,6 @@ if (!_urlHooked) {
 
   var _baseApplyAdvFilters = applyAdvFilters;
   applyAdvFilters = function() { _baseApplyAdvFilters(); updateURL(); };
-
-  var _baseOpenProductModal = openProductModal;
-  openProductModal = function(id) {
-    _baseOpenProductModal(id);
-    renderRelated(id);
-    renderAlsoBought(id);
-    updatePdpShipBar();
-    updateURL();
-    document.dispatchEvent(new CustomEvent('mc:productopen', {detail: id}));
-  };
-
-  var _baseCloseProductModalDirect = closeProductModalDirect;
-  closeProductModalDirect = function() {
-    _baseCloseProductModalDirect();
-    // Keep body locked if cat-page or pdp still open
-    if (document.getElementById('catPage')?.classList.contains('open') ||
-        document.getElementById('pdpBackdrop')?.classList.contains('open')) {
-      document.body.style.overflow = 'hidden';
-    }
-    const params = new URLSearchParams(location.search);
-    params.delete('product');
-    const qs = params.toString();
-    history.replaceState(null, '', qs ? `${location.pathname}?${qs}` : location.pathname);
-  };
 }
 
 

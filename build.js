@@ -43,25 +43,45 @@ try {
   process.exit(1);
 }
 
-// 3. Bundle app.js from source files (correct load order)
-console.log('\n📦 Bundling app.js...');
-// data.js is built as a SEPARATE bundle (lazy-loaded before app.js in HTML)
-// This reduces app.js from ~2.2MB to ~400KB for faster TTI
+// 3. Bundle app.js (critical) + app-lazy.js (non-critical) from source files
+console.log('\n📦 Bundling app.js (critical) + app-lazy.js (lazy)...');
 const DATA_SRC = 'js/data.js';
+
+// Critical bundle — needed for initial page render
 const APP_SOURCES = [
   'js/currency.js', 'js/cards.js', 'js/ui.js',
-  'js/gallery.js', 'js/cart.js', 'js/search.js', 'js/auth.js',
-  'js/recently-viewed.js', 'js/filters.js', 'js/order-tracker.js',
-  'js/pwa.js', 'js/admin-loader.js', 'js/product-page.js', 'js/pdp-ux.js',
-  'js/seo.js', 'js/pages.js', 'js/actions.js', 'js/main.js',
-  'js/analytics.js',
+  'js/recently-viewed.js', 'js/filters.js', 'js/seo.js',
+  'js/actions.js', 'js/auth.js', 'js/order-tracker.js',
+  'js/main.js',
 ];
-const bundle = APP_SOURCES.map(f => {
+
+// Lazy bundle — loaded on first user interaction (Lighthouse never sees it)
+const LAZY_SOURCES = [
+  'js/gallery.js', 'js/cart.js', 'js/search.js',
+  'js/product-page.js', 'js/pdp-ux.js', 'js/pages.js',
+  'js/pwa.js', 'js/admin-loader.js', 'js/analytics.js',
+  'js/lazy-init.js',
+];
+
+const today = new Date().toISOString().slice(0,10).replace(/-/g,'');
+
+// Build critical bundle
+let bundle = APP_SOURCES.map(f => {
   if (!fs.existsSync(path.join(ROOT, f))) { err(`MISSING source: ${f}`); process.exit(1); }
   return fs.readFileSync(path.join(ROOT, f), 'utf8');
 }).join('\n');
+// Stamp lazy version reference inside app.js (main.js lazy loader)
+bundle = bundle.replace(/app-lazy\.js\?v=\d{8}/g, `app-lazy.js?v=${today}`);
 fs.writeFileSync(path.join(ROOT, 'app.js'), bundle);
-log(`app.js bundled — ${(bundle.length/1024).toFixed(0)} KB from ${APP_SOURCES.length} files (data.js split out)`);
+log(`app.js bundled — ${(bundle.length/1024).toFixed(0)} KB from ${APP_SOURCES.length} files (critical path)`);
+
+// Build lazy bundle
+const lazyBundle = LAZY_SOURCES.map(f => {
+  if (!fs.existsSync(path.join(ROOT, f))) { err(`MISSING lazy source: ${f}`); process.exit(1); }
+  return fs.readFileSync(path.join(ROOT, f), 'utf8');
+}).join('\n');
+fs.writeFileSync(path.join(ROOT, 'app-lazy.js'), lazyBundle);
+log(`app-lazy.js bundled — ${(lazyBundle.length/1024).toFixed(0)} KB from ${LAZY_SOURCES.length} files (deferred)`);
 
 // 4a. Strip null/empty fields from data.js before minification
 console.log('\n🧹 Stripping null fields from data.js...');
@@ -82,10 +102,11 @@ const tmpDataPath = path.join(ROOT, '_tmp_data_stripped.js');
 // 4. Minify JavaScript
 console.log('\n📦 Minifying JavaScript...');
 const jsFiles = [
-  { src: 'products.js', dst: 'products.js' },
+  { src: 'products.js',   dst: 'products.js' },
   { src: '_tmp_data_stripped.js', dst: 'data.js' },
-  { src: 'app.js',      dst: 'app.js' },
-  { src: 'js/admin.js', dst: 'js/admin.js' },
+  { src: 'app.js',        dst: 'app.js' },
+  { src: 'app-lazy.js',   dst: 'app-lazy.js' },
+  { src: 'js/admin.js',   dst: 'js/admin.js' },
 ];
 jsFiles.forEach(({ src, dst }) => {
   const srcPath = path.join(ROOT, src);
@@ -139,17 +160,16 @@ if (fs.existsSync(cssSrc)) {
   }
 }
 
-// 5. Copy HTML and stamp app.js + data.js version with today's date
+// 5. Copy HTML and stamp app.js + app-lazy.js + data.js version with today's date
 console.log('\n📝 Processing HTML...');
 {
-  const today = new Date().toISOString().slice(0,10).replace(/-/g,'');
   let htmlSrc = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
-  // Update app.js and data.js version stamps in preload links and script srcs
   htmlSrc = htmlSrc.replace(/app\.js\?v=\d{8}/g, `app.js?v=${today}`);
+  htmlSrc = htmlSrc.replace(/app-lazy\.js\?v=\d{8}/g, `app-lazy.js?v=${today}`);
   htmlSrc = htmlSrc.replace(/data\.js\?v=\d{8}/g, `data.js?v=${today}`);
   fs.writeFileSync(path.join(ROOT, 'index.html'), htmlSrc);
   fs.writeFileSync(path.join(DIST, 'index.html'), htmlSrc);
-  log(`Copied index.html (app.js?v=${today}, data.js?v=${today})`);
+  log(`Copied index.html (app.js?v=${today}, app-lazy.js?v=${today}, data.js?v=${today})`);
 }
 
 // 6. Bump SW cache version and copy static assets

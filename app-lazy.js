@@ -1,0 +1,4762 @@
+// ===== XSS ESCAPE HELPER =====
+function _esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+// ===== GALLERY STATE =====
+let galleryImages = [], galleryIdx = 0;
+
+function getProductImages(p) {
+  const imgs = [];
+  const seen = new Set();
+
+  // Use gallery[] array if present (from XML import), else fall back to img
+  const sources = (Array.isArray(p.gallery) && p.gallery.length)
+    ? p.gallery
+    : (p.img ? [p.img] : []);
+
+  sources.forEach((src, i) => {
+    if (src && !seen.has(src)) {
+      seen.add(src);
+      imgs.push({ src, label: i === 0 ? 'Основна' : `Изглед ${i + 1}` });
+    }
+  });
+
+  // Always add emoji fallback as last "image"
+  imgs.push({ src: null, emoji: p.emoji, label: 'Икона' });
+  return imgs;
+}
+
+function renderGallery(p, idx=0) {
+  galleryImages = getProductImages(p);
+  galleryIdx = Math.min(idx, galleryImages.length - 1);
+  const imgEl = document.getElementById('modalImg');
+  const emojiEl = document.getElementById('modalEmoji');
+  const thumbsEl = document.getElementById('modalThumbs');
+  const cur = galleryImages[galleryIdx];
+
+  // Show/hide nav arrows
+  const prev = document.getElementById('modalNavPrev');
+  const next = document.getElementById('modalNavNext');
+  if (prev) prev.style.display = galleryImages.length > 1 ? '' : 'none';
+  if (next) next.style.display = galleryImages.length > 1 ? '' : 'none';
+
+  // Main image
+  if (cur.src) {
+    imgEl.style.display = 'block'; emojiEl.style.display = 'none';
+    imgEl.src = cur.src; imgEl.alt = p.name;
+    imgEl.classList.add('img-loaded');
+    imgEl.onerror = () => {
+      imgEl.style.display='none'; emojiEl.style.display='block';
+      emojiEl.textContent = p.emoji;
+      // Remove this thumb from gallery
+      galleryImages[galleryIdx] = { src:null, emoji:p.emoji, label:'Икона' };
+      renderThumbs(p);
+    };
+  } else {
+    imgEl.style.display = 'none'; emojiEl.style.display = 'block';
+    emojiEl.textContent = cur.emoji || p.emoji;
+  }
+  renderThumbs(p);
+}
+
+function renderThumbs(p) {
+  const thumbsEl = document.getElementById('modalThumbs');
+  if (!thumbsEl || galleryImages.length <= 1) { if(thumbsEl) thumbsEl.innerHTML=''; return; }
+  thumbsEl.innerHTML = galleryImages.map((img, i) =>
+    `<div class="modal-thumb ${i===galleryIdx?'active':''}" onclick="switchGalleryImg(${i})">
+      ${img.src
+        ? `<img src="${img.src}" alt="${p.name}" onerror="this.parentElement.style.display='none'">`
+        : `<span class="modal-thumb-emoji">${img.emoji||p.emoji}</span>`}
+    </div>`
+  ).join('');
+}
+
+function switchGalleryImg(idx) {
+  const p = products.find(x=>x.id===modalProductId); if(!p) return;
+  const imgEl = document.getElementById('modalImg');
+  imgEl.classList.add('fading');
+  setTimeout(() => {
+    galleryIdx = idx;
+    renderGallery(p, idx);
+    imgEl.classList.remove('fading');
+  }, 200);
+}
+
+function galleryNav(dir) {
+  const total = galleryImages.length;
+  if (!total) return;
+  switchGalleryImg((galleryIdx + dir + total) % total);
+}
+
+function openProductModal(id){
+  const p=products.find(x=>x.id===id);if(!p)return;
+  modalProductId=id;modalQtyVal=1;
+
+  // Track recently viewed
+  addToRecentlyViewed(id);
+
+  // Gallery
+  renderGallery(p, 0);
+
+  document.getElementById('modalBrand').textContent=p.brand;
+  document.getElementById('modalName').textContent=p.name;
+  document.getElementById('modalStars').textContent=starsHTML(p.rating);
+  document.getElementById('modalRv').textContent=`${p.rating} (${p.rv} ревюта)`;
+  const pe=document.getElementById('modalPrice');
+  pe.innerHTML=fmtPrice(p.price, p.badge==='sale'?'sale':'');
+  pe.className='modal-price'+(p.badge==='sale'?' sale':'');
+  const oe=document.getElementById('modalOld'),se=document.getElementById('modalSave');
+  if(p.old){oe.textContent=fmtEur(p.old)+' / '+fmtBgn(p.old);se.textContent='-'+Math.round((p.old-p.price)/p.old*100)+'%';se.style.display='';}else{oe.textContent='';se.style.display='none';}
+  document.getElementById('modalMonthly').innerHTML='';
+  document.getElementById('modalQty').textContent='1';
+  document.getElementById('modalSpecs').innerHTML=Object.keys(p.specs||{}).slice(0,4).map(k=>`<div class="spec-chip"><div class="spec-chip-key">${_esc(k)}</div><div class="spec-chip-val">${_esc(p.specs[k])}</div></div>`).join('');
+  let b='';if(p.badge==='sale')b+='<span class="badge badge-sale">Промо</span>';if(p.badge==='new')b+='<span class="badge badge-new">Ново</span>';if(p.badge==='hot')b+='<span class="badge badge-hot">Горещо</span>';
+  document.getElementById('modalBadges').innerHTML=b;
+  document.getElementById('modalDesc').textContent=p.desc;
+  var _el_modalSpecsFull=document.getElementById('modalSpecsFull'); if(_el_modalSpecsFull) _el_modalSpecsFull.innerHTML =
+    `<div class="spec-chip"><div class="spec-chip-key">SKU</div><div class="spec-chip-val mono-12">${_esc(p.sku)}</div></div>` +
+    `<div class="spec-chip"><div class="spec-chip-key">EAN</div><div class="spec-chip-val mono-12">${_esc(p.ean)}</div></div>` +
+    Object.entries(p.specs||{}).map(([k,v])=>`<div class="spec-chip"><div class="spec-chip-key">${_esc(k)}</div><div class="spec-chip-val">${_esc(v)}</div></div>`).join('');
+  document.getElementById('modalReviews').innerHTML=(p.reviews||[]).map(r=>`<div class="review-item"><div class="review-header"><span class="review-name">${_esc(r.name)}</span><span class="review-stars">${starsHTML(r.stars)}</span><span class="review-date">${_esc(r.date)}</span></div><div class="review-text">${_esc(r.text)}</div></div>`).join('');
+  switchTab('desc');
+  document.getElementById('productModalBackdrop').classList.add('open');document.body.style.overflow='hidden';
+}
+function closeProductModal(e){if(e.target===e.currentTarget)closeProductModalDirect();}
+function closeProductModalDirect(){
+  document.getElementById('productModalBackdrop').classList.remove('open');
+  document.body.style.overflow='';
+  // Restore title if no category page is open
+  if (!document.getElementById('catPage')?.classList.contains('open') && !document.getElementById('pdpBackdrop')?.classList.contains('open')) {
+    document.title = 'Most Computers — Техника и Електроника';
+  }
+}
+function switchTab(tab){
+  document.querySelectorAll('.modal-tab').forEach((t,i)=>t.classList.toggle('active',['desc','specs','reviews'][i]===tab));
+  document.querySelectorAll('.modal-tab-content').forEach(c=>c.classList.remove('active'));
+  document.getElementById('tab-'+tab).classList.add('active');
+}
+function changeModalQty(d){modalQtyVal=Math.max(1,modalQtyVal+d);document.getElementById('modalQty').textContent=modalQtyVal;}
+function addFromModal(){
+  if(!modalProductId)return;const p=products.find(x=>x.id===modalProductId);if(!p)return;
+  const ex=cart.find(x=>x.id===modalProductId);if(ex){ex.qty+=modalQtyVal;}else{cart.push({...p,qty:modalQtyVal});}
+  updateCart();const btn=document.getElementById('modalAddBtn');
+  btn.innerHTML='✓ Добавен!';btn.style.background='var(--new)';
+  setTimeout(()=>{btn.innerHTML='🛒 Добави в кошница';btn.style.background='';},2000);
+  showToast(`✓ ${p.name.substring(0,32)}... добавен!`);
+}
+
+// COMPARE
+function toggleCompare(id,checked){
+  if(checked){
+    const p = products.find(x=>x.id===id);
+    if(compareList.length>0){
+      const firstCat = products.find(x=>x.id===compareList[0])?.cat;
+      if(p.cat !== firstCat){ showToast('⚠️ Можеш да сравняваш само продукти от една и съща категория!'); return; }
+    }
+    if(compareList.length>=3){showToast('Максимум 3 продукта за сравнение!');return;}
+    if(!compareList.includes(id))compareList.push(id);
+  }
+  else{compareList=compareList.filter(x=>x!==id);}
+  // Update button visual state
+  const btn=document.getElementById('cmp-btn-'+id);
+  if(btn) btn.style.background=compareList.includes(id)?'var(--primary-light)':'var(--bg)';
+  updateCompareBar();
+}
+function updateCompareBar(){
+  const bar=document.getElementById('compareBar');
+  const preview=document.getElementById('comparePreview');
+  const cnt=document.getElementById('compareCnt');
+  if(compareList.length===0){bar.classList.remove('visible');return;}
+  bar.classList.add('visible');
+  if(cnt) cnt.textContent=compareList.length;
+  let html='';
+  for(let i=0;i<3;i++){
+    if(i<compareList.length){const p=products.find(x=>x.id===compareList[i]);if(!p){compareList.splice(i,1);updateCompareBar();return;}html+=`<div class="compare-slot filled"><span class="compare-slot-emoji">${p.emoji}</span><span class="compare-slot-name">${p.name.length>22?p.name.slice(0,22)+'…':p.name}</span><button type="button" class="compare-slot-remove" onclick="removeCompare(${p.id})">×</button></div>`;}
+    else html+=`<div class="compare-slot"><span style="color:rgba(255,255,255,0.4);font-size:11px;">+ Добави продукт</span></div>`;
+  }
+  if(preview) preview.innerHTML=html;
+}
+
+function _cmpThumb(p, size) {
+  const safeImg = p.img && (typeof isSafeImgUrl === 'function' ? isSafeImgUrl(p.img) : true) ? p.img : null;
+  if (!safeImg) return `<span style="font-size:${Math.round(size*0.65)}px;display:block;margin-bottom:6px;">${p.emoji||''}</span>`;
+  return `<img src="${safeImg}" alt="" width="${size}" height="${size}" loading="lazy" style="width:${size}px;height:${size}px;object-fit:contain;border-radius:6px;display:block;margin:0 auto 6px;" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span style="font-size:${Math.round(size*0.65)}px;display:none;margin-bottom:6px;">${p.emoji||''}</span>`;
+}
+
+function openComparePage(){
+  if(compareList.length<2){showToast('Избери поне 2 продукта за сравнение!');return;}
+  const prods=compareList.map(id=>products.find(x=>x.id===id)).filter(Boolean);
+  if(prods.length<2){showToast('Избери поне 2 налични продукта!');return;}
+  const allKeys=[...new Set(prods.flatMap(p=>Object.keys(p.specs||{})))];
+  const minP=Math.min(...prods.map(p=>p.price)),maxR=Math.max(...prods.map(p=>p.rating));
+  let html=`<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;font-size:13px;">`;
+  html+=`<thead><tr><th style="text-align:left;padding:12px;background:var(--bg2);border-radius:8px 0 0 0;">Продукт</th>`;
+  prods.forEach(p=>html+=`<td style="padding:16px;text-align:center;background:var(--bg2);border-left:1px solid var(--border);">${_cmpThumb(p,64)}<div style="font-weight:800;font-size:14px;margin-bottom:4px;">${p.name}</div><div style="font-size:18px;font-weight:900;color:var(--primary);">${fmtEur(p.price)}</div><div style="font-size:11px;color:var(--muted);">${fmtBgn(p.price)}</div><button type="button" onclick="addToCart(${p.id})" style="margin-top:10px;background:var(--primary);color:#fff;border:none;border-radius:8px;padding:8px 16px;font-size:12px;font-weight:700;cursor:pointer;">🛒 Добави</button></td>`);
+  html+=`</tr></thead><tbody>`;
+  html+=`<tr><th style="text-align:left;padding:10px 12px;background:var(--bg);border-top:1px solid var(--border);">Цена</th>`;
+  prods.forEach(p=>html+=`<td style="padding:10px 12px;text-align:center;border-top:1px solid var(--border);border-left:1px solid var(--border);${p.price===minP?'background:var(--primary-light);font-weight:800;color:var(--primary);':''}">${fmtEur(p.price)}</td>`);
+  html+=`</tr><tr><th style="text-align:left;padding:10px 12px;background:var(--bg);border-top:1px solid var(--border);">Рейтинг</th>`;
+  prods.forEach(p=>html+=`<td style="padding:10px 12px;text-align:center;border-top:1px solid var(--border);border-left:1px solid var(--border);${p.rating===maxR?'background:var(--primary-light);font-weight:800;':''}">${starsHTML(p.rating)} ${p.rating}</td>`);
+  html+=`</tr>`;
+  allKeys.forEach(k=>{
+    html+=`<tr><th style="text-align:left;padding:10px 12px;background:var(--bg);border-top:1px solid var(--border);color:var(--muted);font-weight:600;">${k}</th>`;
+    prods.forEach(p=>html+=`<td style="padding:10px 12px;text-align:center;border-top:1px solid var(--border);border-left:1px solid var(--border);">${(p.specs||{})[k]||'—'}</td>`);
+    html+=`</tr>`;
+  });
+  html+=`</tbody></table></div>`;
+  document.getElementById('compareTable').innerHTML=html;
+  document.getElementById('comparePage').style.display='block';
+  document.body.style.overflow='hidden';
+}
+function removeCompare(id){compareList=compareList.filter(x=>x!==id);const btn=document.getElementById('cmp-btn-'+id);if(btn)btn.style.background='var(--bg)';updateCompareBar();}
+function clearCompare(){compareList.forEach(id=>{const btn=document.getElementById('cmp-btn-'+id);if(btn)btn.style.background='var(--bg)';});compareList=[];updateCompareBar();}
+function openCompareModal(){
+  if(compareList.length<2){showToast('Избери поне 2 продукта!');return;}
+  const prods=compareList.map(id=>products.find(x=>x.id===id)).filter(Boolean);
+  if(prods.length<2){showToast('Избери поне 2 налични продукта!');return;}
+  const allKeys=[...new Set(prods.flatMap(p=>Object.keys(p.specs||{})))];
+  const minP=Math.min(...prods.map(p=>p.price)),maxR=Math.max(...prods.map(p=>p.rating));
+
+  // Detect diff rows
+  function _isDiff(vals){ return new Set(vals).size>1; }
+  function _bestNumIdx(vals){
+    const nums=vals.map(v=>parseFloat(String(v).replace(/[^\d.]/g,'')));
+    if(nums.some(isNaN))return -1;
+    const mx=Math.max(...nums);
+    return nums.findIndex(n=>n===mx);
+  }
+
+  let html=`<thead><tr><th>Продукт</th>`;
+  prods.forEach(p=>html+=`<td class="cmp-product-header"><span class="cmp-emoji">${_cmpThumb(p,60)}</span><div class="cmp-name">${_esc(p.name)}</div><div class="cmp-price">${fmtEur(p.price)}<span class="text-11-muted-block">${fmtBgn(p.price)}</span></div><button type="button" class="cmp-add-btn" onclick="addToCart(${p.id})">🛒 Добави</button></td>`);
+  html+=`</tr></thead><tbody>`;
+  // Price row — lowest is best
+  const priceDiff=_isDiff(prods.map(p=>p.price));
+  html+=`<tr class="${priceDiff?'cmp-diff-row':''}"><th>Цена${priceDiff?'<span class="cmp-diff-badge">!</span>':''}</th>`;
+  prods.forEach(p=>html+=`<td class="${p.price===minP?'cmp-best':''}">${fmtEur(p.price)}<span class="text-11-muted-block">${fmtBgn(p.price)}</span></td>`);
+  // Rating row
+  const ratingDiff=_isDiff(prods.map(p=>p.rating));
+  html+=`</tr><tr class="${ratingDiff?'cmp-diff-row':''}"><th>Рейтинг${ratingDiff?'<span class="cmp-diff-badge">!</span>':''}</th>`;
+  prods.forEach(p=>html+=`<td class="${p.rating===maxR?'cmp-best':''}">${starsHTML(p.rating)} ${p.rating}</td>`);
+  html+=`</tr>`;
+
+  // Spec rows
+  let diffCount=0;
+  const specRows=allKeys.map(k=>{
+    const vals=prods.map(p=>String((p.specs||{})[k]||'—'));
+    const diff=_isDiff(vals);
+    if(diff)diffCount++;
+    const bestIdx=diff?_bestNumIdx(vals):-1;
+    let row=`<tr class="${diff?'cmp-diff-row':''}" data-cmp-diff="${diff?'1':'0'}"><th>${_esc(k)}${diff?'<span class="cmp-diff-badge">!</span>':''}</th>`;
+    vals.forEach((v,i)=>{ row+=`<td class="${diff&&i===bestIdx?'cmp-best':''}">${_esc(v)}</td>`; });
+    row+=`</tr>`;
+    return row;
+  });
+  html+=specRows.join('');
+  html+=`</tbody>`;
+
+  document.getElementById('compareTableModal').innerHTML=html;
+
+  // Inject toggle above table
+  const wrap=document.getElementById('compareTableModal').closest('.cmp-modal-body, .compare-modal-body, [class*="cmp"]') || document.getElementById('compareModalBackdrop').querySelector('.cmp-modal-inner, .compare-inner') || document.getElementById('compareModalBackdrop');
+  const tableEl=document.getElementById('compareTableModal');
+  if(tableEl && !tableEl.previousElementSibling?.classList?.contains('cmp-diff-only-toggle')){
+    const tog=document.createElement('label');
+    tog.className='cmp-diff-only-toggle';
+    tog.innerHTML=`<input type="checkbox" id="cmpDiffOnly" onchange="cmpToggleDiffOnly(this.checked)"><span>Покажи само разликите</span><span class="cmp-diff-count">(${diffCount} разлики)</span>`;
+    tableEl.parentNode.insertBefore(tog, tableEl);
+  }
+
+  document.getElementById('compareModalBackdrop').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function cmpToggleDiffOnly(on){
+  document.querySelectorAll('#compareTableModal tr[data-cmp-diff]').forEach(tr=>{
+    tr.style.display=(on && tr.dataset.cmpDiff==='0')?'none':'';
+  });
+}
+window.cmpToggleDiffOnly = cmpToggleDiffOnly;
+function closeCompareModal(e){if(e.target===e.currentTarget)closeCompareModalDirect();}
+function closeCompareModalDirect(){document.getElementById('compareModalBackdrop').classList.remove('open');document.body.style.overflow='';}
+
+// QUICK ORDER
+function openQuickOrder(id){
+  const p=products.find(x=>x.id===id);if(!p)return;
+  quickOrderProductId=id;
+  document.getElementById('qoEmoji').textContent=p.emoji;
+  document.getElementById('qoName').textContent=p.name;
+  document.getElementById('qoPrice').textContent=fmtEur(p.price)+' / '+fmtBgn(p.price);
+  document.getElementById('qoFormWrap').style.display='';
+  document.getElementById('qoSuccess').classList.remove('show');
+  ['qoName2','qoPhone','qoCity','qoAddr','qoNote'].forEach(fid=>{const el=document.getElementById(fid);if(el){el.value='';el.classList.remove('error');}});
+  document.getElementById('quickOrderBackdrop').classList.add('open');document.body.style.overflow='hidden';
+}
+function closeQuickOrder(e){if(e.target===e.currentTarget)closeQuickOrderDirect();}
+function closeQuickOrderDirect(){document.getElementById('quickOrderBackdrop').classList.remove('open');document.body.style.overflow='';}
+function selectDelivery(el){document.querySelectorAll('.qo-delivery-opt').forEach(o=>o.classList.remove('selected'));el.classList.add('selected');}
+function submitQuickOrder(){
+  let ok=true;
+  ['qoName2','qoPhone','qoCity','qoAddr'].forEach(fid=>{const el=document.getElementById(fid);if(!el.value.trim()){el.classList.add('error');ok=false;}else el.classList.remove('error');});
+  if(!ok){showToast('Попълни всички задължителни полета!');return;}
+  document.getElementById('qoFormWrap').style.display='none';
+  document.getElementById('qoSuccess').classList.add('show');
+  showToast('Поръчката е изпратена успешно!');
+  setTimeout(closeQuickOrderDirect,4000);
+}
+
+// SLIDER
+let currentSlide=0;
+const slides=document.querySelectorAll('.slide'),dots=document.querySelectorAll('.dot');
+function goSlide(n){if(!slides.length||!slides[n])return;slides[currentSlide].classList.remove('active');dots[currentSlide].classList.remove('active');dots[currentSlide].removeAttribute('aria-current');currentSlide=n;slides[currentSlide].classList.add('active');dots[currentSlide].classList.add('active');dots[currentSlide].setAttribute('aria-current','true');}
+let _heroSliderIv=null;
+if(slides.length){if(_heroSliderIv)clearInterval(_heroSliderIv);_heroSliderIv=setInterval(()=>goSlide((currentSlide+1)%slides.length),5000);}
+
+// SALE SLIDE COUNTDOWN — counts down to end of day
+(function(){
+  const el = document.getElementById('saleCountdown');
+  if(!el) return;
+  function update(){
+    const now = new Date();
+    const eod = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59);
+    const diff = Math.max(0, Math.floor((eod - now) / 1000));
+    const h = String(Math.floor(diff / 3600)).padStart(2,'0');
+    const m = String(Math.floor((diff % 3600) / 60)).padStart(2,'0');
+    const s = String(diff % 60).padStart(2,'0');
+    el.innerHTML = `⏱ Офертата изтича след <b>${h}:${m}:${s}</b>`;
+  }
+  update();
+  setInterval(update, 1000);
+})();
+
+// COUNTDOWN — persistent across page reloads via localStorage
+(function(){
+  const DURATION = 4*3600; // 4 hours flash sale window
+  let endTs = 0;
+  try { endTs = parseInt(localStorage.getItem('mc_flash_end')||'0'); } catch(e) {}
+  if(!endTs || Date.now() > endTs) {
+    endTs = Date.now() + DURATION*1000;
+    try { localStorage.setItem('mc_flash_end', endTs); } catch(e) {}
+  }
+  function tick(){
+    let totalSecs = Math.max(0, Math.floor((endTs - Date.now())/1000));
+    const th=document.getElementById('th'),tm=document.getElementById('tm'),ts=document.getElementById('ts');
+    if(th) th.textContent=String(Math.floor(totalSecs/3600)).padStart(2,'0');
+    if(tm) tm.textContent=String(Math.floor((totalSecs%3600)/60)).padStart(2,'0');
+    if(ts) ts.textContent=String(totalSecs%60).padStart(2,'0');
+    if(totalSecs===0){ localStorage.removeItem('mc_flash_end'); }
+  }
+  tick();
+  if(window._countdownIv)clearInterval(window._countdownIv);
+  window._countdownIv=setInterval(tick,1000);
+})();
+
+// TOAST
+function showToast(msg){const t=document.getElementById('toast');if(!t)return;t.textContent=msg;t.classList.add('show');clearTimeout(t._timer);t._timer=setTimeout(()=>t.classList.remove('show'),2800);}
+
+
+// Modal gallery swipe navigation (mobile)
+(function() {
+  let _mgStartX = 0, _mgStartY = 0, _mgActive = false;
+  document.addEventListener('touchstart', function(e) {
+    const zw = document.getElementById('modalZoomWrap');
+    if (zw && zw.contains(e.target) && e.touches.length === 1) {
+      _mgStartX = e.touches[0].clientX;
+      _mgStartY = e.touches[0].clientY;
+      _mgActive = true;
+    } else {
+      _mgActive = false;
+    }
+  }, { passive: true });
+  document.addEventListener('touchend', function(e) {
+    if (!_mgActive) return;
+    _mgActive = false;
+    const dx = e.changedTouches[0].clientX - _mgStartX;
+    const dy = e.changedTouches[0].clientY - _mgStartY;
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 48) {
+      galleryNav(dx > 0 ? -1 : 1);
+    }
+  }, { passive: true });
+})();
+
+// CART
+function _prodThumb(p, size) {
+  if (!p.img) return `<span style="font-size:${Math.round(size*0.65)}px;line-height:1;">${escHtml(p.emoji||'')}</span>`;
+  return `<img src="${p.img}" alt="" width="${size}" height="${size}" style="width:${size}px;height:${size}px;object-fit:contain;border-radius:4px;" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='inline'"><span style="font-size:${Math.round(size*0.65)}px;line-height:1;display:none;">${escHtml(p.emoji||'')}</span>`;
+}
+
+function saveCart() { try { localStorage.setItem('mc_cart', JSON.stringify(cart.map(x => ({ id: x.id, qty: x.qty })))); } catch (e) { } }
+function loadCart() {
+  try {
+    const saved = JSON.parse(localStorage.getItem('mc_cart') || '[]');
+    if (saved.length) { cart = saved.map(x => { const p = products.find(p => p.id === x.id); return p ? { ...p, qty: x.qty } : null; }).filter(Boolean); updateCart(); }
+  } catch (e) { }
+}
+
+function addToCart(id) {
+  const p = products.find(x => x.id === id); if (!p) return;
+  const ex = cart.find(x => x.id === id); if (ex) { ex.qty++; } else { cart.push({ ...p, qty: 1 }); }
+  updateCart(); saveCart();
+  const btn = document.getElementById('cb-' + id);
+  if (btn) { btn.classList.add('added'); btn.innerHTML = '✓ Добавен'; btn.disabled = true; setTimeout(() => { btn.classList.remove('added'); btn.innerHTML = '<svg width="15" height="15" class="svg-ic" aria-hidden="true"><use href="#ic-cart"/></svg> Добави в кошница'; btn.disabled = false; }, 1200); }
+  (function showCartToast(prod) {
+    var ct = document.getElementById('cartToast');
+    if (!ct) { showToast('✓ ' + prod.name.substring(0, 32) + '… добавен!'); return; }
+    document.getElementById('cartToastEmoji').textContent = prod.emoji || '🛒';
+    document.getElementById('cartToastMsg').textContent = prod.name.substring(0, 36) + (prod.name.length > 36 ? '…' : '') + ' добавен!';
+    ct.classList.add('show');
+    clearTimeout(ct._timer);
+    ct._timer = setTimeout(function() { ct.classList.remove('show'); }, 3500);
+  })(p);
+  if (!document.getElementById('recPanel')) showRecommended(p);
+}
+
+function showRecommended(p) {
+  const inCart = new Set(cart.map(x => x.id));
+  let recs = products.filter(x => x.id !== p.id && x.cat === p.cat && !inCart.has(x.id));
+  if (recs.length < 2) recs = products.filter(x => x.id !== p.id && !inCart.has(x.id));
+  recs = recs.slice(0, 3);
+  if (!recs.length) return;
+
+  const panel = document.createElement('div');
+  panel.id = 'recPanel';
+  panel.style.cssText = 'position:fixed;bottom:80px;right:20px;z-index:2000;background:var(--white);border:1px solid var(--border);border-radius:14px;padding:14px 16px;max-width:300px;width:calc(100vw - 40px);box-shadow:0 8px 32px rgba(0,0,0,0.18);opacity:0;transform:translateY(10px);transition:opacity 0.25s,transform 0.25s;';
+  panel.innerHTML = `
+    <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:10px;">Клиентите купуват и…</div>
+    ${recs.map(r => `
+      <div onclick="openProductPage(${r.id})" style="display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--border);cursor:pointer;">
+        <div style="min-width:34px;text-align:center;">${_prodThumb(r, 34)}</div>
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:12px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${r.name.length > 32 ? r.name.substring(0, 32) + '…' : r.name}</div>
+          <div style="font-size:12px;color:var(--primary);font-weight:700;">${fmtEur(r.price)}</div>
+        </div>
+        <button type="button" onclick="event.stopPropagation();addToCart(${r.id})" style="background:var(--primary);color:#fff;border:none;border-radius:8px;padding:5px 10px;font-size:11px;cursor:pointer;white-space:nowrap;font-family:'Outfit',sans-serif;font-weight:700;">+</button>
+      </div>`).join('')}
+    <button type="button" onclick="document.getElementById('recPanel').remove()" style="width:100%;margin-top:8px;background:none;border:none;color:var(--muted);font-size:11px;cursor:pointer;font-family:'Outfit',sans-serif;padding:4px;">Затвори ×</button>`;
+  document.body.appendChild(panel);
+  requestAnimationFrame(() => { panel.style.opacity = '1'; panel.style.transform = 'translateY(0)'; });
+  panel._t = setTimeout(() => { panel.style.opacity = '0'; setTimeout(() => panel.remove(), 280); }, 8000);
+}
+function addToCartById(id) { addToCart(id); }
+const FREE_SHIP_BGN = Math.round(100 * EUR_RATE * 100) / 100; // 100 EUR в лева
+
+// Social proof — shown only when real order count exists
+(function initCartSocialProof() {
+  const sp = document.getElementById('cartSocialProof');
+  const txt = document.getElementById('cartSpText');
+  if (!sp || !txt) return;
+  let orders = [];
+  try { orders = JSON.parse(localStorage.getItem('mc_orders') || '[]'); } catch (e) {}
+  if (orders.length > 0) {
+    txt.textContent = `Вие имате ${orders.length} ${orders.length === 1 ? 'поръчка' : 'поръчки'} при нас`;
+    sp.style.display = '';
+  }
+})();
+function updateCart() {
+  const count = cart.reduce((s, x) => s + x.qty, 0), total = cart.reduce((s, x) => s + x.price * x.qty, 0);
+  const badge = document.getElementById('cartBadge'); if (badge) badge.textContent = count;
+  const cartTotalEl = document.getElementById('cartTotal'); if (cartTotalEl) cartTotalEl.textContent = fmtEur(total) + ' / ' + fmtBgn(total);
+  // sync PDP mini-header cart badge
+  const pdpB = document.getElementById('pdpMhdrCartBadge');
+  if (pdpB) { pdpB.textContent = count; pdpB.style.display = count > 0 ? '' : 'none'; }
+  // sync bottom nav badges (two nav bars exist — update all)
+  document.querySelectorAll('#bnCartBadge, #bnCartBadge2').forEach(bnB => {
+    bnB.textContent = count; bnB.classList.toggle('show', count > 0);
+  });
+  const body = document.getElementById('cartBody');
+  if (!body) return;
+  if (cart.length === 0) {
+    body.innerHTML = '<div class="cart-empty-msg"><div class="ce-icon"><svg width="44" height="44" class="svg-ic" aria-hidden="true" style="opacity:.25"><use href="#ic-cart"/></svg></div><p>Кошницата е празна.<br>Добави продукти!</p></div>';
+    // Return focus to cart icon button when cart becomes empty and panel is open
+    const panel = document.getElementById('cartPanel');
+    if (panel && panel.classList.contains('open')) { const cartBtn = document.querySelector('[onclick*="toggleCart"]') || document.querySelector('#cartIcon'); if (cartBtn) cartBtn.focus(); }
+    return;
+  }
+  let html = cart.map(x => {
+    const name = escHtml(x.name || '');
+    const shortName = x.name && x.name.length > 38 ? escHtml(x.name.substring(0, 38)) + '…' : name;
+    const unitPrice = x.qty > 1 ? `<span class="ci-unit">${fmtEur(x.price)} / бр.</span>` : '';
+    return `<div class="cart-item-row">
+      <button type="button" class="ci-emoji-btn" onclick="openProductPage(${x.id})" title="Виж продукта">${_prodThumb(x, 44)}</button>
+      <div class="ci-details">
+        <div class="ci-top-row">
+          <button type="button" class="ci-name-btn" onclick="openProductPage(${x.id})" title="Виж продукта">${shortName}</button>
+          <button type="button" class="ci-remove" onclick="removeFromCart(${x.id})" aria-label="Премахни">×</button>
+        </div>
+        <div class="ci-bottom-row">
+          <div class="ci-qty"><button type="button" class="qty-btn" onclick="changeQty(${x.id},-1)">−</button><span class="qty-num">${x.qty}</span><button type="button" class="qty-btn" onclick="changeQty(${x.id},1)">+</button></div>
+          <div class="ci-price-wrap">${unitPrice}<span class="ci-price">${fmtEur(x.price * x.qty)}</span></div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+  // Free shipping progress bar + delivery row
+  const pct = Math.min(100, (total / FREE_SHIP_BGN) * 100);
+  const deliveryRow = document.getElementById('cartDeliveryRow');
+  const deliveryVal = document.getElementById('cartDeliveryVal');
+  if (total >= FREE_SHIP_BGN) {
+    html += `<div class="cart-ship-bar"><div class="cart-ship-msg ship-free">🎉 Имаш безплатна доставка!</div><div class="cart-ship-progress"><div class="cart-ship-fill" style="transform:scaleX(1)"></div></div></div>`;
+    if (deliveryRow) deliveryRow.style.display = 'none';
+  } else {
+    const remEur = ((FREE_SHIP_BGN - total) / EUR_RATE).toFixed(2);
+    html += `<div class="cart-ship-bar"><div class="cart-ship-msg">Добави още <strong>${remEur} €</strong> за безплатна доставка!</div><div class="cart-ship-progress"><div class="cart-ship-fill" style="transform:scaleX(${(pct / 100).toFixed(3)})"></div></div></div>`;
+    if (deliveryRow) deliveryRow.style.display = 'flex';
+    if (deliveryVal) deliveryVal.textContent = (5.99 / EUR_RATE).toFixed(2) + ' €';
+  }
+  // Recently viewed not in cart
+  try {
+    const rvIds = JSON.parse(localStorage.getItem('mc_rv') || '[]');
+    const inCart = new Set(cart.map(x => x.id));
+    const rvItems = rvIds.map(id => products.find(p => p.id === id)).filter(p => p && !inCart.has(p.id)).slice(0, 3);
+    if (rvItems.length) {
+      html += `<div class="cart-rv-section"><div class="cart-rv-title">Забрави ли нещо?</div><div class="cart-rv-list">${rvItems.map(p => `<div class="cart-rv-item"><button type="button" class="cart-rv-link" onclick="openProductPage(${p.id})" title="Виж продукта"><div class="cart-rv-emoji">${_prodThumb(p, 36)}</div><div class="cart-rv-info"><div class="cart-rv-name">${escHtml(p.name.length > 28 ? p.name.substring(0, 28) + '…' : p.name)}</div><div class="cart-rv-price">${fmtEur(p.price)}</div></div></button><button type="button" class="cart-rv-add" onclick="addToCart(${p.id})" title="Добави">+</button></div>`).join('')}</div></div>`;
+    }
+  } catch (e) { }
+  body.innerHTML = html;
+  // Sync cart page if open
+  if (typeof renderCartPageSummary === 'function' && document.getElementById('cartPage')?.style.display !== 'none') { renderCartPageSummary(); }
+}
+function changeQty(id, d) { const i = cart.find(x => x.id === id); if (!i) return; i.qty += d; if (i.qty <= 0) cart = cart.filter(x => x.id !== id); updateCart(); saveCart(); }
+function removeFromCart(id) {
+  const removed = cart.find(x => x.id === id);
+  cart = cart.filter(x => x.id !== id);
+  updateCart(); saveCart();
+  if (!removed) return;
+  // Undo toast
+  const t = document.getElementById('toast');
+  if (!t) return;
+  clearTimeout(t._timer);
+  t.innerHTML = '';
+  const _rSpan = document.createElement('span');
+  _rSpan.textContent = removed.name.substring(0, 28) + '… премахнат. ';
+  const _rBtn = document.createElement('button');
+  _rBtn.type = 'button'; _rBtn.onclick = undoRemoveCart;
+  _rBtn.style.cssText = 'margin-left:8px;background:rgba(255,255,255,0.25);border:none;border-radius:5px;padding:2px 8px;cursor:pointer;font-family:inherit;font-size:12px;font-weight:700;color:#fff;';
+  _rBtn.textContent = 'Отмяна';
+  t.appendChild(_rSpan); t.appendChild(_rBtn);
+  t.classList.add('show');
+  t._undoItem = removed;
+  t._timer = setTimeout(() => { t.classList.remove('show'); t._undoItem = null; }, 4500);
+}
+function undoRemoveCart() {
+  const t = document.getElementById('toast');
+  if (!t || !t._undoItem) return;
+  const item = t._undoItem;
+  t._undoItem = null;
+  clearTimeout(t._timer);
+  t.classList.remove('show');
+  const ex = cart.find(x => x.id === item.id);
+  if (ex) { ex.qty += item.qty; } else { cart.push(item); }
+  updateCart(); saveCart();
+  showToast('✓ ' + item.name.substring(0, 28) + '… върнат в кошницата');
+}
+function toggleCart() { const co=document.getElementById('cartOverlay'),cp=document.getElementById('cartPanel'); if(co)co.classList.toggle('open'); if(cp)cp.classList.toggle('open'); }
+// ===== CHECKOUT & THANK YOU =====
+let ckDeliveryIdx = 0;
+let ckDeliveryCosts = [5.99, 4.99, 0];
+let ckDeliveryNames = ['Еконт', 'Speedy', 'Вземи от магазин'];
+let ckPaymentType = 'card';
+let promoApplied = false;
+
+function _loadSupabase() {
+  if (typeof window.supabase !== 'undefined' || document.querySelector('script[data-sb]')) return;
+  const s = document.createElement('script');
+  s.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+  s.dataset.sb = '1';
+  s.onload = function() {
+    const sc = document.createElement('script');
+    sc.src = 'js/supabase-client.js';
+    document.head.appendChild(sc);
+  };
+  document.head.appendChild(s);
+}
+
+function handleCheckout() {
+  if (cart.length === 0) { showToast('Добави продукти в кошницата!'); return; }
+  _loadSupabase();
+  // Pre-fill from logged-in user
+  if (currentUser) {
+    document.getElementById('ckFirst').value = currentUser.firstName || '';
+    document.getElementById('ckLast').value = currentUser.lastName || '';
+    document.getElementById('ckEmail').value = currentUser.email || '';
+    document.getElementById('ckPhone').value = currentUser.phone || '';
+  }
+  // Restore saved address
+  try {
+    const sa = JSON.parse(localStorage.getItem('mc_saved_addr') || 'null');
+    if (sa) {
+      if (sa.phone && !document.getElementById('ckPhone').value) document.getElementById('ckPhone').value = sa.phone;
+      if (sa.city) document.getElementById('ckCity').value = sa.city;
+      if (sa.addr) document.getElementById('ckAddr').value = sa.addr;
+      if (sa.zip) document.getElementById('ckZip').value = sa.zip;
+    }
+  } catch (e) { }
+  renderOrderSummary();
+  _startCkUpsell();
+  document.getElementById('checkoutPage').classList.add('open');
+  document.getElementById('cartPanel').classList.remove('open');
+  document.getElementById('cartOverlay').classList.remove('open');
+  document.body.style.overflow = 'hidden';
+  showCheckoutStep(1);
+  // Clear previous validation states
+  document.querySelectorAll('#checkoutPage .ck-input').forEach(el => el.classList.remove('error', 'valid'));
+  // Populate estimated delivery dates
+  const fmt = d => d.toLocaleDateString('bg-BG', { weekday: 'long', day: 'numeric', month: 'long' });
+  const now = new Date();
+  const workDay = (d, n) => { let c = new Date(d); let added = 0; while (added < n) { c.setDate(c.getDate() + 1); if (c.getDay() !== 0 && c.getDay() !== 6) added++; } return c; };
+  const d0 = document.getElementById('delivDate0'); if (d0) d0.textContent = '· до ' + fmt(workDay(now, 2));
+  const d1 = document.getElementById('delivDate1'); if (d1) d1.textContent = '· до ' + fmt(workDay(now, 3));
+  const d2 = document.getElementById('delivDate2'); if (d2) d2.textContent = '· готово днес';
+}
+
+let _ckUpsellTimer = null;
+let _ckUpsellPool = [];
+
+function _cuItemHtml(p) {
+  const inCart = cart.find(x => x.id === p.id);
+  const qty = inCart ? inCart.qty : 0;
+  const qtyCtrl = qty > 0
+    ? `<div class="cu-qty"><button type="button" class="cu-qty-btn" onclick="cuChangeQty(${p.id},-1)">−</button><span class="cu-qty-num">${qty}</span><button type="button" class="cu-qty-btn" onclick="cuChangeQty(${p.id},1)">+</button></div>`
+    : `<button type="button" class="cu-add" onclick="cuChangeQty(${p.id},1)" title="Добави в кошницата">+</button>`;
+  return `<div class="cu-item" id="cu-item-${p.id}">
+    <button type="button" class="cu-link" onclick="openProductPage(${p.id})" title="Виж продукта">
+      <div class="cu-emoji">${escHtml(p.emoji || '')}</div>
+      <div class="cu-info">
+        <div class="cu-name">${escHtml(p.name.length > 32 ? p.name.substring(0, 32) + '…' : p.name)}</div>
+        <div class="cu-price">${fmtEur(p.price)}</div>
+      </div>
+    </button>
+    ${qtyCtrl}
+  </div>`;
+}
+
+function cuChangeQty(id, delta) {
+  const inCart = cart.find(x => x.id === id);
+  if (delta > 0) {
+    addToCart(id);
+  } else if (inCart && inCart.qty > 1) {
+    changeQty(id, -1);
+  } else {
+    removeFromCart(id);
+  }
+  // Re-render only this item's qty control
+  const p = _ckUpsellPool.find(x => x.id === id);
+  if (!p) return;
+  const el = document.getElementById('cu-item-' + id);
+  if (!el) return;
+  const updated = cart.find(x => x.id === id);
+  const qty = updated ? updated.qty : 0;
+  const oldCtrl = el.querySelector('.cu-qty, .cu-add');
+  if (!oldCtrl) return;
+  const newHtml = qty > 0
+    ? `<div class="cu-qty"><button type="button" class="cu-qty-btn" onclick="cuChangeQty(${id},-1)">−</button><span class="cu-qty-num">${qty}</span><button type="button" class="cu-qty-btn" onclick="cuChangeQty(${id},1)">+</button></div>`
+    : `<button type="button" class="cu-add" onclick="cuChangeQty(${id},1)" title="Добави в кошницата">+</button>`;
+  oldCtrl.outerHTML = newHtml;
+}
+window.cuChangeQty = cuChangeQty;
+
+function _startCkUpsell() {
+  const el = document.getElementById('ckUpsell');
+  if (!el) return;
+  if (_ckUpsellTimer) { clearInterval(_ckUpsellTimer); _ckUpsellTimer = null; }
+  const inCartIds = new Set(cart.map(x => x.id));
+  const cats = cart.map(x => x.cat);
+  let pool = products.filter(x => !inCartIds.has(x.id) && cats.includes(x.cat) && x.stock !== false).sort((a, b) => (b.rv || 0) - (a.rv || 0)).slice(0, 8);
+  if (pool.length < 2) pool = products.filter(x => !inCartIds.has(x.id) && x.stock !== false).sort((a, b) => (b.rv || 0) - (a.rv || 0)).slice(0, 8);
+  if (pool.length < 2) { el.style.display = 'none'; return; }
+  _ckUpsellPool = pool;
+  el.style.display = '';
+  let idx = 0;
+  const render = () => {
+    const pair = [pool[idx % pool.length], pool[(idx + 1) % pool.length]];
+    const items = el.querySelector('.cart-upsell-items');
+    if (items) {
+      items.style.opacity = '0';
+      setTimeout(() => {
+        items.innerHTML = pair.map(p => _cuItemHtml(p)).join('');
+        items.style.opacity = '1';
+      }, 300);
+    } else {
+      el.innerHTML = `<div class="cart-upsell-title">⚡ Може да те заинтересува</div><div class="cart-upsell-items" style="transition:opacity .3s">${pair.map(p => _cuItemHtml(p)).join('')}</div>`;
+    }
+    idx = (idx + 2) % pool.length;
+  };
+  render();
+  _ckUpsellTimer = setInterval(render, 6000);
+}
+
+function closeCheckoutPage() {
+  if (_ckUpsellTimer) { clearInterval(_ckUpsellTimer); _ckUpsellTimer = null; }
+  document.getElementById('checkoutPage').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function renderOrderSummary() {
+  const subtotal = cart.reduce((s, x) => s + x.price * x.qty, 0);
+  const savings = cart.reduce((s, x) => s + (x.old ? (x.old - x.price) * x.qty : 0), 0);
+  const delivery = ckDeliveryCosts[ckDeliveryIdx];
+  const codFee = ckPaymentType === 'cod' ? 1.50 : 0;
+  const promoDisc = promoApplied ? subtotal * ((promoDiscountPct || 10) / 100) : 0;
+  const total = subtotal + delivery + codFee - promoDisc;
+
+  document.getElementById('osSummaryItems').innerHTML = cart.map(x => `
+    <div class="os-item">
+      <div class="os-emoji">${escHtml(x.emoji || '')}</div>
+      <div class="os-item-info">
+        <div class="os-item-name">${escHtml(x.name || '')}</div>
+        <div class="os-qty-ctrl">
+          <button type="button" class="os-qty-btn" onclick="osChangeQty(${x.id},-1)">−</button>
+          <span class="os-qty-num">${x.qty}</span>
+          <button type="button" class="os-qty-btn" onclick="osChangeQty(${x.id},1)">+</button>
+        </div>
+      </div>
+      <div class="os-item-price">${fmtEur(x.price * x.qty)}<span class="text-10-muted-block">${fmtBgn(x.price * x.qty)}</span></div>
+    </div>`).join('');
+
+  document.getElementById('osSubtotal').textContent = fmtEur(subtotal) + ' / ' + fmtBgn(subtotal);
+  document.getElementById('osDelivery').textContent = delivery === 0 ? 'Безплатно' : fmtEur(delivery) + ' / ' + fmtBgn(delivery);
+  document.getElementById('osTotal').textContent = fmtEur(total) + ' / ' + fmtBgn(total);
+
+  const saveRow = document.getElementById('osSaveRow');
+  if (savings > 0) { saveRow.style.display = ''; document.getElementById('osSave').textContent = '-' + fmtEur(savings) + ' / ' + fmtBgn(savings); }
+  else saveRow.style.display = 'none';
+
+  const promoRow = document.getElementById('osPromoRow');
+  if (promoApplied) { promoRow.style.display = ''; document.getElementById('osPromoAmt').textContent = '-' + fmtEur(promoDisc) + ' / ' + fmtBgn(promoDisc); }
+  else promoRow.style.display = 'none';
+}
+
+function selectCheckoutMode(mode) {
+  const guestOpt = document.getElementById('ckModeGuest');
+  const loginOpt = document.getElementById('ckModeLogin');
+  const guestRadio = document.getElementById('ckModeGuestRadio');
+  const loginRadio = document.getElementById('ckModeLoginRadio');
+  if (mode === 'guest') {
+    guestOpt?.classList.add('selected');
+    loginOpt?.classList.remove('selected');
+    guestRadio?.classList.add('checked');
+    loginRadio?.classList.remove('checked');
+    guestOpt?.setAttribute('aria-checked', 'true');
+    loginOpt?.setAttribute('aria-checked', 'false');
+  } else {
+    loginOpt?.classList.add('selected');
+    guestOpt?.classList.remove('selected');
+    loginRadio?.classList.add('checked');
+    guestRadio?.classList.remove('checked');
+    loginOpt?.setAttribute('aria-checked', 'true');
+    guestOpt?.setAttribute('aria-checked', 'false');
+    if (typeof openAuthModal === 'function') openAuthModal('login');
+  }
+}
+
+function osChangeQty(id, d) {
+  const item = cart.find(x => x.id === id);
+  if (!item) return;
+  item.qty += d;
+  if (item.qty <= 0) cart = cart.filter(x => x.id !== id);
+  updateCart();
+  saveCart();
+  renderOrderSummary();
+}
+
+function selectDeliveryCk(el, idx) {
+  document.querySelectorAll('#checkoutPage .delivery-opt').forEach(o => {
+    o.classList.remove('selected');
+    o.setAttribute('aria-checked', 'false');
+    o.setAttribute('tabindex', '-1');
+  });
+  el.classList.add('selected');
+  el.setAttribute('aria-checked', 'true');
+  el.setAttribute('tabindex', '0');
+  ckDeliveryIdx = idx;
+  renderOrderSummary();
+  // Show/hide Econt office field and address section based on delivery type
+  const officeRow = document.getElementById('ckEcontOfficeRow');
+  const addrSection = document.getElementById('ckAddressSection');
+  const isPickup = idx === 2;
+  if (officeRow) officeRow.style.display = isPickup ? 'none' : '';
+  if (addrSection) addrSection.style.display = isPickup ? 'none' : '';
+}
+
+function selectPayment(el, type) {
+  document.querySelectorAll('.payment-opt').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  ckPaymentType = type;
+  document.getElementById('cardFields').classList.toggle('show', type === 'card');
+  renderOrderSummary();
+}
+
+function formatCardNum(el) {
+  let v = el.value.replace(/\D/g, '').substring(0, 16);
+  el.value = v.replace(/(.{4})/g, '$1 ').trim();
+}
+function formatExpiry(el) {
+  let v = el.value.replace(/\D/g, '').substring(0, 4);
+  if (v.length >= 2) v = v.substring(0, 2) + '/' + v.substring(2);
+  el.value = v;
+}
+
+let promoDiscountPct = 10; // set by applyPromo based on matched code
+
+function applyPromo(codeArg) {
+  const inputEl = document.getElementById('promoInput');
+  const code = (codeArg || (inputEl ? inputEl.value : '')).trim().toUpperCase();
+
+  // Load admin-managed codes from localStorage, fallback to built-in
+  let codes = [{ code: 'MOSTCOMP10', discount: 10, active: true }];
+  try {
+    const stored = JSON.parse(localStorage.getItem('mc_promo_codes') || '[]');
+    if (stored.length) codes = stored;
+  } catch (e) { }
+
+  const match = codes.find(c => c.code === code && c.active !== false);
+  if (match) {
+    promoApplied = true;
+    promoDiscountPct = match.discount || 10;
+    // Increment use counter
+    try {
+      const stored = JSON.parse(localStorage.getItem('mc_promo_codes') || '[]');
+      const mc = stored.find(c => c.code === code);
+      if (mc) { mc.uses = (mc.uses || 0) + 1; localStorage.setItem('mc_promo_codes', JSON.stringify(stored)); }
+    } catch (e) { }
+    if (inputEl) { document.getElementById('promoOk').classList.add('show'); inputEl.disabled = true; }
+    const hint = document.getElementById('ckPromoHint'); if (hint) hint.style.display = 'none';
+    renderOrderSummary();
+    showToast(`✓ Промо код приложен — -${promoDiscountPct}%!`);
+  } else {
+    showToast('Невалиден промо код!');
+    if (inputEl) { inputEl.classList.add('error'); setTimeout(() => inputEl.classList.remove('error'), 1500); }
+  }
+}
+
+function showCheckoutStep(n) {
+  [1, 2, 3].forEach(i => {
+    const card = document.getElementById('ck-step' + i);
+    if (card) card.style.display = i === n ? '' : 'none';
+  });
+  updateCheckoutSteps(n);
+  const page = document.getElementById('checkoutPage');
+  if (page) page.scrollTo({ top: 0, behavior: 'smooth' });
+  // Auto-focus first empty required input in the new step
+  setTimeout(() => {
+    const card = document.getElementById('ck-step' + n);
+    if (!card) return;
+    const inputs = card.querySelectorAll('input.ck-input:not([disabled])');
+    const firstEmpty = Array.from(inputs).find(el => !el.value.trim() && el.offsetParent !== null);
+    if (firstEmpty) firstEmpty.focus();
+  }, 120);
+}
+
+function ckNextStep(current) {
+  if (!validateCkStep(current)) return;
+  showCheckoutStep(current + 1);
+}
+
+function validateCkStep(step) {
+  if (step === 1) {
+    let valid = true;
+    ['ckFirst', 'ckLast'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el && !el.value.trim()) { el.classList.add('error'); el.classList.remove('valid'); el.setAttribute('aria-invalid', 'true'); valid = false; }
+      else if (el) el.setAttribute('aria-invalid', 'false');
+    });
+    const email = document.getElementById('ckEmail');
+    if (email && (!email.value.trim() || !email.value.includes('@'))) {
+      email.classList.add('error'); email.classList.remove('valid'); email.setAttribute('aria-invalid', 'true'); valid = false;
+    } else if (email) { email.setAttribute('aria-invalid', 'false'); }
+    const phone = document.getElementById('ckPhone');
+    if (phone) { ckValidatePhone(phone); if (phone.classList.contains('error')) valid = false; }
+    if (!valid) showToast('⚠️ Попълни всички задължителни полета!');
+    return valid;
+  }
+  if (step === 2) {
+    let valid = true;
+    if (ckDeliveryIdx === 2) return true; // pickup — no address needed
+    // Validate Econt office if Econt selected (check row visibility, not a non-existent CSS class)
+    const officeEl = document.getElementById('ckEcontOffice');
+    const officeRow = document.getElementById('ckEcontOfficeRow');
+    if (officeEl && officeRow && officeRow.style.display !== 'none') {
+      if (!officeEl.value.trim()) { officeEl.classList.add('error'); officeEl.classList.remove('valid'); officeEl.setAttribute('aria-invalid', 'true'); valid = false; }
+      else { officeEl.classList.remove('error'); officeEl.classList.add('valid'); officeEl.setAttribute('aria-invalid', 'false'); }
+    }
+    ['ckCity', 'ckAddr'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el && !el.value.trim()) { el.classList.add('error'); el.classList.remove('valid'); el.setAttribute('aria-invalid', 'true'); valid = false; }
+      else if (el) { el.classList.remove('error'); el.setAttribute('aria-invalid', 'false'); }
+    });
+    if (!valid) showToast('⚠️ Попълни адреса за доставка!');
+    return valid;
+  }
+  return true;
+}
+
+function _ckSetError(el, msg) {
+  const errEl = el.id ? document.getElementById(el.id + '-err') : null;
+  if (errEl) errEl.textContent = msg || '';
+}
+
+function ckValidateField(el) {
+  if (!el.value.trim()) {
+    el.classList.add('error'); el.classList.remove('valid'); el.setAttribute('aria-invalid', 'true');
+    _ckSetError(el, 'Полето е задължително.');
+  } else {
+    el.classList.remove('error'); el.classList.add('valid'); el.setAttribute('aria-invalid', 'false');
+    _ckSetError(el, '');
+  }
+}
+
+function ckValidateEmail(el) {
+  const ok = el.value.trim() && el.value.includes('@') && el.value.includes('.');
+  el.classList.toggle('error', !ok);
+  el.classList.toggle('valid', !!ok);
+  el.setAttribute('aria-invalid', ok ? 'false' : 'true');
+  _ckSetError(el, ok ? '' : 'Въведи валиден имейл адрес.');
+}
+
+// BG phone: 08xx, 09xx, +359 8xx, 00359 8xx — at least 10 digits
+function ckValidatePhone(el) {
+  const raw = el.value.replace(/[\s\-().]/g, '');
+  const ok = /^(\+359|00359|0)[89]\d{8}$/.test(raw) || /^[1-9]\d{9,}$/.test(raw);
+  el.classList.toggle('error', !ok);
+  el.classList.toggle('valid', ok);
+  el.setAttribute('aria-invalid', ok ? 'false' : 'true');
+  _ckSetError(el, ok ? '' : 'Въведи валиден телефон (напр. 0888 123 456).');
+}
+
+// Auto-format phone as user types: 0888 123 456
+function ckFormatPhone(el) {
+  let v = el.value.replace(/[^\d+]/g, '');
+  if (v.startsWith('+')) {
+    // keep international prefix as-is
+  } else if (v.length > 4) {
+    v = v.substring(0, 4) + ' ' + v.substring(4, 7) + (v.length > 7 ? ' ' + v.substring(7, 11) : '');
+  }
+  el.value = v;
+}
+
+function updateCheckoutSteps(active) {
+  [1, 2, 3].forEach(n => {
+    const step = document.getElementById('cs' + n);
+    const num = document.getElementById('csn' + n);
+    if (!step) return;
+    step.classList.remove('active', 'done');
+    if (n < active) {
+      step.classList.add('done');
+      if (num) num.textContent = '✓';
+      step.style.cursor = 'pointer';
+      step.onclick = () => showCheckoutStep(n);
+    } else if (n === active) {
+      step.classList.add('active');
+      step.style.cursor = '';
+      step.onclick = null;
+    } else {
+      if (num) num.textContent = n;
+      step.style.cursor = '';
+      step.onclick = null;
+    }
+  });
+}
+
+function submitOrder() {
+  // Validate required fields — skip city/address for pickup (ckDeliveryIdx === 2)
+  const isPickup = ckDeliveryIdx === 2;
+  const required = [
+    ['ckFirst', 'Ime'], ['ckLast', 'Familiya'], ['ckEmail', 'Email'], ['ckPhone', 'Telefon'],
+    ...(!isPickup ? [['ckCity', 'Grad'], ['ckAddr', 'Adres']] : [])
+  ];
+  let valid = true;
+  required.forEach(([id]) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    if (!el.value.trim()) { el.classList.add('error'); el.setAttribute('aria-invalid', 'true'); valid = false; }
+    else { el.classList.remove('error'); el.setAttribute('aria-invalid', 'false'); }
+  });
+  if (ckPaymentType === 'card') {
+    const cardNum  = document.getElementById('ckCardNum');
+    const cardName = document.getElementById('ckCardName');
+    const cardExp  = document.getElementById('ckCardExp');
+    const cardCvv  = document.getElementById('ckCardCvv');
+    const _cardErr = (el, bad) => {
+      el.classList.toggle('error', bad);
+      el.classList.toggle('valid', !bad);
+      el.setAttribute('aria-invalid', bad ? 'true' : 'false');
+      if (bad) valid = false;
+    };
+    // Number: 16 digits (spaces stripped)
+    if (cardNum) _cardErr(cardNum, cardNum.value.replace(/\s/g,'').length !== 16);
+    // Name: at least two words
+    if (cardName) _cardErr(cardName, cardName.value.trim().split(/\s+/).length < 2);
+    // Expiry: MM/YY format, not expired
+    if (cardExp) {
+      const parts = cardExp.value.split('/');
+      const mm = parseInt(parts[0], 10), yy = parseInt(parts[1], 10);
+      const now = new Date();
+      const badExp = isNaN(mm) || isNaN(yy) || mm < 1 || mm > 12 ||
+        (yy + 2000 < now.getFullYear()) ||
+        (yy + 2000 === now.getFullYear() && mm < now.getMonth() + 1);
+      _cardErr(cardExp, badExp);
+    }
+    // CVV: 3 or 4 digits
+    if (cardCvv) _cardErr(cardCvv, !/^\d{3,4}$/.test(cardCvv.value.trim()));
+  }
+  if (!valid) { showToast('Моля попълни всички задължителни полета!'); return; }
+
+  // Loading state
+  const submitBtn = document.querySelector('.os-submit');
+  if (submitBtn) { submitBtn.disabled = true; submitBtn.innerHTML = '<span class="ck-spinner"></span> Обработва се…'; }
+
+  // Animate steps
+  updateCheckoutSteps(2);
+  setTimeout(() => updateCheckoutSteps(3), 400);
+  setTimeout(() => {
+    // Build order data — sequential number based on existing order count
+    let _prevOrders = [];
+    try { _prevOrders = JSON.parse(localStorage.getItem('mc_orders') || '[]'); } catch (e) { }
+    const orderNum = 'MC-' + String(_prevOrders.length + 1).padStart(6, '0');
+    const subtotal = cart.reduce((s, x) => s + x.price * x.qty, 0);
+    const delivery = ckDeliveryCosts[ckDeliveryIdx];
+    const codFee = ckPaymentType === 'cod' ? 1.50 : 0;
+    const promoDisc = promoApplied ? subtotal * ((promoDiscountPct || 10) / 100) : 0;
+    const total = subtotal + delivery + codFee - promoDisc;
+    const payNames = { card: 'Карта', cod: 'Наложен платеж', bank: 'Банков превод' };
+    const now = new Date();
+    const delivDays = ckDeliveryIdx === 2 ? 0 : ckDeliveryIdx === 1 ? 3 : 2;
+    const _addWorkDays = (d, n) => { let c = new Date(d); let added = 0; while (added < n) { c.setDate(c.getDate() + 1); if (c.getDay() !== 0 && c.getDay() !== 6) added++; } return c; };
+    const delivDate = delivDays > 0 ? _addWorkDays(now, delivDays) : now;
+    const fmt = d => d.toLocaleDateString('bg-BG', { day: 'numeric', month: 'long' });
+
+    // Populate thank-you page
+    const _set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+    const _setHTML = (id, val) => { const el = document.getElementById(id); if (el) el.innerHTML = val; };
+    _set('tyOrderNum', orderNum);
+    _set('tyEmail', document.getElementById('ckEmail').value);
+    _set('tyDeliveryDate', ckDeliveryIdx === 2 ? 'При вземане от магазин' : fmt(delivDate));
+    _set('tyPayment', payNames[ckPaymentType]);
+    _set('tyName', document.getElementById('ckFirst').value + ' ' + document.getElementById('ckLast').value);
+    _set('tyPhone', document.getElementById('ckPhone').value);
+    const _isPickup = ckDeliveryIdx === 2;
+    const _econtOffice = (document.getElementById('ckEcontOffice') || {}).value || '';
+    _set('tyCity', _isPickup ? 'София (магазин)' : document.getElementById('ckCity').value);
+    _set('tyAddr', _isPickup ? 'бул. „Шипченски проход" бл.240' : (_econtOffice ? 'Офис: ' + _econtOffice + ', ' : '') + document.getElementById('ckAddr').value + (document.getElementById('ckZip').value ? ', ' + document.getElementById('ckZip').value : ''));
+    _set('tyCourier', ckDeliveryNames[ckDeliveryIdx]);
+    _set('tyNote', document.getElementById('ckNote').value || '—');
+    _set('tyTimestamp', now.toLocaleString('bg-BG'));
+    _set('tyDeliveryDateLine', ckDeliveryIdx === 2 ? 'Готова за вземане' : 'Очаквана: ' + fmt(delivDate));
+    _set('tySubtotal', fmtEur(subtotal) + ' / ' + fmtBgn(subtotal));
+    _set('tyDeliveryCost', delivery === 0 ? 'Безплатно' : fmtEur(delivery) + ' / ' + fmtBgn(delivery));
+    _set('tyTotal', fmtEur(total) + ' / ' + fmtBgn(total));
+    if (promoApplied) {
+      const tyPromoRow = document.getElementById('tyPromoRow'); if (tyPromoRow) tyPromoRow.style.display = '';
+      _set('tyPromoAmt', '-' + fmtEur(promoDisc) + ' / ' + fmtBgn(promoDisc));
+    }
+    _setHTML('tyItems', cart.map(x => `
+      <div class="ty-item">
+        <div class="ty-item-emoji">${escHtml(x.emoji || '')}</div>
+        <div class="ty-item-info">
+          <div class="ty-item-name">${escHtml(x.name || '')}</div>
+          <div class="ty-item-meta">${escHtml(x.brand || '')} · Количество: ${Number(x.qty) || 0}</div>
+        </div>
+        <div class="ty-item-price">${fmtEur(x.price * x.qty)}<span class="text-11-muted-block">${fmtBgn(x.price * x.qty)}</span></div>
+      </div>`).join(''));
+
+    // Save order to localStorage
+    const orderData = {
+      num: orderNum,
+      customer: document.getElementById('ckFirst').value + ' ' + document.getElementById('ckLast').value,
+      email: document.getElementById('ckEmail').value,
+      phone: document.getElementById('ckPhone').value,
+      city: _isPickup ? 'София (магазин)' : document.getElementById('ckCity').value,
+      addr: _isPickup ? 'бул. „Шипченски проход" бл.240' : (_econtOffice ? 'Офис: ' + _econtOffice + ', ' : '') + document.getElementById('ckAddr').value + (document.getElementById('ckZip').value ? ', ' + document.getElementById('ckZip').value : ''),
+      note: document.getElementById('ckNote').value || '',
+      items: cart.map(x => x.name + ' ×' + x.qty).join(', '),
+      itemsData: cart.map(x => ({ id: x.id, name: x.name, brand: x.brand, emoji: x.emoji, price: x.price, qty: x.qty })),
+      subtotal, delivery, total,
+      payment: ckPaymentType,
+      deliveryType: ckDeliveryNames[ckDeliveryIdx],
+      status: 'pending',
+      date: now.toLocaleDateString('bg-BG'),
+      ts: now.getTime(),
+      b2b: (document.getElementById('ckIsB2B') || {}).checked ? {
+        firma: (document.getElementById('ckFirma') || {}).value || '',
+        eik:   (document.getElementById('ckEIK')   || {}).value || '',
+        vat:   (document.getElementById('ckVAT')   || {}).value || '',
+        mol:   (document.getElementById('ckMOL')   || {}).value || '',
+      } : null
+    };
+    try {
+      _prevOrders.unshift(orderData);
+      localStorage.setItem('mc_orders', JSON.stringify(_prevOrders.slice(0, 200)));
+    } catch (e) { }
+    // Записване в Supabase (реална база данни)
+    if (typeof saveOrderToSupabase === 'function') {
+      saveOrderToSupabase(orderData).catch(e => console.error('Supabase save failed:', e));
+    }
+    // Save address for next order
+    try {
+      localStorage.setItem('mc_saved_addr', JSON.stringify({
+        phone: document.getElementById('ckPhone').value,
+        city: document.getElementById('ckCity').value,
+        addr: document.getElementById('ckAddr').value,
+        zip: document.getElementById('ckZip').value,
+      }));
+    } catch (e) { }
+
+    // Show thank-you page, clear cart
+    closeCheckoutPage();
+    document.getElementById('thankyouPage').classList.add('open');
+    cart = [];
+    updateCart(); saveCart();
+    promoApplied = false;
+  }, 800);
+}
+
+function closeThankyouPage() {
+  document.getElementById('thankyouPage').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function printInvoice(num) {
+  let orders = [];
+  try { orders = JSON.parse(localStorage.getItem('mc_orders') || '[]'); } catch (e) { }
+  const o = num ? orders.find(x => x.num === num) : orders[0];
+  if (!o) { showToast('⚠️ Няма данни за поръчката'); return; }
+
+  const subtotalNoVat = o.subtotal / 1.2;
+  const vatAmt = (o.subtotal - subtotalNoVat).toFixed(2);
+  const invNum = 'ФК-' + o.num.replace('MC-', '');
+  const date = new Date(o.ts || Date.now()).toLocaleDateString('bg-BG', { day: '2-digit', month: '2-digit', year: 'numeric' });
+  const payLabel = o.payment === 'card' ? 'Банкова карта' : o.payment === 'cod' ? 'Наложен платеж' : 'Банков превод';
+  const delivLabel = o.delivery === 0 ? 'Безплатна' : (Number(o.delivery) / EUR_RATE).toFixed(2) + ' €';
+
+  const rows = (o.itemsData || []).map((x, i) => `
+    <tr>
+      <td>${i + 1}</td>
+      <td>${escHtml(x.name||'')}</td>
+      <td style="text-align:center">${x.qty}</td>
+      <td style="text-align:right">${toEur(x.price / 1.2).toFixed(2)} €</td>
+      <td style="text-align:right">20%</td>
+      <td style="text-align:right">${toEur(x.price * x.qty).toFixed(2)} €</td>
+    </tr>`).join('');
+
+  const html = `<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="UTF-8">
+<title>Фактура ${invNum} — Most Computers</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:Arial,Helvetica,sans-serif;font-size:12px;color:#1a1a1a;padding:40px;max-width:820px;margin:auto}
+  .hdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:28px;padding-bottom:20px;border-bottom:3px solid #bd1105}
+  .hdr-logo{font-size:22px;font-weight:900;color:#bd1105;letter-spacing:-0.5px}
+  .hdr-logo span{color:#1a1a1a}
+  .hdr-company{font-size:11px;color:#555;line-height:1.7;margin-top:4px}
+  .hdr-right{text-align:right}
+  .hdr-right h1{font-size:30px;font-weight:900;letter-spacing:-1px;color:#1a1a1a}
+  .hdr-right .meta{font-size:11px;color:#555;margin-top:4px;line-height:1.7}
+  .parties{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px}
+  .party{background:#f8f9fa;border-radius:8px;padding:14px 16px;border-left:3px solid #bd1105}
+  .party-lbl{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:#bd1105;margin-bottom:6px}
+  .party-val{font-size:12px;line-height:1.8;color:#1a1a1a}
+  table{width:100%;border-collapse:collapse;margin-bottom:16px;font-size:11.5px}
+  thead tr{background:#1a1a1a;color:#fff}
+  th{padding:8px 10px;text-align:left;font-weight:700;font-size:11px}
+  td{padding:7px 10px;border-bottom:1px solid #e5e7eb}
+  tr:nth-child(even) td{background:#f9fafb}
+  .totals-wrap{display:flex;justify-content:flex-end;margin-bottom:24px}
+  .totals{width:300px}
+  .tot-row{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid #e5e7eb;font-size:12px}
+  .tot-row.vat{color:#555}
+  .tot-row.final{font-weight:800;font-size:15px;border-top:2px solid #1a1a1a;border-bottom:none;padding-top:10px;margin-top:4px;color:#bd1105}
+  .payment-info{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:12px 16px;font-size:11.5px;margin-bottom:32px;color:#166534}
+  .legal{font-size:10px;color:#9ca3af;text-align:center;margin-top:24px;line-height:1.6;border-top:1px solid #e5e7eb;padding-top:12px}
+  @media print{body{padding:20px}@page{margin:1.5cm}}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div>
+    <div class="hdr-logo">Most <span>Computers</span></div>
+    <div class="hdr-company">
+      Most Computers ЕООД &nbsp;|&nbsp; ЕИК: 203000000<br>
+      ДДС №: BG203000000<br>
+      бул. „Шипченски проход" бл.240, 1111 София<br>
+      тел.: +359 2 919 1823 &nbsp;|&nbsp; office@mostcomputers.bg
+    </div>
+  </div>
+  <div class="hdr-right">
+    <h1>ФАКТУРА</h1>
+    <div class="meta">
+      № ${invNum}<br>
+      Дата: ${date}<br>
+      Поръчка: ${o.num}
+    </div>
+  </div>
+</div>
+
+<div class="parties">
+  <div class="party">
+    <div class="party-lbl">Продавач</div>
+    <div class="party-val">
+      <strong>Most Computers ЕООД</strong><br>
+      ЕИК: 203000000<br>
+      ДДС №: BG203000000<br>
+      бул. „Шипченски проход" бл.240<br>
+      1111 София, България
+    </div>
+  </div>
+  <div class="party">
+    <div class="party-lbl">${o.b2b ? 'Купувач (фирма)' : 'Клиент / Получател'}</div>
+    <div class="party-val">
+      ${o.b2b ? `<strong>${escHtml(o.b2b.firma || '—')}</strong><br>ЕИК: ${escHtml(o.b2b.eik || '—')}<br>${o.b2b.vat ? 'ДДС №: ' + escHtml(o.b2b.vat) + '<br>' : ''}${o.b2b.mol ? 'МОЛ: ' + escHtml(o.b2b.mol) + '<br>' : ''}` : `<strong>${escHtml(o.customer || '—')}</strong><br>`}
+      ${o.addr ? escHtml(o.addr) + '<br>' : ''}
+      ${escHtml(o.city || '')}<br>
+      тел.: ${escHtml(o.phone || '—')}
+    </div>
+  </div>
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th style="width:28px">№</th>
+      <th>Описание на стоката / услугата</th>
+      <th style="width:42px;text-align:center">Бр.</th>
+      <th style="width:110px;text-align:right">Ед.цена без ДДС</th>
+      <th style="width:60px;text-align:right">ДДС %</th>
+      <th style="width:110px;text-align:right">Сума с ДДС</th>
+    </tr>
+  </thead>
+  <tbody>
+    ${rows}
+    <tr>
+      <td colspan="5" style="text-align:right;font-size:11px;color:#555">Доставка (${o.deliveryType || 'Куриер'})</td>
+      <td style="text-align:right">${delivLabel}</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="totals-wrap">
+  <div class="totals">
+    <div class="tot-row"><span>Данъчна основа (без ДДС):</span><span>${(Number(subtotalNoVat)/EUR_RATE).toFixed(2)} €</span></div>
+    <div class="tot-row vat"><span>ДДС 20%:</span><span>${(Number(vatAmt)/EUR_RATE).toFixed(2)} €</span></div>
+    <div class="tot-row"><span>Доставка:</span><span>${delivLabel}</span></div>
+    <div class="tot-row final"><span>ОБЩО ДЪЛЖИМО:</span><span>${(Number(o.total)/EUR_RATE).toFixed(2)} €</span></div>
+  </div>
+</div>
+
+<div class="payment-info">
+  ✅ Начин на плащане: <strong>${payLabel}</strong>
+  ${o.payment === 'bank' ? ' &nbsp;|&nbsp; IBAN: BG…  BIC: …  Most Computers ЕООД' : ''}
+  &nbsp;|&nbsp; Плащането е извършено.
+</div>
+
+<div class="legal">
+  Фактурата е издадена на ${date} от Most Computers ЕООД — регистрирано по ЗДДС лице.<br>
+  Валидна е без подпис и печат по чл. 6, ал. 1 от Наредба № Н-18 / 13.12.2006 г.
+</div>
+
+</body>
+</html>`;
+
+  const w = window.open('', '_blank', 'width=860,height=950,scrollbars=yes');
+  if (!w) { showToast('⚠️ Разреши pop-up прозорците в браузъра'); return; }
+  w.document.write(html);
+  w.document.close();
+  w.focus();
+  setTimeout(() => w.print(), 500);
+}
+
+function toggleB2BFields(cb) {
+  const el = document.getElementById('ckB2BFields');
+  if (el) el.style.display = cb.checked ? '' : 'none';
+}
+
+// MOBILE MENU
+function toggleMobMenu() {
+  const overlay = document.getElementById('mobOverlay');
+  const drawer = document.getElementById('mobDrawer');
+  const isOpen = drawer.classList.toggle('open');
+  overlay.classList.toggle('open', isOpen);
+  // iOS scroll bleed-through fix: position:fixed prevents inertial scroll behind drawer
+  if (isOpen) {
+    document.body.dataset.scrollY = window.scrollY;
+    document.body.style.cssText += ';overflow:hidden;position:fixed;top:-' + window.scrollY + 'px;width:100%';
+  } else {
+    const scrollY = parseInt(document.body.dataset.scrollY || '0', 10);
+    document.body.style.cssText = document.body.style.cssText.replace(/overflow:[^;]+;position:fixed;top:[^;]+;width:[^;]+;?/g, '');
+    document.body.style.overflow = '';
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.width = '';
+    window.scrollTo(0, scrollY);
+  }
+}
+function closeMobMenu() {
+  document.getElementById('mobOverlay').classList.remove('open');
+  document.getElementById('mobDrawer').classList.remove('open');
+  const scrollY = parseInt(document.body.dataset.scrollY || '0', 10);
+  document.body.style.overflow = '';
+  document.body.style.position = '';
+  document.body.style.top = '';
+  document.body.style.width = '';
+  window.scrollTo(0, scrollY);
+}
+function handleMobSearch() {
+  const q = document.getElementById('mobSearchInput').value.trim();
+  if (q) {
+    document.getElementById('searchInput').value = q;
+    toggleMobMenu();
+    showSearchResultsPage(q);
+  }
+}
+
+// ===== CART PAGE =====
+function openCartPage() {
+  // Close drawer if open
+  const panel = document.getElementById('cartPanel');
+  const overlay = document.getElementById('cartOverlay');
+  if (panel) panel.classList.remove('open');
+  if (overlay) overlay.classList.remove('open');
+
+  renderCartPage();
+  const page = document.getElementById('cartPage');
+  if (page) { page.style.display = 'flex'; document.body.style.overflow = 'hidden'; }
+}
+
+function closeCartPage() {
+  const page = document.getElementById('cartPage');
+  if (page) { page.style.display = 'none'; }
+  document.body.style.overflow = '';
+}
+
+function renderCartPage() {
+  const count = cart.reduce((s, x) => s + x.qty, 0);
+  const countEl = document.getElementById('cpItemCount');
+  if (countEl) countEl.textContent = count + ' бр.';
+
+  const itemsEl = document.getElementById('cpItems');
+  const emptyEl = document.getElementById('cpEmpty');
+  const promoRow = document.getElementById('cpPromoRow');
+
+  if (!itemsEl) return;
+
+  if (cart.length === 0) {
+    itemsEl.innerHTML = '';
+    if (emptyEl) emptyEl.style.display = 'block';
+    if (promoRow) promoRow.style.display = 'none';
+    renderCartPageSummary();
+    renderCartPageUpsell();
+    return;
+  }
+
+  if (emptyEl) emptyEl.style.display = 'none';
+  if (promoRow) promoRow.style.display = '';
+
+  itemsEl.innerHTML = cart.map(x => {
+    const save = x.old ? Math.round(((x.old - x.price) / x.old) * 100) : 0;
+    const badgeHtml = x.badge === 'sale'
+      ? `<span class="cp-badge cp-badge-sale">Промо -${save}%</span>`
+      : x.badge === 'new' ? `<span class="cp-badge cp-badge-new">Ново</span>`
+        : x.badge === 'hot' ? `<span class="cp-badge cp-badge-hot">Горещо</span>` : '';
+
+    const _xName = escHtml(x.name||''); const _xBrand = escHtml(x.brand||''); const _xSku = escHtml(x.sku||'');
+    const imgHtml = x.img
+      ? `<img src="${escHtml(x.img)}" alt="${_xName}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="cp-item-emoji is-hidden">${x.emoji}</span>`
+      : `<span class="cp-item-emoji">${x.emoji}</span>`;
+
+    return `<div class="cp-card">
+      <div class="cp-item-thumb">${imgHtml}</div>
+      <div class="cp-item-info">
+        <div class="cp-item-brand">${_xBrand}</div>
+        <div class="cp-item-name">${_xName}</div>
+        <div class="cp-item-sku">${_xSku}</div>
+        <div class="cp-item-badges">${badgeHtml}</div>
+      </div>
+      <div class="cp-item-right">
+        <div class="cp-item-prices">
+          ${x.old ? `<div class="cp-item-old">${fmtEur(x.old)}</div>` : ''}
+          <div class="cp-item-price">${fmtEur(x.price * x.qty)}</div>
+          <div class="cp-item-bgn">${fmtBgn(x.price * x.qty)}</div>
+        </div>
+        <div class="cp-qty-wrap">
+          <button type="button" class="cp-qty-btn" onclick="cpChangeQty(${x.id},-1)">−</button>
+          <span class="cp-qty-val">${x.qty}</span>
+          <button type="button" class="cp-qty-btn" onclick="cpChangeQty(${x.id},1)">+</button>
+        </div>
+        <button type="button" class="cp-remove-btn" onclick="cpRemoveItem(${x.id})" title="Премахни">×</button>
+      </div>
+    </div>`;
+  }).join('');
+
+  renderCartPageSummary();
+  renderCartPageUpsell();
+}
+
+function renderCartPageSummary() {
+  const el = document.getElementById('cpSummary');
+  if (!el) return;
+  const subtotal = cart.reduce((s, x) => s + x.price * x.qty, 0);
+  const savings = cart.reduce((s, x) => s + (x.old ? (x.old - x.price) * x.qty : 0), 0);
+  const delivery = subtotal >= FREE_SHIP_BGN ? 0 : Math.round(9.99 * EUR_RATE * 100) / 100;
+  const total = subtotal + delivery;
+
+  if (cart.length === 0) {
+    el.innerHTML = '<div style="text-align:center;color:var(--muted);padding:24px 0;font-size:13px;">Добави продукти в кошницата</div>';
+    return;
+  }
+
+  el.innerHTML = `
+    <div class="cp-sum-row"><span>Продукти (${cart.reduce((s, x) => s + x.qty, 0)} бр.)</span><span>${fmtEur(subtotal)}<small>${fmtBgn(subtotal)}</small></span></div>
+    ${savings > 0 ? `<div class="cp-sum-row cp-sum-save"><span>✓ Спестяваш</span><span>−${fmtEur(savings)}</span></div>` : ''}
+    <div class="cp-sum-row"><span>Доставка</span><span>${delivery === 0 ? '<b style="color:var(--accent2)">Безплатна</b>' : fmtEur(delivery)}</span></div>
+    <div class="cp-sum-row"><span>ДДС (вкл.)</span><span>${fmtEur(total * 0.2)}</span></div>
+    <hr class="cp-sum-divider">
+    <div class="cp-sum-row cp-sum-total"><span>Общо</span><span>${fmtEur(total)}<small>${fmtBgn(total)}</small></span></div>
+    ${subtotal < FREE_SHIP_BGN ? `<div class="cp-ship-hint">Добави още <b>${fmtEur(FREE_SHIP_BGN - subtotal)}</b> за безплатна доставка</div>` : ''}`;
+}
+
+function renderCartPageUpsell() {
+  const el = document.getElementById('cpUpsell');
+  if (!el) return;
+  const inCart = new Set(cart.map(x => x.id));
+  const cats = cart.map(x => x.cat);
+  let recs = products.filter(p => !inCart.has(p.id) && cats.includes(p.cat)).slice(0, 3);
+  if (recs.length < 2) recs = products.filter(p => !inCart.has(p.id)).slice(0, 3);
+  if (!recs.length) { el.innerHTML = ''; return; }
+
+  el.innerHTML = `
+    <div class="cp-upsell-header">⚡ Може да те заинтересува</div>
+    ${recs.map(p => `
+      <div class="cp-upsell-item" onclick="openProductPage(${p.id});closeCartPage()">
+        <div class="cp-upsell-emoji">${p.emoji}</div>
+        <div class="cp-upsell-info">
+          <div class="cp-upsell-name">${p.name.length > 40 ? p.name.substring(0, 40) + '…' : p.name}</div>
+          <div class="cp-upsell-price">${fmtEur(p.price)} / ${fmtBgn(p.price)}</div>
+        </div>
+        <button type="button" class="cp-upsell-add" onclick="event.stopPropagation();cpAddUpsell(${p.id})">+ Добави</button>
+      </div>`).join('')}`;
+}
+
+function cpChangeQty(id, d) {
+  changeQty(id, d);
+  renderCartPage();
+}
+
+function cpRemoveItem(id) {
+  removeFromCart(id);
+  renderCartPage();
+}
+
+function cpAddUpsell(id) {
+  addToCart(id);
+  renderCartPage();
+}
+
+function cpClearCart() {
+  if (!cart.length) return;
+  if (!confirm('Изчисти цялата кошница?')) return;
+  cart = [];
+  updateCart(); saveCart();
+  renderCartPage();
+}
+
+function cpApplyPromo() {
+  const input = document.getElementById('cpPromoInput');
+  if (!input || !input.value.trim()) return;
+  applyPromo(input.value.trim());
+}
+
+function cpGoCheckout() {
+  closeCartPage();
+  handleCheckout();
+}
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = {
+    addToCart, removeFromCart, changeQty,
+    applyPromo, renderOrderSummary, formatCardNum, formatExpiry,
+    _resetCheckout: () => { ckDeliveryIdx = 0; ckPaymentType = 'card'; promoApplied = false; },
+    _setDelivery: (idx) => { ckDeliveryIdx = idx; },
+    _setPayment: (type) => { ckPaymentType = type; },
+  };
+}
+
+// ===== LIVE SEARCH SYSTEM =====
+let recentSearches = [];
+try { recentSearches = JSON.parse(localStorage.getItem('mc_recent') || '[]'); } catch(e) { localStorage.removeItem('mc_recent'); }
+let searchFocusIdx = -1;
+let searchDebounce = null;
+let _srpQuery = ''; // current SRP query — never embed user input in HTML attributes
+
+const searchInput = document.getElementById('searchInput');
+const searchDropdown = document.getElementById('searchDropdown');
+const searchBar = document.getElementById('searchBar');
+
+function highlightMatch(text, query) {
+  if (!query) return text;
+  const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return text.replace(new RegExp(`(${escaped})`, 'gi'), '<mark>$1</mark>');
+}
+
+function normStr(s) {
+  return String(s).toLowerCase()
+    .replace(/[àáâãäå]/g,'a').replace(/[èéêë]/g,'e').replace(/[ìíîï]/g,'i')
+    .replace(/[òóôõö]/g,'o').replace(/[ùúûü]/g,'u').replace(/[ñ]/g,'n');
+}
+
+// Levenshtein distance for fuzzy matching
+function _levenshtein(a, b) {
+  if (a === b) return 0;
+  if (a.length === 0) return b.length;
+  if (b.length === 0) return a.length;
+  const row = Array.from({length: b.length + 1}, (_, i) => i);
+  for (let i = 1; i <= a.length; i++) {
+    let prev = i;
+    for (let j = 1; j <= b.length; j++) {
+      const val = a[i-1] === b[j-1] ? row[j-1] : 1 + Math.min(row[j-1], row[j], prev);
+      row[j-1] = prev;
+      prev = val;
+    }
+    row[b.length] = prev;
+  }
+  return row[b.length];
+}
+
+// Check if query token fuzzy-matches any word in text (1 typo tolerance per 4 chars)
+function _fuzzyTokenMatch(token, text) {
+  const maxDist = token.length <= 4 ? 1 : token.length <= 7 ? 1 : 2;
+  const words = text.split(/\s+/);
+  return words.some(w => {
+    if (w.length < token.length - maxDist) return false;
+    if (w.includes(token)) return true;
+    return _levenshtein(token, w.substring(0, token.length + maxDist)) <= maxDist;
+  });
+}
+
+function matchesQuery(p, q) {
+  try {
+    const ql = q.toLowerCase();
+    // EAN exact (numeric only)
+    if (/^\d{8,14}$/.test(q)) return !!(p.ean && p.ean.includes(q));
+    // Original field-by-field includes (preserves all existing behaviour)
+    const basic =
+      p.name.toLowerCase().includes(ql) ||
+      p.brand.toLowerCase().includes(ql) ||
+      (p.sku  && p.sku.toLowerCase().includes(ql)) ||
+      (p.ean  && p.ean.includes(q)) ||
+      (p.desc && p.desc.toLowerCase().includes(ql)) ||
+      Object.values(p.specs||{}).some(v => String(v).toLowerCase().includes(ql));
+    if (basic) return true;
+    // Multi-word fallback: all words must appear across all fields combined
+    const allFields = normStr([
+      p.name, p.brand, p.sku||'', p.ean||'', p.desc||'',
+      ...Object.values(p.specs||{})
+    ].join(' '));
+    if (q.includes(' ')) {
+      if (q.split(/\s+/).filter(Boolean).every(w => allFields.includes(normStr(w)))) return true;
+    }
+    // Fuzzy fallback: each query token must fuzzy-match something in allFields
+    if (q.length >= 3) {
+      const tokens = normStr(q).split(/\s+/).filter(t => t.length >= 3);
+      if (tokens.length > 0 && tokens.every(t => _fuzzyTokenMatch(t, allFields))) return true;
+    }
+    return false;
+  } catch(e) { return false; }
+}
+
+function searchProducts(query, cat) {
+  const q = query.trim();
+  if (!q) return [];
+  const catFilter = cat && cat !== 'all' ? cat : '';
+  return products.filter(p => (!catFilter || normalizeCat(p.cat) === catFilter) && matchesQuery(p, q));
+}
+
+// Detect if query looks like SKU or EAN
+function queryType(q) {
+  if (/^\d{8,14}$/.test(q.trim())) return 'ean';
+  if (/^mc-/i.test(q.trim())) return 'sku';
+  return 'text';
+}
+
+function renderDropdown(query) {
+  if (!searchDropdown || !searchBar) return;
+  const cat = '';
+  const results = searchProducts(query, cat);
+  const q = query.trim();
+  const qtype = queryType(q);
+
+  if (!q) {
+    // Show recent searches + hint chips
+    const hints = recentSearches.length === 0
+      ? `<div class="sd-section-title">💡 Можеш да търсиш по</div>
+         <div class="sd-recent">
+           <div class="sd-recent-chip" onclick="void(0)">📝 Име / марка</div>
+           <div class="sd-recent-chip" onclick="void(0)">🔖 SKU (напр. MC-SONY-WH1000XM6)</div>
+           <div class="sd-recent-chip" onclick="void(0)">📦 EAN баркод (13 цифри)</div>
+         </div>`
+      : `<div class="sd-section-title">🕐 Последни търсения</div>
+         <div class="sd-recent">
+           ${recentSearches.map((s,i) => `
+             <div class="sd-recent-chip" data-recent-search="${escHtml(s)}">
+               🔍 ${escHtml(s)}
+               <button type="button" class="sd-recent-remove" onclick="removeRecent(event,${i})">×</button>
+             </div>`).join('')}
+         </div>
+         <div class="sd-section-title">💡 Търси и по</div>
+         <div class="sd-recent">
+           <div class="sd-recent-chip cursor-default">🔖 SKU код</div>
+           <div class="sd-recent-chip cursor-default">📦 EAN баркод</div>
+         </div>`;
+    searchDropdown.innerHTML = hints;
+    searchDropdown.classList.add('open');
+    searchBar.classList.add('active');
+    return;
+  }
+
+  if (results.length === 0) {
+    let hint = '';
+    if (qtype === 'ean') hint = '<div class="sd-empty-sub">Търсенето по EAN не намери продукт с баркод <strong>' + escHtml(q) + '</strong></div>';
+    else if (qtype === 'sku') hint = '<div class="sd-empty-sub">Търсенето по SKU не намери продукт с код <strong>' + escHtml(q) + '</strong></div>';
+    else hint = '<div class="sd-empty-sub">Провери правописа или опитай с SKU / EAN баркод</div>';
+    searchDropdown.innerHTML = `
+      <div class="sd-empty">
+        <div class="sd-empty-icon">🔍</div>
+        <div class="sd-empty-text">Няма резултати за "<strong>${escHtml(q)}</strong>"</div>
+        ${hint}
+      </div>`;
+    searchDropdown.classList.add('open');
+    searchBar.classList.add('active');
+    return;
+  }
+
+  const shown = results.slice(0, 6);
+  // Section title differs by query type
+  const sectionTitle = qtype === 'ean'
+    ? `📦 EAN резултат (${results.length})`
+    : qtype === 'sku'
+    ? `🔖 SKU резултат (${results.length})`
+    : `🛍 Продукти (${results.length})`;
+
+  searchDropdown.innerHTML = `
+    <div class="sd-section-title">${sectionTitle}</div>
+    ${shown.map((p, i) => {
+      const save = p.old ? Math.round(((p.old - p.price) / p.old) * 100) : 0;
+      let badgeHtml = '';
+      if (p.badge === 'sale') badgeHtml = `<span class="sd-badge-small sd-badge-sale">-${save}%</span>`;
+      else if (p.badge === 'new') badgeHtml = `<span class="sd-badge-small sd-badge-new">Ново</span>`;
+      else if (p.badge === 'hot') badgeHtml = `<span class="sd-badge-small sd-badge-hot">Горещо</span>`;
+      // Highlight SKU/EAN if that's what matched
+      const skuMatch = p.sku && p.sku.toLowerCase().includes(q.toLowerCase());
+      const eanMatch = p.ean && p.ean.includes(q);
+      const extraMeta = skuMatch
+        ? `<span class="text-primary-strong">🔖 ${highlightMatch(p.sku, q)}</span>`
+        : eanMatch
+        ? `<span class="text-primary-strong">📦 EAN: ${highlightMatch(p.ean, q)}</span>`
+        : `<span>SKU: ${p.sku}</span>`;
+      return `
+        <div class="sd-result" data-idx="${i}" onclick="selectSearchResult(${p.id})">
+          <div class="sd-emoji">${p.emoji}</div>
+          <div class="sd-info">
+            <div class="sd-name">${highlightMatch(escHtml(p.name), q)}</div>
+            <div class="sd-meta">
+              <span class="sd-brand">${escHtml(p.brand)}</span>
+              ${extraMeta}
+            </div>
+          </div>
+          ${badgeHtml}
+          <div class="sd-price">${fmtEur(p.price)}<span class="text-10-muted-block">${fmtBgn(p.price)}</span></div>
+        </div>`;
+    }).join('')}
+    ${results.length > 6 ? `
+      <div class="sd-footer">
+        <span class="sd-footer-count">Показани ${shown.length} от ${results.length}</span>
+        <button type="button" class="sd-footer-btn" onclick="doFullSearch()">Виж всички резултати →</button>
+      </div>` : ''}`;
+  searchDropdown.classList.add('open');
+  searchBar.classList.add('active');
+  searchFocusIdx = -1;
+}
+
+function selectSearchResult(id) {
+  saveRecentSearch(searchInput.value.trim());
+  closeSearchDropdown();
+  openProductPage(id);
+}
+
+function doFullSearch() {
+  const q = searchInput.value.trim();
+  if (!q) return;
+  saveRecentSearch(q);
+  closeSearchDropdown();
+  showSearchResultsPage(q);
+}
+
+function showSearchResultsPage(query) {
+  // Reset price filter state
+  srpCurrentQuery = query; srpCurrentCatFilter = ''; srpPriceMinVal = 0; srpPriceMaxVal = 5000;
+
+  const cat = '';
+  let results = searchProducts(query, cat);
+  const page = document.getElementById('searchResultsPage');
+  document.getElementById('srpQuery').textContent = `"${query}"`;
+  document.getElementById('srpCount').textContent = `${results.length} резултата`;
+  // Breadcrumb
+  const srpBc = document.getElementById('srpBreadcrumb');
+  if (srpBc) {
+    srpBc.innerHTML = '<span class="srp-bc-item" onclick="closeSearchPage()">Начало</span><span class="srp-bc-sep">›</span><span class="srp-bc-item">Търсене</span><span class="srp-bc-sep">›</span><span class="srp-bc-current"></span>';
+    srpBc.querySelector('.srp-bc-current').textContent = query;
+  }
+
+  // Category filter pills for SRP — store query in module var, never embed user input in HTML attributes
+  _srpQuery = query;
+  const cats = [...new Set(results.map(p => p.cat))];
+  const catLabels = {phones:'Телефони и таблети',laptops:'Лаптопи',desktops:'Десктопи',gaming:'Гейминг',monitors:'Монитори',components:'Компоненти',peripherals:'Периферия',network:'Мрежа',storage:'Съхранение',accessories:'Аксесоари',software:'Софтуер'};
+  var _el_srpFilters=document.getElementById('srpFilters'); if(_el_srpFilters) _el_srpFilters.innerHTML = `
+    <button type="button" class="srp-filter-pill active" data-cat="" onclick="srpFilter(this,'')">Всички (${results.length})</button>
+    ${cats.map(c => `<button type="button" class="srp-filter-pill" data-cat="${escHtml(c)}" onclick="srpFilter(this,'${escHtml(c)}')">${escHtml(catLabels[c]||c)} (${results.filter(p=>p.cat===c).length})</button>`).join('')}
+  `;
+
+  // Show & reset price slider
+  const pf = document.getElementById('srpPriceFilter');
+  if (pf) pf.style.display = '';
+  const mn = document.getElementById('priceMin'), mx = document.getElementById('priceMax');
+  if (mn) mn.value = 0; if (mx) mx.value = 5000;
+  const pv = document.getElementById('srpPriceVals'); if (pv) pv.textContent = '0 лв. — 5 000 лв.';
+  const rng = document.getElementById('sliderRange'); if (rng){ rng.style.left='0%'; rng.style.width='100%'; }
+
+  renderSRPGrid(results, query);
+  page.classList.add('open');
+  page.scrollTop = 0;
+  document.body.style.overflow = 'hidden';
+}
+
+function renderSRPGrid(results, query) {
+  const grid = document.getElementById('srpGrid');
+  if (results.length === 0) {
+    const popular = products.slice(0, 4);
+    grid.innerHTML = `
+      <div class="srp-no-results">
+        <div class="nri">🔍</div>
+        <h3>Няма намерени продукти</h3>
+        <p>Опитай с различна дума или разгледай популярните търсения:</p>
+        <div class="srp-suggestions">
+          ${['лаптоп','слушалки','телефон','таблет','камера'].map(s =>
+            `<button type="button" class="srp-suggestion" onclick="document.getElementById('searchInput').value='${s}';showSearchResultsPage('${s}')">${s}</button>`
+          ).join('')}
+        </div>
+      </div>
+      <div style="margin-top:32px;">
+        <div style="font-size:16px;font-weight:800;margin-bottom:16px;">Популярни продукти</div>
+        <div class="srp-grid">${popular.map(p => makeCard(p)).join('')}</div>
+      </div>`;
+  } else {
+    grid.innerHTML = `<div class="srp-grid">${results.map(p => makeCard(p)).join('')}</div>`;
+  }
+}
+
+function srpFilter(btn, cat) {
+  document.querySelectorAll('.srp-filter-pill').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const results = searchProducts(_srpQuery, cat);
+  document.getElementById('srpCount').textContent = `${results.length} резултата`;
+  renderSRPGrid(results, _srpQuery);
+}
+
+function closeSearchPage() {
+  document.getElementById('searchResultsPage').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function closeSearchDropdown() {
+  if (searchDropdown) searchDropdown.classList.remove('open');
+  if (searchBar) searchBar.classList.remove('active');
+  searchFocusIdx = -1;
+}
+
+function saveRecentSearch(q) {
+  if (!q) return;
+  recentSearches = [q, ...recentSearches.filter(s => s !== q)].slice(0, 6);
+  try { localStorage.setItem('mc_recent', JSON.stringify(recentSearches)); } catch(e) {}
+}
+
+function removeRecent(e, idx) {
+  e.stopPropagation();
+  recentSearches.splice(idx, 1);
+  try { localStorage.setItem('mc_recent', JSON.stringify(recentSearches)); } catch(e) {}
+  renderDropdown('');
+}
+
+function applyRecentSearch(q) {
+  searchInput.value = q;
+  renderDropdown(q);
+  setTimeout(doFullSearch, 100);
+}
+
+// Keyboard navigation in dropdown
+if (searchInput) {
+  searchInput.addEventListener('input', () => {
+    clearTimeout(searchDebounce);
+    searchDebounce = setTimeout(() => renderDropdown(searchInput.value), 180);
+  });
+
+  searchInput.addEventListener('keydown', e => {
+    const items = searchDropdown ? searchDropdown.querySelectorAll('.sd-result') : [];
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      searchFocusIdx = Math.min(searchFocusIdx + 1, items.length - 1);
+      items.forEach((el, i) => el.classList.toggle('focused', i === searchFocusIdx));
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      searchFocusIdx = Math.max(searchFocusIdx - 1, -1);
+      items.forEach((el, i) => el.classList.toggle('focused', i === searchFocusIdx));
+    } else if (e.key === 'Enter') {
+      if (searchFocusIdx >= 0 && items[searchFocusIdx]) {
+        items[searchFocusIdx].click();
+      } else {
+        doFullSearch();
+      }
+    } else if (e.key === 'Escape') {
+      closeSearchDropdown();
+      searchInput.blur();
+    }
+  });
+
+  searchInput.addEventListener('focus', () => renderDropdown(searchInput.value));
+}
+
+document.addEventListener('click', e => {
+  // Safe delegation for recent search chips (avoids XSS via inline onclick)
+  const chip = e.target.closest('[data-recent-search]');
+  if (chip && !e.target.closest('.sd-recent-remove')) {
+    applyRecentSearch(chip.dataset.recentSearch);
+    return;
+  }
+  if (!e.target.closest('.search-wrap')) closeSearchDropdown();
+});
+
+// ===== KEYBOARD SHORTCUT: / or Ctrl+K focuses search =====
+document.addEventListener('keydown', e => {
+  if ((e.key === '/' || (e.ctrlKey && e.key === 'k')) &&
+      !e.target.matches('input,textarea,select,[contenteditable]')) {
+    e.preventDefault();
+    const si = document.getElementById('searchInput');
+    if (si) { si.focus(); si.select(); }
+  }
+});
+
+function handleSearch() { doFullSearch(); }
+function subscribeNL() {
+  const input = document.getElementById('nlEmail') || document.getElementById('tyNlEmail');
+  const v = input?.value?.trim() || '';
+  if (!v || !v.includes('@') || !v.includes('.')) { showToast('Въведи валиден имейл!'); return; }
+  try {
+    const subs = JSON.parse(localStorage.getItem('mc_newsletter') || '[]');
+    if (!subs.includes(v)) { subs.push(v); localStorage.setItem('mc_newsletter', JSON.stringify(subs)); }
+  } catch(e) {}
+  showToast('✓ Абониран успешно! Ще получаваш най-добрите оферти.');
+  if (input) input.value = '';
+}
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = {
+    highlightMatch, searchProducts, queryType, saveRecentSearch,
+    _resetRecentSearches: () => { recentSearches = []; },
+  };
+}
+
+
+// ===== PRODUCT PAGE =====
+let pdpProductId = null;
+let pdpQtyVal    = 1;
+let pdpGallery   = [];
+let pdpGalleryIdx = 0;
+
+
+let _pdpScrollY = 0;
+function openProductPage(id) {
+  const p = products.find(x => x.id === id);
+  if (!p) return;
+  // Save scroll position only when not inside catPage (catPage has its own scroll)
+  if (!document.getElementById('catPage')?.classList.contains('open')) {
+    _pdpScrollY = window.scrollY || document.documentElement.scrollTop;
+  }
+  // Hide main sr-only H1 so only the product H1 is active for screen readers
+  const mainH1 = document.querySelector('main h1.sr-only');
+  if (mainH1) mainH1.setAttribute('aria-hidden', 'true');
+  pdpProductId = id;
+  pdpQtyVal = 1;
+  addToRecentlyViewed(id);
+
+  // Breadcrumb (inline — no wrapper needed)
+  const _bcCatLabel = (typeof CAT_LABELS !== 'undefined' ? CAT_LABELS[p.cat] : null) || p.cat;
+  if (typeof bcSet === 'function') {
+    const _bcCatFn = () => { closeProductPage(); filterCat(p.cat); bcSet([{ label: _bcCatLabel, fn: _bcCatFn }]); };
+    // D: find subcat label from SUBCAT_DEFS
+    const _subcatLabel = (() => {
+      if (!p.subcat || typeof SUBCATS === 'undefined') return null;
+      const subs = SUBCATS[p.cat] || [];
+      const found = subs.find(s => s.id === p.subcat);
+      return found ? found.label : null;
+    })();
+    const _bcItems = [
+      { label: _bcCatLabel, url: `https://mostcomputers.bg/?cat=${p.cat}`, fn: _bcCatFn }
+    ];
+    if (_subcatLabel) {
+      const _bcSubFn = () => {
+        closeProductPage();
+        if (typeof openCatPage === 'function') openCatPage(p.cat);
+        if (typeof applySubcatById === 'function') setTimeout(() => applySubcatById(p.subcat), 50);
+        bcSet([{ label: _bcCatLabel, fn: _bcCatFn }]);
+      };
+      _bcItems.push({ label: _subcatLabel, url: `https://mostcomputers.bg/?cat=${p.cat}`, fn: _bcSubFn });
+    }
+    _bcItems.push({ label: p.name, url: `https://mostcomputers.bg/?product=${p.id}`, fn: null });
+    bcSet(_bcItems);
+  }
+  document.title = p.name + ' | Most Computers';
+
+  // SEO — Dynamic meta description
+  const metaDesc = document.querySelector('meta[name="description"]');
+  if (metaDesc) {
+    const descText = p.desc
+      ? p.desc.substring(0, 155) + (p.desc.length > 155 ? '…' : '')
+      : `${p.name} — ${p.brand} | Цена: ${(p.price/EUR_RATE).toFixed(2)} € / ${p.price} лв. Купи онлайн от Most Computers.`;
+    metaDesc.setAttribute('content', descText);
+  }
+
+  // Open Graph tags
+  function setOG(prop, val) {
+    let tag = document.querySelector(`meta[property="${prop}"]`);
+    if (!tag) { tag = document.createElement('meta'); tag.setAttribute('property', prop); document.head.appendChild(tag); }
+    tag.setAttribute('content', val);
+  }
+  function setOGName(name, val) {
+    let tag = document.querySelector(`meta[name="${name}"]`);
+    if (!tag) { tag = document.createElement('meta'); tag.setAttribute('name', name); document.head.appendChild(tag); }
+    tag.setAttribute('content', val);
+  }
+  setOG('og:title',       p.name + ' | Most Computers');
+  setOG('og:description', p.desc ? p.desc.substring(0,200) : `${p.name} от ${p.brand}. Цена: ${(p.price/EUR_RATE).toFixed(2)} €`);
+  setOG('og:image',       p.img || 'https://mostcomputers.bg/og-default.jpg');
+  setOG('og:url',         window.location.href);
+  setOG('og:type',        'product');
+  setOG('og:site_name',   'Most Computers');
+  setOG('product:price:amount',   (p.price/EUR_RATE).toFixed(2));
+  setOG('product:price:currency', 'EUR');
+  setOGName('twitter:card',        'summary_large_image');
+  setOGName('twitter:title',       p.name + ' | Most Computers');
+  setOGName('twitter:description', p.desc ? p.desc.substring(0,200) : `${p.brand} — ${p.name}`);
+  setOGName('twitter:image',       p.img || '');
+  const _canonical = document.querySelector('link[rel="canonical"]');
+  if (_canonical) _canonical.setAttribute('href', `https://mostcomputers.bg/?product=${p.id}`);
+
+  // Badges
+  let b = '';
+  if (p.badge==='sale') b += '<span class="badge badge-sale">Промо</span>';
+  if (p.badge==='new')  b += '<span class="badge badge-new">Ново</span>';
+  if (p.badge==='hot')  b += '<span class="badge badge-hot">Горещо</span>';
+  var _el_pdpBadges=document.getElementById('pdpBadges'); if(_el_pdpBadges) _el_pdpBadges.innerHTML = b;
+
+  // Brand / Name / Rating
+  document.getElementById('pdpBrand').textContent = p.brand || '';
+  document.getElementById('pdpName').textContent  = p.name;
+  const _hasRv = p.rv && p.rv > 0;
+  const _starsEl = document.getElementById('pdpStars');
+  const _rvEl    = document.getElementById('pdpRv');
+  if (_hasRv) {
+    _starsEl.innerHTML = starsHTML(p.rating);
+    _starsEl.style.display = '';
+    _rvEl.textContent = `${p.rating} (${p.rv} ревюта)`;
+    _rvEl.style.cssText = 'font-size:12px;color:var(--muted);cursor:pointer;';
+  } else {
+    _starsEl.innerHTML = '';
+    _starsEl.style.display = 'none';
+    _rvEl.innerHTML = '⭐ <span style="color:var(--primary);font-weight:600;">Бъди първи да напишеш ревю</span>';
+    _rvEl.style.cssText = 'font-size:11.5px;cursor:pointer;';
+  }
+
+  // E: Spec badges — universal across all categories
+  (function renderSpecBadges(prod) {
+    const wrap = document.getElementById('pdpSpecBadges');
+    if (!wrap) return;
+    const sp = prod.specs || {};
+    const name = (prod.name || '').toUpperCase();
+    const badges = [];
+    const b = (text, color) => `<span style="display:inline-flex;align-items:center;padding:3px 8px;border-radius:5px;font-size:10.5px;font-weight:700;border:1.5px solid ${color};color:${color};background:${color}18;white-space:nowrap;">${text}</span>`;
+
+    // Storage — speed class
+    if (prod.subcat === 'microsd' || prod.subcat === 'sd_card' || prod.subcat === 'cf_card') {
+      if (name.includes('U3') || (sp['Интерфейс']||'').includes('U3')) badges.push(b('U3 ⚡','#3b82f6'));
+      else if (name.includes('U1')) badges.push(b('U1','#64748b'));
+      if (name.includes('V30') || (sp['Интерфейс']||'').includes('V30')) badges.push(b('V30 🎥','#8b5cf6'));
+      else if (name.includes('V10')) badges.push(b('V10','#64748b'));
+      if (name.includes('A2')) badges.push(b('A2 📱','#10b981'));
+      else if (name.includes('A1')) badges.push(b('A1 📱','#10b981'));
+      if (sp['Скорост четене']) badges.push(b('↓ ' + sp['Скорост четене'],'#f59e0b'));
+      if (sp['Скорост запис'])  badges.push(b('↑ ' + sp['Скорост запис'], '#f59e0b'));
+    }
+    // USB flash
+    if (prod.subcat === 'usb_flash') {
+      if (name.includes('USB3.2') || (sp['Интерфейс']||'').includes('3.2')) badges.push(b('USB 3.2 ⚡','#3b82f6'));
+      else if (name.includes('USB3') || (sp['Интерфейс']||'').includes('3.0') || (sp['Интерфейс']||'').includes('3.1')) badges.push(b('USB 3.0 ⚡','#3b82f6'));
+      else badges.push(b('USB 2.0','#64748b'));
+      if (name.includes('TYPE-C') || name.includes('USB-C') || name.includes('/DT70') || (sp['Интерфейс']||'').toLowerCase().includes('type-c')) badges.push(b('USB-C','#6d28d9'));
+      if (name.includes('DUAL') || name.includes('OTG')) badges.push(b('Dual OTG','#0ea5e9'));
+      if (sp['Скорост четене']) badges.push(b('↓ ' + sp['Скорост четене'],'#f59e0b'));
+    }
+    // RAM
+    if (prod.subcat === 'ram') {
+      const iface = (sp['Интерфейс'] || sp['Type'] || '').toUpperCase();
+      if (iface.includes('DDR5')) badges.push(b('DDR5','#8b5cf6'));
+      else if (iface.includes('DDR4')) badges.push(b('DDR4','#3b82f6'));
+      else if (iface.includes('DDR3')) badges.push(b('DDR3','#64748b'));
+      const freq = sp['Честота'] || sp['Speed'] || sp['Frequency'] || '';
+      if (freq) badges.push(b(freq,'#f59e0b'));
+      const cap = sp['Капацитет'] || sp['Capacity'] || '';
+      if (cap) badges.push(b(cap,'#10b981'));
+    }
+    // SSD/HDD
+    if (prod.subcat === 'ssd' || prod.subcat === 'hdd') {
+      const iface = (sp['Интерфейс'] || sp['Interface'] || '').toUpperCase();
+      if (iface.includes('NVME') || iface.includes('M.2')) badges.push(b('NVMe M.2','#8b5cf6'));
+      else if (iface.includes('SATA')) badges.push(b('SATA','#3b82f6'));
+      const cap = sp['Капацитет'] || sp['Capacity'] || '';
+      if (cap) badges.push(b(cap,'#10b981'));
+      if (sp['Скорост четене']) badges.push(b('↓ ' + sp['Скорост четене'],'#f59e0b'));
+    }
+    // GPU
+    if (prod.subcat === 'gpu') {
+      const vram = sp['VRAM'] || sp['Видеопамет'] || sp['Memory'] || '';
+      if (vram) badges.push(b(vram + ' VRAM','#8b5cf6'));
+      const conn = sp['Конектор'] || sp['Interface'] || '';
+      if (conn.toUpperCase().includes('PCIE 5')) badges.push(b('PCIe 5.0','#f59e0b'));
+      else if (conn.toUpperCase().includes('PCIE 4')) badges.push(b('PCIe 4.0','#f59e0b'));
+    }
+    // CPU
+    if (prod.subcat === 'cpu') {
+      const cores = sp['Ядра'] || sp['Cores'] || '';
+      if (cores) badges.push(b(cores + ' ядра','#3b82f6'));
+      const socket = sp['Сокет'] || sp['Socket'] || '';
+      if (socket) badges.push(b(socket,'#6d28d9'));
+      const tdp = sp['TDP'] || '';
+      if (tdp) badges.push(b(tdp + ' TDP','#f59e0b'));
+    }
+    // Monitors
+    if (prod.cat === 'monitors' || prod.subcat === 'gaming_mon' || prod.subcat === 'mon_4k') {
+      const hz = sp['Честота'] || sp['Refresh rate'] || '';
+      if (hz) badges.push(b(hz,'#8b5cf6'));
+      const panel = sp['Тип панел'] || sp['Panel'] || '';
+      if (panel) badges.push(b(panel,'#3b82f6'));
+      const res = sp['Резолюция'] || sp['Resolution'] || '';
+      if (res) badges.push(b(res,'#10b981'));
+    }
+    // Network
+    if (prod.cat === 'network') {
+      const wifi = sp['WiFi'] || sp['Стандарт'] || '';
+      if (wifi) badges.push(b(wifi,'#3b82f6'));
+      const ports = sp['Портове'] || sp['Ports'] || '';
+      if (ports) badges.push(b(ports,'#10b981'));
+    }
+
+    if (badges.length) {
+      wrap.innerHTML = badges.join('');
+      wrap.style.display = 'flex';
+    } else {
+      wrap.innerHTML = '';
+      wrap.style.display = 'none';
+    }
+  })(p);
+
+  // Price
+  const priceBgn = p.price;
+  const prEl = document.getElementById('pdpPrice');
+  prEl.textContent = fmtEur(priceBgn);
+  prEl.className   = 'pdp-price-main' + (p.badge==='sale' ? ' sale' : '');
+  document.getElementById('pdpPriceEur').textContent = `${fmtBgn(priceBgn)}`;
+
+  const oldRow = document.getElementById('pdpOldRow');
+  if (p.old) {
+    document.getElementById('pdpOld').textContent = fmtEur(p.old) + ' / ' + fmtBgn(p.old);
+    document.getElementById('pdpSave').textContent = '-' + Math.round((p.old-p.price)/p.old*100) + '%';
+    oldRow.style.display = 'flex';
+  } else {
+    oldRow.style.display = 'none';
+  }
+  var _el_pdpMonthly=document.getElementById('pdpMonthly');
+  if(_el_pdpMonthly){
+    if(p.price>=999){
+      const mo=Math.ceil(p.price/12/EUR_RATE*100)/100;
+      _el_pdpMonthly.innerHTML=`<span>или от <strong>${mo.toFixed(2)} €/мес.</strong> на 12 вноски</span>`;
+      _el_pdpMonthly.style.display='';
+    } else {
+      _el_pdpMonthly.innerHTML='';
+      _el_pdpMonthly.style.display='none';
+    }
+  }
+
+  // Stock
+  const inStock = p.stock !== false;
+  const stockEl = document.getElementById('pdpStock');
+  stockEl.className = 'pdp-stock ' + (inStock ? 'in' : 'out');
+  const stockNum = typeof p.stock === 'number' && p.stock > 0 ? p.stock : null;
+  let stockTxt = 'Изчерпан';
+  if (inStock) {
+    stockTxt = (stockNum !== null && stockNum <= 5) ? `⚠️ Само ${stockNum} бр. в наличност` : '✓ В наличност';
+  }
+  document.getElementById('pdpStockTxt').textContent = stockTxt;
+  // Show/hide back-in-stock notify button
+  const bisBtn = document.getElementById('pdpNotifyStock');
+  if (bisBtn) bisBtn.style.display = inStock ? 'none' : 'flex';
+  const pdpAddBtn = document.getElementById('pdpAddBtn');
+  if (pdpAddBtn) { pdpAddBtn.disabled = !inStock; pdpAddBtn.style.opacity = inStock ? '' : '0.4'; }
+  // Restore BIS subscription state
+  if (!inStock) {
+    const savedBisEmail = localStorage.getItem('mc_bis_' + id);
+    const notifyForm = document.getElementById('pdpNotifyForm');
+    const notifySuccess = document.getElementById('pdpNotifySuccess');
+    const notifyEmail = document.getElementById('pdpNotifyEmail');
+    if (savedBisEmail && notifyForm && notifySuccess) {
+      notifyForm.style.display = 'none';
+      notifySuccess.style.display = 'block';
+      notifySuccess.textContent = `✓ Ще те уведомим на ${savedBisEmail} веднага щом продуктът е наличен!`;
+    } else if (notifyForm && notifySuccess) {
+      notifyForm.style.display = '';
+      notifySuccess.style.display = 'none';
+      if (notifyEmail) notifyEmail.value = '';
+    }
+  }
+
+  // Quick specs hidden
+  const specs = p.specs || {};
+  var _el_pdpQuickSpecs=document.getElementById('pdpQuickSpecs'); if(_el_pdpQuickSpecs) _el_pdpQuickSpecs.innerHTML = '';
+
+  // Qty
+  document.getElementById('pdpQty').textContent = '1';
+
+  // Wishlist btn
+  const wishBtn = document.getElementById('pdpWishBtn');
+  if (wishBtn) wishBtn.innerHTML = wishlist.includes(id) ? '❤ В любими' : '♡ Добави в желания';
+
+  // Meta
+  document.getElementById('pdpSku').textContent     = p.sku  || '—';
+  document.getElementById('pdpEan').textContent     = p.ean  || p.sku || '—';
+  document.getElementById('pdpWarranty').textContent = specs['Warranty'] || specs['Гаранция'] || specs['warrantyInMonths'] || '24 месеца';
+
+  // ── Gallery ──
+  pdpGallery = [];
+  if (p.gallery && p.gallery.length) {
+    pdpGallery = p.gallery;
+  } else if (p.img) {
+    pdpGallery = [p.img];
+  }
+  pdpGalleryIdx = 0;
+  // Show skeleton while image loads
+  const _imgWrap = document.querySelector('.pdp-main-img-wrap');
+  if (_imgWrap) _imgWrap.classList.add('img-loading');
+  pdpRenderGallery();
+  const _mainImg = document.getElementById('pdpMainImg');
+  if (_mainImg) {
+    const _removeLoading = function(){ if(_imgWrap) _imgWrap.classList.remove('img-loading'); };
+    _mainImg.addEventListener('load', _removeLoading, { once: true });
+    _mainImg.addEventListener('error', _removeLoading, { once: true });
+    if (_mainImg.complete) _removeLoading();
+  }
+
+  // ── Full specs table ──
+  const tbody = document.getElementById('pdpSpecsTbody');
+  if (tbody) {
+    let specRows = `<tr><td>SKU / Part Number</td><td style="font-family:'JetBrains Mono',monospace;font-size:12px;">${p.sku||'—'}</td></tr>`;
+    if (p.ean) specRows += `<tr><td>EAN / Баркод</td><td style="font-family:'JetBrains Mono',monospace;font-size:12px;">${p.ean}</td></tr>`;
+    const _se = s => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    specRows += Object.entries(specs).map(([k,v]) => `<tr><td>${_se(k)}</td><td>${_se(v)}</td></tr>`).join('');
+    tbody.innerHTML = specRows || '<tr><td colspan="2" style="color:var(--muted);text-align:center;padding:24px;">Няма данни за спецификации.</td></tr>';
+  }
+
+  // ── Description (HTML) ──
+  const htmlContent = document.getElementById('pdpHtmlContent');
+  if (htmlContent) {
+    if (p.htmlDesc) {
+      // htmlDesc is admin-authored HTML — kept as-is (trusted source)
+      htmlContent.innerHTML = p.htmlDesc;
+    } else if (p.desc) {
+      // p.desc may come from XML — render as plain text to prevent XSS
+      htmlContent.innerHTML = '';
+      const para = document.createElement('p');
+      para.style.cssText = 'font-size:14px;line-height:1.8;color:var(--text2);';
+      para.textContent = p.desc;
+      htmlContent.appendChild(para);
+    } else {
+      htmlContent.innerHTML = '<p style="color:var(--muted);font-size:13px;">Няма добавено описание за този продукт.</p>';
+    }
+  }
+
+  // ── Video ──
+  const videoWrap = document.getElementById('pdpVideoWrap');
+  if (p.videoUrl) {
+    pdpRenderVideo(p.videoUrl, videoWrap);
+  } else {
+    videoWrap.innerHTML = `<div class="pdp-video-placeholder"><span>▶</span><div style="font-size:13px;color:var(--muted);">Няма добавено видео за този продукт.</div></div>`;
+  }
+
+  // ── Reviews ──
+  const revEl = document.getElementById('pdpReviews');
+  // Build merged review list without mutating the shared product object
+  let displayRevs = p.reviews ? [...p.reviews] : [];
+  try {
+    const saved = JSON.parse(localStorage.getItem('mc_reviews') || '{}');
+    const userRevs = saved[id] || [];
+    if (userRevs.length) {
+      const existingKeys = new Set(displayRevs.map(r => r.name + '|' + r.date));
+      userRevs.forEach(r => {
+        if (!existingKeys.has(r.name + '|' + r.date)) displayRevs.unshift(r);
+      });
+    }
+  } catch(e) {}
+  // Show only approved reviews publicly; pending ones need admin approval
+  const publicRevs = displayRevs.filter(r => !r.pending);
+  if (typeof pdpRenderRatingBreakdown === 'function') pdpRenderRatingBreakdown(publicRevs);
+  if (publicRevs.length) {
+    const _esc = s => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    revEl.innerHTML = publicRevs.map(r =>
+      `<div class="review-item"><div class="review-header"><span class="review-name">${_esc(r.name)}</span><span class="review-stars">${starsHTML(r.stars)}</span><span class="review-date">${_esc(r.date)}</span></div><div class="review-text">${_esc(r.text)}</div></div>`
+    ).join('');
+  } else {
+    revEl.innerHTML = '<p style="color:var(--muted);font-size:13px;">Все още няма ревюта за този продукт.</p>';
+  }
+
+  // ── Vendor ──
+  const vendorDiv = document.getElementById('pdpVendorContent');
+  if (vendorDiv) {
+    if (p.vendorUrl) {
+      vendorDiv.innerHTML = `
+        <p style="font-size:13px;color:var(--text2);margin-bottom:12px;">Посетете официалния сайт на производителя за повече информация.</p>
+        <a class="pdp-vendor-link" href="${p.vendorUrl}" target="_blank" rel="noopener">
+          🌐 <span>Официален сайт — ${p.brand || 'Производител'}</span>
+          <span style="margin-left:auto;font-size:11px;color:var(--muted);">↗</span>
+        </a>`;
+    } else {
+      vendorDiv.innerHTML = '<p style="color:var(--muted);font-size:13px;">Няма добавен линк към производителя.</p>';
+    }
+  }
+
+  // Show reviews tab by default if product has reviews, otherwise specs
+  const _hasPublicRevs = (p.reviews || []).filter(r => !r.pending).length > 0
+    || (() => { try { return (JSON.parse(localStorage.getItem('mc_reviews') || '{}')[p.id] || []).length > 0; } catch(e) { return false; } })();
+  pdpSwitchTab(_hasPublicRevs ? 'reviews' : 'specs');
+  pdpUpdateStickyBar(p);
+  // pdpShowViewers и pdpRenderSparkline премахнати — генерираха фалшиви данни
+  pdpInitDeliveryTimer();
+  pdpRenderBundle(p);
+  pdpRenderRelated(p);
+  pdpRenderRvCarousel();
+  pdpInitZoom();
+  pdpInitSwipe();
+  pdpInitTabsScroll();
+  // Sidebar disabled — specs already shown in main tab
+  if (typeof pdpInitPinch === 'function') pdpInitPinch();
+  if (typeof _pdpCompareReset === 'function') _pdpCompareReset();
+  document.getElementById('pdpBackdrop').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  document.getElementById('pdpBackdrop').scrollTop = 0;
+
+  // ── Structured Data (Product + BreadcrumbList) ──
+  const _avgRating = p.rating || 0;
+  const _rvCount   = p.rv    || 0;
+  const _schemaId  = 'pdpJsonLd';
+  let _schemaTag   = document.getElementById(_schemaId);
+  if (!_schemaTag) {
+    _schemaTag = document.createElement('script');
+    _schemaTag.type = 'application/ld+json';
+    _schemaTag.id   = _schemaId;
+    document.head.appendChild(_schemaTag);
+  }
+  const _catLabel = (typeof CAT_LABELS !== 'undefined' && CAT_LABELS[p.cat]) ? CAT_LABELS[p.cat] : p.cat;
+  const _priceValidUntil = new Date(Date.now() + 365 * 24 * 3600 * 1000).toISOString().split('T')[0];
+  const _images = Array.isArray(p.gallery) && p.gallery.length ? p.gallery : (p.img ? [p.img] : []);
+  const _productSchema = {
+    "@context": "https://schema.org/",
+    "@type": "Product",
+    "name": p.name,
+    "image": _images,
+    "description": p.desc || p.name,
+    "brand": { "@type": "Brand", "name": p.brand || '' },
+    "sku": p.sku || '',
+    ...(p.ean ? { "gtin13": p.ean } : {}),
+    "offers": {
+      "@type": "Offer",
+      "url": `${location.origin}/?product=${p.id}`,
+      "priceCurrency": "BGN",
+      "price": p.price,
+      "priceValidUntil": _priceValidUntil,
+      "itemCondition": "https://schema.org/NewCondition",
+      "availability": p.stock === false ? "https://schema.org/OutOfStock" : "https://schema.org/InStock",
+      "seller": { "@type": "Organization", "name": "Most Computers" }
+    },
+    ...(_avgRating && _rvCount ? {
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": _avgRating,
+        "reviewCount": _rvCount,
+        "bestRating": 5,
+        "worstRating": 1
+      }
+    } : {})
+  };
+  if (Array.isArray(p.reviews) && p.reviews.length > 0) {
+    _productSchema.review = p.reviews.slice(0, 5).map(r => ({
+      "@type": "Review",
+      "author": { "@type": "Person", "name": r.name },
+      "datePublished": r.date,
+      "reviewBody": r.text,
+      "reviewRating": { "@type": "Rating", "ratingValue": r.stars, "bestRating": 5, "worstRating": 1 }
+    }));
+  }
+  _schemaTag.textContent = JSON.stringify([
+    _productSchema,
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Начало", "item": window.location.origin + "/" },
+        { "@type": "ListItem", "position": 2, "name": _catLabel, "item": window.location.origin + "/?cat=" + p.cat },
+        { "@type": "ListItem", "position": 3, "name": p.name }
+      ]
+    }
+  ]);
+}
+
+function closeProductPage() {
+  pdpSearchDropClose();
+  const _st = document.getElementById('pdpScrollTop');
+  if (_st) _st.style.display = 'none';
+  // Restore main H1 visibility for screen readers
+  const mainH1 = document.querySelector('main h1.sr-only');
+  if (mainH1) mainH1.removeAttribute('aria-hidden');
+  document.getElementById('pdpBackdrop').classList.remove('open');
+  // Keep body locked if cat-page is still open
+  if (!document.getElementById('catPage')?.classList.contains('open')) {
+    document.body.style.overflow = '';
+    // Restore scroll position
+    requestAnimationFrame(() => window.scrollTo(0, _pdpScrollY));
+  }
+  // Stop any video
+  const videoWrap = document.getElementById('pdpVideoWrap');
+  if (videoWrap) {
+    const iframe = videoWrap.querySelector('iframe');
+    if (iframe) iframe.src = iframe.src;
+  }
+  // Breadcrumb — pop back to category if present
+  document.title = 'Most Computers | Онлайн магазин за компютри и компоненти';
+  // Reset meta description
+  const metaDesc = document.querySelector('meta[name="description"]');
+  if (metaDesc) metaDesc.setAttribute('content', 'Most Computers – онлайн магазин за компютри, компоненти, монитори, периферия и мрежово оборудване.');
+  // Reset OG
+  const ogTitle = document.querySelector('meta[property="og:title"]');
+  if (ogTitle) ogTitle.setAttribute('content', 'Most Computers | Онлайн магазин за компютри и компоненти');
+  const ogImg = document.querySelector('meta[property="og:image"]');
+  if (ogImg) ogImg.setAttribute('content', 'https://mostcomputers.bg/og-default.jpg');
+  const ogType = document.querySelector('meta[property="og:type"]');
+  if (ogType) ogType.setAttribute('content', 'website');
+  const canonical = document.querySelector('link[rel="canonical"]');
+  if (canonical) canonical.setAttribute('href', 'https://mostcomputers.bg/');
+  if (typeof bcSet === 'function') {
+    if (_bcTrail.length >= 2) {
+      bcSet([_bcTrail[0]]);
+    } else {
+      bcSet([]);
+    }
+  }
+}
+
+function pdpSwitchTab(tab) {
+  document.querySelectorAll('.pdp-tab').forEach(t => {
+    const action = t.getAttribute('data-action') || t.getAttribute('onclick') || '';
+    t.classList.toggle('active', action.includes(`'${tab}'`));
+  });
+  document.querySelectorAll('.pdp-tab-content').forEach(c => c.classList.remove('active'));
+  const el = document.getElementById(`pdp-tab-${tab}`);
+  if (el) el.classList.add('active');
+  // Re-read reviews from localStorage every time the tab is opened
+  if (tab === 'reviews' && pdpProductId != null) {
+    const p = products.find(x => x.id === pdpProductId);
+    const revEl = document.getElementById('pdpReviews');
+    if (!p || !revEl) return;
+    let displayRevs = p.reviews ? [...p.reviews] : [];
+    try {
+      const saved = JSON.parse(localStorage.getItem('mc_reviews') || '{}');
+      const userRevs = saved[pdpProductId] || [];
+      const existingKeys = new Set(displayRevs.map(r => r.name + '|' + r.date));
+      userRevs.forEach(r => { if (!existingKeys.has(r.name + '|' + r.date)) displayRevs.unshift(r); });
+    } catch(e) {}
+    const publicRevs = displayRevs.filter(r => !r.pending);
+    if (typeof pdpRenderRatingBreakdown === 'function') pdpRenderRatingBreakdown(publicRevs);
+    const _escR = s => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    revEl.innerHTML = publicRevs.length
+      ? publicRevs.map(r => `<div class="review-item"><div class="review-header"><span class="review-name">${_escR(r.name)}</span><span class="review-stars">${starsHTML(r.stars)}</span><span class="review-date">${_escR(r.date)}</span></div><div class="review-text">${_escR(r.text)}</div></div>`).join('')
+      : '<p style="color:var(--muted);font-size:13px;">Все още няма ревюта за този продукт.</p>';
+  }
+}
+
+function pdpRenderGallery() {
+  const mainImg   = document.getElementById('pdpMainImg');
+  const mainEmoji = document.getElementById('pdpMainEmoji');
+  const thumbsEl  = document.getElementById('pdpThumbs');
+  const p = products.find(x => x.id === pdpProductId);
+  if (!p) return;
+
+  if (pdpGallery.length && pdpGallery[pdpGalleryIdx]) {
+    mainImg.src = pdpGallery[pdpGalleryIdx];
+    mainImg.alt = p.name;
+    mainImg.style.display = '';
+    mainEmoji.style.display = 'none';
+    mainImg.onerror = function() {
+      this.style.display = 'none';
+      mainEmoji.style.display = '';
+      mainEmoji.textContent = p.emoji || '🖥';
+      this.onerror = null;
+    };
+  } else {
+    mainImg.style.display = 'none';
+    mainEmoji.style.display = '';
+    mainEmoji.textContent = p.emoji || '🖥';
+  }
+
+  if (pdpGallery.length > 1) {
+    thumbsEl.innerHTML = pdpGallery.map((url, i) =>
+      `<div class="pdp-thumb ${i===pdpGalleryIdx?'active':''}" onclick="pdpGallerySet(${i})">
+        <img src="${url}" alt="" onerror="this.style.display='none'">
+      </div>`
+    ).join('');
+  } else {
+    thumbsEl.innerHTML = '';
+  }
+}
+
+function pdpGalleryNav(dir) {
+  if (!pdpGallery.length) return;
+  pdpGalleryIdx = (pdpGalleryIdx + dir + pdpGallery.length) % pdpGallery.length;
+  pdpRenderGallery();
+}
+
+function pdpGallerySet(i) {
+  pdpGalleryIdx = i;
+  pdpRenderGallery();
+}
+
+function pdpRenderVideo(url, wrap) {
+  let embedUrl = url;
+  // YouTube
+  const ytMatch = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([a-zA-Z0-9_-]{11})/);
+  if (ytMatch) embedUrl = `https://www.youtube.com/embed/${ytMatch[1]}`;
+  // Vimeo
+  const vmMatch = url.match(/vimeo\.com\/(\d+)/);
+  if (vmMatch) embedUrl = `https://player.vimeo.com/video/${vmMatch[1]}`;
+
+  const isEmbed = embedUrl !== url || url.includes('embed') || url.includes('youtube') || url.includes('vimeo');
+  if (isEmbed || url.startsWith('http')) {
+    if (url.match(/\.(mp4|webm|ogg)$/i)) {
+      wrap.innerHTML = `<video controls><source src="${url}"></video>`;
+    } else {
+      wrap.innerHTML = `<iframe src="${embedUrl}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+    }
+  } else {
+    wrap.innerHTML = `<div class="pdp-video-placeholder"><span>▶</span><div style="font-size:13px;color:var(--muted);">Невалиден видео линк.</div></div>`;
+  }
+}
+
+function pdpChangeQty(d) {
+  pdpQtyVal = Math.max(1, pdpQtyVal + d);
+  // Sync all qty displays (main page, sticky bar, bottom sheet)
+  ['pdpQty', 'pdpStickyQty', 'pdpBsQty'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = pdpQtyVal;
+  });
+}
+
+function pdpAddToCart() {
+  if (!pdpProductId) return;
+  const p = products.find(x => x.id === pdpProductId);
+  if (!p) return;
+  const ex = cart.find(x => x.id === pdpProductId);
+  if (ex) { ex.qty += pdpQtyVal; } else { cart.push({...p, qty: pdpQtyVal}); }
+  updateCart();
+  if (typeof saveCart === 'function') saveCart();
+  // Visual feedback on ALL add-to-cart buttons (main, sticky bar, bottom sheet)
+  const addBtns = [
+    document.getElementById('pdpAddBtn'),
+    document.querySelector('#pdpStickyBar .pdp-sticky-atc'),
+    document.querySelector('#pdpBottomSheet .pdp-add-btn'),
+  ];
+  addBtns.forEach(btn => {
+    if (!btn) return;
+    const orig = btn.innerHTML;
+    btn.innerHTML = '✓ Добавен!';
+    btn.style.background = 'var(--accent2)';
+    setTimeout(() => { btn.innerHTML = orig; btn.style.background = ''; }, 2000);
+  });
+  showToast(`✓ ${p.name.substring(0,32)}… добавен в кошницата!`);
+  // Reveal checkout shortcut buttons
+  const ckBtn = document.getElementById('pdpCheckoutBtn');
+  if (ckBtn) ckBtn.style.display = '';
+  const stickyBtn = document.getElementById('pdpStickyCheckoutBtn');
+  if (stickyBtn) stickyBtn.style.display = '';
+}
+
+function pdpCopyProductLink() {
+  const url = location.origin + location.pathname + '?product=' + pdpProductId;
+  navigator.clipboard.writeText(url).then(() => showToast('🔗 Линкът е копиран!')).catch(() => {
+    const ta = document.createElement('textarea');
+    ta.value = url; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove();
+    showToast('🔗 Линкът е копиран!');
+  });
+}
+
+function pdpShareFacebook() {
+  const url = encodeURIComponent(location.origin + location.pathname + '?product=' + pdpProductId);
+  window.open('https://www.facebook.com/sharer/sharer.php?u=' + url, '_blank', 'width=600,height=400');
+}
+
+function pdpShareViber() {
+  const p = products.find(x => x.id === pdpProductId);
+  const url = location.origin + location.pathname + '?product=' + pdpProductId;
+  const text = encodeURIComponent((p ? p.name + ' — ' : '') + url);
+  window.open('viber://forward?text=' + text, '_blank');
+}
+
+function pdpToggleWish() {
+  if (!pdpProductId) return;
+  toggleWishlist(pdpProductId, null);
+  const wishBtn = document.getElementById('pdpWishBtn');
+  if (wishBtn) wishBtn.innerHTML = wishlist.includes(pdpProductId) ? '❤ В любими' : '♡ Добави в желания';
+}
+
+
+
+// ===== 2. MODAL SKELETON =====
+function showModalSkeleton() {
+  const backdrop = document.getElementById('productModalBackdrop');
+  const gallery = document.getElementById('modalGallery');
+  const info = document.querySelector('.modal-info');
+  if (!backdrop || !gallery || !info) return;
+
+  gallery.innerHTML = `<div class="modal-skeleton"><div class="modal-sk-img"></div></div>`;
+  info.innerHTML = `
+    <div class="modal-skeleton" style="padding:8px 0;">
+      <div class="modal-sk-badge" style="width:70px;height:18px;border-radius:9px;background:var(--bg2);margin-bottom:10px;"></div>
+      <div class="modal-sk-title" style="width:90%;height:22px;border-radius:6px;background:var(--bg2);margin-bottom:8px;"></div>
+      <div class="modal-sk-title" style="width:60%;height:14px;border-radius:6px;background:var(--bg2);margin-bottom:16px;"></div>
+      <div class="modal-sk-price"></div>
+      <div class="modal-sk-line" style="width:100%;margin-top:16px;"></div>
+      <div class="modal-sk-line" style="width:85%;"></div>
+      <div class="modal-sk-line" style="width:70%;"></div>
+      <div class="modal-sk-btn"></div>
+      <div class="modal-sk-btn" style="margin-top:8px;opacity:.5;"></div>
+    </div>`;
+
+  backdrop.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+// ===== 3. GALLERY SWIPE =====
+(function initGallerySwipe() {
+  let startX = 0, startY = 0;
+  document.addEventListener('touchstart', e => {
+    const gallery = e.target.closest('.modal-gallery');
+    if (!gallery) return;
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+  }, { passive: true });
+
+  document.addEventListener('touchend', e => {
+    const gallery = e.target.closest('.modal-gallery');
+    if (!gallery) return;
+    const dx = e.changedTouches[0].clientX - startX;
+    const dy = e.changedTouches[0].clientY - startY;
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
+      galleryNav(dx < 0 ? 1 : -1);
+    }
+  }, { passive: true });
+})();
+
+
+// ===== FREE SHIPPING BAR (QW-08) =====
+function updatePdpShipBar() {
+  const bar = document.getElementById('pdpShipBar');
+  const txt = document.getElementById('pdpShipBarText');
+  const fill = document.getElementById('pdpShipBarFill');
+  if (!bar || !txt || !fill) return;
+  const FREE_SHIP_EUR = 100;
+  let cartTotal = 0;
+  try {
+    const cart = JSON.parse(localStorage.getItem('mc_cart') || '[]');
+    cartTotal = cart.reduce((s, i) => {
+      const pr = products.find(x => x.id === i.id);
+      return s + (pr ? pr.price * i.qty : 0);
+    }, 0);
+  } catch(e) {}
+  const cartEur = cartTotal / EUR_RATE;
+  const pct = Math.min(100, Math.round(cartEur / FREE_SHIP_EUR * 100));
+  fill.style.width = pct + '%';
+  if (cartEur >= FREE_SHIP_EUR) {
+    txt.innerHTML = '✅ Имаш безплатна доставка!';
+    fill.style.background = 'var(--success, #22c55e)';
+  } else {
+    const need = (FREE_SHIP_EUR - cartEur).toFixed(2);
+    txt.innerHTML = `🚚 Добави още <b>${need} €</b> за безплатна доставка`;
+    fill.style.background = 'var(--primary)';
+  }
+  bar.style.display = '';
+}
+
+// ===== ALSO BOUGHT (QW-06) =====
+function renderAlsoBought(currentId) {
+  const section = document.getElementById('alsoBoughtSection');
+  const track = document.getElementById('alsoBoughtTrack');
+  if (!section || !track) return;
+  let topIds = [];
+  try {
+    const log = JSON.parse(localStorage.getItem('mc_analytics_log') || '[]');
+    const freq = {};
+    log.filter(e => e.event === 'add_to_cart' && e.id !== currentId)
+       .forEach(e => { freq[e.id] = (freq[e.id] || 0) + 1; });
+    topIds = Object.entries(freq).sort((a,b)=>b[1]-a[1]).slice(0,4).map(([id])=>parseInt(id));
+  } catch(e) {}
+  // Fallback: top rated from same category
+  if (topIds.length < 2) {
+    const p = products.find(x => x.id === currentId);
+    const catTop = p ? [...products].filter(x => x.id !== currentId && x.cat === p.cat)
+      .sort((a,b) => b.rating - a.rating).slice(0,4).map(x=>x.id) : [];
+    topIds = [...new Set([...topIds, ...catTop])].slice(0,4);
+  }
+  const items = topIds.map(id => products.find(x=>x.id===id)).filter(Boolean);
+  if (items.length < 2) { section.style.display = 'none'; return; }
+  track.innerHTML = items.map(r => `
+    <div class="related-card" onclick="openProductModal(${r.id})">
+      <span class="related-card-emoji">${escHtml(r.emoji||'')}</span>
+      <div class="related-card-name">${escHtml(r.name)}</div>
+      <div class="related-card-price">${fmtEur(r.price)}</div>
+    </div>`).join('');
+  section.style.display = '';
+}
+
+// ===== 4. RELATED CAROUSEL =====
+let relatedOffset = 0;
+function renderRelated(currentId) {
+  const p = products.find(x => x.id === currentId);
+  if (!p) return;
+  // Same subcat, similar price (±35%); fallback to same cat; fallback to all
+  let related = products.filter(x => x.id !== currentId && x.subcat && x.subcat === p.subcat
+    && Math.abs(x.price - p.price) / p.price <= 0.35);
+  if (related.length < 3) related = products.filter(x => x.id !== currentId && x.cat === p.cat);
+  if (related.length < 3) related = products.filter(x => x.id !== currentId);
+  related = related.slice(0, 8);
+
+  const track = document.getElementById('relatedTrack');
+  if (!track) return;
+  relatedOffset = 0;
+  track.style.transform = 'translateX(0)';
+  track.innerHTML = related.map(r => `
+    <div class="related-card" onclick="openProductModal(${r.id})">
+      <span class="related-card-emoji">${escHtml(r.emoji||'')}</span>
+      <div class="related-card-name">${escHtml(r.name)}</div>
+      <div class="related-card-price">${fmtEur(r.price)}</div>
+    </div>`).join('');
+  updateRelatedNav(related.length);
+}
+
+function relatedNav(dir) {
+  const track = document.getElementById('relatedTrack');
+  const wrap = document.getElementById('relatedWrap');
+  if (!track || !wrap) return;
+  const cardW = 152; // 140px + 12px gap
+  const visible = Math.floor(wrap.offsetWidth / cardW);
+  const total = track.children.length;
+  const maxOffset = Math.max(0, total - visible);
+  relatedOffset = Math.max(0, Math.min(maxOffset, relatedOffset + dir));
+  track.style.transform = `translateX(-${relatedOffset * cardW}px)`;
+  updateRelatedNav(total);
+}
+
+function updateRelatedNav(total) {
+  const wrap = document.getElementById('relatedWrap');
+  const cardW = 152;
+  const visible = wrap ? Math.floor(wrap.offsetWidth / cardW) : 3;
+  const prevBtn = document.getElementById('relatedPrev');
+  const nextBtn = document.getElementById('relatedNext');
+  if (prevBtn) prevBtn.classList.toggle('hidden', relatedOffset === 0);
+  if (nextBtn) nextBtn.classList.toggle('hidden', relatedOffset >= total - visible);
+}
+
+
+// ===== 🖼 IMAGE ZOOM =====
+(function initImageZoom() {
+  document.addEventListener('mousemove', e => {
+    const wrap = e.target.closest('.modal-gallery-zoom');
+    if (!wrap) return;
+    const img = wrap.querySelector('.modal-main-img');
+    if (!img || img.style.display === 'none') return;
+    const rect = wrap.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width * 100).toFixed(1);
+    const y = ((e.clientY - rect.top)  / rect.height * 100).toFixed(1);
+    wrap.style.setProperty('--zoom-x', x + '%');
+    wrap.style.setProperty('--zoom-y', y + '%');
+  });
+
+  // Touch zoom toggle (mobile double-tap)
+  let lastTap = 0;
+  document.addEventListener('touchend', e => {
+    const wrap = e.target.closest('.modal-gallery-zoom');
+    if (!wrap) return;
+    const now = Date.now();
+    if (now - lastTap < 300) {
+      wrap.classList.toggle('zoomed');
+      e.preventDefault();
+    }
+    lastTap = now;
+  }, { passive: false });
+})();
+
+
+// ===== BACK IN STOCK =====
+function submitNotifyStock() {
+  const email = document.getElementById('pdpNotifyEmail')?.value.trim();
+  if (!email || !email.includes('@')) { showToast('⚠️ Въведи валиден имейл'); return; }
+  // Save to localStorage
+  const key = 'mc_bis_' + pdpProductId;
+  localStorage.setItem(key, email);
+  document.getElementById('pdpNotifyForm').style.display = 'none';
+  document.getElementById('pdpNotifySuccess').style.display = 'block';
+  showToast('📬 Ще те уведомим при наличност!');
+}
+
+// ===== STICKY ADD-TO-CART =====
+(function() {
+  function initStickyBar() {
+    const backdrop = document.getElementById('pdpBackdrop');
+    if (!backdrop) return;
+    let ticking = false;
+    backdrop.addEventListener('scroll', () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const bar = document.getElementById('pdpStickyBar');
+          const addBtn = document.getElementById('pdpAddBtn');
+          if (!bar || !addBtn) { ticking = false; return; }
+          const rect = addBtn.getBoundingClientRect();
+          const show = rect.bottom < 0;
+          bar.classList.toggle('visible', show);
+          // Sync qty
+          const qtyMain = document.getElementById('pdpQty');
+          const qtySticky = document.getElementById('pdpStickyQty');
+          if (qtyMain && qtySticky) qtySticky.textContent = qtyMain.textContent;
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
+  }
+  document.addEventListener('DOMContentLoaded', initStickyBar);
+})();
+
+function pdpUpdateStickyBar(p) {
+  const nameEl = document.getElementById('pdpStickyName');
+  const priceEl = document.getElementById('pdpStickyPrice');
+  if (nameEl) nameEl.textContent = p.name;
+  if (priceEl) priceEl.textContent = fmtEur(p.price) + ' / ' + fmtBgn(p.price);
+}
+
+// QW-02: Viewers counter — seeded by product id for consistency per session
+function pdpShowViewers(p) {
+  let el = document.getElementById('pdpViewers');
+  if (!el) return;
+  const n = 3 + ((p.id * 7 + Math.floor(Date.now() / 600000)) % 10);
+  el.textContent = `👀 ${n} човека разглеждат в момента`;
+  el.style.display = '';
+}
+
+// QW-05: Share product
+function pdpShare(p) {
+  const url = location.origin + location.pathname + '?product=' + p.id;
+  if (navigator.share) {
+    navigator.share({ title: p.name, text: p.brand + ' ' + p.name + ' — ' + fmtEur(p.price), url }).catch(() => {});
+  } else {
+    try { navigator.clipboard.writeText(url); showToast('🔗 Линкът е копиран!'); } catch(e) { showToast('🔗 ' + url); }
+  }
+}
+
+// M-08: Price history sparkline
+function pdpRenderSparkline(p) {
+  const canvas = document.getElementById('pdpSparkline');
+  if (!canvas || !canvas.getContext) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width = 120, H = canvas.height = 36;
+  // Generate 6-month fake history seeded by product id
+  const points = [];
+  let cur = p.price;
+  for (let i = 5; i >= 0; i--) {
+    const seed = (p.id * 31 + i * 17) % 100;
+    const delta = (seed - 50) / 50 * 0.08; // ±8%
+    points.push(Math.round(cur * (1 + delta)));
+  }
+  points.push(p.price);
+  const min = Math.min(...points), max = Math.max(...points);
+  const range = max - min || 1;
+  const xs = points.map((_, i) => (i / (points.length - 1)) * W);
+  const ys = points.map(v => H - 4 - ((v - min) / range) * (H - 8));
+  ctx.clearRect(0, 0, W, H);
+  ctx.beginPath();
+  ctx.moveTo(xs[0], ys[0]);
+  for (let i = 1; i < xs.length; i++) ctx.lineTo(xs[i], ys[i]);
+  ctx.strokeStyle = p.price <= points[0] ? '#16a34a' : '#bd1105';
+  ctx.lineWidth = 1.8;
+  ctx.stroke();
+  // Current price dot
+  ctx.beginPath();
+  ctx.arc(xs[xs.length-1], ys[ys.length-1], 3, 0, Math.PI*2);
+  ctx.fillStyle = p.price <= points[0] ? '#16a34a' : '#bd1105';
+  ctx.fill();
+  const sparkWrap = document.getElementById('pdpSparkWrap');
+  if (sparkWrap) sparkWrap.style.display = '';
+}
+
+// ===== RECENTLY DISCOUNTED =====
+function renderRecentlyDiscounted() {
+  const el = document.getElementById('recentlyDiscountedGrid');
+  if (!el) return;
+  const discounted = products
+    .filter(p => p.stock !== false && p.old && p.old > p.price)
+    .sort((a,b) => ((b.old-b.price)/b.old) - ((a.old-a.price)/a.old))
+    .slice(0, 5);
+  if (!discounted.length) { el.closest('.section-wrap')?.remove(); return; }
+  el.innerHTML = discounted.map(p => makeCard(p)).join('');
+  updateWishlistUI();
+}
+
+
+// ===== REVIEW FORM =====
+let rfStarVal = 0;
+
+function rfSetStar(n) {
+  rfStarVal = n;
+  const labels = ['Ужасно', 'Лошо', 'Средно', 'Добро', 'Отлично'];
+  const lbl = document.getElementById('rfStarLabel');
+  if (lbl) lbl.textContent = labels[n - 1] || '';
+  document.querySelectorAll('.rf-star').forEach(s => {
+    s.style.color = parseInt(s.dataset.v) <= n ? '#fbbf24' : '';
+  });
+}
+
+function submitPdpReview() {
+  const name = document.getElementById('rfName')?.value.trim();
+  const text = document.getElementById('rfText')?.value.trim();
+  if (!name) { showToast('⚠️ Въведи твоето име'); return; }
+  if (!rfStarVal) { showToast('⚠️ Избери рейтинг'); return; }
+  if (!text || text.length < 10) { showToast('⚠️ Ревюто трябва да е поне 10 символа'); return; }
+
+  const review = {
+    name,
+    stars: rfStarVal,
+    text,
+    date: new Date().toLocaleDateString('bg-BG'),
+    pending: true,
+    productId: pdpProductId,
+  };
+
+  try {
+    const saved = JSON.parse(localStorage.getItem('mc_reviews') || '{}');
+    if (!saved[pdpProductId]) saved[pdpProductId] = [];
+    saved[pdpProductId].unshift(review);
+    localStorage.setItem('mc_reviews', JSON.stringify(saved));
+  } catch(e) {}
+
+  // Reset form
+  document.getElementById('rfName').value = '';
+  document.getElementById('rfText').value = '';
+  rfStarVal = 0;
+  document.querySelectorAll('.rf-star').forEach(s => s.style.color = '');
+  const lbl = document.getElementById('rfStarLabel');
+  if (lbl) lbl.textContent = 'Избери рейтинг';
+
+  showToast('✅ Ревюто е изпратено и ще бъде публикувано след преглед!');
+}
+
+
+// ===== PDP subheader search =====
+let _pdpSrchIdx = -1;
+let _pdpSrchResults = [];
+let _pdpSrchTimer = null;
+
+function pdpSearchLive(q) {
+  const clear = document.getElementById('pdpShClear');
+  if (clear) clear.style.display = q ? '' : 'none';
+  clearTimeout(_pdpSrchTimer);
+  if (!q.trim()) { pdpSearchDropClose(); return; }
+  _pdpSrchTimer = setTimeout(() => _pdpSrchRender(q.trim()), 220);
+}
+
+function _pdpSrchRender(q) {
+  const drop = document.getElementById('pdpSearchDrop');
+  if (!drop) return;
+
+  _pdpSrchResults = typeof searchProducts === 'function'
+    ? searchProducts(q, '').slice(0, 7)
+    : [];
+  _pdpSrchIdx = -1;
+
+  if (!_pdpSrchResults.length) {
+    drop.innerHTML = `<div class="pdp-drop-empty">Няма намерени продукти за <strong>${escHtml(q)}</strong></div>`;
+    drop.style.display = '';
+    return;
+  }
+
+  drop.innerHTML = _pdpSrchResults.map((p, i) => {
+    const price = typeof formatPrice === 'function' ? formatPrice(p.price) : p.price + ' лв.';
+    const img = p.img
+      ? `<img src="${escHtml(p.img)}" alt="" class="pdp-drop-img" loading="lazy">`
+      : `<span class="pdp-drop-emoji">${escHtml(p.emoji || '📦')}</span>`;
+    return `<div class="pdp-drop-item" role="option" data-idx="${i}" onmousedown="pdpSearchPick(${i})">
+      <div class="pdp-drop-thumb">${img}</div>
+      <div class="pdp-drop-info">
+        <div class="pdp-drop-name">${escHtml(p.name)}</div>
+        <div class="pdp-drop-price">${price}</div>
+      </div>
+    </div>`;
+  }).join('') +
+  `<div class="pdp-drop-all" onmousedown="pdpSearchGo(document.getElementById('pdpSearchInput').value)">
+    Виж всички резултати за „${escHtml(q)}" →
+  </div>`;
+
+  drop.style.display = '';
+}
+
+function pdpSearchPick(idx) {
+  const p = _pdpSrchResults[idx];
+  if (!p) return;
+  pdpSearchDropClose();
+  const inp = document.getElementById('pdpSearchInput');
+  if (inp) inp.value = '';
+  const clear = document.getElementById('pdpShClear');
+  if (clear) clear.style.display = 'none';
+  openProductPage(p.id);
+}
+
+function pdpSearchGo(q) {
+  q = (q || '').trim();
+  if (!q) return;
+  pdpSearchDropClose();
+  closeProductPage();
+  const inp = document.getElementById('searchInput');
+  if (inp) { inp.value = q; }
+  if (typeof showSearchResultsPage === 'function') showSearchResultsPage(q);
+}
+
+function pdpSearchClear() {
+  const inp = document.getElementById('pdpSearchInput');
+  if (inp) { inp.value = ''; inp.focus(); }
+  const clear = document.getElementById('pdpShClear');
+  if (clear) clear.style.display = 'none';
+  pdpSearchDropClose();
+}
+
+function pdpSearchDropClose() {
+  const drop = document.getElementById('pdpSearchDrop');
+  if (drop) drop.style.display = 'none';
+  _pdpSrchIdx = -1;
+}
+
+function pdpSearchKey(e) {
+  const drop = document.getElementById('pdpSearchDrop');
+  const items = drop ? drop.querySelectorAll('.pdp-drop-item') : [];
+  if (e.key === 'ArrowDown') {
+    e.preventDefault();
+    _pdpSrchIdx = Math.min(_pdpSrchIdx + 1, items.length - 1);
+    _pdpSrchHighlight(items);
+  } else if (e.key === 'ArrowUp') {
+    e.preventDefault();
+    _pdpSrchIdx = Math.max(_pdpSrchIdx - 1, -1);
+    _pdpSrchHighlight(items);
+  } else if (e.key === 'Enter') {
+    e.preventDefault();
+    if (_pdpSrchIdx >= 0 && items[_pdpSrchIdx]) {
+      pdpSearchPick(Number(items[_pdpSrchIdx].dataset.idx));
+    } else {
+      pdpSearchGo(e.target.value);
+    }
+  } else if (e.key === 'Escape') {
+    pdpSearchClear();
+  }
+}
+
+function _pdpSrchHighlight(items) {
+  items.forEach((el, i) => el.classList.toggle('active', i === _pdpSrchIdx));
+}
+
+// Close PDP search dropdown on outside click
+document.addEventListener('click', e => {
+  if (!e.target.closest('#pdpShSearch') && !e.target.closest('#pdpSearchDrop')) {
+    pdpSearchDropClose();
+  }
+});
+
+// ===== BUNDLE OFFER =====
+function pdpRenderBundle(p) {
+  const wrap = document.getElementById('pdpBundle');
+  if (!wrap) return;
+  if (!p.bundle || !p.bundle.length) { wrap.style.display = 'none'; return; }
+
+  const bundleProds = p.bundle.map(id => products.find(x => x.id === id)).filter(Boolean);
+  if (!bundleProds.length) { wrap.style.display = 'none'; return; }
+
+  const disc = p.bundleDiscount || 10;
+  const allProds = [p, ...bundleProds];
+  const totalFull = allProds.reduce((s, x) => s + x.price, 0);
+  const totalDisc = Math.round(totalFull * (1 - disc / 100));
+  const saving = totalFull - totalDisc;
+
+  const _esc = s => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+  const itemsHtml = allProds.map((x, i) => `
+    <div class="bundle-item" onclick="openProductPage(${x.id})">
+      <div class="bundle-emoji">${x.emoji}</div>
+      <div class="bundle-info">
+        <div class="bundle-item-name">${_esc(x.name.length > 40 ? x.name.slice(0,40)+'…' : x.name)}</div>
+        <div class="bundle-item-price">${fmtEur(x.price)}</div>
+      </div>
+    </div>
+    ${i < allProds.length - 1 ? '<div class="bundle-plus">+</div>' : ''}
+  `).join('');
+
+  wrap.innerHTML = `
+    <div class="bundle-section">
+      <div class="bundle-header">
+        <span class="bundle-tag">🎁 Купи заедно</span>
+        <span class="bundle-save-badge">Спести ${fmtEur(saving)}</span>
+      </div>
+      <div class="bundle-items">${itemsHtml}</div>
+      <div class="bundle-footer">
+        <div class="bundle-totals">
+          <span class="bundle-old-total">${fmtEur(totalFull)}</span>
+          <span class="bundle-new-total">${fmtEur(totalDisc)}</span>
+          <span class="bundle-disc-label">-${disc}% при комплект</span>
+        </div>
+        <button type="button" class="bundle-add-btn" onclick="pdpAddBundle(${JSON.stringify(allProds.map(x=>x.id))})">
+          🛒 Добави всички в кошницата
+        </button>
+      </div>
+    </div>`;
+  wrap.style.display = '';
+}
+
+function pdpAddBundle(ids) {
+  ids.forEach(id => { if (typeof addToCart === 'function') addToCart(id); });
+  showToast('✅ Комплектът е добавен в кошницата!');
+}
+
+// ===== PDP UX ENHANCEMENTS =====
+
+// ── LIGHTBOX ──
+function pdpLbOpen() {
+  var img = document.getElementById('pdpMainImg');
+  if (!img || !img.src || img.style.display === 'none') return;
+  var lb = document.getElementById('pdpLightbox');
+  var lbImg = document.getElementById('pdpLbImg');
+  if (!lb || !lbImg) return;
+  lbImg.src = img.src;
+  lbImg.alt = img.alt;
+  lbImg.style.setProperty('--lb-scale', '1');
+  lb.style.display = 'flex';
+  document.addEventListener('keydown', _pdpLbKey);
+}
+function pdpLbClose() {
+  var lb = document.getElementById('pdpLightbox');
+  if (lb) lb.style.display = 'none';
+  document.removeEventListener('keydown', _pdpLbKey);
+}
+function pdpLbNav(dir) {
+  pdpGalleryNav(dir);
+  var img = document.getElementById('pdpMainImg');
+  var lbImg = document.getElementById('pdpLbImg');
+  if (img && lbImg) lbImg.src = img.src;
+}
+function _pdpLbKey(e) {
+  if (e.key === 'Escape') pdpLbClose();
+  if (e.key === 'ArrowLeft') pdpLbNav(-1);
+  if (e.key === 'ArrowRight') pdpLbNav(1);
+}
+// Wheel zoom
+(function() {
+  document.addEventListener('wheel', function(e) {
+    var lb = document.getElementById('pdpLightbox');
+    if (!lb || lb.style.display === 'none') return;
+    e.preventDefault();
+    var lbImg = document.getElementById('pdpLbImg');
+    var cur = parseFloat(lbImg.style.getPropertyValue('--lb-scale') || '1');
+    var next = Math.min(4, Math.max(1, cur - e.deltaY * 0.003));
+    lbImg.style.setProperty('--lb-scale', next);
+  }, { passive: false });
+})();
+
+// Scroll-to-top button visibility + action
+function pdpGoToTop() {
+  var b = document.getElementById('pdpBackdrop');
+  if (!b) return;
+  b.scrollTop = 0;
+}
+(function() {
+  var backdrop = document.getElementById('pdpBackdrop');
+  if (!backdrop) return;
+  backdrop.addEventListener('scroll', function() {
+    var btn = document.getElementById('pdpScrollTop');
+    if (!btn) return;
+    var show = backdrop.scrollTop > 400;
+    btn.style.display = show ? '' : 'none';
+  }, { passive: true });
+  // wire button via JS (works on both click and touch)
+  var _wireBtn = function() {
+    var btn = document.getElementById('pdpScrollTop');
+    if (!btn) return;
+    btn.addEventListener('click', pdpGoToTop);
+    btn.addEventListener('touchstart', function(e) { e.preventDefault(); pdpGoToTop(); }, { passive: false });
+  };
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', _wireBtn);
+  } else {
+    _wireBtn();
+  }
+})();
+
+// 1. DELIVERY TIMER
+function pdpInitDeliveryTimer() {
+  const el = document.getElementById('pdpDeliveryMsg');
+  const cd = document.getElementById('pdpDeliveryCd');
+  if (!el) return;
+  clearInterval(pdpInitDeliveryTimer._iv);
+
+  function update() {
+    const now = new Date();
+    const h = now.getHours(), m = now.getMinutes();
+    const day = now.getDay();
+    const isWeekend = day === 0 || day === 6;
+    if (isWeekend) {
+      el.innerHTML = 'Поръчай сега и получи в <strong>понеделник</strong>';
+      if (cd) cd.textContent = '';
+      return;
+    }
+    // Cutoff: 16:30 = 16h 30m
+    const cutoffSec = 16 * 3600 + 30 * 60;
+    const nowSec = h * 3600 + m * 60 + now.getSeconds();
+    if (nowSec < cutoffSec) {
+      const secLeft = cutoffSec - nowSec;
+      const hh = Math.floor(secLeft / 3600);
+      const mm = String(Math.floor((secLeft % 3600) / 60)).padStart(2, '0');
+      const ss = String(secLeft % 60).padStart(2, '0');
+      el.innerHTML = 'Поръчай до <strong>16:30 ч.</strong> и получи <strong>утре</strong>';
+      if (cd) cd.textContent = '(остават ' + hh + ':' + mm + ':' + ss + ')';
+    } else {
+      el.innerHTML = 'Поръчай сега — изпращаме <strong>утре</strong>';
+      if (cd) cd.textContent = '';
+    }
+  }
+  update();
+  pdpInitDeliveryTimer._iv = setInterval(update, 1000);
+}
+
+// 2. RATING BREAKDOWN
+function pdpRenderRatingBreakdown(revs) {
+  const wrap = document.getElementById('pdpRvBreakdown');
+  if (!wrap) return;
+  if (!revs || !revs.length) { wrap.style.display = 'none'; return; }
+  const counts = [0, 0, 0, 0, 0];
+  revs.forEach(function(r) {
+    const i = Math.min(4, Math.max(0, Math.round(r.stars) - 1));
+    counts[i]++;
+  });
+  const avg = (revs.reduce(function(s, r) { return s + r.stars; }, 0) / revs.length).toFixed(1);
+  const total = revs.length;
+  var barsHtml = '';
+  [5,4,3,2,1].forEach(function(s) {
+    var c = counts[s-1];
+    var pct = total ? Math.round(c / total * 100) : 0;
+    barsHtml += '<div class="pdp-rvb-row">' +
+      '<span class="pdp-rvb-lbl">' + s + ' ★</span>' +
+      '<div class="pdp-rvb-bar"><div class="pdp-rvb-fill" style="width:' + pct + '%"></div></div>' +
+      '<span class="pdp-rvb-num">' + c + '</span>' +
+      '</div>';
+  });
+  wrap.innerHTML = '<div class="pdp-rvb">' +
+    '<div class="pdp-rvb-avg">' +
+      '<div class="pdp-rvb-big">' + avg + '</div>' +
+      '<div class="pdp-rvb-stars">' + starsHTML(parseFloat(avg)) + '</div>' +
+      '<div class="pdp-rvb-count">' + total + ' ревют' + (total === 1 ? 'о' : 'а') + '</div>' +
+    '</div>' +
+    '<div class="pdp-rvb-bars">' + barsHtml + '</div>' +
+  '</div>';
+  wrap.style.display = '';
+}
+
+// 3. IMAGE ZOOM
+function pdpInitZoom() {
+  const wrap = document.querySelector('.pdp-main-img-wrap');
+  if (!wrap) return;
+  // Remove previous listeners via flag
+  if (wrap._zoomInited) {
+    wrap.removeEventListener('mousemove', wrap._zoomMove);
+    wrap.removeEventListener('mouseleave', wrap._zoomLeave);
+  }
+  wrap._zoomMove = function(e) {
+    const img = document.getElementById('pdpMainImg');
+    if (!img || img.style.display === 'none') return;
+    const r = wrap.getBoundingClientRect();
+    const x = ((e.clientX - r.left) / r.width * 100).toFixed(1);
+    const y = ((e.clientY - r.top) / r.height * 100).toFixed(1);
+    img.style.transformOrigin = x + '% ' + y + '%';
+    img.style.transform = 'scale(2.2)';
+    wrap.style.cursor = 'zoom-in';
+  };
+  wrap._zoomLeave = function() {
+    const img = document.getElementById('pdpMainImg');
+    if (!img) return;
+    img.style.transform = '';
+    img.style.transformOrigin = 'center center';
+  };
+  wrap.addEventListener('mousemove', wrap._zoomMove);
+  wrap.addEventListener('mouseleave', wrap._zoomLeave);
+  wrap._zoomInited = true;
+}
+
+// 4. MOBILE SWIPE
+function pdpInitSwipe() {
+  const wrap = document.querySelector('.pdp-main-img-wrap');
+  if (!wrap || wrap._swipeInited) return;
+  var sx = 0;
+  wrap.addEventListener('touchstart', function(e) {
+    sx = e.touches[0].clientX;
+  }, { passive: true });
+  wrap.addEventListener('touchend', function(e) {
+    var dx = e.changedTouches[0].clientX - sx;
+    if (Math.abs(dx) > 40) {
+      pdpGalleryNav(dx < 0 ? 1 : -1);
+      wrap.classList.remove('swipe-bounce');
+      // Double rAF restarts the animation without a forced synchronous reflow
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          wrap.classList.add('swipe-bounce');
+          setTimeout(function(){ wrap.classList.remove('swipe-bounce'); }, 320);
+        });
+      });
+    }
+  }, { passive: true });
+  wrap._swipeInited = true;
+}
+
+// 5. TABS SCROLL SYNC
+var _pdpTabsObs = null;
+function pdpInitTabsScroll() {
+  if (_pdpTabsObs) { _pdpTabsObs.disconnect(); _pdpTabsObs = null; }
+  var backdrop = document.getElementById('pdpBackdrop');
+  if (!backdrop || !('IntersectionObserver' in window)) return;
+  var tabs = ['specs','desc','video','reviews','vendor'];
+  _pdpTabsObs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        var tab = entry.target.id.replace('pdp-tab-', '');
+        document.querySelectorAll('.pdp-tab').forEach(function(t) {
+          var act = t.getAttribute('data-action') || '';
+          t.classList.toggle('active', act.indexOf("'" + tab + "'") !== -1);
+        });
+      }
+    });
+  }, { root: backdrop, rootMargin: '-10% 0px -75% 0px', threshold: 0 });
+  tabs.forEach(function(t) {
+    var el = document.getElementById('pdp-tab-' + t);
+    if (el) _pdpTabsObs.observe(el);
+  });
+}
+
+// 6. SPECS SEARCH/FILTER
+function pdpFilterSpecs(q) {
+  var rows = document.querySelectorAll('#pdpSpecsTbody tr');
+  var ql = q.toLowerCase().trim();
+  rows.forEach(function(row) {
+    row.style.display = (!ql || row.textContent.toLowerCase().indexOf(ql) !== -1) ? '' : 'none';
+  });
+  var noRes = document.getElementById('pdpSpecsNoResult');
+  var visible = Array.from(rows).some(function(r) { return r.style.display !== 'none'; });
+  if (noRes) noRes.style.display = (ql && !visible) ? '' : 'none';
+}
+
+// 7. RELATED PRODUCTS CAROUSEL
+function pdpRenderRelated(p) {
+  var section = document.getElementById('pdpRelated');
+  var scroll  = document.getElementById('pdpRelatedScroll');
+  var title   = document.getElementById('pdpRelatedTitle');
+  if (!section || !scroll) return;
+  var all = (typeof products !== 'undefined') ? products : [];
+  // A: prefer same subcat first, fallback to same cat
+  var related = p.subcat
+    ? all.filter(function(x) { return x.id !== p.id && x.subcat === p.subcat; })
+    : [];
+  if (related.length < 4)
+    related = all.filter(function(x) { return x.id !== p.id && x.cat === p.cat; });
+  related = related.sort(function() { return Math.random() - 0.5; }).slice(0, 14);
+  if (related.length < 2) { section.style.display = 'none'; return; }
+  if (title) {
+    var catLabel = (typeof CAT_LABELS !== 'undefined' && CAT_LABELS[p.cat]) ? CAT_LABELS[p.cat] : '';
+    title.textContent = catLabel ? ('Подобни — ' + catLabel) : 'Подобни продукти';
+  }
+  scroll.innerHTML = related.map(_pdpCarCard).join('');
+  section.style.display = '';
+}
+
+// 8. RECENTLY VIEWED CAROUSEL IN PDP
+function pdpRenderRvCarousel() {
+  var section = document.getElementById('pdpRvSection');
+  var scroll  = document.getElementById('pdpRvCarousel');
+  if (!section || !scroll) return;
+  var rv = [];
+  try { rv = JSON.parse(localStorage.getItem('mc_rv') || '[]'); } catch(e) {}
+  var all = (typeof products !== 'undefined') ? products : [];
+  var items = rv.map(function(id) { return all.find(function(p) { return p.id === id; }); })
+    .filter(Boolean).slice(0, 14);
+  if (items.length < 2) { section.style.display = 'none'; return; }
+  scroll.innerHTML = items.map(_pdpCarCard).join('');
+  section.style.display = '';
+}
+
+// Shared carousel card renderer
+function _pdpCarCard(p) {
+  var price = (typeof fmtEur === 'function') ? fmtEur(p.price) : (p.price + ' лв.');
+  var thumb = p.img
+    ? '<img class="pdp-car-img" src="' + p.img + '" alt="" loading="lazy" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">'
+    : '';
+  var emoji = '<span class="pdp-car-emoji"' + (p.img ? ' style="display:none"' : '') + '>' + (p.emoji || '📦') + '</span>';
+  var stars = p.rating ? '<div class="pdp-car-stars">' + starsHTML(p.rating) + '</div>' : '';
+  var badge = p.badge === 'sale' ? '<span class="pdp-car-badge">Промо</span>'
+    : p.badge === 'new' ? '<span class="pdp-car-badge pdp-car-badge-new">Ново</span>' : '';
+  return '<div class="pdp-car-card" onclick="openProductPage(' + p.id + ')">' +
+    '<div class="pdp-car-thumb">' + badge + thumb + emoji + '</div>' +
+    '<div class="pdp-car-info">' +
+      '<div class="pdp-car-name">' + (typeof _esc === 'function' ? _esc(p.name) : escHtml(p.name)) + '</div>' +
+      stars +
+      '<div class="pdp-car-price">' + price + '</div>' +
+    '</div>' +
+  '</div>';
+}
+
+// Carousel scroll helper
+function pdpCarScroll(id, dir) {
+  var el = document.getElementById(id);
+  if (el) el.scrollBy({ left: dir * 230, behavior: 'smooth' });
+}
+
+// ===== 9. STICKY SPECS SIDEBAR =====
+function pdpRenderSpecsSidebar(p) {
+  var sb = document.getElementById('pdpSpecsSidebar');
+  if (!sb) return;
+  var specs = p.specs || {};
+  var keys = Object.keys(specs).slice(0, 10);
+  if (!keys.length) { sb.style.display = 'none'; return; }
+  var rows = keys.map(function(k) {
+    var _e = typeof _esc === 'function' ? _esc : escHtml;
+    return '<tr><td class="pdp-sb-key">' + _e(k) + '</td><td class="pdp-sb-val">' + _e(specs[k]) + '</td></tr>';
+  }).join('');
+  sb.innerHTML =
+    '<div class="pdp-sb-title">' +
+      '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>' +
+      ' Основни характеристики' +
+    '</div>' +
+    '<table class="pdp-sb-table"><tbody>' + rows + '</tbody></table>' +
+    '<button type="button" class="pdp-sb-more" onclick="pdpSwitchTab(\'specs\');document.getElementById(\'pdp-tab-specs\').scrollIntoView({behavior:\'smooth\'})">Виж всички →</button>';
+  sb.style.display = '';
+}
+
+// ===== 10. PRINT / PDF =====
+function pdpPrintSpecs() {
+  var p = (typeof products !== 'undefined') ? products.find(function(x) { return x.id === pdpProductId; }) : null;
+  if (!p) return;
+  var specs = p.specs || {};
+  var _ep = function(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); };
+  var rows = Object.keys(specs).map(function(k) {
+    return '<tr><td style="padding:7px 12px;font-weight:600;color:#444;width:38%;border-bottom:1px solid #eee;">' + _ep(k) +
+           '</td><td style="padding:7px 12px;border-bottom:1px solid #eee;">' + _ep(specs[k]) + '</td></tr>';
+  }).join('');
+  var win = window.open('', '_blank', 'width=800,height=700');
+  if (!win) { showToast('⚠️ Попъп прозорецът е блокиран. Разреши попъпи за този сайт.'); return; }
+  win.document.write(
+    '<!DOCTYPE html><html><head><title>' + _ep(p.name) + ' — Характеристики</title>' +
+    '<style>body{font-family:Arial,sans-serif;padding:32px;color:#1a1a1a;}h1{font-size:20px;margin-bottom:4px;}' +
+    '.sub{color:#888;font-size:13px;margin-bottom:24px;}table{width:100%;border-collapse:collapse;}' +
+    'tr:nth-child(even){background:#f9f9f9;}' +
+    '@media print{button{display:none!important;}}' +
+    '</style></head><body>' +
+    '<h1>' + _ep(p.name) + '</h1>' +
+    '<div class="sub">' + _ep(p.brand || '') + (p.sku ? ' · SKU: ' + _ep(p.sku) : '') + '</div>' +
+    '<table><tbody>' + rows + '</tbody></table>' +
+    '<br><button onclick="window.print()" style="padding:10px 22px;background:#bd1105;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:14px;">🖨 Принтирай</button>' +
+    '</body></html>'
+  );
+  win.document.close();
+}
+
+// ===== 11. COMPARE BUTTON IN PDP =====
+function pdpToggleCompare() {
+  var btn = document.getElementById('pdpCompareBtn');
+  if (!pdpProductId || typeof toggleCompare !== 'function') return;
+  var isActive = btn && btn.classList.contains('active');
+  toggleCompare(pdpProductId, !isActive);
+  if (btn) {
+    if (!isActive) {
+      btn.innerHTML = btn.innerHTML.replace('Сравни', 'Сравнено ✓');
+      btn.classList.add('active');
+    } else {
+      btn.innerHTML = btn.innerHTML.replace('Сравнено ✓', 'Сравни');
+      btn.classList.remove('active');
+    }
+  }
+}
+
+// Reset compare button state when new product opens
+var _pdpCompareReset = function() {
+  var btn = document.getElementById('pdpCompareBtn');
+  if (!btn) return;
+  btn.classList.remove('active');
+  btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> Сравни';
+};
+
+// ===== 12. MOBILE BOTTOM SHEET =====
+var _pdpBsVisible = false;
+
+function pdpBsOpen(p) {
+  var sheet = document.getElementById('pdpBottomSheet');
+  var overlay = document.getElementById('pdpBsOverlay');
+  if (!sheet || !p) return;
+  // Populate
+  var nameEl = document.getElementById('pdpBsName');
+  var priceEl = document.getElementById('pdpBsPrice');
+  var thumbEl = document.getElementById('pdpBsThumb');
+  if (nameEl) nameEl.textContent = p.name;
+  if (priceEl) priceEl.textContent = (typeof fmtEur === 'function') ? fmtEur(p.price) : p.price + ' лв.';
+  if (thumbEl) {
+    thumbEl.innerHTML = p.img
+      ? '<img src="' + p.img + '" style="width:44px;height:44px;object-fit:contain;border-radius:6px;">'
+      : '<span style="font-size:28px;">' + (p.emoji || '📦') + '</span>';
+  }
+  sheet.classList.add('open');
+  if (overlay) { overlay.style.display = ''; }
+  _pdpBsVisible = true;
+}
+
+function pdpBsClose() {
+  var sheet = document.getElementById('pdpBottomSheet');
+  var overlay = document.getElementById('pdpBsOverlay');
+  if (sheet) sheet.classList.remove('open');
+  if (overlay) overlay.style.display = 'none';
+  _pdpBsVisible = false;
+}
+
+// Show bottom sheet when add button scrolls out of view (mobile only)
+(function() {
+  var backdrop = document.getElementById('pdpBackdrop');
+  if (!backdrop) return;
+  backdrop.addEventListener('scroll', function() {
+    if (window.innerWidth > 768) return;
+    var addBtn = document.getElementById('pdpAddBtn');
+    if (!addBtn) return;
+    var rect = addBtn.getBoundingClientRect();
+    var outOfView = rect.bottom < 0 || rect.top > window.innerHeight;
+    var sheet = document.getElementById('pdpBottomSheet');
+    if (!sheet) return;
+    if (outOfView && !sheet.classList.contains('open')) {
+      var p = (typeof products !== 'undefined' && pdpProductId != null)
+        ? products.find(function(x) { return x.id === pdpProductId; }) : null;
+      if (p) pdpBsOpen(p);
+    } else if (!outOfView && sheet.classList.contains('open')) {
+      pdpBsClose();
+    }
+  }, { passive: true });
+})();
+
+// Sync bottom sheet qty display
+var _origPdpChangeQty = typeof pdpChangeQty === 'function' ? pdpChangeQty : null;
+
+// ===== 13. PINCH-TO-ZOOM =====
+function pdpInitPinch() {
+  var wrap = document.querySelector('.pdp-main-img-wrap');
+  if (!wrap || wrap._pinchInited) return;
+  var startDist = 0, curScale = 1;
+
+  wrap.addEventListener('touchstart', function(e) {
+    if (e.touches.length === 2) {
+      startDist = Math.hypot(
+        e.touches[0].clientX - e.touches[1].clientX,
+        e.touches[0].clientY - e.touches[1].clientY
+      );
+    }
+  }, { passive: true });
+
+  wrap.addEventListener('touchmove', function(e) {
+    if (e.touches.length !== 2) return;
+    var dist = Math.hypot(
+      e.touches[0].clientX - e.touches[1].clientX,
+      e.touches[0].clientY - e.touches[1].clientY
+    );
+    var img = document.getElementById('pdpMainImg');
+    if (!img || img.style.display === 'none') return;
+    curScale = Math.min(Math.max(dist / startDist, 1), 3.5);
+    img.style.transform = 'scale(' + curScale + ')';
+  }, { passive: true });
+
+  wrap.addEventListener('touchend', function(e) {
+    if (e.touches.length < 2) {
+      // reset after short delay
+      setTimeout(function() {
+        var img = document.getElementById('pdpMainImg');
+        if (img) { img.style.transform = ''; curScale = 1; }
+      }, 300);
+    }
+  }, { passive: true });
+
+  wrap._pinchInited = true;
+}
+
+// ===== BLOG / SERVICE / DELIVERY PAGES =====
+const blogPosts = [
+  {
+    slug: 'macbook-pro-m4-pro-review',
+    emoji: '💻', cat: 'Ревю', title: 'MacBook Pro M4 Pro — Worth It?',
+    date: '07 Март 2026', dateISO: '2026-03-07', read: '5 мин', author: 'Most Computers',
+    summary: 'Тествахме новия MacBook Pro M4 Pro в реални условия — видео монтаж, код и gaming. Ето резултатите.',
+    metaDesc: 'MacBook Pro M4 Pro ревю — производителност, батерия, дисплей. Струва ли си цената? Тест в реални условия от Most Computers.',
+    tags: ['MacBook', 'Apple', 'лаптопи', 'ревю'],
+    body: `<h2>Дизайн и конструкция</h2>
+<p>MacBook Pro M4 Pro запазва емблематичния алуминиев корпус в Space Black. При 14-инчовия модел тежи 1.55 кг — незначително повече от M3, но усещането за качество е на ниво. Notch-ът е намален с 20% спрямо предишното поколение.</p>
+<h2>Производителност — M4 Pro чип</h2>
+<p>12-ядреният CPU на M4 Pro е около <strong>22% по-бърз</strong> от M3 Pro при многоядрени задачи. Рендерирането на 4K проект в Final Cut Pro, което на M3 Pro отнемаше 8 минути, при M4 Pro приключва за 6:20. Компилацията на голям Swift проект се ускорява с ~18%.</p>
+<p>При gaming чрез Game Mode и Rosetta 2 постиженията са изненадващи — Baldur's Gate 3 тече стабилно на средни настройки при 1080p, около 55-60 fps.</p>
+<h2>Дисплей и батерия</h2>
+<p>Liquid Retina XDR панелът с 1000 нита за SDR и 1600 нита за HDR остава еталон. ProMotion адаптивно управлява честотата между 24 и 120 Hz. При смесено натоварване (код, видео конференции, Safari) изкарахме <strong>16-17 часа</strong> от зареждане до зареждане — резултат, недостижим за Windows алтернативите.</p>
+<h2>Струва ли си надстройката от M3 Pro?</h2>
+<p>Ако работиш с M3 Pro Mac — не бързай. Подобрението е реално, но не революционно. Ако обаче идваш от Intel Mac или M1, разликата е <em>огромна</em>. M4 Pro е най-балансираният MacBook Pro засега.</p>
+<p><strong>Оценка: 9.2 / 10</strong></p>`
+  },
+  {
+    slug: 'iphone-16-pro-max-vs-s25-ultra',
+    emoji: '📱', cat: 'Сравнение', title: 'iPhone 16 Pro Max vs Samsung S25 Ultra',
+    date: '03 Март 2026', dateISO: '2026-03-03', read: '7 мин', author: 'Most Computers',
+    summary: 'Двата флагмана се срещат в директен дуел. Камера, дисплей, батерия — кой печели?',
+    metaDesc: 'iPhone 16 Pro Max срещу Samsung Galaxy S25 Ultra — пълно сравнение на камера, дисплей, батерия и производителност.',
+    tags: ['iPhone', 'Samsung', 'смартфони', 'сравнение'],
+    body: `<h2>Дизайн</h2>
+<p>iPhone 16 Pro Max е преминал към титаниева рамка с по-заоблени ъгли. S25 Ultra залага на плоски ръбове и вградена S Pen — уникален плюс за творческата работа. И двата са в premium сегмента, но Apple изглежда по-изтънчено.</p>
+<h2>Дисплей</h2>
+<p>S25 Ultra предлага 6.9" Dynamic AMOLED 2X с 2600 нита пик яркост и 1-120 Hz адаптивен ProMotion. iPhone 16 Pro Max разполага с 6.9" Super Retina XDR OLED с ProMotion. В пряка конкуренция Samsung печели по яркост при директна слънчева светлина, докато Apple превъзхожда при точност на цветопредаването.</p>
+<h2>Камера</h2>
+<p>iPhone 16 Pro Max разполага с 48 MP главна, 48 MP ултраширока и 5x оптичен зум. S25 Ultra предлага 200 MP главна с 50 MP телефото при 5x и 10x зум. При дневна светлина двете системи са практически равни. Нощното снимане леко предпочита Samsung заради агресивната обработка, докато Apple дава по-естествен резултат.</p>
+<h2>Производителност</h2>
+<p>A18 Pro (Apple) срещу Snapdragon 8 Elite (Samsung) — в ежедневна употреба разликата е невидима. При тежко натоварване (видео рендериране, ML задачи) Apple губи по-малко производителност при топлинно дросиране.</p>
+<h2>Батерия</h2>
+<p>S25 Ultra предлага 5000 mAh батерия с 45W зареждане. iPhone 16 Pro Max — 4685 mAh с 27W. При реална употреба Samsung дава около 1 час повече автономия, но Apple зарежда безжично по-бързо (MagSafe 25W).</p>
+<h2>Заключение</h2>
+<p>Ако ти трябва S Pen, максимален зум и Android — <strong>S25 Ultra</strong>. Ако искаш iOS екосистема, по-добро видео и по-плавен софтуер — <strong>iPhone 16 Pro Max</strong>.</p>`
+  },
+  {
+    slug: 'top-5-bejichni-slushalki-2026',
+    emoji: '🎧', cat: 'Топ 5', title: 'Най-добри безжични слушалки за 2026',
+    date: '28 Февруари 2026', dateISO: '2026-02-28', read: '4 мин', author: 'Most Computers',
+    summary: 'Sony, Bose, Apple — кои слушалки дават най-добро качество за парите си?',
+    metaDesc: 'Топ 5 безжични слушалки за 2026 — Sony WH-1000XM6, Bose QC45, Apple AirPods Max. Коя да избереш?',
+    tags: ['слушалки', 'Sony', 'Bose', 'Apple', 'топ 5'],
+    body: `<h2>1. Sony WH-1000XM6 — Най-добро шумопотискане</h2>
+<p>Sony продължава да доминира в сегмента на ANC слушалките. XM6 предлага 40 ч. автономия, Multipoint свързване с 2 устройства и подобрен процесор V2 за по-прецизно шумопотискане. Звукът е наситен и детайлен, особено при Hi-Res Wireless с LDAC кодек.</p>
+<h2>2. Bose QuietComfort Ultra</h2>
+<p>Bose е поставил акцент върху Immersive Audio — пространствен звук, който се адаптира спрямо движенията на главата. Ако пътуваш много и шумопотискането е приоритет, QC Ultra е равностоен конкурент на Sony.</p>
+<h2>3. Apple AirPods Max (2025)</h2>
+<p>С новия USB-C порт и актуализирани H2 чипове, AirPods Max вече имат смисъл за iOS потребителите. Интеграцията с Apple екосистемата е безупречна — автоматично превключване между iPhone, iPad и Mac за секунди.</p>
+<h2>4. Jabra Evolve2 85 — За офиса</h2>
+<p>Ако работиш в open space, Jabra предлага 8-микрофонен array за кристални обаждания, 37 ч. батерия и сертификация за Microsoft Teams. Звукът е малко по-неутрален от Sony, но за видеоконференции е идеален.</p>
+<h2>5. Sennheiser Momentum 4</h2>
+<p>Германска инженерия, 60 ч. батерия и естествен звук без прекомерна обработка. Momentum 4 е изборът на аудиофилите с бюджет под 350 €.</p>
+<h2>Заключение</h2>
+<p>За повечето хора — <strong>Sony WH-1000XM6</strong>. За Apple потребители — <strong>AirPods Max</strong>. За офис употреба — <strong>Jabra Evolve2 85</strong>.</p>`
+  },
+  {
+    slug: 'kak-da-izberem-monitor-rabota-vkashti',
+    emoji: '🖥', cat: 'Съвети', title: 'Как да изберем монитор за работа от вкъщи',
+    date: '22 Февруари 2026', dateISO: '2026-02-22', read: '6 мин', author: 'Most Computers',
+    summary: '4K или 1440p? IPS или OLED? Пълен наръчник за правилния избор.',
+    metaDesc: 'Как да изберем монитор за работа от вкъщи — 4K, 1440p, IPS, OLED. Пълен наръчник 2026.',
+    tags: ['монитори', 'работа от вкъщи', 'съвети', '4K'],
+    body: `<h2>Резолюция: 1080p, 1440p или 4K?</h2>
+<p>При 24-27" монитор <strong>1440p (2K)</strong> е оптималният баланс — достатъчно остра картина без прекомерно натоварване на GPU. 4K има смисъл при 32"+ или ако работиш с видео/снимки и имаш мощна графична карта.</p>
+<h2>Матрица: IPS, VA или OLED?</h2>
+<ul>
+<li><strong>IPS</strong> — най-добри ъгли на видимост, точни цветове. Идеален за дизайн и фото работа.</li>
+<li><strong>VA</strong> — по-висок контраст, по-добри черни. Добър за филми и кодиране.</li>
+<li><strong>OLED</strong> — перфектни черни, изключителни цветове, но риск от burn-in при статично съдържание.</li>
+</ul>
+<h2>Честота на опресняване</h2>
+<p>За офис работа 60-75 Hz е достатъчно. Ако пишеш код или четеш много — 120-144 Hz прави скролването значително по-плавно и намалява умората на очите.</p>
+<h2>Размер и ергономия</h2>
+<p>27" е стандартът за работа от вкъщи. Ако имаш пространство — помисли за ултраширок 34" (21:9), който заменя два отделни монитора. Стойка с регулиране на височина е задължителна за правилна поза.</p>
+<h2>Препоръки по бюджет</h2>
+<ul>
+<li><strong>до 200 €</strong> — LG 27MN60T (IPS, 1080p, 75Hz)</li>
+<li><strong>до 350 €</strong> — Dell U2722D (IPS, 1440p, USB-C 90W)</li>
+<li><strong>до 600 €</strong> — LG 27UK850 (IPS, 4K, USB-C)</li>
+<li><strong>без ограничение</strong> — ASUS ProArt PA329CRV (4K OLED, 144Hz)</li>
+</ul>`
+  },
+  {
+    slug: '10-nachina-udalzhim-bateriya',
+    emoji: '🔋', cat: 'Съвети', title: '10 начина да удължим живота на батерията',
+    date: '15 Февруари 2026', dateISO: '2026-02-15', read: '3 мин', author: 'Most Computers',
+    summary: 'Простите навици, които могат да удвоят живота на батерията на твоя телефон или лаптоп.',
+    metaDesc: '10 съвета за по-дълъг живот на батерията на смартфон и лаптоп. Практични навици от Most Computers.',
+    tags: ['батерия', 'съвети', 'смартфон', 'лаптоп'],
+    body: `<h2>За смартфони</h2>
+<ol>
+<li><strong>Оптимизирано зареждане</strong> — iPhone и Android имат функция, която ограничава зареждането до 80% за нощни зарядки. Включи я.</li>
+<li><strong>Избягвай крайностите</strong> — не изтощавай батерията до 0% и не я дръж постоянно на 100%. Оптималният диапазон е 20-80%.</li>
+<li><strong>Намали яркостта</strong> — дисплеят е най-големият консуматор. Автоматична яркост + тъмен режим могат да спестят до 30% от батерията.</li>
+<li><strong>Ограничи Background App Refresh</strong> — приложенията, които се обновяват на заден план, изяждат батерия незабележимо.</li>
+<li><strong>Изключи Location Services</strong> за приложения, които не го нуждаят.</li>
+</ol>
+<h2>За лаптопи</h2>
+<ol start="6">
+<li><strong>Батерийни режими</strong> — Windows има "Battery Saver", macOS има "Low Power Mode". Включи при работа без захранване.</li>
+<li><strong>Охлаждане</strong> — батериите деградират по-бързо при висока температура. Не работи с лаптопа върху меки повърхности.</li>
+<li><strong>Hibernation вместо Sleep</strong> при дълго неизползване пести значително повече батерия.</li>
+<li><strong>RAM вместо HDD/SSD swap</strong> — ако лаптопът постоянно пише на диска, добави RAM.</li>
+<li><strong>Калибрация</strong> — веднъж на 3 месеца напълно зареди до 100%, след което изтощи до ~5%. Помага за точното отчитане на заряда.</li>
+</ol>
+<p>При правилна грижа, литиево-йонна батерия може да запази над 80% от капацитета след 500 цикъла зареждане.</p>`
+  },
+  {
+    slug: 'umen-dom-pod-500-leva',
+    emoji: '🏠', cat: 'Smart Home', title: 'Как да изградим умен дом за под 500 лв.',
+    date: '10 Февруари 2026', dateISO: '2026-02-10', read: '8 мин', author: 'Most Computers',
+    summary: 'Philips Hue, смарт контакти, гласов асистент — пълна система без да се разоряваме.',
+    metaDesc: 'Умен дом за под 500 лева — Philips Hue, Google Home, смарт контакти. Ръководство стъпка по стъпка.',
+    tags: ['умен дом', 'Smart Home', 'Philips Hue', 'Google Home'],
+    body: `<h2>Отправна точка: Гласов асистент</h2>
+<p>Всичко започва с централен хъб. <strong>Google Nest Mini</strong> (около 50 лв.) или <strong>Amazon Echo Dot</strong> (около 45 лв.) са идеалните отправни точки. Веднъж инсталиран, асистентът управлява всички останали устройства с гласови команди.</p>
+<h2>Интелигентно осветление (~150 лв.)</h2>
+<p>Philips Hue Starter Kit с 3 крушки и хъб е класическият избор — стабилен Zigbee протокол, богата екосистема и страхотно приложение. Алтернативата е IKEA TRÅDFRI (по-евтино, малко по-ограничено). Смарт крушките с WiFi (SONOFF, Tapo) не изискват отделен хъб.</p>
+<h2>Смарт контакти (~80 лв. за 2 бр.)</h2>
+<p>Смарт контактите трансформират обикновени уреди в интелигентни. Стар вентилатор, кафемашина или лампа могат да се управляват от телефона или таймер. TP-Link Tapo P115 е любимецът — мери и консумацията на ток.</p>
+<h2>Сигурност (~150 лв.)</h2>
+<p>Смарт видеокамера (Tapo C200 — около 60 лв.) + смарт звънец (Reolink Video Doorbell — около 90 лв.) покриват основната домашна сигурност. И двата работят с Google Home и Alexa.</p>
+<h2>Примерен бюджет</h2>
+<ul>
+<li>Google Nest Mini — 50 лв.</li>
+<li>Philips Hue Starter Kit — 150 лв.</li>
+<li>2x Tapo P115 смарт контакт — 80 лв.</li>
+<li>Tapo C200 камера — 60 лв.</li>
+<li>Reolink Doorbell — 90 лв.</li>
+<li><strong>Общо: ~430 лв.</strong></li>
+</ul>
+<p>Ако разпределиш покупките за 2-3 месеца, усещането за „умен дом" идва постепенно — и е много по-достъпно, отколкото изглежда.</p>`
+  },
+];
+
+const reviewPosts = [
+  { emoji:'⭐', title:'Sony WH-1000XM6 — 9.4/10', sub:'Най-добрите ANC слушалки на пазара' },
+  { emoji:'⭐', title:'ASUS ROG Zephyrus G16 — 9.1/10', sub:'Мощ и стил в тънко тяло' },
+  { emoji:'⭐', title:'Samsung S95C OLED — 9.6/10', sub:'Безкомпромисен телевизор' },
+  { emoji:'⭐', title:'iPad Pro M4 — 8.8/10', sub:'Лаптоп в тялото на таблет' },
+];
+
+function openBlogPage() {
+  const listView = document.getElementById('blogListView');
+  const postView = document.getElementById('blogPostView');
+  if (listView) listView.style.display = '';
+  if (postView) postView.style.display = 'none';
+  const titleEl = document.getElementById('blogPageTitle');
+  if (titleEl) titleEl.textContent = '📰 Блог и новини';
+  _renderBlogGrid();
+  document.getElementById('blogPage').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  if (typeof setPageMeta === 'function') setPageMeta('Блог — Most Computers', 'Ревюта, сравнения и съвети за компютри, лаптопи и електроника от екипа на Most Computers.');
+  if (typeof bcOnPage === 'function') bcOnPage('Блог');
+  try { history.pushState({ page: 'blog' }, '', '?page=blog'); } catch(e) {}
+}
+function _renderBlogGrid() {
+  const grid = document.getElementById('blogGrid');
+  if (grid) grid.innerHTML = blogPosts.map(p => `
+    <div style="background:var(--white);border-radius:14px;border:1px solid var(--border);overflow:hidden;cursor:pointer;transition:all .22s;box-shadow:var(--shadow-card);"
+         onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='var(--shadow-hover)'"
+         onmouseout="this.style.transform='';this.style.boxShadow='var(--shadow-card)'"
+         onclick="openBlogPost('${p.slug}')">
+      <div style="background:linear-gradient(135deg,var(--primary-light),var(--bg2));height:120px;display:flex;align-items:center;justify-content:center;font-size:52px;">${p.emoji}</div>
+      <div style="padding:16px 18px;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+          <span style="background:var(--primary-light);color:var(--primary);font-size:10px;font-weight:800;padding:2px 8px;border-radius:10px;letter-spacing:.05em;">${escHtml(p.cat)}</span>
+          <span class="text-11-muted">${escHtml(p.date)}</span>
+          <span style="font-size:11px;color:var(--muted);margin-left:auto;">📖 ${escHtml(p.read)}</span>
+        </div>
+        <div style="font-size:15px;font-weight:800;margin-bottom:8px;line-height:1.3;">${escHtml(p.title)}</div>
+        <div style="font-size:12px;color:var(--text2);line-height:1.6;">${escHtml(p.summary)}</div>
+        <div style="margin-top:12px;font-size:12px;color:var(--primary);font-weight:700;">Прочети повече →</div>
+      </div>
+    </div>`).join('');
+  const rGrid = document.getElementById('reviewsGrid');
+  if (rGrid) rGrid.innerHTML = reviewPosts.map(r => `
+    <div class="megamenu-cat-card" style="flex-direction:row;text-align:left;gap:14px;cursor:default;">
+      <div style="font-size:28px;">${r.emoji}</div>
+      <div><div style="font-size:13px;font-weight:800;">${escHtml(r.title)}</div><div style="font-size:11px;color:var(--muted);margin-top:3px;">${escHtml(r.sub)}</div></div>
+    </div>`).join('');
+}
+function openBlogPost(slug) {
+  const post = blogPosts.find(p => p.slug === slug);
+  if (!post) return;
+  const listView = document.getElementById('blogListView');
+  const postView = document.getElementById('blogPostView');
+  const article = document.getElementById('blogArticle');
+  if (!postView || !article) return;
+  if (listView) listView.style.display = 'none';
+  postView.style.display = '';
+  const titleEl = document.getElementById('blogPageTitle');
+  if (titleEl) titleEl.textContent = post.title;
+  article.innerHTML = `
+    <header class="blog-article-header">
+      <div class="blog-article-meta">
+        <span class="blog-article-cat">${escHtml(post.cat)}</span>
+        <time datetime="${post.dateISO}" class="blog-article-date">${escHtml(post.date)}</time>
+        <span class="blog-article-read">📖 ${escHtml(post.read)}</span>
+      </div>
+      <h1 class="blog-article-title">${escHtml(post.title)}</h1>
+      <p class="blog-article-summary">${escHtml(post.summary)}</p>
+      <div class="blog-article-author">✍️ ${escHtml(post.author)}</div>
+    </header>
+    <div class="blog-article-body">${post.body}</div>
+    <footer class="blog-article-footer">
+      <div class="blog-article-tags">${post.tags.map(t => `<span class="blog-tag">${escHtml(t)}</span>`).join('')}</div>
+    </footer>`;
+  // SEO meta
+  if (typeof setPageMeta === 'function') setPageMeta(post.title + ' — Most Computers', post.metaDesc);
+  const canonical = document.querySelector('link[rel="canonical"]');
+  if (canonical) canonical.setAttribute('href', 'https://mostcomputers.bg/?page=blog&post=' + post.slug);
+  const ogUrl = document.querySelector('meta[property="og:url"]');
+  if (ogUrl) ogUrl.setAttribute('content', 'https://mostcomputers.bg/?page=blog&post=' + post.slug);
+  const ogType = document.querySelector('meta[property="og:type"]');
+  if (ogType) ogType.setAttribute('content', 'article');
+  // Article JSON-LD
+  let _ld = document.getElementById('_blogPostLD');
+  if (!_ld) { _ld = document.createElement('script'); _ld.type = 'application/ld+json'; _ld.id = '_blogPostLD'; document.head.appendChild(_ld); }
+  _ld.textContent = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: post.title,
+    description: post.metaDesc,
+    datePublished: post.dateISO,
+    author: { '@type': 'Organization', name: 'Most Computers', url: 'https://mostcomputers.bg' },
+    publisher: { '@type': 'Organization', name: 'Most Computers', url: 'https://mostcomputers.bg' },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': 'https://mostcomputers.bg/?page=blog&post=' + post.slug }
+  });
+  if (!document.getElementById('blogPage').classList.contains('open')) {
+    document.getElementById('blogPage').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  try { history.pushState({ page: 'blog', post: slug }, '', '?page=blog&post=' + slug); } catch(e) {}
+  postView.scrollTop = 0;
+}
+function closeBlogPost() {
+  const listView = document.getElementById('blogListView');
+  const postView = document.getElementById('blogPostView');
+  if (postView) postView.style.display = 'none';
+  if (listView) listView.style.display = '';
+  const titleEl = document.getElementById('blogPageTitle');
+  if (titleEl) titleEl.textContent = '📰 Блог и новини';
+  // Remove Article JSON-LD
+  const _ld = document.getElementById('_blogPostLD');
+  if (_ld) _ld.remove();
+  if (typeof setPageMeta === 'function') setPageMeta('Блог — Most Computers', 'Ревюта, сравнения и съвети за компютри, лаптопи и електроника от екипа на Most Computers.');
+  const ogType = document.querySelector('meta[property="og:type"]');
+  if (ogType) ogType.setAttribute('content', 'website');
+  try { history.pushState({ page: 'blog' }, '', '?page=blog'); } catch(e) {}
+}
+function closeBlogPage() {
+  // If a post is open, close post first and go back to list
+  const postView = document.getElementById('blogPostView');
+  if (postView && postView.style.display !== 'none' && postView.style.display !== '') {
+    closeBlogPost();
+    return;
+  }
+  document.getElementById('blogPage').classList.remove('open');
+  document.body.style.overflow = '';
+  const _ld = document.getElementById('_blogPostLD');
+  if (_ld) _ld.remove();
+  if (typeof restorePageMeta === 'function') restorePageMeta();
+  if (typeof bcSet === 'function') bcSet([]);
+  try { history.pushState(null, '', window.location.pathname); } catch(e) {}
+}
+let _svcMap = null;
+function openServicePage() {
+  document.getElementById('servicePage').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  if (typeof setPageMeta === 'function') setPageMeta('Сервизен център — Most Computers', 'Сертифициран сервиз за лаптопи, компютри и електроника. Диагностика, ремонт и гаранционно обслужване в Most Computers.');
+  if (typeof bcOnPage === 'function') bcOnPage('Сервизен център');
+  try { history.pushState({ page: 'service' }, '', '?page=service'); } catch(e) {}
+  _svcTrkInit();
+  _svcMapInit();
+}
+function _svcMapInit() {
+  if (!window.L) return;
+  const el = document.getElementById('svcLeafletMap');
+  if (!el) return;
+  if (_svcMap) { setTimeout(() => _svcMap.invalidateSize(), 200); return; }
+  _svcMap = L.map(el, { zoomControl: true, scrollWheelZoom: false }).setView([42.679938, 23.359063], 16);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    maxZoom: 19
+  }).addTo(_svcMap);
+  const pinIcon = L.divIcon({
+    className: '',
+    html: '<svg width="28" height="36" viewBox="0 0 28 36" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 0C6.268 0 0 6.268 0 14c0 9.333 14 22 14 22s14-12.667 14-22C28 6.268 21.732 0 14 0z" fill="#bd1105"/><circle cx="14" cy="14" r="5.5" fill="#fff"/></svg>',
+    iconSize: [28, 36],
+    iconAnchor: [14, 36]
+  });
+  L.marker([42.679938, 23.359063], { icon: pinIcon })
+    .addTo(_svcMap)
+    .bindPopup('<strong>Most Computers</strong><br>бул. Шипченски проход 240');
+  setTimeout(() => _svcMap.invalidateSize(), 200);
+}
+function closeServicePage() {
+  document.getElementById('servicePage').classList.remove('open');
+  document.body.style.overflow = '';
+  if (typeof restorePageMeta === 'function') restorePageMeta();
+  if (typeof bcSet === 'function') bcSet([]);
+  try { history.pushState(null, '', window.location.pathname); } catch(e) {}
+}
+function openDeliveryPage() {
+  document.getElementById('deliveryPage').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  if (typeof setPageMeta === 'function') setPageMeta('Доставка и плащане — Most Computers', 'Безплатна доставка при поръчки над 100 €. Доставяме с куриер в рамките на 1-3 работни дни в цяла България.');
+  if (typeof bcOnPage === 'function') bcOnPage('Доставка и плащане');
+  try { history.pushState({ page: 'delivery' }, '', '?page=delivery'); } catch(e) {}
+}
+function closeDeliveryPage() {
+  document.getElementById('deliveryPage').classList.remove('open');
+  document.body.style.overflow = '';
+  if (typeof restorePageMeta === 'function') restorePageMeta();
+  if (typeof bcSet === 'function') bcSet([]);
+  try { history.pushState(null, '', window.location.pathname); } catch(e) {}
+}
+function filterCatScroll(type) {
+  if (type === 'sale') {
+    document.querySelectorAll('.filter-pill').forEach(p => {
+      if (p.textContent.includes('Промо') || p.textContent.includes('sale')) p.click();
+    });
+  }
+  const featured = document.getElementById('featured');
+  if (featured) featured.scrollIntoView({behavior:'smooth'});
+}
+
+
+// ===== CONTACTS PAGE =====
+let _contactsMap = null;
+function openContactsPage() {
+  document.getElementById('contactsPage').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  checkOpenNow();
+  try{history.pushState({page:'contacts'}, '', '?page=contacts');}catch(e){}
+  _contactsMapInit();
+}
+function _contactsMapInit() {
+  if (!window.L) return;
+  const el = document.getElementById('contactsLeafletMap');
+  if (!el) return;
+  if (_contactsMap) { setTimeout(() => _contactsMap.invalidateSize(), 200); return; }
+  _contactsMap = L.map(el, { zoomControl: true, scrollWheelZoom: false }).setView([42.679938, 23.359063], 16);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    maxZoom: 19
+  }).addTo(_contactsMap);
+  const pinIcon = L.divIcon({
+    className: '',
+    html: '<svg width="28" height="36" viewBox="0 0 28 36" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 0C6.268 0 0 6.268 0 14c0 9.333 14 22 14 22s14-12.667 14-22C28 6.268 21.732 0 14 0z" fill="#bd1105"/><circle cx="14" cy="14" r="5.5" fill="#fff"/></svg>',
+    iconSize: [28, 36],
+    iconAnchor: [14, 36]
+  });
+  L.marker([42.679938, 23.359063], { icon: pinIcon })
+    .addTo(_contactsMap)
+    .bindPopup('<strong>Most Computers</strong><br>бул. Шипченски проход 240');
+  setTimeout(() => _contactsMap.invalidateSize(), 200);
+}
+
+function closeContactsPage() {
+  document.getElementById('contactsPage').classList.remove('open');
+  document.body.style.overflow = '';
+  try{history.pushState(null, '', window.location.pathname);}catch(e){}
+}
+
+function switchDirTab(type, btn) {
+  document.querySelectorAll('.dir-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.dir-content').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  const el = document.getElementById('dir-' + type);
+  if (el) el.classList.add('active');
+}
+
+function copyAddress() {
+  const addr = 'бул. Шипченски проход бл.240, ж.к. Гео Милев, 1111 София';
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(addr).then(() => showToast('📋 Адресът е копиран!')).catch(() => {
+      const ta = document.createElement('textarea');
+      ta.value = addr; document.body.appendChild(ta);
+      ta.select(); document.execCommand('copy');
+      document.body.removeChild(ta);
+      showToast('📋 Адресът е копиран!');
+    });
+  } else {
+    const ta = document.createElement('textarea');
+    ta.value = addr; document.body.appendChild(ta);
+    ta.select(); document.execCommand('copy');
+    document.body.removeChild(ta);
+    showToast('📋 Адресът е копиран!');
+  }
+}
+
+function copyPlusCode() {
+  const code = 'M9H5+XJ Sofia';
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(code).then(() => showToast('📍 Plus Code е копиран!')).catch(() => showToast('Plus Code: M9H5+XJ Sofia'));
+  } else {
+    showToast('Plus Code: M9H5+XJ Sofia');
+  }
+}
+
+function checkOpenNow() {
+  const badge = document.getElementById('openNowBadge');
+  if (!badge) return;
+  const now = new Date();
+  const day  = now.getDay(); // 0=Sun, 1=Mon, 6=Sat
+  const h    = now.getHours();
+  const m    = now.getMinutes();
+  const time = h * 60 + m;
+
+  let isOpen = false;
+  // Mon-Fri 09:30-18:15
+  if (day >= 1 && day <= 5 && time >= 570 && time < 1095) isOpen = true;
+  // Sat-Sun: closed
+
+  // Highlight today in table
+  const rows = document.querySelectorAll('#hoursTable tr');
+  const dayMap = [6, 0, 1, 2, 3, 4, 5]; // table row index for each JS day
+  rows.forEach(r => r.style.fontWeight = '');
+  if (rows[dayMap[day]]) {
+    rows[dayMap[day]].style.background = 'var(--primary-light)';
+    rows[dayMap[day]].style.borderRadius = '6px';
+  }
+
+  badge.innerHTML = isOpen
+    ? '<span style="display:inline-flex;align-items:center;gap:6px;background:#e8f9ed;color:#1a7f37;border-radius:8px;padding:7px 14px;font-size:13px;font-weight:800;"><span style="width:8px;height:8px;border-radius:50%;background:#34c759;display:inline-block;"></span> Отворено сега</span>'
+    : '<span style="display:inline-flex;align-items:center;gap:6px;background:#fef2f2;color:#dc2626;border-radius:8px;padding:7px 14px;font-size:13px;font-weight:800;"><span style="width:8px;height:8px;border-radius:50%;background:#ef4444;display:inline-block;"></span> Затворено</span>';
+}
+
+
+
+// ===== SERVICE TRACKER =====
+let _svcTrkInited = false;
+const _SVCTRK_LAST = 'svcTrkLast';
+const _SVCTRK_HIST = 'svcTrkHist';
+
+function _svcEsc(s) {
+  return String(s == null ? '' : s)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+function _svcTrkInit() {
+  if (_svcTrkInited) return;
+  const form = document.getElementById('svcTrkForm');
+  if (!form) return;
+  _svcTrkInited = true;
+
+  const inputOrder    = document.getElementById('svcTrkOrder');
+  const inputWarranty = document.getElementById('svcTrkWarranty');
+  const errEl         = document.getElementById('svcTrkErr');
+
+  inputWarranty.addEventListener('input', e => {
+    const v = e.target.value.replace(/\D/g, '');
+    if (e.target.value !== v) e.target.value = v;
+    inputWarranty.classList.remove('svc-err');
+    errEl.style.display = 'none';
+    _svcTrkClearResult();
+  });
+  inputOrder.addEventListener('input', () => {
+    inputOrder.classList.remove('svc-err');
+    errEl.style.display = 'none';
+    _svcTrkClearResult();
+  });
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    _svcTrkSearch(inputOrder.value.trim(), inputWarranty.value.trim());
+  });
+
+  // Restore last result from localStorage
+  try {
+    const saved = JSON.parse(localStorage.getItem(_SVCTRK_LAST) || 'null');
+    if (saved && saved.searchType && saved.searchValue) {
+      if (saved.searchType === 'order') inputOrder.value = saved.searchValue;
+      else inputWarranty.value = saved.searchValue;
+      _svcTrkShowResult(saved, true);
+    }
+  } catch(e) {}
+  _svcTrkUpdateHistory();
+}
+
+function _svcTrkSearch(order, warranty) {
+  const inputOrder    = document.getElementById('svcTrkOrder');
+  const inputWarranty = document.getElementById('svcTrkWarranty');
+  const errEl         = document.getElementById('svcTrkErr');
+  inputOrder.classList.remove('svc-err');
+  inputWarranty.classList.remove('svc-err');
+
+  if (!order && !warranty) {
+    errEl.style.display = 'block';
+    inputOrder.classList.add('svc-err');
+    inputWarranty.classList.add('svc-err');
+    return;
+  }
+  const val = order || warranty;
+  if (val.length < 3) {
+    errEl.style.display = 'block';
+    (order ? inputOrder : inputWarranty).classList.add('svc-err');
+    return;
+  }
+  errEl.style.display = 'none';
+
+  const btn    = document.getElementById('svcTrkBtn');
+  const btnTxt = document.getElementById('svcTrkBtnTxt');
+  const loader = document.getElementById('svcTrkLoader');
+  btn.disabled = true;
+  btnTxt.textContent = 'Проверяваме…';
+  loader.style.display = 'inline-block';
+  _svcTrkClearResult();
+
+  const searchType  = order ? 'order' : 'warranty';
+  const searchValue = val;
+
+  // TODO: replace setTimeout with real API fetch
+  setTimeout(() => {
+    btn.disabled = false;
+    btnTxt.textContent = '🔍 Провери статус';
+    loader.style.display = 'none';
+
+    if (searchValue.endsWith('0')) {
+      _svcTrkShowError('⚠️ Няма намерена поръчка с този номер. Проверете дали номерът е изписан правилно.');
+    } else {
+      const demo = { found:true, status:'В ремонт', updatedAt:'20.11.2025',
+        step:'Изчаква резервни части', location:'Сервизен център — София', searchType, searchValue };
+      _svcTrkShowResult(demo, false);
+      localStorage.setItem(_SVCTRK_LAST, JSON.stringify(demo));
+      _svcTrkSaveHistory(demo);
+      _svcTrkUpdateHistory();
+    }
+  }, 1200);
+}
+
+function _svcTrkPillClass(status) {
+  const s = (status || '').toLowerCase();
+  if (s.includes('ремонт'))                    return 'svc-pill-repair';
+  if (s.includes('изчаква') || s.includes('части')) return 'svc-pill-waiting';
+  if (s.includes('готов')   || s.includes('получаване')) return 'svc-pill-ready';
+  return 'svc-pill-default';
+}
+
+function _svcTrkShowResult(data, fromCache) {
+  if (!data || !data.found) { _svcTrkShowError('⚠️ Няма намерена поръчка с този номер.'); return; }
+  const box       = document.getElementById('svcTrkResult');
+  const pill      = _svcTrkPillClass(data.status);
+  const isReady   = pill === 'svc-pill-ready';
+  const typeLabel = data.searchType === 'order' ? 'Сервизна поръчка' : 'Гаранционна карта';
+  const sv        = _svcEsc(data.searchValue || '');
+
+  box.innerHTML = `
+    <div class="svc-result-ok">✅ Поръчката е намерена</div>
+    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px;">
+      <span class="svc-result-label">${typeLabel} → ${sv}</span>
+      <button type="button" class="svc-copy-btn"
+        onclick="navigator.clipboard&&navigator.clipboard.writeText('${sv}').then(()=>{this.textContent='Копирано';setTimeout(()=>this.textContent='Копирай номер',1500)})">Копирай номер</button>
+    </div>
+    <div class="svc-result-row"><span class="svc-result-label">Статус:</span> ${_svcEsc(data.status)} <span class="svc-pill ${pill}">${_svcEsc(data.status)}</span></div>
+    <div class="svc-result-row"><span class="svc-result-label">Последна актуализация:</span> ${_svcEsc(data.updatedAt || '—')}</div>
+    <div class="svc-result-row"><span class="svc-result-label">Етап:</span> ${_svcEsc(data.step || '—')}</div>
+    <div class="svc-result-row"><span class="svc-result-label">Локация:</span> ${_svcEsc(data.location || '—')}</div>
+    ${isReady ? '<div class="svc-ready-note">✅ Ремонтът е приключил. Носете сервизния протокол при получаване.</div>' : ''}
+    ${fromCache ? '<div style="margin-top:8px;font-size:12px;color:var(--muted);"><em>Показан е последният резултат от предишно търсене.</em></div>' : ''}
+  `;
+  box.style.display = 'block';
+  requestAnimationFrame(() => box.classList.add('show'));
+}
+
+function _svcTrkShowError(msg) {
+  const box = document.getElementById('svcTrkResult');
+  box.innerHTML = `
+    <div class="svc-result-err">${_svcEsc(msg)}</div>
+    <div style="font-size:13px;color:var(--text2);">Проверете дали номерът е изписан правилно и опитайте отново.</div>
+    <div style="margin-top:8px;font-size:13px;">При нужда от съдействие: <a href="tel:0700144 11" style="color:var(--primary);font-weight:700;">0700 144 11</a></div>
+  `;
+  box.style.display = 'block';
+  requestAnimationFrame(() => box.classList.add('show'));
+}
+
+function _svcTrkClearResult() {
+  const box = document.getElementById('svcTrkResult');
+  if (!box) return;
+  box.classList.remove('show');
+  box.style.display = 'none';
+  box.innerHTML = '';
+}
+
+function _svcTrkGetHistory() {
+  try { return JSON.parse(localStorage.getItem(_SVCTRK_HIST) || '[]'); } catch(e) { return []; }
+}
+
+function _svcTrkSaveHistory(data) {
+  const h = _svcTrkGetHistory().filter(i => !(i.searchType === data.searchType && i.searchValue === data.searchValue));
+  h.unshift({ searchType: data.searchType, searchValue: data.searchValue, status: data.status });
+  localStorage.setItem(_SVCTRK_HIST, JSON.stringify(h.slice(0, 3)));
+}
+
+function _svcTrkUpdateHistory() {
+  const box  = document.getElementById('svcTrkHistory');
+  const list = document.getElementById('svcTrkHistList');
+  if (!box || !list) return;
+  const h = _svcTrkGetHistory();
+  if (!h.length) { box.style.display = 'none'; return; }
+  list.innerHTML = h.map(item => {
+    const label = item.searchType === 'order' ? 'Поръчка' : 'Гаранция';
+    const sv    = _svcEsc(item.searchValue || '');
+    const st    = _svcEsc(item.status || '');
+    const type  = _svcEsc(item.searchType || '');
+    return `<li style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;gap:6px;flex-wrap:wrap;">
+      <span style="font-size:13px;">${label} → ${sv} — ${st}</span>
+      <button type="button" class="svc-copy-btn" onclick="_svcTrkRepeat('${type}','${sv}')">Повтори</button>
+    </li>`;
+  }).join('');
+  box.style.display = 'block';
+}
+
+function _svcTrkRepeat(type, value) {
+  const inputOrder    = document.getElementById('svcTrkOrder');
+  const inputWarranty = document.getElementById('svcTrkWarranty');
+  if (!inputOrder) return;
+  if (type === 'order') { inputOrder.value = value; inputWarranty.value = ''; _svcTrkSearch(value, ''); }
+  else                  { inputOrder.value = ''; inputWarranty.value = value; _svcTrkSearch('', value); }
+}
+
+// ===== ABOUT PAGE =====
+function openAboutPage() {
+  const page = document.getElementById('aboutPage');
+  if (!page) return;
+  page.style.display = 'flex';
+  page.style.flexDirection = 'column';
+  requestAnimationFrame(() => page.classList.add('open'));
+  document.body.style.overflow = 'hidden';
+  if (typeof setPageMeta === 'function') setPageMeta('За нас — Most Computers', 'Most Computers — над 27 години опит в продажбата на компютри и електроника. Специализиран магазин в центъра на София.');
+  if (typeof bcOnPage === 'function') bcOnPage('За нас');
+  try{history.pushState({ page: 'about' }, '', '?page=about');}catch(e){}
+}
+function closeAboutPage() {
+  const page = document.getElementById('aboutPage');
+  if (!page) return;
+  page.classList.remove('open');
+  setTimeout(() => { page.style.display = 'none'; }, 300);
+  document.body.style.overflow = '';
+  if (typeof restorePageMeta === 'function') restorePageMeta();
+  if (typeof bcSet === 'function') bcSet([]);
+  try{history.pushState(null, '', window.location.pathname);}catch(e){}
+}
+
+// renderHpSubcatsStrip and renderRecentlyDiscounted are called
+// directly in main.js — no DOMContentLoaded wrapper needed here
+// (deferred scripts run before DOMContentLoaded, so the handler
+//  would cause a redundant second render on every page load).
+
+// ===== PWA =====
+(function() {
+  // 1. Generate SVG icon as data URL
+  const iconSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+    <rect width="512" height="512" rx="115" fill="#bd1105"/>
+    <text x="256" y="340" font-size="280" text-anchor="middle" fill="white">🛒</text>
+    <text x="256" y="430" font-size="72" font-family="Arial" font-weight="900" text-anchor="middle" fill="white">MC</text>
+  </svg>`;
+  const iconUrl = 'data:image/svg+xml,' + encodeURIComponent(iconSvg);
+
+  // Apply apple-touch-icon
+  const appleIcon = document.getElementById('pwaAppleIcon');
+  if (appleIcon) { appleIcon.rel='apple-touch-icon'; appleIcon.href=iconUrl; }
+
+  // 2. Generate and inject manifest via Blob URL
+  const manifest = {
+    name: 'Most Computers',
+    short_name: 'Most Computers',
+    description: 'Онлайн магазин за електроника',
+    start_url: './',
+    display: 'standalone',
+    orientation: 'portrait',
+    background_color: '#ffffff',
+    theme_color: '#bd1105',
+    lang: 'bg',
+    icons: [
+      { src: iconUrl, sizes: '192x192', type: 'image/svg+xml', purpose: 'any maskable' },
+      { src: iconUrl, sizes: '512x512', type: 'image/svg+xml', purpose: 'any maskable' },
+    ],
+    screenshots: [],
+    categories: ['shopping', 'electronics'],
+  };
+  try {
+    const blob = new Blob([JSON.stringify(manifest)], {type:'application/json'});
+    const manifestUrl = URL.createObjectURL(blob);
+    const manifestLink = document.getElementById('pwaManifest');
+    if (manifestLink) manifestLink.href = manifestUrl;
+  } catch(e) {}
+
+  // 3. Service Worker — registers when hosted on HTTPS
+  // (Blob URLs not supported for SW — browser security restriction)
+  if ('serviceWorker' in navigator && location.protocol === 'https:') {
+    navigator.serviceWorker.register('/sw.js', { scope: '/' })
+      .then(reg => { console.log('MC SW ✓', reg.scope); window._mcSwReg = reg; })
+      .catch(err => console.warn('MC SW:', err.message));
+  }
+
+  // 4. Install prompt logic
+  let deferredPrompt = null;
+  const banner = document.getElementById('pwaBanner');
+  const dismissed = localStorage.getItem('mc_pwa_dismissed');
+  const installed = localStorage.getItem('mc_pwa_installed');
+
+  if (installed || dismissed) return; // already handled
+
+  const isIos = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  // avoid errors during testing where matchMedia may be undefined
+  const isInStandalone = window.navigator.standalone === true
+    || (typeof window.matchMedia === 'function' && window.matchMedia('(display-mode: standalone)').matches);
+
+  if (isInStandalone) return; // already installed
+
+  if (isIos) {
+    // Show iOS instructions after 4s
+    setTimeout(() => { if (banner) banner.classList.add('show'); }, 4000);
+    window.__pwaIsIos = true;
+  } else {
+    window.addEventListener('beforeinstallprompt', e => {
+      e.preventDefault();
+      deferredPrompt = e;
+      setTimeout(() => { if (banner) banner.classList.add('show'); }, 3000);
+    });
+    window.__pwaPrompt = () => deferredPrompt;
+  }
+})();
+
+function pwaInstall() {
+  if (window.__pwaIsIos) {
+    document.getElementById('pwaBanner').classList.remove('show');
+    document.getElementById('pwaIosModal').classList.add('open');
+    return;
+  }
+  const prompt = window.__pwaPrompt?.();
+  if (prompt) {
+    prompt.prompt();
+    prompt.userChoice.then(choice => {
+      if (choice.outcome === 'accepted') {
+        localStorage.setItem('mc_pwa_installed', '1');
+        showToast('✓ Most Computers е инсталиран!');
+      }
+      document.getElementById('pwaBanner').classList.remove('show');
+    });
+  } else {
+    // Fallback: show iOS style instructions
+    document.getElementById('pwaBanner').classList.remove('show');
+    document.getElementById('pwaIosModal').classList.add('open');
+  }
+}
+
+function pwaDismiss() {
+  document.getElementById('pwaBanner').classList.remove('show');
+  localStorage.setItem('mc_pwa_dismissed', '1');
+}
+
+// helper called from data-action to scroll modal to top
+function scrollProductModalTop() {
+  const modal = document.getElementById('productModal');
+  if (modal) modal.scrollTo({top:0,behavior:'smooth'});
+}
+
+function closePwaIos() {
+  document.getElementById('pwaIosModal').classList.remove('open');
+}
+
+
+
+// ===== PUSH NOTIFICATIONS =====
+async function requestPushPermission() {
+  if (!('Notification' in window)) {
+    showToast('⚠️ Браузърът ти не поддържа известия');
+    return;
+  }
+  if (Notification.permission === 'granted') {
+    showToast('✓ Известията вече са активирани!');
+    return;
+  }
+  if (Notification.permission === 'denied') {
+    showToast('⚠️ Известията са блокирани в браузъра');
+    return;
+  }
+  const perm = await Notification.requestPermission();
+  if (perm === 'granted') {
+    showToast('🔔 Ще получаваш известия за горещи оферти!');
+    localStorage.setItem('mc_push_granted', '1');
+    // Demo: send a test notification after 3s
+    setTimeout(() => {
+      new Notification('Most Computers 🔥', {
+        body: 'Добре дошъл! Следи за ексклузивни оферти.',
+        icon: 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="115" fill="#bd1105"/><text x="256" y="340" font-size="280" text-anchor="middle" fill="white">🛒</text></svg>'),
+        tag: 'mc-welcome'
+      });
+    }, 3000);
+  } else {
+    showToast('Известията не са активирани');
+  }
+}
+
+function sendPromoNotification(title, body, url) {
+  if (Notification.permission !== 'granted') return;
+  const n = new Notification(title || 'Most Computers 🔥', {
+    body: body || 'Нова оферта те очаква!',
+    icon: 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="115" fill="#bd1105"/><text x="256" y="340" font-size="280" text-anchor="middle" fill="white">🛒</text></svg>'),
+    tag: 'mc-promo',
+    renotify: true
+  });
+  if (url) n.addEventListener('click', () => window.focus());
+}
+
+// Auto-show push opt-in after 30s (only once)
+setTimeout(() => {
+  if (localStorage.getItem('mc_push_granted')) return;
+  if (localStorage.getItem('mc_push_dismissed')) return;
+  if (!('Notification' in window) || Notification.permission !== 'default') return;
+  const banner = document.getElementById('pushOptInBanner');
+  if (banner) banner.classList.add('show');
+}, 30000);
+
+function dismissPushBanner() {
+  const banner = document.getElementById('pushOptInBanner');
+  if (banner) banner.classList.remove('show');
+  localStorage.setItem('mc_push_dismissed', '1');
+}
+
+
+
+// ── Lazy Admin Loader ────────────────────────────────────────────────────────
+// admin.js (144 KB) се зарежда само когато потребителят отвори admin панела.
+// Стубовете по-долу се заменят автоматично от реалните функции след зареждане.
+
+let _adminLoaded = false;
+let _adminLoading = false;
+const _adminQueue = [];
+
+function _loadAdminScript(cb) {
+  if (_adminLoaded) { if (cb) cb(); return; }
+  if (cb) _adminQueue.push(cb);
+  if (_adminLoading) return;
+  _adminLoading = true;
+  const s = document.createElement('script');
+  s.src = 'js/admin.js?v=' + (typeof SW_VERSION !== 'undefined' ? SW_VERSION : Date.now());
+  s.onload = () => {
+    _adminLoaded = true;
+    _adminLoading = false;
+    _adminQueue.splice(0).forEach(fn => fn());
+  };
+  s.onerror = () => {
+    _adminLoading = false;
+    showToast('⚠️ Грешка при зареждане на Admin панела');
+  };
+  document.head.appendChild(s);
+}
+
+// Stub — заменя се от реалната функция в admin.js след зареждане
+function openAdminPage() {
+  _loadAdminScript(() => {
+    if (typeof openAdminPage === 'function') openAdminPage();
+  });
+}
+
+// Stub — нужен на ui.js преди admin.js да се зареди
+function closeAdminPage() {
+  const page = document.getElementById('adminPage');
+  if (page) page.style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+// ===== ANALYTICS — Most Computers =====
+// GA4 + Meta Pixel + dev console
+// Load order: after main.js (last) so all functions are defined
+// ======================================
+
+(function () {
+  'use strict';
+
+  // ── Config ──────────────────────────────────────────────────────────────────
+  const IS_DEV = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+  const GA4_ID = 'G-HE0YMD8BQ7';
+  const FB_PIXEL = ''; // опционален Meta Pixel ID
+
+  // ── Core trackEvent ──────────────────────────────────────────────────────────
+  function trackEvent(eventName, data) {
+    const payload = Object.assign({ timestamp: Date.now() }, data || {});
+
+    // Google Analytics 4
+    if (typeof gtag === 'function') {
+      gtag('event', eventName, payload);
+    }
+
+    // Meta Pixel
+    if (typeof fbq === 'function' && FB_PIXEL) {
+      fbq('trackCustom', eventName, payload);
+    }
+
+    // Dev console
+    if (IS_DEV) {
+      console.log('%c[Analytics]%c ' + eventName, 'color:#bd1105;font-weight:700', 'color:inherit', payload);
+    }
+
+    // LocalStorage event log (capped at 200 entries — for debugging & simple analytics)
+    try {
+      const log = JSON.parse(localStorage.getItem('mc_analytics_log') || '[]');
+      log.unshift({ event: eventName, data: payload });
+      if (log.length > 200) log.length = 200;
+      localStorage.setItem('mc_analytics_log', JSON.stringify(log));
+    } catch (_) {}
+  }
+
+  // ── page_view ────────────────────────────────────────────────────────────────
+  function trackPageView() {
+    trackEvent('page_view', {
+      page_title: document.title,
+      page_location: location.href,
+      referrer: document.referrer || '(direct)'
+    });
+  }
+
+  // ── view_product ─────────────────────────────────────────────────────────────
+  function hookOpenProductPage() {
+    const _orig = window.openProductPage;
+    if (typeof _orig !== 'function') return;
+    window.openProductPage = function (id) {
+      const result = _orig.apply(this, arguments);
+      const p = (typeof products !== 'undefined') ? products.find(x => x.id === id) : null;
+      if (p) {
+        trackEvent('view_product', {
+          product_id: p.id,
+          product_name: p.name,
+          price: p.price,
+          category: p.cat,
+          brand: p.brand || '',
+          currency: 'BGN'
+        });
+        // GA4 standard ecommerce
+        if (typeof gtag === 'function') {
+          gtag('event', 'view_item', {
+            currency: 'BGN',
+            value: p.price,
+            items: [{ item_id: String(p.id), item_name: p.name, item_category: p.cat, price: p.price }]
+          });
+        }
+      }
+      return result;
+    };
+  }
+
+  // ── add_to_cart ───────────────────────────────────────────────────────────────
+  function hookAddToCart() {
+    const _orig = window.addToCart;
+    if (typeof _orig !== 'function') return;
+    window.addToCart = function (id) {
+      const result = _orig.apply(this, arguments);
+      const p = (typeof products !== 'undefined') ? products.find(x => x.id === id) : null;
+      if (p) {
+        trackEvent('add_to_cart', {
+          product_id: p.id,
+          product_name: p.name,
+          price: p.price,
+          category: p.cat,
+          brand: p.brand || '',
+          currency: 'BGN'
+        });
+        if (typeof gtag === 'function') {
+          gtag('event', 'add_to_cart', {
+            currency: 'BGN',
+            value: p.price,
+            items: [{ item_id: String(p.id), item_name: p.name, item_category: p.cat, price: p.price, quantity: 1 }]
+          });
+        }
+        if (typeof fbq === 'function') {
+          fbq('track', 'AddToCart', { content_ids: [p.id], content_name: p.name, value: p.price, currency: 'BGN' });
+        }
+      }
+      return result;
+    };
+  }
+
+  // ── remove_from_cart ─────────────────────────────────────────────────────────
+  function hookRemoveFromCart() {
+    const _orig = window.removeFromCart;
+    if (typeof _orig !== 'function') return;
+    window.removeFromCart = function (id) {
+      const p = (typeof products !== 'undefined') ? products.find(x => x.id === id) : null;
+      const result = _orig.apply(this, arguments);
+      if (p) {
+        trackEvent('remove_from_cart', {
+          product_id: p.id,
+          product_name: p.name,
+          price: p.price,
+          category: p.cat,
+          currency: 'BGN'
+        });
+        if (typeof gtag === 'function') {
+          gtag('event', 'remove_from_cart', {
+            currency: 'BGN',
+            value: p.price,
+            items: [{ item_id: String(p.id), item_name: p.name, item_category: p.cat, price: p.price }]
+          });
+        }
+      }
+      return result;
+    };
+  }
+
+  // ── add_to_wishlist / remove_from_wishlist ────────────────────────────────────
+  function hookToggleWishlist() {
+    const _orig = window.toggleWishlist;
+    if (typeof _orig !== 'function') return;
+    window.toggleWishlist = function (id, e) {
+      const wishlistBefore = (typeof wishlist !== 'undefined') ? wishlist.slice() : [];
+      const result = _orig.apply(this, arguments);
+      const p = (typeof products !== 'undefined') ? products.find(x => x.id === id) : null;
+      if (p) {
+        const wasInWishlist = wishlistBefore.indexOf(id) !== -1;
+        const eventName = wasInWishlist ? 'remove_from_wishlist' : 'add_to_wishlist';
+        trackEvent(eventName, {
+          product_id: p.id,
+          product_name: p.name,
+          price: p.price,
+          category: p.cat,
+          currency: 'BGN'
+        });
+        if (!wasInWishlist && typeof fbq === 'function') {
+          fbq('track', 'AddToWishlist', { content_ids: [p.id], content_name: p.name, value: p.price, currency: 'BGN' });
+        }
+      }
+      return result;
+    };
+  }
+
+  // ── begin_checkout ───────────────────────────────────────────────────────────
+  function hookToggleCart() {
+    const _orig = window.toggleCart;
+    if (typeof _orig !== 'function') return;
+    window.toggleCart = function () {
+      const result = _orig.apply(this, arguments);
+      const cartEl = document.getElementById('cartPanel');
+      const isOpening = cartEl && cartEl.classList.contains('open');
+      if (isOpening && typeof cart !== 'undefined' && cart.length > 0) {
+        const total = cart.reduce((s, x) => s + x.price * x.qty, 0);
+        trackEvent('view_cart', {
+          cart_total: Math.round(total * 100) / 100,
+          item_count: cart.reduce((s, x) => s + x.qty, 0),
+          currency: 'BGN'
+        });
+      }
+      return result;
+    };
+  }
+
+  function hookShowCheckoutStep() {
+    const _orig = window.showCheckoutStep;
+    if (typeof _orig !== 'function') return;
+    window.showCheckoutStep = function (n) {
+      const result = _orig.apply(this, arguments);
+      if (n === 1 && typeof cart !== 'undefined') {
+        const total = cart.reduce((s, x) => s + x.price * x.qty, 0);
+        const items = cart.map(x => ({ item_id: String(x.id), item_name: x.name, price: x.price, quantity: x.qty }));
+        trackEvent('begin_checkout', {
+          cart_total: Math.round(total * 100) / 100,
+          item_count: cart.reduce((s, x) => s + x.qty, 0),
+          currency: 'BGN'
+        });
+        if (typeof gtag === 'function') {
+          gtag('event', 'begin_checkout', { currency: 'BGN', value: total, items });
+        }
+        if (typeof fbq === 'function') {
+          fbq('track', 'InitiateCheckout', { value: total, currency: 'BGN', num_items: items.length });
+        }
+      }
+      return result;
+    };
+  }
+
+  // ── apply_promo ──────────────────────────────────────────────────────────────
+  function hookApplyPromo() {
+    const _orig = window.applyPromo;
+    if (typeof _orig !== 'function') return;
+    window.applyPromo = function (codeArg) {
+      const codeBefore = typeof promoApplied !== 'undefined' ? promoApplied : false;
+      const result = _orig.apply(this, arguments);
+      const codeAfter = typeof promoApplied !== 'undefined' ? promoApplied : false;
+      const code = (codeArg || '').trim().toUpperCase();
+      if (!codeBefore && codeAfter) {
+        const total = (typeof cart !== 'undefined') ? cart.reduce((s, x) => s + x.price * x.qty, 0) : 0;
+        trackEvent('apply_promo', {
+          promo_code: code,
+          discount_pct: 10,
+          discount_amount: Math.round(total * 0.10 * 100) / 100,
+          currency: 'BGN'
+        });
+      } else if (!codeAfter && code) {
+        trackEvent('promo_failed', { promo_code: code });
+      }
+      return result;
+    };
+  }
+
+  // ── purchase ─────────────────────────────────────────────────────────────────
+  function hookSubmitOrder() {
+    const _orig = window.submitOrder;
+    if (typeof _orig !== 'function') return;
+    window.submitOrder = function () {
+      // Snapshot cart before submit clears it
+      const cartSnapshot = (typeof cart !== 'undefined') ? cart.map(x => ({
+        item_id: String(x.id),
+        item_name: x.name,
+        item_category: x.cat,
+        price: x.price,
+        quantity: x.qty
+      })) : [];
+      const subtotal = cartSnapshot.reduce((s, x) => s + x.price * x.quantity, 0);
+      const promo = (typeof promoApplied !== 'undefined' && promoApplied) ? subtotal * 0.10 : 0;
+      const delivery = (typeof ckDeliveryCosts !== 'undefined' && typeof ckDeliveryIdx !== 'undefined')
+        ? ckDeliveryCosts[ckDeliveryIdx] : 0;
+      const total = Math.round((subtotal - promo + delivery) * 100) / 100;
+
+      const result = _orig.apply(this, arguments);
+
+      // Fire after a tick (submitOrder has a setTimeout internally)
+      setTimeout(function () {
+        const orderNumEl = document.getElementById('tyOrderNum');
+        const orderNum = orderNumEl ? orderNumEl.textContent : 'unknown';
+        trackEvent('purchase', {
+          transaction_id: orderNum,
+          value: total,
+          subtotal: Math.round(subtotal * 100) / 100,
+          discount: Math.round(promo * 100) / 100,
+          shipping: delivery,
+          currency: 'BGN',
+          payment_method: (typeof ckPaymentType !== 'undefined') ? ckPaymentType : 'unknown',
+          item_count: cartSnapshot.reduce((s, x) => s + x.quantity, 0)
+        });
+        if (typeof gtag === 'function') {
+          gtag('event', 'purchase', {
+            transaction_id: orderNum,
+            currency: 'BGN',
+            value: total,
+            shipping: delivery,
+            coupon: (typeof promoApplied !== 'undefined' && promoApplied) ? 'MOSTCOMP10' : '',
+            items: cartSnapshot
+          });
+        }
+        if (typeof fbq === 'function') {
+          fbq('track', 'Purchase', { value: total, currency: 'BGN', num_items: cartSnapshot.length });
+        }
+      }, 600);
+
+      return result;
+    };
+  }
+
+  // ── search ───────────────────────────────────────────────────────────────────
+  function hookSearch() {
+    const _origFull = window.doFullSearch;
+    if (typeof _origFull === 'function') {
+      window.doFullSearch = function () {
+        const q = (document.getElementById('searchInput') || {}).value || '';
+        const result = _origFull.apply(this, arguments);
+        if (q.trim()) {
+          // Results count available after render — approximate with DOM query
+          setTimeout(function () {
+            const count = document.querySelectorAll('.srp-card').length;
+            trackEvent('search', {
+              search_term: q.trim(),
+              results_count: count
+            });
+            if (typeof gtag === 'function') {
+              gtag('event', 'search', { search_term: q.trim() });
+            }
+            // Track zero-result searches separately
+            if (count === 0) {
+              trackEvent('search_no_results', { search_term: q.trim() });
+            }
+          }, 200);
+        }
+        return result;
+      };
+    }
+  }
+
+  // ── view_category ─────────────────────────────────────────────────────────────
+  function hookFilterCat() {
+    const _orig = window.filterCat;
+    if (typeof _orig !== 'function') return;
+    window.filterCat = function (cat) {
+      const result = _orig.apply(this, arguments);
+      const label = (typeof CAT_LABELS !== 'undefined' && CAT_LABELS[cat]) ? CAT_LABELS[cat] : cat;
+      trackEvent('view_category', {
+        category: cat,
+        category_label: label
+      });
+      return result;
+    };
+  }
+
+  // ── Init: wire up all hooks ───────────────────────────────────────────────────
+  function init() {
+    hookOpenProductPage();
+    hookAddToCart();
+    hookRemoveFromCart();
+    hookToggleWishlist();
+    hookToggleCart();
+    hookShowCheckoutStep();
+    hookApplyPromo();
+    hookSubmitOrder();
+    hookSearch();
+    hookFilterCat();
+    trackPageView();
+
+    if (IS_DEV) {
+      console.log('%c[Analytics] Initialized — hooks active', 'color:#34c759;font-weight:700');
+    }
+  }
+
+  // Run after DOM + app.js are ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    // DOMContentLoaded already fired — defer one tick so app.js globals are set
+    setTimeout(init, 0);
+  }
+
+  // ── Public API ───────────────────────────────────────────────────────────────
+  window.mcTrack = trackEvent;
+  window.mcAnalyticsLog = function () {
+    try { return JSON.parse(localStorage.getItem('mc_analytics_log') || '[]'); } catch (_) { return []; }
+  };
+})();
+
+// Lazy bundle initialization — runs after app-lazy.js loads
+// Calls functions deferred from main.js (cart badge was shown inline; full init runs here)
+(function () {
+  if (typeof loadCart === 'function') loadCart();
+  if (typeof renderRecentlyDiscounted === 'function') {
+    var el = document.getElementById('recentlyDiscountedGrid');
+    if (el) renderRecentlyDiscounted();
+  }
+}());

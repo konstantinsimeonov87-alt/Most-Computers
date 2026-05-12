@@ -156,6 +156,17 @@ function socialLogin(provider) {
 function loginSuccess(user) {
   currentUser = user;
   showAuthSuccess('🎉', `Добре дошъл, ${user.firstName}!`, 'Влезе успешно в профила си.');
+  // Load wishlist from Supabase and merge with local
+  if (typeof window.loadWishlistFromSupabase === 'function') {
+    window.loadWishlistFromSupabase(user.email).then(remoteIds => {
+      if (remoteIds && Array.isArray(remoteIds)) {
+        const merged = [...new Set([...wishlist, ...remoteIds])];
+        wishlist = merged;
+        try { localStorage.setItem('mc_wishlist', JSON.stringify(wishlist)); } catch(e) {}
+        updateWishlistUI();
+      }
+    });
+  }
   setTimeout(() => { closeAuthModalDirect(); updateAuthUI(); }, 1800);
 }
 
@@ -229,6 +240,34 @@ document.addEventListener('click', e => {
 let wishlist = [];
 try { wishlist = JSON.parse(localStorage.getItem('mc_wishlist') || '[]'); } catch(e) {}
 
+function _saveWishlistPrices() {
+  try {
+    const prices = {};
+    wishlist.forEach(id => { const p = products.find(x => x.id === id); if (p) prices[id] = p.price; });
+    localStorage.setItem('mc_wishlist_prices', JSON.stringify(prices));
+  } catch(e) {}
+}
+
+function checkWishlistPriceDrops() {
+  try {
+    const saved = JSON.parse(localStorage.getItem('mc_wishlist_prices') || '{}');
+    const drops = wishlist.filter(id => {
+      const p = products.find(x => x.id === id);
+      return p && saved[id] && p.price < saved[id];
+    });
+    if (!drops.length) return;
+    const el = document.getElementById('wishlistPriceDropBanner');
+    if (el) { el.style.display = ''; el.querySelector('.wpd-count').textContent = drops.length; return; }
+    const banner = document.createElement('div');
+    banner.id = 'wishlistPriceDropBanner';
+    banner.style.cssText = 'position:fixed;bottom:70px;left:50%;transform:translateX(-50%);z-index:3000;background:#166534;color:#fff;padding:10px 20px;border-radius:12px;font-size:13px;font-weight:700;display:flex;align-items:center;gap:10px;box-shadow:0 4px 20px rgba(0,0,0,0.25);cursor:pointer;max-width:340px;';
+    banner.innerHTML = `<span>🔔</span><span><span class="wpd-count">${drops.length}</span> ${drops.length === 1 ? 'продукт от' : 'продукта от'} любимите ${drops.length === 1 ? 'е поевтинял' : 'са поевтинели'}!</span><button type="button" style="margin-left:auto;background:rgba(255,255,255,0.2);border:none;color:#fff;border-radius:6px;padding:2px 8px;cursor:pointer;font-size:12px;" onclick="event.stopPropagation();document.getElementById('wishlistPriceDropBanner').remove()">×</button>`;
+    banner.onclick = () => { openWishlist(); banner.remove(); };
+    document.body.appendChild(banner);
+    setTimeout(() => { if (banner.parentNode) { banner.style.opacity='0'; banner.style.transition='opacity .4s'; setTimeout(()=>banner.remove(),400); } }, 12000);
+  } catch(e) {}
+}
+
 function toggleWishlist(id, e) {
   if (e && e.stopPropagation) e.stopPropagation();
   const idx = wishlist.indexOf(id);
@@ -240,6 +279,10 @@ function toggleWishlist(id, e) {
     showToast('♡ Премахнато от любими');
   }
   try { localStorage.setItem('mc_wishlist', JSON.stringify(wishlist)); } catch(err){}
+  _saveWishlistPrices();
+  if (currentUser && typeof window.syncWishlistToSupabase === 'function') {
+    window.syncWishlistToSupabase(currentUser.email, wishlist);
+  }
   updateWishlistUI();
   // Update specific button if visible
   const btn = document.getElementById('wl-' + id);

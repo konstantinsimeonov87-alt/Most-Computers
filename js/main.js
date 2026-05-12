@@ -22,6 +22,26 @@ initCookies();
 initBackToTop();
 updateWishlistUI();
 
+// ===== CATEGORY COUNTS IN SIDEBAR =====
+function initCatCounts() {
+  const catMap = {};
+  products.forEach(p => { const c = normalizeCat(p.cat); catMap[c] = (catMap[c] || 0) + 1; });
+  document.querySelectorAll('.cat-item[data-action]').forEach(el => {
+    const m = el.dataset.action.match(/openCatPage\('([^']+)'\)/);
+    if (!m) return;
+    const count = catMap[m[1]] || 0;
+    if (!count) return;
+    el.querySelector('.cat-count-badge')?.remove();
+    const badge = document.createElement('span');
+    badge.className = 'cat-count-badge';
+    badge.textContent = count;
+    const arrow = el.querySelector('.cat-arrow');
+    if (arrow) el.insertBefore(badge, arrow); else el.appendChild(badge);
+  });
+}
+document.addEventListener('DOMContentLoaded', initCatCounts);
+document.addEventListener('DOMContentLoaded', () => { setTimeout(checkWishlistPriceDrops, 1500); });
+
 // renderGrids called in DOMContentLoaded
 function openContactPage() { openContactsPage(); }
 

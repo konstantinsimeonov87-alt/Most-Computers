@@ -1479,9 +1479,20 @@
  }
 
  .cat-arrow {
-   margin-left: auto;
    font-size: 10px;
    color: var(--muted);
+ }
+ .cat-count-badge {
+   margin-left: auto;
+   font-size: 10px;
+   font-weight: 700;
+   color: var(--muted);
+   background: var(--bg2);
+   border-radius: 10px;
+   padding: 1px 6px;
+   min-width: 22px;
+   text-align: center;
+   flex-shrink: 0;
  }
 
  /* ===== SIDEBAR FILTERS — hidden on home, visible on category ===== */

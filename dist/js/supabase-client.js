@@ -49,6 +49,22 @@ if (typeof window.supabase !== 'undefined') {
       }
     };
 
+    // Wishlist sync
+    window.syncWishlistToSupabase = async function(email, ids) {
+      if (!email || !ids) return;
+      try {
+        await sb.from('wishlists').upsert({ email, product_ids: ids, updated_at: new Date().toISOString() }, { onConflict: 'email' });
+      } catch(e) {}
+    };
+
+    window.loadWishlistFromSupabase = async function(email) {
+      if (!email) return null;
+      try {
+        const { data } = await sb.from('wishlists').select('product_ids').eq('email', email).single();
+        return data?.product_ids || null;
+      } catch(e) { return null; }
+    };
+
     console.log('✅ Supabase клиент инициализиран');
   } catch (e) {
     console.warn('Supabase инициализация неуспешна:', e.message);

@@ -460,3 +460,58 @@ function initScrollAnimations() {
 }
 
 
+
+// ── Overlay search bars (catPage + megamenu topbars) ────────────────────────
+// Single handler for all .overlay-search-input elements.
+// Mobile: icon toggles the bar open/closed. Desktop: bar always visible.
+(function () {
+  function initOverlaySearch(wrap) {
+    var iconBtn = wrap.querySelector('.overlay-search-icon-btn');
+    var bar = wrap.querySelector('.overlay-search-bar');
+    var input = wrap.querySelector('.overlay-search-input');
+    var clearBtn = wrap.querySelector('.overlay-search-clear');
+    if (!input) return;
+
+    // Mobile toggle
+    if (iconBtn) {
+      iconBtn.addEventListener('click', function () {
+        var isOpen = bar.classList.toggle('open');
+        iconBtn.setAttribute('aria-expanded', isOpen);
+        if (isOpen) { input.focus(); }
+      });
+    }
+
+    var debounce;
+    input.addEventListener('input', function () {
+      var q = input.value.trim();
+      clearBtn.style.display = q ? '' : 'none';
+      clearTimeout(debounce);
+      if (q.length >= 2) {
+        debounce = setTimeout(function () {
+          if (typeof showSearchResultsPage === 'function') showSearchResultsPage(q);
+        }, 320);
+      }
+    });
+
+    input.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') {
+        var q = input.value.trim();
+        if (q && typeof showSearchResultsPage === 'function') showSearchResultsPage(q);
+      }
+      if (e.key === 'Escape') {
+        input.value = '';
+        clearBtn.style.display = 'none';
+        bar.classList.remove('open');
+        if (iconBtn) iconBtn.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    clearBtn.addEventListener('click', function () {
+      input.value = '';
+      clearBtn.style.display = 'none';
+      input.focus();
+    });
+  }
+
+  document.querySelectorAll('.overlay-search-wrap').forEach(initOverlaySearch);
+}());

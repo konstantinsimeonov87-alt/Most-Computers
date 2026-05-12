@@ -3210,6 +3210,15 @@
     <div class="megamenu-topbar">
       <button type="button" class="megamenu-back" id="blogBackBtn" data-action="closeBlogPage" aria-label="Назад">←</button>
       <div class="megamenu-topbar-title" id="blogPageTitle">📰 Блог и новини</div>
+      <div class="overlay-search-wrap" role="search" aria-label="Търсене">
+        <button type="button" class="overlay-search-icon-btn" aria-label="Търсене" aria-expanded="false">
+          <svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-search"/></svg>
+        </button>
+        <div class="overlay-search-bar">
+          <input type="text" class="overlay-search-input" placeholder="Търси продукт..." autocomplete="off" aria-label="Търсене">
+          <button type="button" class="overlay-search-clear" aria-label="Изчисти" style="display:none">✕</button>
+        </div>
+      </div>
     </div>
     <!-- Blog list view -->
     <div class="megamenu-body" id="blogListView">
@@ -3231,6 +3240,15 @@
     <div class="megamenu-topbar">
       <button type="button" class="megamenu-back" data-action="closeServicePage" aria-label="Назад">←</button>
       <div class="megamenu-topbar-title">🔧 Сервиз и поддръжка</div>
+      <div class="overlay-search-wrap" role="search" aria-label="Търсене">
+        <button type="button" class="overlay-search-icon-btn" aria-label="Търсене" aria-expanded="false">
+          <svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-search"/></svg>
+        </button>
+        <div class="overlay-search-bar">
+          <input type="text" class="overlay-search-input" placeholder="Търси продукт..." autocomplete="off" aria-label="Търсене">
+          <button type="button" class="overlay-search-clear" aria-label="Изчисти" style="display:none">✕</button>
+        </div>
+      </div>
     </div>
     <div class="megamenu-body">
 
@@ -3451,6 +3469,15 @@
     <div class="megamenu-topbar">
       <button type="button" class="megamenu-back" data-action="closeDeliveryPage" aria-label="Назад">←</button>
       <div class="megamenu-topbar-title">🚚 Доставка и плащане</div>
+      <div class="overlay-search-wrap" role="search" aria-label="Търсене">
+        <button type="button" class="overlay-search-icon-btn" aria-label="Търсене" aria-expanded="false">
+          <svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-search"/></svg>
+        </button>
+        <div class="overlay-search-bar">
+          <input type="text" class="overlay-search-input" placeholder="Търси продукт..." autocomplete="off" aria-label="Търсене">
+          <button type="button" class="overlay-search-clear" aria-label="Изчисти" style="display:none">✕</button>
+        </div>
+      </div>
     </div>
     <div class="megamenu-body">
       <div class="megamenu-section-title">🚚 Начини за доставка</div>
@@ -4369,6 +4396,16 @@
         <span class="cat-page-emoji" id="cpEmoji"></span>
         <span class="cat-page-title" id="cpTitle"></span>
         <div class="cat-page-subtitle" id="cpSubtitle"></div>
+      </div>
+      <div class="overlay-search-wrap" role="search" aria-label="Търсене">
+        <button type="button" class="overlay-search-icon-btn" id="cpSearchToggle" aria-label="Търсене" aria-expanded="false">
+          <svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-search"/></svg>
+        </button>
+        <div class="overlay-search-bar" id="cpSearchBar">
+          <input type="text" class="overlay-search-input" id="cpSearchInput"
+            placeholder="Търси продукт..." autocomplete="off" aria-label="Търсене">
+          <button type="button" class="overlay-search-clear" id="cpSearchClear" aria-label="Изчисти" style="display:none">✕</button>
+        </div>
       </div>
     </div>
     <div id="cpSidebarOverlay" class="cp-sidebar-overlay" onclick="cpCloseSidebar()" role="button" tabindex="-1" aria-label="Затвори"></div>

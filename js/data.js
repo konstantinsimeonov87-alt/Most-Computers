@@ -6981,7 +6981,7 @@ var products = [
    specs:{'Размер':'23.8\'','Панел':'IPS','Резолюция':'1920×1080 (FHD)','Честота':'120 Hz','Отклик':'4ms','Тонколони':'Да'},
    rating:4.3,rv:0,reviews:[],
    desc:'Acer ACER 23.8W B247YGBMIPRZX — 23.8" монитор, IPS, 1920×1080 (FHD), 120 Hz.',
-   img:'https://portal.mostbg.com/api/images/imageFileData/48684.png',stock:false},
+   img:'https://portal.mostbg.com/api/images/imageFileData/48684.png',stock:true},
 
   {id:997,name:'ACER 23.8W B247YD6BMIPRCZX',brand:'Acer',cat:'monitors',subcat:'monitor',
    price:293,old:null,pct:null,badge:null,emoji:'🖥',sku:'UM.QB7EE.601',ean:'4711474215512',
@@ -8080,7 +8080,7 @@ var products = [
    specs:{'Размер':'27\''},
    rating:4.3,rv:0,reviews:[],
    desc:'Lenovo 27 Lenovo 27Q-10 / 68C6GAC4EU — 27" монитор.',
-   img:'https://images.icecat.biz/img/gallery_mediums/e824ecbbc94acf4bfe6dc4c55b0c4938400d50f2.jpg',stock:false},
+   img:'https://images.icecat.biz/img/gallery_mediums/e824ecbbc94acf4bfe6dc4c55b0c4938400d50f2.jpg',stock:true},
 
   {id:1154,name:'27 Lenovo E27Q-40 / 64BDGAT4EU',brand:'Lenovo',cat:'monitors',subcat:'monitor',
    price:415,old:null,pct:null,badge:null,emoji:'🖥',sku:'64BDGAT4EU',ean:'0198157471900',
@@ -12335,7 +12335,7 @@ const _desktops = [
   {id:2791,name:'Lenovo DT YG AIO / F0HX000CRI',brand:'Lenovo',cat:'desktops',subcat:'aio',price:3916,old:null,pct:null,badge:null,emoji:'🖥',sku:'F0HX000CRI',ean:'198156967114',specs:{'RAM':'16GB, Soldered LPDDR5x-8533','GPU':'Integrated Intel® Arc™ Graphics 140V','SSD':'1TB','ОС':'Windows® 11 Home, Romanian / English','Размери':'724.04 x 253.02 x 543.1 mm'},rating:4.0,rv:19,reviews:[],desc:'Lenovo DT YG AIO / F0HX000CRI, 16GB RAM, 1TB SSD',img:'https://portal.mostbg.com/api/images/imageFileData/46375.png',stock:false},
   {id:2792,name:'Lenovo IC AIO 27 F0HM008SRI',brand:'Lenovo',cat:'desktops',subcat:'aio',price:1840,old:null,pct:null,badge:null,emoji:'🖥',sku:'F0HM008SRI',ean:'0198153883707',specs:{'RAM':'32GB, 2x 16GB SO-DIMM DDR5-5200','GPU':'Integrated Intel® UHD Graphics','SSD':'1TB','ОС':'None','Захранване':'90W 89% Adapter','Размери':'611.72 x 192 x 473.16 mm'},rating:3.9,rv:41,reviews:[],desc:'Lenovo IC AIO 27 F0HM008SRI, 32GB RAM, 1TB SSD',img:'https://portal.mostbg.com/api/images/imageFileData/44519.png',stock:false},
   {id:2793,name:'Lenovo IC AIO 27 / F0HQ000TRI',brand:'Lenovo',cat:'desktops',subcat:'aio',price:1107,old:null,pct:null,badge:null,emoji:'🖥',sku:'F0HQ000TRI',ean:'0197530029837',specs:{'RAM':'16GB, SODIMM DDR5-4800','GPU':'Integrated AMD Radeon™ 680M Graphics','SSD':'512GB','ОС':'None','Размери':'611.72 x 192 x 473.16 mm'},rating:3.9,rv:7,reviews:[],desc:'Lenovo IC AIO 27 / F0HQ000TRI, 16GB RAM, 512GB SSD',img:'https://portal.mostbg.com/api/images/imageFileData/51984.png',stock:false},
-  {id:2794,name:'Lenovo IC AIO 27 / F0HQ000YRI',brand:'Lenovo',cat:'desktops',subcat:'aio',price:1598,old:null,pct:null,badge:null,emoji:'🖥',sku:'F0HQ000YRI',ean:'0197530040344',specs:{},rating:4.6,rv:26,reviews:[],desc:'Lenovo IC AIO 27 / F0HQ000YRI',img:'https://portal.mostbg.com/api/images/imageFileData/51984.png',stock:false},
+  {id:2794,name:'Lenovo IC AIO 27 / F0HQ000YRI',brand:'Lenovo',cat:'desktops',subcat:'aio',price:1598,old:null,pct:null,badge:null,emoji:'🖥',sku:'F0HQ000YRI',ean:'0197530040344',specs:{},rating:4.6,rv:26,reviews:[],desc:'Lenovo IC AIO 27 / F0HQ000YRI',img:'https://portal.mostbg.com/api/images/imageFileData/51984.png',stock:true},
   {id:2795,name:'Lenovo TS P3 TOWER /30GS000VBL',brand:'Lenovo',cat:'desktops',subcat:'office_pc',price:2384,old:null,pct:null,badge:null,emoji:'🖥',sku:'30GS000VBL',ean:'0196804914541',specs:{},rating:4.3,rv:49,reviews:[],desc:'Lenovo TS P3 TOWER /30GS000VBL',img:null,stock:false},
   {id:2796,name:'Lenovo IC AIO 27 / /1CBG',brand:'Lenovo',cat:'desktops',subcat:'aio',price:1286,old:null,pct:null,badge:null,emoji:'🖥',sku:'F0HQ001CBG',ean:null,specs:{},rating:4.7,rv:14,reviews:[],desc:'Lenovo IC AIO 27 / /1CBG',img:'https://portal.mostbg.com/api/images/imageFileData/51984.png',stock:false},
   {id:2797,name:'Lenovo LEGION T5 26 / / NJRM',brand:'Lenovo',cat:'desktops',subcat:'office_pc',price:3540,old:null,pct:null,badge:null,emoji:'🖥',sku:'90UU00NJRM',ean:'0197530474927',specs:{},rating:4.1,rv:28,reviews:[],desc:'Lenovo LEGION T5 26 / / NJRM',img:'https://portal.mostbg.com/api/images/imageFileData/40431.jpeg',stock:false},

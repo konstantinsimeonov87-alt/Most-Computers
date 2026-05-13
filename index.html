@@ -2279,14 +2279,14 @@
               <div class="checkout-card-body">
                 <div class="ck-row2">
                   <div class="ck-field"><label for="ckFirst">Име *</label><input class="ck-input" id="ckFirst" placeholder="Иван"
-                      onblur="ckValidateField(this)" autocomplete="given-name" required aria-required="true" aria-describedby="ckFirst-err"><span class="ck-field-error" id="ckFirst-err" role="alert"></span></div>
+                      onblur="this.dataset.touched='1';ckValidateField(this)" oninput="if(this.dataset.touched)ckValidateField(this)" autocomplete="given-name" required aria-required="true" aria-describedby="ckFirst-err"><span class="ck-field-error" id="ckFirst-err" role="alert"></span></div>
                   <div class="ck-field"><label for="ckLast">Фамилия *</label><input class="ck-input" id="ckLast" placeholder="Петров"
-                      onblur="ckValidateField(this)" autocomplete="family-name" required aria-required="true" aria-describedby="ckLast-err"><span class="ck-field-error" id="ckLast-err" role="alert"></span></div>
+                      onblur="this.dataset.touched='1';ckValidateField(this)" oninput="if(this.dataset.touched)ckValidateField(this)" autocomplete="family-name" required aria-required="true" aria-describedby="ckLast-err"><span class="ck-field-error" id="ckLast-err" role="alert"></span></div>
                 </div>
                 <div class="ck-field"><label for="ckEmail">Имейл *</label><input type="email" class="ck-input" id="ckEmail"
-                    placeholder="ivan@mail.bg" onblur="ckValidateEmail(this)" autocomplete="email" required aria-required="true" aria-describedby="ckEmail-err"><span class="ck-field-error" id="ckEmail-err" role="alert"></span></div>
+                    placeholder="ivan@mail.bg" onblur="this.dataset.touched='1';ckValidateEmail(this)" oninput="if(this.dataset.touched)ckValidateEmail(this)" autocomplete="email" required aria-required="true" aria-describedby="ckEmail-err"><span class="ck-field-error" id="ckEmail-err" role="alert"></span></div>
                 <div class="ck-field"><label for="ckPhone">Телефон *</label><input type="tel" class="ck-input" id="ckPhone"
-                    placeholder="0888 123 456" onblur="ckValidatePhone(this)" oninput="ckFormatPhone(this)" autocomplete="tel" required aria-required="true" aria-describedby="ckPhone-err"><span class="ck-field-error" id="ckPhone-err" role="alert"></span></div>
+                    placeholder="0888 123 456" onblur="this.dataset.touched='1';ckValidatePhone(this)" oninput="ckFormatPhone(this);if(this.dataset.touched)ckValidatePhone(this)" autocomplete="tel" required aria-required="true" aria-describedby="ckPhone-err"><span class="ck-field-error" id="ckPhone-err" role="alert"></span></div>
                 <div class="ck-b2b-toggle-row" style="margin-top:12px">
                   <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;font-weight:600;color:#1a1a1a">
                     <input type="checkbox" id="ckIsB2B" onchange="toggleB2BFields(this)" style="width:16px;height:16px;cursor:pointer">

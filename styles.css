@@ -15801,6 +15801,15 @@ textarea:focus-visible {
   background: #f59e0b;
   color: #fff;
 }
+.badge-lowstock {
+  background: #ea580c;
+  color: #fff;
+  animation: badge-pulse 1.8s ease-in-out infinite;
+}
+@keyframes badge-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.75; }
+}
 .product-card:has(.badge-oos) .add-cart-btn {
   opacity: 0.45;
   pointer-events: none;

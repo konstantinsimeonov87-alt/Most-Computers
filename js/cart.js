@@ -16,6 +16,7 @@ function addToCart(id) {
   const p = products.find(x => x.id === id); if (!p) return;
   const ex = cart.find(x => x.id === id); if (ex) { ex.qty++; } else { cart.push({ ...p, qty: 1 }); }
   updateCart(); saveCart();
+  if (navigator.vibrate) navigator.vibrate(50);
   const btn = document.getElementById('cb-' + id);
   if (btn) { btn.classList.add('added'); btn.innerHTML = '✓ Добавен'; btn.disabled = true; setTimeout(() => { btn.classList.remove('added'); btn.innerHTML = '<svg width="15" height="15" class="svg-ic" aria-hidden="true"><use href="#ic-cart"/></svg> Добави в кошница'; btn.disabled = false; }, 1200); }
   (function showCartToast(prod) {
@@ -222,8 +223,8 @@ function handleCheckout() {
   document.getElementById('cartOverlay').classList.remove('open');
   document.body.style.overflow = 'hidden';
   showCheckoutStep(1);
-  // Clear previous validation states
-  document.querySelectorAll('#checkoutPage .ck-input').forEach(el => el.classList.remove('error', 'valid'));
+  // Clear previous validation states and touched flags
+  document.querySelectorAll('#checkoutPage .ck-input').forEach(el => { el.classList.remove('error', 'valid'); delete el.dataset.touched; });
   // Populate estimated delivery dates
   const fmt = d => d.toLocaleDateString('bg-BG', { weekday: 'long', day: 'numeric', month: 'long' });
   const now = new Date();

@@ -10,9 +10,11 @@ const searchDropdown = document.getElementById('searchDropdown');
 const searchBar = document.getElementById('searchBar');
 
 function highlightMatch(text, query) {
-  if (!query) return text;
+  const _esc = typeof escHtml === 'function' ? escHtml : s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  const safe = _esc(String(text));
+  if (!query) return safe;
   const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  return text.replace(new RegExp(`(${escaped})`, 'gi'), '<mark>$1</mark>');
+  return safe.replace(new RegExp(`(${escaped})`, 'gi'), '<mark>$1</mark>');
 }
 
 function normStr(s) {
@@ -174,7 +176,7 @@ function renderDropdown(query) {
         <div class="sd-result" data-idx="${i}" onclick="selectSearchResult(${p.id})">
           <div class="sd-emoji">${p.emoji}</div>
           <div class="sd-info">
-            <div class="sd-name">${highlightMatch(escHtml(p.name), q)}</div>
+            <div class="sd-name">${highlightMatch(p.name, q)}</div>
             <div class="sd-meta">
               <span class="sd-brand">${escHtml(p.brand)}</span>
               ${extraMeta}

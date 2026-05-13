@@ -314,6 +314,8 @@ document.addEventListener('keydown', e => {
       { id: 'contactsPage',         close: () => typeof closeContactsPage === 'function' && closeContactsPage() },
       { id: 'aboutPage',            close: () => typeof closeAboutPage === 'function' && closeAboutPage(), checkFn: el => el.classList.contains('open') },
       { id: 'myOrdersPage',         close: () => typeof closeMyOrders === 'function' && closeMyOrders() },
+      { id: 'phoneOrderBackdrop',   close: () => typeof closePhoneOrder === 'function' && closePhoneOrder() },
+      { id: 'prodPreviewBackdrop',  close: () => typeof closeProdPreview === 'function' && closeProdPreview() },
     ];
     for (const { id, close, checkFn } of panels) {
       const el = document.getElementById(id);

@@ -464,3 +464,63 @@ function pdpInitPinch() {
 
   wrap._pinchInited = true;
 }
+
+// ===== PRODUCT PREVIEW BOTTOM SHEET (mobile) =====
+var _ppProductId = null;
+
+function openProdPreview(id) {
+  if (window.innerWidth > 768) { openProductPage(id); return; }
+  var p = typeof products !== 'undefined' ? products.find(function(x) { return x.id === id; }) : null;
+  if (!p) { openProductPage(id); return; }
+  _ppProductId = id;
+
+  var imgEl = document.getElementById('ppImg');
+  var brandEl = document.getElementById('ppBrand');
+  var nameEl = document.getElementById('ppName');
+  var ratingEl = document.getElementById('ppRating');
+  var priceEl = document.getElementById('ppPrice');
+
+  if (imgEl) imgEl.innerHTML = p.img
+    ? '<img src="' + p.img + '" style="width:72px;height:72px;object-fit:contain;border-radius:10px;">'
+    : '<span style="font-size:44px;">' + (p.emoji || '📦') + '</span>';
+  if (brandEl) brandEl.textContent = p.brand || '';
+  if (nameEl) nameEl.textContent = p.name;
+  if (ratingEl) {
+    var stars = Math.round(p.rating || 0);
+    ratingEl.innerHTML = '★'.repeat(stars) + '☆'.repeat(5 - stars) + ' <span style="color:var(--muted);font-size:11px;">(' + (p.reviews ? p.reviews.length : p.rv || 0) + ')</span>';
+  }
+  if (priceEl) priceEl.innerHTML = typeof fmtEur === 'function' ? '<strong>' + fmtEur(p.price) + '</strong>' : '<strong>' + p.price + ' €</strong>';
+
+  var addBtn = document.getElementById('ppAddBtn');
+  if (addBtn) {
+    addBtn.onclick = function() {
+      if (typeof addToCart === 'function') addToCart(_ppProductId);
+      closeProdPreview();
+    };
+    addBtn.textContent = p.stock === false ? '✕ Изчерпан' : '🛒 Добави в кошница';
+    addBtn.disabled = p.stock === false;
+  }
+  var detBtn = document.getElementById('ppDetailsBtn');
+  if (detBtn) detBtn.onclick = function() { closeProdPreview(); openProductPage(_ppProductId); };
+
+  var sheet = document.getElementById('prodPreviewSheet');
+  var backdrop = document.getElementById('prodPreviewBackdrop');
+  if (sheet) sheet.classList.add('open');
+  if (backdrop) backdrop.classList.add('open');
+  document.body.style.overflow = 'hidden';
+
+  // Swipe down to close
+  var startY = 0;
+  sheet.addEventListener('touchstart', function(e) { startY = e.touches[0].clientY; }, { passive: true, once: false });
+  sheet.addEventListener('touchend', function(e) {
+    if (e.changedTouches[0].clientY - startY > 70) closeProdPreview();
+  }, { passive: true });
+}
+
+function closeProdPreview() {
+  var sheet = document.getElementById('prodPreviewSheet');
+  var backdrop = document.getElementById('prodPreviewBackdrop');
+  if (sheet) sheet.classList.remove('open');
+  if (backdrop) backdrop.classList.remove('open');
+  document.body.style.overflow = '';
+}

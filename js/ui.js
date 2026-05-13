@@ -515,3 +515,85 @@ function initScrollAnimations() {
 
   document.querySelectorAll('.overlay-search-wrap').forEach(initOverlaySearch);
 }());
+
+// ── Sticky filter bar в catPage (мобилна) ───────────────────────────────────
+(function () {
+  var toolbar = null, stickyBar = null, catPageEl = null, obs = null;
+
+  function initCpStickyBar() {
+    if (window.innerWidth > 768) return;
+    catPageEl = document.getElementById('catPage');
+    toolbar = document.querySelector('.cat-page-toolbar');
+    stickyBar = document.getElementById('cpStickyBar');
+    if (!toolbar || !stickyBar || !catPageEl) return;
+    if (obs) obs.disconnect();
+    obs = new IntersectionObserver(function(entries) {
+      var visible = entries[0].isIntersecting;
+      stickyBar.classList.toggle('show', !visible);
+      // Sync sort value
+      var mainSort = document.getElementById('cpSort');
+      var stickySort = document.getElementById('cpStickySort');
+      if (mainSort && stickySort) stickySort.value = mainSort.value;
+    }, { root: catPageEl, threshold: 0 });
+    obs.observe(toolbar);
+  }
+
+  // Init when catPage opens
+  document.addEventListener('click', function(e) {
+    var btn = e.target.closest('[data-action]');
+    if (!btn) return;
+    if (btn.dataset.action && btn.dataset.action.includes('openCatPage')) {
+      setTimeout(initCpStickyBar, 100);
+    }
+  });
+
+  // Also init on resize
+  window.addEventListener('resize', function() {
+    if (stickyBar) stickyBar.classList.remove('show');
+    if (obs) { obs.disconnect(); obs = null; }
+    setTimeout(initCpStickyBar, 100);
+  });
+}());
+
+// ── Swipe-to-close за full-screen overlays (мобилна) ────────────────────────
+(function () {
+  var OVERLAYS = [
+    { id: 'catPage',      close: function() { if (typeof closeCatPage === 'function') closeCatPage(); } },
+    { id: 'blogPage',     close: function() { if (typeof closeBlogPage === 'function') closeBlogPage(); } },
+    { id: 'servicePage',  close: function() { if (typeof closeServicePage === 'function') closeServicePage(); } },
+    { id: 'deliveryPage', close: function() { if (typeof closeDeliveryPage === 'function') closeDeliveryPage(); } },
+    { id: 'contactsPage', close: function() { if (typeof closeContactsPage === 'function') closeContactsPage(); } },
+    { id: 'aboutPage',    close: function() { if (typeof closeAboutPage === 'function') closeAboutPage(); } },
+  ];
+
+  function initSwipeToClose(el, closeFn) {
+    var startY = 0, startX = 0, dragging = false;
+    el.addEventListener('touchstart', function(e) {
+      if (window.innerWidth > 768) return;
+      startY = e.touches[0].clientY;
+      startX = e.touches[0].clientX;
+      dragging = true;
+    }, { passive: true });
+    el.addEventListener('touchend', function(e) {
+      if (!dragging || window.innerWidth > 768) return;
+      dragging = false;
+      var dy = e.changedTouches[0].clientY - startY;
+      var dx = Math.abs(e.changedTouches[0].clientX - startX);
+      if (dy > 80 && dx < 40) closeFn();
+    }, { passive: true });
+  }
+
+  // Add drag handle to overlay topbars and init swipe
+  OVERLAYS.forEach(function(cfg) {
+    var el = document.getElementById(cfg.id);
+    if (!el) return;
+    // Insert drag handle as first child if not already present
+    if (!el.querySelector('.swipe-handle')) {
+      var handle = document.createElement('div');
+      handle.className = 'swipe-handle';
+      handle.setAttribute('aria-hidden', 'true');
+      el.insertBefore(handle, el.firstChild);
+    }
+    initSwipeToClose(el, cfg.close);
+  });
+}());

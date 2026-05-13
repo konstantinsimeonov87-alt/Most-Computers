@@ -693,6 +693,49 @@
           class="mi-icon">🔧</span>Сервизен център<span class="mi-arr">›</span></button>
     </div>
 
+    <!-- Categories - Quick Grid -->
+    <div class="mob-nav-section">
+      <div class="mob-nav-title">Категории</div>
+      <div class="mob-cats-grid">
+        <button type="button" class="mob-cat-tile" data-action="toggleMobMenu;openCatPage('phones')">
+          <span class="mob-cat-emoji">📱</span><span>Телефони</span>
+        </button>
+        <button type="button" class="mob-cat-tile" data-action="toggleMobMenu;openCatPage('laptops')">
+          <span class="mob-cat-emoji">💻</span><span>Лаптопи</span>
+        </button>
+        <button type="button" class="mob-cat-tile" data-action="toggleMobMenu;openCatPage('desktops')">
+          <span class="mob-cat-emoji">🖥</span><span>Настолни</span>
+        </button>
+        <button type="button" class="mob-cat-tile" data-action="toggleMobMenu;openCatPage('components')">
+          <span class="mob-cat-emoji">⚙️</span><span>Компоненти</span>
+        </button>
+        <button type="button" class="mob-cat-tile" data-action="toggleMobMenu;openCatPage('monitors')">
+          <span class="mob-cat-emoji">🖥️</span><span>Монитори</span>
+        </button>
+        <button type="button" class="mob-cat-tile" data-action="toggleMobMenu;openCatPage('peripherals')">
+          <span class="mob-cat-emoji">🖱</span><span>Периферия</span>
+        </button>
+        <button type="button" class="mob-cat-tile" data-action="toggleMobMenu;openCatPage('network')">
+          <span class="mob-cat-emoji">📡</span><span>Мрежово</span>
+        </button>
+        <button type="button" class="mob-cat-tile" data-action="toggleMobMenu;openCatPage('storage')">
+          <span class="mob-cat-emoji">💾</span><span>Сторидж</span>
+        </button>
+        <button type="button" class="mob-cat-tile" data-action="toggleMobMenu;openCatPage('accessories')">
+          <span class="mob-cat-emoji">🎒</span><span>Аксесоари</span>
+        </button>
+        <button type="button" class="mob-cat-tile" data-action="toggleMobMenu;openCatPage('printers')">
+          <span class="mob-cat-emoji">🖨</span><span>Принтери</span>
+        </button>
+        <button type="button" class="mob-cat-tile" data-action="toggleMobMenu;openCatPage('ups')">
+          <span class="mob-cat-emoji">⚡</span><span>UPS</span>
+        </button>
+        <button type="button" class="mob-cat-tile" data-action="toggleMobMenu;openCatPage('software')">
+          <span class="mob-cat-emoji">📀</span><span>Софтуер</span>
+        </button>
+      </div>
+    </div>
+
     <!-- Categories - Accordion -->
     <div class="mob-nav-section mob-accordion">
       <button class="mob-accordion-toggle"
@@ -1025,6 +1068,22 @@
   </div>
 
   <!-- QUICK ORDER MODAL -->
+  <!-- Phone Order Modal -->
+  <div class="phone-order-backdrop" id="phoneOrderBackdrop" data-action="closePhoneOrder:event">
+    <div class="phone-order-modal" role="dialog" aria-modal="true" aria-labelledby="phoneOrderTitle">
+      <div class="po-header">
+        <span class="po-title" id="phoneOrderTitle">📞 Поръчай с телефон</span>
+        <button type="button" class="po-close" data-action="closePhoneOrder" aria-label="Затвори">×</button>
+      </div>
+      <p class="po-desc">Оставете номера си и ще се свържем с вас в рамките на работния ден за потвърждение.</p>
+      <div class="po-product" id="poProductName" style="font-size:13px;color:var(--text2);margin-bottom:12px;font-weight:600;"></div>
+      <input type="tel" class="po-input" id="poPhone" placeholder="0888 123 456" inputmode="tel" autocomplete="tel" maxlength="20">
+      <span class="po-error" id="poPhoneError" style="display:none;color:#bd1105;font-size:12px;margin-top:4px;"></span>
+      <button type="button" class="po-submit" id="poSubmitBtn" data-action="submitPhoneOrder">Изпрати заявка →</button>
+      <p class="po-note">Работно време: Пон–Пет 09:30–18:15</p>
+    </div>
+  </div>
+
   <div class="quick-order-backdrop" id="quickOrderBackdrop" data-action="closeQuickOrder:event">
     <div class="quick-order-modal" role="dialog" aria-modal="true" aria-label="Бърза поръчка">
       <div class="qo-header">
@@ -1422,14 +1481,11 @@
       </span>
       <span>Количка</span>
     </button>
-    <button type="button" class="bn-item" data-action="openWishlist" id="bn-wish">
-      <span class="bn-icon-wrap">
-        <svg width="22" height="22" class="svg-ic" aria-hidden="true">
-          <use href="#ic-heart" />
-        </svg>
-        <span class="bn-badge" id="bnWishBadge">0</span>
-      </span>
-      <span>Любими</span>
+    <button type="button" class="bn-item" data-action="focusSearch" id="bn-search" aria-label="Търсене">
+      <svg width="22" height="22" class="svg-ic" aria-hidden="true">
+        <use href="#ic-search" />
+      </svg>
+      <span>Търсене</span>
     </button>
     <button type="button" class="bn-item" data-action="handleProfileClick" id="bn-profile">
       <svg width="22" height="22" class="svg-ic" aria-hidden="true">
@@ -2246,6 +2302,16 @@
                     <div class="ck-field"><label for="ckVAT">ДДС номер</label><input class="ck-input" id="ckVAT" placeholder="BG203000000" maxlength="14"></div>
                     <div class="ck-field"><label for="ckMOL">МОЛ</label><input class="ck-input" id="ckMOL" placeholder="Иван Петров"></div>
                   </div>
+                </div>
+                <div id="ckSavedAddrNotice" style="display:none;margin-top:10px;padding:10px 14px;background:#f0f7ff;border-radius:8px;border-left:3px solid #1a6b35;font-size:13px;color:#1a4a2a;display:flex;align-items:center;gap:8px">
+                  <span>✅ Попълнено от запазените данни</span>
+                  <button type="button" onclick="ckClearSavedAddr()" style="margin-left:auto;background:none;border:none;color:#bd1105;font-size:12px;font-weight:600;cursor:pointer;text-decoration:underline">Не съм аз? Изчисти</button>
+                </div>
+                <div class="ck-save-row" style="margin-top:10px">
+                  <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;color:var(--text2)">
+                    <input type="checkbox" id="ckSaveAddr" style="width:16px;height:16px;cursor:pointer" checked>
+                    Запомни данните ми за следващ път
+                  </label>
                 </div>
                 <div class="ck-step-nav">
                   <span class="ck-req-note">* Задължителни полета</span>
@@ -3992,6 +4058,7 @@
               height="20" class="svg-ic" aria-hidden="true">
               <use href="#ic-cart" />
             </svg> Добави в кошница</button>
+          <button type="button" class="pdp-phone-order-btn" id="pdpPhoneOrderBtn" data-action="openPhoneOrder">📞 Поръчай с телефон</button>
           <button type="button" class="pdp-checkout-btn" id="pdpCheckoutBtn"
             onclick="closeProductPage();handleCheckout();" style="display:none;"><svg width="18" height="18"
               class="svg-ic" aria-hidden="true">
@@ -4426,6 +4493,40 @@
         </div>
         <div class="products-row" id="cpGrid"></div>
       </div>
+    </div>
+    <!-- Sticky filter bar (mobile — appears when toolbar scrolls out of view) -->
+    <div class="cp-sticky-bar" id="cpStickyBar">
+      <button type="button" class="cp-sticky-filters" data-action="toggleMobileFilters">
+        <svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-filter"/></svg>
+        Филтри
+      </button>
+      <div class="cp-sticky-sep"></div>
+      <select class="cp-sticky-sort" id="cpStickySort" onchange="cpApplySort(this.value)">
+        <option value="bestseller">🏆 Най-продавани</option>
+        <option value="price-asc">Цена ↑</option>
+        <option value="price-desc">Цена ↓</option>
+        <option value="rating">Рейтинг</option>
+        <option value="discount">Намаление</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- PRODUCT PREVIEW BOTTOM SHEET (mobile) -->
+  <div class="prod-preview-backdrop" id="prodPreviewBackdrop" onclick="closeProdPreview()"></div>
+  <div class="prod-preview-sheet" id="prodPreviewSheet" role="dialog" aria-modal="true" aria-label="Преглед на продукт">
+    <div class="swipe-handle" aria-hidden="true"></div>
+    <div class="pp-inner">
+      <div class="pp-img" id="ppImg"></div>
+      <div class="pp-info">
+        <div class="pp-brand" id="ppBrand"></div>
+        <div class="pp-name" id="ppName"></div>
+        <div class="pp-rating" id="ppRating"></div>
+        <div class="pp-price" id="ppPrice"></div>
+      </div>
+    </div>
+    <div class="pp-actions">
+      <button type="button" class="pp-add-btn" id="ppAddBtn">🛒 Добави в кошница</button>
+      <button type="button" class="pp-details-btn" id="ppDetailsBtn">Всички детайли →</button>
     </div>
   </div>
 

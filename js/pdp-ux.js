@@ -509,12 +509,14 @@ function openProdPreview(id) {
   if (backdrop) backdrop.classList.add('open');
   document.body.style.overflow = 'hidden';
 
-  // Swipe down to close
+  // Swipe down to close — use named handlers so old ones are replaced on re-open
+  if (sheet._swipeStart) sheet.removeEventListener('touchstart', sheet._swipeStart);
+  if (sheet._swipeEnd)   sheet.removeEventListener('touchend',   sheet._swipeEnd);
   var startY = 0;
-  sheet.addEventListener('touchstart', function(e) { startY = e.touches[0].clientY; }, { passive: true, once: false });
-  sheet.addEventListener('touchend', function(e) {
-    if (e.changedTouches[0].clientY - startY > 70) closeProdPreview();
-  }, { passive: true });
+  sheet._swipeStart = function(e) { startY = e.touches[0].clientY; };
+  sheet._swipeEnd   = function(e) { if (e.changedTouches[0].clientY - startY > 70) closeProdPreview(); };
+  sheet.addEventListener('touchstart', sheet._swipeStart, { passive: true });
+  sheet.addEventListener('touchend',   sheet._swipeEnd,   { passive: true });
 }
 
 function closeProdPreview() {

@@ -138,7 +138,7 @@ function changeModalQty(d){modalQtyVal=Math.max(1,modalQtyVal+d);document.getEle
 function addFromModal(){
   if(!modalProductId)return;const p=products.find(x=>x.id===modalProductId);if(!p)return;
   const ex=cart.find(x=>x.id===modalProductId);if(ex){ex.qty+=modalQtyVal;}else{cart.push({...p,qty:modalQtyVal});}
-  updateCart();const btn=document.getElementById('modalAddBtn');
+  updateCart();saveCart();const btn=document.getElementById('modalAddBtn');
   btn.innerHTML='✓ Добавен!';btn.style.background='var(--new)';
   setTimeout(()=>{btn.innerHTML='🛒 Добави в кошница';btn.style.background='';},2000);
   showToast(`✓ ${p.name.substring(0,32)}... добавен!`);
@@ -3707,12 +3707,14 @@ function openProdPreview(id) {
   if (backdrop) backdrop.classList.add('open');
   document.body.style.overflow = 'hidden';
 
-  // Swipe down to close
+  // Swipe down to close — use named handlers so old ones are replaced on re-open
+  if (sheet._swipeStart) sheet.removeEventListener('touchstart', sheet._swipeStart);
+  if (sheet._swipeEnd)   sheet.removeEventListener('touchend',   sheet._swipeEnd);
   var startY = 0;
-  sheet.addEventListener('touchstart', function(e) { startY = e.touches[0].clientY; }, { passive: true, once: false });
-  sheet.addEventListener('touchend', function(e) {
-    if (e.changedTouches[0].clientY - startY > 70) closeProdPreview();
-  }, { passive: true });
+  sheet._swipeStart = function(e) { startY = e.touches[0].clientY; };
+  sheet._swipeEnd   = function(e) { if (e.changedTouches[0].clientY - startY > 70) closeProdPreview(); };
+  sheet.addEventListener('touchstart', sheet._swipeStart, { passive: true });
+  sheet.addEventListener('touchend',   sheet._swipeEnd,   { passive: true });
 }
 
 function closeProdPreview() {

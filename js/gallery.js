@@ -138,7 +138,7 @@ function changeModalQty(d){modalQtyVal=Math.max(1,modalQtyVal+d);document.getEle
 function addFromModal(){
   if(!modalProductId)return;const p=products.find(x=>x.id===modalProductId);if(!p)return;
   const ex=cart.find(x=>x.id===modalProductId);if(ex){ex.qty+=modalQtyVal;}else{cart.push({...p,qty:modalQtyVal});}
-  updateCart();const btn=document.getElementById('modalAddBtn');
+  updateCart();saveCart();const btn=document.getElementById('modalAddBtn');
   btn.innerHTML='✓ Добавен!';btn.style.background='var(--new)';
   setTimeout(()=>{btn.innerHTML='🛒 Добави в кошница';btn.style.background='';},2000);
   showToast(`✓ ${p.name.substring(0,32)}... добавен!`);

@@ -394,6 +394,7 @@ function addToCart(id) {
   const p = products.find(x => x.id === id); if (!p) return;
   const ex = cart.find(x => x.id === id); if (ex) { ex.qty++; } else { cart.push({ ...p, qty: 1 }); }
   updateCart(); saveCart();
+  if (navigator.vibrate) navigator.vibrate(50);
   const btn = document.getElementById('cb-' + id);
   if (btn) { btn.classList.add('added'); btn.innerHTML = '✓ Добавен'; btn.disabled = true; setTimeout(() => { btn.classList.remove('added'); btn.innerHTML = '<svg width="15" height="15" class="svg-ic" aria-hidden="true"><use href="#ic-cart"/></svg> Добави в кошница'; btn.disabled = false; }, 1200); }
   (function showCartToast(prod) {
@@ -582,10 +583,15 @@ function handleCheckout() {
   try {
     const sa = JSON.parse(localStorage.getItem('mc_saved_addr') || 'null');
     if (sa) {
+      if (sa.first && !document.getElementById('ckFirst').value) document.getElementById('ckFirst').value = sa.first;
+      if (sa.last && !document.getElementById('ckLast').value) document.getElementById('ckLast').value = sa.last;
+      if (sa.email && !document.getElementById('ckEmail').value) document.getElementById('ckEmail').value = sa.email;
       if (sa.phone && !document.getElementById('ckPhone').value) document.getElementById('ckPhone').value = sa.phone;
       if (sa.city) document.getElementById('ckCity').value = sa.city;
       if (sa.addr) document.getElementById('ckAddr').value = sa.addr;
       if (sa.zip) document.getElementById('ckZip').value = sa.zip;
+      const notice = document.getElementById('ckSavedAddrNotice');
+      if (notice) notice.style.display = 'flex';
     }
   } catch (e) { }
   renderOrderSummary();
@@ -595,8 +601,8 @@ function handleCheckout() {
   document.getElementById('cartOverlay').classList.remove('open');
   document.body.style.overflow = 'hidden';
   showCheckoutStep(1);
-  // Clear previous validation states
-  document.querySelectorAll('#checkoutPage .ck-input').forEach(el => el.classList.remove('error', 'valid'));
+  // Clear previous validation states and touched flags
+  document.querySelectorAll('#checkoutPage .ck-input').forEach(el => { el.classList.remove('error', 'valid'); delete el.dataset.touched; });
   // Populate estimated delivery dates
   const fmt = d => d.toLocaleDateString('bg-BG', { weekday: 'long', day: 'numeric', month: 'long' });
   const now = new Date();
@@ -686,6 +692,18 @@ function closeCheckoutPage() {
   if (_ckUpsellTimer) { clearInterval(_ckUpsellTimer); _ckUpsellTimer = null; }
   document.getElementById('checkoutPage').classList.remove('open');
   document.body.style.overflow = '';
+}
+
+function ckClearSavedAddr() {
+  try { localStorage.removeItem('mc_saved_addr'); } catch (e) { }
+  ['ckFirst','ckLast','ckEmail','ckPhone','ckCity','ckAddr','ckZip'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  const notice = document.getElementById('ckSavedAddrNotice');
+  if (notice) notice.style.display = 'none';
+  const chk = document.getElementById('ckSaveAddr');
+  if (chk) chk.checked = false;
 }
 
 function renderOrderSummary() {
@@ -1088,14 +1106,22 @@ function submitOrder() {
     if (typeof saveOrderToSupabase === 'function') {
       saveOrderToSupabase(orderData).catch(e => console.error('Supabase save failed:', e));
     }
-    // Save address for next order
+    // Save address for next order (only if user opted in)
     try {
-      localStorage.setItem('mc_saved_addr', JSON.stringify({
-        phone: document.getElementById('ckPhone').value,
-        city: document.getElementById('ckCity').value,
-        addr: document.getElementById('ckAddr').value,
-        zip: document.getElementById('ckZip').value,
-      }));
+      const saveChk = document.getElementById('ckSaveAddr');
+      if (!saveChk || saveChk.checked) {
+        localStorage.setItem('mc_saved_addr', JSON.stringify({
+          first: document.getElementById('ckFirst').value,
+          last: document.getElementById('ckLast').value,
+          email: document.getElementById('ckEmail').value,
+          phone: document.getElementById('ckPhone').value,
+          city: document.getElementById('ckCity').value,
+          addr: document.getElementById('ckAddr').value,
+          zip: document.getElementById('ckZip').value,
+        }));
+      } else {
+        localStorage.removeItem('mc_saved_addr');
+      }
     } catch (e) { }
 
     // Show thank-you page, clear cart
@@ -1467,6 +1493,117 @@ function cpApplyPromo() {
 function cpGoCheckout() {
   closeCartPage();
   handleCheckout();
+}
+
+// ===== CART ABANDONMENT REMINDER =====
+(function () {
+  var _reminderShown = false;
+  var _reminderTimer = null;
+
+  function showCartReminder() {
+    if (_reminderShown) return;
+    if (!cart || cart.length === 0) return;
+    if (sessionStorage.getItem('mc_cart_reminded')) return;
+    _reminderShown = true;
+    sessionStorage.setItem('mc_cart_reminded', '1');
+
+    var total = cart.reduce(function(s, x) { return s + x.price * x.qty; }, 0);
+    var count = cart.reduce(function(s, x) { return s + x.qty; }, 0);
+    var totalStr = typeof fmtEur === 'function' ? fmtEur(total) : total.toFixed(2) + ' €';
+
+    var el = document.createElement('div');
+    el.id = 'cartAbandonToast';
+    el.setAttribute('role', 'alert');
+    el.innerHTML =
+      '<div class="cat-toast-inner">' +
+        '<span class="cat-toast-icon">🛒</span>' +
+        '<span class="cat-toast-text">Имаш ' + count + ' ' + (count === 1 ? 'продукт' : 'продукта') + ' (' + totalStr + ') в количката</span>' +
+        '<button type="button" class="cat-toast-cta" onclick="document.getElementById(\'cartAbandonToast\').remove();handleCheckout()">Завърши →</button>' +
+        '<button type="button" class="cat-toast-close" aria-label="Затвори" onclick="document.getElementById(\'cartAbandonToast\').remove()">×</button>' +
+      '</div>';
+    document.body.appendChild(el);
+    // Auto-remove after 8s
+    setTimeout(function() { if (el.parentNode) el.remove(); }, 8000);
+  }
+
+  function scheduleReminder() {
+    clearTimeout(_reminderTimer);
+    if (!cart || cart.length === 0) return;
+    _reminderTimer = setTimeout(showCartReminder, 30000);
+  }
+
+  if (typeof cart === 'undefined' || typeof document === 'undefined') return;
+  document.addEventListener('mousemove', scheduleReminder, { passive: true });
+  document.addEventListener('touchstart', scheduleReminder, { passive: true });
+  document.addEventListener('keydown', scheduleReminder, { passive: true });
+  scheduleReminder();
+}());
+
+// ===== PHONE ORDER =====
+var _phoneOrderProductId = null;
+
+function openPhoneOrder() {
+  var p = (typeof products !== 'undefined' && typeof pdpProductId !== 'undefined' && pdpProductId != null)
+    ? products.find(function(x) { return x.id === pdpProductId; }) : null;
+  _phoneOrderProductId = p ? p.id : null;
+  var nameEl = document.getElementById('poProductName');
+  if (nameEl) nameEl.textContent = p ? p.name : '';
+  var phoneEl = document.getElementById('poPhone');
+  if (phoneEl) {
+    // Pre-fill from saved address
+    try {
+      var sa = JSON.parse(localStorage.getItem('mc_saved_addr') || 'null');
+      phoneEl.value = (sa && sa.phone) ? sa.phone : '';
+    } catch(e) { phoneEl.value = ''; }
+    phoneEl.focus();
+  }
+  var errEl = document.getElementById('poPhoneError');
+  if (errEl) errEl.style.display = 'none';
+  var backdrop = document.getElementById('phoneOrderBackdrop');
+  if (backdrop) { backdrop.classList.add('open'); document.body.style.overflow = 'hidden'; }
+}
+
+function closePhoneOrder(e) {
+  if (e && e.target !== document.getElementById('phoneOrderBackdrop')) return;
+  var backdrop = document.getElementById('phoneOrderBackdrop');
+  if (backdrop) { backdrop.classList.remove('open'); document.body.style.overflow = ''; }
+}
+
+function submitPhoneOrder() {
+  var phoneEl = document.getElementById('poPhone');
+  var errEl = document.getElementById('poPhoneError');
+  var phone = phoneEl ? phoneEl.value.trim() : '';
+  var valid = /^[0-9+\s\-]{7,}$/.test(phone);
+  if (!valid) {
+    if (errEl) { errEl.textContent = 'Въведете валиден телефонен номер'; errEl.style.display = 'block'; }
+    if (phoneEl) phoneEl.focus();
+    return;
+  }
+  var submitBtn = document.getElementById('poSubmitBtn');
+  if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Изпращане...'; }
+  var p = (typeof products !== 'undefined' && _phoneOrderProductId != null)
+    ? products.find(function(x) { return x.id === _phoneOrderProductId; }) : null;
+  var orderData = {
+    type: 'phone_order',
+    phone: phone,
+    product_id: _phoneOrderProductId,
+    product_name: p ? p.name : '',
+    product_price: p ? p.price : null,
+    status: 'phone_confirm',
+    created_at: new Date().toISOString(),
+  };
+  if (typeof saveOrderToSupabase === 'function') {
+    saveOrderToSupabase(orderData).catch(function() {});
+  }
+  // Save phone for next time
+  try {
+    var sa = JSON.parse(localStorage.getItem('mc_saved_addr') || '{}');
+    sa.phone = phone;
+    localStorage.setItem('mc_saved_addr', JSON.stringify(sa));
+  } catch(e) {}
+  // Show success
+  var modal = document.querySelector('.phone-order-modal');
+  if (modal) modal.innerHTML = '<div style="text-align:center;padding:32px 16px"><div style="font-size:48px;margin-bottom:12px">✅</div><div style="font-size:18px;font-weight:700;margin-bottom:8px">Заявката е изпратена!</div><p style="color:var(--text2);font-size:14px">Ще се свържем с вас на <strong>' + phone + '</strong> в рамките на работния ден.</p><button type="button" onclick="closePhoneOrder()" style="margin-top:20px;background:var(--primary);color:#fff;border:none;border-radius:8px;padding:12px 24px;font-size:14px;font-weight:700;cursor:pointer;">Затвори</button></div>';
 }
 
 if (typeof module !== 'undefined' && module.exports) {
@@ -3515,6 +3652,66 @@ function pdpInitPinch() {
   }, { passive: true });
 
   wrap._pinchInited = true;
+}
+
+// ===== PRODUCT PREVIEW BOTTOM SHEET (mobile) =====
+var _ppProductId = null;
+
+function openProdPreview(id) {
+  if (window.innerWidth > 768) { openProductPage(id); return; }
+  var p = typeof products !== 'undefined' ? products.find(function(x) { return x.id === id; }) : null;
+  if (!p) { openProductPage(id); return; }
+  _ppProductId = id;
+
+  var imgEl = document.getElementById('ppImg');
+  var brandEl = document.getElementById('ppBrand');
+  var nameEl = document.getElementById('ppName');
+  var ratingEl = document.getElementById('ppRating');
+  var priceEl = document.getElementById('ppPrice');
+
+  if (imgEl) imgEl.innerHTML = p.img
+    ? '<img src="' + p.img + '" style="width:72px;height:72px;object-fit:contain;border-radius:10px;">'
+    : '<span style="font-size:44px;">' + (p.emoji || '📦') + '</span>';
+  if (brandEl) brandEl.textContent = p.brand || '';
+  if (nameEl) nameEl.textContent = p.name;
+  if (ratingEl) {
+    var stars = Math.round(p.rating || 0);
+    ratingEl.innerHTML = '★'.repeat(stars) + '☆'.repeat(5 - stars) + ' <span style="color:var(--muted);font-size:11px;">(' + (p.reviews ? p.reviews.length : p.rv || 0) + ')</span>';
+  }
+  if (priceEl) priceEl.innerHTML = typeof fmtEur === 'function' ? '<strong>' + fmtEur(p.price) + '</strong>' : '<strong>' + p.price + ' €</strong>';
+
+  var addBtn = document.getElementById('ppAddBtn');
+  if (addBtn) {
+    addBtn.onclick = function() {
+      if (typeof addToCart === 'function') addToCart(_ppProductId);
+      closeProdPreview();
+    };
+    addBtn.textContent = p.stock === false ? '✕ Изчерпан' : '🛒 Добави в кошница';
+    addBtn.disabled = p.stock === false;
+  }
+  var detBtn = document.getElementById('ppDetailsBtn');
+  if (detBtn) detBtn.onclick = function() { closeProdPreview(); openProductPage(_ppProductId); };
+
+  var sheet = document.getElementById('prodPreviewSheet');
+  var backdrop = document.getElementById('prodPreviewBackdrop');
+  if (sheet) sheet.classList.add('open');
+  if (backdrop) backdrop.classList.add('open');
+  document.body.style.overflow = 'hidden';
+
+  // Swipe down to close
+  var startY = 0;
+  sheet.addEventListener('touchstart', function(e) { startY = e.touches[0].clientY; }, { passive: true, once: false });
+  sheet.addEventListener('touchend', function(e) {
+    if (e.changedTouches[0].clientY - startY > 70) closeProdPreview();
+  }, { passive: true });
+}
+
+function closeProdPreview() {
+  var sheet = document.getElementById('prodPreviewSheet');
+  var backdrop = document.getElementById('prodPreviewBackdrop');
+  if (sheet) sheet.classList.remove('open');
+  if (backdrop) backdrop.classList.remove('open');
+  document.body.style.overflow = '';
 }
 
 // ===== BLOG / SERVICE / DELIVERY PAGES =====

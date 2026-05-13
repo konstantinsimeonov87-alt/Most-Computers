@@ -64,14 +64,15 @@ function makeCard(p,small=false){
       ${p.badge==='hot'?'<span class="badge badge-hot">Горещо</span>':''}
       ${p.pct>0?`<span class="badge badge-pct">-${p.pct}%</span>`:''}
       ${p.stock===false?'<span class="badge badge-oos">Изчерпан</span>':''}
+      ${(p.lowstock||p.badge==='hot')&&p.stock!==false?'<span class="badge badge-lowstock">⚡ Последни бройки</span>':''}
     </div>
     <button class="product-wishlist" id="wl-${p.id}" type="button" onclick="toggleWishlist(${p.id},event)" title="Добави в любими" aria-label="Добави в любими"><svg width="15" height="15" class="svg-ic" aria-hidden="true"><use href="#ic-heart"/></svg></button>
-    <a href="?product=${p.id}" class="product-img-wrap${small?' small':''}" onclick="openProductPage(${p.id});return false;" style="cursor:pointer;" aria-label="${_eName}" itemprop="url">
+    <a href="?product=${p.id}" class="product-img-wrap${small?' small':''}" onclick="openProdPreview(${p.id});return false;" style="cursor:pointer;" aria-label="${_eName}" itemprop="url">
       ${imgHtml}
     </a>
     <div class="product-body">
       <div class="product-brand" itemprop="brand">${escHtml(p.brand)}</div>
-      <h3 class="product-name" itemprop="name"><a href="?product=${p.id}" onclick="openProductPage(${p.id});return false;" style="color:inherit;text-decoration:none;">${_eName}</a></h3>
+      <h3 class="product-name" itemprop="name"><a href="?product=${p.id}" onclick="openProdPreview(${p.id});return false;" style="color:inherit;text-decoration:none;">${_eName}</a></h3>
       <div class="product-rating"><span class="stars">${starsHTML(p.rating)}</span><span class="rating-num">${p.rating} (${p.rv})</span></div>
       <div class="product-footer">
         <div class="price-row">
@@ -608,6 +609,88 @@ function initScrollAnimations() {
   }
 
   document.querySelectorAll('.overlay-search-wrap').forEach(initOverlaySearch);
+}());
+
+// ── Sticky filter bar в catPage (мобилна) ───────────────────────────────────
+(function () {
+  var toolbar = null, stickyBar = null, catPageEl = null, obs = null;
+
+  function initCpStickyBar() {
+    if (window.innerWidth > 768) return;
+    catPageEl = document.getElementById('catPage');
+    toolbar = document.querySelector('.cat-page-toolbar');
+    stickyBar = document.getElementById('cpStickyBar');
+    if (!toolbar || !stickyBar || !catPageEl) return;
+    if (obs) obs.disconnect();
+    obs = new IntersectionObserver(function(entries) {
+      var visible = entries[0].isIntersecting;
+      stickyBar.classList.toggle('show', !visible);
+      // Sync sort value
+      var mainSort = document.getElementById('cpSort');
+      var stickySort = document.getElementById('cpStickySort');
+      if (mainSort && stickySort) stickySort.value = mainSort.value;
+    }, { root: catPageEl, threshold: 0 });
+    obs.observe(toolbar);
+  }
+
+  // Init when catPage opens
+  document.addEventListener('click', function(e) {
+    var btn = e.target.closest('[data-action]');
+    if (!btn) return;
+    if (btn.dataset.action && btn.dataset.action.includes('openCatPage')) {
+      setTimeout(initCpStickyBar, 100);
+    }
+  });
+
+  // Also init on resize
+  window.addEventListener('resize', function() {
+    if (stickyBar) stickyBar.classList.remove('show');
+    if (obs) { obs.disconnect(); obs = null; }
+    setTimeout(initCpStickyBar, 100);
+  });
+}());
+
+// ── Swipe-to-close за full-screen overlays (мобилна) ────────────────────────
+(function () {
+  var OVERLAYS = [
+    { id: 'catPage',      close: function() { if (typeof closeCatPage === 'function') closeCatPage(); } },
+    { id: 'blogPage',     close: function() { if (typeof closeBlogPage === 'function') closeBlogPage(); } },
+    { id: 'servicePage',  close: function() { if (typeof closeServicePage === 'function') closeServicePage(); } },
+    { id: 'deliveryPage', close: function() { if (typeof closeDeliveryPage === 'function') closeDeliveryPage(); } },
+    { id: 'contactsPage', close: function() { if (typeof closeContactsPage === 'function') closeContactsPage(); } },
+    { id: 'aboutPage',    close: function() { if (typeof closeAboutPage === 'function') closeAboutPage(); } },
+  ];
+
+  function initSwipeToClose(el, closeFn) {
+    var startY = 0, startX = 0, dragging = false;
+    el.addEventListener('touchstart', function(e) {
+      if (window.innerWidth > 768) return;
+      startY = e.touches[0].clientY;
+      startX = e.touches[0].clientX;
+      dragging = true;
+    }, { passive: true });
+    el.addEventListener('touchend', function(e) {
+      if (!dragging || window.innerWidth > 768) return;
+      dragging = false;
+      var dy = e.changedTouches[0].clientY - startY;
+      var dx = Math.abs(e.changedTouches[0].clientX - startX);
+      if (dy > 80 && dx < 40) closeFn();
+    }, { passive: true });
+  }
+
+  // Add drag handle to overlay topbars and init swipe
+  OVERLAYS.forEach(function(cfg) {
+    var el = document.getElementById(cfg.id);
+    if (!el) return;
+    // Insert drag handle as first child if not already present
+    if (!el.querySelector('.swipe-handle')) {
+      var handle = document.createElement('div');
+      handle.className = 'swipe-handle';
+      handle.setAttribute('aria-hidden', 'true');
+      el.insertBefore(handle, el.firstChild);
+    }
+    initSwipeToClose(el, cfg.close);
+  });
 }());
 
 // ===== RECENTLY VIEWED =====

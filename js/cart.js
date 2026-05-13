@@ -74,14 +74,21 @@ const FREE_SHIP_BGN = Math.round(100 * EUR_RATE * 100) / 100; // 100 EUR в ле
 })();
 function updateCart() {
   const count = cart.reduce((s, x) => s + x.qty, 0), total = cart.reduce((s, x) => s + x.price * x.qty, 0);
-  const badge = document.getElementById('cartBadge'); if (badge) badge.textContent = count;
+  const badge = document.getElementById('cartBadge');
+  if (badge) {
+    const prev = parseInt(badge.textContent, 10) || 0;
+    badge.textContent = count;
+    if (count > prev) { badge.classList.remove('badge-pop'); void badge.offsetWidth; badge.classList.add('badge-pop'); }
+  }
   const cartTotalEl = document.getElementById('cartTotal'); if (cartTotalEl) cartTotalEl.textContent = fmtEur(total) + ' / ' + fmtBgn(total);
   // sync PDP mini-header cart badge
   const pdpB = document.getElementById('pdpMhdrCartBadge');
   if (pdpB) { pdpB.textContent = count; pdpB.style.display = count > 0 ? '' : 'none'; }
   // sync bottom nav badges (two nav bars exist — update all)
   document.querySelectorAll('#bnCartBadge, #bnCartBadge2').forEach(bnB => {
+    const bnPrev = parseInt(bnB.textContent, 10) || 0;
     bnB.textContent = count; bnB.classList.toggle('show', count > 0);
+    if (count > bnPrev) { bnB.classList.remove('badge-pop'); void bnB.offsetWidth; bnB.classList.add('badge-pop'); }
   });
   const body = document.getElementById('cartBody');
   if (!body) return;

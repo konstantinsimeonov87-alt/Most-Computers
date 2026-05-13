@@ -185,6 +185,17 @@ setTimeout(initLazyImages, 900);
 
 
 
+// ===== SCROLL PROGRESS BAR =====
+(function() {
+  var bar = document.getElementById('scrollProgress');
+  if (!bar) return;
+  window.addEventListener('scroll', function() {
+    var scrollTop = window.scrollY || document.documentElement.scrollTop;
+    var docH = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    bar.style.width = docH > 0 ? Math.min(100, (scrollTop / docH) * 100).toFixed(1) + '%' : '0%';
+  }, { passive: true });
+})();
+
 // ===== MEGAMENU =====
 const megaCategories = [
   { cat:'laptops',     icon:'<svg width="32" height="32" class="svg-ic" aria-hidden="true"><use href="#ic-laptop"/></svg>', name:'Лаптопи' },

@@ -280,6 +280,17 @@ setTimeout(initLazyImages, 900);
 
 
 
+// ===== SCROLL PROGRESS BAR =====
+(function() {
+  var bar = document.getElementById('scrollProgress');
+  if (!bar) return;
+  window.addEventListener('scroll', function() {
+    var scrollTop = window.scrollY || document.documentElement.scrollTop;
+    var docH = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    bar.style.width = docH > 0 ? Math.min(100, (scrollTop / docH) * 100).toFixed(1) + '%' : '0%';
+  }, { passive: true });
+})();
+
 // ===== MEGAMENU =====
 const megaCategories = [
   { cat:'laptops',     icon:'<svg width="32" height="32" class="svg-ic" aria-hidden="true"><use href="#ic-laptop"/></svg>', name:'Лаптопи' },
@@ -3113,10 +3124,17 @@ function cpRenderGrid() {
   const list = cpGetFiltered();
   if (count) count.textContent = list.length + ' продукта';
   if (list.length === 0) {
-    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--muted);">
-      <div style="font-size:48px;margin-bottom:12px;">🔍</div>
-      <div style="font-size:16px;font-weight:700;">Няма продукти по тези критерии</div>
-      <button type="button" onclick="cpResetFilters()" style="margin-top:14px;background:var(--primary);color:#fff;border:none;padding:10px 22px;border-radius:9px;font-weight:700;font-size:13px;cursor:pointer;font-family:'Outfit',sans-serif;">Изчисти филтрите</button>
+    const allInCat = products.filter(p => normalizeCat(p.cat) === cpCat);
+    const hasPriceFilter = cpPriceMin > 0 || cpPriceMax < 2000;
+    const hasBrandFilter = cpBrands.size > 0;
+    grid.innerHTML = `<div class="cp-empty-state">
+      <div class="cp-empty-icon">🔍</div>
+      <div class="cp-empty-title">Няма продукти по тези критерии</div>
+      <div class="cp-empty-sub">${hasPriceFilter ? 'Опитай с по-широк ценови диапазон.' : hasBrandFilter ? 'Опитай с друга марка или премахни марковия филтър.' : 'Промени филтрите или разгледай всички продукти в категорията.'}<br>Общо ${allInCat.length} продукта в тази категория.</div>
+      <div class="cp-empty-actions">
+        <button type="button" class="cp-empty-btn" onclick="cpResetFilters()">Изчисти филтрите</button>
+        <button type="button" class="cp-empty-btn-sec" onclick="closeCatPage()">← Обратно</button>
+      </div>
     </div>`;
     return;
   }

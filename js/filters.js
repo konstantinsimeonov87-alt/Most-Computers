@@ -259,7 +259,10 @@ function renderPromoBanner(){
         <div class="promo-price">${(p.price/EUR_RATE).toFixed(2)} € / ${p.price} лв.</div>
         <button type="button" class="promo-btn" onclick="event.stopPropagation();addToCart(${p.id})">Добави в кошница +</button>
       </div>
-      ${p.img?`<picture><source srcset="${p.img.replace(/portal\.mostbg\.com\/api\/images\/imageFileData\/(\d+)\.[a-z]+/,(_,id)=>`images/products/${id}.webp`)}" type="image/webp"><img src="${p.img}" alt="${p.name}" class="promo-img" width="110" height="110" loading="lazy" decoding="async"></picture>`:`<div class="promo-emoji">${p.emoji}</div>`}
+      <img src="${p.img||''}" alt="${p.name.replace(/"/g,'')}" class="promo-img" width="110" height="110" loading="lazy" decoding="async"
+        style="${p.img?'':'display:none'}"
+        onerror="this.style.display='none';var em=this.nextElementSibling;if(em)em.style.display=''">
+      <div class="promo-emoji" style="${p.img?'display:none':''}"> ${p.emoji||'🖥'}</div>
     </div>`).join('');
 }
 

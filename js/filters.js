@@ -1563,7 +1563,7 @@ function renderSidebarTopProduct(forceNext) {
     <div class="sb-tp-stars">${starsHTML(top.rating)} <span style="color:var(--muted);font-size:11px">${top.rating} (${top.rv||top.reviews||0})</span></div>
     <div class="sb-tp-price">${fmtEur(top.price)}<span class="price-bgn-sub">${fmtBgn(top.price)}</span></div>
     <button type="button" class="sb-tp-btn" onclick="openProductPage(${top.id})">Виж продукта →</button>
-    <button type="button" class="sb-tp-refresh" onclick="renderSidebarTopProduct(true)">🔄 Покажи от друга категория</button>`;
+    <button type="button" class="sb-tp-refresh" onclick="renderSidebarTopProduct(true)">Друга категория</button>`;
 }
 
 // ═══════════════════════════════════════

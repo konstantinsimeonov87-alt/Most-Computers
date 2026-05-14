@@ -1,5 +1,31 @@
 # Bug Report — Most Computers
-**Последна актуализация:** 2026-04-24 | **Агент:** Bug Hunter | **Тестове след fix:** 185/185 ✅
+**Последна актуализация:** 2026-05-13 | **Агент:** Bug Hunter | **Тестове след fix:** 185/185 ✅
+
+---
+
+## 🔴 Critical (2026-05-13)
+
+### BUG-001 — `addFromModal()` не записва кошницата в localStorage
+**Файл:** [js/gallery.js:141](js/gallery.js)
+**Стъпки:** Отвори продуктов модал → "Добави в кошница" → Refresh на страницата
+**Очаквано:** Продуктът е в кошницата след refresh
+**Действително:** Кошницата беше изпразнена — `saveCart()` не се извикваше
+**Fix:** Добавен `saveCart()` след `updateCart()` в `addFromModal()`
+**Commit:** `dc8944d`
+
+---
+
+## 🟡 Minor (2026-05-13)
+
+### BUG-002 — Swipe listeners в `openProdPreview()` се натрупват при повторно отваряне
+**Файл:** [js/pdp-ux.js:512](js/pdp-ux.js)
+**Стъпки:** Отвори product preview bottom sheet → затвори → отвори пак (×5) → свайп надолу
+**Очаквано:** Затваря веднъж
+**Действително:** Всяко отваряне добавяше нови handlers — memory leak, при 5 отвания → 5 handlers
+**Fix:** Named handlers + `removeEventListener` преди всяко `addEventListener`
+**Commit:** `dc8944d`
+
+---
 
 ---
 

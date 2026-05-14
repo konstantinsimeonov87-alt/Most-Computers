@@ -2332,11 +2332,11 @@ function updateSidebarCompare() {
   if (typeof compareList === 'undefined' || compareList.length === 0) {
     wrap.innerHTML = `
       <div class="sb-cmp-header">
-        <span class="sb-cmp-title">⚖ Сравнение</span>
+        <span class="sb-cmp-title"><svg width="13" height="13" class="svg-ic" aria-hidden="true"><use href="#ic-compare"/></svg> Сравнение</span>
       </div>
       <div class="sb-cmp-empty">
-        <div class="sb-cmp-empty-icon">⚖</div>
-        Добави продукти с бутона ⚖ на всяка карта
+        <div class="sb-cmp-empty-icon"><svg width="28" height="28" class="svg-ic" aria-hidden="true"><use href="#ic-compare"/></svg></div>
+        Добави продукти с бутона <svg width="13" height="13" class="svg-ic" aria-hidden="true"><use href="#ic-compare"/></svg> на всяка карта
       </div>`;
     return;
   }
@@ -2359,10 +2359,11 @@ function updateSidebarCompare() {
   const canCompare = prods.length >= 2;
   wrap.innerHTML = `
     <div class="sb-cmp-header">
-      <span class="sb-cmp-title">⚖ Сравнение</span>
+      <span class="sb-cmp-title"><svg width="13" height="13" class="svg-ic" aria-hidden="true"><use href="#ic-compare"/></svg> Сравнение</span>
       <span class="sb-cmp-counter">${prods.length}/3</span>
     </div>
     <ul class="sb-cmp-list">${items}</ul>
+
     <div class="sb-cmp-actions">
       <button type="button" class="sb-cmp-go" onclick="openCompareModal()" ${canCompare?'':'disabled style="opacity:.5;cursor:not-allowed"'}>Сравни сега →</button>
       <button type="button" class="sb-cmp-clear" onclick="clearCompare()">Изчисти</button>

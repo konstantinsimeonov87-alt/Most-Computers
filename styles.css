@@ -7512,7 +7512,10 @@
    background: #1e2130;
  }
 
- body.dark .product-img-wrap,
+ body.dark .product-img-wrap {
+   background: #fff;
+ }
+
  body.dark .spec-chip,
  body.dark .modal-gallery,
  body.dark .sd-section-title,

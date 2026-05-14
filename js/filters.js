@@ -1613,3 +1613,41 @@ function updateSidebarCompare() {
       <button type="button" class="sb-cmp-clear" onclick="clearCompare()">Изчисти</button>
     </div>`;
 }
+
+// ═══════════════════════════════════════
+// SIDEBAR WIDGET — BRAND SPOTLIGHT
+// ═══════════════════════════════════════
+const _SB_BRANDS = ['Acer','LG','Lenovo','Fractal Design','Tenda','MSI','Asus','Canon','ASRock','Noctua','Deepcool','ADATA','Fortron','Arctic'];
+
+function renderSidebarBrandSpot() {
+  const wrap = document.getElementById('sidebarBrandSpot');
+  if (!wrap) return;
+  // Rotate by day — different brand each day
+  const dayIdx = Math.floor(Date.now() / 86400000) % _SB_BRANDS.length;
+  const brand = _SB_BRANDS[dayIdx];
+  const brandProds = products.filter(p => p.brand === brand && p.inStock !== false);
+  if (!brandProds.length) { wrap.innerHTML = ''; return; }
+
+  // Top 3 by score for thumbnails
+  const top3 = [...brandProds]
+    .sort((a, b) => b.rating * Math.log1p((b.rv||0)+1) - a.rating * Math.log1p((a.rv||0)+1))
+    .slice(0, 3);
+
+  const thumbs = top3.map(p => {
+    const safeImg = p.img && isSafeImgUrl(p.img) ? p.img : null;
+    return safeImg
+      ? `<div class="sb-bs-thumb" onclick="openProductPage(${p.id})" title="${escHtml(p.name)}"><img src="${safeImg}" alt="" width="52" height="52" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span style="display:none;font-size:24px">${p.emoji||''}</span></div>`
+      : `<div class="sb-bs-thumb" onclick="openProductPage(${p.id})" title="${escHtml(p.name)}"><span style="font-size:24px">${p.emoji||''}</span></div>`;
+  }).join('');
+
+  const minPrice = Math.min(...brandProds.map(p => p.price));
+
+  wrap.innerHTML = `
+    <div class="sb-bs-header">
+      <span class="sb-bs-label">🏷 Марка на деня</span>
+    </div>
+    <div class="sb-bs-name">${escHtml(brand)}</div>
+    <div class="sb-bs-meta">${brandProds.length} продукта · от ${fmtEur(minPrice)}</div>
+    <div class="sb-bs-thumbs">${thumbs}</div>
+    <button type="button" class="sb-bs-btn" onclick="showSearchResultsPage('${escHtml(brand)}')">Разгледай всички →</button>`;
+}

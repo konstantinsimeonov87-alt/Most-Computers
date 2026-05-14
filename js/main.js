@@ -120,6 +120,7 @@ initDataActions();
 initSidebarFilters();
 renderGrids();
 renderSidebarTopProduct();
+renderSidebarBrandSpot();
 // Quick cart badge from localStorage (full loadCart runs after lazy bundle loads)
 (function(){try{var c=JSON.parse(localStorage.getItem('mc_cart')||'[]'),t=c.reduce(function(s,i){return s+(i.qty||1);},0),b=document.getElementById('cartBadge');if(b){b.textContent=t;b.style.display=t>0?'':'none';}}catch(e){}})();
 // renderHpCats already called inside renderGrids()

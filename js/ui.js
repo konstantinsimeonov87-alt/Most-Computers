@@ -186,13 +186,22 @@ setTimeout(initLazyImages, 900);
 
 
 // ===== SCROLL PROGRESS BAR =====
+// CSS scroll-driven animation handles modern browsers (Chrome 115+, FF 127+, Safari 17.2+).
+// JS fallback for older browsers caches docH to avoid scrollHeight reads every scroll event.
 (function() {
   var bar = document.getElementById('scrollProgress');
   if (!bar) return;
+  if (CSS && CSS.supports && CSS.supports('animation-timeline', 'scroll()')) return;
+  var docH = 0;
+  function cacheDocH() {
+    docH = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  }
+  cacheDocH();
+  window.addEventListener('resize', cacheDocH, { passive: true });
   window.addEventListener('scroll', function() {
-    var scrollTop = window.scrollY || document.documentElement.scrollTop;
-    var docH = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-    bar.style.width = docH > 0 ? Math.min(100, (scrollTop / docH) * 100).toFixed(1) + '%' : '0%';
+    if (!docH) return;
+    var pct = Math.min(100, ((window.scrollY || document.documentElement.scrollTop) / docH) * 100);
+    bar.style.width = pct.toFixed(1) + '%';
   }, { passive: true });
 })();
 

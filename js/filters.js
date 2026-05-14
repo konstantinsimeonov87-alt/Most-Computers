@@ -1572,8 +1572,18 @@ function renderSidebarTopProduct(forceNext) {
 function updateSidebarCompare() {
   const wrap = document.getElementById('sidebarCompare');
   if (!wrap) return;
-  if (typeof compareList === 'undefined' || compareList.length === 0) { wrap.style.display = 'none'; return; }
   wrap.style.display = 'block';
+  if (typeof compareList === 'undefined' || compareList.length === 0) {
+    wrap.innerHTML = `
+      <div class="sb-cmp-header">
+        <span class="sb-cmp-title">⚖ Сравнение</span>
+      </div>
+      <div class="sb-cmp-empty">
+        <div class="sb-cmp-empty-icon">⚖</div>
+        Добави продукти с бутона ⚖ на всяка карта
+      </div>`;
+    return;
+  }
   const prods = compareList.map(id => products.find(x => x.id === id)).filter(Boolean);
   const items = prods.map(p => {
     const safeImg = p.img && isSafeImgUrl(p.img) ? p.img : null;

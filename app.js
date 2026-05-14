@@ -2328,8 +2328,18 @@ function renderSidebarTopProduct(forceNext) {
 function updateSidebarCompare() {
   const wrap = document.getElementById('sidebarCompare');
   if (!wrap) return;
-  if (typeof compareList === 'undefined' || compareList.length === 0) { wrap.style.display = 'none'; return; }
   wrap.style.display = 'block';
+  if (typeof compareList === 'undefined' || compareList.length === 0) {
+    wrap.innerHTML = `
+      <div class="sb-cmp-header">
+        <span class="sb-cmp-title">⚖ Сравнение</span>
+      </div>
+      <div class="sb-cmp-empty">
+        <div class="sb-cmp-empty-icon">⚖</div>
+        Добави продукти с бутона ⚖ на всяка карта
+      </div>`;
+    return;
+  }
   const prods = compareList.map(id => products.find(x => x.id === id)).filter(Boolean);
   const items = prods.map(p => {
     const safeImg = p.img && isSafeImgUrl(p.img) ? p.img : null;
@@ -4224,6 +4234,7 @@ initDataActions();
 initSidebarFilters();
 renderGrids();
 renderSidebarTopProduct();
+updateSidebarCompare();
 // Quick cart badge from localStorage (full loadCart runs after lazy bundle loads)
 (function(){try{var c=JSON.parse(localStorage.getItem('mc_cart')||'[]'),t=c.reduce(function(s,i){return s+(i.qty||1);},0),b=document.getElementById('cartBadge');if(b){b.textContent=t;b.style.display=t>0?'':'none';}}catch(e){}})();
 // renderHpCats already called inside renderGrids()

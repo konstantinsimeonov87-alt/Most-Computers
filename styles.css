@@ -128,10 +128,12 @@
 
  html {
    scroll-behavior: smooth;
+   overflow-x: hidden;
  }
 
  body {
    font-family: 'Inter', sans-serif;
+   overflow-x: hidden;
    background: var(--bg);
    color: var(--text);
    font-size: 14px;
@@ -9262,6 +9264,7 @@
    background-size: 200% auto;
    animation: shimmer-strip 4s linear infinite;
    overflow: hidden;
+   overflow-x: clip;
    height: 36px;
    display: flex;
    align-items: center;

@@ -241,8 +241,10 @@ function renderHeroPanel(){
 function renderPromoBanner(){
   const banner = document.getElementById('promoBanner');
   if(!banner) return;
-  const newP  = products.find(p=>p.id===32)   || [...products].filter(p=>p.badge==='new'||p.badge==='hot').sort((a,b)=>b.rating-a.rating)[0];
-  const saleP = products.find(p=>p.id===3160)  || [...products].filter(p=>p.badge==='sale').sort((a,b)=>b.pct-a.pct)[0];
+  // Exclude ids already shown in the static PSB blocks (id:32, id:3160)
+  const _excl = new Set([32, 3160]);
+  const newP  = [...products].filter(p=>!_excl.has(p.id)&&(p.badge==='new'||p.badge==='hot')&&p.stock!==false).sort((a,b)=>b.rating-a.rating)[0];
+  const saleP = [...products].filter(p=>!_excl.has(p.id)&&p.badge==='sale'&&p.stock!==false).sort((a,b)=>b.pct-a.pct)[0];
   if(!newP||!saleP) return;
   const themes = [
     { p:newP,  cls:'blue', badge:`🆕 Ново`,           sub: newP.desc  ? newP.desc.slice(0,80)+'…'  : newP.name },

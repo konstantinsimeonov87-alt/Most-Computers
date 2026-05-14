@@ -2987,10 +2987,13 @@
   <!-- SEARCH RESULTS PAGE -->
   <div class="search-results-page" id="searchResultsPage">
     <div class="srp-header">
-      <div class="srp-breadcrumb" id="srpBreadcrumb" aria-label="Навигация"></div>
       <div class="srp-header-inner">
         <button type="button" class="srp-back" data-action="closeSearchPage" title="Назад">←</button>
-        <div class="srp-title">Резултати за: <span id="srpQuery"></span></div>
+        <div class="srp-search-wrap">
+          <svg width="16" height="16" class="srp-search-icon svg-ic" aria-hidden="true"><use href="#ic-search"/></svg>
+          <input type="search" class="srp-search-input" id="srpSearchInput" placeholder="Търси продукти..." aria-label="Търси продукти" autocomplete="off">
+          <button type="button" class="srp-search-clear" id="srpSearchClear" aria-label="Изчисти търсенето">×</button>
+        </div>
         <div class="srp-count" id="srpCount"></div>
       </div>
     </div>

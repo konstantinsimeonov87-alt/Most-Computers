@@ -217,13 +217,26 @@ function showSearchResultsPage(query) {
   const cat = '';
   let results = searchProducts(query, cat);
   const page = document.getElementById('searchResultsPage');
-  document.getElementById('srpQuery').textContent = `"${query}"`;
   document.getElementById('srpCount').textContent = `${results.length} резултата`;
-  // Breadcrumb
-  const srpBc = document.getElementById('srpBreadcrumb');
-  if (srpBc) {
-    srpBc.innerHTML = '<span class="srp-bc-item" onclick="closeSearchPage()">Начало</span><span class="srp-bc-sep">›</span><span class="srp-bc-item">Търсене</span><span class="srp-bc-sep">›</span><span class="srp-bc-current"></span>';
-    srpBc.querySelector('.srp-bc-current').textContent = query;
+
+  // Populate & wire up the inline search bar
+  const srpInput = document.getElementById('srpSearchInput');
+  const srpClear = document.getElementById('srpSearchClear');
+  if (srpInput) {
+    srpInput.value = query;
+    if (srpClear) srpClear.classList.toggle('visible', query.length > 0);
+    srpInput.oninput = function() {
+      if (srpClear) srpClear.classList.toggle('visible', this.value.length > 0);
+    };
+    srpInput.onkeydown = function(e) {
+      if (e.key === 'Enter' && this.value.trim()) showSearchResultsPage(this.value.trim());
+    };
+  }
+  if (srpClear) {
+    srpClear.onclick = function() {
+      if (srpInput) { srpInput.value = ''; srpInput.focus(); }
+      srpClear.classList.remove('visible');
+    };
   }
 
   // Category filter pills for SRP — store query in module var, never embed user input in HTML attributes

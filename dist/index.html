@@ -1985,6 +1985,35 @@
         </div>
       </div>
 
+      <!-- CATEGORY CARDS -->
+      <div class="hp-cats-section" id="hpCatsSection">
+        <div class="hp-cats-header">
+          <div class="hp-cats-title">🗂 Разгледай по категории</div>
+          <span class="hp-cats-all" data-action="openMegamenu">Всички категории →</span>
+        </div>
+        <div class="hp-cats-grid" id="hpCatsGrid"></div>
+      </div>
+
+      <!-- FLASH SALE -->
+      <div class="flash-sale-section section-wrap" id="sale">
+        <div class="flash-header">
+          <div>
+            <h2 class="flash-title">⚡ Светкавични оферти</h2>
+            <div style="font-size:12px;color:var(--muted);margin-top:2px;">Ограничено количество — не изпускай!</div>
+          </div>
+          <div class="flash-timer">
+            <div class="timer-block"><span class="timer-num" id="th">02</span><span class="timer-label">ч.</span></div>
+            <span class="timer-sep">:</span>
+            <div class="timer-block"><span class="timer-num" id="tm">47</span><span class="timer-label">мин.</span>
+            </div>
+            <span class="timer-sep">:</span>
+            <div class="timer-block"><span class="timer-num" id="ts">33</span><span class="timer-label">сек.</span>
+            </div>
+          </div>
+        </div>
+        <div class="products-row cols5" id="flashGrid" style="min-height:280px"></div>
+      </div>
+
       <!-- PROMO SPLIT BANNER — Option A: RTX 5060 Dual OC + Canon MAXIFY GX2040 -->
       <div class="promo-split-banner" id="promoSplitBanner">
         <div class="psb-half psb-half--red" onclick="openProductModal(32)" role="button" tabindex="0"
@@ -2015,61 +2044,38 @@
         </div>
       </div>
 
-      <!-- CATEGORY CARDS -->
-      <div class="hp-cats-section" id="hpCatsSection">
-        <div class="hp-cats-header">
-          <div class="hp-cats-title">🗂 Разгледай по категории</div>
-          <span class="hp-cats-all" data-action="openMegamenu">Всички категории →</span>
-        </div>
-        <div class="hp-cats-grid" id="hpCatsGrid"></div>
-      </div>
-
-      <!-- FLASH SALE -->
-      <div class="flash-sale-section section-wrap" id="sale">
-        <div class="flash-header">
-          <div>
-            <h2 class="flash-title">⚡ Светкавични оферти</h2>
-            <div style="font-size:12px;color:var(--muted);margin-top:2px;">Ограничено количество — не изпускай!</div>
-          </div>
-          <div class="flash-timer">
-            <div class="timer-block"><span class="timer-num" id="th">02</span><span class="timer-label">ч.</span></div>
-            <span class="timer-sep">:</span>
-            <div class="timer-block"><span class="timer-num" id="tm">47</span><span class="timer-label">мин.</span>
-            </div>
-            <span class="timer-sep">:</span>
-            <div class="timer-block"><span class="timer-num" id="ts">33</span><span class="timer-label">сек.</span>
-            </div>
-          </div>
-        </div>
-        <div class="products-row cols5" id="flashGrid" style="min-height:280px"></div>
-      </div>
-
-      <!-- BROWSE ALL PRODUCTS -->
-      <div class="section-wrap" id="featured">
+      <!-- НОВИ ПРОДУКТИ -->
+      <div class="section-wrap">
         <div class="section-header">
           <div class="section-header-left">
-            <div class="section-accent"></div>
+            <div class="section-accent" style="background:var(--new)"></div>
             <div>
-              <h2 class="section-title">Всички продукти</h2>
-              <div class="section-subtitle">Разгледай целия каталог или избери категория</div>
+              <h2 class="section-title">🆕 Нови продукти</h2>
+              <div class="section-subtitle">Най-новите постъпления в магазина</div>
             </div>
           </div>
+          <a href="#" class="view-all-link" data-action="openCatPage('new')">Виж всички →</a>
         </div>
-        <button type="button" class="mobile-filter-toggle" data-action="toggleMobileFilters" aria-label="Отвори филтри">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <line x1="4" y1="6" x2="20" y2="6" />
-            <line x1="8" y1="12" x2="16" y2="12" />
-            <line x1="10" y1="18" x2="14" y2="18" />
-          </svg>
-          Филтри и сортиране
-        </button>
-        <div class="subcat-bar" id="subcatBar"></div>
-        <div class="products-row" id="topGrid" style="min-height:560px"></div>
+        <div class="products-row cols5" id="newGrid"></div>
       </div>
 
       <!-- PROMO BANNER -->
       <div class="promo-banner" id="promoBanner"></div>
+
+      <!-- BESTSELLERS -->
+      <div class="section-wrap" id="bestsellersSection">
+        <div class="section-header">
+          <div class="section-header-left">
+            <div class="section-accent" style="background:#7c3aed"></div>
+            <div>
+              <h2 class="section-title">🏆 Най-продавани</h2>
+              <div class="section-subtitle">Продукти с най-висок рейтинг и най-много покупки</div>
+            </div>
+          </div>
+          <a href="#" class="view-all-link" data-action="openCatPage('all','all','bestseller')">Виж всички →</a>
+        </div>
+        <div class="products-row cols5" id="bestsellersGrid"></div>
+      </div>
 
       <!-- BRANDS BAR -->
       <div class="brands-bar">
@@ -2148,19 +2154,28 @@
         </div>
       </div>
 
-      <!-- BESTSELLERS -->
-      <div class="section-wrap" id="bestsellersSection">
+      <!-- BROWSE ALL PRODUCTS -->
+      <div class="section-wrap" id="featured">
         <div class="section-header">
           <div class="section-header-left">
-            <div class="section-accent" style="background:#7c3aed"></div>
+            <div class="section-accent"></div>
             <div>
-              <h2 class="section-title">🏆 Най-продавани</h2>
-              <div class="section-subtitle">Продукти с най-висок рейтинг и най-много покупки</div>
+              <h2 class="section-title">Всички продукти</h2>
+              <div class="section-subtitle">Разгледай целия каталог или избери категория</div>
             </div>
           </div>
-          <a href="#" class="view-all-link" data-action="openCatPage('all','all','bestseller')">Виж всички →</a>
         </div>
-        <div class="products-row cols5" id="bestsellersGrid"></div>
+        <button type="button" class="mobile-filter-toggle" data-action="toggleMobileFilters" aria-label="Отвори филтри">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="4" y1="6" x2="20" y2="6" />
+            <line x1="8" y1="12" x2="16" y2="12" />
+            <line x1="10" y1="18" x2="14" y2="18" />
+          </svg>
+          Филтри и сортиране
+        </button>
+        <div class="subcat-bar" id="subcatBar"></div>
+        <div class="products-row" id="topGrid" style="min-height:560px"></div>
       </div>
 
       <!-- RECENTLY VIEWED -->
@@ -2181,22 +2196,6 @@
             Изчисти</button>
         </div>
         <div class="rv-scroll" id="rvScroll"></div>
-      </div>
-
-
-      <!-- НОВИ ПРОДУКТИ -->
-      <div class="section-wrap">
-        <div class="section-header">
-          <div class="section-header-left">
-            <div class="section-accent" style="background:var(--new)"></div>
-            <div>
-              <h2 class="section-title">🆕 Нови продукти</h2>
-              <div class="section-subtitle">Най-новите постъпления в магазина</div>
-            </div>
-          </div>
-          <a href="#" class="view-all-link" data-action="openCatPage('new')">Виж всички →</a>
-        </div>
-        <div class="products-row cols5" id="newGrid"></div>
       </div>
 
       <!-- NEWSLETTER STRIP -->

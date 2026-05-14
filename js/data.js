@@ -4115,7 +4115,7 @@ var products = [
    specs:{'Тип':'DDR4','Капацитет':'8 GB','Честота':'3200 MHz','Форм фактор':'DIMM','Напрежение':'1.2V'},
    rating:4.4,rv:0,reviews:[],
    desc:'ADATA 8G DDR4 3200 ADATA PREMIER — DDR4 DIMM 3200 MHz, 8 GB.',
-   img:'./images/products/52508.webp',stock:false},
+   img:'./images/products/52508.webp',stock:true},
 
   {id:588,name:'8G DDR4 2666 TEAM ELITE',brand:'TeamGroup',cat:'components',subcat:'ram',
    price:104,old:null,pct:null,badge:null,emoji:'🟢',sku:'TED48G2666C1901',ean:'0765441637061',
@@ -7044,7 +7044,7 @@ var products = [
    specs:{'Размер':'24.5\'','Панел':'IPS','Резолюция':'1920×1080 (FHD)','Честота':'144 Hz','Отклик':'4ms'},
    rating:4.3,rv:0,reviews:[],
    desc:'Acer ACER 24.5W EK251QP6BI IPS 144 — 24.5" монитор, IPS, 1920×1080 (FHD), 144 Hz.',
-   img:'./images/products/51238.webp',stock:false},
+   img:'./images/products/51238.webp',stock:true},
 
   {id:1006,name:'ACER 23.8 R242YHYI',brand:'Acer',cat:'monitors',subcat:'monitor',
    price:166,old:null,pct:null,badge:null,emoji:'🖥',sku:'UM.QR2EE.H01',ean:null,
@@ -7107,7 +7107,7 @@ var products = [
    specs:{'Размер':'27\''},
    rating:4.3,rv:0,reviews:[],
    desc:'Acer ACER 27 KG271UX1BMIIPX QHD IPS — 27" монитор.',
-   img:null,stock:false},
+   img:null,stock:true},
 
   {id:1015,name:'ACER 27W NITRO KG272M3BMIIPX',brand:'Acer',cat:'monitors',subcat:'monitor',
    price:266,old:null,pct:null,badge:null,emoji:'🎮',sku:'UM.HX2EE.303',ean:'4711121296857',
@@ -7163,7 +7163,7 @@ var products = [
    specs:{'Размер':'27\'','Панел':'IPS','Резолюция':'1920×1080 (FHD)','Честота':'200 Hz','Отклик':'1ms','Тонколони':'Да'},
    rating:4.3,rv:0,reviews:[],
    desc:'Acer ACER 27 NITRO QG271X1BMIIPX — 27" монитор, IPS, 1920×1080 (FHD), 200 Hz.',
-   img:'./images/products/48711.webp',stock:false},
+   img:'./images/products/48711.webp',stock:true},
 
   {id:1023,name:'ACER 27W V277UGBMIIPX',brand:'Acer',cat:'monitors',subcat:'monitor',
    price:272,old:null,pct:null,badge:null,emoji:'🖥',sku:'UM.HV7EE.G14',ean:'4711474325761',
@@ -7275,7 +7275,7 @@ var products = [
    specs:{'Размер':'27\'','Панел':'IPS','Резолюция':'1920×1080 (FHD)','Честота':'120 Hz','Отклик':'4ms'},
    rating:4.3,rv:0,reviews:[],
    desc:'Acer ACER 27W KB272P6BI IPS 144HZ — 27" монитор, IPS, 1920×1080 (FHD), 120 Hz.',
-   img:'./images/products/50354.webp',stock:false},
+   img:'./images/products/50354.webp',stock:true},
 
   {id:1039,name:'ACER 27W KA272E0BI IPS',brand:'Acer',cat:'monitors',subcat:'monitor',
    price:183,old:null,pct:null,badge:null,emoji:'🖥',sku:'UM.HX2EE.034',ean:'4711121951541',
@@ -7317,7 +7317,7 @@ var products = [
    specs:{'Размер':'34\'','Панел':'VA','Резолюция':'3440×1440 (UW-QHD)','Честота':'180 Hz','Отклик':'6ms','Curved':'Да','Тонколони':'Да'},
    rating:4.3,rv:0,reviews:[],
    desc:'Acer ACER 34W ED340CUS3BMIIPX — 34" монитор, VA, 3440×1440 (UW-QHD), 180 Hz.',
-   img:'./images/products/48735.webp',stock:false},
+   img:'./images/products/48735.webp',stock:true},
 
   {id:1045,name:'ACER 49 NITRO EI491CRSBMIIPPHX',brand:'Acer',cat:'monitors',subcat:'monitor',
    price:1107,old:null,pct:null,badge:null,emoji:'🎮',sku:'UM.SE1EE.S13',ean:'4711474241313',
@@ -11486,7 +11486,7 @@ const _laptops = [
   {id:1952,name:'Lenovo LOQ 17IRX10/ 83JH00AHBM',brand:'Lenovo',cat:'laptops',subcat:'gaming_l',price:2332,old:null,pct:null,badge:null,emoji:'🎮',sku:'83JH00AHBM',ean:'0199272542643',specs:{'Процесор':'Intel® Core i7-13650HX, 14C (6P + 8E) / 20T, P-core 2.6 / 4.9GHz, E-core 1.9 / 3.6GHz, 24MB','RAM':'32GB (2x16GB), SO-DIMM DDR5-4800','GPU':'NVIDIA® GeForce RTX™ 5050 8GB GDDR7, Boost Clock 2662MHz, TGP 115W, 440 AI TOPS','Екран':'17.3", 1920x1080, FHD IPS 300nits Anti-glare, 100% sRGB, 165Hz, G-SYNC®','SSD':'1TB','ОС':'None','Тегло':'Starting at 2.9 kg','Батерия':'60Wh'},rating:3.9,rv:9,reviews:[],desc:'Lenovo LOQ 17IRX10/ 83JH00AHBM — Intel® Core i7-13650HX, 14C (6P + 8E) / 20T, P-core 2.6 / 4.9GHz, E-core 1.9 / 3.6GHz, 24MB, 32GB (2x16GB) RAM, NVIDIA® GeForce RTX™ 5050 8GB GDDR7, Boost Clock 2662MH',img:'./images/products/50419.webp',stock:false},
   {id:1953,name:'Lenovo LOQ 17IRX10/ 83JH00AJBM',brand:'Lenovo',cat:'laptops',subcat:'gaming_l',price:3046,old:null,pct:null,badge:null,emoji:'🎮',sku:'83JH00AJBM',ean:'0199272542674',specs:{'Процесор':'Intel Core™ i7-14700HX, 20C (8P + 12E) / 28T, P-core 2.1 / 5.5GHz, E-core 1.5 / 3.9GHz, 33MB Intel® Smart Cache','RAM':'32GB (2x16GB), SODIMM DDR5-5600','GPU':'NVIDIA GeForce RTX™ 5060 8GB GDDR7, Boost Clock 2497MHz, TGP 115W, 572 AI TOPS','Екран':'17.3", 1920x1080','SSD':'1TB','ОС':'None','Тегло':'Starting at 2.9 kg','Батерия':'60Wh'},rating:4.6,rv:7,reviews:[],desc:'Lenovo LOQ 17IRX10/ 83JH00AJBM — Intel Core™ i7-14700HX, 20C (8P + 12E) / 28T, P-core 2.1 / 5.5GHz, E-core 1.5 / 3.9GHz, 33MB Intel® Smart Cache, 32GB (2x16GB) RAM, NVIDIA GeForce RTX™ 5060 8GB GDDR7,',img:'./images/products/52433.webp',stock:false},
   {id:1954,name:'Lenovo LOQ 17IRX10/ 83JH00AKBM',brand:'Lenovo',cat:'laptops',subcat:'gaming_l',price:3258,old:null,pct:null,badge:null,emoji:'🎮',sku:'83JH00AKBM',ean:'0199272542681',specs:{'Процесор':'Intel Core™ i7-14700HX, 20C (8P + 12E) / 28T, P-core 2.1 / 5.5GHz, E-core 1.5 / 3.9GHz, 33MB Intel® Smart Cache','RAM':'32GB (2x16GB), SODIMM DDR5-5600','GPU':'NVIDIA GeForce RTX™ 5070 8GB GDDR7, Boost Clock 2347MHz, TGP 115W, 798 AI TOPS','Екран':'17.3", 1920x1080','SSD':'1TB','ОС':'None','Тегло':'Starting at 2.9 kg','Батерия':'60Wh'},rating:4.0,rv:3,reviews:[],desc:'Lenovo LOQ 17IRX10/ 83JH00AKBM — Intel Core™ i7-14700HX, 20C (8P + 12E) / 28T, P-core 2.1 / 5.5GHz, E-core 1.5 / 3.9GHz, 33MB Intel® Smart Cache, 32GB (2x16GB) RAM, NVIDIA GeForce RTX™ 5070 8GB GDDR7,',img:'./images/products/52445.webp',stock:false},
-  {id:1955,name:'Lenovo LOQ 17IRX10/ 83JH00FLBM',brand:'Lenovo',cat:'laptops',subcat:null,price:2916,old:null,pct:null,badge:null,emoji:'💻',sku:'83JH00FLBM',ean:null,specs:{},rating:4.0,rv:25,reviews:[],desc:'Lenovo LOQ 17IRX10/ 83JH00FLBM',img:'./images/products/52445.webp',stock:false},
+  {id:1955,name:'Lenovo LOQ 17IRX10/ 83JH00FLBM',brand:'Lenovo',cat:'laptops',subcat:null,price:2916,old:null,pct:null,badge:null,emoji:'💻',sku:'83JH00FLBM',ean:null,specs:{},rating:4.0,rv:25,reviews:[],desc:'Lenovo LOQ 17IRX10/ 83JH00FLBM',img:'./images/products/52445.webp',stock:true},
   {id:1956,name:'Lenovo YOGA 7 14 / 82YL0030BM',brand:'Lenovo',cat:'laptops',subcat:'convertible',price:1899,old:null,pct:null,badge:null,emoji:'💻',sku:'82YL0030BM',ean:'7148820030',specs:{'Процесор':'Intel® Core™ i5-1340P, 12C (4P + 8E) / 16T, P-core up to 4.6GHz, E-core up to 3.4GHz, 12MB','RAM':'16 GB, Memory:16GB Soldered LPDDR5-5200','GPU':'Integrated Intel® Iris® Xe Graphics','Екран':'14 ", 1920x1200, WUXGA ,OLED 400nits Glossy, 100% DCI-P3, 60Hz, DisplayHDR™ True Black 500, Dolby® Vision™, TUV Low Blue Light, Glass, Touch/OGM, 10-point Multi-touch','SSD':'512 GB','ОС':'Windows® 11 Home, English','Тегло':'1.49 kg','Батерия':'Integrated 71Wh'},rating:4.0,rv:28,reviews:[],desc:'Lenovo YOGA 7 14 / 82YL0030BM — Intel® Core™ i5-1340P, 12C (4P + 8E) / 16T, P-core up to 4.6GHz, E-core up to 3.4GHz, 12MB, 16 GB RAM, Екран 14 "',img:'./images/products/34859.webp',stock:false},
   {id:1957,name:'Lenovo YOGA 7 14 / 82YL0033BM',brand:'Lenovo',cat:'laptops',subcat:'convertible',price:2083,old:null,pct:null,badge:null,emoji:'💻',sku:'82YL0033BM',ean:'7148820033',specs:{'Процесор':'Intel® Core™ i7-1360P, 12C (4P + 8E) / 16T, P-core up to 5.0GHz, E-core up to 3.7GHz, 18MB','RAM':'16 GB, Memory:16GB Soldered LPDDR5-5200','GPU':'Integrated Intel® Iris® Xe Graphics','Екран':'14 ", 1920x1200, WUXGA ,OLED 400nits Glossy, 100% DCI-P3, 60Hz, DisplayHDR™ True Black 500, Dolby® Vision™, TUV Low Blue Light, Glass, Touch/OGM, 10-point Multi-touch','SSD':'1 TB','ОС':'Windows® 11 Home, English','Тегло':'1.49 kg','Батерия':'Integrated 71Wh'},rating:4.1,rv:15,reviews:[],desc:'Lenovo YOGA 7 14 / 82YL0033BM — Intel® Core™ i7-1360P, 12C (4P + 8E) / 16T, P-core up to 5.0GHz, E-core up to 3.7GHz, 18MB, 16 GB RAM, Екран 14 "',img:null,stock:false},
   {id:1958,name:'Lenovo YOGA 7 14 / 82YM001QBM',brand:'Lenovo',cat:'laptops',subcat:'convertible',price:1799,old:null,pct:null,badge:null,emoji:'💻',sku:'82YM001QBM',ean:'714882001',specs:{'Процесор':'AMD Ryzen™ 7 7735U (8C / 16T, 2.7 / 4.75GHz, 4MB L2 / 16MB L3)','RAM':'16 GB, Memory:16GB Soldered LPDDR5-6400','GPU':'Integrated AMD Radeon™ 680M Graphics','Екран':'14 ", WUXGA,OLED 400nits Glossy, 100% DCI-P3, 60Hz, Dolby® Vision™, TUV Low Blue Light, DisplayHDR™ True Black 500, Glass, Touch/OGM, 10-point Multi-touch','SSD':'1 TB','ОС':'Windows® 11 Home, English','Тегло':'1.49 kg','Батерия':'Integrated 71Wh'},rating:4.8,rv:13,reviews:[],desc:'Lenovo YOGA 7 14 / 82YM001QBM — AMD Ryzen™ 7 7735U (8C / 16T, 2.7 / 4.75GHz, 4MB L2 / 16MB L3), 16 GB RAM, Integrated AMD Radeon™ 680M Graphics',img:'./images/products/40026.webp',stock:false},

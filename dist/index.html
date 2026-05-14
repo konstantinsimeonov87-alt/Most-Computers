@@ -41,9 +41,9 @@
     content="лаптопи, смартфони, телевизори, таблети, аудио, гейминг, Most Computers, онлайн магазин електроника, компютри, аксесоари, Samsung, ASUS, Sony, Lenovo, MSI">
   <link rel="alternate" hreflang="bg" href="https://mostcomputers.bg/">
   <link rel="preload" href="styles.css" as="style">
-  <link rel="preload" href="data.js?v=20260513" as="script">
-  <link rel="preload" href="app.js?v=20260513" as="script">
-  <link rel="preload" href="app-lazy.js?v=20260513" as="script">
+  <link rel="preload" href="data.js?v=20260514" as="script">
+  <link rel="preload" href="app.js?v=20260514" as="script">
+  <link rel="preload" href="app-lazy.js?v=20260514" as="script">
   <link rel="alternate" hreflang="x-default" href="https://mostcomputers.bg/">
   <link rel="canonical" href="https://mostcomputers.bg/">
   <link rel="sitemap" type="application/xml" href="/sitemap.xml">
@@ -1922,7 +1922,7 @@
               <div class="slide-price" id="slide2Price">1 012.28 € / 1 979 лв. <small>с ДДС</small></div>
               <button type="button" class="slide-btn" data-action="openProductPage(1600)">Разгледай MSI Katana →</button>
             </div>
-            <div class="slide-img-wrap"><img src="https://portal.mostbg.com/api/images/imageFileData/100502.png" alt="MSI Katana 15 gaming laptop" class="slide-product-img" width="290" height="260" loading="eager"></div>
+            <div class="slide-img-wrap"><img src="https://portal.mostbg.com/api/images/imageFileData/100502.png" alt="MSI Katana 15 gaming laptop" class="slide-product-img" width="290" height="260" loading="lazy"></div>
           </div>
           <div class="slide slide-3">
             <div class="slide-badge">% BIG SALE</div>
@@ -1942,7 +1942,7 @@
               <div class="slide-price" id="slide4Price">4 632.56 € / 9 060 лв. <small>с ДДС</small></div>
               <button type="button" class="slide-btn slide-btn-red" data-action="openProductPage(1884)">Разгледай Legion Pro 7 →</button>
             </div>
-            <div class="slide-img-wrap slide-img-wrap-4"><picture><source srcset="images/lenovo-hero.webp" type="image/webp"><img src="images/lenovo-hero.png" alt="Lenovo Legion Pro 7 gaming laptop" class="slide-product-img-4" width="290" height="260" loading="eager" fetchpriority="high"></picture></div>
+            <div class="slide-img-wrap slide-img-wrap-4"><picture><source srcset="images/lenovo-hero.webp" type="image/webp"><img src="images/lenovo-hero.png" alt="Lenovo Legion Pro 7 gaming laptop" class="slide-product-img-4" width="290" height="260" loading="lazy"></picture></div>
           </div>
           <div class="slider-dots">
             <button type="button" class="dot active" data-action="goSlide(0)" aria-label="Слайд 1"></button>
@@ -3126,8 +3126,8 @@
   </footer>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="" defer></script>
-  <script src="data.js?v=20260513" defer></script>
-  <script src="app.js?v=20260513" defer></script>
+  <script src="data.js?v=20260514" defer></script>
+  <script src="app.js?v=20260514" defer></script>
   <!-- Supabase loaded lazily on first checkout attempt (~50 KiB saved on initial load) -->
 
   <!-- Dark toggle moved to header -->
@@ -4891,15 +4891,7 @@
       localStorage.setItem('pwaDismissed', '1');
     });
 
-    // Dark Mode persistence (disabled on mobile — dark mode requires ≥769px)
-    requestAnimationFrame(function () {
-      if (window.innerWidth <= 768) return;
-      const saved = localStorage.getItem('theme');
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      if (saved === 'dark' || (!saved && prefersDark)) {
-        document.documentElement.setAttribute('data-theme', 'dark');
-      }
-    });
+    // Dark mode is initialised in js/ui.js (mc_dark key) — no duplicate needed here.
   </script>
 
   <!-- Scroll progress bar -->

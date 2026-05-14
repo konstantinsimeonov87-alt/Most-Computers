@@ -162,6 +162,7 @@ function toggleCompare(id,checked){
   updateCompareBar();
 }
 function updateCompareBar(){
+  updateSidebarCompare();
   const bar=document.getElementById('compareBar');
   const preview=document.getElementById('comparePreview');
   const cnt=document.getElementById('compareCnt');
@@ -207,8 +208,85 @@ function openComparePage(){
   document.getElementById('comparePage').style.display='block';
   document.body.style.overflow='hidden';
 }
-function removeCompare(id){compareList=compareList.filter(x=>x!==id);const btn=document.getElementById('cmp-btn-'+id);if(btn)btn.style.background='var(--bg)';updateCompareBar();}
-function clearCompare(){compareList.forEach(id=>{const btn=document.getElementById('cmp-btn-'+id);if(btn)btn.style.background='var(--bg)';});compareList=[];updateCompareBar();}
+function removeCompare(id){compareList=compareList.filter(x=>x!==id);const btn=document.getElementById('cmp-btn-'+id);if(btn)btn.style.background='var(--bg)';updateCompareBar();updateSidebarCompare();}
+function clearCompare(){compareList.forEach(id=>{const btn=document.getElementById('cmp-btn-'+id);if(btn)btn.style.background='var(--bg)';});compareList=[];updateCompareBar();updateSidebarCompare();}
+
+// ═══════════════════════════════════════
+// SIDEBAR WIDGET A — TOP PRODUCT ROTATOR
+// ═══════════════════════════════════════
+const _HP_CAT_CYCLE = ['laptops','desktops','components','monitors','peripherals','network','storage','accessories'];
+const _CAT_EMOJI = {laptops:'💻',desktops:'🖥️',components:'⚙️',monitors:'🖥',peripherals:'⌨️',network:'🌐',storage:'💾',accessories:'🎧'};
+const _CAT_LABEL = {laptops:'Лаптопи',desktops:'Настолни',components:'Компоненти',monitors:'Монитори',peripherals:'Периферия',network:'Мрежа',storage:'Съхранение',accessories:'Аксесоари'};
+let _sbTopCatIndex = Math.floor(Math.random() * _HP_CAT_CYCLE.length);
+
+function renderSidebarTopProduct(forceNext) {
+  const wrap = document.getElementById('sidebarTopProduct');
+  if (!wrap) return;
+  if (forceNext) _sbTopCatIndex = (_sbTopCatIndex + 1) % _HP_CAT_CYCLE.length;
+  const cat = _HP_CAT_CYCLE[_sbTopCatIndex];
+  const pool = (typeof products !== 'undefined' ? products : []).filter(p => p.cat === cat && p.inStock !== false);
+  if (!pool.length) { wrap.innerHTML = ''; return; }
+  const top = pool.reduce((best, p) => {
+    const score = p.rating * Math.log1p((p.rv || p.reviews || 0) + 1);
+    const bScore = best.rating * Math.log1p((best.rv || best.reviews || 0) + 1);
+    return score > bScore ? p : best;
+  });
+  const safeImg = top.img && (typeof isSafeImgUrl === 'function' ? isSafeImgUrl(top.img) : /^https?:\/\//.test(top.img)) ? top.img : null;
+  const imgHtml = safeImg
+    ? `<img src="${safeImg}" alt="" width="100" height="100" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">`
+      + `<span style="font-size:48px;display:none">${top.emoji||''}</span>`
+    : `<span style="font-size:48px">${top.emoji||''}</span>`;
+  const shortName = top.name.length > 46 ? top.name.slice(0, 46) + '…' : top.name;
+  wrap.innerHTML = `
+    <div class="sb-tp-header">
+      <span class="sb-tp-title">⭐ Топ продукт</span>
+      <span class="sb-tp-cat-pill">${_CAT_EMOJI[cat]||''} ${_CAT_LABEL[cat]||cat}</span>
+    </div>
+    <div class="sb-tp-img-wrap">${imgHtml}</div>
+    <div class="sb-tp-brand">${escHtml(top.brand||'')}</div>
+    <div class="sb-tp-name">${escHtml(shortName)}</div>
+    <div class="sb-tp-stars">${typeof starsHTML==='function'?starsHTML(top.rating):''} <span style="color:var(--muted);font-size:11px">${top.rating} (${top.rv||top.reviews||0})</span></div>
+    <div class="sb-tp-price">${typeof fmtEur==='function'?fmtEur(top.price):top.price+' €'}<span class="price-bgn-sub">${typeof fmtBgn==='function'?fmtBgn(top.price):''}</span></div>
+    <button type="button" class="sb-tp-btn" onclick="openProductPage(${top.id})">Виж продукта →</button>
+    <button type="button" class="sb-tp-refresh" onclick="renderSidebarTopProduct(true)">🔄 Покажи от друга категория</button>`;
+}
+
+// ═══════════════════════════════════════
+// SIDEBAR WIDGET C — COMPARE TRAY
+// ═══════════════════════════════════════
+function updateSidebarCompare() {
+  const wrap = document.getElementById('sidebarCompare');
+  if (!wrap) return;
+  if (!compareList || compareList.length === 0) { wrap.style.display = 'none'; return; }
+  wrap.style.display = 'block';
+  const prods = compareList.map(id => (typeof products !== 'undefined' ? products : []).find(x => x.id === id)).filter(Boolean);
+  const items = prods.map(p => {
+    const safeImg = p.img && (typeof isSafeImgUrl === 'function' ? isSafeImgUrl(p.img) : /^https?:\/\//.test(p.img)) ? p.img : null;
+    const thumb = safeImg
+      ? `<img src="${safeImg}" alt="" width="32" height="32" loading="lazy" onerror="this.style.display='none'">`
+      : `<span style="font-size:20px">${p.emoji||''}</span>`;
+    const shortName = p.name.length > 28 ? p.name.slice(0, 28) + '…' : p.name;
+    return `<li class="sb-cmp-item">
+      <div class="sb-cmp-thumb">${thumb}</div>
+      <div class="sb-cmp-info">
+        <div class="sb-cmp-item-name">${escHtml(shortName)}</div>
+        <div class="sb-cmp-item-price">${typeof fmtEur==='function'?fmtEur(p.price):p.price+' €'}</div>
+      </div>
+      <button type="button" class="sb-cmp-remove" onclick="removeCompare(${p.id})" aria-label="Премахни">×</button>
+    </li>`;
+  }).join('');
+  const canCompare = prods.length >= 2;
+  wrap.innerHTML = `
+    <div class="sb-cmp-header">
+      <span class="sb-cmp-title">⚖ Сравнение</span>
+      <span class="sb-cmp-counter">${prods.length}/3</span>
+    </div>
+    <ul class="sb-cmp-list">${items}</ul>
+    <div class="sb-cmp-actions">
+      <button type="button" class="sb-cmp-go" onclick="openCompareModal()" ${canCompare?'':'disabled style="opacity:.5;cursor:not-allowed"'}>Сравни сега →</button>
+      <button type="button" class="sb-cmp-clear" onclick="clearCompare()">Изчисти</button>
+    </div>`;
+}
 function openCompareModal(){
   if(compareList.length<2){showToast('Избери поне 2 продукта!');return;}
   const prods=compareList.map(id=>products.find(x=>x.id===id)).filter(Boolean);

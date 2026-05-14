@@ -515,7 +515,6 @@
    z-index: 700;
    background: var(--bg);
    overflow-y: auto;
-   padding-top: 80px;
    transform: translateY(100%);
    transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
    pointer-events: none;

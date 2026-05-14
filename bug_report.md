@@ -1,5 +1,25 @@
 # Bug Report — Most Computers
-**Последна актуализация:** 2026-05-13 | **Агент:** Bug Hunter | **Тестове след fix:** 185/185 ✅
+**Последна актуализация:** 2026-05-14 | **Агент:** Bug Hunter | **Тестове след fix:** 185/185 ✅
+
+---
+
+## 🔴 Critical (2026-05-14)
+
+### BUG-003 — XSS в `renderHeroPanel()` — `p.name` без `escHtml()`
+**Файл:** js/filters.js:233
+**Стъпки:** Продукт с `name` съдържащо `<img src=x onerror=alert(1)>` → зареди начална страница → hero панел се рендерира
+**Очаквано:** Текстът се показва буквално, без изпълнение на JS
+**Действително:** HTML тагове в `p.name` се изпълняват в `.mini-promo-name` div и в `alt=""` атрибута
+**Fix:** Заменено `p.name` с `escHtml(p.name)` в `.mini-promo-name` и `alt` атрибута в `renderHeroPanel()`
+**Commit:**
+
+### BUG-004 — XSS в `renderPromoBanner()` — `p.name` и `p.desc` без `escHtml()`
+**Файл:** js/filters.js:250–262
+**Стъпки:** Продукт с `name` или `desc` съдържащо HTML тагове → зареди начална страница → промо банер се рендерира
+**Очаквано:** Текстът се показва буквално
+**Действително:** HTML в `p.name` (в `<h3>`) и `p.desc` (в `<p>`) се интерпретира от браузъра; `alt=""` ползваше `p.name.replace(/"/g,'')` вместо `escHtml()`
+**Fix:** `escHtml()` приложен на всички places: `sub` (desc/name), `<h3>` (name), `alt` атрибут (name)
+**Commit:**
 
 ---
 

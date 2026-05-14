@@ -225,12 +225,12 @@ function renderHeroPanel(){
   panel.innerHTML = picks.filter(x=>x.p).map(({p,label,cls})=>`
     <div class="mini-promo ${cls}">
       ${p.img
-        ? `<img class="mini-promo-img" src="${p.img}" alt="${p.name.replace(/"/g,'')}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">`
+        ? `<img class="mini-promo-img" src="${p.img}" alt="${escHtml(p.name)}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">`
         : ''}
       <div class="mini-promo-emoji" style="${p.img?'display:none':''}"> ${p.emoji}</div>
       <div class="mini-promo-text">
         <div class="mini-promo-label">${label}</div>
-        <div class="mini-promo-name">${p.name.length>32?p.name.slice(0,32)+'…':p.name}</div>
+        <div class="mini-promo-name">${escHtml(p.name.length>32?p.name.slice(0,32)+'…':p.name)}</div>
         ${p.old?`<div class="mini-promo-old">${(p.old/EUR_RATE).toFixed(2)} € / ${p.old} лв.</div>`:''}
         <div class="mini-promo-price">${(p.price/EUR_RATE).toFixed(2)} € / ${p.price} лв.</div>
       </div>
@@ -247,19 +247,19 @@ function renderPromoBanner(){
   const saleP = [...products].filter(p=>!_excl.has(p.id)&&p.badge==='sale'&&p.stock!==false).sort((a,b)=>b.pct-a.pct)[0];
   if(!newP||!saleP) return;
   const themes = [
-    { p:newP,  cls:'blue', badge:`🆕 Ново`,           sub: newP.desc  ? newP.desc.slice(0,80)+'…'  : newP.name },
-    { p:saleP, cls:'dark', badge:`🔥 -${saleP.pct}%`, sub: saleP.desc ? saleP.desc.slice(0,80)+'…' : saleP.name },
+    { p:newP,  cls:'blue', badge:`🆕 Ново`,           sub: escHtml(newP.desc  ? newP.desc.slice(0,80)+'…'  : newP.name) },
+    { p:saleP, cls:'dark', badge:`🔥 -${saleP.pct}%`, sub: escHtml(saleP.desc ? saleP.desc.slice(0,80)+'…' : saleP.name) },
   ];
   banner.innerHTML = themes.map(({p,cls,badge,sub})=>`
     <div class="promo-half ${cls}" onclick="openProductPage(${p.id})" style="cursor:pointer;">
       <div class="promo-half-content">
         <span class="badge">${badge}</span>
-        <h3>${p.name.length>40?p.name.slice(0,40)+'…':p.name}</h3>
+        <h3>${escHtml(p.name.length>40?p.name.slice(0,40)+'…':p.name)}</h3>
         <p>${sub}</p>
         <div class="promo-price">${(p.price/EUR_RATE).toFixed(2)} € / ${p.price} лв.</div>
         <button type="button" class="promo-btn" onclick="event.stopPropagation();addToCart(${p.id})">Добави в кошница +</button>
       </div>
-      <img src="${p.img||''}" alt="${p.name.replace(/"/g,'')}" class="promo-img" width="110" height="110" loading="lazy" decoding="async"
+      <img src="${p.img||''}" alt="${escHtml(p.name)}" class="promo-img" width="110" height="110" loading="lazy" decoding="async"
         style="${p.img?'':'display:none'}"
         onerror="this.style.display='none';var em=this.nextElementSibling;if(em)em.style.display=''">
       <div class="promo-emoji" style="${p.img?'display:none':''}"> ${p.emoji||'🖥'}</div>

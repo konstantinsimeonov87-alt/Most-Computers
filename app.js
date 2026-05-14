@@ -281,13 +281,22 @@ setTimeout(initLazyImages, 900);
 
 
 // ===== SCROLL PROGRESS BAR =====
+// CSS scroll-driven animation handles modern browsers (Chrome 115+, FF 127+, Safari 17.2+).
+// JS fallback for older browsers caches docH to avoid scrollHeight reads every scroll event.
 (function() {
   var bar = document.getElementById('scrollProgress');
   if (!bar) return;
+  if (CSS && CSS.supports && CSS.supports('animation-timeline', 'scroll()')) return;
+  var docH = 0;
+  function cacheDocH() {
+    docH = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  }
+  cacheDocH();
+  window.addEventListener('resize', cacheDocH, { passive: true });
   window.addEventListener('scroll', function() {
-    var scrollTop = window.scrollY || document.documentElement.scrollTop;
-    var docH = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-    bar.style.width = docH > 0 ? Math.min(100, (scrollTop / docH) * 100).toFixed(1) + '%' : '0%';
+    if (!docH) return;
+    var pct = Math.min(100, ((window.scrollY || document.documentElement.scrollTop) / docH) * 100);
+    bar.style.width = pct.toFixed(1) + '%';
   }, { passive: true });
 })();
 
@@ -972,12 +981,12 @@ function renderHeroPanel(){
   panel.innerHTML = picks.filter(x=>x.p).map(({p,label,cls})=>`
     <div class="mini-promo ${cls}">
       ${p.img
-        ? `<img class="mini-promo-img" src="${p.img}" alt="${p.name.replace(/"/g,'')}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">`
+        ? `<img class="mini-promo-img" src="${p.img}" alt="${escHtml(p.name)}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">`
         : ''}
       <div class="mini-promo-emoji" style="${p.img?'display:none':''}"> ${p.emoji}</div>
       <div class="mini-promo-text">
         <div class="mini-promo-label">${label}</div>
-        <div class="mini-promo-name">${p.name.length>32?p.name.slice(0,32)+'…':p.name}</div>
+        <div class="mini-promo-name">${escHtml(p.name.length>32?p.name.slice(0,32)+'…':p.name)}</div>
         ${p.old?`<div class="mini-promo-old">${(p.old/EUR_RATE).toFixed(2)} € / ${p.old} лв.</div>`:''}
         <div class="mini-promo-price">${(p.price/EUR_RATE).toFixed(2)} € / ${p.price} лв.</div>
       </div>
@@ -988,23 +997,28 @@ function renderHeroPanel(){
 function renderPromoBanner(){
   const banner = document.getElementById('promoBanner');
   if(!banner) return;
-  const newP  = products.find(p=>p.id===32)   || [...products].filter(p=>p.badge==='new'||p.badge==='hot').sort((a,b)=>b.rating-a.rating)[0];
-  const saleP = products.find(p=>p.id===3160)  || [...products].filter(p=>p.badge==='sale').sort((a,b)=>b.pct-a.pct)[0];
+  // Exclude ids already shown in the static PSB blocks (id:32, id:3160)
+  const _excl = new Set([32, 3160]);
+  const newP  = [...products].filter(p=>!_excl.has(p.id)&&(p.badge==='new'||p.badge==='hot')&&p.stock!==false).sort((a,b)=>b.rating-a.rating)[0];
+  const saleP = [...products].filter(p=>!_excl.has(p.id)&&p.badge==='sale'&&p.stock!==false).sort((a,b)=>b.pct-a.pct)[0];
   if(!newP||!saleP) return;
   const themes = [
-    { p:newP,  cls:'blue', badge:`🆕 Ново`,           sub: newP.desc  ? newP.desc.slice(0,80)+'…'  : newP.name },
-    { p:saleP, cls:'dark', badge:`🔥 -${saleP.pct}%`, sub: saleP.desc ? saleP.desc.slice(0,80)+'…' : saleP.name },
+    { p:newP,  cls:'blue', badge:`🆕 Ново`,           sub: escHtml(newP.desc  ? newP.desc.slice(0,80)+'…'  : newP.name) },
+    { p:saleP, cls:'dark', badge:`🔥 -${saleP.pct}%`, sub: escHtml(saleP.desc ? saleP.desc.slice(0,80)+'…' : saleP.name) },
   ];
   banner.innerHTML = themes.map(({p,cls,badge,sub})=>`
     <div class="promo-half ${cls}" onclick="openProductPage(${p.id})" style="cursor:pointer;">
       <div class="promo-half-content">
         <span class="badge">${badge}</span>
-        <h3>${p.name.length>40?p.name.slice(0,40)+'…':p.name}</h3>
+        <h3>${escHtml(p.name.length>40?p.name.slice(0,40)+'…':p.name)}</h3>
         <p>${sub}</p>
         <div class="promo-price">${(p.price/EUR_RATE).toFixed(2)} € / ${p.price} лв.</div>
         <button type="button" class="promo-btn" onclick="event.stopPropagation();addToCart(${p.id})">Добави в кошница +</button>
       </div>
-      ${p.img?`<picture><source srcset="${p.img.replace(/portal\.mostbg\.com\/api\/images\/imageFileData\/(\d+)\.[a-z]+/,(_,id)=>`images/products/${id}.webp`)}" type="image/webp"><img src="${p.img}" alt="${p.name}" class="promo-img" width="110" height="110" loading="lazy" decoding="async"></picture>`:`<div class="promo-emoji">${p.emoji}</div>`}
+      <img src="${p.img||''}" alt="${escHtml(p.name)}" class="promo-img" width="110" height="110" loading="lazy" decoding="async"
+        style="${p.img?'':'display:none'}"
+        onerror="this.style.display='none';var em=this.nextElementSibling;if(em)em.style.display=''">
+      <div class="promo-emoji" style="${p.img?'display:none':''}"> ${p.emoji||'🖥'}</div>
     </div>`).join('');
 }
 

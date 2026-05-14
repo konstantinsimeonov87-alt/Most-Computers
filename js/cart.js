@@ -78,7 +78,18 @@ function updateCart() {
   if (badge) {
     const prev = parseInt(badge.textContent, 10) || 0;
     badge.textContent = count;
-    if (count > prev) { badge.classList.remove('badge-pop'); void badge.offsetWidth; badge.classList.add('badge-pop'); }
+    if (count > prev) {
+      badge.classList.remove('badge-pop');
+      if (typeof badge.animate === 'function') {
+        badge.animate([
+          { transform: 'scale(1)' },
+          { transform: 'scale(1.4)' },
+          { transform: 'scale(0.9)' },
+          { transform: 'scale(1.1)' },
+          { transform: 'scale(1)' }
+        ], { duration: 380, easing: 'cubic-bezier(.36,.07,.19,.97)', fill: 'none' });
+      }
+    }
   }
   const cartTotalEl = document.getElementById('cartTotal'); if (cartTotalEl) cartTotalEl.textContent = fmtEur(total) + ' / ' + fmtBgn(total);
   // sync PDP mini-header cart badge
@@ -88,7 +99,18 @@ function updateCart() {
   document.querySelectorAll('#bnCartBadge, #bnCartBadge2').forEach(bnB => {
     const bnPrev = parseInt(bnB.textContent, 10) || 0;
     bnB.textContent = count; bnB.classList.toggle('show', count > 0);
-    if (count > bnPrev) { bnB.classList.remove('badge-pop'); void bnB.offsetWidth; bnB.classList.add('badge-pop'); }
+    if (count > bnPrev) {
+      bnB.classList.remove('badge-pop');
+      if (typeof bnB.animate === 'function') {
+        bnB.animate([
+          { transform: 'scale(1)' },
+          { transform: 'scale(1.4)' },
+          { transform: 'scale(0.9)' },
+          { transform: 'scale(1.1)' },
+          { transform: 'scale(1)' }
+        ], { duration: 380, easing: 'cubic-bezier(.36,.07,.19,.97)', fill: 'none' });
+      }
+    }
   });
   const body = document.getElementById('cartBody');
   if (!body) return;

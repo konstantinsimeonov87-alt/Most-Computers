@@ -268,20 +268,34 @@ function renderPromoBanner(){
 
 
 // ===== PRICE SLIDER =====
-let srpPriceMinVal=0, srpPriceMaxVal=5000, srpCurrentQuery='', srpCurrentCatFilter='';
+let srpPriceMinVal=0, srpPriceMaxVal=5000, srpCurrentQuery='', srpCurrentCatFilter='', srpPriceAbsMax=5000;
 function updatePriceSlider(){
-  const mn = document.getElementById('priceMin'), mx = document.getElementById('priceMax');
+  const mn=document.getElementById('priceMin'), mx=document.getElementById('priceMax');
   if(!mn||!mx) return;
   let minV=parseInt(mn.value), maxV=parseInt(mx.value);
-  if(isNaN(minV)) minV=0; if(isNaN(maxV)) maxV=5000;
-  if(minV > maxV-50){ minV=maxV-50; mn.value=minV; }
+  if(isNaN(minV)) minV=0; if(isNaN(maxV)) maxV=srpPriceAbsMax;
+  if(minV>maxV-50){ minV=maxV-50; mn.value=minV; }
   srpPriceMinVal=minV; srpPriceMaxVal=maxV;
-  const srpVals=document.getElementById('srpPriceVals'); if(srpVals) srpVals.textContent = fmtEur(minV) + ' — ' + fmtEur(maxV);
-  const rng = document.getElementById('sliderRange');
-  if(rng){ rng.style.left=(minV/5000*100)+'%'; rng.style.width=((maxV-minV)/5000*100)+'%'; }
-  let res = searchProducts(srpCurrentQuery, srpCurrentCatFilter).filter(p => p.price>=minV && p.price<=maxV);
-  const srpCnt=document.getElementById('srpCount'); if(srpCnt) srpCnt.textContent = res.length + ' резултата';
-  renderSRPGrid(res, srpCurrentQuery);
+  const pct=n=>srpPriceAbsMax>0?Math.round(n/srpPriceAbsMax*100):0;
+  const rng=document.getElementById('sliderRange');
+  if(rng){ rng.style.left=pct(minV)+'%'; rng.style.width=(pct(maxV)-pct(minV))+'%'; }
+  const srpVals=document.getElementById('srpPriceVals');
+  if(srpVals) srpVals.textContent=fmtEur(minV)+' — '+fmtEur(maxV);
+  const rate=typeof EUR_RATE!=='undefined'?EUR_RATE:1.95583;
+  const mnNum=document.getElementById('srpMinNum'), mxNum=document.getElementById('srpMaxNum');
+  if(mnNum) mnNum.value=Math.round(minV/rate);
+  if(mxNum) mxNum.value=Math.round(maxV/rate);
+  if(typeof _srpRender==='function') _srpRender();
+}
+
+function srpNumInputChange(){
+  const mn=document.getElementById('priceMin'), mx=document.getElementById('priceMax');
+  const mnNum=document.getElementById('srpMinNum'), mxNum=document.getElementById('srpMaxNum');
+  if(!mn||!mx||!mnNum||!mxNum) return;
+  const rate=typeof EUR_RATE!=='undefined'?EUR_RATE:1.95583;
+  mn.value=Math.min(Math.round(parseFloat(mnNum.value||0)*rate), srpPriceAbsMax);
+  mx.value=Math.min(Math.round(parseFloat(mxNum.value||0)*rate), srpPriceAbsMax);
+  updatePriceSlider();
 }
 // price slider integrated into showSearchResultsPage directly
 

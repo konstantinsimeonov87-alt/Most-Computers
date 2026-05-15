@@ -340,16 +340,23 @@ function renderWishlistGrid() {
   } else {
     const prods = wishlist.map(id => products.find(p => p.id === id)).filter(Boolean);
     count.textContent = prods.length + (prods.length === 1 ? ' продукт' : ' продукта');
-    // Add-all button before the grid
-    const addAllHtml = `<div class="wl-add-all-row"><button type="button" class="wl-add-all-btn" onclick="addAllWishlistToCart()"><svg width="15" height="15" class="svg-ic" aria-hidden="true"><use href="#ic-cart"/></svg> Добави всички в кошницата (${prods.length})</button></div>`;
+    var _savedPrices = {};
+    try { _savedPrices = JSON.parse(localStorage.getItem('mc_wishlist_prices') || '{}'); } catch(e) {}
+    // Add-all + share buttons before the grid
+    const shareUrl = 'https://mostcomputers.bg/?wl=' + wishlist.join(',');
+    const addAllHtml = `<div class="wl-add-all-row"><button type="button" class="wl-add-all-btn" onclick="addAllWishlistToCart()"><svg width="15" height="15" class="svg-ic" aria-hidden="true"><use href="#ic-cart"/></svg> Добави всички в кошницата (${prods.length})</button><button type="button" class="wl-share-btn" onclick="navigator.clipboard&&navigator.clipboard.writeText('${shareUrl}').then(()=>showToast('🔗 Линкът е копиран!')).catch(()=>{})" title="Сподели любими">🔗 Сподели</button></div>`;
     grid.innerHTML = addAllHtml + `<div class="wishlist-grid">${prods.map(p => {
       const save = p.old ? Math.round(((p.old-p.price)/p.old)*100) : 0;
       const _wlName = escHtml(p.name);
       const imgHtml = p.img
         ? `<img class="product-img-real" src="${escHtml(p.img)}" alt="${_wlName}" loading="lazy" onload="this.classList.add('img-loaded')" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="product-img-emoji is-hidden" aria-hidden="true">${escHtml(p.emoji)}</span>`
         : `<span class="product-img-emoji">${escHtml(p.emoji)}</span>`;
+      const savedPrice = _savedPrices[p.id];
+      const priceDrop = savedPrice && p.price < savedPrice ? Math.round(((savedPrice - p.price) / savedPrice) * 100) : 0;
+      const priceDropBadge = priceDrop > 0 ? `<div class="wl-drop-badge">↓ -${priceDrop}% от добавяне</div>` : '';
       return `<div class="product-card pos-rel">
         <button type="button" class="wishlist-remove-btn" onclick="toggleWishlist(${p.id},{stopPropagation:()=>{}})" title="Премахни">×</button>
+        ${priceDropBadge}
         <div class="product-img-wrap cursor-pointer" onclick="openProductPage(${p.id});closeWishlist();">${imgHtml}</div>
         <div class="product-body">
           <div class="product-brand">${escHtml(p.brand)}</div>

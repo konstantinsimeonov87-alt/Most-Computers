@@ -119,10 +119,32 @@ function openProductModal(id){
   document.getElementById('modalReviews').innerHTML=(p.reviews||[]).map(r=>`<div class="review-item"><div class="review-header"><span class="review-name">${_esc(r.name)}</span><span class="review-stars">${starsHTML(r.stars)}</span><span class="review-date">${_esc(r.date)}</span></div><div class="review-text">${_esc(r.text)}</div></div>`).join('');
   switchTab('desc');
   document.getElementById('productModalBackdrop').classList.add('open');document.body.style.overflow='hidden';
+  // Update mobile/desktop sticky CTA price
+  var _mscP=document.getElementById('mscPrice');
+  if(_mscP) _mscP.innerHTML=fmtEur(p.price)+'<span style="font-size:11px;font-weight:500;color:var(--muted);display:block">'+fmtBgn(p.price)+'</span>';
+  // IntersectionObserver: show sticky CTA when #modalAddBtn scrolls out of view
+  var _stickyObs=null;
+  (function(){
+    var addBtn=document.getElementById('modalAddBtn');
+    var cta=document.getElementById('modalStickyCta');
+    if(!addBtn||!cta||!('IntersectionObserver' in window))return;
+    cta.classList.remove('visible');
+    if(_stickyObs)_stickyObs.disconnect();
+    var backdrop=document.getElementById('productModalBackdrop');
+    _stickyObs=new IntersectionObserver(function(entries){
+      cta.classList.toggle('visible',!entries[0].isIntersecting);
+    },{root:backdrop,threshold:0.1});
+    _stickyObs.observe(addBtn);
+    backdrop._stickyObs=_stickyObs;
+  })();
 }
 function closeProductModal(e){if(e.target===e.currentTarget)closeProductModalDirect();}
 function closeProductModalDirect(){
-  document.getElementById('productModalBackdrop').classList.remove('open');
+  var _bd=document.getElementById('productModalBackdrop');
+  var cta=document.getElementById('modalStickyCta');
+  if(cta)cta.classList.remove('visible');
+  if(_bd&&_bd._stickyObs){_bd._stickyObs.disconnect();_bd._stickyObs=null;}
+  _bd.classList.remove('open');
   document.body.style.overflow='';
   // Restore title if no category page is open
   if (!document.getElementById('catPage')?.classList.contains('open') && !document.getElementById('pdpBackdrop')?.classList.contains('open')) {

@@ -474,6 +474,11 @@ function openCatPage(cat, preSubcat) {
   if (cpTitle) cpTitle.textContent = m.label;
   if (cpSubtitle) cpSubtitle.textContent = m.sub;
 
+  const bc = document.getElementById('catBreadcrumb');
+  if (bc) {
+    bc.innerHTML = `<ol class="bc-list" itemscope itemtype="https://schema.org/BreadcrumbList"><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="/" itemprop="item" onclick="closeCatPage();return false;"><span itemprop="name">Начало</span></a><meta itemprop="position" content="1"></li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><span itemprop="name">${m.label.replace(/</g,'&lt;')}</span><meta itemprop="position" content="2"></li></ol>`;
+  }
+
   // Build sidebar HTML
   buildCpSidebar(cat);
   // Build subcat bar

@@ -316,7 +316,24 @@ function pdpRenderSpecsSidebar(p) {
   sb.style.display = '';
 }
 
-// ===== 10. PRINT / PDF =====
+// ===== 10. COPY SPECS =====
+function pdpCopySpecs() {
+  var p = (typeof products !== 'undefined') ? products.find(function(x) { return x.id === pdpProductId; }) : null;
+  if (!p) return;
+  var specs = p.specs || {};
+  var text = p.name + '\n\n' + Object.keys(specs).map(function(k) { return k + ': ' + specs[k]; }).join('\n');
+  var btn = document.getElementById('pdpCopyBtn');
+  if (!navigator.clipboard) { showToast && showToast('⚠️ Клипборд недостъпен'); return; }
+  navigator.clipboard.writeText(text).then(function() {
+    if (btn) { btn.textContent = '✓ Копирано'; btn.classList.add('pdp-copy-done'); }
+    if (typeof showToast === 'function') showToast('✓ Характеристиките са копирани!');
+    setTimeout(function() {
+      if (btn) { btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Копирай'; btn.classList.remove('pdp-copy-done'); }
+    }, 2000);
+  }).catch(function() { if (typeof showToast === 'function') showToast('⚠️ Грешка при копиране'); });
+}
+
+// ===== 11. PRINT / PDF =====
 function pdpPrintSpecs() {
   var p = (typeof products !== 'undefined') ? products.find(function(x) { return x.id === pdpProductId; }) : null;
   if (!p) return;

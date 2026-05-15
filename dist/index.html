@@ -1456,6 +1456,10 @@
     <span class="cart-toast-emoji" id="cartToastEmoji"></span>
     <span class="cart-toast-msg" id="cartToastMsg"></span>
     <button type="button" class="cart-toast-btn" onclick="toggleCart();document.getElementById('cartToast').classList.remove('show')">Виж кошница →</button>
+    <div class="ct-ship-wrap" id="cartToastShipWrap">
+      <div class="ct-ship-bar"><div class="ct-ship-fill" id="cartToastShipFill"></div></div>
+      <div class="ct-ship-label" id="cartToastShipLabel"></div>
+    </div>
   </div>
 
   <!-- MOBILE BOTTOM NAV BAR -->
@@ -2370,7 +2374,15 @@
                   </div>
                 </div>
                 <div id="ckEcontOfficeRow" class="ck-field" style="margin-top:14px;">
-                  <label for="ckEcontOffice">Еконт офис *</label>
+                  <label for="ckEcontCity">Град</label>
+                  <input class="ck-input" id="ckEcontCity" placeholder="Например: София" autocomplete="address-level2"
+                    list="bgCitiesList2" oninput="filterEcontOffices(this.value)">
+                  <datalist id="bgCitiesList2">
+                    <option value="София"><option value="Пловдив"><option value="Варна">
+                    <option value="Бургас"><option value="Русе"><option value="Стара Загора">
+                    <option value="Плевен"><option value="Благоевград"><option value="Велико Търново">
+                  </datalist>
+                  <label for="ckEcontOffice" style="margin-top:10px;">Еконт офис *</label>
                   <input class="ck-input" id="ckEcontOffice" placeholder="Напр. Еконт — кв. Лозенец, ул. Свети Наум 52"
                     list="econtOfficesList" onblur="ckValidateField(this)" autocomplete="off">
                   <datalist id="econtOfficesList">
@@ -4215,6 +4227,10 @@
                 <input type="text" id="pdpSpecsSearch" placeholder="Филтрирай характеристики…"
                   oninput="pdpFilterSpecs(this.value)" autocomplete="off">
               </div>
+              <button type="button" class="pdp-copy-btn" id="pdpCopyBtn" onclick="pdpCopySpecs()" title="Копирай характеристиките">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                Копирай
+              </button>
               <button type="button" class="pdp-print-btn" onclick="pdpPrintSpecs()" title="Принтирай / Запази като PDF">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                   stroke-linecap="round" stroke-linejoin="round">
@@ -4487,6 +4503,7 @@
         <span class="cat-page-title" id="cpTitle"></span>
         <div class="cat-page-subtitle" id="cpSubtitle"></div>
       </div>
+      <nav id="catBreadcrumb" aria-label="Хлебна трошка" class="cat-breadcrumb"></nav>
       <div class="overlay-search-wrap" role="search" aria-label="Търсене">
         <button type="button" class="overlay-search-icon-btn" id="cpSearchToggle" aria-label="Търсене" aria-expanded="false">
           <svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-search"/></svg>

@@ -184,6 +184,7 @@ function renderDropdown(query) {
           </div>
           ${badgeHtml}
           <div class="sd-price">${fmtEur(p.price)}<span class="text-10-muted-block">${fmtBgn(p.price)}</span></div>
+          <button type="button" class="sd-add-btn" onclick="event.stopPropagation();addToCart(${p.id});this.textContent='✓';this.classList.add('sd-add-done');setTimeout(()=>{this.textContent='+';this.classList.remove('sd-add-done')},1500);" aria-label="Добави в кошница">+</button>
         </div>`;
     }).join('')}
     ${results.length > 6 ? `

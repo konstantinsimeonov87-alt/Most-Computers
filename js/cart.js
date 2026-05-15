@@ -24,6 +24,23 @@ function addToCart(id) {
     if (!ct) { showToast('✓ ' + prod.name.substring(0, 32) + '… добавен!'); return; }
     document.getElementById('cartToastEmoji').textContent = prod.emoji || '🛒';
     document.getElementById('cartToastMsg').textContent = prod.name.substring(0, 36) + (prod.name.length > 36 ? '…' : '') + ' добавен!';
+    var total = cart.reduce(function(s,x){return s+x.price*x.qty;},0);
+    var fill = document.getElementById('cartToastShipFill');
+    var label = document.getElementById('cartToastShipLabel');
+    var wrap = document.getElementById('cartToastShipWrap');
+    if (fill && label && wrap) {
+      if (total >= FREE_SHIP_BGN) {
+        fill.style.width = '100%';
+        label.textContent = '🎉 Безплатна доставка!';
+        wrap.style.display = 'block';
+      } else {
+        var pct = Math.min(100, Math.round(total / FREE_SHIP_BGN * 100));
+        var remaining = (FREE_SHIP_BGN - total).toFixed(2).replace('.',',');
+        fill.style.width = pct + '%';
+        label.textContent = 'Още ' + remaining + ' лв. до безплатна доставка';
+        wrap.style.display = 'block';
+      }
+    }
     ct.classList.add('show');
     clearTimeout(ct._timer);
     ct._timer = setTimeout(function() { ct.classList.remove('show'); }, 3500);
@@ -423,6 +440,36 @@ function osChangeQty(id, d) {
   updateCart();
   saveCart();
   renderOrderSummary();
+}
+
+var _allEcontOffices = [
+  'Еконт — кв. Лозенец, ул. Свети Наум 52',
+  'Еконт — ул. Г. С. Раковски 147, София',
+  'Еконт — бул. Витоша 100, София',
+  'Еконт — ж.к. Люлин 6, бл. 606, София',
+  'Еконт — ж.к. Младост 1, бл. 52Б, София',
+  'Еконт — ж.к. Надежда 4, бл. 421, София',
+  'Еконт — ул. Дойран 3, Пловдив',
+  'Еконт — бул. Цар Освободител 5, Варна',
+  'Еконт — ул. Ал. Стамболийски 6, Бургас',
+  'Еконт — ул. Цар Освободител 10, Стара Загора',
+  'Еконт — ул. Дунав 5, Русе',
+  'Еконт — бул. България 23, Плевен',
+  'Еконт — ул. Юрий Гагарин 1, Благоевград',
+  'Еконт — ул. Климент Охридски 9, Велико Търново'
+];
+
+function filterEcontOffices(city) {
+  var dl = document.getElementById('econtOfficesList');
+  if (!dl) return;
+  var filtered = city.trim()
+    ? _allEcontOffices.filter(function(o) { return o.toLowerCase().includes(city.toLowerCase()); })
+    : _allEcontOffices;
+  dl.innerHTML = filtered.map(function(o) { return '<option value="' + o.replace(/"/g,'&quot;') + '">'; }).join('');
+  var officeInput = document.getElementById('ckEcontOffice');
+  if (officeInput && officeInput.value && !filtered.some(function(o){return o===officeInput.value;})) {
+    officeInput.value = '';
+  }
 }
 
 function selectDeliveryCk(el, idx) {

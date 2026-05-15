@@ -13640,6 +13640,10 @@
 
  .cat-page-title-wrap {
    flex: 1;
+   min-width: 0;
+ }
+ .cat-page-topbar .overlay-search-input {
+   width: clamp(200px, 28vw, 420px);
  }
 
  .cat-page-emoji {

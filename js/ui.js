@@ -441,7 +441,8 @@ function releaseFocus(containerEl) {
     'pdpBackdrop','cartDrawer','searchResultsPage','wishlistPage',
     'cookieModalBackdrop','pwaIosModal','comparePage',
     'authBackdrop','checkoutPage','blogPage','servicePage',
-    'deliveryPage','contactsPage','aboutPage','myOrdersPage'
+    'deliveryPage','contactsPage','aboutPage','myOrdersPage',
+    'phoneOrderBackdrop','prodPreviewSheet'
   ];
   function hookModal(id) {
     const el = document.getElementById(id);

@@ -370,6 +370,8 @@ function toggleSfb(id) {
   if (!body) return;
   const isOpen = body.classList.toggle('open');
   if (arrow) arrow.classList.toggle('open', isOpen);
+  const header = body.previousElementSibling;
+  if (header && header.classList.contains('sfb-header')) header.setAttribute('aria-expanded', String(isOpen));
 }
 
 function toggleBrandFilter(brand, checked) {

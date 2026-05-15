@@ -9810,8 +9810,14 @@
    justify-content: space-between;
    padding: 13px 16px;
    cursor: pointer;
+   border: none;
    border-bottom: 1px solid var(--border);
+   border-radius: 0;
    background: var(--bg2);
+   color: inherit;
+   font: inherit;
+   width: 100%;
+   text-align: left;
    user-select: none;
    transition: background 0.18s;
  }
@@ -13198,7 +13204,13 @@
    gap: 12px;
    padding: 14px 20px;
    background: var(--primary-light);
+   border: none;
    border-bottom: 1px solid var(--border);
+   border-radius: 0;
+   color: inherit;
+   font: inherit;
+   width: 100%;
+   text-align: left;
    cursor: pointer;
    transition: background 0.18s;
  }
@@ -13546,12 +13558,16 @@
 
  .share-fallback-url {
    background: rgba(255, 255, 255, 0.1);
+   border: none;
    border-radius: 6px;
    padding: 7px 10px;
    font-size: 11px;
    font-family: 'JetBrains Mono', monospace;
+   color: inherit;
    word-break: break-all;
    cursor: pointer;
+   width: 100%;
+   text-align: left;
  }
 
  .share-fallback-url:hover {
@@ -13559,8 +13575,13 @@
  }
 
  .share-fallback-close {
+   background: none;
+   border: none;
+   color: inherit;
+   font: inherit;
    font-size: 11px;
    opacity: 0.6;
+   cursor: pointer;
    cursor: pointer;
    margin-top: 2px;
  }

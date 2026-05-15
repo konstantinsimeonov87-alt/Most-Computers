@@ -292,7 +292,7 @@ function openQuickOrder(id){
 }
 function closeQuickOrder(e){if(e.target===e.currentTarget)closeQuickOrderDirect();}
 function closeQuickOrderDirect(){document.getElementById('quickOrderBackdrop').classList.remove('open');document.body.style.overflow='';}
-function selectDelivery(el){document.querySelectorAll('.qo-delivery-opt').forEach(o=>o.classList.remove('selected'));el.classList.add('selected');}
+function selectDelivery(el){document.querySelectorAll('.qo-delivery-opt').forEach(o=>{o.classList.remove('selected');o.setAttribute('aria-checked','false');});el.classList.add('selected');el.setAttribute('aria-checked','true');}
 function submitQuickOrder(){
   let ok=true;
   ['qoName2','qoPhone','qoCity','qoAddr'].forEach(fid=>{const el=document.getElementById(fid);if(!el.value.trim()){el.classList.add('error');ok=false;}else el.classList.remove('error');});

@@ -644,7 +644,7 @@
   <!-- MOBILE DRAWER -->
   <div class="mob-overlay" id="mobOverlay" data-action="toggleMobMenu"></div>
 
-  <div class="mob-drawer" id="mobDrawer">
+  <div class="mob-drawer" id="mobDrawer" role="dialog" aria-label="Навигационно меню" aria-modal="true">
     <div class="mob-drawer-header">
       <span class="mob-drawer-title">Most <span style="color:var(--primary)">Computers</span></span>
       <button type="button" class="mob-drawer-close" data-action="toggleMobMenu" aria-label="Затвори меню"><svg width="20" height="20"
@@ -654,14 +654,14 @@
     </div>
 
     <!-- User strip -->
-    <div class="mob-drawer-user-strip" data-action="toggleMobMenu;handleProfileClick">
+    <button type="button" class="mob-drawer-user-strip" data-action="toggleMobMenu;handleProfileClick">
       <div class="mob-user-avatar">👤</div>
       <div>
         <div class="mob-user-name" id="mobUserName">Вход / Регистрация</div>
         <div class="mob-user-sub" id="mobUserSub">Управлявай профила си</div>
       </div>
       <span class="mob-user-arr">›</span>
-    </div>
+    </button>
 
     <!-- Trust badges -->
     <div class="mob-drawer-trust">
@@ -1077,7 +1077,7 @@
       <p class="po-desc">Оставете номера си и ще се свържем с вас в рамките на работния ден за потвърждение.</p>
       <div class="po-product" id="poProductName" style="font-size:13px;color:var(--text2);margin-bottom:12px;font-weight:600;"></div>
       <label for="poPhone" class="sr-only">Вашият телефон</label>
-      <input type="tel" class="po-input" id="poPhone" placeholder="0888 123 456" inputmode="tel" autocomplete="tel" maxlength="20">
+      <input type="tel" class="po-input" id="poPhone" placeholder="0888 123 456" inputmode="tel" autocomplete="tel" maxlength="20" aria-describedby="poPhoneError">
       <span class="po-error" id="poPhoneError" style="display:none;color:#bd1105;font-size:12px;margin-top:4px;"></span>
       <button type="button" class="po-submit" id="poSubmitBtn" data-action="submitPhoneOrder">Изпрати заявка →</button>
       <p class="po-note">Работно време: Пон–Пет 09:30–18:15</p>
@@ -1128,20 +1128,20 @@
         </div>
         <div class="qo-form-row">
           <label id="qoDeliveryLabel">Начин на доставка</label>
-          <div class="qo-delivery-opts">
-            <div class="qo-delivery-opt selected" data-action="selectDelivery:this">
+          <div class="qo-delivery-opts" role="radiogroup" aria-labelledby="qoDeliveryLabel">
+            <div class="qo-delivery-opt selected" role="radio" tabindex="0" aria-checked="true" data-action="selectDelivery:this">
               <div class="do-icon">🏃</div>
               <div class="do-label">Еконт</div>
               <div class="do-price">3.06 € / 5.99 лв.</div>
             </div>
-            <div class="qo-delivery-opt" data-action="selectDelivery:this">
+            <div class="qo-delivery-opt" role="radio" tabindex="0" aria-checked="false" data-action="selectDelivery:this">
               <div class="do-icon"><svg width="28" height="28" class="svg-ic" aria-hidden="true">
                   <use href="#ic-package" />
                 </svg></div>
               <div class="do-label">Еконт</div>
               <div class="do-price">2.55 € / 4.99 лв.</div>
             </div>
-            <div class="qo-delivery-opt" data-action="selectDelivery:this">
+            <div class="qo-delivery-opt" role="radio" tabindex="0" aria-checked="false" data-action="selectDelivery:this">
               <div class="do-icon">🏪</div>
               <div class="do-label">Вземи от магазин</div>
               <div class="do-price">Безплатно</div>
@@ -1628,7 +1628,7 @@
   </header>
 
   <!-- NAV BAR -->
-  <div class="navbar">
+  <nav class="navbar" aria-label="Главна навигация">
     <div class="navbar-inner">
       <div class="nav-links-row">
         <a href="#" class="nav-link active" data-action="scrollToTop">Начало</a>
@@ -1648,7 +1648,7 @@
         <a href="#" class="nav-link hot" data-action="filterCatScroll('new');">🔥 Нови</a>
       </div>
     </div>
-  </div>
+  </nav>
 
   <!-- PROMO STRIP -->
   <!-- BREADCRUMBS -->
@@ -1715,12 +1715,12 @@
 
       <!-- PRICE SLIDER -->
       <div class="sidebar-filter-block">
-        <div class="sfb-header" data-action="toggleSfb('sfb-price')">
+        <button type="button" class="sfb-header" data-action="toggleSfb('sfb-price')" aria-expanded="true">
           <span class="sfb-title"><svg width="14" height="14" class="svg-ic" aria-hidden="true">
               <use href="#ic-tag" />
             </svg> Ценови диапазон</span>
           <span class="sfb-arrow open" id="sfb-price-arrow">▾</span>
-        </div>
+        </button>
         <div class="sfb-body open" id="sfb-price">
           <div class="sidebar-price-slider">
             <div class="price-slider-header">
@@ -1760,12 +1760,12 @@
 
       <!-- CATEGORY-SPECIFIC FILTERS -->
       <div class="sidebar-filter-block" id="catSpecFilterBlock" style="display:none;">
-        <div class="sfb-header" data-action="toggleSfb('sfb-catspec')">
+        <button type="button" class="sfb-header" data-action="toggleSfb('sfb-catspec')" aria-expanded="true">
           <span class="sfb-title" id="catSpecTitle"><svg width="14" height="14" class="svg-ic" aria-hidden="true">
               <use href="#ic-filter" />
             </svg> Характеристики</span>
           <span class="sfb-arrow open" id="sfb-catspec-arrow">▾</span>
-        </div>
+        </button>
         <div class="sfb-body open cat-spec-filters visible" id="sfb-catspec">
           <div id="catSpecFiltersInner"></div>
         </div>
@@ -1773,12 +1773,12 @@
 
       <!-- BRAND FILTER -->
       <div class="sidebar-filter-block">
-        <div class="sfb-header" data-action="toggleSfb('sfb-brand')">
+        <button type="button" class="sfb-header" data-action="toggleSfb('sfb-brand')" aria-expanded="true">
           <span class="sfb-title"><svg width="14" height="14" class="svg-ic" aria-hidden="true">
               <use href="#ic-tag" />
             </svg> Марка</span>
           <span class="sfb-arrow open" id="sfb-brand-arrow">▾</span>
-        </div>
+        </button>
         <div class="sfb-body open" id="sfb-brand">
           <div class="brand-search-wrap">
             <label for="brandSearch" class="sr-only">Търси марка</label>
@@ -1794,12 +1794,12 @@
 
       <!-- RATING FILTER -->
       <div class="sidebar-filter-block">
-        <div class="sfb-header" data-action="toggleSfb('sfb-rating')">
+        <button type="button" class="sfb-header" data-action="toggleSfb('sfb-rating')" aria-expanded="true">
           <span class="sfb-title"><svg width="14" height="14" class="svg-ic" aria-hidden="true">
               <use href="#ic-star" />
             </svg> Рейтинг</span>
           <span class="sfb-arrow open" id="sfb-rating-arrow">▾</span>
-        </div>
+        </button>
         <div class="sfb-body open" id="sfb-rating">
           <div class="rating-filter-list">
             <label class="rating-filter-item">
@@ -1828,12 +1828,12 @@
 
       <!-- STOCK FILTER -->
       <div class="sidebar-filter-block">
-        <div class="sfb-header" data-action="toggleSfb('sfb-stock')">
+        <button type="button" class="sfb-header" data-action="toggleSfb('sfb-stock')" aria-expanded="true">
           <span class="sfb-title"><svg width="14" height="14" class="svg-ic" aria-hidden="true">
               <use href="#ic-package" />
             </svg> Наличност</span>
           <span class="sfb-arrow open" id="sfb-stock-arrow">▾</span>
-        </div>
+        </button>
         <div class="sfb-body open" id="sfb-stock">
           <div class="stock-filter-list">
             <div class="stock-toggle-row">
@@ -4560,8 +4560,8 @@
   <!-- SHARE FALLBACK POPUP -->
   <div class="share-fallback" id="shareFallback">
     <div class="share-fallback-title">&#128279; КОПИРАЙ ЛИНКА</div>
-    <div class="share-fallback-url" id="shareUrl" data-action="copyShareUrl">&#8212;</div>
-    <div class="share-fallback-close" data-action="closeShareFallback">&#10005; Затвори</div>
+    <button type="button" class="share-fallback-url" id="shareUrl" data-action="copyShareUrl" aria-label="Копирай линка">&#8212;</button>
+    <button type="button" class="share-fallback-close" data-action="closeShareFallback">&#10005; Затвори</button>
   </div>
 
 

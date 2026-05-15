@@ -1,5 +1,5 @@
-// Most Computers — Service Worker db580775
-const CACHE = 'mc-db580775';
+// Most Computers — Service Worker 588e3010
+const CACHE = 'mc-588e3010';
 const PRECACHE = [
   './',
   './index.html',

@@ -17148,18 +17148,6 @@ html[data-theme="dark"] .cart-upsell-title {
   transition: border-color 0.18s, box-shadow 0.18s;
 }
 
-/* ── Skeleton Loader Shimmer ── */
-@keyframes shimmer {
-  0%   { background-position: -600px 0; }
-  100% { background-position: 600px 0; }
-}
-.skeleton {
-  background: linear-gradient(90deg, #f0f1f3 25%, #e4e5e7 50%, #f0f1f3 75%);
-  background-size: 1200px 100%;
-  animation: shimmer 1.4s infinite linear;
-  border-radius: 6px;
-}
-
 /* ── Glassmorphism Cart Panel Header ── */
 .cart-panel-header {
   background: rgba(255, 255, 255, 0.85) !important;

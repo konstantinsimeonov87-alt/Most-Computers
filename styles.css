@@ -2572,6 +2572,7 @@
    color: var(--primary);
    margin-bottom: 4px;
  }
+ .product-brand[data-brand-search]:hover { text-decoration: underline; }
 
  .product-name {
    font-size: 14px;

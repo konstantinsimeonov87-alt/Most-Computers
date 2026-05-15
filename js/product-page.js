@@ -91,7 +91,7 @@ function openProductPage(id) {
   var _el_pdpBadges=document.getElementById('pdpBadges'); if(_el_pdpBadges) _el_pdpBadges.innerHTML = b;
 
   // Brand / Name / Rating
-  document.getElementById('pdpBrand').textContent = p.brand || '';
+  const _pdpB=document.getElementById('pdpBrand'); if(_pdpB){_pdpB.textContent=p.brand||'';if(p.brand){_pdpB.dataset.brandSearch=p.brand;_pdpB.style.cursor='pointer';}}
   document.getElementById('pdpName').textContent  = p.name;
   const _hasRv = p.rv && p.rv > 0;
   const _starsEl = document.getElementById('pdpStars');

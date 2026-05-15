@@ -97,7 +97,7 @@ function openProductModal(id){
   // Gallery
   renderGallery(p, 0);
 
-  document.getElementById('modalBrand').textContent=p.brand;
+  const _mb=document.getElementById('modalBrand'); if(_mb){_mb.textContent=p.brand;_mb.dataset.brandSearch=p.brand;_mb.style.cursor='pointer';}
   document.getElementById('modalName').textContent=p.name;
   document.getElementById('modalStars').textContent=starsHTML(p.rating);
   document.getElementById('modalRv').textContent=`${p.rating} (${p.rv} ревюта)`;
@@ -2138,7 +2138,7 @@ function openProductPage(id) {
   var _el_pdpBadges=document.getElementById('pdpBadges'); if(_el_pdpBadges) _el_pdpBadges.innerHTML = b;
 
   // Brand / Name / Rating
-  document.getElementById('pdpBrand').textContent = p.brand || '';
+  const _pdpB=document.getElementById('pdpBrand'); if(_pdpB){_pdpB.textContent=p.brand||'';if(p.brand){_pdpB.dataset.brandSearch=p.brand;_pdpB.style.cursor='pointer';}}
   document.getElementById('pdpName').textContent  = p.name;
   const _hasRv = p.rv && p.rv > 0;
   const _starsEl = document.getElementById('pdpStars');

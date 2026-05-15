@@ -97,7 +97,7 @@ function openProductModal(id){
   // Gallery
   renderGallery(p, 0);
 
-  document.getElementById('modalBrand').textContent=p.brand;
+  const _mb=document.getElementById('modalBrand'); if(_mb){_mb.textContent=p.brand;_mb.dataset.brandSearch=p.brand;_mb.style.cursor='pointer';}
   document.getElementById('modalName').textContent=p.name;
   document.getElementById('modalStars').textContent=starsHTML(p.rating);
   document.getElementById('modalRv').textContent=`${p.rating} (${p.rv} ревюта)`;

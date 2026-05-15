@@ -71,7 +71,7 @@ function makeCard(p,small=false){
       ${imgHtml}
     </a>
     <div class="product-body">
-      <div class="product-brand" itemprop="brand">${escHtml(p.brand)}</div>
+      <div class="product-brand" itemprop="brand" data-brand-search="${escHtml(p.brand)}" style="cursor:pointer;" title="Виж всички ${escHtml(p.brand)}">${escHtml(p.brand)}</div>
       <h3 class="product-name" itemprop="name"><a href="?product=${p.id}" onclick="openProdPreview(${p.id});return false;" style="color:inherit;text-decoration:none;">${_eName}</a></h3>
       <div class="product-rating"><span class="stars">${starsHTML(p.rating)}</span><span class="rating-num">${p.rating} (${p.rv})</span></div>
       <div class="product-footer">

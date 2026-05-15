@@ -446,7 +446,8 @@ function hpShowMoreSubcats(btn) {
 // ═══════════════════════════════════════
 let cpCat = 'all';
 let cpSort = 'bestseller';
-let cpPriceMin = 0, cpPriceMax = 2000;
+let cpPriceMin = 0, cpPriceMax = 9999;
+let _cpMaxEur = 9999;
 let cpBrands = new Set();
 let cpRating = 0;
 let cpSaleOnly = false, cpNewOnly = false, cpStockOnly = false;
@@ -458,7 +459,7 @@ function openCatPage(cat, preSubcat) {
   _catPageScrollY = window.scrollY || document.documentElement.scrollTop;
   cpCat = cat;
   cpSort = 'bestseller';
-  cpPriceMin = 0; cpPriceMax = 2000;
+  cpPriceMin = 0; cpPriceMax = _cpMaxEur;
   cpBrands = new Set();
   cpRating = 0; cpSaleOnly = false; cpNewOnly = false; cpStockOnly = false;
   cpSpecFilters = {};
@@ -581,8 +582,10 @@ function buildCpSidebar(cat) {
     normalizeCat(p.cat) === cat || (cat === 'new' && p.badge === 'new') || (cat === 'sale' && p.badge === 'sale'));
   const allBrands = [...new Set(products.map(p => p.brand))].sort();
   const brands = allBrands.filter(b => catProds.some(p => p.brand === b));
-  const maxPrice = Math.max(...catProds.map(p => toEur(p.price)));
-  const maxPriceRound = Math.min(2000, Math.ceil(maxPrice / 100) * 100);
+  const maxPrice = catProds.length ? Math.max(...catProds.map(p => toEur(p.price))) : 2000;
+  const maxPriceRound = Math.ceil(maxPrice / 100) * 100;
+  _cpMaxEur = maxPriceRound;
+  cpPriceMax = maxPriceRound;
 
   // ── Price block ──
   let html = `
@@ -820,8 +823,12 @@ function cpGetFiltered() {
   if (cpRating > 0) list = list.filter(p => p.rating >= cpRating);
   // toggles
   if (cpStockOnly) list = list.filter(p => p.stock !== false);
-  if (cpSaleOnly) list = list.filter(p => p.badge === 'sale' || p.old);
-  if (cpNewOnly)  list = list.filter(p => p.badge === 'new');
+  if (cpSaleOnly || cpNewOnly) {
+    list = list.filter(p =>
+      (cpSaleOnly && (p.badge === 'sale' || !!p.old)) ||
+      (cpNewOnly  && p.badge === 'new')
+    );
+  }
   // Spec filters
   const _типToSubcat = {'процесор':'cpu','видеокарта':'gpu','дънна платка':'motherboard','ram':'ram','ssd nvme':'ssd','hdd':'hdd','захранване':'psu','кутия':'case','охлаждане':'cooling'};
   Object.entries(cpSpecFilters).forEach(([key, vals]) => {
@@ -856,7 +863,7 @@ function cpRenderGrid() {
   if (count) count.textContent = list.length + ' продукта';
   if (list.length === 0) {
     const allInCat = products.filter(p => normalizeCat(p.cat) === cpCat);
-    const hasPriceFilter = cpPriceMin > 0 || cpPriceMax < 2000;
+    const hasPriceFilter = cpPriceMin > 0 || cpPriceMax < _cpMaxEur;
     const hasBrandFilter = cpBrands.size > 0;
     grid.innerHTML = `<div class="cp-empty-state">
       <div class="cp-empty-icon">🔍</div>

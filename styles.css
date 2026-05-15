@@ -13643,8 +13643,13 @@
  }
 
  .cat-page-emoji {
-   font-size: 28px;
+   display: flex;
+   align-items: center;
    margin-right: 10px;
+   flex-shrink: 0;
+ }
+ .cp-cat-icon {
+   color: var(--primary);
  }
 
  .cat-page-title {

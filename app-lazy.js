@@ -1859,55 +1859,154 @@ function doFullSearch() {
 }
 
 function showSearchResultsPage(query) {
-  // Reset price filter state
-  srpCurrentQuery = query; srpCurrentCatFilter = ''; srpPriceMinVal = 0; srpPriceMaxVal = 5000;
-
-  const cat = '';
-  let results = searchProducts(query, cat);
   const page = document.getElementById('searchResultsPage');
-  document.getElementById('srpCount').textContent = `${results.length} резултата`;
+  const allResults = searchProducts(query, '');
 
-  // Populate & wire up the inline search bar
+  // Idea 1: Dynamic price range from actual results
+  let realMax = 5000;
+  if (allResults.length > 0) {
+    const prices = allResults.map(p => p.price);
+    realMax = Math.max(Math.ceil(Math.max(...prices) / 100) * 100, 100);
+  }
+
+  // Idea 7: Restore previous state if same query
+  const saved = _srpRestoreState(query);
+  if (saved && saved.absMax === realMax) {
+    srpCurrentQuery = query; srpCurrentCatFilter = saved.cat;
+    srpPriceAbsMax = saved.absMax; srpPriceMinVal = saved.min; srpPriceMaxVal = saved.max;
+  } else {
+    srpCurrentQuery = query; srpCurrentCatFilter = '';
+    srpPriceAbsMax = realMax; srpPriceMinVal = 0; srpPriceMaxVal = realMax;
+  }
+  _srpQuery = srpCurrentQuery;
+
+  // Inline search bar
   const srpInput = document.getElementById('srpSearchInput');
   const srpClear = document.getElementById('srpSearchClear');
   if (srpInput) {
     srpInput.value = query;
     if (srpClear) srpClear.classList.toggle('visible', query.length > 0);
-    srpInput.oninput = function() {
-      if (srpClear) srpClear.classList.toggle('visible', this.value.length > 0);
-    };
-    srpInput.onkeydown = function(e) {
-      if (e.key === 'Enter' && this.value.trim()) showSearchResultsPage(this.value.trim());
-    };
+    srpInput.oninput = function() { if (srpClear) srpClear.classList.toggle('visible', this.value.length > 0); };
+    srpInput.onkeydown = function(e) { if (e.key === 'Enter' && this.value.trim()) showSearchResultsPage(this.value.trim()); };
   }
   if (srpClear) {
-    srpClear.onclick = function() {
-      if (srpInput) { srpInput.value = ''; srpInput.focus(); }
-      srpClear.classList.remove('visible');
-    };
+    srpClear.onclick = function() { if (srpInput) { srpInput.value = ''; srpInput.focus(); } srpClear.classList.remove('visible'); };
   }
 
-  // Category filter pills for SRP — store query in module var, never embed user input in HTML attributes
-  _srpQuery = query;
-  const cats = [...new Set(results.map(p => p.cat))];
+  // Category pills with data-label for dynamic count updates
+  const cats = [...new Set(allResults.map(p => normalizeCat(p.cat)))];
   const catLabels = {phones:'Телефони и таблети',laptops:'Лаптопи',desktops:'Десктопи',gaming:'Гейминг',monitors:'Монитори',components:'Компоненти',peripherals:'Периферия',network:'Мрежа',storage:'Съхранение',accessories:'Аксесоари',software:'Софтуер'};
-  var _el_srpFilters=document.getElementById('srpFilters'); if(_el_srpFilters) _el_srpFilters.innerHTML = `
-    <button type="button" class="srp-filter-pill active" data-cat="" onclick="srpFilter(this,'')">Всички (${results.length})</button>
-    ${cats.map(c => `<button type="button" class="srp-filter-pill" data-cat="${escHtml(c)}" onclick="srpFilter(this,'${escHtml(c)}')">${escHtml(catLabels[c]||c)} (${results.filter(p=>p.cat===c).length})</button>`).join('')}
-  `;
+  const el_srpFilters = document.getElementById('srpFilters');
+  if (el_srpFilters) {
+    el_srpFilters.innerHTML =
+      `<button type="button" class="srp-filter-pill${srpCurrentCatFilter===''?' active':''}" data-cat="" data-label="Всички" onclick="srpFilter(this,'')">Всички <span class="pill-cnt">(${allResults.length})</span></button>` +
+      cats.map(c => {
+        const n = allResults.filter(p => normalizeCat(p.cat) === c).length;
+        const label = catLabels[c] || c;
+        return `<button type="button" class="srp-filter-pill${srpCurrentCatFilter===c?' active':''}" data-cat="${escHtml(c)}" data-label="${escHtml(label)}" onclick="srpFilter(this,'${escHtml(c)}')">${escHtml(label)} <span class="pill-cnt">(${n})</span></button>`;
+      }).join('') +
+      `<button type="button" class="srp-filter-pill srp-reset-btn" id="srpResetBtn" onclick="srpResetFilters()" style="display:none" aria-label="Нулирай филтрите">✕ Нулирай</button>`;
+  }
 
-  // Show & reset price slider
+  // Price slider: set dynamic range
+  const rate = typeof EUR_RATE !== 'undefined' ? EUR_RATE : 1.95583;
+  const mn = document.getElementById('priceMin'), mx = document.getElementById('priceMax');
+  if (mn) { mn.max = srpPriceAbsMax; mn.value = srpPriceMinVal; }
+  if (mx) { mx.max = srpPriceAbsMax; mx.value = srpPriceMaxVal; }
+  const mnNum = document.getElementById('srpMinNum'), mxNum = document.getElementById('srpMaxNum');
+  if (mnNum) { mnNum.max = Math.round(srpPriceAbsMax/rate); mnNum.value = Math.round(srpPriceMinVal/rate); }
+  if (mxNum) { mxNum.max = Math.round(srpPriceAbsMax/rate); mxNum.value = Math.round(srpPriceMaxVal/rate); }
+  const pct = n => srpPriceAbsMax > 0 ? Math.round(n/srpPriceAbsMax*100) : 0;
+  const rng = document.getElementById('sliderRange');
+  if (rng) { rng.style.left=pct(srpPriceMinVal)+'%'; rng.style.width=(pct(srpPriceMaxVal)-pct(srpPriceMinVal))+'%'; }
+  const pv = document.getElementById('srpPriceVals');
+  if (pv) pv.textContent = fmtEur(srpPriceMinVal) + ' — ' + fmtEur(srpPriceMaxVal);
   const pf = document.getElementById('srpPriceFilter');
   if (pf) pf.style.display = '';
-  const mn = document.getElementById('priceMin'), mx = document.getElementById('priceMax');
-  if (mn) mn.value = 0; if (mx) mx.value = 5000;
-  const pv = document.getElementById('srpPriceVals'); if (pv) pv.textContent = fmtEur(0) + ' — ' + fmtEur(5000);
-  const rng = document.getElementById('sliderRange'); if (rng){ rng.style.left='0%'; rng.style.width='100%'; }
 
-  renderSRPGrid(results, query);
+  // Render grid with all active filters applied
+  const filtered = allResults
+    .filter(p => !srpCurrentCatFilter || normalizeCat(p.cat) === srpCurrentCatFilter)
+    .filter(p => p.price >= srpPriceMinVal && p.price <= srpPriceMaxVal);
+  document.getElementById('srpCount').textContent = `${filtered.length} резултата`;
+  renderSRPGrid(filtered, query);
+  _srpUpdatePillCounts();
+  _srpToggleResetBtn();
+  _srpSaveState();
+
   page.classList.add('open');
   page.scrollTop = 0;
   document.body.style.overflow = 'hidden';
+}
+
+// Idea 2+4+5+7: shared render helper called by both slider and category filter
+function _srpRender() {
+  const res = searchProducts(srpCurrentQuery, srpCurrentCatFilter)
+    .filter(p => p.price >= srpPriceMinVal && p.price <= srpPriceMaxVal);
+  const cnt = document.getElementById('srpCount');
+  if (cnt) cnt.textContent = res.length + ' резултата';
+  renderSRPGrid(res, srpCurrentQuery);
+  _srpUpdatePillCounts();
+  _srpToggleResetBtn();
+  _srpSaveState();
+}
+
+// Idea 4: update pill counts based on current price range
+function _srpUpdatePillCounts() {
+  const allByPrice = searchProducts(srpCurrentQuery, '')
+    .filter(p => p.price >= srpPriceMinVal && p.price <= srpPriceMaxVal);
+  document.querySelectorAll('.srp-filter-pill[data-cat]').forEach(pill => {
+    if (pill.id === 'srpResetBtn') return;
+    const cat = pill.dataset.cat;
+    const n = cat ? allByPrice.filter(p => normalizeCat(p.cat) === cat).length : allByPrice.length;
+    const cntEl = pill.querySelector('.pill-cnt');
+    if (cntEl) cntEl.textContent = '(' + n + ')';
+    if (cat) { pill.disabled = n === 0; pill.classList.toggle('pill-empty', n === 0); }
+  });
+}
+
+// Idea 5: show reset button only when filters are non-default
+function _srpToggleResetBtn() {
+  const btn = document.getElementById('srpResetBtn');
+  if (!btn) return;
+  const active = srpCurrentCatFilter !== '' || srpPriceMinVal > 0 || srpPriceMaxVal < srpPriceAbsMax;
+  btn.style.display = active ? '' : 'none';
+}
+
+function srpResetFilters() {
+  srpCurrentCatFilter = ''; srpPriceMinVal = 0; srpPriceMaxVal = srpPriceAbsMax;
+  const mn = document.getElementById('priceMin'), mx = document.getElementById('priceMax');
+  if (mn) mn.value = 0; if (mx) mx.value = srpPriceAbsMax;
+  const rate = typeof EUR_RATE !== 'undefined' ? EUR_RATE : 1.95583;
+  const mnNum = document.getElementById('srpMinNum'), mxNum = document.getElementById('srpMaxNum');
+  if (mnNum) mnNum.value = 0;
+  if (mxNum) mxNum.value = Math.round(srpPriceAbsMax/rate);
+  const rng = document.getElementById('sliderRange');
+  if (rng) { rng.style.left='0%'; rng.style.width='100%'; }
+  const pv = document.getElementById('srpPriceVals');
+  if (pv) pv.textContent = fmtEur(0) + ' — ' + fmtEur(srpPriceAbsMax);
+  document.querySelectorAll('.srp-filter-pill').forEach(b => b.classList.remove('active'));
+  const allPill = document.querySelector('.srp-filter-pill[data-cat=""]');
+  if (allPill) allPill.classList.add('active');
+  _srpRender();
+}
+
+// Idea 7: persist and restore filter state per query
+function _srpSaveState() {
+  try {
+    sessionStorage.setItem('mc_srp_state', JSON.stringify({
+      q: srpCurrentQuery, cat: srpCurrentCatFilter,
+      min: srpPriceMinVal, max: srpPriceMaxVal, absMax: srpPriceAbsMax
+    }));
+  } catch(e) {}
+}
+
+function _srpRestoreState(query) {
+  try {
+    const s = JSON.parse(sessionStorage.getItem('mc_srp_state') || 'null');
+    if (s && s.q === query) return s;
+  } catch(e) {}
+  return null;
 }
 
 function renderSRPGrid(results, query) {
@@ -1937,9 +2036,8 @@ function renderSRPGrid(results, query) {
 function srpFilter(btn, cat) {
   document.querySelectorAll('.srp-filter-pill').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  const results = searchProducts(_srpQuery, cat);
-  document.getElementById('srpCount').textContent = `${results.length} резултата`;
-  renderSRPGrid(results, _srpQuery);
+  srpCurrentCatFilter = cat;
+  _srpRender();
 }
 
 function closeSearchPage() {

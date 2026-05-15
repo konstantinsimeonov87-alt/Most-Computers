@@ -276,7 +276,7 @@ function updatePriceSlider(){
   if(isNaN(minV)) minV=0; if(isNaN(maxV)) maxV=5000;
   if(minV > maxV-50){ minV=maxV-50; mn.value=minV; }
   srpPriceMinVal=minV; srpPriceMaxVal=maxV;
-  const srpVals=document.getElementById('srpPriceVals'); if(srpVals) srpVals.textContent = fmtBgn(minV) + ' — ' + fmtBgn(maxV);
+  const srpVals=document.getElementById('srpPriceVals'); if(srpVals) srpVals.textContent = fmtEur(minV) + ' — ' + fmtEur(maxV);
   const rng = document.getElementById('sliderRange');
   if(rng){ rng.style.left=(minV/5000*100)+'%'; rng.style.width=((maxV-minV)/5000*100)+'%'; }
   let res = searchProducts(srpCurrentQuery, srpCurrentCatFilter).filter(p => p.price>=minV && p.price<=maxV);
@@ -1540,11 +1540,11 @@ function renderSidebarTopProduct(forceNext) {
   if (!wrap) return;
   if (forceNext) _sbTopCatIndex = (_sbTopCatIndex + 1) % _HP_CAT_CYCLE.length;
   const cat = _HP_CAT_CYCLE[_sbTopCatIndex];
-  const pool = products.filter(p => p.cat === cat && p.inStock !== false);
+  const pool = products.filter(p => p.cat === cat && p.stock !== false);
   if (!pool.length) { wrap.innerHTML = ''; return; }
   const top = pool.reduce((best, p) => {
-    const score = p.rating * Math.log1p((p.rv || p.reviews || 0) + 1);
-    const bScore = best.rating * Math.log1p((best.rv || best.reviews || 0) + 1);
+    const score = p.rating * Math.log1p((p.rv || 0) + 1);
+    const bScore = best.rating * Math.log1p((best.rv || 0) + 1);
     return score > bScore ? p : best;
   });
   const safeImg = top.img && isSafeImgUrl(top.img) ? top.img : null;
@@ -1560,7 +1560,7 @@ function renderSidebarTopProduct(forceNext) {
     <div class="sb-tp-img-wrap">${imgHtml}</div>
     <div class="sb-tp-brand">${escHtml(top.brand||'')}</div>
     <div class="sb-tp-name">${escHtml(shortName)}</div>
-    <div class="sb-tp-stars">${starsHTML(top.rating)} <span style="color:var(--muted);font-size:11px">${top.rating} (${top.rv||top.reviews||0})</span></div>
+    <div class="sb-tp-stars">${starsHTML(top.rating)} <span style="color:var(--muted);font-size:11px">${top.rating} (${top.rv||0})</span></div>
     <div class="sb-tp-price">${fmtEur(top.price)}<span class="price-bgn-sub">${fmtBgn(top.price)}</span></div>
     <button type="button" class="sb-tp-btn" onclick="openProductPage(${top.id})">Виж продукта →</button>
     <button type="button" class="sb-tp-refresh" onclick="renderSidebarTopProduct(true)">Друга категория</button>`;
@@ -1619,13 +1619,21 @@ function updateSidebarCompare() {
 // ═══════════════════════════════════════
 const _SB_BRANDS = ['Acer','LG','Lenovo','Fractal Design','Tenda','MSI','Asus','Canon','ASRock','Noctua','Deepcool','ADATA','Fortron','Arctic'];
 
+// Safe delegation for brand-spot search button (avoids XSS via inline onclick)
+document.addEventListener('click', function(e) {
+  const btn = e.target.closest('[data-brand-search]');
+  if (btn && typeof showSearchResultsPage === 'function') {
+    showSearchResultsPage(btn.dataset.brandSearch);
+  }
+});
+
 function renderSidebarBrandSpot() {
   const wrap = document.getElementById('sidebarBrandSpot');
   if (!wrap) return;
   // Rotate by day — different brand each day
   const dayIdx = Math.floor(Date.now() / 86400000) % _SB_BRANDS.length;
   const brand = _SB_BRANDS[dayIdx];
-  const brandProds = products.filter(p => p.brand === brand && p.inStock !== false);
+  const brandProds = products.filter(p => p.brand === brand && p.stock !== false);
   if (!brandProds.length) { wrap.innerHTML = ''; return; }
 
   // Top 3 by score for thumbnails
@@ -1649,5 +1657,5 @@ function renderSidebarBrandSpot() {
     <div class="sb-bs-name">${escHtml(brand)}</div>
     <div class="sb-bs-meta">${brandProds.length} продукта · от ${fmtEur(minPrice)}</div>
     <div class="sb-bs-thumbs">${thumbs}</div>
-    <button type="button" class="sb-bs-btn" onclick="showSearchResultsPage('${escHtml(brand)}')">Разгледай всички →</button>`;
+    <button type="button" class="sb-bs-btn" data-brand-search="${escHtml(brand)}">Разгледай всички →</button>`;
 }

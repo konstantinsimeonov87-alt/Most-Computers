@@ -1,5 +1,60 @@
 # Bug Report — Most Computers
-**Последна актуализация:** 2026-05-14 | **Агент:** Bug Hunter | **Тестове след fix:** 185/185 ✅
+**Последна актуализация:** 2026-05-15 | **Агент:** Bug Hunter | **Тестове след fix:** 185/185 ✅
+
+---
+
+## 🔴 Critical (2026-05-15)
+
+### BUG-006 — `p.inStock` вместо `p.stock` в sidebar widgets — OOS продукти се показват
+**Файл:** js/filters.js:1543, js/filters.js:1628
+**Стъпки:** Отвори началната страница → "Топ продукт" или "Марка на деня" sidebar widgets → може да показват продукти с `stock: false`
+**Очаквано:** Изчерпаните продукти не се включват в топ продукт ротатора и brand spotlight
+**Действително:** `p.inStock` винаги е `undefined` (полето в data.js се казва `stock`, не `inStock`) → условието `p.inStock !== false` е винаги `true` → всички продукти минават, включително изчерпаните
+**Fix:** Заменено `p.inStock !== false` с `p.stock !== false` в `renderSidebarTopProduct()` (ред 1543) и `renderSidebarBrandSpot()` (ред 1628)
+**Файлове:** js/filters.js
+**Commit:** Приложен
+
+---
+
+## 🟠 Major (2026-05-15)
+
+### BUG-007 — XSS pattern: brand в `onclick` атрибут чрез `escHtml()` вместо event delegation
+**Файл:** js/filters.js:1652
+**Стъпки:** Ако бранд съдържа единична кавичка (напр. `D'Link`) → `onclick="showSearchResultsPage('D'Link')"` → синтаксична грешка; злонамерен бранд може да инжектира JS
+**Очаквано:** Безопасно извикване без inline JS от данни
+**Действително:** `escHtml()` не защитава single quotes в JS string context
+**Fix:** Заменен inline onclick с `data-brand-search="${escHtml(brand)}"` атрибут + event delegation listener
+**Файлове:** js/filters.js
+**Commit:** Приложен
+
+---
+
+## 🟡 Minor (2026-05-15)
+
+### BUG-005 — Ценовият слайдер показва „лв." вместо „€"
+**Файл:** js/search.js:256, js/filters.js:279
+**Стъпки:** Отвори търсачката → ценовият диапазон показва „0,00 лв. — 5 000,00 лв." и при плъзгане продължава да показва лв.
+**Очаквано:** EUR като основна валута (напр. „0,00 € — 2 557,48 €")
+**Fix:** `fmtBgn()` заменен с `fmtEur()` в `showSearchResultsPage()` и `updatePriceSlider()`
+**Commit:** pending build
+
+### BUG-008 — `recently-viewed.js` — `p.name` и `p.img` без `escHtml()` в innerHTML
+**Файл:** js/recently-viewed.js:21
+**Стъпки:** Продукт с HTML в `name` → `renderRecentlyViewed()` → XSS surface в `.rv-card-name` и `alt` атрибут
+**Очаквано:** Текстът се escape-ва
+**Действително:** `${p.name}` директно в innerHTML, `alt="${p.name}"` без escaping
+**Fix:** Добавен `escHtml()` за `p.name` и `isSafeImgUrl()` проверка за `p.img`
+**Файлове:** js/recently-viewed.js
+**Commit:** Приложен
+
+### BUG-009 — `renderSidebarTopProduct` — `p.rv || p.reviews || 0` — `reviews` е масив, не число
+**Файл:** js/filters.js:1546–1547, 1563
+**Стъпки:** Продукт с `reviews: [{...}]` → `p.reviews` е `Array`, не `number` → `truthy` → score изчислен с неправилна стойност
+**Очаквано:** Брой ревюта като число
+**Действително:** Ако `p.rv` е 0 и `p.reviews` е непразен масив, резултатът е `Array` (truthy), а не число
+**Fix:** Заменено `p.rv || p.reviews || 0` с `p.rv || 0` — `rv` е каноничното поле за брой ревюта
+**Файлове:** js/filters.js
+**Commit:** Приложен
 
 ---
 

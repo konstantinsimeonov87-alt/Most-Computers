@@ -1901,7 +1901,7 @@ function showSearchResultsPage(query) {
   if (pf) pf.style.display = '';
   const mn = document.getElementById('priceMin'), mx = document.getElementById('priceMax');
   if (mn) mn.value = 0; if (mx) mx.value = 5000;
-  const pv = document.getElementById('srpPriceVals'); if (pv) pv.textContent = '0 лв. — 5 000 лв.';
+  const pv = document.getElementById('srpPriceVals'); if (pv) pv.textContent = fmtEur(0) + ' — ' + fmtEur(5000);
   const rng = document.getElementById('sliderRange'); if (rng){ rng.style.left='0%'; rng.style.width='100%'; }
 
   renderSRPGrid(results, query);

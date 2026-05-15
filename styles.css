@@ -16596,11 +16596,15 @@ body.dark .pg-btn.active { background:var(--primary); color:#fff; }
   display: flex;
   flex-wrap: nowrap;
   gap: 12px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
 }
+.pdp-rv-grid::-webkit-scrollbar { display: none; }
 .pdp-rv-grid .pdp-car-card {
-  flex: 1 1 0;
-  min-width: 0;
-  width: auto;
+  flex: 0 0 160px;
+  width: 160px;
 }
 
 /* ===== LIGHTBOX ===== */

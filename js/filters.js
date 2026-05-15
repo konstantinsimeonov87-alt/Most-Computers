@@ -171,13 +171,18 @@ function renderGrids(){
   const _flashProds=[...products].filter(p=>_inStock(p)&&p.old&&p.pct>0).sort((a,b)=>b.pct-a.pct).slice(0,5);
   const flashSection=document.getElementById('sale');
   if(flashSection) flashSection.style.display=_flashProds.length?'':'none';
-  const fg=document.getElementById('flashGrid'); if(fg) fg.innerHTML=_flashProds.map(p=>makeCard(p,true)).join('');
+  const fg=document.getElementById('flashGrid');
+  if(fg){
+    fg.innerHTML=_flashProds.map(p=>makeCard(p,true)).join('');
+    fg.className='products-row cols'+Math.min(_flashProds.length,5);
+  }
   renderTopGrid();
   // Bestsellers grid — top rated products not tied to discounts
   const bg=document.getElementById('bestsellersGrid');
   if(bg){
     const _best=[...products].filter(p=>_inStock(p)).sort((a,b)=>(b.rating*Math.log1p(b.rv||1))-(a.rating*Math.log1p(a.rv||1))).slice(0,5);
     bg.innerHTML=_best.map(p=>makeCard(p,true)).join('');
+    bg.className='products-row cols'+Math.min(_best.length,5);
     const bs=document.getElementById('bestsellersSection');
     if(bs) bs.style.display=_best.length?'':'none';
   }

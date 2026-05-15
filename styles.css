@@ -2499,6 +2499,10 @@
    grid-template-columns: repeat(5, 1fr);
  }
 
+ .products-row.cols4 {
+   grid-template-columns: repeat(4, 1fr);
+ }
+
  .products-row.cols3 {
    grid-template-columns: repeat(3, 1fr);
  }
@@ -3696,7 +3700,8 @@
      grid-template-columns: repeat(3, 1fr);
    }
 
-   .products-row.cols5 {
+   .products-row.cols5,
+   .products-row.cols4 {
      grid-template-columns: repeat(3, 1fr);
    }
  }
@@ -8331,7 +8336,8 @@
      gap: 10px;
    }
 
-   .products-row.cols5 {
+   .products-row.cols5,
+   .products-row.cols4 {
      grid-template-columns: repeat(2, 1fr);
    }
 
@@ -18005,7 +18011,7 @@ html[data-theme="dark"] .cart-upsell-title {
     padding: 10px !important; 
   }
   /* Ensure product grid displays nicely with 2 columns */
-  .products-row, .products-row.cols5, .products-row.cols3 {
+  .products-row, .products-row.cols5, .products-row.cols4, .products-row.cols3 {
     grid-template-columns: repeat(2, 1fr) !important;
     gap: 8px !important;
   }

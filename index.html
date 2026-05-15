@@ -1957,7 +1957,16 @@
             <button type="button" class="dot" data-action="goSlide(3)" aria-label="Слайд 4"></button>
           </div>
         </div>
-        <div class="hero-right-panel" id="heroRightPanel"></div>
+        <div class="hero-right-col">
+          <div class="hero-right-panel" id="heroRightPanel"></div>
+          <div class="hero-rv-widget" id="heroRvWidget" style="display:none">
+            <div class="hero-rv-header">
+              <span><svg width="13" height="13" class="svg-ic" aria-hidden="true"><use href="#ic-clock"/></svg> Наскоро разгледани</span>
+              <button type="button" class="hero-rv-clear" data-action="clearRecentlyViewed">Изчисти</button>
+            </div>
+            <div class="hero-rv-list" id="heroRvList"></div>
+          </div>
+        </div>
       </div>
 
       <!-- TRUST BAR — immediately after hero for conversion impact -->
@@ -2185,8 +2194,8 @@
         <div class="products-row" id="topGrid" style="min-height:560px"></div>
       </div>
 
-      <!-- RECENTLY VIEWED -->
-      <div class="recently-viewed-section" id="recentlyViewedSection" style="display:none">
+      <!-- RECENTLY VIEWED (legacy — superseded by hero-rv-widget) -->
+      <div class="recently-viewed-section" id="recentlyViewedSection" style="display:none" aria-hidden="true">
         <div class="section-header">
           <div class="section-header-left">
             <div class="section-accent" style="background:#6366f1"></div>

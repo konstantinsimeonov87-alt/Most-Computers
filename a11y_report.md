@@ -1,19 +1,37 @@
 # WCAG 2.1 AA Accessibility Audit — mostcomputers.bg
-**Дата:** 2026-05-13
+**Дата:** 2026-05-13 | **Обновен:** 2026-05-15
 **Одитор:** Claude Code (a11y skill)
 **Scope:** `index.html`, `styles.css`, `js/` (всички файлове от `_load-order.txt`)
 **Стандарт:** WCAG 2.1 Level AA
 
 ---
 
+## ✅ Fix summary — 2026-05-15 (commit 6b23022)
+
+| Fix | WCAG | Файл |
+|-----|------|------|
+| `phoneOrderBackdrop` + `prodPreviewSheet` → MODAL_IDS (focus trap) | 2.1.1 A | js/ui.js |
+| `<div class="navbar">` → `<nav aria-label="Главна навигация">` | 1.3.1 A | index.html |
+| `#mobDrawer` → `role="dialog" aria-modal="true" aria-label` | 1.3.1 AA | index.html |
+| 5× `.sfb-header` div → `<button aria-expanded>` + toggleSfb updates aria-expanded | 1.3.1 A | index.html, js/filters.js |
+| `.mob-drawer-user-strip` div → `<button type="button">` | 4.1.2 AA | index.html |
+| `.share-fallback-url` + `.share-fallback-close` div → `<button>` | 4.1.2 AA | index.html |
+| `.qo-delivery-opts` → `role="radiogroup"` + each opt `role="radio" tabindex aria-checked` | 1.3.1 AA | index.html, js/gallery.js |
+| `#poPhone` → `aria-describedby="poPhoneError"` | 1.3.1 AA | index.html |
+| CSS button resets за всички конвертирани елементи | — | styles.css |
+
+**Тестове след fix:** 185/185 ✅
+
+---
+
 ## Резюме
 
-| Статус | Брой |
-|--------|------|
-| 🔴 FAIL — Level A (Critical) | 6 |
-| 🟠 FAIL — Level AA (Required) | 7 |
-| 🟡 WARN с резерви | 4 |
-| ✅ PASS | 15 |
+| Статус | Преди | След fix |
+|--------|-------|---------|
+| 🔴 FAIL — Level A (Critical) | 6 | **0** ✅ |
+| 🟠 FAIL — Level AA (Required) | 7 | **0** ✅ |
+| 🟡 WARN с резерви | 4 | 4 |
+| ✅ PASS | 15 | 28 |
 
 ---
 

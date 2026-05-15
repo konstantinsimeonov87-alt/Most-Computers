@@ -536,7 +536,8 @@ function releaseFocus(containerEl) {
     'pdpBackdrop','cartDrawer','searchResultsPage','wishlistPage',
     'cookieModalBackdrop','pwaIosModal','comparePage',
     'authBackdrop','checkoutPage','blogPage','servicePage',
-    'deliveryPage','contactsPage','aboutPage','myOrdersPage'
+    'deliveryPage','contactsPage','aboutPage','myOrdersPage',
+    'phoneOrderBackdrop','prodPreviewSheet'
   ];
   function hookModal(id) {
     const el = document.getElementById(id);
@@ -946,13 +947,18 @@ function renderGrids(){
   const _flashProds=[...products].filter(p=>_inStock(p)&&p.old&&p.pct>0).sort((a,b)=>b.pct-a.pct).slice(0,5);
   const flashSection=document.getElementById('sale');
   if(flashSection) flashSection.style.display=_flashProds.length?'':'none';
-  const fg=document.getElementById('flashGrid'); if(fg) fg.innerHTML=_flashProds.map(p=>makeCard(p,true)).join('');
+  const fg=document.getElementById('flashGrid');
+  if(fg){
+    fg.innerHTML=_flashProds.map(p=>makeCard(p,true)).join('');
+    fg.className='products-row cols'+Math.min(_flashProds.length,5);
+  }
   renderTopGrid();
   // Bestsellers grid — top rated products not tied to discounts
   const bg=document.getElementById('bestsellersGrid');
   if(bg){
     const _best=[...products].filter(p=>_inStock(p)).sort((a,b)=>(b.rating*Math.log1p(b.rv||1))-(a.rating*Math.log1p(a.rv||1))).slice(0,5);
     bg.innerHTML=_best.map(p=>makeCard(p,true)).join('');
+    bg.className='products-row cols'+Math.min(_best.length,5);
     const bs=document.getElementById('bestsellersSection');
     if(bs) bs.style.display=_best.length?'':'none';
   }
@@ -1145,6 +1151,8 @@ function toggleSfb(id) {
   if (!body) return;
   const isOpen = body.classList.toggle('open');
   if (arrow) arrow.classList.toggle('open', isOpen);
+  const header = body.previousElementSibling;
+  if (header && header.classList.contains('sfb-header')) header.setAttribute('aria-expanded', String(isOpen));
 }
 
 function toggleBrandFilter(brand, checked) {
@@ -2925,6 +2933,11 @@ function openCatPage(cat, preSubcat) {
   if (cpTitle) cpTitle.textContent = m.label;
   if (cpSubtitle) cpSubtitle.textContent = m.sub;
 
+  const bc = document.getElementById('catBreadcrumb');
+  if (bc) {
+    bc.innerHTML = `<ol class="bc-list" itemscope itemtype="https://schema.org/BreadcrumbList"><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="/" itemprop="item" onclick="closeCatPage();return false;"><span itemprop="name">Начало</span></a><meta itemprop="position" content="1"></li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><span itemprop="name">${m.label.replace(/</g,'&lt;')}</span><meta itemprop="position" content="2"></li></ol>`;
+  }
+
   // Build sidebar HTML
   buildCpSidebar(cat);
   // Build subcat bar
@@ -3817,16 +3830,23 @@ function renderWishlistGrid() {
   } else {
     const prods = wishlist.map(id => products.find(p => p.id === id)).filter(Boolean);
     count.textContent = prods.length + (prods.length === 1 ? ' продукт' : ' продукта');
-    // Add-all button before the grid
-    const addAllHtml = `<div class="wl-add-all-row"><button type="button" class="wl-add-all-btn" onclick="addAllWishlistToCart()"><svg width="15" height="15" class="svg-ic" aria-hidden="true"><use href="#ic-cart"/></svg> Добави всички в кошницата (${prods.length})</button></div>`;
+    var _savedPrices = {};
+    try { _savedPrices = JSON.parse(localStorage.getItem('mc_wishlist_prices') || '{}'); } catch(e) {}
+    // Add-all + share buttons before the grid
+    const shareUrl = 'https://mostcomputers.bg/?wl=' + wishlist.join(',');
+    const addAllHtml = `<div class="wl-add-all-row"><button type="button" class="wl-add-all-btn" onclick="addAllWishlistToCart()"><svg width="15" height="15" class="svg-ic" aria-hidden="true"><use href="#ic-cart"/></svg> Добави всички в кошницата (${prods.length})</button><button type="button" class="wl-share-btn" onclick="navigator.clipboard&&navigator.clipboard.writeText('${shareUrl}').then(()=>showToast('🔗 Линкът е копиран!')).catch(()=>{})" title="Сподели любими">🔗 Сподели</button></div>`;
     grid.innerHTML = addAllHtml + `<div class="wishlist-grid">${prods.map(p => {
       const save = p.old ? Math.round(((p.old-p.price)/p.old)*100) : 0;
       const _wlName = escHtml(p.name);
       const imgHtml = p.img
         ? `<img class="product-img-real" src="${escHtml(p.img)}" alt="${_wlName}" loading="lazy" onload="this.classList.add('img-loaded')" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="product-img-emoji is-hidden" aria-hidden="true">${escHtml(p.emoji)}</span>`
         : `<span class="product-img-emoji">${escHtml(p.emoji)}</span>`;
+      const savedPrice = _savedPrices[p.id];
+      const priceDrop = savedPrice && p.price < savedPrice ? Math.round(((savedPrice - p.price) / savedPrice) * 100) : 0;
+      const priceDropBadge = priceDrop > 0 ? `<div class="wl-drop-badge">↓ -${priceDrop}% от добавяне</div>` : '';
       return `<div class="product-card pos-rel">
         <button type="button" class="wishlist-remove-btn" onclick="toggleWishlist(${p.id},{stopPropagation:()=>{}})" title="Премахни">×</button>
+        ${priceDropBadge}
         <div class="product-img-wrap cursor-pointer" onclick="openProductPage(${p.id});closeWishlist();">${imgHtml}</div>
         <div class="product-body">
           <div class="product-brand">${escHtml(p.brand)}</div>

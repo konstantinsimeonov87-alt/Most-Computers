@@ -1901,6 +1901,9 @@
       <!-- Sidebar Widget: Brand Spotlight -->
       <div id="sidebarBrandSpot" class="sb-brand-spot"></div>
 
+      <!-- Sidebar Widget: Recently Viewed -->
+      <div id="sidebarRecentlyViewed" class="sb-recently-viewed" style="display:none"></div>
+
     </aside>
     <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleMobileFilters()" role="button" tabindex="-1" aria-label="Затвори филтрите"></div>
 
@@ -2185,8 +2188,8 @@
         <div class="products-row" id="topGrid" style="min-height:560px"></div>
       </div>
 
-      <!-- RECENTLY VIEWED -->
-      <div class="recently-viewed-section" id="recentlyViewedSection" style="display:none">
+      <!-- RECENTLY VIEWED (legacy — superseded by hero-rv-widget) -->
+      <div class="recently-viewed-section" id="recentlyViewedSection" style="display:none" aria-hidden="true">
         <div class="section-header">
           <div class="section-header-left">
             <div class="section-accent" style="background:#6366f1"></div>

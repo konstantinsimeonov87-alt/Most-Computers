@@ -13679,11 +13679,16 @@
    background: var(--white);
    border: 1px solid var(--border);
    border-radius: 14px;
-   overflow: hidden;
-   max-height: calc(100vh - 100px);
-   max-height: calc(100dvh - 100px);
    overflow-y: auto;
+   max-height: calc(100vh - 96px);
+   max-height: calc(100dvh - 96px);
+   scrollbar-width: none;
+   -ms-overflow-style: none;
  }
+ .cat-page-sidebar::-webkit-scrollbar { display: none; }
+ .cat-page-sidebar:hover { scrollbar-width: thin; }
+ .cat-page-sidebar:hover::-webkit-scrollbar { display: block; width: 4px; }
+ .cat-page-sidebar:hover::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
 
  .cat-page-content {
    min-width: 0;

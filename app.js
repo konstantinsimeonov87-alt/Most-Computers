@@ -2802,7 +2802,7 @@ const CAT_META = {
   storage:    { emoji:'💾', icon:'ic-storage',    label:'Сървъри и сторидж',    sub:'NAS, Сървъри, Външни дискове', badge:null },
   accessories:{ emoji:'🎒', icon:'ic-mouse',      label:'Аксесоари',            sub:'Чанти, Кабели, Smart Home, TV', badge:null },
   printers:   { emoji:'🖨', icon:'ic-printer',    label:'Принтери',             sub:'Мастиленоструйни, MegaTank, Лазерни', badge:null },
-  ups:        { emoji:'⚡', icon:'ic-ups',        label:'UPS устройства',       sub:'Домашни, Офис, Онлайн / Чиста синусоида', badge:null },
+  ups:        { emoji:'⚡', icon:'ic-bolt',       label:'UPS устройства',       sub:'Домашни, Офис, Онлайн / Чиста синусоида', badge:null },
   new:        { emoji:'🆕', icon:'ic-star',       label:'Нови продукти',        sub:'Пресни пристигания', badge:'NEW' },
   sale:       { emoji:'%',  icon:'ic-tag',        label:'Намаления',            sub:'До -60% на избрани продукти', badge:'SALE' },
 };
@@ -2921,7 +2921,7 @@ function openCatPage(cat, preSubcat) {
   const cpEmoji = document.getElementById('cpEmoji');
   const cpTitle = document.getElementById('cpTitle');
   const cpSubtitle = document.getElementById('cpSubtitle');
-  if (cpEmoji) cpEmoji.textContent = m.emoji;
+  if (cpEmoji) cpEmoji.innerHTML = `<svg width="28" height="28" class="svg-ic cp-cat-icon" aria-hidden="true"><use href="#${m.icon||'ic-tag'}"/></svg>`;
   if (cpTitle) cpTitle.textContent = m.label;
   if (cpSubtitle) cpSubtitle.textContent = m.sub;
 

@@ -1611,7 +1611,7 @@ var products = [
    specs:{'Чипсет':'AMD/Intel B860','Памет':'4× DDR5','SATA3':'4×SATA3','RAID':'Да','M.2':'3xM2','PCIe x16':'2×PCIEx16','Изходи':'HDMI / DP','Форм фактор':'ATX','Сокет':'LGA1851'},
    rating:4.4,rv:0,reviews:[],
    desc:'Gigabyte дънна платка GB B860M A ELT WF6E ICE /1851.',
-   img:'./images/products/44582.webp',stock:true},
+   img:'./images/products/44582.webp',stock:false},
 
   {id:231,name:'GB B860M D3HP',brand:'Gigabyte',cat:'components',subcat:'motherboard',
    price:230,old:null,pct:null,badge:null,emoji:'⚙️',sku:'B860M D3HP 1.0',ean:null,
@@ -3244,7 +3244,7 @@ var products = [
    specs:{'Сокет':'FCLGA1851','Ядра':'Total Cores 20;# of Performance-cores 8;# of Efficient-cores 12','Нишки':'20','Честота':'Max Turbo Frequency 5.5 GHz;Turbo Boost Max Technology 3.0 Frequency 5.5GHz;Performance-core Max Tur','Кеш':'Cache 30 MB Smart Cache;Total L2 Cache 36 MB','Памет':'Max Memory Size (dependent on memory type) 192 GB;Memory Types Up to DDR5 6400 MT/s;Maximum Memory S'},
    rating:4.5,rv:0,reviews:[],
    desc:'Intel INTEL CORE ULTRA 7 265KF BOX — сокет FCLGA1851, Total ядра.',
-   img:'./images/products/43042.webp',stock:true},
+   img:'./images/products/43042.webp',stock:false},
 
   {id:464,name:'INTEL CORE ULTRA 7 265K BOX',brand:'Intel',cat:'components',subcat:'cpu',
    price:558,old:null,pct:null,badge:null,emoji:'🔵',sku:'BX80768265K',ean:'5032037282062',
@@ -4021,7 +4021,7 @@ var products = [
    specs:{'Model':'AMD Ryzen™ 9 9900X','Сокет':'AM5','Ядра':'12','Нишки':'24','Честота':'Up to 5.6 GHz; Base Clock ; 4.4 GHz;','Кеш':'L1 Cache; 960 KB; L2 Cache; 12 MB; L3 Cache; 64 MB;','Памет':'System Memory Type DDR5; Memory Channels 2; Max. Memory 192 GB; System Memory Subtype UDIMM; Max Mem','Package':'3','Интегрирана графика':'AMD Radeon™ Graphics','TDP':'120W'},
    rating:4.5,rv:0,reviews:[],
    desc:'AMD AMD RYZEN 9 9900X 4.4G 64M BOX — сокет AM5, 12 ядра, TDP 120W.',
-   img:'./images/products/41781.webp',stock:true},
+   img:'./images/products/41781.webp',stock:false},
 
   {id:575,name:'AMD RYZEN 9 9900X3D BOX',brand:'AMD',cat:'components',subcat:'cpu',
    price:1038,old:null,pct:null,badge:null,emoji:'🔴',sku:'100-100001368WOF',ean:'0730143315579',
@@ -4171,7 +4171,7 @@ var products = [
    specs:{'Тип':'DDR4','Капацитет':'8 GB','Честота':'3200 MHz','Латентност':'22','Форм фактор':'DIMM','Напрежение':'1.2V'},
    rating:4.4,rv:0,reviews:[],
    desc:'Crucial 8G DDR4 3200 CRUCIAL — DDR4 DIMM DDR4-3200 MHz, 8 GB, 22.',
-   img:'./images/products/51062.webp',stock:true},
+   img:'./images/products/51062.webp',stock:false},
 
   {id:596,name:'8G DDR4 3200 DYNAC',brand:'Dynacard',cat:'components',subcat:'ram',
    price:31,old:null,pct:null,badge:null,emoji:'🟢',sku:'DD4U32008G/S',ean:null,
@@ -7324,7 +7324,7 @@ var products = [
    specs:{'Размер':'49\'','Панел':'VA','Честота':'144 Hz','Отклик':'4ms','Curved':'Да','Тонколони':'Да'},
    rating:4.3,rv:0,reviews:[],
    desc:'Acer ACER 49 NITRO EI491CRSBMIIPPHX — 49" монитор, VA, 144 Hz.',
-   img:null,stock:false},
+   img:null,stock:true},
 
   {id:1046,name:'ACER 31.5W SH322QUABMIPHUX',brand:'Acer',cat:'monitors',subcat:'monitor',
    price:416,old:null,pct:null,badge:null,emoji:'🖥',sku:'UM.JS2EE.A05',ean:null,
@@ -8662,7 +8662,7 @@ var products = [
    specs:{'Връзка':'Кабелна','Подредба':'BG (Кирилица)','Тип':'Мембранна'},
    rating:4.2,rv:0,reviews:[],
    desc:'A4Tech A4 FK11 FSTYLER NB KB USB GREY — клавиатура мембранна, кабелна, BG (Кирилица).',
-   img:'./images/products/29358.webp',stock:true},
+   img:'./images/products/29358.webp',stock:false},
 
   {id:1237,name:'A4 FK25 MULTM COMFORT / BLACK',brand:'A4Tech',cat:'peripherals',subcat:'keyboard',
    price:16,old:null,pct:null,badge:null,emoji:'⌨',sku:'FK25',ean:null,
@@ -12782,7 +12782,7 @@ products.push(
   {id:3157,name:'CANON MF664CDW COLOR LASER',brand:'CANON',cat:'peripherals',subcat:'printer',price:318.03,old:null,pct:null,badge:null,emoji:'🖨',sku:'6928C008AA',ean:'4549292242140',specs:{'Vendor_url':'https://www.canon-europe.com/business/products/office-printers/multifunction/colour/i-sensys-mf660-s','Manufacturer':'Canon','Interface':'USB 2.0 Hi-Speed, 10BASE-T/100BASE-TX/1000Base-T, Wireless 802.11b/g/n, Wireless Direct Connection','Print speed':'Single sided: Up to 25 ppm (A4), Up to 45.3 ppm (A5-Landscape);Double sided: Up to 15 ipm (A4)','Scan speed':'Single sided mono: 50ipm (300x300dpi);Single sided colour: 40ipm (300x300dpi);Single sided mono: 40i','Copy speed':'Single sided (A4): Up to 25 ppm;Double sided (A4): Up to 15 ipm','Print resolution':'Up to 1200 x 1200 dpi','Scanner resolution':'Optical: Up to 600 x 600 dpi;Enhanced: Up to 9600 x 9600 dpi'},rating:4.5,rv:9,reviews:[],desc:'CANON MF664CDW COLOR LASER — лазерен принтер. CANON качество и надеждност.',img:'./images/products/50637.webp',stock:true},
   {id:3158,name:'CANON PIXMA TS9551CA AIO WHITE',brand:'CANON',cat:'peripherals',subcat:'printer',price:272.06,old:null,pct:null,badge:null,emoji:'🖨',sku:'2988C056AD',ean:'4549292236286',specs:{'Interface':'Hi-Speed USB (B Port), Memory Card Slot','Print speed':'Printer speed black, ppm: Approx. 15 ipm (~ 33 ppm);Printer speed color, pages/min: Approx. 10 ipm (','Copy speed':'Approx. 6.5 ipm; sFCOT: Approx. 19 sec;Approx. 6.5 ipm; sFCOT: Approx. 19 sec','Print resolution':'Up to 4800 x 1200 dpi','Scanner resolution':'Up to 1200 x 2400 dpi (optical)','Paper size':'Rear Tray: A3/ A4/ A5/ B5/ LTR/ LGL/ 20x25cm/ 13x18cm/ 10x15cm/ 13x13cm/ 8.9x8.9cm/ 10x10cm/ 17.5x25','Functions':'Print, Copy, Scan, Cloud Link','Cartridge type':'5 individual ink tanks: PGI-580PGBK (Pigment Black), CLI-581BK (Black), CLI-581C (Cyan), CLI-581M (M'},rating:5,rv:14,reviews:[],desc:'CANON PIXMA TS9551CA AIO WHITE — мастиленоструен принтер. CANON качество и надеждност.',img:'./images/products/45770.webp',stock:true},
   {id:3159,name:'CANON MAXIFY GX1040 AIO',brand:'CANON',cat:'peripherals',subcat:'printer',price:281.58,old:320.58,pct:12,badge:'sale',emoji:'🖨',sku:'6169C007AA',ean:'4549292219623',specs:{'Vendor_url':'https://www.canon-europe.com/printers/maxify-gx1040/','Interface':'Hi-Speed USB (B Port);Ethernet: 10/100Mbps (auto switchable);Wi-Fi: IEEE802.11 b/g/n/a/ac;Wi-Fi Secu','Print speed':'Mono Print Speed: approx. 15.0 ipm;Colour Print Speed: approx.10.0 ipm','Scan speed':'Colour: 3.5 ms/line (300 dpi);Greyscale: 1.5 ms/line (300 dpi)','Copy speed':'sFCOT (colour): 17 sec;sESAT (colour): 9.1 ipm','Print resolution':'Up to 600 x 1200 dpi','Scanner resolution':'1,200 x 2,400 dpi','Duty cycle':'up to 27,000 pages'},rating:4.8,rv:20,reviews:[],desc:'CANON MAXIFY GX1040 AIO — мастиленоструен принтер. CANON качество и надеждност.',img:'./images/products/45335.webp',stock:true},
-  {id:3160,name:'CANON MAXIFY GX2040 AIO',brand:'CANON',cat:'peripherals',subcat:'printer',price:334.02,old:396.02,pct:16,badge:'sale',emoji:'🖨',sku:'6171C007AC',ean:'4549292219739',specs:{'Vendor_url':'https://www.canon-europe.com/printers/maxify-gx2040/','Manufacturer':'Canon','Interface':'Hi-Speed USB (B Port);Ethernet: 10/100Mbps (auto switchable);Wi-Fi: IEEE802.11 b/g/n/a/ac;Wi-Fi Secu','Print speed':'Mono Print Speed: approx. 15.0 ipm;Colour Print Speed: approx.10.0 ipm','Scan speed':'Colour: 3.5 ms/line (300 dpi);Greyscale: 1.5 ms/line (300 dpi)','Copy speed':'sFCOT (colour): Approx. 17sec;sESAT (colour): Approx. 9.1 ipmESAT/Simplex ADF (colour): Approx. 8.1 ','Print resolution':'Up to 600 x 1200 dpi','Scanner resolution':'1,200 x 2,400 dpi'},rating:4.7,rv:15,reviews:[],desc:'CANON MAXIFY GX2040 AIO — мастиленоструен принтер. CANON качество и надеждност.',img:'./images/products/44490.webp',stock:true},
+  {id:3160,name:'CANON MAXIFY GX2040 AIO',brand:'CANON',cat:'peripherals',subcat:'printer',price:334.02,old:396.02,pct:16,badge:'sale',emoji:'🖨',sku:'6171C007AC',ean:'4549292219739',specs:{'Vendor_url':'https://www.canon-europe.com/printers/maxify-gx2040/','Manufacturer':'Canon','Interface':'Hi-Speed USB (B Port);Ethernet: 10/100Mbps (auto switchable);Wi-Fi: IEEE802.11 b/g/n/a/ac;Wi-Fi Secu','Print speed':'Mono Print Speed: approx. 15.0 ipm;Colour Print Speed: approx.10.0 ipm','Scan speed':'Colour: 3.5 ms/line (300 dpi);Greyscale: 1.5 ms/line (300 dpi)','Copy speed':'sFCOT (colour): Approx. 17sec;sESAT (colour): Approx. 9.1 ipmESAT/Simplex ADF (colour): Approx. 8.1 ','Print resolution':'Up to 600 x 1200 dpi','Scanner resolution':'1,200 x 2,400 dpi'},rating:4.7,rv:15,reviews:[],desc:'CANON MAXIFY GX2040 AIO — мастиленоструен принтер. CANON качество и надеждност.',img:'./images/products/44490.webp',stock:false},
   {id:3161,name:'CANON MAXIFY BX110 W/BATT',brand:'CANON',cat:'peripherals',subcat:'printer',price:352.56,old:null,pct:null,badge:null,emoji:'🖨',sku:'7069C026AB',ean:'4549292245998',specs:{'Vendor_url':'https://www.canon-europe.com/printers/maxify-bx110-with-battery/','Manufacturer':'Canon','Model':'MAXIFY BX110 with battery','Interface':'Hi-Speed USB (USB Type C)','Print speed':'Mono Print Speed: Approx. 9.0 ipm;Colour Print Speed: Approx. 5.5 ipm;Photo Print Speed: Borderless ','Print resolution':'Up to 4800 x 1200 dpi','Paper size':'Rear Tray: A4, A5, B5, LTR, LGL, Envelopes (DL, COM10), Square (5"x5", 3.5"x3.5"), Card Size (91 x 5','Cartridge type':'PGI-35 Black;CLI-36 Color'},rating:4.9,rv:21,reviews:[],desc:'CANON MAXIFY BX110 W/BATT — мастиленоструен принтер. CANON качество и надеждност.',img:'./images/products/50642.webp',stock:true},
   {id:3162,name:'CANON LBP-6030B LASER',brand:'CANON',cat:'peripherals',subcat:'printer',price:116.6,old:null,pct:null,badge:null,emoji:'🖨',sku:'8468B006AA',ean:'4660999996615',specs:{'Vendor_url':'http://www.canon.com/','Model':'LBP-6030B LASER','Interface':'USB 2.0 Hi-Speed','Print speed':'18ppm mono (A4)?','Print resolution':'600x600 dpi','Duty cycle':'Max 5,000 pages per month','Cartridge type':'Cartridge 725 (1,600 pages)','Color':'Black'},rating:4.5,rv:21,reviews:[],desc:'CANON LBP-6030B LASER — лазерен принтер. CANON качество и надеждност.',img:'./images/products/1129.webp',stock:false},
   {id:3163,name:'CANON MF667CDW COLOR LASER',brand:'CANON',cat:'peripherals',subcat:'printer',price:368,old:null,pct:null,badge:null,emoji:'🖨',sku:'6928C001AA',ean:'4549292241969',specs:{'Vendor_url':'https://www.canon-europe.com/business/products/office-printers/multifunction/colour/i-sensys-mf660-s','Manufacturer':'Canon','Interface':'USB 2.0 Hi-Speed, 10BASE-T/100BASE-TX/1000Base-T, Wireless 802.11b/g/n, Wireless Direct Connection','Print speed':'Single sided: Up to 25 ppm (A4), Up to 45.3 ppm (A5-Landscape);Double sided: Up to 15 ipm (A4)','Scan speed':'Single sided mono: 50ipm (300x300dpi);Single sided colour: 40ipm (300x300dpi);Double sided mono: 100','Copy speed':'Single sided (A4): Up to 25 ppm;Double sided (A4): Up to 15 ipm','Print resolution':'Up to 1200 x 1200 dpi','Scanner resolution':'Optical: Up to 600 x 600 dpi;Enhanced: Up to 9600 x 9600 dpi'},rating:4.6,rv:15,reviews:[],desc:'CANON MF667CDW COLOR LASER — лазерен принтер. CANON качество и надеждност.',img:'./images/products/50647.webp',stock:true},

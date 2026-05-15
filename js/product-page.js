@@ -382,6 +382,7 @@ function openProductPage(id) {
   pdpRenderBundle(p);
   pdpRenderRelated(p);
   pdpRenderRvCarousel();
+  if (typeof pdpRenderRecsWidget === 'function') pdpRenderRecsWidget(p);
   pdpInitZoom();
   pdpInitSwipe();
   pdpInitTabsScroll();

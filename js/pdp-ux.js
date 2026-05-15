@@ -254,7 +254,80 @@ function pdpRenderRelated(p) {
   section.style.display = '';
 }
 
-// 8. RECENTLY VIEWED CAROUSEL IN PDP
+// 8. CROSS-SELL WIDGET (right column, below CTA)
+var _CROSS_SELL = {
+  printers:    ['accessories','peripherals'],
+  laptops:     ['accessories','peripherals'],
+  phones:      ['accessories'],
+  desktops:    ['peripherals','accessories'],
+  monitors:    ['accessories','peripherals'],
+  tablets:     ['accessories'],
+  cameras:     ['accessories'],
+  accessories: [],
+  peripherals: []
+};
+
+function pdpRenderRecsWidget(p) {
+  var widget = document.getElementById('pdpRecsWidget');
+  if (!widget) return;
+  var all = (typeof products !== 'undefined') ? products : [];
+  var inCart = new Set((typeof cart !== 'undefined' ? cart : []).map(function(x) { return x.id; }));
+  var cats = _CROSS_SELL[p.cat] || [];
+  var recs = [];
+
+  // 1. Same category, different subcat (accessories for this type)
+  if (p.subcat) {
+    recs = all.filter(function(x) {
+      return x.id !== p.id && !inCart.has(x.id) && x.cat === p.cat && x.subcat !== p.subcat;
+    });
+  }
+
+  // 2. Related accessory categories
+  if (recs.length < 3 && cats.length) {
+    var extra = all.filter(function(x) {
+      return x.id !== p.id && !inCart.has(x.id) && cats.indexOf(x.cat) !== -1;
+    }).sort(function(a,b) { return (b.rv||0) - (a.rv||0); });
+    recs = recs.concat(extra);
+  }
+
+  // 3. Fallback: bestsellers from same category
+  if (recs.length < 3) {
+    var fb = all.filter(function(x) {
+      return x.id !== p.id && !inCart.has(x.id) && x.cat === p.cat;
+    }).sort(function(a,b) { return (b.rv||0) - (a.rv||0); });
+    recs = recs.concat(fb);
+  }
+
+  // Deduplicate + take 3
+  var seen = new Set();
+  recs = recs.filter(function(x) { if (seen.has(x.id)) return false; seen.add(x.id); return true; }).slice(0, 3);
+
+  if (!recs.length) { widget.style.display = 'none'; return; }
+
+  var _e = function(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); };
+  var _thumb = function(r) {
+    if (r.img) return '<img src="' + _e(r.img) + '" alt="" width="40" height="40" style="width:40px;height:40px;object-fit:contain;border-radius:6px;" loading="lazy" onerror="this.style.display=\'none\'">';
+    return '<span style="font-size:22px;line-height:1;">' + _e(r.emoji||'') + '</span>';
+  };
+
+  widget.innerHTML =
+    '<div class="pdp-rw-hdr"><span class="pdp-rw-flash">⚡</span>Може да те заинтересува</div>' +
+    recs.map(function(r) {
+      return '<div class="pdp-rw-row" onclick="openProductPage(' + r.id + ')" tabindex="0" role="button" aria-label="' + _e(r.name) + '">' +
+        '<div class="pdp-rw-thumb">' + _thumb(r) + '</div>' +
+        '<div class="pdp-rw-info">' +
+          '<div class="pdp-rw-name">' + _e(r.name.length > 42 ? r.name.substring(0,42)+'…' : r.name) + '</div>' +
+          '<div class="pdp-rw-price">' + (typeof fmtEur === 'function' ? fmtEur(r.price) : r.price + ' €') + '</div>' +
+        '</div>' +
+        '<button type="button" class="pdp-rw-add" onclick="event.stopPropagation();addToCart(' + r.id + ');this.textContent=\'✓\';this.classList.add(\'added\');setTimeout(function(){this.textContent=\'+\';this.classList.remove(\'added\');}.bind(this),1400);" aria-label="Добави ' + _e(r.name) + ' в кошница">+</button>' +
+      '</div>';
+    }).join('') +
+    '<div class="pdp-rw-foot">Добавяни заедно с подобни продукти</div>';
+
+  widget.style.display = '';
+}
+
+// 9. RECENTLY VIEWED CAROUSEL IN PDP
 function pdpRenderRvCarousel() {
   var section = document.getElementById('pdpRvSection');
   var scroll  = document.getElementById('pdpRvCarousel');

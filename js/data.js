@@ -5699,7 +5699,7 @@ var products = [
    specs:{'Капацитет':'8 TB','Интерфейс':'SATA III','Форм фактор':'3.5\'','RPM':'7200','Кеш':'256MB (262,144KB)'},
    rating:4.3,rv:0,reviews:[],
    desc:'Seagate 8T SG ST8000VN004 NAS — хард диск 8 TB, SATA III, 3.5".',
-   img:'./images/products/22401.webp',stock:false},
+   img:'./images/products/22401.webp',stock:true},
 
   {id:814,name:'8T SG ST8000DM004 256MB/5400',brand:'Seagate',cat:'components',subcat:'hdd',
    price:300,old:null,pct:null,badge:null,emoji:'🖴',sku:'ST8000DM004',ean:'8719706003766',

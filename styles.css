@@ -13643,7 +13643,7 @@
    min-width: 0;
  }
  .cat-page-topbar .overlay-search-input {
-   width: clamp(200px, 28vw, 420px);
+   width: clamp(260px, 40vw, 600px);
  }
 
  .cat-page-emoji {

@@ -117,10 +117,10 @@
 - **Описание:** `${x.name}` без HTML escaping в `document.write()` HTML
 - **Fix:** Заменено с `${escHtml(x.name||'')}` — **commit:** `3549d4f`
 
-### 🟡 BUG-012 — Дата за доставка в thank-you не отчита почивни дни
-- **Файл:** `js/cart.js` — ред 530
-- **Описание:** `new Date(now + delivDays * 86400000)` — calendar days, не work days. `handleCheckout()` ползва `workDay()` helper за checkout UI, но thank-you page ползва прост offset.
-- **Статус:** Отворен
+### 🟡 BUG-012 — Дата за доставка в thank-you не отчита почивни дни ✅ Fixed
+- **Файл:** `js/cart.js` — ред 690
+- **Описание:** `handleCheckout()` вече ползва `_addWorkDays()` helper (идентичен с `workDay()`) — датата правилно пропуска събота и неделя.
+- **Статус:** Оправен в по-ранна сесия
 
 ### 🟢 ENH-005 — 100vh без dvh fallback в admin layout
 - **Файл:** `styles.css` — ред 8902

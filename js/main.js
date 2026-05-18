@@ -1,3 +1,27 @@
+// IDEA-22: Abandoned cart reminder for returning visitors
+(function() {
+  try {
+    var now = Date.now();
+    var lastVisit = parseInt(localStorage.getItem('mc_last_visit') || '0', 10);
+    var savedCart = JSON.parse(localStorage.getItem('mc_cart') || '[]');
+    localStorage.setItem('mc_last_visit', String(now));
+    if (!savedCart.length || !lastVisit || (now - lastVisit) < 2 * 60 * 60 * 1000) return;
+    setTimeout(function() {
+      var n = savedCart.length;
+      var banner = document.createElement('div');
+      banner.id = 'abandonedCartBanner';
+      banner.style.cssText = 'position:fixed;top:72px;left:50%;transform:translateX(-50%);z-index:3500;background:var(--primary);color:#fff;padding:11px 16px;border-radius:12px;font-size:13px;font-weight:700;display:flex;align-items:center;gap:10px;box-shadow:0 4px 20px rgba(0,0,0,.3);max-width:380px;width:calc(100% - 32px);';
+      banner.innerHTML = '<span>🛒</span><span>Имаш ' + n + ' ' + (n === 1 ? 'продукт' : 'продукта') + ' в кошницата!</span>' +
+        '<button style="margin-left:auto;background:rgba(255,255,255,.25);border:none;color:#fff;border-radius:8px;padding:4px 12px;cursor:pointer;font-weight:700;white-space:nowrap;font-size:12px;" onclick="openCart();document.getElementById(\'abandonedCartBanner\').remove()">Виж →</button>' +
+        '<button style="background:none;border:none;color:rgba(255,255,255,.75);cursor:pointer;font-size:18px;padding:0 2px;line-height:1;" aria-label="Затвори" onclick="document.getElementById(\'abandonedCartBanner\').remove()">×</button>';
+      document.body.appendChild(banner);
+      setTimeout(function() {
+        if (banner.parentNode) { banner.style.opacity = '0'; banner.style.transition = 'opacity .4s'; setTimeout(function() { banner.remove(); }, 400); }
+      }, 10000);
+    }, 2500);
+  } catch(e) {}
+})();
+
 // ===== ERROR BOUNDARY =====
 function _isNetworkErr(val) {
   const s = val ? String(val.message || val) : '';
@@ -139,6 +163,7 @@ renderSidebarBrandSpot();
 // renderHpCats already called inside renderGrids()
 // renderRecentlyDiscounted is in product-page.js (lazy) — runs in lazy-init.js
 renderRecentlyViewed();
+renderHeroRightPanel();
 initSectionAnimations();
 initScrollAnimations();
 

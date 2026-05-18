@@ -355,6 +355,58 @@ function closeComparePage() {
   document.body.style.overflow = '';
 }
 
+// IDEA-16: Hero Right Panel — personalized widget
+function renderHeroRightPanel() {
+  var panel = document.getElementById('heroRightPanel');
+  if (!panel) return;
+
+  function _hrpItem(p, large) {
+    var imgHtml = p.img
+      ? '<img src="' + escHtml(p.img) + '" alt="" width="' + (large?44:32) + '" height="' + (large?44:32) + '" loading="lazy" style="width:' + (large?44:32) + 'px;height:' + (large?44:32) + 'px;object-fit:contain;border-radius:6px;" onerror="this.style.display=\'none\';this.nextSibling.style.display=\'\'"><span style="font-size:' + (large?28:20) + 'px;display:none;">' + escHtml(p.emoji||'') + '</span>'
+      : '<span style="font-size:' + (large?28:20) + 'px;">' + escHtml(p.emoji||'') + '</span>';
+    return '<div class="hrp-item" style="cursor:pointer;" onclick="openProductPage(' + p.id + ')">' +
+      '<div class="hrp-thumb">' + imgHtml + '</div>' +
+      '<div class="hrp-item-info"><div class="hrp-item-name">' + escHtml((p.name||'').substring(0,32)) + (p.name.length>32?'…':'') + '</div>' +
+      '<div class="hrp-item-price">' + fmtEur(p.price) + '</div></div></div>';
+  }
+
+  // Priority 1: Wishlist
+  if (wishlist && wishlist.length > 0) {
+    var wlProds = wishlist.slice(0,3).map(function(id){return products.find(function(x){return x.id===id;});}).filter(Boolean);
+    if (wlProds.length) {
+      panel.innerHTML = '<div class="hrp-widget">' +
+        '<div class="hrp-title">❤ Твоите любими</div>' +
+        wlProds.map(function(p){return _hrpItem(p,false);}).join('') +
+        '<button class="hrp-see-all" onclick="openWishlist()">Виж всички любими →</button></div>';
+      return;
+    }
+  }
+
+  // Priority 2: Recently viewed
+  var rv = [];
+  try { rv = JSON.parse(localStorage.getItem('mc_rv') || '[]'); } catch(e) {}
+  if (rv.length > 0) {
+    var last = products.find(function(x){return x.id===rv[0];});
+    if (last) {
+      panel.innerHTML = '<div class="hrp-widget">' +
+        '<div class="hrp-title">🕐 Продължи откъдето спря</div>' +
+        _hrpItem(last, true) +
+        '<button class="add-cart-btn hrp-cta" onclick="addToCart(' + last.id + ');event.stopPropagation()">' +
+        '<svg width="14" height="14" class="svg-ic" aria-hidden="true"><use href="#ic-cart"/></svg> Добави в кошница</button></div>';
+      return;
+    }
+  }
+
+  // Priority 3: Top rated product
+  var top = products.slice().sort(function(a,b){return (b.rating*Math.min(b.rv,500))-(a.rating*Math.min(a.rv,500));})[0];
+  if (top) {
+    panel.innerHTML = '<div class="hrp-widget">' +
+      '<div class="hrp-title">🏆 Топ продукт</div>' +
+      _hrpItem(top, true) +
+      '<div class="hrp-stars">' + starsHTML(top.rating) + ' <span style="font-size:11px;color:var(--muted);">(' + top.rv + ' ревюта)</span></div></div>';
+  }
+}
+
 // ===== MOBILE FILTER DRAWER =====
 function toggleMobileFilters() {
   if (window.innerWidth > 1024) return;

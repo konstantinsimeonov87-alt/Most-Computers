@@ -1614,6 +1614,10 @@
                 <div class="pd-email" id="pdEmail">—</div>
               </div>
             </div>
+            <button type="button" class="pd-item" data-action="closeDropdown;openProfilePage"><svg width="16" height="16"
+                class="svg-ic" aria-hidden="true">
+                <use href="#ic-user" />
+              </svg> Моят профил</button>
             <button type="button" class="pd-item" data-action="closeDropdown;openMyOrders"><svg width="16" height="16"
                 class="svg-ic" aria-hidden="true">
                 <use href="#ic-package" />
@@ -1622,10 +1626,6 @@
                 class="svg-ic" aria-hidden="true">
                 <use href="#ic-heart" />
               </svg> Любими продукти</button>
-            <button type="button" class="pd-item" data-action="closeDropdown"><svg width="16" height="16" class="svg-ic"
-                aria-hidden="true">
-                <use href="#ic-settings" />
-              </svg> Настройки</button>
             <button type="button" class="pd-item" style="color:var(--primary);font-weight:700;" data-action="closeDropdown;openAdminPage"><svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-settings"/></svg> Администрация</button>
             <div class="pd-divider"></div>
             <button type="button" class="pd-item logout" data-action="handleLogout"><svg width="16" height="16"
@@ -3007,6 +3007,65 @@
     </div>
   </div>
 
+  <!-- PROFILE PAGE -->
+  <div class="fullpage" id="profilePage" style="display:none;">
+    <div class="mo-header">
+      <button type="button" class="mo-back" onclick="closeProfilePage()" aria-label="Назад">←</button>
+      <div class="mo-title">
+        <svg width="20" height="20" class="svg-ic" aria-hidden="true"><use href="#ic-user"/></svg> Моят профил
+      </div>
+    </div>
+    <div class="prof-header-section">
+      <div class="pd-avatar" id="profAvatar">?</div>
+      <div>
+        <div class="pd-name" id="profName">Гост</div>
+        <div class="pd-email" id="profEmail">—</div>
+      </div>
+    </div>
+    <div class="prof-tab-bar" role="tablist">
+      <button class="prof-tab active" role="tab" aria-selected="true" onclick="switchProfileTab('orders',this)">
+        <svg width="14" height="14" class="svg-ic" aria-hidden="true"><use href="#ic-package"/></svg> Поръчки
+      </button>
+      <button class="prof-tab" role="tab" aria-selected="false" onclick="switchProfileTab('wishlist',this)">
+        <svg width="14" height="14" class="svg-ic" aria-hidden="true"><use href="#ic-heart"/></svg> Любими
+      </button>
+      <button class="prof-tab" role="tab" aria-selected="false" onclick="switchProfileTab('settings',this)">
+        <svg width="14" height="14" class="svg-ic" aria-hidden="true"><use href="#ic-settings"/></svg> Настройки
+      </button>
+    </div>
+    <div id="profTabOrders" class="prof-tab-pane">
+      <div id="profOrdersGrid"></div>
+    </div>
+    <div id="profTabWishlist" class="prof-tab-pane" style="display:none;">
+      <div id="profWishlistGrid"></div>
+    </div>
+    <div id="profTabSettings" class="prof-tab-pane" style="display:none;">
+      <div class="prof-settings-wrap">
+        <div class="prof-settings-section">
+          <div class="prof-settings-title">Акаунт</div>
+          <div class="prof-settings-row">
+            <span class="prof-settings-label">Имейл</span>
+            <span id="profSettingsEmail" class="prof-settings-val">—</span>
+          </div>
+          <div class="prof-settings-row">
+            <span class="prof-settings-label">Телефон</span>
+            <span id="profSettingsPhone" class="prof-settings-val">—</span>
+          </div>
+        </div>
+        <div class="prof-settings-section">
+          <div class="prof-settings-title">Известия</div>
+          <div class="prof-settings-row">
+            <span class="prof-settings-label">Price drop alerts</span>
+            <span class="prof-settings-val" id="profOosCount">—</span>
+          </div>
+        </div>
+        <button type="button" class="add-cart-btn" style="background:transparent;border:1.5px solid var(--primary);color:var(--primary);margin-top:16px;" onclick="handleLogout();closeProfilePage()">
+          <svg width="14" height="14" class="svg-ic" aria-hidden="true"><use href="#ic-logout"/></svg> Изход от профила
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- SEARCH RESULTS PAGE -->
   <div class="search-results-page" id="searchResultsPage">
     <div class="srp-header">
@@ -3167,13 +3226,22 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <p>© 1997–2026 Most Computers. Всички права запазени. &nbsp;·&nbsp; Работим за теб от 27 години. &nbsp;·&nbsp;
-        Защита на личните данни.</p>
-      <div class="payment-icons">
-        <span class="pay-icon">VISA</span>
-        <span class="pay-icon">MC</span>
-        <span class="pay-icon">CASH</span>
-        <span class="pay-icon">Наложен платеж</span>
+      <p>© 1997–2026 Most Computers. Всички права запазени. &nbsp;·&nbsp; Работим за теб от 27 години.</p>
+      <div class="footer-trust-row">
+        <div class="payment-icons">
+          <span class="pay-icon pay-icon-visa" title="Visa">
+            <svg width="36" height="22" viewBox="0 0 38 24" aria-label="Visa"><rect width="38" height="24" rx="4" fill="#1A1F71"/><path d="M14.5 16.5l1.8-9h2.9l-1.8 9h-2.9zm11.3-8.8c-.6-.2-1.5-.5-2.6-.5-2.9 0-4.9 1.5-4.9 3.6 0 1.6 1.4 2.4 2.5 2.9 1.1.5 1.5.9 1.5 1.4 0 .7-.9 1.1-1.7 1.1-1.2 0-1.8-.2-2.8-.6l-.4-.2-.4 2.5c.7.3 1.9.6 3.2.6 3 0 5-1.5 5-3.7 0-1.2-.8-2.2-2.4-3-.9-.5-1.5-.8-1.5-1.3 0-.5.5-.9 1.5-.9.8 0 1.5.2 2 .4l.2.1.4-2.4z" fill="white"/></svg>
+          </span>
+          <span class="pay-icon pay-icon-mc" title="Mastercard">
+            <svg width="36" height="22" viewBox="0 0 38 24" aria-label="Mastercard"><rect width="38" height="24" rx="4" fill="#252525"/><circle cx="15" cy="12" r="7" fill="#EB001B"/><circle cx="23" cy="12" r="7" fill="#F79E1B"/><path d="M19 7.5a7 7 0 0 1 0 9 7 7 0 0 1 0-9z" fill="#FF5F00"/></svg>
+          </span>
+          <span class="pay-icon" title="Наложен платеж">💵 Наложен платеж</span>
+          <span class="pay-icon" title="Банков превод">🏦 Банков превод</span>
+        </div>
+        <div class="footer-ssl-badge">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          Защитено SSL плащане
+        </div>
       </div>
     </div>
   </footer>

@@ -11,6 +11,7 @@ if (typeof window.supabase !== 'undefined') {
     const sb = createClient(SUPABASE_URL, SUPABASE_KEY, {
       auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false }
     });
+    window._sb_client = sb;
 
     // Записва поръчка в Supabase
     window.saveOrderToSupabase = async function saveOrderToSupabase(orderData) {

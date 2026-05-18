@@ -406,6 +406,21 @@ function _prodThumb(p, size) {
 }
 
 function saveCart() { try { localStorage.setItem('mc_cart', JSON.stringify(cart.map(x => ({ id: x.id, qty: x.qty })))); } catch (e) { } }
+
+function oosNotify(id) {
+  const p = products.find(x => x.id === id);
+  if (!p) return;
+  const email = prompt('Въведи имейл — ще те уведомим когато "' + p.name.substring(0, 40) + '" е на склад:');
+  if (!email || !email.includes('@')) return;
+  try {
+    const notifs = JSON.parse(localStorage.getItem('mc_oos_notify') || '[]');
+    if (!notifs.find(n => n.id === id && n.email === email)) {
+      notifs.push({ id: id, email: email, name: p.name, ts: Date.now() });
+      localStorage.setItem('mc_oos_notify', JSON.stringify(notifs));
+    }
+  } catch(e) {}
+  showToast('🔔 Ще те уведомим на ' + email + ' при наличност!');
+}
 function loadCart() {
   try {
     const saved = JSON.parse(localStorage.getItem('mc_cart') || '[]');

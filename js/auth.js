@@ -368,7 +368,7 @@ function renderWishlistGrid() {
     try { _savedPrices = JSON.parse(localStorage.getItem('mc_wishlist_prices') || '{}'); } catch(e) {}
     // Add-all + share buttons before the grid
     const shareUrl = 'https://mostcomputers.bg/?wl=' + wishlist.join(',');
-    const addAllHtml = `<div class="wl-add-all-row"><button type="button" class="wl-add-all-btn" onclick="addAllWishlistToCart()"><svg width="15" height="15" class="svg-ic" aria-hidden="true"><use href="#ic-cart"/></svg> Добави всички в кошницата (${prods.length})</button><button type="button" class="wl-share-btn" onclick="navigator.clipboard&&navigator.clipboard.writeText('${shareUrl}').then(()=>showToast('🔗 Линкът е копиран!')).catch(()=>{})" title="Сподели любими">🔗 Сподели</button></div>`;
+    const addAllHtml = `<div class="wl-add-all-row"><button type="button" class="wl-add-all-btn" onclick="addAllWishlistToCart()"><svg width="15" height="15" class="svg-ic" aria-hidden="true"><use href="#ic-cart"/></svg> Добави всички в кошницата (${prods.length})</button><button type="button" class="wl-share-btn" onclick="navigator.clipboard&&navigator.clipboard.writeText('${escHtml(shareUrl)}').then(()=>showToast('🔗 Линкът е копиран!')).catch(()=>{})" title="Сподели любими">🔗 Сподели</button><button type="button" class="wl-share-btn" onclick="showWishlistQR()" title="QR код">📱 QR</button></div>`;
     grid.innerHTML = addAllHtml + `<div class="wishlist-grid">${prods.map(p => {
       const save = p.old ? Math.round(((p.old-p.price)/p.old)*100) : 0;
       const _wlName = escHtml(p.name);
@@ -400,6 +400,22 @@ function renderWishlistGrid() {
 }
 
 
+function showWishlistQR() {
+  if (!wishlist.length) return;
+  const url = 'https://mostcomputers.bg/?wl=' + wishlist.join(',');
+  const qrSrc = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=' + encodeURIComponent(url);
+  const modal = document.createElement('div');
+  modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:9000;display:flex;align-items:center;justify-content:center;';
+  modal.innerHTML = '<div style="background:var(--white);border-radius:16px;padding:28px 24px;text-align:center;max-width:260px;width:calc(100% - 48px);">' +
+    '<h3 style="margin:0 0 12px;font-size:16px;">📱 Сканирай QR кода</h3>' +
+    '<img src="' + escHtml(qrSrc) + '" width="200" height="200" alt="QR код за wishlist" style="border-radius:8px;display:block;margin:0 auto;">' +
+    '<p style="font-size:11px;color:var(--muted);margin:10px 0 14px;">Споделя ' + wishlist.length + ' ' + (wishlist.length === 1 ? 'продукт' : 'продукта') + ' от любими</p>' +
+    '<button onclick="this.closest(\'div[style*=fixed]\').remove()" class="add-cart-btn" style="width:100%;">Затвори</button>' +
+    '</div>';
+  modal.addEventListener('click', function(e) { if (e.target === modal) modal.remove(); });
+  document.body.appendChild(modal);
+}
+
 function addAllWishlistToCart() {
   const prods = wishlist.map(id => products.find(p => p.id === id)).filter(p => p && p.stock !== false);
   if (!prods.length) { showToast('⚠️ Няма налични продукти в любими!'); return; }
@@ -409,6 +425,66 @@ function addAllWishlistToCart() {
   });
   updateCart(); saveCart();
   showToast(`🛒 ${prods.length} продукта добавени в кошницата!`);
+}
+
+// ===== PROFILE PAGE =====
+function openProfilePage() {
+  const page = document.getElementById('profilePage');
+  if (!page) return;
+  // Fill header
+  const u = currentUser;
+  const avatar = document.getElementById('profAvatar');
+  const name   = document.getElementById('profName');
+  const email  = document.getElementById('profEmail');
+  if (avatar) avatar.textContent = u ? (u.firstName[0] + (u.lastName ? u.lastName[0] : '')).toUpperCase() : '?';
+  if (name)   name.textContent   = u ? (u.firstName + ' ' + (u.lastName || '')).trim() : 'Гост';
+  if (email)  email.textContent  = u ? u.email : '—';
+  // Settings tab values
+  const se = document.getElementById('profSettingsEmail');
+  const sp = document.getElementById('profSettingsPhone');
+  const so = document.getElementById('profOosCount');
+  if (se) se.textContent = u ? u.email : '—';
+  if (sp) sp.textContent = u ? (u.phone || '—') : '—';
+  if (so) {
+    try { so.textContent = JSON.parse(localStorage.getItem('mc_oos_notify') || '[]').length + ' продукта'; } catch(e) { so.textContent = '0 продукта'; }
+  }
+  // Show first tab
+  switchProfileTab('orders', document.querySelector('#profilePage .prof-tab'));
+  page.style.display = 'flex';
+  page.style.flexDirection = 'column';
+  requestAnimationFrame(function() { page.classList.add('open'); });
+  document.body.style.overflow = 'hidden';
+  try { history.pushState({ page: 'profile' }, '', '?page=profile'); } catch(e) {}
+}
+
+function closeProfilePage() {
+  const page = document.getElementById('profilePage');
+  if (!page) return;
+  page.classList.remove('open');
+  setTimeout(function() { page.style.display = 'none'; }, 300);
+  document.body.style.overflow = '';
+  try { history.pushState(null, '', window.location.pathname); } catch(e) {}
+}
+
+function switchProfileTab(tab, btn) {
+  // Deactivate all tabs
+  document.querySelectorAll('#profilePage .prof-tab').forEach(function(t) {
+    t.classList.remove('active'); t.setAttribute('aria-selected', 'false');
+  });
+  document.querySelectorAll('#profilePage .prof-tab-pane').forEach(function(p) { p.style.display = 'none'; });
+  // Activate selected
+  if (btn) { btn.classList.add('active'); btn.setAttribute('aria-selected', 'true'); }
+  const pane = document.getElementById('profTab' + tab.charAt(0).toUpperCase() + tab.slice(1));
+  if (pane) pane.style.display = 'block';
+  // Lazy render
+  if (tab === 'orders') {
+    const g = document.getElementById('profOrdersGrid');
+    if (g) { const tmp = document.getElementById('myOrdersGrid'); if (tmp) g.innerHTML = tmp.innerHTML || ''; renderMyOrders(); setTimeout(function() { if (g.innerHTML === '') g.innerHTML = tmp ? tmp.innerHTML : ''; }, 100); }
+  }
+  if (tab === 'wishlist') {
+    const g = document.getElementById('profWishlistGrid');
+    if (g) { const tmp = document.getElementById('wishlistGrid'); renderWishlistGrid(); setTimeout(function() { if (tmp) g.innerHTML = tmp.innerHTML; }, 100); }
+  }
 }
 
 // ===== MY ORDERS PAGE =====

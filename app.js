@@ -82,7 +82,10 @@ function makeCard(p,small=false){
         </div>
         ${p.stock!==false?`<div class="card-delivery-hint">📦 Доставка до 2 работни дни</div>`:''}
         ${p.stock!==false?`<div class="card-warranty">🛡 2г. гаранция</div>`:''}
-        <button type="button" class="add-cart-btn" id="cb-${p.id}" onclick="addToCart(${p.id})" ${p.stock===false?'disabled':''}><svg width="15" height="15" class="svg-ic" aria-hidden="true"><use href="#ic-cart"/></svg> ${p.stock===false?'Изчерпан':'Добави в кошница'}</button>
+        ${p.stock===false
+          ? `<button type="button" class="add-cart-btn oos-notify-btn" onclick="oosNotify(${p.id})">🔔 Уведоми ме при наличност</button>`
+          : `<button type="button" class="add-cart-btn" id="cb-${p.id}" onclick="addToCart(${p.id})"><svg width="15" height="15" class="svg-ic" aria-hidden="true"><use href="#ic-cart"/></svg> Добави в кошница</button>`
+        }
         <div class="row-gap-6 card-secondary-btns" style="margin-top:6px;">
           <button type="button" class="card-sec-btn product-quick-view-btn" onclick="openProductPage(${p.id})" title="Бърз преглед"><svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-eye"/></svg><span class="card-sec-btn-label">Преглед</span></button>
           <button type="button" class="card-sec-btn" onclick="openQuickOrder(${p.id})" title="Бърза поръчка"><svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-bolt"/></svg><span class="card-sec-btn-label">Бърза поръчка</span></button>
@@ -3655,8 +3658,18 @@ function socialLogin(provider) {
   loginSuccess(mockUser);
 }
 
+function _saveSession(user) {
+  try {
+    localStorage.setItem('mc_session', JSON.stringify({
+      email: user.email, firstName: user.firstName, lastName: user.lastName || '', phone: user.phone || '',
+      ts: Date.now()
+    }));
+  } catch(e) {}
+}
+
 function loginSuccess(user) {
   currentUser = user;
+  _saveSession(user);
   showAuthSuccess('🎉', `Добре дошъл, ${user.firstName}!`, 'Влезе успешно в профила си.');
   // Load wishlist from Supabase and merge with local
   if (typeof window.loadWishlistFromSupabase === 'function') {
@@ -3674,6 +3687,7 @@ function loginSuccess(user) {
 
 function registerSuccess(user) {
   currentUser = user;
+  _saveSession(user);
   showAuthSuccess('🎊', 'Акаунтът е създаден!', `Добре дошъл, ${user.firstName}! Можеш да пазаруваш веднага.`);
   setTimeout(() => { closeAuthModalDirect(); updateAuthUI(); }, 2000);
 }
@@ -3727,10 +3741,23 @@ function closeDropdown() {
 
 function handleLogout() {
   currentUser = null;
+  try { localStorage.removeItem('mc_session'); } catch(e) {}
   closeDropdown();
   updateAuthUI();
   showToast('Излязохте успешно от профила.');
 }
+
+// Restore session from localStorage (30-day TTL)
+(function() {
+  try {
+    const s = JSON.parse(localStorage.getItem('mc_session') || 'null');
+    if (!s || !s.ts || (Date.now() - s.ts > 30 * 24 * 3600 * 1000)) return;
+    const u = demoUsers.find(x => x.email === s.email) || { email: s.email, firstName: s.firstName, lastName: s.lastName, phone: s.phone };
+    currentUser = u;
+    // Defer UI update until DOM is ready
+    document.addEventListener('DOMContentLoaded', () => updateAuthUI(), { once: true });
+  } catch(e) {}
+})();
 
 // Close dropdown on outside click
 document.addEventListener('click', e => {
@@ -4352,6 +4379,19 @@ products.forEach(p => {
 initDataActions();
 initSidebarFilters();
 renderGrids();
+
+// IDEA-14: Sync hero slide prices with live product data
+(function() {
+  const heroSlides = [
+    { priceId: 'slide2Price', productId: 1600 },
+    { priceId: 'slide4Price', productId: 1884 },
+  ];
+  heroSlides.forEach(function(s) {
+    var el = document.getElementById(s.priceId);
+    var p = products.find(function(x) { return x.id === s.productId; });
+    if (el && p) el.innerHTML = fmtEur(p.price) + ' <small>с ДДС</small>';
+  });
+})();
 renderSidebarTopProduct();
 renderSidebarBrandSpot();
 // Quick cart badge from localStorage (full loadCart runs after lazy bundle loads)

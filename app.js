@@ -851,6 +851,7 @@ function normalizeCat(cat) {
     storage:'storage',   nas:'storage',
     software:'software',
     acc:'accessories',   accessories:'accessories', accessory:'accessories',
+    new:'new',           sale:'sale',
   };
   return m[(cat||'').toLowerCase()] || 'accessories';
 }
@@ -869,7 +870,12 @@ function getFilteredSorted(){
     typeof catSpecActiveFilters!=='undefined'?JSON.stringify(Object.fromEntries(Object.entries(catSpecActiveFilters).map(([k,v])=>[k,[...v]]))):'{}',
   ]);
   if (_filterCache && _filterCache.key === _cacheKey) return _filterCache.list;
-  let list=(currentFilter==='all'?[...products]:products.filter(p=>normalizeCat(p.cat)===currentFilter)).filter(p=>p.stock!==false);
+  let list=(
+    currentFilter==='all'  ? [...products] :
+    currentFilter==='new'  ? products.filter(p=>p.badge==='new'||p.badge==='hot') :
+    currentFilter==='sale' ? products.filter(p=>p.badge==='sale') :
+    products.filter(p=>normalizeCat(p.cat)===currentFilter)
+  ).filter(p=>p.stock!==false);
   // Subcat filter
   if(typeof matchesSubcat==='function' && currentSubcat && currentSubcat!=='all')
     list=list.filter(p=>matchesSubcat(p, currentSubcat));
@@ -1034,7 +1040,7 @@ function renderGrids(){
   const _s4 = products.find(p=>p.id===1884);
   const _s4el = document.getElementById('slide4Price');
   if(_s4 && _s4el) _s4el.innerHTML = `${(_s4.price/EUR_RATE).toFixed(2)} € / ${_s4.price} лв. <small>с ДДС</small>`;
-  const ng=document.getElementById('newGrid'); if(ng) ng.innerHTML=products.filter(p=>_inStock(p)&&p.badge==='new').concat(products.filter(p=>_inStock(p)&&p.badge==='hot')).slice(0,5).map(p=>makeCard(p,true)).join('');
+  const _newProducts=products.filter(p=>_inStock(p)&&(p.badge==='new'||p.badge==='hot')); const ng=document.getElementById('newGrid'); if(ng) ng.innerHTML=_newProducts.slice(0,8).map(p=>makeCard(p,true)).join('');
   // Promo strip — update free delivery threshold with current EUR rate
   const _freeDelEur = 100;
   const _freeDelBgn = (Math.round(_freeDelEur * EUR_RATE * 100) / 100).toFixed(2);
@@ -2173,7 +2179,7 @@ function updateURL() {
 }
 
 // Allowed canonical categories + sort values — used to validate URL params before querySelector
-const _VALID_CATS = new Set(['all','laptops','desktops','gaming','components','monitors','peripherals','phones','network','storage','software','accessories','printers','ups','consumables']);
+const _VALID_CATS = new Set(['all','laptops','desktops','gaming','components','monitors','peripherals','phones','network','storage','software','accessories','printers','ups','consumables','new','sale']);
 const _VALID_SORTS = new Set(['bestseller','price-asc','price-desc','rating','discount','new']);
 
 function readURLParams() {

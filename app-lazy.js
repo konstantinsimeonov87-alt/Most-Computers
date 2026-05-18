@@ -2230,12 +2230,19 @@ function subscribeNL() {
   const input = document.getElementById('nlEmail') || document.getElementById('tyNlEmail');
   const v = input?.value?.trim() || '';
   if (!v || !v.includes('@') || !v.includes('.')) { showToast('Въведи валиден имейл!'); return; }
+  // Save to localStorage
   try {
     const subs = JSON.parse(localStorage.getItem('mc_newsletter') || '[]');
     if (!subs.includes(v)) { subs.push(v); localStorage.setItem('mc_newsletter', JSON.stringify(subs)); }
   } catch(e) {}
   showToast('✓ Абониран успешно! Ще получаваш най-добрите оферти.');
   if (input) input.value = '';
+  // Save to Supabase if available
+  if (typeof window.supabase !== 'undefined' && typeof window._sb_client !== 'undefined') {
+    window._sb_client.from('newsletter_subscribers')
+      .upsert({ email: v, subscribed_at: new Date().toISOString(), source: 'homepage' }, { onConflict: 'email' })
+      .catch(function() {});
+  }
 }
 
 if (typeof module !== 'undefined' && module.exports) {

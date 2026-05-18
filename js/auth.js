@@ -558,98 +558,165 @@ function renderMyOrders() {
   }).join('');
 }
 
+const _INVOICE_COMPANIES = [
+  {
+    name: '„МОСТ КОМПЮТЪРС" ООД',
+    eik: '831210862',
+    dds: 'BG831210862',
+    addr: 'бул. „Шипченски проход", бл. 240, вх. Г, гр. София 1111',
+    mol: 'Христофор Аспарухов',
+    tel: '02 91 823',
+    fax: '02 873 00 37',
+    bank: 'ОББ АД',
+    bic: 'UBBSBGSF',
+    iban: 'BG29UBBS74281010110202',
+    sastavi: 'ЕЛИЦА СЪБЕВА',
+  },
+  {
+    name: '„СММ - 97" ООД',
+    eik: '121488372',
+    dds: 'BG121488372',
+    addr: 'бул. „Шипченски проход", бл. 240, вх. А, гр. София 1111',
+    mol: 'Христофор Аспарухов',
+    tel: '02 91 823',
+    fax: '02 873 00 37',
+    bank: 'ОББ АД',
+    bic: 'UBBSBGSF',
+    iban: 'BG79UBBS74281010871916',
+    sastavi: 'ЕЛИЦА СЪБЕВА',
+  }
+];
+
+function _bgNumWords(n) {
+  const oM = ['','един','два','три','четири','пет','шест','седем','осем','девет','десет','единадесет','дванадесет','тринадесет','четиринадесет','петнадесет','шестнадесет','седемнадесет','осемнадесет','деветнадесет'];
+  const oF = ['','една','две','три','четири','пет','шест','седем','осем','девет','десет','единадесет','дванадесет','тринадесет','четиринадесет','петнадесет','шестнадесет','седемнадесет','осемнадесет','деветнадесет'];
+  const t  = ['','','двадесет','тридесет','четиридесет','петдесет','шестдесет','седемдесет','осемдесет','деветдесет'];
+  const h  = ['','сто','двеста','триста','четиристотин','петстотин','шестстотин','седемстотин','осемстотин','деветстотин'];
+  function b100(x, f) { if (!x) return ''; const a = f ? oF : oM; if (x < 20) return a[x]; return t[Math.floor(x/10)] + (x%10 ? ' и ' + a[x%10] : ''); }
+  function b1k(x, f)  { if (!x) return ''; const hh = Math.floor(x/100), r = x%100; return (h[hh]||'') + (hh && r ? ' и ' : '') + b100(r, f); }
+  const iv = Math.floor(n), dc = Math.round((n - iv) * 100);
+  let w = '';
+  if (!iv) { w = 'нула лева'; }
+  else if (iv < 1000) { w = b1k(iv, false) + (iv === 1 ? ' лев' : ' лева'); }
+  else if (iv < 1000000) {
+    const th = Math.floor(iv/1000), r = iv%1000;
+    w = (th === 1 ? 'хиляда' : b1k(th, true) + ' хиляди') + (r ? (r < 100 ? ' и ' : ' ') + b1k(r, false) : '') + ' лева';
+  } else { w = iv + ' лева'; }
+  if (dc) w += ' и ' + (dc < 10 ? '0'+dc : dc) + ' стотинки';
+  return w.charAt(0).toUpperCase() + w.slice(1);
+}
+
+function _openInvoiceWindow(o, co) {
+  const _h = s => escHtml(String(s || ''));
+  const total    = o.total || 0;
+  const delivery = o.delivery || 0;
+  const base     = total / 1.2;
+  const vat      = total - base;
+  const payLabel = o.payment === 'card' ? 'Карта' : o.payment === 'cod' ? 'Наложен платеж' : 'Банков превод';
+  let invDate = '';
+  try {
+    const d = o.date ? new Date(o.date) : new Date();
+    invDate = isNaN(d.getTime()) ? new Date().toLocaleDateString('bg-BG') : d.toLocaleDateString('bg-BG');
+  } catch(e) { invDate = new Date().toLocaleDateString('bg-BG'); }
+  const rows = (o.itemsData && o.itemsData.length)
+    ? o.itemsData.map((x, i) => {
+        const qty = Number(x.qty) || 1;
+        const unitEx = x.price / 1.2;
+        const lineEx = unitEx * qty;
+        return `<tr><td style="text-align:center;">${i+1}</td><td>${_h(x.name||'')}</td><td style="text-align:center;">бр.</td><td style="text-align:center;">${qty}</td><td style="text-align:right;">${unitEx.toFixed(2)}</td><td style="text-align:right;font-weight:700;">${lineEx.toFixed(2)}</td></tr>`;
+      }).join('')
+    : `<tr><td colspan="6" style="text-align:center;color:#888;padding:12px;">${_h(o.items||'—')}</td></tr>`;
+  const win = window.open('', '_blank', 'width=800,height=920');
+  if (!win) { showToast('⚠️ Попъп прозорецът е блокиран. Разреши попъпи за този сайт.'); return; }
+  win.document.write(`<!DOCTYPE html><html lang="bg"><head><meta charset="utf-8"><title>Фактура ${_h(o.num)}</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;font-size:12px;color:#000;background:#fff;padding:20px}
+.page{max-width:740px;margin:0 auto;background:#fff;padding:28px}
+.print-btn{display:block;margin:0 auto 14px;padding:9px 26px;background:#1d4ed8;color:#fff;border:none;border-radius:7px;font-size:13px;font-weight:700;cursor:pointer}
+h1{font-size:20px;font-weight:900;text-align:center;letter-spacing:3px;text-transform:uppercase;margin-bottom:4px}
+.inv-meta{text-align:center;font-size:11px;color:#444;margin-bottom:18px}
+.parties{display:grid;grid-template-columns:1fr 1fr;margin-bottom:16px;border:1px solid #888}
+.party{padding:10px 13px}
+.party+.party{border-left:1px solid #888}
+.party-title{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:#555;border-bottom:1px solid #ccc;padding-bottom:4px;margin-bottom:7px}
+.pr{font-size:11px;line-height:1.85}
+.basis{font-size:11px;margin:10px 0 8px;color:#333}
+table{width:100%;border-collapse:collapse;font-size:11px;margin-bottom:12px}
+thead th{background:#efefef;border:1px solid #888;padding:5px 8px;font-weight:800;text-align:left}
+tbody td{border:1px solid #bbb;padding:5px 8px;vertical-align:top}
+.tw{display:flex;justify-content:flex-end;margin-bottom:10px}
+.totals{width:260px;border:1px solid #888;font-size:11px}
+.tr{display:flex;justify-content:space-between;padding:5px 10px;border-bottom:1px solid #ddd}
+.tr:last-child{border-bottom:none;font-weight:900;font-size:13px;background:#efefef}
+.slovom{font-size:11px;padding:7px 11px;border:1px solid #bbb;background:#fafafa;margin-bottom:10px}
+.bank{font-size:11px;border:1px solid #bbb;padding:7px 11px;line-height:1.8;margin-bottom:18px}
+.signs{display:grid;grid-template-columns:1fr 1fr;gap:30px;font-size:11px}
+.sign{border-top:1px solid #555;padding-top:5px;text-align:center}
+@media print{.print-btn{display:none!important}body{padding:0}.page{padding:18px}}
+</style></head><body>
+<div class="page">
+<button class="print-btn" onclick="window.print()">🖨 Принтирай</button>
+<h1>Фактура</h1>
+<div class="inv-meta">№ ${_h(o.num)} &nbsp;|&nbsp; Дата: ${invDate} &nbsp;|&nbsp; Оригинал &nbsp;|&nbsp; Плащане: ${_h(payLabel)}</div>
+<div class="parties">
+  <div class="party">
+    <div class="party-title">Доставчик</div>
+    <div class="pr"><strong>${_h(co.name)}</strong><br>ЕИК: ${_h(co.eik)}<br>ДДС №: ${_h(co.dds)}<br>Адрес: ${_h(co.addr)}<br>МОЛ: ${_h(co.mol)}<br>Тел: ${_h(co.tel)} &nbsp; Факс: ${_h(co.fax)}</div>
+  </div>
+  <div class="party">
+    <div class="party-title">Получател</div>
+    <div class="pr"><strong>${_h(o.customer||'—')}</strong><br>ЕИК/ЕГН: &nbsp;<br>ДДС №: &nbsp;<br>Адрес: ${_h(o.city||'')}${o.addr ? ', ' + _h(o.addr) : ''}<br>Тел: ${_h(o.phone||'')}<br>Имейл: ${_h(o.email||'')}</div>
+  </div>
+</div>
+<div class="basis">Основание за плащане: Покупка на стоки</div>
+<table>
+  <thead><tr>
+    <th style="width:30px;text-align:center;">№</th>
+    <th>Наименование на стоката / услугата</th>
+    <th style="width:42px;text-align:center;">Мярка</th>
+    <th style="width:40px;text-align:center;">Кол.</th>
+    <th style="width:88px;text-align:right;">Ед. цена лв.</th>
+    <th style="width:88px;text-align:right;">Стойност лв.</th>
+  </tr></thead>
+  <tbody>${rows}</tbody>
+</table>
+<div class="tw"><div class="totals">
+  <div class="tr"><span>Данъчна основа</span><span>${base.toFixed(2)} лв.</span></div>
+  <div class="tr"><span>ДДС 20%</span><span>${vat.toFixed(2)} лв.</span></div>
+  <div class="tr"><span>Сума за плащане</span><span>${total.toFixed(2)} лв.</span></div>
+</div></div>
+<div class="slovom"><strong>Словом:</strong> ${_bgNumWords(total)}</div>
+<div class="bank"><strong>Банкова сметка:</strong> ${_h(co.bank)} &nbsp;·&nbsp; BIC: ${_h(co.bic)} &nbsp;·&nbsp; IBAN: ${_h(co.iban)}</div>
+<div class="signs">
+  <div class="sign">Съставил: ${_h(co.sastavi)}</div>
+  <div class="sign">Получил: _______________</div>
+</div>
+</div></body></html>`);
+  win.document.close();
+}
+
 function printOrder(num) {
   let orders = [];
   try { orders = JSON.parse(localStorage.getItem('mc_orders') || '[]'); } catch(e) {}
   const o = orders.find(x => x.num === num);
   if (!o) { showToast('Поръчката не е намерена'); return; }
-  const statusLabels = { pending:'Изчаква', processing:'Обработва се', shipped:'Изпратена', delivered:'Доставена', cancelled:'Отказана', paid:'Платена' };
-  const statusColors = { pending:'#f59e0b', paid:'#10b981', shipped:'#6366f1', delivered:'#10b981', cancelled:'#ef4444' };
-  const delivery = o.delivery || 0;
-  const subtotal = o.subtotal || (o.total - delivery);
-  const _h = s => escHtml(String(s||''));
-  const payLabel = o.payment==='card'?'Карта':o.payment==='cod'?'Наложен платеж':'Банков превод';
-  const items = (o.itemsData && o.itemsData.length)
-    ? o.itemsData.map(x => `<tr><td>${_h(x.emoji||'')}${_h(x.name||'')}</td><td>${_h(x.brand||'')}</td><td style="text-align:center;">×${Number(x.qty)||0}</td><td style="text-align:right;font-weight:700;">${((x.price*x.qty)/1.95583).toFixed(2)} €<br><span style="font-size:10px;color:#6b7280;">${(x.price*x.qty).toFixed(2)} лв.</span></td></tr>`).join('')
-    : `<tr><td colspan="4" style="color:#9ca3af;text-align:center;padding:16px;">${_h(o.items||'—')}</td></tr>`;
-  const win = window.open('', '_blank', 'width=760,height=700');
-  if (!win) { showToast('⚠️ Попъп прозорецът е блокиран. Разреши попъпи за този сайт.'); return; }
-  win.document.write(`<!DOCTYPE html><html lang="bg"><head><meta charset="utf-8">
-    <title>Фактура ${_h(o.num)} — Most Computers</title>
-    <style>
-      *{box-sizing:border-box;margin:0;padding:0}
-      body{font-family:'Segoe UI',Arial,sans-serif;background:#f8f9fa;color:#1f2937;font-size:13px;padding:0}
-      .page{max-width:700px;margin:0 auto;background:#fff;min-height:100vh;padding:40px}
-      .header{display:flex;justify-content:space-between;align-items:flex-start;padding-bottom:24px;border-bottom:2px solid #e5e7eb;margin-bottom:28px}
-      .logo{font-size:22px;font-weight:900;color:#111;letter-spacing:-0.5px}
-      .logo span{color:#6366f1}
-      .logo-sub{font-size:11px;color:#9ca3af;margin-top:3px}
-      .inv-meta{text-align:right}
-      .inv-num{font-size:18px;font-weight:800;color:#6366f1}
-      .inv-date{font-size:11px;color:#9ca3af;margin-top:4px}
-      .status-badge{display:inline-block;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:700;margin-top:6px;color:#fff;background:${statusColors[o.status]||'#6b7280'}}
-      .section{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:28px}
-      .box{background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px;padding:16px}
-      .box-title{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#9ca3af;margin-bottom:10px}
-      .box-val{font-size:13px;color:#1f2937;line-height:1.7}
-      table{width:100%;border-collapse:collapse;margin-bottom:20px}
-      thead th{background:#f3f4f6;padding:10px 12px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:#6b7280;text-align:left;border-bottom:2px solid #e5e7eb}
-      tbody td{padding:10px 12px;border-bottom:1px solid #f3f4f6;color:#374151;vertical-align:top}
-      tbody tr:last-child td{border-bottom:none}
-      .totals{margin-left:auto;max-width:280px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px;padding:16px}
-      .tot-row{display:flex;justify-content:space-between;padding:5px 0;font-size:13px;color:#6b7280}
-      .tot-row.grand{font-size:16px;font-weight:800;color:#1f2937;border-top:2px solid #e5e7eb;margin-top:8px;padding-top:12px}
-      .footer{margin-top:40px;padding-top:20px;border-top:1px solid #e5e7eb;display:flex;justify-content:space-between;font-size:11px;color:#9ca3af}
-      @media print{body{background:#fff}.page{padding:24px;box-shadow:none}button{display:none!important}}
-      .print-btn{display:block;margin:0 auto 20px;padding:10px 28px;background:#6366f1;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Segoe UI',sans-serif}
-    </style></head><body>
-    <div class="page">
-      <button class="print-btn" onclick="window.print()">🖨 Принтирай фактурата</button>
-      <div class="header">
-        <div>
-          <div class="logo">Most <span>Computers</span></div>
-          <div class="logo-sub">mostcomputers.bg &nbsp;·&nbsp; office@mostcomputers.bg</div>
-        </div>
-        <div class="inv-meta">
-          <div class="inv-num">Поръчка ${_h(o.num)}</div>
-          <div class="inv-date">Дата: ${_h(o.date)}</div>
-          <div class="inv-date">Доставка: ${_h(o.deliveryType||'—')} &nbsp;·&nbsp; Плащане: ${_h(payLabel)}</div>
-          <div><span class="status-badge">${_h(statusLabels[o.status]||o.status)}</span></div>
-        </div>
-      </div>
-      <div class="section">
-        <div class="box">
-          <div class="box-title">Клиент</div>
-          <div class="box-val">
-            <strong>${_h(o.customer||'—')}</strong><br>
-            ${_h(o.email||'')}<br>
-            ${_h(o.phone||'')}
-          </div>
-        </div>
-        <div class="box">
-          <div class="box-title">Адрес за доставка</div>
-          <div class="box-val">
-            ${_h(o.city||'—')}, ${_h(o.addr||'')}<br>
-            ${o.zip ? 'ПК ' + _h(o.zip) : ''}
-          </div>
-        </div>
-      </div>
-      <table>
-        <thead><tr><th>Продукт</th><th>Марка</th><th style="text-align:center">Бр.</th><th style="text-align:right">Сума</th></tr></thead>
-        <tbody>${items}</tbody>
-      </table>
-      <div class="totals">
-        <div class="tot-row"><span>Продукти</span><span>${(subtotal/1.95583).toFixed(2)} €</span></div>
-        <div class="tot-row"><span>Доставка</span><span>${delivery===0?'Безплатно':(delivery/1.95583).toFixed(2)+' €'}</span></div>
-        <div class="tot-row grand"><span>Общо</span><span>${(o.total/1.95583).toFixed(2)} € / ${o.total.toFixed(2)} лв.</span></div>
-      </div>
-      <div class="footer">
-        <span>Most Computers ЕООД &nbsp;·&nbsp; ЕИК 123456789</span>
-        <span>Генерирано: ${new Date().toLocaleString('bg-BG')}</span>
-      </div>
+  const ov = document.createElement('div');
+  ov.style.cssText = 'position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;font-family:Arial,sans-serif;';
+  ov.innerHTML = `<div style="background:#fff;border-radius:14px;padding:28px 24px;max-width:390px;width:90%;text-align:center;">
+    <div style="font-size:16px;font-weight:800;margin-bottom:6px;">Избери фирма доставчик</div>
+    <div style="font-size:12px;color:#777;margin-bottom:18px;">От чието име да се издаде фактурата</div>
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      <button id="_ivc0" style="padding:13px 12px;border:2px solid #d1d5db;border-radius:9px;cursor:pointer;font-size:13px;font-weight:700;background:#fff;line-height:1.6;">„МОСТ КОМПЮТЪРС" ООД<br><small style="font-weight:400;color:#9ca3af;font-size:11px;">ЕИК 831210862 &nbsp;·&nbsp; ДДС BG831210862</small></button>
+      <button id="_ivc1" style="padding:13px 12px;border:2px solid #d1d5db;border-radius:9px;cursor:pointer;font-size:13px;font-weight:700;background:#fff;line-height:1.6;">„СММ - 97" ООД<br><small style="font-weight:400;color:#9ca3af;font-size:11px;">ЕИК 121488372 &nbsp;·&nbsp; ДДС BG121488372</small></button>
     </div>
-    </body></html>`);
-  win.document.close();
+    <button id="_ivcx" style="margin-top:14px;background:none;border:none;color:#aaa;cursor:pointer;font-size:12px;">Отказ</button>
+  </div>`;
+  document.body.appendChild(ov);
+  function pick(i) { ov.remove(); _openInvoiceWindow(o, _INVOICE_COMPANIES[i]); }
+  document.getElementById('_ivc0').addEventListener('click', () => pick(0));
+  document.getElementById('_ivc1').addEventListener('click', () => pick(1));
+  document.getElementById('_ivcx').addEventListener('click', () => ov.remove());
 }
 
 if (typeof module !== 'undefined' && module.exports) {

@@ -153,8 +153,18 @@ function socialLogin(provider) {
   loginSuccess(mockUser);
 }
 
+function _saveSession(user) {
+  try {
+    localStorage.setItem('mc_session', JSON.stringify({
+      email: user.email, firstName: user.firstName, lastName: user.lastName || '', phone: user.phone || '',
+      ts: Date.now()
+    }));
+  } catch(e) {}
+}
+
 function loginSuccess(user) {
   currentUser = user;
+  _saveSession(user);
   showAuthSuccess('🎉', `Добре дошъл, ${user.firstName}!`, 'Влезе успешно в профила си.');
   // Load wishlist from Supabase and merge with local
   if (typeof window.loadWishlistFromSupabase === 'function') {
@@ -172,6 +182,7 @@ function loginSuccess(user) {
 
 function registerSuccess(user) {
   currentUser = user;
+  _saveSession(user);
   showAuthSuccess('🎊', 'Акаунтът е създаден!', `Добре дошъл, ${user.firstName}! Можеш да пазаруваш веднага.`);
   setTimeout(() => { closeAuthModalDirect(); updateAuthUI(); }, 2000);
 }
@@ -225,10 +236,23 @@ function closeDropdown() {
 
 function handleLogout() {
   currentUser = null;
+  try { localStorage.removeItem('mc_session'); } catch(e) {}
   closeDropdown();
   updateAuthUI();
   showToast('Излязохте успешно от профила.');
 }
+
+// Restore session from localStorage (30-day TTL)
+(function() {
+  try {
+    const s = JSON.parse(localStorage.getItem('mc_session') || 'null');
+    if (!s || !s.ts || (Date.now() - s.ts > 30 * 24 * 3600 * 1000)) return;
+    const u = demoUsers.find(x => x.email === s.email) || { email: s.email, firstName: s.firstName, lastName: s.lastName, phone: s.phone };
+    currentUser = u;
+    // Defer UI update until DOM is ready
+    document.addEventListener('DOMContentLoaded', () => updateAuthUI(), { once: true });
+  } catch(e) {}
+})();
 
 // Close dropdown on outside click
 document.addEventListener('click', e => {

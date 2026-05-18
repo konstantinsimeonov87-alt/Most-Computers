@@ -119,6 +119,19 @@ products.forEach(p => {
 initDataActions();
 initSidebarFilters();
 renderGrids();
+
+// IDEA-14: Sync hero slide prices with live product data
+(function() {
+  const heroSlides = [
+    { priceId: 'slide2Price', productId: 1600 },
+    { priceId: 'slide4Price', productId: 1884 },
+  ];
+  heroSlides.forEach(function(s) {
+    var el = document.getElementById(s.priceId);
+    var p = products.find(function(x) { return x.id === s.productId; });
+    if (el && p) el.innerHTML = fmtEur(p.price) + ' <small>с ДДС</small>';
+  });
+})();
 renderSidebarTopProduct();
 renderSidebarBrandSpot();
 // Quick cart badge from localStorage (full loadCart runs after lazy bundle loads)

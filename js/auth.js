@@ -606,10 +606,12 @@ function _bgNumWords(n) {
 
 function _openInvoiceWindow(o, co) {
   const _h = s => escHtml(String(s || ''));
-  const total    = o.total || 0;
-  const delivery = o.delivery || 0;
-  const base     = total / 1.2;
-  const vat      = total - base;
+  const _items   = o.itemsData || [];
+  const itemsTotal = _items.length
+    ? _items.reduce((s, x) => s + (x.price || 0) * (Number(x.qty) || 1), 0)
+    : (o.subtotal || o.total || 0);
+  const base = itemsTotal / 1.2;
+  const vat  = itemsTotal - base;
   const payLabel = o.payment === 'card' ? 'Карта' : o.payment === 'cod' ? 'Наложен платеж' : 'Банков превод';
   let invDate = '';
   try {
@@ -680,9 +682,9 @@ tbody td{border:1px solid #bbb;padding:5px 8px;vertical-align:top}
 <div class="tw"><div class="totals">
   <div class="tr"><span>Данъчна основа</span><span>${base.toFixed(2)} лв.</span></div>
   <div class="tr"><span>ДДС 20%</span><span>${vat.toFixed(2)} лв.</span></div>
-  <div class="tr"><span>Сума за плащане</span><span>${total.toFixed(2)} лв.</span></div>
+  <div class="tr"><span>Сума за плащане</span><span>${itemsTotal.toFixed(2)} лв.</span></div>
 </div></div>
-<div class="slovom"><strong>Словом:</strong> ${_bgNumWords(total)}</div>
+<div class="slovom"><strong>Словом:</strong> ${_bgNumWords(itemsTotal)}</div>
 <div class="bank"><strong>Банкова сметка:</strong> ${_h(co.bank)} &nbsp;·&nbsp; BIC: ${_h(co.bic)} &nbsp;·&nbsp; IBAN: ${_h(co.iban)}</div>
 </div></body></html>`);
   win.document.close();
@@ -701,16 +703,13 @@ function printOrder(num) {
   const mostItems = items.filter(x => _MOST_BRANDS.has((x.brand || '').toLowerCase().trim()));
   const smmItems  = items.filter(x => !_MOST_BRANDS.has((x.brand || '').toLowerCase().trim()));
 
-  function splitOrder(filteredItems, includeDelivery) {
-    const subtotal = filteredItems.reduce((s, x) => s + (x.price || 0) * (Number(x.qty) || 1), 0);
-    const delivery = includeDelivery ? (o.delivery || 0) : 0;
-    return Object.assign({}, o, { itemsData: filteredItems, subtotal, delivery, total: subtotal + delivery });
+  function splitOrder(filteredItems) {
+    return Object.assign({}, o, { itemsData: filteredItems });
   }
 
   if (mostItems.length && smmItems.length) {
-    // Смесена поръчка — две фактури; доставката отива към Мост Компютърс
-    _openInvoiceWindow(splitOrder(mostItems, true),  _INVOICE_COMPANIES[0]);
-    setTimeout(() => _openInvoiceWindow(splitOrder(smmItems, false), _INVOICE_COMPANIES[1]), 400);
+    _openInvoiceWindow(splitOrder(mostItems), _INVOICE_COMPANIES[0]);
+    setTimeout(() => _openInvoiceWindow(splitOrder(smmItems), _INVOICE_COMPANIES[1]), 400);
     showToast('🧾 Отварят се 2 фактури — Мост Компютърс и СММ 97');
   } else if (mostItems.length) {
     _openInvoiceWindow(o, _INVOICE_COMPANIES[0]);

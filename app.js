@@ -4245,27 +4245,35 @@ tbody td{border:1px solid #bbb;padding:5px 8px;vertical-align:top}
   win.document.close();
 }
 
+// Марки, фактурирани към Мост Компютърс; всички останали → СММ 97
+const _MOST_BRANDS = new Set(['hp', 'lenovo', 'nokia', 'hmd', 'koorui']);
+
 function printOrder(num) {
   let orders = [];
   try { orders = JSON.parse(localStorage.getItem('mc_orders') || '[]'); } catch(e) {}
   const o = orders.find(x => x.num === num);
   if (!o) { showToast('Поръчката не е намерена'); return; }
-  const ov = document.createElement('div');
-  ov.style.cssText = 'position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;font-family:Arial,sans-serif;';
-  ov.innerHTML = `<div style="background:#fff;border-radius:14px;padding:28px 24px;max-width:390px;width:90%;text-align:center;">
-    <div style="font-size:16px;font-weight:800;margin-bottom:6px;">Избери фирма доставчик</div>
-    <div style="font-size:12px;color:#777;margin-bottom:18px;">От чието име да се издаде фактурата</div>
-    <div style="display:flex;flex-direction:column;gap:10px;">
-      <button id="_ivc0" style="padding:13px 12px;border:2px solid #d1d5db;border-radius:9px;cursor:pointer;font-size:13px;font-weight:700;background:#fff;line-height:1.6;">„МОСТ КОМПЮТЪРС" ООД<br><small style="font-weight:400;color:#9ca3af;font-size:11px;">ЕИК 831210862 &nbsp;·&nbsp; ДДС BG831210862</small></button>
-      <button id="_ivc1" style="padding:13px 12px;border:2px solid #d1d5db;border-radius:9px;cursor:pointer;font-size:13px;font-weight:700;background:#fff;line-height:1.6;">„СММ - 97" ООД<br><small style="font-weight:400;color:#9ca3af;font-size:11px;">ЕИК 121488372 &nbsp;·&nbsp; ДДС BG121488372</small></button>
-    </div>
-    <button id="_ivcx" style="margin-top:14px;background:none;border:none;color:#aaa;cursor:pointer;font-size:12px;">Отказ</button>
-  </div>`;
-  document.body.appendChild(ov);
-  function pick(i) { ov.remove(); _openInvoiceWindow(o, _INVOICE_COMPANIES[i]); }
-  document.getElementById('_ivc0').addEventListener('click', () => pick(0));
-  document.getElementById('_ivc1').addEventListener('click', () => pick(1));
-  document.getElementById('_ivcx').addEventListener('click', () => ov.remove());
+
+  const items = o.itemsData || [];
+  const mostItems = items.filter(x => _MOST_BRANDS.has((x.brand || '').toLowerCase().trim()));
+  const smmItems  = items.filter(x => !_MOST_BRANDS.has((x.brand || '').toLowerCase().trim()));
+
+  function splitOrder(filteredItems, includeDelivery) {
+    const subtotal = filteredItems.reduce((s, x) => s + (x.price || 0) * (Number(x.qty) || 1), 0);
+    const delivery = includeDelivery ? (o.delivery || 0) : 0;
+    return Object.assign({}, o, { itemsData: filteredItems, subtotal, delivery, total: subtotal + delivery });
+  }
+
+  if (mostItems.length && smmItems.length) {
+    // Смесена поръчка — две фактури; доставката отива към Мост Компютърс
+    _openInvoiceWindow(splitOrder(mostItems, true),  _INVOICE_COMPANIES[0]);
+    setTimeout(() => _openInvoiceWindow(splitOrder(smmItems, false), _INVOICE_COMPANIES[1]), 400);
+    showToast('🧾 Отварят се 2 фактури — Мост Компютърс и СММ 97');
+  } else if (mostItems.length) {
+    _openInvoiceWindow(o, _INVOICE_COMPANIES[0]);
+  } else {
+    _openInvoiceWindow(o, _INVOICE_COMPANIES[1]);
+  }
 }
 
 if (typeof module !== 'undefined' && module.exports) {

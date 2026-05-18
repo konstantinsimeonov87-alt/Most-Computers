@@ -62,7 +62,7 @@ async function main() {
 
     try {
       const json = await fetchJson(url);
-      const img = json?.data?.Image?.Pic500x500 || json?.data?.Image?.LowPic || null;
+      const img = json?.data?.Image?.HighPic || json?.data?.Image?.Pic500x500 || null;
 
       if (img) {
         // Find the product block again (src may have changed) and replace img:null

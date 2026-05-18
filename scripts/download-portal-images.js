@@ -43,7 +43,7 @@ async function processOne(id, ext) {
   try {
     const buf = await fetchBuf(url);
     await sharp(buf)
-      .resize(300, 300, { fit: 'inside', withoutEnlargement: true })
+      .resize(600, 600, { fit: 'inside', withoutEnlargement: true })
       .webp({ quality: 82 })
       .toFile(outPath);
     return 'ok';

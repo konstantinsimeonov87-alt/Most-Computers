@@ -23,10 +23,11 @@ const DATA_FILE   = path.join(__dirname, '../js/data.js');
 const OUT_DIR     = path.join(__dirname, '../images/products');
 const DRY_RUN     = process.argv.includes('--dry-run');
 const FORCE_ALL   = process.argv.includes('--all');
+const FORCE       = process.argv.includes('--force') || FORCE_ALL || process.argv.includes('--redownload');
 const IDS_ARG     = process.argv.find(a => a.startsWith('--ids='));
 const SPECIFIC_IDS = IDS_ARG ? IDS_ARG.replace('--ids=', '').split(',').map(s => s.trim()) : null;
 
-const WEBP_SIZE   = 300; // px — card display size
+const WEBP_SIZE   = 600; // px — 2× card size for sharp display on HiDPI
 const CONCURRENCY = 4;
 
 if (!fs.existsSync(OUT_DIR)) fs.mkdirSync(OUT_DIR, { recursive: true });
@@ -48,12 +49,23 @@ function download(url) {
   });
 }
 
-async function convertOne({ id, url }) {
+async function convertOne({ id, url, fallbackUrl }) {
   const outFile = path.join(OUT_DIR, `${id}.webp`);
-  if (fs.existsSync(outFile) && !FORCE_ALL) return { id, status: 'skipped' };
+  if (fs.existsSync(outFile) && !FORCE) return { id, status: 'skipped' };
   if (DRY_RUN) return { id, status: 'dry-run' };
+  let buf;
   try {
-    const buf = await download(url);
+    buf = await download(url);
+  } catch (e) {
+    if (fallbackUrl) {
+      try { buf = await download(fallbackUrl); } catch (e2) {
+        return { id, status: 'error', msg: e2.message };
+      }
+    } else {
+      return { id, status: 'error', msg: e.message };
+    }
+  }
+  try {
     await sharp(buf)
       .resize(WEBP_SIZE, WEBP_SIZE, { fit: 'inside', withoutEnlargement: true })
       .webp({ quality: 82 })
@@ -81,31 +93,42 @@ async function pool(tasks, concurrency) {
   return results;
 }
 
+const REDOWNLOAD  = process.argv.includes('--redownload'); // re-fetch existing local images at new size
+
 async function main() {
   console.log('🖼  convert-images.js — portal.mostbg.com → WebP');
   console.log(`📅 ${new Date().toISOString()}`);
   if (DRY_RUN) console.log('🔍 Dry-run mode — no files written');
+  if (REDOWNLOAD) console.log(`🔄 Redownload mode — re-fetching all local images at ${WEBP_SIZE}px`);
 
   const src = fs.readFileSync(DATA_FILE, 'utf8');
-
-  // Extract all portal.mostbg.com image references
-  const urlRe = /img:'(https:\/\/portal\.mostbg\.com\/api\/images\/imageFileData\/(\d+)\.[a-z]+)'/g;
   const tasks = [];
-  const seen = new Set();
-  let m;
-  while ((m = urlRe.exec(src)) !== null) {
-    const [, url, id] = m;
-    if (seen.has(id)) continue;
-    seen.add(id);
-    // Filter: specific IDs requested
-    if (SPECIFIC_IDS && !SPECIFIC_IDS.includes(id)) continue;
-    // Filter: stock only (unless --all or specific IDs)
-    if (!SPECIFIC_IDS && !FORCE_ALL) {
-      // Find stock:true in proximity after this img
-      const ctx = src.slice(m.index, m.index + 200);
-      if (!/stock:true/.test(ctx)) continue;
+
+  if (REDOWNLOAD) {
+    // Reconstruct portal URLs from existing local filenames — try jpg then png
+    const files = fs.readdirSync(OUT_DIR).filter(f => f.endsWith('.webp'));
+    console.log(`\n📂 Found ${files.length} local WebP files\n`);
+    for (const f of files) {
+      const id = f.replace('.webp', '');
+      if (SPECIFIC_IDS && !SPECIFIC_IDS.includes(id)) continue;
+      tasks.push({ id, url: `https://portal.mostbg.com/api/images/imageFileData/${id}.jpg`, fallbackUrl: `https://portal.mostbg.com/api/images/imageFileData/${id}.png` });
     }
-    tasks.push({ id, url });
+  } else {
+    // Extract all portal.mostbg.com image references from data.js
+    const urlRe = /img:'(https:\/\/portal\.mostbg\.com\/api\/images\/imageFileData\/(\d+)\.[a-z]+)'/g;
+    const seen = new Set();
+    let m;
+    while ((m = urlRe.exec(src)) !== null) {
+      const [, url, id] = m;
+      if (seen.has(id)) continue;
+      seen.add(id);
+      if (SPECIFIC_IDS && !SPECIFIC_IDS.includes(id)) continue;
+      if (!SPECIFIC_IDS && !FORCE_ALL) {
+        const ctx = src.slice(m.index, m.index + 200);
+        if (!/stock:true/.test(ctx)) continue;
+      }
+      tasks.push({ id, url });
+    }
   }
 
   console.log(`\n📦 Images to process: ${tasks.length}\n`);

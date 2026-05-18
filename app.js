@@ -17,7 +17,7 @@ const CAT_LABELS = {
   all:'Всички продукти',
   laptops:'Лаптопи', desktops:'Настолни компютри', components:'Компоненти',
   peripherals:'Периферия', network:'Мрежово оборудване', storage:'Сървъри и сторидж',
-  software:'Софтуер', accessories:'Аксесоари',
+  software:'Софтуер', accessories:'Аксесоари', consumables:'Консумативи',
   sale:'Промоции', new:'Нови продукти',
   // Legacy ключове
   laptop:'Лаптопи', desktop:'Десктопи', gaming:'Гейминг',
@@ -786,6 +786,7 @@ function normalizeCat(cat) {
     monitor:'monitors',  monitors:'monitors',  display:'monitors',
     audio:'peripherals', camera:'peripherals', peripherals:'peripherals',
     print:'printers',    printer:'printers',   printers:'printers',
+    consumables:'consumables', consumable:'consumables', toner:'consumables', cartridge:'consumables',
     ups:'ups',           ups_home:'ups',       ups_office:'ups',    ups_server:'ups',
     phone:'phones',      phones:'phones',      mobile:'phones',
     tablet:'phones',     smartphones:'phones',
@@ -1183,7 +1184,7 @@ function updateActiveFiltersBar() {
   window._afRemove = [];
   const active = [];
   // Category chip
-  const _catLabels = { phones:'📱 Телефони', laptops:'💻 Лаптопи', desktops:'🖥 Настолни', gaming:'🎮 Гейминг', monitors:'🖥 Монитори', components:'⚙️ Компоненти', peripherals:'🖱 Периферия', network:'📡 Мрежово', storage:'💾 Сторидж', software:'📀 Софтуер', accessories:'🎒 Аксесоари', printers:'🖨 Принтери', ups:'⚡ UPS устройства' };
+  const _catLabels = { phones:'📱 Телефони', laptops:'💻 Лаптопи', desktops:'🖥 Настолни', gaming:'🎮 Гейминг', monitors:'🖥 Монитори', components:'⚙️ Компоненти', peripherals:'🖱 Периферия', network:'📡 Мрежово', storage:'💾 Сторидж', software:'📀 Софтуер', accessories:'🎒 Аксесоари', printers:'🖨 Принтери', ups:'⚡ UPS устройства', consumables:'🖨️ Консумативи' };
   if (currentFilter && currentFilter !== 'all') {
     const idx = window._afRemove.length;
     window._afRemove.push(() => {
@@ -1539,6 +1540,10 @@ const SUBCATS = {
     { id: 'hub',          label: '🔌 USB хъбове и зарядни' },
     { id: 'bag',          label: '🎒 Чанти и калъфи' },
     { id: 'av',           label: '🔊 Тонколони и AV' },
+  ],
+  consumables: [
+    { id: 'inkjet',       label: '🖨️ Мастиленоструйни касети' },
+    { id: 'laser_toner',  label: '⚡ Лазерни тонери' },
   ],
 };
 
@@ -2108,7 +2113,7 @@ function updateURL() {
 }
 
 // Allowed canonical categories + sort values — used to validate URL params before querySelector
-const _VALID_CATS = new Set(['all','laptops','desktops','gaming','components','monitors','peripherals','phones','network','storage','software','accessories','printers','ups']);
+const _VALID_CATS = new Set(['all','laptops','desktops','gaming','components','monitors','peripherals','phones','network','storage','software','accessories','printers','ups','consumables']);
 const _VALID_SORTS = new Set(['bestseller','price-asc','price-desc','rating','discount','new']);
 
 function readURLParams() {
@@ -2869,6 +2874,8 @@ const HP_SUBCATS = [
   { cat:'components', id:'case_cooling',label:'Кутии и охлаждане',     icon:'❄️'               },
   { cat:'ups',        id:'ups_home',    label:'Домашни UPS',            icon:'🏠'                },
   { cat:'ups',        id:'ups_server',  label:'Онлайн UPS (синусоида)', icon:'⚡'                },
+  { cat:'consumables',id:'laser_toner', label:'Лазерни тонери',         icon:'🖨️'               },
+  { cat:'consumables',id:'inkjet',      label:'Мастиленоструйни касети', icon:'🖨️'               },
 ];
 
 const HP_SUBCATS_VISIBLE = 10;

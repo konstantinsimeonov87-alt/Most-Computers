@@ -17,7 +17,7 @@ const CAT_LABELS = {
   all:'Всички продукти',
   laptops:'Лаптопи', desktops:'Настолни компютри', components:'Компоненти',
   peripherals:'Периферия', network:'Мрежово оборудване', storage:'Сървъри и сторидж',
-  software:'Софтуер', accessories:'Аксесоари',
+  software:'Софтуер', accessories:'Аксесоари', consumables:'Консумативи',
   sale:'Промоции', new:'Нови продукти',
   // Legacy ключове
   laptop:'Лаптопи', desktop:'Десктопи', gaming:'Гейминг',

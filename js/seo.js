@@ -410,6 +410,8 @@ const HP_SUBCATS = [
   { cat:'components', id:'case_cooling',label:'Кутии и охлаждане',     icon:'❄️'               },
   { cat:'ups',        id:'ups_home',    label:'Домашни UPS',            icon:'🏠'                },
   { cat:'ups',        id:'ups_server',  label:'Онлайн UPS (синусоида)', icon:'⚡'                },
+  { cat:'consumables',id:'laser_toner', label:'Лазерни тонери',         icon:'🖨️'               },
+  { cat:'consumables',id:'inkjet',      label:'Мастиленоструйни касети', icon:'🖨️'               },
 ];
 
 const HP_SUBCATS_VISIBLE = 10;

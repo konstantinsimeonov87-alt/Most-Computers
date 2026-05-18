@@ -256,7 +256,8 @@ function pdpRenderRelated(p) {
 
 // 8. CROSS-SELL WIDGET (right column, below CTA)
 var _CROSS_SELL = {
-  printers:    ['accessories','peripherals'],
+  printers:    ['consumables','accessories'],
+  printer:     ['consumables','accessories'],
   laptops:     ['accessories','peripherals'],
   phones:      ['accessories'],
   desktops:    ['peripherals','accessories'],

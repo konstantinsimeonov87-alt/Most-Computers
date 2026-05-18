@@ -119,10 +119,32 @@ function openProductModal(id){
   document.getElementById('modalReviews').innerHTML=(p.reviews||[]).map(r=>`<div class="review-item"><div class="review-header"><span class="review-name">${_esc(r.name)}</span><span class="review-stars">${starsHTML(r.stars)}</span><span class="review-date">${_esc(r.date)}</span></div><div class="review-text">${_esc(r.text)}</div></div>`).join('');
   switchTab('desc');
   document.getElementById('productModalBackdrop').classList.add('open');document.body.style.overflow='hidden';
+  // Update mobile/desktop sticky CTA price
+  var _mscP=document.getElementById('mscPrice');
+  if(_mscP) _mscP.innerHTML=fmtEur(p.price)+'<span style="font-size:11px;font-weight:500;color:var(--muted);display:block">'+fmtBgn(p.price)+'</span>';
+  // IntersectionObserver: show sticky CTA when #modalAddBtn scrolls out of view
+  var _stickyObs=null;
+  (function(){
+    var addBtn=document.getElementById('modalAddBtn');
+    var cta=document.getElementById('modalStickyCta');
+    if(!addBtn||!cta||!('IntersectionObserver' in window))return;
+    cta.classList.remove('visible');
+    if(_stickyObs)_stickyObs.disconnect();
+    var backdrop=document.getElementById('productModalBackdrop');
+    _stickyObs=new IntersectionObserver(function(entries){
+      cta.classList.toggle('visible',!entries[0].isIntersecting);
+    },{root:backdrop,threshold:0.1});
+    _stickyObs.observe(addBtn);
+    backdrop._stickyObs=_stickyObs;
+  })();
 }
 function closeProductModal(e){if(e.target===e.currentTarget)closeProductModalDirect();}
 function closeProductModalDirect(){
-  document.getElementById('productModalBackdrop').classList.remove('open');
+  var _bd=document.getElementById('productModalBackdrop');
+  var cta=document.getElementById('modalStickyCta');
+  if(cta)cta.classList.remove('visible');
+  if(_bd&&_bd._stickyObs){_bd._stickyObs.disconnect();_bd._stickyObs=null;}
+  _bd.classList.remove('open');
   document.body.style.overflow='';
   // Restore title if no category page is open
   if (!document.getElementById('catPage')?.classList.contains('open') && !document.getElementById('pdpBackdrop')?.classList.contains('open')) {
@@ -292,7 +314,7 @@ function openQuickOrder(id){
 }
 function closeQuickOrder(e){if(e.target===e.currentTarget)closeQuickOrderDirect();}
 function closeQuickOrderDirect(){document.getElementById('quickOrderBackdrop').classList.remove('open');document.body.style.overflow='';}
-function selectDelivery(el){document.querySelectorAll('.qo-delivery-opt').forEach(o=>o.classList.remove('selected'));el.classList.add('selected');}
+function selectDelivery(el){document.querySelectorAll('.qo-delivery-opt').forEach(o=>{o.classList.remove('selected');o.setAttribute('aria-checked','false');});el.classList.add('selected');el.setAttribute('aria-checked','true');}
 function submitQuickOrder(){
   let ok=true;
   ['qoName2','qoPhone','qoCity','qoAddr'].forEach(fid=>{const el=document.getElementById(fid);if(!el.value.trim()){el.classList.add('error');ok=false;}else el.classList.remove('error');});
@@ -403,6 +425,23 @@ function addToCart(id) {
     if (!ct) { showToast('✓ ' + prod.name.substring(0, 32) + '… добавен!'); return; }
     document.getElementById('cartToastEmoji').textContent = prod.emoji || '🛒';
     document.getElementById('cartToastMsg').textContent = prod.name.substring(0, 36) + (prod.name.length > 36 ? '…' : '') + ' добавен!';
+    var total = cart.reduce(function(s,x){return s+x.price*x.qty;},0);
+    var fill = document.getElementById('cartToastShipFill');
+    var label = document.getElementById('cartToastShipLabel');
+    var wrap = document.getElementById('cartToastShipWrap');
+    if (fill && label && wrap) {
+      if (total >= FREE_SHIP_BGN) {
+        fill.style.width = '100%';
+        label.textContent = '🎉 Безплатна доставка!';
+        wrap.style.display = 'block';
+      } else {
+        var pct = Math.min(100, Math.round(total / FREE_SHIP_BGN * 100));
+        var remaining = (FREE_SHIP_BGN - total).toFixed(2).replace('.',',');
+        fill.style.width = pct + '%';
+        label.textContent = 'Още ' + remaining + ' лв. до безплатна доставка';
+        wrap.style.display = 'block';
+      }
+    }
     ct.classList.add('show');
     clearTimeout(ct._timer);
     ct._timer = setTimeout(function() { ct.classList.remove('show'); }, 3500);
@@ -802,6 +841,36 @@ function osChangeQty(id, d) {
   updateCart();
   saveCart();
   renderOrderSummary();
+}
+
+var _allEcontOffices = [
+  'Еконт — кв. Лозенец, ул. Свети Наум 52',
+  'Еконт — ул. Г. С. Раковски 147, София',
+  'Еконт — бул. Витоша 100, София',
+  'Еконт — ж.к. Люлин 6, бл. 606, София',
+  'Еконт — ж.к. Младост 1, бл. 52Б, София',
+  'Еконт — ж.к. Надежда 4, бл. 421, София',
+  'Еконт — ул. Дойран 3, Пловдив',
+  'Еконт — бул. Цар Освободител 5, Варна',
+  'Еконт — ул. Ал. Стамболийски 6, Бургас',
+  'Еконт — ул. Цар Освободител 10, Стара Загора',
+  'Еконт — ул. Дунав 5, Русе',
+  'Еконт — бул. България 23, Плевен',
+  'Еконт — ул. Юрий Гагарин 1, Благоевград',
+  'Еконт — ул. Климент Охридски 9, Велико Търново'
+];
+
+function filterEcontOffices(city) {
+  var dl = document.getElementById('econtOfficesList');
+  if (!dl) return;
+  var filtered = city.trim()
+    ? _allEcontOffices.filter(function(o) { return o.toLowerCase().includes(city.toLowerCase()); })
+    : _allEcontOffices;
+  dl.innerHTML = filtered.map(function(o) { return '<option value="' + o.replace(/"/g,'&quot;') + '">'; }).join('');
+  var officeInput = document.getElementById('ckEcontOffice');
+  if (officeInput && officeInput.value && !filtered.some(function(o){return o===officeInput.value;})) {
+    officeInput.value = '';
+  }
 }
 
 function selectDeliveryCk(el, idx) {
@@ -1832,6 +1901,7 @@ function renderDropdown(query) {
           </div>
           ${badgeHtml}
           <div class="sd-price">${fmtEur(p.price)}<span class="text-10-muted-block">${fmtBgn(p.price)}</span></div>
+          <button type="button" class="sd-add-btn" onclick="event.stopPropagation();addToCart(${p.id});this.textContent='✓';this.classList.add('sd-add-done');setTimeout(()=>{this.textContent='+';this.classList.remove('sd-add-done')},1500);" aria-label="Добави в кошница">+</button>
         </div>`;
     }).join('')}
     ${results.length > 6 ? `
@@ -2527,6 +2597,7 @@ function openProductPage(id) {
   pdpRenderBundle(p);
   pdpRenderRelated(p);
   pdpRenderRvCarousel();
+  if (typeof pdpRenderRecsWidget === 'function') pdpRenderRecsWidget(p);
   pdpInitZoom();
   pdpInitSwipe();
   pdpInitTabsScroll();
@@ -3586,7 +3657,81 @@ function pdpRenderRelated(p) {
   section.style.display = '';
 }
 
-// 8. RECENTLY VIEWED CAROUSEL IN PDP
+// 8. CROSS-SELL WIDGET (right column, below CTA)
+var _CROSS_SELL = {
+  printers:    ['consumables','accessories'],
+  printer:     ['consumables','accessories'],
+  laptops:     ['accessories','peripherals'],
+  phones:      ['accessories'],
+  desktops:    ['peripherals','accessories'],
+  monitors:    ['accessories','peripherals'],
+  tablets:     ['accessories'],
+  cameras:     ['accessories'],
+  accessories: [],
+  peripherals: []
+};
+
+function pdpRenderRecsWidget(p) {
+  var widget = document.getElementById('pdpRecsWidget');
+  if (!widget) return;
+  var all = (typeof products !== 'undefined') ? products : [];
+  var inCart = new Set((typeof cart !== 'undefined' ? cart : []).map(function(x) { return x.id; }));
+  var cats = _CROSS_SELL[p.cat] || [];
+  var recs = [];
+
+  // 1. Same category, different subcat (accessories for this type)
+  if (p.subcat) {
+    recs = all.filter(function(x) {
+      return x.id !== p.id && !inCart.has(x.id) && x.cat === p.cat && x.subcat !== p.subcat;
+    });
+  }
+
+  // 2. Related accessory categories
+  if (recs.length < 3 && cats.length) {
+    var extra = all.filter(function(x) {
+      return x.id !== p.id && !inCart.has(x.id) && cats.indexOf(x.cat) !== -1;
+    }).sort(function(a,b) { return (b.rv||0) - (a.rv||0); });
+    recs = recs.concat(extra);
+  }
+
+  // 3. Fallback: bestsellers from same category
+  if (recs.length < 3) {
+    var fb = all.filter(function(x) {
+      return x.id !== p.id && !inCart.has(x.id) && x.cat === p.cat;
+    }).sort(function(a,b) { return (b.rv||0) - (a.rv||0); });
+    recs = recs.concat(fb);
+  }
+
+  // Deduplicate + take 3
+  var seen = new Set();
+  recs = recs.filter(function(x) { if (seen.has(x.id)) return false; seen.add(x.id); return true; }).slice(0, 3);
+
+  if (!recs.length) { widget.style.display = 'none'; return; }
+
+  var _e = function(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); };
+  var _thumb = function(r) {
+    if (r.img) return '<img src="' + _e(r.img) + '" alt="" width="40" height="40" style="width:40px;height:40px;object-fit:contain;border-radius:6px;" loading="lazy" onerror="this.style.display=\'none\'">';
+    return '<span style="font-size:22px;line-height:1;">' + _e(r.emoji||'') + '</span>';
+  };
+
+  widget.innerHTML =
+    '<div class="pdp-rw-hdr"><span class="pdp-rw-flash">⚡</span>Може да те заинтересува</div>' +
+    recs.map(function(r) {
+      return '<div class="pdp-rw-row" onclick="openProductPage(' + r.id + ')" tabindex="0" role="button" aria-label="' + _e(r.name) + '">' +
+        '<div class="pdp-rw-thumb">' + _thumb(r) + '</div>' +
+        '<div class="pdp-rw-info">' +
+          '<div class="pdp-rw-name">' + _e(r.name.length > 42 ? r.name.substring(0,42)+'…' : r.name) + '</div>' +
+          '<div class="pdp-rw-price">' + (typeof fmtEur === 'function' ? fmtEur(r.price) : r.price + ' €') + '</div>' +
+        '</div>' +
+        '<button type="button" class="pdp-rw-add" onclick="event.stopPropagation();addToCart(' + r.id + ');this.textContent=\'✓\';this.classList.add(\'added\');setTimeout(function(){this.textContent=\'+\';this.classList.remove(\'added\');}.bind(this),1400);" aria-label="Добави ' + _e(r.name) + ' в кошница">+</button>' +
+      '</div>';
+    }).join('') +
+    '<div class="pdp-rw-foot">Добавяни заедно с подобни продукти</div>';
+
+  widget.style.display = '';
+}
+
+// 9. RECENTLY VIEWED CAROUSEL IN PDP
 function pdpRenderRvCarousel() {
   var section = document.getElementById('pdpRvSection');
   var scroll  = document.getElementById('pdpRvCarousel');
@@ -3648,7 +3793,24 @@ function pdpRenderSpecsSidebar(p) {
   sb.style.display = '';
 }
 
-// ===== 10. PRINT / PDF =====
+// ===== 10. COPY SPECS =====
+function pdpCopySpecs() {
+  var p = (typeof products !== 'undefined') ? products.find(function(x) { return x.id === pdpProductId; }) : null;
+  if (!p) return;
+  var specs = p.specs || {};
+  var text = p.name + '\n\n' + Object.keys(specs).map(function(k) { return k + ': ' + specs[k]; }).join('\n');
+  var btn = document.getElementById('pdpCopyBtn');
+  if (!navigator.clipboard) { showToast && showToast('⚠️ Клипборд недостъпен'); return; }
+  navigator.clipboard.writeText(text).then(function() {
+    if (btn) { btn.textContent = '✓ Копирано'; btn.classList.add('pdp-copy-done'); }
+    if (typeof showToast === 'function') showToast('✓ Характеристиките са копирани!');
+    setTimeout(function() {
+      if (btn) { btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Копирай'; btn.classList.remove('pdp-copy-done'); }
+    }, 2000);
+  }).catch(function() { if (typeof showToast === 'function') showToast('⚠️ Грешка при копиране'); });
+}
+
+// ===== 11. PRINT / PDF =====
 function pdpPrintSpecs() {
   var p = (typeof products !== 'undefined') ? products.find(function(x) { return x.id === pdpProductId; }) : null;
   if (!p) return;

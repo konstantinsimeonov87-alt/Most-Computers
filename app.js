@@ -454,6 +454,58 @@ function closeComparePage() {
   document.body.style.overflow = '';
 }
 
+// IDEA-16: Hero Right Panel — personalized widget
+function renderHeroRightPanel() {
+  var panel = document.getElementById('heroRightPanel');
+  if (!panel) return;
+
+  function _hrpItem(p, large) {
+    var imgHtml = p.img
+      ? '<img src="' + escHtml(p.img) + '" alt="" width="' + (large?44:32) + '" height="' + (large?44:32) + '" loading="lazy" style="width:' + (large?44:32) + 'px;height:' + (large?44:32) + 'px;object-fit:contain;border-radius:6px;" onerror="this.style.display=\'none\';this.nextSibling.style.display=\'\'"><span style="font-size:' + (large?28:20) + 'px;display:none;">' + escHtml(p.emoji||'') + '</span>'
+      : '<span style="font-size:' + (large?28:20) + 'px;">' + escHtml(p.emoji||'') + '</span>';
+    return '<div class="hrp-item" style="cursor:pointer;" onclick="openProductPage(' + p.id + ')">' +
+      '<div class="hrp-thumb">' + imgHtml + '</div>' +
+      '<div class="hrp-item-info"><div class="hrp-item-name">' + escHtml((p.name||'').substring(0,32)) + (p.name.length>32?'…':'') + '</div>' +
+      '<div class="hrp-item-price">' + fmtEur(p.price) + '</div></div></div>';
+  }
+
+  // Priority 1: Wishlist
+  if (wishlist && wishlist.length > 0) {
+    var wlProds = wishlist.slice(0,3).map(function(id){return products.find(function(x){return x.id===id;});}).filter(Boolean);
+    if (wlProds.length) {
+      panel.innerHTML = '<div class="hrp-widget">' +
+        '<div class="hrp-title">❤ Твоите любими</div>' +
+        wlProds.map(function(p){return _hrpItem(p,false);}).join('') +
+        '<button class="hrp-see-all" onclick="openWishlist()">Виж всички любими →</button></div>';
+      return;
+    }
+  }
+
+  // Priority 2: Recently viewed
+  var rv = [];
+  try { rv = JSON.parse(localStorage.getItem('mc_rv') || '[]'); } catch(e) {}
+  if (rv.length > 0) {
+    var last = products.find(function(x){return x.id===rv[0];});
+    if (last) {
+      panel.innerHTML = '<div class="hrp-widget">' +
+        '<div class="hrp-title">🕐 Продължи откъдето спря</div>' +
+        _hrpItem(last, true) +
+        '<button class="add-cart-btn hrp-cta" onclick="addToCart(' + last.id + ');event.stopPropagation()">' +
+        '<svg width="14" height="14" class="svg-ic" aria-hidden="true"><use href="#ic-cart"/></svg> Добави в кошница</button></div>';
+      return;
+    }
+  }
+
+  // Priority 3: Top rated product
+  var top = products.slice().sort(function(a,b){return (b.rating*Math.min(b.rv,500))-(a.rating*Math.min(a.rv,500));})[0];
+  if (top) {
+    panel.innerHTML = '<div class="hrp-widget">' +
+      '<div class="hrp-title">🏆 Топ продукт</div>' +
+      _hrpItem(top, true) +
+      '<div class="hrp-stars">' + starsHTML(top.rating) + ' <span style="font-size:11px;color:var(--muted);">(' + top.rv + ' ревюта)</span></div></div>';
+  }
+}
+
 // ===== MOBILE FILTER DRAWER =====
 function toggleMobileFilters() {
   if (window.innerWidth > 1024) return;
@@ -3873,7 +3925,7 @@ function renderWishlistGrid() {
     try { _savedPrices = JSON.parse(localStorage.getItem('mc_wishlist_prices') || '{}'); } catch(e) {}
     // Add-all + share buttons before the grid
     const shareUrl = 'https://mostcomputers.bg/?wl=' + wishlist.join(',');
-    const addAllHtml = `<div class="wl-add-all-row"><button type="button" class="wl-add-all-btn" onclick="addAllWishlistToCart()"><svg width="15" height="15" class="svg-ic" aria-hidden="true"><use href="#ic-cart"/></svg> Добави всички в кошницата (${prods.length})</button><button type="button" class="wl-share-btn" onclick="navigator.clipboard&&navigator.clipboard.writeText('${shareUrl}').then(()=>showToast('🔗 Линкът е копиран!')).catch(()=>{})" title="Сподели любими">🔗 Сподели</button></div>`;
+    const addAllHtml = `<div class="wl-add-all-row"><button type="button" class="wl-add-all-btn" onclick="addAllWishlistToCart()"><svg width="15" height="15" class="svg-ic" aria-hidden="true"><use href="#ic-cart"/></svg> Добави всички в кошницата (${prods.length})</button><button type="button" class="wl-share-btn" onclick="navigator.clipboard&&navigator.clipboard.writeText('${escHtml(shareUrl)}').then(()=>showToast('🔗 Линкът е копиран!')).catch(()=>{})" title="Сподели любими">🔗 Сподели</button><button type="button" class="wl-share-btn" onclick="showWishlistQR()" title="QR код">📱 QR</button></div>`;
     grid.innerHTML = addAllHtml + `<div class="wishlist-grid">${prods.map(p => {
       const save = p.old ? Math.round(((p.old-p.price)/p.old)*100) : 0;
       const _wlName = escHtml(p.name);
@@ -3905,6 +3957,22 @@ function renderWishlistGrid() {
 }
 
 
+function showWishlistQR() {
+  if (!wishlist.length) return;
+  const url = 'https://mostcomputers.bg/?wl=' + wishlist.join(',');
+  const qrSrc = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=' + encodeURIComponent(url);
+  const modal = document.createElement('div');
+  modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:9000;display:flex;align-items:center;justify-content:center;';
+  modal.innerHTML = '<div style="background:var(--white);border-radius:16px;padding:28px 24px;text-align:center;max-width:260px;width:calc(100% - 48px);">' +
+    '<h3 style="margin:0 0 12px;font-size:16px;">📱 Сканирай QR кода</h3>' +
+    '<img src="' + escHtml(qrSrc) + '" width="200" height="200" alt="QR код за wishlist" style="border-radius:8px;display:block;margin:0 auto;">' +
+    '<p style="font-size:11px;color:var(--muted);margin:10px 0 14px;">Споделя ' + wishlist.length + ' ' + (wishlist.length === 1 ? 'продукт' : 'продукта') + ' от любими</p>' +
+    '<button onclick="this.closest(\'div[style*=fixed]\').remove()" class="add-cart-btn" style="width:100%;">Затвори</button>' +
+    '</div>';
+  modal.addEventListener('click', function(e) { if (e.target === modal) modal.remove(); });
+  document.body.appendChild(modal);
+}
+
 function addAllWishlistToCart() {
   const prods = wishlist.map(id => products.find(p => p.id === id)).filter(p => p && p.stock !== false);
   if (!prods.length) { showToast('⚠️ Няма налични продукти в любими!'); return; }
@@ -3914,6 +3982,66 @@ function addAllWishlistToCart() {
   });
   updateCart(); saveCart();
   showToast(`🛒 ${prods.length} продукта добавени в кошницата!`);
+}
+
+// ===== PROFILE PAGE =====
+function openProfilePage() {
+  const page = document.getElementById('profilePage');
+  if (!page) return;
+  // Fill header
+  const u = currentUser;
+  const avatar = document.getElementById('profAvatar');
+  const name   = document.getElementById('profName');
+  const email  = document.getElementById('profEmail');
+  if (avatar) avatar.textContent = u ? (u.firstName[0] + (u.lastName ? u.lastName[0] : '')).toUpperCase() : '?';
+  if (name)   name.textContent   = u ? (u.firstName + ' ' + (u.lastName || '')).trim() : 'Гост';
+  if (email)  email.textContent  = u ? u.email : '—';
+  // Settings tab values
+  const se = document.getElementById('profSettingsEmail');
+  const sp = document.getElementById('profSettingsPhone');
+  const so = document.getElementById('profOosCount');
+  if (se) se.textContent = u ? u.email : '—';
+  if (sp) sp.textContent = u ? (u.phone || '—') : '—';
+  if (so) {
+    try { so.textContent = JSON.parse(localStorage.getItem('mc_oos_notify') || '[]').length + ' продукта'; } catch(e) { so.textContent = '0 продукта'; }
+  }
+  // Show first tab
+  switchProfileTab('orders', document.querySelector('#profilePage .prof-tab'));
+  page.style.display = 'flex';
+  page.style.flexDirection = 'column';
+  requestAnimationFrame(function() { page.classList.add('open'); });
+  document.body.style.overflow = 'hidden';
+  try { history.pushState({ page: 'profile' }, '', '?page=profile'); } catch(e) {}
+}
+
+function closeProfilePage() {
+  const page = document.getElementById('profilePage');
+  if (!page) return;
+  page.classList.remove('open');
+  setTimeout(function() { page.style.display = 'none'; }, 300);
+  document.body.style.overflow = '';
+  try { history.pushState(null, '', window.location.pathname); } catch(e) {}
+}
+
+function switchProfileTab(tab, btn) {
+  // Deactivate all tabs
+  document.querySelectorAll('#profilePage .prof-tab').forEach(function(t) {
+    t.classList.remove('active'); t.setAttribute('aria-selected', 'false');
+  });
+  document.querySelectorAll('#profilePage .prof-tab-pane').forEach(function(p) { p.style.display = 'none'; });
+  // Activate selected
+  if (btn) { btn.classList.add('active'); btn.setAttribute('aria-selected', 'true'); }
+  const pane = document.getElementById('profTab' + tab.charAt(0).toUpperCase() + tab.slice(1));
+  if (pane) pane.style.display = 'block';
+  // Lazy render
+  if (tab === 'orders') {
+    const g = document.getElementById('profOrdersGrid');
+    if (g) { const tmp = document.getElementById('myOrdersGrid'); if (tmp) g.innerHTML = tmp.innerHTML || ''; renderMyOrders(); setTimeout(function() { if (g.innerHTML === '') g.innerHTML = tmp ? tmp.innerHTML : ''; }, 100); }
+  }
+  if (tab === 'wishlist') {
+    const g = document.getElementById('profWishlistGrid');
+    if (g) { const tmp = document.getElementById('wishlistGrid'); renderWishlistGrid(); setTimeout(function() { if (tmp) g.innerHTML = tmp.innerHTML; }, 100); }
+  }
 }
 
 // ===== MY ORDERS PAGE =====
@@ -4258,6 +4386,30 @@ function closeCheckoutPageAndTrack() {
   _stub('openBlogPost');
 }());
 
+// IDEA-22: Abandoned cart reminder for returning visitors
+(function() {
+  try {
+    var now = Date.now();
+    var lastVisit = parseInt(localStorage.getItem('mc_last_visit') || '0', 10);
+    var savedCart = JSON.parse(localStorage.getItem('mc_cart') || '[]');
+    localStorage.setItem('mc_last_visit', String(now));
+    if (!savedCart.length || !lastVisit || (now - lastVisit) < 2 * 60 * 60 * 1000) return;
+    setTimeout(function() {
+      var n = savedCart.length;
+      var banner = document.createElement('div');
+      banner.id = 'abandonedCartBanner';
+      banner.style.cssText = 'position:fixed;top:72px;left:50%;transform:translateX(-50%);z-index:3500;background:var(--primary);color:#fff;padding:11px 16px;border-radius:12px;font-size:13px;font-weight:700;display:flex;align-items:center;gap:10px;box-shadow:0 4px 20px rgba(0,0,0,.3);max-width:380px;width:calc(100% - 32px);';
+      banner.innerHTML = '<span>🛒</span><span>Имаш ' + n + ' ' + (n === 1 ? 'продукт' : 'продукта') + ' в кошницата!</span>' +
+        '<button style="margin-left:auto;background:rgba(255,255,255,.25);border:none;color:#fff;border-radius:8px;padding:4px 12px;cursor:pointer;font-weight:700;white-space:nowrap;font-size:12px;" onclick="openCart();document.getElementById(\'abandonedCartBanner\').remove()">Виж →</button>' +
+        '<button style="background:none;border:none;color:rgba(255,255,255,.75);cursor:pointer;font-size:18px;padding:0 2px;line-height:1;" aria-label="Затвори" onclick="document.getElementById(\'abandonedCartBanner\').remove()">×</button>';
+      document.body.appendChild(banner);
+      setTimeout(function() {
+        if (banner.parentNode) { banner.style.opacity = '0'; banner.style.transition = 'opacity .4s'; setTimeout(function() { banner.remove(); }, 400); }
+      }, 10000);
+    }, 2500);
+  } catch(e) {}
+})();
+
 // ===== ERROR BOUNDARY =====
 function _isNetworkErr(val) {
   const s = val ? String(val.message || val) : '';
@@ -4399,6 +4551,7 @@ renderSidebarBrandSpot();
 // renderHpCats already called inside renderGrids()
 // renderRecentlyDiscounted is in product-page.js (lazy) — runs in lazy-init.js
 renderRecentlyViewed();
+renderHeroRightPanel();
 initSectionAnimations();
 initScrollAnimations();
 

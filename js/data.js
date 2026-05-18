@@ -4192,14 +4192,14 @@ var products = [
    specs:{'Тип':'DDR4','Капацитет':'8 GB','Честота':'3200 MHz','Латентност':'CL16-18-18-38','Форм фактор':'DIMM','Напрежение':'1.35V'},
    rating:4.4,rv:0,reviews:[],
    desc:'TeamGroup 8G DDR4 3200 TEAM DELTA R BLCK — DDR4 DIMM 3200 MHz, 8 GB, CL16-18-18-38.',
-   img:'./images/products/25110.webp',stock:false},
+   img:'./images/products/25110.webp',stock:true},
 
   {id:599,name:'8G DDR4 3200 TEAM DELTA R WHIT',brand:'TeamGroup',cat:'components',subcat:'ram',
    price:47,old:null,pct:null,badge:null,emoji:'🟢',sku:'TF4D48G3200HC16F01',ean:null,
    specs:{'Тип':'DDR4','Капацитет':'8 GB','Честота':'3200 MHz','Латентност':'CL16','Форм фактор':'DIMM','Напрежение':'1.35V'},
    rating:4.4,rv:0,reviews:[],
    desc:'TeamGroup 8G DDR4 3200 TEAM DELTA R WHIT — DDR4 DIMM 3200 MHz, 8 GB (1×), CL16.',
-   img:'./images/products/45846.webp',stock:false},
+   img:'./images/products/45846.webp',stock:true},
 
   {id:600,name:'8G DDR4 3200 XPG D35/BK',brand:'ADATA',cat:'components',subcat:'ram',
    price:131,old:null,pct:null,badge:null,emoji:'🟢',sku:'AX4U32008G16A-SBKD35',ean:'4711085942791',
@@ -4304,7 +4304,7 @@ var products = [
    specs:{'Тип':'DDR4','Капацитет':'16 GB (2×)','Честота':'3200 MHz','Латентност':'CL16','Форм фактор':'DIMM','Напрежение':'1.35V'},
    rating:4.4,rv:0,reviews:[],
    desc:'TeamGroup 2X8G DDR4 3200 TEAM VULKAN Z — DDR4 DIMM 3200 MHz, 16 GB (2×), CL16.',
-   img:'./images/products/52494.webp',stock:false},
+   img:'./images/products/52494.webp',stock:true},
 
   {id:615,name:'2X8G DDR4 3200 XPG D35/BK',brand:'ADATA',cat:'components',subcat:'ram',
    price:275,old:null,pct:null,badge:null,emoji:'🟢',sku:'AX4U32008G16A-DTBKD35',ean:'4711085942807',
@@ -4794,7 +4794,7 @@ var products = [
    specs:{'Тип':'DDR5','Капацитет':'16 GB','Честота':'5200 MHz','Латентност':'CL42-42-42-84','Форм фактор':'DIMM','Напрежение':'1.1V'},
    rating:4.4,rv:0,reviews:[],
    desc:'TeamGroup 16G DDR5 5200 TEAM ELITE — DDR5 DIMM 5200 MHz, 16 GB, CL42-42-42-84.',
-   img:'./images/products/34060.webp',stock:false},
+   img:'./images/products/34060.webp',stock:true},
 
   {id:685,name:'16G DDR5 5200 TEAM ELITE + /BK',brand:'TeamGroup',cat:'components',subcat:'ram',
    price:138,old:null,pct:null,badge:null,emoji:'🟣',sku:'TPBD516G5200HC4201',ean:null,
@@ -6294,7 +6294,7 @@ var products = [
    specs:{'Капацитет':'1 TB','Интерфейс':'NVMe PCIe Gen3','Форм фактор':'M.2 2280'},
    rating:4.3,rv:0,reviews:[],
    desc:'TeamGroup TEAM SSD MP33 1TB M2 PCI-E — NVMe SSD 1 TB, NVMe PCIe Gen3, M.2 2280.',
-   img:'./images/products/35172.webp',stock:false},
+   img:'./images/products/35172.webp',stock:true},
 
   {id:899,name:'TEAM SSD MP33 PRO 1TB M2 PCI-E',brand:'TeamGroup',cat:'components',subcat:'ssd',
    price:296,old:null,pct:null,badge:null,emoji:'⚡',sku:'TM8FPD001T0C101',ean:'0765441052437',
@@ -12781,7 +12781,7 @@ products.push(
   {id:3156,name:'CANON PIXMA TS3750I BLACK',brand:'CANON',cat:'peripherals',subcat:'printer',price:48.23,old:null,pct:null,badge:null,emoji:'🖨',sku:'6671C006BA',ean:'4549292234107',specs:{'Vendor_url':'https://www.canon-europe.com/','Manufacturer':'Canon','Interface':'Interface Type - PC / Mac: Hi-Speed USB (B Port) Wi-Fi: IEEE802.11 b/g/n Wi-Fi Security: WPA-PSK(AES','Print speed':'Mono Print Speed: Approx. 7.7 ipm;Colour Print Speed: Approx. 4.0 ipm;Photo Print Speed Borderless 1','Copy speed':'sFCOT: Approx. 27 sec.;sESAT: Approx. 3.0 ipm','Print resolution':'Up to 4800 x 1200 dpi','Scanner resolution':'600 x 1200 dp','Paper size':'Plain paper: A4, A5, B5, Letter, Legal;Photo paper: 13x18cm, 10x15cm, 13x13cm'},rating:4.5,rv:7,reviews:[],desc:'CANON PIXMA TS3750I BLACK — мастиленоструен принтер. CANON качество и надеждност.',img:'./images/products/50566.webp',stock:false},
   {id:3157,name:'CANON MF664CDW COLOR LASER',brand:'CANON',cat:'peripherals',subcat:'printer',price:318.03,old:null,pct:null,badge:null,emoji:'🖨',sku:'6928C008AA',ean:'4549292242140',specs:{'Vendor_url':'https://www.canon-europe.com/business/products/office-printers/multifunction/colour/i-sensys-mf660-s','Manufacturer':'Canon','Interface':'USB 2.0 Hi-Speed, 10BASE-T/100BASE-TX/1000Base-T, Wireless 802.11b/g/n, Wireless Direct Connection','Print speed':'Single sided: Up to 25 ppm (A4), Up to 45.3 ppm (A5-Landscape);Double sided: Up to 15 ipm (A4)','Scan speed':'Single sided mono: 50ipm (300x300dpi);Single sided colour: 40ipm (300x300dpi);Single sided mono: 40i','Copy speed':'Single sided (A4): Up to 25 ppm;Double sided (A4): Up to 15 ipm','Print resolution':'Up to 1200 x 1200 dpi','Scanner resolution':'Optical: Up to 600 x 600 dpi;Enhanced: Up to 9600 x 9600 dpi'},rating:4.5,rv:9,reviews:[],desc:'CANON MF664CDW COLOR LASER — лазерен принтер. CANON качество и надеждност.',img:'./images/products/50637.webp',stock:true},
   {id:3158,name:'CANON PIXMA TS9551CA AIO WHITE',brand:'CANON',cat:'peripherals',subcat:'printer',price:272.06,old:null,pct:null,badge:null,emoji:'🖨',sku:'2988C056AD',ean:'4549292236286',specs:{'Interface':'Hi-Speed USB (B Port), Memory Card Slot','Print speed':'Printer speed black, ppm: Approx. 15 ipm (~ 33 ppm);Printer speed color, pages/min: Approx. 10 ipm (','Copy speed':'Approx. 6.5 ipm; sFCOT: Approx. 19 sec;Approx. 6.5 ipm; sFCOT: Approx. 19 sec','Print resolution':'Up to 4800 x 1200 dpi','Scanner resolution':'Up to 1200 x 2400 dpi (optical)','Paper size':'Rear Tray: A3/ A4/ A5/ B5/ LTR/ LGL/ 20x25cm/ 13x18cm/ 10x15cm/ 13x13cm/ 8.9x8.9cm/ 10x10cm/ 17.5x25','Functions':'Print, Copy, Scan, Cloud Link','Cartridge type':'5 individual ink tanks: PGI-580PGBK (Pigment Black), CLI-581BK (Black), CLI-581C (Cyan), CLI-581M (M'},rating:5,rv:14,reviews:[],desc:'CANON PIXMA TS9551CA AIO WHITE — мастиленоструен принтер. CANON качество и надеждност.',img:'./images/products/45770.webp',stock:true},
-  {id:3159,name:'CANON MAXIFY GX1040 AIO',brand:'CANON',cat:'peripherals',subcat:'printer',price:281.58,old:320.58,pct:12,badge:'sale',emoji:'🖨',sku:'6169C007AA',ean:'4549292219623',specs:{'Vendor_url':'https://www.canon-europe.com/printers/maxify-gx1040/','Interface':'Hi-Speed USB (B Port);Ethernet: 10/100Mbps (auto switchable);Wi-Fi: IEEE802.11 b/g/n/a/ac;Wi-Fi Secu','Print speed':'Mono Print Speed: approx. 15.0 ipm;Colour Print Speed: approx.10.0 ipm','Scan speed':'Colour: 3.5 ms/line (300 dpi);Greyscale: 1.5 ms/line (300 dpi)','Copy speed':'sFCOT (colour): 17 sec;sESAT (colour): 9.1 ipm','Print resolution':'Up to 600 x 1200 dpi','Scanner resolution':'1,200 x 2,400 dpi','Duty cycle':'up to 27,000 pages'},rating:4.8,rv:20,reviews:[],desc:'CANON MAXIFY GX1040 AIO — мастиленоструен принтер. CANON качество и надеждност.',img:'./images/products/45335.webp',stock:true},
+  {id:3159,name:'CANON MAXIFY GX1040 AIO',brand:'CANON',cat:'peripherals',subcat:'printer',price:281.58,old:320.58,pct:12,badge:'sale',emoji:'🖨',sku:'6169C007AA',ean:'4549292219623',specs:{'Vendor_url':'https://www.canon-europe.com/printers/maxify-gx1040/','Interface':'Hi-Speed USB (B Port);Ethernet: 10/100Mbps (auto switchable);Wi-Fi: IEEE802.11 b/g/n/a/ac;Wi-Fi Secu','Print speed':'Mono Print Speed: approx. 15.0 ipm;Colour Print Speed: approx.10.0 ipm','Scan speed':'Colour: 3.5 ms/line (300 dpi);Greyscale: 1.5 ms/line (300 dpi)','Copy speed':'sFCOT (colour): 17 sec;sESAT (colour): 9.1 ipm','Print resolution':'Up to 600 x 1200 dpi','Scanner resolution':'1,200 x 2,400 dpi','Duty cycle':'up to 27,000 pages'},rating:4.8,rv:20,reviews:[],desc:'CANON MAXIFY GX1040 AIO — мастиленоструен принтер. CANON качество и надеждност.',img:'./images/products/45335.webp',stock:false},
   {id:3160,name:'CANON MAXIFY GX2040 AIO',brand:'CANON',cat:'peripherals',subcat:'printer',price:334.02,old:396.02,pct:16,badge:'sale',emoji:'🖨',sku:'6171C007AC',ean:'4549292219739',specs:{'Vendor_url':'https://www.canon-europe.com/printers/maxify-gx2040/','Manufacturer':'Canon','Interface':'Hi-Speed USB (B Port);Ethernet: 10/100Mbps (auto switchable);Wi-Fi: IEEE802.11 b/g/n/a/ac;Wi-Fi Secu','Print speed':'Mono Print Speed: approx. 15.0 ipm;Colour Print Speed: approx.10.0 ipm','Scan speed':'Colour: 3.5 ms/line (300 dpi);Greyscale: 1.5 ms/line (300 dpi)','Copy speed':'sFCOT (colour): Approx. 17sec;sESAT (colour): Approx. 9.1 ipmESAT/Simplex ADF (colour): Approx. 8.1 ','Print resolution':'Up to 600 x 1200 dpi','Scanner resolution':'1,200 x 2,400 dpi'},rating:4.7,rv:15,reviews:[],desc:'CANON MAXIFY GX2040 AIO — мастиленоструен принтер. CANON качество и надеждност.',img:'./images/products/44490.webp',stock:false},
   {id:3161,name:'CANON MAXIFY BX110 W/BATT',brand:'CANON',cat:'peripherals',subcat:'printer',price:352.56,old:null,pct:null,badge:null,emoji:'🖨',sku:'7069C026AB',ean:'4549292245998',specs:{'Vendor_url':'https://www.canon-europe.com/printers/maxify-bx110-with-battery/','Manufacturer':'Canon','Model':'MAXIFY BX110 with battery','Interface':'Hi-Speed USB (USB Type C)','Print speed':'Mono Print Speed: Approx. 9.0 ipm;Colour Print Speed: Approx. 5.5 ipm;Photo Print Speed: Borderless ','Print resolution':'Up to 4800 x 1200 dpi','Paper size':'Rear Tray: A4, A5, B5, LTR, LGL, Envelopes (DL, COM10), Square (5"x5", 3.5"x3.5"), Card Size (91 x 5','Cartridge type':'PGI-35 Black;CLI-36 Color'},rating:4.9,rv:21,reviews:[],desc:'CANON MAXIFY BX110 W/BATT — мастиленоструен принтер. CANON качество и надеждност.',img:'./images/products/50642.webp',stock:true},
   {id:3162,name:'CANON LBP-6030B LASER',brand:'CANON',cat:'peripherals',subcat:'printer',price:116.6,old:null,pct:null,badge:null,emoji:'🖨',sku:'8468B006AA',ean:'4660999996615',specs:{'Vendor_url':'http://www.canon.com/','Model':'LBP-6030B LASER','Interface':'USB 2.0 Hi-Speed','Print speed':'18ppm mono (A4)?','Print resolution':'600x600 dpi','Duty cycle':'Max 5,000 pages per month','Cartridge type':'Cartridge 725 (1,600 pages)','Color':'Black'},rating:4.5,rv:21,reviews:[],desc:'CANON LBP-6030B LASER — лазерен принтер. CANON качество и надеждност.',img:'./images/products/1129.webp',stock:false},

@@ -4420,11 +4420,7 @@ function closeDeliveryPage() {
   try { history.pushState(null, '', window.location.pathname); } catch(e) {}
 }
 function filterCatScroll(type) {
-  if (type === 'sale') {
-    document.querySelectorAll('.filter-pill').forEach(p => {
-      if (p.textContent.includes('Промо') || p.textContent.includes('sale')) p.click();
-    });
-  }
+  if (typeof openCatPage === 'function') { openCatPage(type); return; }
   const featured = document.getElementById('featured');
   if (featured) featured.scrollIntoView({behavior:'smooth'});
 }

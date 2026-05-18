@@ -40,8 +40,8 @@ function getFilteredSorted(){
   if (_filterCache && _filterCache.key === _cacheKey) return _filterCache.list;
   let list=(
     currentFilter==='all'  ? [...products] :
-    currentFilter==='new'  ? products.filter(p=>p.badge==='new'||p.badge==='hot') :
-    currentFilter==='sale' ? products.filter(p=>p.badge==='sale') :
+    currentFilter==='new'  ? [...products].sort((a,b)=>b.id-a.id) :
+    currentFilter==='sale' ? products.filter(p=>p.badge==='sale'||p.badge==='Намаление'||!!p.old) :
     products.filter(p=>normalizeCat(p.cat)===currentFilter)
   ).filter(p=>p.stock!==false);
   // Subcat filter
@@ -208,7 +208,7 @@ function renderGrids(){
   const _s4 = products.find(p=>p.id===1884);
   const _s4el = document.getElementById('slide4Price');
   if(_s4 && _s4el) _s4el.innerHTML = `${(_s4.price/EUR_RATE).toFixed(2)} € / ${_s4.price} лв. <small>с ДДС</small>`;
-  const _newProducts=products.filter(p=>_inStock(p)&&(p.badge==='new'||p.badge==='hot')); const ng=document.getElementById('newGrid'); if(ng) ng.innerHTML=_newProducts.slice(0,8).map(p=>makeCard(p,true)).join('');
+  const _newProducts=[...products].filter(p=>_inStock(p)).sort((a,b)=>b.id-a.id); const ng=document.getElementById('newGrid'); if(ng) ng.innerHTML=_newProducts.slice(0,8).map(p=>makeCard(p,true)).join('');
   // Promo strip — update free delivery threshold with current EUR rate
   const _freeDelEur = 100;
   const _freeDelBgn = (Math.round(_freeDelEur * EUR_RATE * 100) / 100).toFixed(2);
@@ -774,6 +774,7 @@ const SUBCATS = {
   consumables: [
     { id: 'inkjet',       label: '🖨️ Мастиленоструйни касети' },
     { id: 'laser_toner',  label: '⚡ Лазерни тонери' },
+    { id: 'photo_paper',  label: '🖼️ Фото хартия' },
   ],
 };
 
@@ -848,6 +849,7 @@ const MEGA_MENU = {
   consumables: [
     { title: 'Лазерни тонери', id: 'laser_toner', items: ['Canon тонери', 'Монохромни', 'Цветни тонери', 'За офис принтери'] },
     { title: 'Мастиленоструйни касети', id: 'inkjet', items: ['Canon касети', 'Цветни касети', 'Черни касети', 'Мрежови принтери'] },
+    { title: 'Фото хартия', id: 'photo_paper', items: ['Canon Photo Paper', 'Гланцирана хартия', '10×15 см', 'A4 формат'] },
   ],
 };
 

@@ -19,6 +19,7 @@
   "homepage": "https://github.com/konstantinsimeonov87-alt/Most-Computers#readme",
   "devDependencies": {
     "@fullhuman/postcss-purgecss": "^8.0.0",
+    "html-minifier-terser": "^7.2.0",
     "jest": "^30.3.0",
     "jest-environment-jsdom": "^30.3.0",
     "jsdom": "^28.1.0",

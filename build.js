@@ -161,7 +161,7 @@ if (fs.existsSync(cssSrc)) {
   }
 }
 
-// 5. Copy HTML and stamp app.js + app-lazy.js + data.js version with today's date
+// 5. Process HTML — stamp versions + minify into dist/
 console.log('\n📝 Processing HTML...');
 {
   let htmlSrc = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
@@ -169,8 +169,27 @@ console.log('\n📝 Processing HTML...');
   htmlSrc = htmlSrc.replace(/app-lazy\.js\?v=\d{8}/g, `app-lazy.js?v=${today}`);
   htmlSrc = htmlSrc.replace(/data\.js\?v=\d{8}/g, `data.js?v=${today}`);
   fs.writeFileSync(path.join(ROOT, 'index.html'), htmlSrc);
-  fs.writeFileSync(path.join(DIST, 'index.html'), htmlSrc);
-  log(`Copied index.html (app.js?v=${today}, app-lazy.js?v=${today}, data.js?v=${today})`);
+  // Minify for dist/
+  const htmlDistPath = path.join(DIST, 'index.html');
+  const htmlSrcPath = path.join(ROOT, '_tmp_index.html');
+  fs.writeFileSync(htmlSrcPath, htmlSrc);
+  const before = Buffer.byteLength(htmlSrc, 'utf8');
+  try {
+    execSync(
+      `npx html-minifier-terser "${htmlSrcPath}" --output "${htmlDistPath}" ` +
+      `--remove-comments --collapse-whitespace --remove-redundant-attributes ` +
+      `--remove-empty-attributes --minify-css true --keep-closing-slash`,
+      { cwd: ROOT }
+    );
+    fs.unlinkSync(htmlSrcPath);
+    const after = fs.statSync(htmlDistPath).size;
+    const pct = Math.round((1 - after / before) * 100);
+    log(`index.html minified: ${(before/1024).toFixed(1)} KB → ${(after/1024).toFixed(1)} KB (${pct}% smaller)`);
+  } catch (e) {
+    warn('HTML minification failed, copying as-is: ' + e.message);
+    if (fs.existsSync(htmlSrcPath)) fs.unlinkSync(htmlSrcPath);
+    fs.writeFileSync(htmlDistPath, htmlSrc);
+  }
 }
 
 // 6. Bump SW cache version and copy static assets
@@ -196,12 +215,27 @@ if (fs.existsSync(swPath)) {
   }
 });
 
-// 6a. Generate sitemap.xml dynamically from products.js
+// 6a. Generate sitemap.xml dynamically from products.js + data.js
 console.log('\n🗺️  Generating sitemap.xml...');
 try {
   const prodSrc = fs.readFileSync(path.join(ROOT, 'products.js'), 'utf8');
-  // Extract all unique categories from products array
-  const cats = [...new Set([...prodSrc.matchAll(/cat:'([^']+)'/g)].map(m => m[1]))];
+  const dataSrc = fs.existsSync(path.join(ROOT, 'js/data.js'))
+    ? fs.readFileSync(path.join(ROOT, 'js/data.js'), 'utf8')
+    : '';
+  // Extract all unique categories from both files (single-quoted JS or double-quoted JSON)
+  const catReSingle = /\bcat\s*:\s*'([^']+)'/g;
+  const catReDouble = /"cat"\s*:\s*"([^"]+)"/g;
+  const allCatMatches = [
+    ...[...prodSrc.matchAll(catReSingle)].map(m => m[1]),
+    ...[...dataSrc.matchAll(catReSingle)].map(m => m[1]),
+    ...[...dataSrc.matchAll(catReDouble)].map(m => m[1]),
+  ];
+  const cats = [...new Set(allCatMatches)];
+  // Subcat map — extend when new subcats are added to js/filters.js
+  const SUBCATS = {
+    laptop: ['gaming_laptop', 'ultrabook', 'chromebook', 'workstation'],
+    consumables: ['laser_toner', 'inkjet'],
+  };
   const BASE = 'https://mostcomputers.bg';
   const today = new Date().toISOString().split('T')[0];
   const staticUrls = [
@@ -213,11 +247,14 @@ try {
     { loc: BASE + '/?page=delivery', priority: '0.7', freq: 'monthly' },
   ];
   const catUrls = cats.map(c => ({ loc: BASE + `/?cat=${c}`, priority: '0.9', freq: 'daily' }));
+  const subcatUrls = cats.flatMap(c =>
+    (SUBCATS[c] || []).map(s => ({ loc: BASE + `/?cat=${c}&subcat=${s}`, priority: '0.5', freq: 'weekly' }))
+  );
   // Extract product IDs for individual product URLs
   const productIds = [...prodSrc.matchAll(/\bid\s*:\s*(\d+)/g)].map(m => m[1]);
   const productUrls = productIds.map(id => ({ loc: BASE + `/?product=${id}`, priority: '0.8', freq: 'weekly' }));
 
-  const allUrls = [...staticUrls, ...catUrls, ...productUrls];
+  const allUrls = [...staticUrls, ...catUrls, ...subcatUrls, ...productUrls];
   const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${
     allUrls.map(u => `  <url>\n    <loc>${u.loc}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>${u.freq}</changefreq>\n    <priority>${u.priority}</priority>\n  </url>`).join('\n')
   }\n</urlset>\n`;

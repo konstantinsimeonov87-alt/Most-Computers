@@ -12126,7 +12126,7 @@
 
  .pdp-main-grid {
    display: grid;
-   grid-template-columns: 1fr 420px;
+   grid-template-columns: 500px 420px;
    gap: 40px;
    margin-bottom: 40px;
    align-items: start;
@@ -12134,8 +12134,7 @@
 
  /* Gallery */
  .pdp-gallery {
-   position: sticky;
-   top: 68px;
+   position: static;
    width: 100%;
  }
 

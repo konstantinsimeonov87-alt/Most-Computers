@@ -4402,7 +4402,7 @@ var products = [
    specs:{'Тип':'DDR4','Капацитет':'16 GB','Честота':'2666 MHz','Форм фактор':'DIMM','Напрежение':'1.2V'},
    rating:4.4,rv:0,reviews:[],
    desc:'TeamGroup 16G DDR4 2666 TEAM ELITE — DDR4 DIMM 2666 MHz, 16 GB.',
-   img:'./images/products/20224.webp',stock:true},
+   img:'./images/products/20224.webp',stock:false},
 
   {id:629,name:'16G DDR4 2666 KINGSTON',brand:'Kingston',cat:'components',subcat:'ram',
    price:137,old:null,pct:null,badge:null,emoji:'🟢',sku:'KVR26N19D8/16',ean:null,
@@ -5727,7 +5727,7 @@ var products = [
    specs:{'Капацитет':'10 TB','Интерфейс':'SATA III','Форм фактор':'3.5\'','RPM':'7200','Кеш':'256 MB'},
    rating:4.3,rv:0,reviews:[],
    desc:'Seagate 10TB SG ST10000VN000 — хард диск 10 TB, SATA III, 3.5".',
-   img:'./images/products/23414.webp',stock:true},
+   img:'./images/products/23414.webp',stock:false},
 
   {id:818,name:'12TB SG ST12000VN0008',brand:'Seagate',cat:'components',subcat:'hdd',
    price:541,old:null,pct:null,badge:null,emoji:'🖴',sku:'ST12000VN0008',ean:'8719706004350',
@@ -6504,7 +6504,7 @@ var products = [
    specs:{'Капацитет':'480 GB','Интерфейс':'SATA III','Форм фактор':'2.5\''},
    rating:4.3,rv:0,reviews:[],
    desc:'ADATA ADATA SSD SU650 480GB 3D NAND — SSD 480 GB, SATA III, 2.5".',
-   img:'./images/products/16189.webp',stock:true},
+   img:'./images/products/16189.webp',stock:false},
 
   {id:929,name:'ADATA SSD SU650 512GB 3D NAND',brand:'ADATA',cat:'components',subcat:'ssd',
    price:147,old:null,pct:null,badge:null,emoji:'💾',sku:'ASU650SS-512GT-R',ean:'4711085931528',
@@ -7429,7 +7429,7 @@ var products = [
    specs:{'Размер':'25.70\'','Панел':'IPS','Резолюция':'2560×1080 (UW-FHD)','Честота':'75 Hz','Отклик':'5ms','Тонколони':'Да'},
    rating:4.3,rv:0,reviews:[],
    desc:'LG 26 LG 26WQ500-B IPS ULTRA WIDЕ — 25.70" монитор, IPS, 2560×1080 (UW-FHD), 75 Hz.',
-   img:'./images/products/32477.webp',stock:true},
+   img:'./images/products/32477.webp',stock:false},
 
   {id:1061,name:'27 LG 27MR400-B',brand:'LG',cat:'monitors',subcat:'monitor',
    price:195,old:null,pct:null,badge:null,emoji:'🖥',sku:'27MR400-B.AEUQ',ean:'8806084706256',
@@ -12394,7 +12394,7 @@ const _cases = [
   {id:2845,name:'MSI MAG FORGE 110R',brand:'MSI',cat:'components',subcat:'case',price:74,old:null,pct:null,badge:null,emoji:'🖥',sku:'306-7G16R21-809',ean:null,specs:{'Формфактор':'Mid Tower','I/O':'2 x USB 3.2 Gen1 Type-A (5 Gbps); 1 x Audio-out; 1 x Mic-in','Охлаждане':'FAN SIZE SUPPORT:Front: 3 x 120 mm / 2 x 140 mm; Top: 2 x 12','Размери':'409 x 214 x 485 mm'},rating:4.8,rv:18,reviews:[],desc:'MSI MAG FORGE 110R, Mid Tower',img:'./images/products/40500.webp',stock:false},
   {id:2846,name:'MSI MAG FORGE 112R',brand:'MSI',cat:'components',subcat:'case',price:111,old:null,pct:null,badge:null,emoji:'🖥',sku:'306-7G16X23-HH9',ean:'4719072949679',specs:{'Формфактор':'Mid Tower','I/O':'2 x USB 3.2 Gen1 Type-A (5 Gbps); 1 x Audio-out; 1 x Mic-in','Охлаждане':'FAN SIZE SUPPORT:Front: 3 x 120 mm / 2 x 140 mm; Top: 2 x 12','Размери':'409 x 214 x 485 mm'},rating:3.9,rv:25,reviews:[],desc:'MSI MAG FORGE 112R, Mid Tower',img:'./images/products/40505.webp',stock:true},
   {id:2847,name:'MSI MAG FORGE 120A AIRFLOW',brand:'MSI',cat:'components',subcat:'case',price:108,old:null,pct:null,badge:null,emoji:'🖥',sku:'306-7G23A21-809',ean:null,specs:{'Формфактор':'Mid Tower','I/O':'2 x USB 3.2 Gen 1 Type-A; 1 x Audio; 1 x Mic; 1 x LED On/Off button; 1 x Reset b','Охлаждане':'FAN SIZE SUPPORT:Front: 3 x 120 mm / 2 x 140 mm; Top: 2 x 12','Размери':'411.6 x 210 x 498 mm'},rating:4.5,rv:20,reviews:[],desc:'MSI MAG FORGE 120A AIRFLOW, Mid Tower',img:'./images/products/40509.webp',stock:false},
-  {id:2848,name:'MSI MAG FORGE 120A /PSU 650W',brand:'MSI',cat:'components',subcat:'case',price:148,old:null,pct:null,badge:null,emoji:'🖥',sku:'3B6-BZ05026-HH9',ean:'4711377216340',specs:{'Формфактор':'Mid Tower','I/O':'2 x USB 3.2 Gen 1 Type-A;1 x Audio;1 x Mic;1 x LED On/Off button;1 x Reset butto','Размери':'411.6 x 210 x 498 mm'},rating:4.4,rv:10,reviews:[],desc:'MSI MAG FORGE 120A /PSU 650W, Mid Tower',img:'./images/products/46696.webp',stock:true},
+  {id:2848,name:'MSI MAG FORGE 120A /PSU 650W',brand:'MSI',cat:'components',subcat:'case',price:148,old:null,pct:null,badge:null,emoji:'🖥',sku:'3B6-BZ05026-HH9',ean:'4711377216340',specs:{'Формфактор':'Mid Tower','I/O':'2 x USB 3.2 Gen 1 Type-A;1 x Audio;1 x Mic;1 x LED On/Off button;1 x Reset butto','Размери':'411.6 x 210 x 498 mm'},rating:4.4,rv:10,reviews:[],desc:'MSI MAG FORGE 120A /PSU 650W, Mid Tower',img:'./images/products/46696.webp',stock:false},
   {id:2849,name:'MSI MAG FORGE 121A /PSU 750W',brand:'MSI',cat:'components',subcat:'case',price:158,old:null,pct:null,badge:null,emoji:'🖥',sku:'3B6-BZ05032-HH9',ean:'4711377283489',specs:{'Формфактор':'Mid Tower','Цвят':'Black','I/O':'2 x USB 5Gbps (Type-A);1 x Audio-Out;1 x Mic-In;1 x LED On / Off Button','Охлаждане':'Fan Size Support: Top: 2 x 120 mm / 2 x 140 mm;Front: 3 x 12','Размери':'411.6 x 210 x 498 mm'},rating:4.8,rv:17,reviews:[],desc:'MSI MAG FORGE 121A /PSU 750W, Mid Tower, Black',img:'./images/products/46700.webp',stock:true},
   {id:2850,name:'MSI MPG GUNGNIR 110R BLACK',brand:'MSI',cat:'components',subcat:'case',price:171,old:null,pct:null,badge:null,emoji:'🖥',sku:'306-7G10R21-W57',ean:'4719072715601',specs:{'Формфактор':'Mid Tower','I/O':'USB 3.2 Gen 1 Type A x 2; USB 3.2 Gen 2 Type C x1; Audio x1 Mic x1','Охлаждане':'PRE-INSTALL FAN:Front: 120mm ARGB Fan x 3; Rear: 120mm ARGB','Размери':'215 (W) x 430 (D) x 450 (H) mm'},rating:4.3,rv:15,reviews:[],desc:'MSI MPG GUNGNIR 110R BLACK, Mid Tower',img:'./images/products/28127.webp',stock:false},
   {id:2851,name:'MSI MPG GUNGNIR 110R WHITE',brand:'MSI',cat:'components',subcat:'case',price:187,old:null,pct:null,badge:null,emoji:'🖥',sku:'306-7G10W21-W57',ean:'4711377154024',specs:{'Формфактор':'Mid Tower','I/O':'2 x USB 3.2 Gen 1 Type-A (5Gbps); 1 x USB 3.2 Gen 2x2 Type-C (20Gbps); 1 x LED S','Охлаждане':'Fan Size Support: Front: 3 x 120 mm / 2 x 140 mm; Top: 2 x 1','Размери':'430 x 215 x 480 mm'},rating:5.0,rv:27,reviews:[],desc:'MSI MPG GUNGNIR 110R WHITE, Mid Tower',img:'./images/products/40536.webp',stock:true},

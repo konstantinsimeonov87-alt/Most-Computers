@@ -345,9 +345,10 @@ function pdpRenderRvCarousel() {
 
 // Shared carousel card renderer
 function _pdpCarCard(p) {
+  var _e = typeof _esc === 'function' ? _esc : escHtml;
   var price = (typeof fmtEur === 'function') ? fmtEur(p.price) : (p.price + ' лв.');
   var thumb = p.img
-    ? '<img class="pdp-car-img" src="' + p.img + '" alt="" loading="lazy" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">'
+    ? '<img class="pdp-car-img" src="' + _e(p.img) + '" alt="" loading="lazy" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">'
     : '';
   var emoji = '<span class="pdp-car-emoji"' + (p.img ? ' style="display:none"' : '') + '>' + (p.emoji || '📦') + '</span>';
   var stars = p.rating ? '<div class="pdp-car-stars">' + starsHTML(p.rating) + '</div>' : '';
@@ -474,8 +475,9 @@ function pdpBsOpen(p) {
   if (nameEl) nameEl.textContent = p.name;
   if (priceEl) priceEl.textContent = (typeof fmtEur === 'function') ? fmtEur(p.price) : p.price + ' лв.';
   if (thumbEl) {
+    var _e = typeof _esc === 'function' ? _esc : escHtml;
     thumbEl.innerHTML = p.img
-      ? '<img src="' + p.img + '" style="width:44px;height:44px;object-fit:contain;border-radius:6px;">'
+      ? '<img src="' + _e(p.img) + '" style="width:44px;height:44px;object-fit:contain;border-radius:6px;">'
       : '<span style="font-size:28px;">' + (p.emoji || '📦') + '</span>';
   }
   sheet.classList.add('open');
@@ -571,8 +573,9 @@ function openProdPreview(id) {
   var ratingEl = document.getElementById('ppRating');
   var priceEl = document.getElementById('ppPrice');
 
+  var _e = typeof _esc === 'function' ? _esc : escHtml;
   if (imgEl) imgEl.innerHTML = p.img
-    ? '<img src="' + p.img + '" style="width:72px;height:72px;object-fit:contain;border-radius:10px;">'
+    ? '<img src="' + _e(p.img) + '" style="width:72px;height:72px;object-fit:contain;border-radius:10px;">'
     : '<span style="font-size:44px;">' + (p.emoji || '📦') + '</span>';
   if (brandEl) brandEl.textContent = p.brand || '';
   if (nameEl) nameEl.textContent = p.name;

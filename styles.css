@@ -405,6 +405,11 @@
  }
  .sd-add-btn:hover { background: var(--primary); color: #fff; }
  .sd-add-btn.sd-add-done { background: var(--primary); color: #fff; font-size: 13px; font-weight: 700; }
+ .sd-ctrl { flex-shrink: 0; margin-left: 6px; }
+ .sd-qty { display: flex; align-items: center; gap: 4px; }
+ .sd-qty button { width: 24px; height: 24px; border-radius: 50%; border: 2px solid var(--primary); background: transparent; color: var(--primary); font-size: 16px; font-weight: 700; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background .15s, color .15s; }
+ .sd-qty button:hover { background: var(--primary); color: #fff; }
+ .sd-qty span { font-size: 13px; font-weight: 700; min-width: 16px; text-align: center; color: var(--text); }
 
  .sd-badge-small {
    font-size: 9px;

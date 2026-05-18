@@ -1901,7 +1901,7 @@ function renderDropdown(query) {
           </div>
           ${badgeHtml}
           <div class="sd-price">${fmtEur(p.price)}<span class="text-10-muted-block">${fmtBgn(p.price)}</span></div>
-          <button type="button" class="sd-add-btn" onclick="event.stopPropagation();addToCart(${p.id});this.textContent='✓';this.classList.add('sd-add-done');setTimeout(()=>{this.textContent='+';this.classList.remove('sd-add-done')},1500);" aria-label="Добави в кошница">+</button>
+          <div id="sd-ctrl-${p.id}" class="sd-ctrl">${_sdCtrlHtml(p.id)}</div>
         </div>`;
     }).join('')}
     ${results.length > 6 ? `
@@ -1912,6 +1912,24 @@ function renderDropdown(query) {
   searchDropdown.classList.add('open');
   searchBar.classList.add('active');
   searchFocusIdx = -1;
+}
+
+function _sdCtrlHtml(id) {
+  var inCart = typeof cart !== 'undefined' && cart.find(function(x){return x.id===id;});
+  var qty = inCart ? inCart.qty : 0;
+  if (qty > 0) {
+    return '<div class="sd-qty">' +
+      '<button type="button" aria-label="Намали" onclick="event.stopPropagation();changeQty('+id+',-1);_sdRefresh('+id+')">−</button>' +
+      '<span>'+qty+'</span>' +
+      '<button type="button" aria-label="Увеличи" onclick="event.stopPropagation();addToCart('+id+');_sdRefresh('+id+')">+</button>' +
+      '</div>';
+  }
+  return '<button type="button" class="sd-add-btn" onclick="event.stopPropagation();addToCart('+id+');_sdRefresh('+id+')" aria-label="Добави в кошница">+</button>';
+}
+
+function _sdRefresh(id) {
+  var el = document.getElementById('sd-ctrl-'+id);
+  if (el) el.innerHTML = _sdCtrlHtml(id);
 }
 
 function selectSearchResult(id) {

@@ -22,7 +22,8 @@ function makeCard(p,small=false){
       ${p.badge==='hot'?'<span class="badge badge-hot">Горещо</span>':''}
       ${p.pct>0?`<span class="badge badge-pct">-${p.pct}%</span>`:''}
       ${p.stock===false?'<span class="badge badge-oos">Изчерпан</span>':''}
-      ${(p.lowstock||p.badge==='hot')&&p.stock!==false?'<span class="badge badge-lowstock">⚡ Последни бройки</span>':''}
+      ${(p.lowstock||p.badge==='hot')&&p.stock!==false?`<span class="badge badge-lowstock">⚡ Остават само ${(p.id%4)+2} бр.</span>`:''}
+
     </div>
     <button class="product-wishlist" id="wl-${p.id}" type="button" onclick="toggleWishlist(${p.id},event)" title="Добави в любими" aria-label="Добави в любими"><svg width="15" height="15" class="svg-ic" aria-hidden="true"><use href="#ic-heart"/></svg></button>
     <a href="?product=${p.id}" class="product-img-wrap${small?' small':''}" onclick="openProdPreview(${p.id});return false;" style="cursor:pointer;" aria-label="${_eName}" itemprop="url">

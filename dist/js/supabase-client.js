@@ -36,8 +36,6 @@ if (typeof window.supabase !== 'undefined') {
           console.error('Supabase грешка:', error.message);
           return false;
         }
-        console.log('✅ Поръчка записана в Supabase:', orderData.num);
-
         // Изпрати имейл потвърждения
         sb.functions.invoke('send-order-email', { body: orderData })
           .catch(e => console.error('Email грешка:', e));
@@ -65,7 +63,6 @@ if (typeof window.supabase !== 'undefined') {
       } catch(e) { return null; }
     };
 
-    console.log('✅ Supabase клиент инициализиран');
   } catch (e) {
     console.warn('Supabase инициализация неуспешна:', e.message);
   }

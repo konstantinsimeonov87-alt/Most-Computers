@@ -4367,7 +4367,7 @@ var products = [
    specs:{'Тип':'DDR5','Капацитет':'16 GB','Честота':'5600 MHz','Латентност':'CL40','Форм фактор':'DIMM','Напрежение':'1.25V'},
    rating:4.4,rv:0,reviews:[],
    desc:'Kingston 2X8G DDR5 5600 KING FURY BEAST — DDR5 DIMM 5600 MHz, 16 GB, CL40.',
-   img:'./images/products/33604.webp',stock:false},
+   img:'./images/products/33604.webp',stock:true},
 
   {id:624,name:'2X16G DDR5 5600 KINGST BEAST',brand:'Kingston',cat:'components',subcat:'ram',
    price:829,old:null,pct:null,badge:null,emoji:'🟣',sku:'KF556C40BBK2-32',ean:'740617325706',
@@ -4388,7 +4388,7 @@ var products = [
    specs:{'Тип':'DDR5','Капацитет':'16 GB','Честота':'5600 MHz','Латентност':'CL36','Форм фактор':'DIMM'},
    rating:4.4,rv:0,reviews:[],
    desc:'Kingston 2X8G DDR5 5600 KING EXPO BEAST — DDR5 DIMM 5600 MHz, 16 GB, CL36.',
-   img:'./images/products/34691.webp',stock:false},
+   img:'./images/products/34691.webp',stock:true},
 
   {id:627,name:'2X8G DDR5 6000 KING FURY BEAST',brand:'Kingston',cat:'components',subcat:'ram',
    price:101,old:null,pct:null,badge:null,emoji:'🟣',sku:'KF560C40BBK2-16',ean:null,
@@ -4479,7 +4479,7 @@ var products = [
    specs:{'Тип':'DDR4','Капацитет':'16 GB','Честота':'3200 MHz','Латентност':'CL22','Форм фактор':'DIMM'},
    rating:4.4,rv:0,reviews:[],
    desc:'Kingston 16G DDR4 3200 KINGSTON — DDR4 DIMM 3200 MHz, 16 GB, CL22.',
-   img:'./images/products/25112.webp',stock:true},
+   img:'./images/products/25112.webp',stock:false},
 
   {id:640,name:'16G DDR4 3200 KINGS FURY BEAST',brand:'Kingston',cat:'components',subcat:'ram',
    price:140,old:null,pct:null,badge:null,emoji:'🟢',sku:'KF432C16BB/16',ean:null,
@@ -4682,7 +4682,7 @@ var products = [
    specs:{'Тип':'DDR5','Капацитет':'16 GB','Честота':'5200 MHz','Форм фактор':'DIMM','Напрежение':'1.25V'},
    rating:4.4,rv:0,reviews:[],
    desc:'Kingston 16G DDR5 5200 KING FURY BEAST — DDR5 DIMM 5200 MHz, 16 GB.',
-   img:'./images/products/29783.webp',stock:false},
+   img:'./images/products/29783.webp',stock:true},
 
   {id:669,name:'16G DDR5 5200 KING EXPO BEAST',brand:'Kingston',cat:'components',subcat:'ram',
    price:80,old:null,pct:null,badge:null,emoji:'🟣',sku:'KF552C36BBE-16',ean:null,
@@ -4696,7 +4696,7 @@ var products = [
    specs:{'Тип':'DDR5','Капацитет':'16 GB','Честота':'5600 MHz','Латентност':'CL36','Форм фактор':'DIMM','Напрежение':'1.25V'},
    rating:4.4,rv:0,reviews:[],
    desc:'Kingston 16G DDR5 5600 KING EXPO BEAST — DDR5 DIMM 5600 MHz, 16 GB, CL36.',
-   img:'./images/products/37083.webp',stock:false},
+   img:'./images/products/37083.webp',stock:true},
 
   {id:671,name:'16G DDR5 6000 KING EXPO BEAST',brand:'Kingston',cat:'components',subcat:'ram',
    price:433,old:null,pct:null,badge:null,emoji:'🟣',sku:'KF560C36BBE2-16',ean:null,
@@ -5431,7 +5431,7 @@ var products = [
    specs:{'Тип':'DDR4','Капацитет':'16 GB','Честота':'3200 MHz','Латентност':'22','Форм фактор':'SO-DIMM','Напрежение':'1.2V'},
    rating:4.4,rv:0,reviews:[],
    desc:'Kingston 16G DDR4 3200 KINGST SODIMM — DDR4 SO-DIMM 3200 MHz, 16 GB, 22.',
-   img:'./images/products/26039.webp',stock:true},
+   img:'./images/products/26039.webp',stock:false},
 
   {id:776,name:'32GB DDR4 3200 KINGSTON SODIMM',brand:'Kingston',cat:'components',subcat:'ram',
    price:492,old:null,pct:null,badge:null,emoji:'💻',sku:'KVR32S22D8/32',ean:'0740617310924',

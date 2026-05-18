@@ -212,16 +212,16 @@ function openComparePage(){
   const allKeys=[...new Set(prods.flatMap(p=>Object.keys(p.specs||{})))];
   const minP=Math.min(...prods.map(p=>p.price)),maxR=Math.max(...prods.map(p=>p.rating));
   let html=`<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;font-size:13px;">`;
-  html+=`<thead><tr><th style="text-align:left;padding:12px;background:var(--bg2);border-radius:8px 0 0 0;">Продукт</th>`;
-  prods.forEach(p=>html+=`<td style="padding:16px;text-align:center;background:var(--bg2);border-left:1px solid var(--border);">${_cmpThumb(p,64)}<div style="font-weight:800;font-size:14px;margin-bottom:4px;">${p.name}</div><div style="font-size:18px;font-weight:900;color:var(--primary);">${fmtEur(p.price)}</div><div style="font-size:11px;color:var(--muted);">${fmtBgn(p.price)}</div><button type="button" onclick="addToCart(${p.id})" style="margin-top:10px;background:var(--primary);color:#fff;border:none;border-radius:8px;padding:8px 16px;font-size:12px;font-weight:700;cursor:pointer;">🛒 Добави</button></td>`);
+  html+=`<thead><tr><th scope="col" style="text-align:left;padding:12px;background:var(--bg2);border-radius:8px 0 0 0;">Продукт</th>`;
+  prods.forEach(p=>html+=`<th scope="col" style="padding:16px;text-align:center;background:var(--bg2);border-left:1px solid var(--border);">${_cmpThumb(p,64)}<div style="font-weight:800;font-size:14px;margin-bottom:4px;">${p.name}</div><div style="font-size:18px;font-weight:900;color:var(--primary);">${fmtEur(p.price)}</div><div style="font-size:11px;color:var(--muted);">${fmtBgn(p.price)}</div><button type="button" onclick="addToCart(${p.id})" style="margin-top:10px;background:var(--primary);color:#fff;border:none;border-radius:8px;padding:8px 16px;font-size:12px;font-weight:700;cursor:pointer;">🛒 Добави</button></th>`);
   html+=`</tr></thead><tbody>`;
-  html+=`<tr><th style="text-align:left;padding:10px 12px;background:var(--bg);border-top:1px solid var(--border);">Цена</th>`;
+  html+=`<tr><th scope="row" style="text-align:left;padding:10px 12px;background:var(--bg);border-top:1px solid var(--border);">Цена</th>`;
   prods.forEach(p=>html+=`<td style="padding:10px 12px;text-align:center;border-top:1px solid var(--border);border-left:1px solid var(--border);${p.price===minP?'background:var(--primary-light);font-weight:800;color:var(--primary);':''}">${fmtEur(p.price)}</td>`);
-  html+=`</tr><tr><th style="text-align:left;padding:10px 12px;background:var(--bg);border-top:1px solid var(--border);">Рейтинг</th>`;
+  html+=`</tr><tr><th scope="row" style="text-align:left;padding:10px 12px;background:var(--bg);border-top:1px solid var(--border);">Рейтинг</th>`;
   prods.forEach(p=>html+=`<td style="padding:10px 12px;text-align:center;border-top:1px solid var(--border);border-left:1px solid var(--border);${p.rating===maxR?'background:var(--primary-light);font-weight:800;':''}">${starsHTML(p.rating)} ${p.rating}</td>`);
   html+=`</tr>`;
   allKeys.forEach(k=>{
-    html+=`<tr><th style="text-align:left;padding:10px 12px;background:var(--bg);border-top:1px solid var(--border);color:var(--muted);font-weight:600;">${k}</th>`;
+    html+=`<tr><th scope="row" style="text-align:left;padding:10px 12px;background:var(--bg);border-top:1px solid var(--border);color:var(--muted);font-weight:600;">${k}</th>`;
     prods.forEach(p=>html+=`<td style="padding:10px 12px;text-align:center;border-top:1px solid var(--border);border-left:1px solid var(--border);">${(p.specs||{})[k]||'—'}</td>`);
     html+=`</tr>`;
   });
@@ -248,16 +248,16 @@ function openCompareModal(){
     return nums.findIndex(n=>n===mx);
   }
 
-  let html=`<thead><tr><th>Продукт</th>`;
-  prods.forEach(p=>html+=`<td class="cmp-product-header"><span class="cmp-emoji">${_cmpThumb(p,60)}</span><div class="cmp-name">${_esc(p.name)}</div><div class="cmp-price">${fmtEur(p.price)}<span class="text-11-muted-block">${fmtBgn(p.price)}</span></div><button type="button" class="cmp-add-btn" onclick="addToCart(${p.id})">🛒 Добави</button></td>`);
+  let html=`<thead><tr><th scope="col">Продукт</th>`;
+  prods.forEach(p=>html+=`<th scope="col" class="cmp-product-header"><span class="cmp-emoji">${_cmpThumb(p,60)}</span><div class="cmp-name">${_esc(p.name)}</div><div class="cmp-price">${fmtEur(p.price)}<span class="text-11-muted-block">${fmtBgn(p.price)}</span></div><button type="button" class="cmp-add-btn" onclick="addToCart(${p.id})">🛒 Добави</button></th>`);
   html+=`</tr></thead><tbody>`;
   // Price row — lowest is best
   const priceDiff=_isDiff(prods.map(p=>p.price));
-  html+=`<tr class="${priceDiff?'cmp-diff-row':''}"><th>Цена${priceDiff?'<span class="cmp-diff-badge">!</span>':''}</th>`;
+  html+=`<tr class="${priceDiff?'cmp-diff-row':''}"><th scope="row">Цена${priceDiff?'<span class="cmp-diff-badge">!</span>':''}</th>`;
   prods.forEach(p=>html+=`<td class="${p.price===minP?'cmp-best':''}">${fmtEur(p.price)}<span class="text-11-muted-block">${fmtBgn(p.price)}</span></td>`);
   // Rating row
   const ratingDiff=_isDiff(prods.map(p=>p.rating));
-  html+=`</tr><tr class="${ratingDiff?'cmp-diff-row':''}"><th>Рейтинг${ratingDiff?'<span class="cmp-diff-badge">!</span>':''}</th>`;
+  html+=`</tr><tr class="${ratingDiff?'cmp-diff-row':''}"><th scope="row">Рейтинг${ratingDiff?'<span class="cmp-diff-badge">!</span>':''}</th>`;
   prods.forEach(p=>html+=`<td class="${p.rating===maxR?'cmp-best':''}">${starsHTML(p.rating)} ${p.rating}</td>`);
   html+=`</tr>`;
 
@@ -268,7 +268,7 @@ function openCompareModal(){
     const diff=_isDiff(vals);
     if(diff)diffCount++;
     const bestIdx=diff?_bestNumIdx(vals):-1;
-    let row=`<tr class="${diff?'cmp-diff-row':''}" data-cmp-diff="${diff?'1':'0'}"><th>${_esc(k)}${diff?'<span class="cmp-diff-badge">!</span>':''}</th>`;
+    let row=`<tr class="${diff?'cmp-diff-row':''}" data-cmp-diff="${diff?'1':'0'}"><th scope="row">${_esc(k)}${diff?'<span class="cmp-diff-badge">!</span>':''}</th>`;
     vals.forEach((v,i)=>{ row+=`<td class="${diff&&i===bestIdx?'cmp-best':''}">${_esc(v)}</td>`; });
     row+=`</tr>`;
     return row;

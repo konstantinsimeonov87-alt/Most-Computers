@@ -852,10 +852,12 @@ function closeThankyouPage() {
 }
 
 function printInvoice(num) {
+  // Delegates to printOrder() — correct company data + brand-based auto-detection
   let orders = [];
   try { orders = JSON.parse(localStorage.getItem('mc_orders') || '[]'); } catch (e) { }
   const o = num ? orders.find(x => x.num === num) : orders[0];
   if (!o) { showToast('⚠️ Няма данни за поръчката'); return; }
+  if (typeof printOrder === 'function') { printOrder(o.num); return; }
 
   const subtotalNoVat = o.subtotal / 1.2;
   const vatAmt = (o.subtotal - subtotalNoVat).toFixed(2);

@@ -5,6 +5,61 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ---
 
+## [v1.7.0] — 2026-05-18 — Консумативи, PDP UX & Performance
+
+### Added
+- **173 нови продукта** — Canon консумативи (лазерни тонери + мастиленоструйни касети) с EAN, SKU и снимки от Icecat
+- Категория **Консумативи** добавена в: desktop sidebar, mobile категорийни тайлове, mobile nav accordion, mega dropdown меню
+- Mega dropdown за консумативи с 2 колони — „Лазерни тонери" и „Мастиленоструйни касети"
+- **Субкатегории** `laser_toner` и `inkjet` в URL схемата (`?cat=consumables&subcat=laser_toner`)
+- Cross-sell widget „Може да те заинтересува" в PDP — позициониран под галерийните миниатюри (вляво)
+- `printer → consumables` cross-sell връзка в `_CROSS_SELL` map
+- **Scarcity counter** на продуктови карти: „⚡ Остават само N бр." при lowstock/hot badge
+- **Qty stepper в search dropdown** — бутони +/− вместо статичен „Добави" след добавяне в кошница
+- Breadcrumb навигация в category page (Home → Категория → Субкатегория)
+- Sticky CTA bar в PDP при scroll (mobile и desktop)
+- Search bar в category page header за филтриране на продукти
+- Shipping progress bar в кошницата (показва колко до безплатна доставка)
+- Wishlist price-drop нотификации (при намаление на запазен продукт)
+- Spec copy бутон в PDP specs таблица (копира стойност в клипборд)
+- Econt city autocomplete филтър в checkout
+- HTML минификация в build pipeline (230 KB → 183 KB, -21%)
+- `preconnect` за images.icecat.biz (ускорява зареждане на продуктови снимки)
+- Sitemap URLs за консумативи и техните субкатегории
+
+### Fixed
+- Flash sale grid — динамичен брой колони, картите винаги запълват реда
+- XSS: `p.img` се escape-ва в 3 `innerHTML` render пътища (cards, PDP gallery, compare)
+- PDP layout: максимална ширина 1100px, grid колони `1fr 420px`, `align-items: start`
+- Spec филтър reset при смяна на категория не затриваше търсенето
+- Brand spotlight, recently-viewed и top-product sidebar widget-и в SRP
+- Sidebar price filter с по-умно разпределение на стъпките
+
+### Security
+- `p.img` URL-и от external домейни escape-вани преди вмъкване в `innerHTML`
+- Премахнат коментар в source кода, разкриващ стойността на admin PIN
+- Admin таблицата с продукти escape-ва HTML в имена/emoji/SKU (`_esc()`)
+- `previewAefImg()` в admin мигрирана от `innerHTML` към DOM API
+- Demo потребителят в auth.js вече не съдържа реална парола в source кода
+
+### Performance
+- HTML минификация: -21% (291 KB → 230 KB) в dist/
+- Премахнат `dns-prefetch` за dell.com (Dell не е в каталога)
+- `preconnect` за icecat.biz заменя по-слабия `dns-prefetch`
+- `dist/data.js` (2.2 MB) — решението е gzip/brotli на сървъра (не code change)
+
+### Accessibility (WCAG 2.1 Level A)
+- `<th scope="row">` добавен в работното време таблица (`hoursTable`) в index.html
+- `<th scope="row/col">` добавен в JavaScript-генерирания compare table (`gallery.js`)
+- `<th scope="row">` добавен в PDP specs таблица (`product-page.js`)
+
+### Changed
+- Homepage секции наредени по-логично: категории → flash sale → статично промо → нови продукти → препоръчани → bestsellers → brand ticker → всички продукти
+- Dead code премахнат: orphan `#pdpRecsWidget` placeholder, legacy checkout upsell функции, дублиран CSS
+- Supabase orderData logging премахнат от production (debug логове изчистени)
+
+---
+
 ## [v1.6.0] — 2026-04-20 — Backend, XML Import & Stability
 
 ### Added
@@ -44,23 +99,6 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - XML импорт вече игнорира vendor ID и генерира нов вътрешен ID (предотвратява конфликти)
 - Lazy-load на admin.js — премахнати 136 KB от main bundle
 - WCAG 2.1 AA: aria-label на search select, role/tabindex на breadcrumb span, dark mode muted контраст (#64748b → #8a9bb5, 3.86:1 → 6.3:1)
-
----
-
-## [Unreleased] — pipeline: release (2026-04-16)
-
-### Security
-- Премахнат коментар в source кода, разкриващ стойността на admin PIN
-- Admin таблицата с продукти вече escape-ва HTML в имена/emoji/SKU (`_esc()`)
-- `previewAefImg()` в admin панела преминава на DOM API вместо `innerHTML` (предотвратява атрибут injection)
-- Demo потребителят в auth.js вече не съдържа реална парола в source кода
-
-### Fixed
-- Дублираният `&display=swap` параметър в Google Fonts URL е премахнат
-- Shortcut в `manifest.json` за Лаптопи използва канонична URL (`?cat=laptops`)
-
-### Changed
-- `bug_report.md` и `performance_seo_report.md` обновени с находки от 2026-04-16
 
 ---
 
@@ -226,9 +264,9 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 ## Версионна схема
 
 ```bash
-# Текущо — без tags. Препоръчителни следващи стъпки:
-git tag v1.5.0
-git push origin v1.5.0
+# Текуща версия: v1.7.0
+git tag v1.7.0
+git push origin --tags
 ```
 
 Проектът следва [Semantic Versioning](https://semver.org/):

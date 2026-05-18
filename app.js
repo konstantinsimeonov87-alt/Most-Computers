@@ -4127,7 +4127,6 @@ const _INVOICE_COMPANIES = [
     bank: 'ОББ АД',
     bic: 'UBBSBGSF',
     iban: 'BG29UBBS74281010110202',
-    sastavi: 'ЕЛИЦА СЪБЕВА',
   },
   {
     name: '„СММ - 97" ООД',
@@ -4140,7 +4139,6 @@ const _INVOICE_COMPANIES = [
     bank: 'ОББ АД',
     bic: 'UBBSBGSF',
     iban: 'BG79UBBS74281010871916',
-    sastavi: 'ЕЛИЦА СЪБЕВА',
   }
 ];
 
@@ -4208,8 +4206,6 @@ tbody td{border:1px solid #bbb;padding:5px 8px;vertical-align:top}
 .tr:last-child{border-bottom:none;font-weight:900;font-size:13px;background:#efefef}
 .slovom{font-size:11px;padding:7px 11px;border:1px solid #bbb;background:#fafafa;margin-bottom:10px}
 .bank{font-size:11px;border:1px solid #bbb;padding:7px 11px;line-height:1.8;margin-bottom:18px}
-.signs{display:grid;grid-template-columns:1fr 1fr;gap:30px;font-size:11px}
-.sign{border-top:1px solid #555;padding-top:5px;text-align:center}
 @media print{.print-btn{display:none!important}body{padding:0}.page{padding:18px}}
 </style></head><body>
 <div class="page">
@@ -4245,10 +4241,6 @@ tbody td{border:1px solid #bbb;padding:5px 8px;vertical-align:top}
 </div></div>
 <div class="slovom"><strong>Словом:</strong> ${_bgNumWords(total)}</div>
 <div class="bank"><strong>Банкова сметка:</strong> ${_h(co.bank)} &nbsp;·&nbsp; BIC: ${_h(co.bic)} &nbsp;·&nbsp; IBAN: ${_h(co.iban)}</div>
-<div class="signs">
-  <div class="sign">Съставил: ${_h(co.sastavi)}</div>
-  <div class="sign">Получил: _______________</div>
-</div>
 </div></body></html>`);
   win.document.close();
 }

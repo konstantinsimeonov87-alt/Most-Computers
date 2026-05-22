@@ -163,11 +163,9 @@ function toggleSidebarCat(el, cat) {
 
   const list = document.createElement('div');
   list.className = 'cat-subcat-list';
-  list.innerHTML =
-    `<a href="/?cat=${cat}" class="cat-subcat-link cat-subcat-all" onclick="event.preventDefault();openCatPage('${cat}')">Всички</a>` +
-    subs.map(s =>
-      `<a href="/?cat=${cat}&sub=${s.id}" class="cat-subcat-link" onclick="event.preventDefault();openCatPage('${cat}','${s.id}')">${cleanLabel(s)}</a>`
-    ).join('');
+  list.innerHTML = subs.map(s =>
+    `<a href="/?cat=${cat}&sub=${s.id}" class="cat-subcat-link" onclick="event.preventDefault();openCatPage('${cat}','${s.id}')">${cleanLabel(s)}</a>`
+  ).join('');
 
   el.insertAdjacentElement('afterend', list);
 }

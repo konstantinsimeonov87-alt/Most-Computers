@@ -3055,19 +3055,19 @@ function closeCatPage() {
   restorePageMeta();
   // Restore Open Graph extras
   const ogTitle = document.querySelector('meta[property="og:title"]');
-  if (ogTitle) ogTitle.setAttribute('content', 'Most Computers | Лаптопи, Телефони, Телевизори — От 1997 г.');
+  if (ogTitle) ogTitle.setAttribute('content', 'Most Computers | Лаптопи, Телефони, Телевизори — От 1990 г.');
   const ogDesc = document.querySelector('meta[property="og:description"]');
-  if (ogDesc) ogDesc.setAttribute('content', 'Most Computers — специализиран магазин за електроника от 1997 г. Смартфони, лаптопи, телевизори от Apple, Samsung, Sony. Безплатна доставка над 100 €.');
+  if (ogDesc) ogDesc.setAttribute('content', 'Most Computers — специализиран магазин за електроника от 1990 г. Смартфони, лаптопи, телевизори от Apple, Samsung, Sony. Безплатна доставка над 100 €.');
   const ogImg = document.querySelector('meta[property="og:image"]');
   if (ogImg) ogImg.setAttribute('content', 'https://mostcomputers.bg/og-default.jpg');
   const ogImgAlt = document.querySelector('meta[property="og:image:alt"]');
-  if (ogImgAlt) ogImgAlt.setAttribute('content', 'Most Computers — магазин за електроника от 1997 г.');
+  if (ogImgAlt) ogImgAlt.setAttribute('content', 'Most Computers — магазин за електроника от 1990 г.');
   const ogUrl = document.querySelector('meta[property="og:url"]');
   if (ogUrl) ogUrl.setAttribute('content', 'https://mostcomputers.bg/');
   const ogType = document.querySelector('meta[property="og:type"]');
   if (ogType) ogType.setAttribute('content', 'website');
   const twTitle = document.querySelector('meta[name="twitter:title"]');
-  if (twTitle) twTitle.setAttribute('content', 'Most Computers | Електроника от 1997 г.');
+  if (twTitle) twTitle.setAttribute('content', 'Most Computers | Електроника от 1990 г.');
   const twDesc = document.querySelector('meta[name="twitter:description"]');
   if (twDesc) twDesc.setAttribute('content', 'Лаптопи, Телефони, Телевизори, Аудио и аксесоари от Apple, Samsung, Sony. Безплатна доставка над 100 €.');
   const canonical = document.querySelector('link[rel="canonical"]');

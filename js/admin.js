@@ -1111,7 +1111,7 @@ function adminShowTab(tab) {
       <div style="margin-top:20px;padding:16px;background:#252840;border-radius:8px;font-size:12px;color:#6b7280;font-family:'JetBrains Mono',monospace;line-height:1.8;">
         <div style="color:#34d399;">✓ JSON-LD Product schema — активен</div>
         <div style="color:#34d399;">✓ OG / Twitter Card meta — активен</div>
-        <div style="color:#34d399;">✓ foundingDate: 1997 — активен</div>
+        <div style="color:#34d399;">✓ foundingDate: 1990 — активен</div>
         <div style="color:#fbbf24;">⚠ sitemap.xml — генерирай ръчно</div>
         <div style="color:#fbbf24;">⚠ robots.txt — нужен при хостинг</div>
       </div>

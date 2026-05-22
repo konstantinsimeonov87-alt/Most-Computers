@@ -4729,7 +4729,7 @@ function openAboutPage() {
   page.style.flexDirection = 'column';
   requestAnimationFrame(() => page.classList.add('open'));
   document.body.style.overflow = 'hidden';
-  if (typeof setPageMeta === 'function') setPageMeta('За нас — Most Computers', 'Most Computers — над 27 години опит в продажбата на компютри и електроника. Специализиран магазин в центъра на София.');
+  if (typeof setPageMeta === 'function') setPageMeta('За нас — Most Computers', 'Most Computers — над 36 години опит в продажбата на компютри и електроника. Специализиран магазин в центъра на София.');
   if (typeof bcOnPage === 'function') bcOnPage('За нас');
   try{history.pushState({ page: 'about' }, '', '?page=about');}catch(e){}
 }

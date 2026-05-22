@@ -12,7 +12,9 @@
       "WebFetch(domain:portal.mostbg.com)",
       "WebFetch(domain:www.mostcomputers.bg)",
       "Read(//c/Users/user/Downloads/**)",
-      "WebFetch(domain:zdwzccucqfvlsgxlspby.supabase.co)"
+      "WebFetch(domain:zdwzccucqfvlsgxlspby.supabase.co)",
+      "PowerShell(\\(Get-Item \"c:\\\\Users\\\\user\\\\Desktop\\\\New folder\\\\products.js\"\\).Length; \\(Get-Content \"c:\\\\Users\\\\user\\\\Desktop\\\\New folder\\\\products.js\" | Measure-Object -Line\\).Lines)",
+      "PowerShell(\\(Get-Content \"c:\\\\Users\\\\user\\\\Desktop\\\\New folder\\\\js\\\\data.js\" | Measure-Object -Line\\).Lines; \\(Get-Item \"c:\\\\Users\\\\user\\\\Desktop\\\\New folder\\\\js\\\\data.js\"\\).Length)"
     ],
     "additionalDirectories": [
       "c:\\Users\\user\\.claude\\projects\\c--Users-user-Desktop-New-folder\\memory"

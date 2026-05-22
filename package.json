@@ -1,0 +1,31 @@
+{
+  "name": "most-computers",
+  "version": "1.0.0",
+  "description": "",
+  "main": "migrate-handlers.js",
+  "scripts": {
+    "test": "jest --runInBand"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/konstantinsimeonov87-alt/Most-Computers.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/konstantinsimeonov87-alt/Most-Computers/issues"
+  },
+  "homepage": "https://github.com/konstantinsimeonov87-alt/Most-Computers#readme",
+  "devDependencies": {
+    "@fullhuman/postcss-purgecss": "^8.0.0",
+    "html-minifier-terser": "^7.2.0",
+    "jest": "^30.3.0",
+    "jest-environment-jsdom": "^30.4.1",
+    "jsdom": "^28.1.0",
+    "pngjs": "^7.0.0",
+    "postcss": "^8.5.9",
+    "purgecss": "^8.0.0",
+    "sharp": "^0.34.5"
+  }
+}

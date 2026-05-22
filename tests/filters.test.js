@@ -1,0 +1,263 @@
+'use strict';
+/**
+ * Тестове за филтриране и сортиране (js/filters.js)
+ * Покрива: getFilteredSorted — категория, сортиране, марки
+ */
+
+const PRODUCTS = [
+  { id: 1, name: 'Sony WH-1000XM6',   price: 449,  old: 549,  badge: 'sale', pct: 18, brand: 'Sony',    cat: 'audio',  rating: 4.9, rv: 124 },
+  { id: 2, name: 'iPhone 16 Pro Max', price: 2599, old: null,  badge: 'new',  pct: 0,  brand: 'Apple',   cat: 'mobile', rating: 4.8, rv: 89  },
+  { id: 3, name: 'Samsung 55" TV',    price: 1799, old: 2199,  badge: 'sale', pct: 18, brand: 'Samsung', cat: 'tv',     rating: 4.7, rv: 56  },
+  { id: 4, name: 'Logitech MX Master',price: 159,  old: 189,   badge: 'sale', pct: 16, brand: 'Logitech',cat: 'acc',    rating: 4.8, rv: 312 },
+  { id: 5, name: 'ASUS ROG Zephyrus', price: 3799, old: 4299,  badge: 'sale', pct: 12, brand: 'ASUS',   cat: 'gaming', rating: 4.9, rv: 54  },
+  { id: 6, name: 'Dell XPS 15',       price: 3299, old: null,  badge: 'hot',  pct: 0,  brand: 'Dell',    cat: 'laptop', rating: 4.8, rv: 41  },
+];
+
+// ── глобали, нужни на filters.js ─────────────────────────────────────────────
+// Dummy DOM functions (renderTopGrid и updateLiveCount изискват DOM)
+global.makeCard             = () => '';
+global.updateWishlistUI     = jest.fn();
+global.updateLiveCount      = jest.fn();
+global.showSkeletons        = jest.fn();
+// URL-params hook ги чете при зареждане на модула
+global.openProductModal     = jest.fn();
+global.closeProductModalDirect = jest.fn();
+
+// globals нужни на filters.js при runtime
+global._sbPriceAbsMax = 2000;
+global.modalProductId = null;
+
+const { getFilteredSorted, normalizeCat, advFilterBrands, renderGrids, syncFiltersToUrl } = require('../../js/filters.js');
+
+function resetGlobals() {
+  global.products       = [...PRODUCTS];
+  global.currentFilter  = 'all';
+  global.currentSort    = 'bestseller';
+  // currentSubcat е деклариран в filters.js — пропускаме (guard typeof matchesSubcat)
+  advFilterBrands.clear();
+  global.advFilterRating   = 0;
+  global.advFilterSaleOnly = false;
+  global.advFilterNewOnly  = false;
+  global.advPriceMin       = 0;
+  global.advPriceMax       = 2000;
+}
+
+describe('getFilteredSorted — категория', () => {
+  beforeEach(resetGlobals);
+
+  test('връща всички продукти при filter="all"', () => {
+    const result = getFilteredSorted();
+    expect(result).toHaveLength(PRODUCTS.length);
+  });
+
+  test('филтрира peripherals — включва audio продукти (normalizeCat)', () => {
+    global.currentFilter = 'peripherals';
+    const result = getFilteredSorted();
+    expect(result).toHaveLength(1);
+    expect(result[0].cat).toBe('audio');
+  });
+
+  test('филтрира accessories — включва mobile, acc, tv продукти (normalizeCat)', () => {
+    global.currentFilter = 'accessories';
+    const result = getFilteredSorted();
+    expect(result.every(p => ['mobile','acc','tv','accessories'].includes(p.cat))).toBe(true);
+    expect(result.length).toBeGreaterThanOrEqual(1);
+  });
+
+  test('връща празен масив за несъществуваща категория', () => {
+    global.currentFilter = 'nonexistent';
+    expect(getFilteredSorted()).toHaveLength(0);
+  });
+});
+
+describe('getFilteredSorted — сортиране', () => {
+  beforeEach(resetGlobals);
+
+  test('price-asc: цените са нарастващи', () => {
+    global.currentSort = 'price-asc';
+    const prices = getFilteredSorted().map(p => p.price);
+    for (let i = 1; i < prices.length; i++) {
+      expect(prices[i]).toBeGreaterThanOrEqual(prices[i - 1]);
+    }
+  });
+
+  test('price-desc: цените са намаляващи', () => {
+    global.currentSort = 'price-desc';
+    const prices = getFilteredSorted().map(p => p.price);
+    for (let i = 1; i < prices.length; i++) {
+      expect(prices[i]).toBeLessThanOrEqual(prices[i - 1]);
+    }
+  });
+
+  test('rating: рейтингите са намаляващи', () => {
+    global.currentSort = 'rating';
+    const ratings = getFilteredSorted().map(p => p.rating);
+    for (let i = 1; i < ratings.length; i++) {
+      expect(ratings[i]).toBeLessThanOrEqual(ratings[i - 1]);
+    }
+  });
+
+  test('discount: отстъпките са намаляващи', () => {
+    global.currentSort = 'discount';
+    const pcts = getFilteredSorted().map(p => p.pct);
+    for (let i = 1; i < pcts.length; i++) {
+      expect(pcts[i]).toBeLessThanOrEqual(pcts[i - 1]);
+    }
+  });
+
+  test('bestseller: резултатите са наредени', () => {
+    global.currentSort = 'bestseller';
+    const result = getFilteredSorted();
+    // Просто проверяваме, че не хвърля и връща правилния брой
+    expect(result).toHaveLength(PRODUCTS.length);
+  });
+});
+
+describe('getFilteredSorted — марка филтър', () => {
+  beforeEach(resetGlobals);
+
+  test('филтрира само Sony продукти', () => {
+    advFilterBrands.add('Sony');
+    const result = getFilteredSorted();
+    expect(result).toHaveLength(1);
+    expect(result[0].brand).toBe('Sony');
+  });
+
+  test('филтрира по две марки', () => {
+    advFilterBrands.add('Sony');
+    advFilterBrands.add('Apple');
+    const result = getFilteredSorted();
+    expect(result).toHaveLength(2);
+    result.forEach(p => expect(['Sony', 'Apple']).toContain(p.brand));
+  });
+
+  test('празен Set не филтрира', () => {
+    // advFilterBrands е вече clear() от resetGlobals
+    expect(getFilteredSorted()).toHaveLength(PRODUCTS.length);
+  });
+});
+
+// ── renderGrids — скриване на секции при липса на продукти ───────────────────
+describe('renderGrids — видимост на секции', () => {
+  function setupGridDOM() {
+    document.body.innerHTML = `
+      <div id="sale" class="flash-sale-section"></div>
+      <div id="flashGrid"></div>
+      <div id="topGrid"></div>
+      <div id="bestsellersSection" class="section-wrap">
+        <div id="bestsellersGrid"></div>
+      </div>
+      <div id="newGrid"></div>
+      <span id="topSortCount"></span>
+      <span id="resultsCount"></span>
+    `;
+  }
+
+  beforeEach(() => {
+    setupGridDOM();
+    global.topGridPage = 1;
+    global.currentSort = 'bestseller';
+    global.currentFilter = 'all';
+    advFilterBrands.clear();
+    global.advFilterRating = 0;
+    global.advFilterSaleOnly = false;
+    global.advFilterNewOnly = false;
+    global.advPriceMin = 0;
+    global.advPriceMax = 99999;
+    global.compareList = new Set();
+    global.EUR_RATE = 1.95583;
+    global.fmtEur = (n) => (n / 1.95583).toFixed(2) + ' €';
+    global.fmtBgn = (n) => n + ' лв.';
+    global.renderHeroPanel = jest.fn();
+    global.renderPromoBanner = jest.fn();
+    global.initLazyImages = jest.fn();
+    global.renderHpCats = jest.fn();
+    global.products = [...PRODUCTS];
+  });
+
+  test('Flash Sale секцията се крие при 0 продукти с намаление', () => {
+    global.products = PRODUCTS.filter(p => !p.old);
+    renderGrids();
+    expect(document.getElementById('sale').style.display).toBe('none');
+  });
+
+  test('Flash Sale секцията се показва при продукти с намаление', () => {
+    global.products = [...PRODUCTS];
+    renderGrids();
+    expect(document.getElementById('sale').style.display).not.toBe('none');
+  });
+
+  test('Bestsellers секцията се крие при 0 продукта', () => {
+    global.products = [];
+    renderGrids();
+    expect(document.getElementById('bestsellersSection').style.display).toBe('none');
+  });
+
+  test('Bestsellers секцията се показва при налични продукти', () => {
+    global.products = [...PRODUCTS];
+    renderGrids();
+    expect(document.getElementById('bestsellersSection').style.display).not.toBe('none');
+  });
+});
+
+// ── syncFiltersToUrl — URL параметри ─────────────────────────────────────────
+describe('syncFiltersToUrl — записва URL параметри', () => {
+  let replaceStateSpy;
+  beforeEach(() => {
+    replaceStateSpy = jest.spyOn(window.history, 'replaceState').mockImplementation(() => {});
+    global.currentFilter = 'all';
+    global.currentSubcat = 'all';
+    advFilterBrands.clear();
+    global.advPriceMin = 0;
+    global.advPriceMax = 2000;
+    global.advFilterRating = 0;
+    global.advFilterSaleOnly = false;
+    global.advFilterNewOnly = false;
+    global.advFilterStockOnly = false;
+  });
+  afterEach(() => replaceStateSpy.mockRestore());
+
+  test('без активни филтри → pathname без query string', () => {
+    syncFiltersToUrl();
+    expect(replaceStateSpy).toHaveBeenCalledWith(null, '', expect.not.stringContaining('?'));
+  });
+
+  test('с категория → ?cat=laptops', () => {
+    global.currentFilter = 'laptops';
+    syncFiltersToUrl();
+    const call = replaceStateSpy.mock.calls[0][2];
+    expect(call).toContain('cat=laptops');
+  });
+
+  test('с марка → ?brand=ASUS', () => {
+    advFilterBrands.add('ASUS');
+    syncFiltersToUrl();
+    const call = replaceStateSpy.mock.calls[0][2];
+    expect(call).toContain('brand=ASUS');
+  });
+
+  test('с две марки → brand съдържа ASUS и Dell', () => {
+    advFilterBrands.add('ASUS');
+    advFilterBrands.add('Dell');
+    syncFiltersToUrl();
+    const call = replaceStateSpy.mock.calls[0][2];
+    expect(call).toContain('ASUS');
+    expect(call).toContain('Dell');
+  });
+
+  // advFilterSaleOnly/StockOnly са module-level let — не могат да се задават от Jest test scope
+});
+
+// ── normalizeCat — категорийно нормализиране ────────────────────────────────
+describe('normalizeCat — маппинг', () => {
+  // normalizeCat е дефинирана в filters.js и достъпна чрез global след require
+  test('audio → peripherals', () => expect(normalizeCat('audio')).toBe('peripherals'));
+  test('mobile → phones',    () => expect(normalizeCat('mobile')).toBe('phones'));
+  test('tablet → phones',    () => expect(normalizeCat('tablet')).toBe('phones'));
+  test('gaming → gaming',    () => expect(normalizeCat('gaming')).toBe('gaming'));
+  test('monitors → monitors',() => expect(normalizeCat('monitors')).toBe('monitors'));
+  test('phones → phones',    () => expect(normalizeCat('phones')).toBe('phones'));
+  test('acc → accessories',  () => expect(normalizeCat('acc')).toBe('accessories'));
+  test('непознат → accessories', () => expect(normalizeCat('непознато')).toBe('accessories'));
+  test('case insensitive — LAPTOPS → laptops', () => expect(normalizeCat('LAPTOPS')).toBe('laptops'));
+});

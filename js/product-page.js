@@ -29,7 +29,8 @@ function openProductPage(id) {
       if (!p.subcat || typeof SUBCATS === 'undefined') return null;
       const subs = SUBCATS[p.cat] || [];
       const found = subs.find(s => s.id === p.subcat);
-      return found ? found.label : null;
+      if (!found) return null;
+      return found.label.replace(/^[^\p{L}\p{N}]+\s*/u, '');
     })();
     const _bcItems = [
       { label: _bcCatLabel, url: `https://mostcomputers.bg/?cat=${p.cat}`, fn: _bcCatFn }

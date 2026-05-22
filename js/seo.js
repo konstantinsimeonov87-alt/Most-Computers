@@ -509,8 +509,8 @@ function openCatPage(cat, preSubcat) {
   document.documentElement.style.overflow = 'hidden';
   document.body.style.overflow = 'hidden';
   try{history.pushState({ catPage: cat, subcat: preSubcat || 'all' }, '', '?cat=' + cat + _subSuffix);}catch(e){}
-  // Render after page is shown
-  cpRenderGrid();
+  // Defer render so overflow/class paint commits before heavy grid work
+  requestAnimationFrame(cpRenderGrid);
 }
 
 function closeCatPage() {
@@ -691,10 +691,10 @@ function buildCpSidebar(cat) {
   </div>`;
 
   sb.innerHTML = html;
-  cpUpdateSlider();
+  cpUpdateSlider(true);
 }
 
-function cpUpdateSlider() {
+function cpUpdateSlider(skipRender) {
   if (!document.getElementById('catPage')?.classList.contains('open')) return;
   const minEl = document.getElementById('cpPriceMinSlider');
   const maxEl = document.getElementById('cpPriceMaxSlider');
@@ -707,7 +707,7 @@ function cpUpdateSlider() {
   const max = parseFloat(maxEl.max);
   if (range) { range.style.left = (lo/max*100)+'%'; range.style.right = ((1-hi/max)*100)+'%'; }
   if (vals) vals.textContent = lo + ' € — ' + hi + ' €';
-  cpRenderGrid();
+  if (!skipRender) cpRenderGrid();
 }
 
 function cpBrandChange(cb) {

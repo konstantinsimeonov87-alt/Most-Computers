@@ -2647,6 +2647,7 @@ function openProductPage(id) {
   if (typeof pdpInitPinch === 'function') pdpInitPinch();
   if (typeof _pdpCompareReset === 'function') _pdpCompareReset();
   document.getElementById('pdpBackdrop').classList.add('open');
+  document.documentElement.style.overflow = 'hidden';
   document.body.style.overflow = 'hidden';
   document.getElementById('pdpBackdrop').scrollTop = 0;
 
@@ -2726,6 +2727,7 @@ function closeProductPage() {
   document.getElementById('pdpBackdrop').classList.remove('open');
   // Keep body locked if cat-page is still open
   if (!document.getElementById('catPage')?.classList.contains('open')) {
+    document.documentElement.style.overflow = '';
     document.body.style.overflow = '';
     // Restore scroll position
     requestAnimationFrame(() => window.scrollTo(0, _pdpScrollY));
@@ -2946,6 +2948,7 @@ function showModalSkeleton() {
     </div>`;
 
   backdrop.classList.add('open');
+  document.documentElement.style.overflow = 'hidden';
   document.body.style.overflow = 'hidden';
 }
 

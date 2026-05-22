@@ -497,21 +497,29 @@ function pdpBsClose() {
 (function() {
   var backdrop = document.getElementById('pdpBackdrop');
   if (!backdrop) return;
+  var _pdpScrollTicking = false;
   backdrop.addEventListener('scroll', function() {
     if (window.innerWidth > 768) return;
-    var addBtn = document.getElementById('pdpAddBtn');
-    if (!addBtn) return;
-    var rect = addBtn.getBoundingClientRect();
-    var outOfView = rect.bottom < 0 || rect.top > window.innerHeight;
-    var sheet = document.getElementById('pdpBottomSheet');
-    if (!sheet) return;
-    if (outOfView && !sheet.classList.contains('open')) {
-      var p = (typeof products !== 'undefined' && pdpProductId != null)
-        ? products.find(function(x) { return x.id === pdpProductId; }) : null;
-      if (p) pdpBsOpen(p);
-    } else if (!outOfView && sheet.classList.contains('open')) {
-      pdpBsClose();
-    }
+    if (_pdpScrollTicking) return;
+    _pdpScrollTicking = true;
+    requestAnimationFrame(function() {
+      var addBtn = document.getElementById('pdpAddBtn');
+      if (addBtn) {
+        var rect = addBtn.getBoundingClientRect();
+        var outOfView = rect.bottom < 0 || rect.top > window.innerHeight;
+        var sheet = document.getElementById('pdpBottomSheet');
+        if (sheet) {
+          if (outOfView && !sheet.classList.contains('open')) {
+            var p = (typeof products !== 'undefined' && pdpProductId != null)
+              ? products.find(function(x) { return x.id === pdpProductId; }) : null;
+            if (p) pdpBsOpen(p);
+          } else if (!outOfView && sheet.classList.contains('open')) {
+            pdpBsClose();
+          }
+        }
+      }
+      _pdpScrollTicking = false;
+    });
   }, { passive: true });
 })();
 

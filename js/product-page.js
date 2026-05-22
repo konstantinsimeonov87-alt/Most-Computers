@@ -389,10 +389,11 @@ function openProductPage(id) {
   // Sidebar disabled — specs already shown in main tab
   if (typeof pdpInitPinch === 'function') pdpInitPinch();
   if (typeof _pdpCompareReset === 'function') _pdpCompareReset();
-  document.getElementById('pdpBackdrop').classList.add('open');
+  const _pdpEl = document.getElementById('pdpBackdrop');
+  _pdpEl.scrollTop = 0;
+  _pdpEl.classList.add('open');
   document.documentElement.style.overflow = 'hidden';
   document.body.style.overflow = 'hidden';
-  document.getElementById('pdpBackdrop').scrollTop = 0;
 
   // ── Structured Data (Product + BreadcrumbList) ──
   const _avgRating = p.rating || 0;

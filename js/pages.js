@@ -1,4 +1,10 @@
 // ===== BLOG / SERVICE / DELIVERY PAGES =====
+const _pgHomeIcon = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9.5z"/><polyline points="9 21 9 12 15 12 15 21"/></svg>';
+function _setPgBc(id, label, closeFnName) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.innerHTML = `<ol itemscope itemtype="https://schema.org/BreadcrumbList"><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="/" onclick="${closeFnName}();return false;" aria-label="Начало"><span class="bc-home-icon">${_pgHomeIcon}</span></a><meta itemprop="position" content="1"/></li><span class="bc-sep">›</span><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><span itemprop="name">${label}</span><meta itemprop="position" content="2"/></li></ol>`;
+}
 const blogPosts = [
   {
     slug: 'macbook-pro-m4-pro-review',
@@ -153,6 +159,7 @@ function openBlogPage() {
   const titleEl = document.getElementById('blogPageTitle');
   if (titleEl) titleEl.textContent = '📰 Блог и новини';
   _renderBlogGrid();
+  _setPgBc('blogBc', 'Блог', 'closeBlogPage');
   document.getElementById('blogPage').classList.add('open');
   document.body.style.overflow = 'hidden';
   if (typeof setPageMeta === 'function') setPageMeta('Блог — Most Computers', 'Ревюта, сравнения и съвети за компютри, лаптопи и електроника от екипа на Most Computers.');
@@ -299,6 +306,7 @@ function _loadLeaflet(cb) {
 
 let _svcMap = null;
 function openServicePage() {
+  _setPgBc('serviceBc', 'Сервизен център', 'closeServicePage');
   document.getElementById('servicePage').classList.add('open');
   document.body.style.overflow = 'hidden';
   if (typeof setPageMeta === 'function') setPageMeta('Сервизен център — Most Computers', 'Сертифициран сервиз за лаптопи, компютри и електроника. Диагностика, ремонт и гаранционно обслужване в Most Computers.');
@@ -338,6 +346,7 @@ function closeServicePage() {
   try { history.pushState(null, '', window.location.pathname); } catch(e) {}
 }
 function openDeliveryPage() {
+  _setPgBc('deliveryBc', 'Доставка и плащане', 'closeDeliveryPage');
   document.getElementById('deliveryPage').classList.add('open');
   document.body.style.overflow = 'hidden';
   if (typeof setPageMeta === 'function') setPageMeta('Доставка и плащане — Most Computers', 'Безплатна доставка при поръчки над 100 €. Доставяме с куриер в рамките на 1-3 работни дни в цяла България.');
@@ -657,6 +666,7 @@ function _svcTrkRepeat(type, value) {
 function openAboutPage() {
   const page = document.getElementById('aboutPage');
   if (!page) return;
+  _setPgBc('aboutBc', 'За нас', 'closeAboutPage');
   page.style.display = 'flex';
   page.style.flexDirection = 'column';
   requestAnimationFrame(() => page.classList.add('open'));

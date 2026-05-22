@@ -506,6 +506,7 @@ function openCatPage(cat, preSubcat) {
 
   // Open page first so grid element is visible, then render
   document.getElementById('catPage').classList.add('open');
+  document.documentElement.style.overflow = 'hidden';
   document.body.style.overflow = 'hidden';
   try{history.pushState({ catPage: cat, subcat: preSubcat || 'all' }, '', '?cat=' + cat + _subSuffix);}catch(e){}
   // Render after page is shown
@@ -519,6 +520,7 @@ function closeCatPage() {
   const modal = document.getElementById('productModalBackdrop');
   if (modal && modal.classList.contains('open')) modal.classList.remove('open');
   document.getElementById('catPage').classList.remove('open');
+  document.documentElement.style.overflow = '';
   document.body.style.overflow = '';
   restorePageMeta();
   // Restore Open Graph extras
@@ -574,6 +576,7 @@ window.addEventListener('popstate', e => {
     if (pdp) pdp.classList.remove('open');
     const modal = document.getElementById('productModalBackdrop');
     if (modal) modal.classList.remove('open');
+    document.documentElement.style.overflow = '';
     document.body.style.overflow = '';
     const _ld = document.getElementById('_blogPostLD');
     if (_ld) _ld.remove();

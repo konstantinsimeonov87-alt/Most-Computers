@@ -98,6 +98,44 @@ document.addEventListener('DOMContentLoaded', () => {
   bcRender(); // renders just "Начало"
 });
 
+// ─── SIDEBAR ACTIVE STATE ───
+function setSidebarActive(cat, subcat) {
+  // Clear previous active
+  document.querySelectorAll('.cat-item.active').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.cat-subcat-link.active').forEach(el => el.classList.remove('active'));
+
+  if (!cat || cat === 'all') return;
+
+  // Find the cat-item for this category
+  const catItems = document.querySelectorAll('.sidebar-categories .cat-item');
+  let targetItem = null;
+  catItems.forEach(item => {
+    const fn = item.getAttribute('onclick') || '';
+    if (fn.includes(`'${cat}'`)) targetItem = item;
+  });
+  if (!targetItem) return;
+
+  targetItem.classList.add('active');
+
+  // Open accordion if not already open
+  if (!targetItem.classList.contains('open')) {
+    toggleSidebarCat(targetItem, cat);
+  }
+
+  // Mark active subcat link
+  if (subcat && subcat !== 'all') {
+    const subList = targetItem.nextElementSibling;
+    if (subList && subList.classList.contains('cat-subcat-list')) {
+      subList.querySelectorAll('.cat-subcat-link').forEach(link => {
+        if ((link.getAttribute('onclick') || '').includes(`'${subcat}'`)) {
+          link.classList.add('active');
+        }
+      });
+    }
+  }
+}
+// ───────────────────────────
+
 // ─── SIDEBAR ACCORDION ───
 function toggleSidebarCat(el, cat) {
   const isOpen = el.classList.contains('open');
@@ -578,6 +616,7 @@ function openCatPage(cat, preSubcat, fromURL = false) {
   requestAnimationFrame(() => {
     if (fromURL) cpApplyURLFilters();
     cpRenderGrid();
+    setSidebarActive(cat, preSubcat);
   });
 }
 
@@ -611,7 +650,7 @@ function closeCatPage() {
   const canonical = document.querySelector('link[rel="canonical"]');
   if (canonical) canonical.setAttribute('href', 'https://mostcomputers.bg/');
   try{history.pushState({}, '', location.pathname);}catch(e){}
-  // Restore scroll position
+  setSidebarActive(null);
   requestAnimationFrame(() => window.scrollTo(0, _catPageScrollY));
 }
 
@@ -875,6 +914,7 @@ function cpApplySubcat(id, btn) {
   document.querySelectorAll('#cpSubcatBar .subcat-pill').forEach(p => p.classList.remove('active'));
   if (btn) btn.classList.add('active');
   cpRenderGrid();
+  setSidebarActive(cpCat, id);
 }
 
 function cpUpdateURL() {

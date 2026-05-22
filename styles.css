@@ -1700,6 +1700,15 @@
    padding-left: 24px;
  }
 
+ .cat-item.active {
+   color: var(--primary);
+   font-weight: 700;
+ }
+
+ .cat-item.active .cat-icon svg {
+   color: var(--primary);
+ }
+
  .cat-subcat-list {
    border-bottom: 1px solid var(--border);
    padding: 6px 0 8px;
@@ -1741,6 +1750,24 @@
  .cat-subcat-all:hover {
    color: var(--primary);
    opacity: 1;
+ }
+
+ .cat-subcat-link.active {
+   color: var(--primary);
+   font-weight: 700;
+   padding-left: 32px;
+ }
+
+ .cat-subcat-link.active::after {
+   content: '';
+   display: inline-block;
+   width: 4px;
+   height: 4px;
+   background: var(--primary);
+   border-radius: 50%;
+   margin-left: 6px;
+   vertical-align: middle;
+   flex-shrink: 0;
  }
  .cat-count-badge {
    margin-left: auto;

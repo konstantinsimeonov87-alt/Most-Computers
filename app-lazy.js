@@ -2286,7 +2286,8 @@ function openProductPage(id) {
       if (!p.subcat || typeof SUBCATS === 'undefined') return null;
       const subs = SUBCATS[p.cat] || [];
       const found = subs.find(s => s.id === p.subcat);
-      return found ? found.label : null;
+      if (!found) return null;
+      return found.label.replace(/^[^\p{L}\p{N}]+\s*/u, '');
     })();
     const _bcItems = [
       { label: _bcCatLabel, url: `https://mostcomputers.bg/?cat=${p.cat}`, fn: _bcCatFn }
@@ -2646,10 +2647,11 @@ function openProductPage(id) {
   // Sidebar disabled — specs already shown in main tab
   if (typeof pdpInitPinch === 'function') pdpInitPinch();
   if (typeof _pdpCompareReset === 'function') _pdpCompareReset();
-  document.getElementById('pdpBackdrop').classList.add('open');
+  const _pdpEl = document.getElementById('pdpBackdrop');
+  _pdpEl.scrollTop = 0;
+  _pdpEl.classList.add('open');
   document.documentElement.style.overflow = 'hidden';
   document.body.style.overflow = 'hidden';
-  document.getElementById('pdpBackdrop').scrollTop = 0;
 
   // ── Structured Data (Product + BreadcrumbList) ──
   const _avgRating = p.rating || 0;
@@ -3945,21 +3947,29 @@ function pdpBsClose() {
 (function() {
   var backdrop = document.getElementById('pdpBackdrop');
   if (!backdrop) return;
+  var _pdpScrollTicking = false;
   backdrop.addEventListener('scroll', function() {
     if (window.innerWidth > 768) return;
-    var addBtn = document.getElementById('pdpAddBtn');
-    if (!addBtn) return;
-    var rect = addBtn.getBoundingClientRect();
-    var outOfView = rect.bottom < 0 || rect.top > window.innerHeight;
-    var sheet = document.getElementById('pdpBottomSheet');
-    if (!sheet) return;
-    if (outOfView && !sheet.classList.contains('open')) {
-      var p = (typeof products !== 'undefined' && pdpProductId != null)
-        ? products.find(function(x) { return x.id === pdpProductId; }) : null;
-      if (p) pdpBsOpen(p);
-    } else if (!outOfView && sheet.classList.contains('open')) {
-      pdpBsClose();
-    }
+    if (_pdpScrollTicking) return;
+    _pdpScrollTicking = true;
+    requestAnimationFrame(function() {
+      var addBtn = document.getElementById('pdpAddBtn');
+      if (addBtn) {
+        var rect = addBtn.getBoundingClientRect();
+        var outOfView = rect.bottom < 0 || rect.top > window.innerHeight;
+        var sheet = document.getElementById('pdpBottomSheet');
+        if (sheet) {
+          if (outOfView && !sheet.classList.contains('open')) {
+            var p = (typeof products !== 'undefined' && pdpProductId != null)
+              ? products.find(function(x) { return x.id === pdpProductId; }) : null;
+            if (p) pdpBsOpen(p);
+          } else if (!outOfView && sheet.classList.contains('open')) {
+            pdpBsClose();
+          }
+        }
+      }
+      _pdpScrollTicking = false;
+    });
   }, { passive: true });
 })();
 

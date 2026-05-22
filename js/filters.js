@@ -1412,7 +1412,7 @@ function readURLParams() {
   const _urlCat = params.get('cat');
   if (_urlCat && _urlCat !== 'all' && _VALID_CATS.has(_urlCat)) {
     const _urlSub = params.get('sub') || null;
-    setTimeout(() => { if (typeof openCatPage === 'function') openCatPage(_urlCat, _urlSub); }, 350);
+    setTimeout(() => { if (typeof openCatPage === 'function') openCatPage(_urlCat, _urlSub, true); }, 350);
   }
   // Auto-open blog or blog post on direct link
   const _urlPage = params.get('page');

@@ -22,7 +22,8 @@ function bcRender() {
       return `${sep}<div class="bc-item current" aria-current="page"><span title="${c.label}">${c.label}</span></div>`;
     }
     window._bcFns[i] = c.fn;
-    return `${sep}<div class="bc-item"><button type="button" onclick="if(window._bcFns[${i}])window._bcFns[${i}]()">${display}</button></div>`;
+    const href = i === 0 ? '/' : (c.url || '#');
+    return `${sep}<div class="bc-item"><a href="${href}" onclick="event.preventDefault();if(window._bcFns[${i}])window._bcFns[${i}]()">${display}</a></div>`;
   }).join('');
 
   inner.innerHTML = html;
@@ -96,6 +97,27 @@ function bcOnPage(label) {
 document.addEventListener('DOMContentLoaded', () => {
   bcRender(); // renders just "Начало"
 });
+
+// ─── NAVBAR MEGA MENU ───
+let _navMegaTimeout;
+
+function navMegaShow() {
+  clearTimeout(_navMegaTimeout);
+  const menu = document.getElementById('navMegamenu');
+  const arrow = document.getElementById('navCatArrow');
+  if (menu) menu.classList.add('open');
+  if (arrow) arrow.style.transform = 'rotate(180deg)';
+}
+
+function navMegaHide(e) {
+  _navMegaTimeout = setTimeout(() => {
+    const menu = document.getElementById('navMegamenu');
+    const arrow = document.getElementById('navCatArrow');
+    if (menu) menu.classList.remove('open');
+    if (arrow) arrow.style.transform = '';
+  }, 120);
+}
+// ────────────────────────
 
 
 
@@ -459,7 +481,7 @@ let cpSpecFilters = {};
 let cpSubcat = 'all';
 
 let _catPageScrollY = 0;
-function openCatPage(cat, preSubcat) {
+function openCatPage(cat, preSubcat, fromURL = false) {
   _catPageScrollY = window.scrollY || document.documentElement.scrollTop;
   cpCat = cat;
   cpSort = 'bestseller';
@@ -511,7 +533,10 @@ function openCatPage(cat, preSubcat) {
   document.body.style.overflow = 'hidden';
   try{history.pushState({ catPage: cat, subcat: preSubcat || 'all' }, '', '?cat=' + cat + _subSuffix);}catch(e){}
   // Defer render so overflow/class paint commits before heavy grid work
-  requestAnimationFrame(cpRenderGrid);
+  requestAnimationFrame(() => {
+    if (fromURL) cpApplyURLFilters();
+    cpRenderGrid();
+  });
 }
 
 function closeCatPage() {
@@ -808,12 +833,68 @@ function cpApplySubcat(id, btn) {
   document.querySelectorAll('#cpSubcatBar .subcat-pill').forEach(p => p.classList.remove('active'));
   if (btn) btn.classList.add('active');
   cpRenderGrid();
-  const _sp = (id && id !== 'all') ? '&sub=' + encodeURIComponent(id) : '';
-  try { history.replaceState({ catPage: cpCat, subcat: id }, '', '?cat=' + cpCat + _sp); } catch(e) {}
-  const _can = document.querySelector('link[rel="canonical"]');
-  if (_can) _can.setAttribute('href', `https://mostcomputers.bg/?cat=${cpCat}${_sp}`);
-  const _og = document.querySelector('meta[property="og:url"]');
-  if (_og) _og.setAttribute('content', `https://mostcomputers.bg/?cat=${cpCat}${_sp}`);
+}
+
+function cpUpdateURL() {
+  if (!document.getElementById('catPage')?.classList.contains('open')) return;
+  const params = new URLSearchParams();
+  params.set('cat', cpCat);
+  if (cpSubcat && cpSubcat !== 'all') params.set('sub', cpSubcat);
+  if (cpSort && cpSort !== 'bestseller') params.set('sort', cpSort);
+  if (cpBrands.size > 0) params.set('brand', [...cpBrands].join(','));
+  if (cpPriceMin > 0) params.set('priceMin', cpPriceMin);
+  if (cpPriceMax < _cpMaxEur) params.set('priceMax', cpPriceMax);
+  if (cpSaleOnly) params.set('sale', '1');
+  if (cpNewOnly) params.set('new', '1');
+  if (cpStockOnly) params.set('stock', '1');
+  if (cpRating > 0) params.set('rating', cpRating);
+  const qs = '?' + params.toString();
+  const fullUrl = 'https://mostcomputers.bg/' + qs;
+  try { history.replaceState({ catPage: cpCat, subcat: cpSubcat }, '', qs); } catch(e) {}
+  const can = document.querySelector('link[rel="canonical"]');
+  if (can) can.setAttribute('href', fullUrl);
+  const og = document.querySelector('meta[property="og:url"]');
+  if (og) og.setAttribute('content', fullUrl);
+}
+
+function cpApplyURLFilters() {
+  const params = new URLSearchParams(location.search);
+  const _VALID_SORTS_CP = new Set(['bestseller','price-asc','price-desc','rating','discount','new']);
+  const sort = params.get('sort');
+  if (sort && _VALID_SORTS_CP.has(sort)) {
+    cpSort = sort;
+    const sortSel = document.getElementById('cpSortSelect');
+    if (sortSel) sortSel.value = cpSort;
+  }
+  const brand = params.get('brand');
+  if (brand) {
+    brand.split(',').forEach(b => { if (b && b.length <= 60) cpBrands.add(b); });
+    document.querySelectorAll('#cpBrandList input[type=checkbox]').forEach(cb => {
+      if (cpBrands.has(cb.value)) cb.checked = true;
+    });
+  }
+  const priceMin = parseFloat(params.get('priceMin'));
+  if (!isNaN(priceMin) && priceMin > 0) {
+    cpPriceMin = priceMin;
+    const el = document.getElementById('cpPriceMinSlider');
+    if (el) el.value = cpPriceMin;
+  }
+  const priceMax = parseFloat(params.get('priceMax'));
+  if (!isNaN(priceMax) && priceMax < _cpMaxEur) {
+    cpPriceMax = priceMax;
+    const el = document.getElementById('cpPriceMaxSlider');
+    if (el) el.value = cpPriceMax;
+  }
+  if (params.get('sale') === '1') { cpSaleOnly = true; const el = document.getElementById('cpSaleToggle'); if (el) el.checked = true; }
+  if (params.get('new') === '1') { cpNewOnly = true; const el = document.getElementById('cpNewToggle'); if (el) el.checked = true; }
+  if (params.get('stock') === '1') { cpStockOnly = true; const el = document.getElementById('cpStockToggle'); if (el) el.checked = true; }
+  const rating = parseFloat(params.get('rating'));
+  if (!isNaN(rating) && rating > 0) {
+    cpRating = rating;
+    const rEl = document.querySelector(`input[name="cpRating"][value="${rating}"]`);
+    if (rEl) rEl.checked = true;
+  }
+  cpUpdateSlider(true);
 }
 
 // ═══════════════════════════════════════
@@ -890,6 +971,7 @@ function cpRenderGrid() {
     return;
   }
   grid.innerHTML = list.map(p => makeCard(p)).join('');
+  cpUpdateURL();
 }
 
 // ═══════════════════════════════════════

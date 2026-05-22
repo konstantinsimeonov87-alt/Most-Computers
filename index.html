@@ -1644,6 +1644,12 @@
       <div class="nav-links-row">
         <a href="#" class="nav-link active" data-action="scrollToTop">Начало</a>
         <div class="nav-divider"></div>
+        <a href="/#categories" class="nav-link nav-cat-trigger" id="navCatTrigger"
+           onmouseenter="navMegaShow()" onmouseleave="navMegaHide(event)"
+           onclick="event.preventDefault()">
+          Категории <span class="nav-cat-arrow" id="navCatArrow">▾</span>
+        </a>
+        <div class="nav-divider"></div>
         <a href="#" class="nav-link" data-action="openAboutPage">За нас</a>
         <div class="nav-divider"></div>
         <a href="#" class="nav-link" data-action="openBlogPage">
@@ -1657,6 +1663,68 @@
         <a href="#" class="nav-link" data-action="openServicePage">Сервизен център</a>
         <div class="nav-divider"></div>
         <a href="#" class="nav-link hot" data-action="filterCatScroll('new');">🔥 Нови</a>
+      </div>
+      <!-- MEGA MENU PANEL -->
+      <div class="nav-megamenu" id="navMegamenu"
+           onmouseenter="navMegaShow()" onmouseleave="navMegaHide(event)">
+        <div class="nav-mega-grid">
+          <div class="nav-mega-col">
+            <a href="/?cat=phones" class="nav-mega-cat" onclick="event.preventDefault();openCatPage('phones')">📱 Телефони и таблети</a>
+            <a href="/?cat=phones&sub=smartphone" class="nav-mega-sub" onclick="event.preventDefault();openCatPage('phones','smartphone')">Смартфони</a>
+            <a href="/?cat=phones&sub=tablet" class="nav-mega-sub" onclick="event.preventDefault();openCatPage('phones','tablet')">Таблети</a>
+            <a href="/?cat=phones&sub=smartwatch" class="nav-mega-sub" onclick="event.preventDefault();openCatPage('phones','smartwatch')">Смарт часовници</a>
+            <a href="/?cat=laptops" class="nav-mega-cat" onclick="event.preventDefault();openCatPage('laptops')">💻 Лаптопи</a>
+            <a href="/?cat=laptops&sub=work" class="nav-mega-sub" onclick="event.preventDefault();openCatPage('laptops','work')">За работа</a>
+            <a href="/?cat=laptops&sub=gaming_l" class="nav-mega-sub" onclick="event.preventDefault();openCatPage('laptops','gaming_l')">За гейминг</a>
+            <a href="/?cat=laptops&sub=ultrabook" class="nav-mega-sub" onclick="event.preventDefault();openCatPage('laptops','ultrabook')">Ултрабуци</a>
+            <a href="/?cat=desktops" class="nav-mega-cat" onclick="event.preventDefault();openCatPage('desktops')">🖥 Настолни компютри</a>
+            <a href="/?cat=desktops&sub=office_pc" class="nav-mega-sub" onclick="event.preventDefault();openCatPage('desktops','office_pc')">Офис компютри</a>
+            <a href="/?cat=desktops&sub=workstation" class="nav-mega-sub" onclick="event.preventDefault();openCatPage('desktops','workstation')">Workstation</a>
+            <a href="/?cat=desktops&sub=aio" class="nav-mega-sub" onclick="event.preventDefault();openCatPage('desktops','aio')">All-in-One</a>
+          </div>
+          <div class="nav-mega-col">
+            <a href="/?cat=gaming" class="nav-mega-cat" onclick="event.preventDefault();openCatPage('gaming')">🎮 Гейминг</a>
+            <a href="/?cat=gaming&sub=gaming_laptop_s" class="nav-mega-sub" onclick="event.preventDefault();openCatPage('gaming','gaming_laptop_s')">Геймърски лаптопи</a>
+            <a href="/?cat=gaming&sub=gaming_pc_s" class="nav-mega-sub" onclick="event.preventDefault();openCatPage('gaming','gaming_pc_s')">Геймърски конфигурации</a>
+            <a href="/?cat=gaming&sub=gaming_mouse" class="nav-mega-sub" onclick="event.preventDefault();openCatPage('gaming','gaming_mouse')">Геймърски мишки</a>
+            <a href="/?cat=monitors" class="nav-mega-cat" onclick="event.preventDefault();openCatPage('monitors')">🖥 Монитори</a>
+            <a href="/?cat=monitors&sub=gaming_mon" class="nav-mega-sub" onclick="event.preventDefault();openCatPage('monitors','gaming_mon')">Gaming 144Hz+</a>
+            <a href="/?cat=monitors&sub=mon_4k" class="nav-mega-sub" onclick="event.preventDefault();openCatPage('monitors','mon_4k')">4K / UHD</a>
+            <a href="/?cat=monitors&sub=ultrawide" class="nav-mega-sub" onclick="event.preventDefault();openCatPage('monitors','ultrawide')">UltraWide</a>
+            <a href="/?cat=components" class="nav-mega-cat" onclick="event.preventDefault();openCatPage('components')">⚙️ Компоненти</a>
+            <a href="/?cat=components&sub=cpu" class="nav-mega-sub" onclick="event.preventDefault();openCatPage('components','cpu')">Процесори</a>
+            <a href="/?cat=components&sub=gpu" class="nav-mega-sub" onclick="event.preventDefault();openCatPage('components','gpu')">Видео карти</a>
+            <a href="/?cat=components&sub=ssd_hdd" class="nav-mega-sub" onclick="event.preventDefault();openCatPage('components','ssd_hdd')">SSD / HDD дискове</a>
+          </div>
+          <div class="nav-mega-col">
+            <a href="/?cat=peripherals" class="nav-mega-cat" onclick="event.preventDefault();openCatPage('peripherals')">🖱 Периферия</a>
+            <a href="/?cat=peripherals&sub=keyboard" class="nav-mega-sub" onclick="event.preventDefault();openCatPage('peripherals','keyboard')">Клавиатури</a>
+            <a href="/?cat=peripherals&sub=mouse" class="nav-mega-sub" onclick="event.preventDefault();openCatPage('peripherals','mouse')">Мишки</a>
+            <a href="/?cat=peripherals&sub=headphones" class="nav-mega-sub" onclick="event.preventDefault();openCatPage('peripherals','headphones')">Слушалки</a>
+            <a href="/?cat=network" class="nav-mega-cat" onclick="event.preventDefault();openCatPage('network')">📡 Мрежово оборудване</a>
+            <a href="/?cat=network&sub=router" class="nav-mega-sub" onclick="event.preventDefault();openCatPage('network','router')">Рутери</a>
+            <a href="/?cat=network&sub=mesh" class="nav-mega-sub" onclick="event.preventDefault();openCatPage('network','mesh')">Mesh системи</a>
+            <a href="/?cat=network&sub=switch" class="nav-mega-sub" onclick="event.preventDefault();openCatPage('network','switch')">Суичове</a>
+            <a href="/?cat=storage" class="nav-mega-cat" onclick="event.preventDefault();openCatPage('storage')">💾 Сторидж и сървъри</a>
+            <a href="/?cat=storage&sub=nas" class="nav-mega-sub" onclick="event.preventDefault();openCatPage('storage','nas')">NAS устройства</a>
+            <a href="/?cat=storage&sub=server" class="nav-mega-sub" onclick="event.preventDefault();openCatPage('storage','server')">Сървъри</a>
+            <a href="/?cat=storage&sub=ext_drive" class="nav-mega-sub" onclick="event.preventDefault();openCatPage('storage','ext_drive')">Външни дискове</a>
+          </div>
+          <div class="nav-mega-col">
+            <a href="/?cat=accessories" class="nav-mega-cat" onclick="event.preventDefault();openCatPage('accessories')">🎒 Аксесоари</a>
+            <a href="/?cat=accessories&sub=projector" class="nav-mega-sub" onclick="event.preventDefault();openCatPage('accessories','projector')">Проектори</a>
+            <a href="/?cat=accessories&sub=hub" class="nav-mega-sub" onclick="event.preventDefault();openCatPage('accessories','hub')">USB хъбове и зарядни</a>
+            <a href="/?cat=accessories&sub=bag" class="nav-mega-sub" onclick="event.preventDefault();openCatPage('accessories','bag')">Чанти и калъфи</a>
+            <a href="/?cat=printers" class="nav-mega-cat" onclick="event.preventDefault();openCatPage('printers')">🖨 Принтери</a>
+            <a href="/?cat=printers&sub=inkjet_aio" class="nav-mega-sub" onclick="event.preventDefault();openCatPage('printers','inkjet_aio')">Мастиленоструйни МФУ</a>
+            <a href="/?cat=printers&sub=megatank" class="nav-mega-sub" onclick="event.preventDefault();openCatPage('printers','megatank')">MegaTank (резервоар)</a>
+            <a href="/?cat=printers&sub=laser" class="nav-mega-sub" onclick="event.preventDefault();openCatPage('printers','laser')">Лазерни принтери</a>
+            <a href="/?cat=ups" class="nav-mega-cat" onclick="event.preventDefault();openCatPage('ups')">⚡ UPS устройства</a>
+            <a href="/?cat=ups&sub=ups_home" class="nav-mega-sub" onclick="event.preventDefault();openCatPage('ups','ups_home')">Домашни (до 1KVA)</a>
+            <a href="/?cat=ups&sub=ups_office" class="nav-mega-sub" onclick="event.preventDefault();openCatPage('ups','ups_office')">За офиса (1–3KVA)</a>
+            <a href="/?cat=ups&sub=ups_server" class="nav-mega-sub" onclick="event.preventDefault();openCatPage('ups','ups_server')">Сървърни / Онлайн</a>
+          </div>
+        </div>
       </div>
     </div>
   </nav>
@@ -2243,6 +2311,15 @@
       <!-- CHECKOUT PAGE -->
       <div class="checkout-page" id="checkoutPage">
         <div class="checkout-topbar">
+          <nav class="checkout-breadcrumb" aria-label="Breadcrumb">
+            <a href="/" class="checkout-bc-home" onclick="event.preventDefault();closeCheckoutPage()" aria-label="Начало">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9.5z"/><polyline points="9 21 9 12 15 12 15 21"/></svg>
+            </a>
+            <span class="checkout-bc-sep">›</span>
+            <a href="/cart" class="checkout-bc-link" onclick="event.preventDefault();closeCheckoutPage()">Кошница</a>
+            <span class="checkout-bc-sep">›</span>
+            <span class="checkout-bc-current" id="checkoutBcCurrent">Поръчка</span>
+          </nav>
           <div class="checkout-logo">Most <span>Computers</span></div>
           <div class="checkout-steps">
             <div class="checkout-step active" id="cs1">

@@ -1701,47 +1701,46 @@
  }
 
  .cat-subcat-list {
-   background: var(--bg-card, #f7f8fa);
    border-bottom: 1px solid var(--border);
-   padding: 4px 0;
+   padding: 6px 0 8px;
+   border-left: 2px solid var(--primary);
+   margin-left: 0;
  }
 
  .cat-subcat-link {
    display: block;
-   padding: 7px 16px 7px 36px;
-   font-size: 12.5px;
+   padding: 6px 16px 6px 28px;
+   font-size: 12px;
+   font-weight: 500;
    color: var(--text2);
    text-decoration: none;
-   transition: background 0.13s, color 0.13s;
-   position: relative;
- }
-
- .cat-subcat-link::before {
-   content: '›';
-   position: absolute;
-   left: 22px;
-   color: var(--border);
+   letter-spacing: 0.01em;
+   transition: color 0.15s, padding-left 0.15s;
+   white-space: nowrap;
+   overflow: hidden;
+   text-overflow: ellipsis;
  }
 
  .cat-subcat-link:hover {
-   background: var(--primary-light);
    color: var(--primary);
- }
-
- .cat-subcat-link:hover::before {
-   color: var(--primary);
+   padding-left: 32px;
  }
 
  .cat-subcat-all {
-   font-weight: 600;
-   color: var(--primary);
+   font-size: 11px;
+   font-weight: 700;
+   color: var(--text2);
+   text-transform: uppercase;
+   letter-spacing: 0.08em;
+   padding: 6px 16px 8px 28px;
    border-bottom: 1px solid var(--border);
-   margin-bottom: 2px;
+   margin-bottom: 4px;
+   opacity: 0.6;
  }
 
- .cat-subcat-all::before {
-   content: '⊞';
-   font-size: 11px;
+ .cat-subcat-all:hover {
+   color: var(--primary);
+   opacity: 1;
  }
  .cat-count-badge {
    margin-left: auto;

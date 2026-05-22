@@ -1686,6 +1686,62 @@
  .cat-arrow {
    font-size: 10px;
    color: var(--muted);
+   margin-left: auto;
+   transition: transform 0.2s ease;
+ }
+
+ .cat-item.open .cat-arrow {
+   transform: rotate(90deg);
+ }
+
+ .cat-item.open {
+   background: var(--primary-light);
+   color: var(--primary);
+   padding-left: 24px;
+ }
+
+ .cat-subcat-list {
+   background: var(--bg-card, #f7f8fa);
+   border-bottom: 1px solid var(--border);
+   padding: 4px 0;
+ }
+
+ .cat-subcat-link {
+   display: block;
+   padding: 7px 16px 7px 36px;
+   font-size: 12.5px;
+   color: var(--text2);
+   text-decoration: none;
+   transition: background 0.13s, color 0.13s;
+   position: relative;
+ }
+
+ .cat-subcat-link::before {
+   content: '›';
+   position: absolute;
+   left: 22px;
+   color: var(--border);
+ }
+
+ .cat-subcat-link:hover {
+   background: var(--primary-light);
+   color: var(--primary);
+ }
+
+ .cat-subcat-link:hover::before {
+   color: var(--primary);
+ }
+
+ .cat-subcat-all {
+   font-weight: 600;
+   color: var(--primary);
+   border-bottom: 1px solid var(--border);
+   margin-bottom: 2px;
+ }
+
+ .cat-subcat-all::before {
+   content: '⊞';
+   font-size: 11px;
  }
  .cat-count-badge {
    margin-left: auto;

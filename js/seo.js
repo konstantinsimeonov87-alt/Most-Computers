@@ -98,6 +98,40 @@ document.addEventListener('DOMContentLoaded', () => {
   bcRender(); // renders just "Начало"
 });
 
+// ─── SIDEBAR ACCORDION ───
+function toggleSidebarCat(el, cat) {
+  const isOpen = el.classList.contains('open');
+
+  // Затвори всички отворени
+  document.querySelectorAll('.sidebar-categories .cat-item.open').forEach(item => {
+    item.classList.remove('open');
+    const existing = item.nextElementSibling;
+    if (existing && existing.classList.contains('cat-subcat-list')) existing.remove();
+  });
+
+  if (isOpen) return; // беше отворен — затвори само
+
+  const subs = (typeof SUBCATS !== 'undefined' && SUBCATS[cat]) ? SUBCATS[cat] : [];
+  if (!subs.length) {
+    // Няма подкатегории — навигирай директно
+    openCatPage(cat);
+    return;
+  }
+
+  el.classList.add('open');
+
+  const list = document.createElement('div');
+  list.className = 'cat-subcat-list';
+  // "Всички" линк
+  list.innerHTML = `<a href="/?cat=${cat}" class="cat-subcat-link cat-subcat-all" onclick="event.preventDefault();openCatPage('${cat}')">Всички</a>` +
+    subs.map(s =>
+      `<a href="/?cat=${cat}&sub=${s.id}" class="cat-subcat-link" onclick="event.preventDefault();openCatPage('${cat}','${s.id}')">${s.label}</a>`
+    ).join('');
+
+  el.insertAdjacentElement('afterend', list);
+}
+// ─────────────────────────
+
 // ─── NAVBAR MEGA MENU ───
 let _navMegaTimeout;
 

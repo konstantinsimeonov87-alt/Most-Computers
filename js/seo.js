@@ -10,17 +10,19 @@ function bcRender() {
   if (!inner) return;
 
   // Always start with Home
+  const _homeIcon = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9.5z"/><polyline points="9 21 9 12 15 12 15 21"/></svg>';
   const crumbs = [{ label: 'Начало', fn: () => { closeProductPage(); bcSet([]); } }, ..._bcTrail];
 
   window._bcFns = window._bcFns || {};
   const html = crumbs.map((c, i) => {
     const isLast = i === crumbs.length - 1;
     const sep    = i > 0 ? '<span class="bc-sep" aria-hidden="true">›</span>' : '';
+    const display = i === 0 ? `<span class="bc-home-icon" aria-label="Начало">${_homeIcon}</span>` : c.label;
     if (isLast) {
       return `${sep}<div class="bc-item current" aria-current="page"><span title="${c.label}">${c.label}</span></div>`;
     }
     window._bcFns[i] = c.fn;
-    return `${sep}<div class="bc-item"><button type="button" onclick="if(window._bcFns[${i}])window._bcFns[${i}]()">${c.label}</button></div>`;
+    return `${sep}<div class="bc-item"><button type="button" onclick="if(window._bcFns[${i}])window._bcFns[${i}]()">${display}</button></div>`;
   }).join('');
 
   inner.innerHTML = html;

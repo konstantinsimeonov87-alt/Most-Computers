@@ -1047,6 +1047,8 @@
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block;
 }
 .pdp-mhdr-bc .bc-sep { margin: 0 6px; color: var(--muted); font-size: 11px; flex-shrink: 0; }
+.bc-home-icon { display: flex; align-items: center; }
+.bc-home-icon svg { display: block; }
 
 /* Responsive */
 @media (max-width: 900px) {

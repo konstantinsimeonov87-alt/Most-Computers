@@ -1464,10 +1464,6 @@
  }
 
  /* ─── NAVBAR MEGA MENU ─── */
- .navbar-inner {
-   position: relative;
- }
-
  .nav-cat-trigger {
    font-weight: 600;
  }
@@ -1481,16 +1477,14 @@
 
  .nav-megamenu {
    display: none;
-   position: absolute;
-   top: 100%;
-   left: 0;
+   position: fixed;
    width: 780px;
    background: var(--white);
    border: 1px solid var(--border);
    border-radius: 14px;
    box-shadow: 0 12px 40px rgba(0,0,0,0.13);
    padding: 20px 24px;
-   z-index: 500;
+   z-index: 9999;
  }
 
  .nav-megamenu.open {

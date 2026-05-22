@@ -104,8 +104,13 @@ let _navMegaTimeout;
 function navMegaShow() {
   clearTimeout(_navMegaTimeout);
   const menu = document.getElementById('navMegamenu');
+  const trigger = document.getElementById('navCatTrigger');
   const arrow = document.getElementById('navCatArrow');
-  if (menu) menu.classList.add('open');
+  if (!menu || !trigger) return;
+  const rect = trigger.getBoundingClientRect();
+  menu.style.top = (rect.bottom + 2) + 'px';
+  menu.style.left = rect.left + 'px';
+  menu.classList.add('open');
   if (arrow) arrow.style.transform = 'rotate(180deg)';
 }
 

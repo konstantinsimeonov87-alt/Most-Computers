@@ -3405,7 +3405,7 @@ var products = [
    specs:{'Сокет':'AM4','Ядра':'6','Нишки':'12','Честота':'Max. Boost Clock:Up to 4.2GHz; Base Clock:3.6GHz','Кеш':'L1 Cache:384KB; L2 Cache:3MB; L3 Cache:16MB','Памет':'PCI Express® Version:PCIe 3.0; System Memory Type:DDR4; Memory Channels:2; System Memory Specificati','TDP':'65W'},
    rating:4.5,rv:0,reviews:[],
    desc:'AMD AMD RYZEN 5 5500 BOX — сокет AM4, 6 ядра, TDP 65W.',
-   img:'./images/products/30410.webp',stock:false},
+   img:'./images/products/30410.webp',stock:true},
 
   {id:487,name:'AMD RYZEN 5 5500GT TRAY',brand:'AMD',cat:'components',subcat:'cpu',
    price:204,old:null,pct:null,badge:null,emoji:'🔴',sku:'100-100001489',ean:null,

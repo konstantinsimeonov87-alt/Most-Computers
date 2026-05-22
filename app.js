@@ -3012,7 +3012,8 @@ function openCatPage(cat, preSubcat) {
 
   const bc = document.getElementById('catBreadcrumb');
   if (bc) {
-    bc.innerHTML = `<ol class="bc-list" itemscope itemtype="https://schema.org/BreadcrumbList"><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="/" itemprop="item" onclick="closeCatPage();return false;"><span itemprop="name">Начало</span></a><meta itemprop="position" content="1"></li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><span itemprop="name">${m.label.replace(/</g,'&lt;')}</span><meta itemprop="position" content="2"></li></ol>`;
+    const _catHomeIcon = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9.5z"/><polyline points="9 21 9 12 15 12 15 21"/></svg>';
+    bc.innerHTML = `<ol class="bc-list" itemscope itemtype="https://schema.org/BreadcrumbList"><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="/" itemprop="item" onclick="closeCatPage();return false;" aria-label="Начало"><span class="bc-home-icon" itemprop="name">${_catHomeIcon}</span></a><meta itemprop="position" content="1"></li><span class="bc-sep" aria-hidden="true">›</span><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><span itemprop="name">${m.label.replace(/</g,'&lt;')}</span><meta itemprop="position" content="2"></li></ol>`;
   }
 
   // Build sidebar HTML

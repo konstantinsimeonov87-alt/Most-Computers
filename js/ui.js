@@ -207,14 +207,20 @@ setTimeout(initLazyImages, 900);
 
 // ===== MEGAMENU =====
 const megaCategories = [
-  { cat:'laptops',     icon:'<svg width="32" height="32" class="svg-ic" aria-hidden="true"><use href="#ic-laptop"/></svg>', name:'Лаптопи' },
-  { cat:'desktops',    icon:'<svg width="32" height="32" class="svg-ic" aria-hidden="true"><use href="#ic-desktop"/></svg>', name:'Настолни компютри' },
-  { cat:'components',  icon:'<svg width="32" height="32" class="svg-ic" aria-hidden="true"><use href="#ic-cpu"/></svg>', name:'Компоненти' },
-  { cat:'peripherals', icon:'<svg width="32" height="32" class="svg-ic" aria-hidden="true"><use href="#ic-mouse"/></svg>', name:'Периферия' },
-  { cat:'network',     icon:'<svg width="32" height="32" class="svg-ic" aria-hidden="true"><use href="#ic-wifi"/></svg>', name:'Мрежово оборудване' },
+  { cat:'laptops',     icon:'<svg width="32" height="32" class="svg-ic" aria-hidden="true"><use href="#ic-laptop"/></svg>',   name:'Лаптопи' },
+  { cat:'desktops',    icon:'<svg width="32" height="32" class="svg-ic" aria-hidden="true"><use href="#ic-desktop"/></svg>',  name:'Настолни компютри' },
+  { cat:'gaming',      icon:'<svg width="32" height="32" class="svg-ic" aria-hidden="true"><use href="#ic-gamepad"/></svg>',  name:'Гейминг' },
+  { cat:'components',  icon:'<svg width="32" height="32" class="svg-ic" aria-hidden="true"><use href="#ic-cpu"/></svg>',      name:'Компоненти' },
+  { cat:'monitors',    icon:'<svg width="32" height="32" class="svg-ic" aria-hidden="true"><use href="#ic-monitor"/></svg>',  name:'Монитори' },
+  { cat:'peripherals', icon:'<svg width="32" height="32" class="svg-ic" aria-hidden="true"><use href="#ic-mouse"/></svg>',   name:'Периферия' },
+  { cat:'phones',      icon:'<svg width="32" height="32" class="svg-ic" aria-hidden="true"><use href="#ic-phone"/></svg>',   name:'Телефони и таблети' },
+  { cat:'network',     icon:'<svg width="32" height="32" class="svg-ic" aria-hidden="true"><use href="#ic-wifi"/></svg>',    name:'Мрежово оборудване' },
   { cat:'storage',     icon:'<svg width="32" height="32" class="svg-ic" aria-hidden="true"><use href="#ic-storage"/></svg>', name:'Сървъри и сторидж' },
-  { cat:'software',    icon:'<svg width="32" height="32" class="svg-ic" aria-hidden="true"><use href="#ic-tag"/></svg>', name:'Софтуер' },
-  { cat:'accessories', icon:'<svg width="32" height="32" class="svg-ic" aria-hidden="true"><use href="#ic-truck"/></svg>', name:'Аксесоари' },
+  { cat:'printers',    icon:'<svg width="32" height="32" class="svg-ic" aria-hidden="true"><use href="#ic-printer"/></svg>', name:'Принтери' },
+  { cat:'ups',         icon:'<svg width="32" height="32" class="svg-ic" aria-hidden="true"><use href="#ic-bolt"/></svg>',    name:'UPS устройства' },
+  { cat:'software',    icon:'<svg width="32" height="32" class="svg-ic" aria-hidden="true"><use href="#ic-tag"/></svg>',     name:'Софтуер' },
+  { cat:'accessories', icon:'<svg width="32" height="32" class="svg-ic" aria-hidden="true"><use href="#ic-package"/></svg>', name:'Аксесоари' },
+  { cat:'consumables', icon:'<svg width="32" height="32" class="svg-ic" aria-hidden="true"><use href="#ic-wrench"/></svg>',  name:'Консумативи' },
 ];
 const megaBrands = ['Intel', 'ASUS', 'Acer', 'Microsoft', 'Lenovo', 'Gigabyte', 'LG', 'ADATA', 'Sapphire', 'Tenda', 'Kingston', 'Seagate', 'AMD', 'Seasonic', 'ASRock', 'Repotec', 'Realme', 'MSI', 'Tuncmatik', 'Palit', 'Nokia', 'Cooler Master', 'Fractal', 'NZXT', 'Canon', 'Fnatic', 'FSP Group', 'Omega', 'Inform UPS', 'QNAP', 'D-Link', 'A4Tech', 'Logitech', 'TeamGroup', 'KingSpec', 'Kingston'];
 

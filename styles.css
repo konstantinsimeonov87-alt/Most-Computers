@@ -6947,15 +6947,17 @@
    background: var(--bg);
    overflow-y: auto;
    overscroll-behavior: contain;
-   transform: translateY(100%);
-   transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+   visibility: hidden;
+   opacity: 0;
    pointer-events: none;
-   will-change: transform;
+   transition: opacity 150ms ease-out, visibility 0s 150ms;
  }
 
  .checkout-page.open {
-   transform: translateY(0);
+   visibility: visible;
+   opacity: 1;
    pointer-events: auto;
+   transition: opacity 150ms ease-out, visibility 0s 0ms;
  }
 
  .checkout-topbar {
@@ -7744,16 +7746,22 @@
 
  /* ===== THANK YOU PAGE ===== */
  .thankyou-page {
-   display: none;
    position: fixed;
    inset: 0;
    z-index: 700;
    background: var(--bg);
    overflow-y: auto;
+   visibility: hidden;
+   opacity: 0;
+   pointer-events: none;
+   transition: opacity 150ms ease-out, visibility 0s 150ms;
  }
 
  .thankyou-page.open {
-   display: block;
+   visibility: visible;
+   opacity: 1;
+   pointer-events: auto;
+   transition: opacity 150ms ease-out, visibility 0s 0ms;
  }
 
  .ty-topbar {
@@ -9421,16 +9429,22 @@
 
  /* ===== ORDER TRACKER ===== */
  .order-tracker-page {
-   display: none;
    position: fixed;
    inset: 0;
    z-index: 700;
    background: var(--bg);
    overflow-y: auto;
+   visibility: hidden;
+   opacity: 0;
+   pointer-events: none;
+   transition: opacity 150ms ease-out, visibility 0s 150ms;
  }
 
  .order-tracker-page.open {
-   display: block;
+   visibility: visible;
+   opacity: 1;
+   pointer-events: auto;
+   transition: opacity 150ms ease-out, visibility 0s 0ms;
  }
 
  .ot-topbar {
@@ -14834,17 +14848,15 @@
    overflow-y: auto;
    visibility: hidden;
    opacity: 0;
-   transform: translateY(16px);
    pointer-events: none;
-   transition: opacity 220ms ease, transform 220ms ease, visibility 0s linear 220ms;
+   transition: opacity 150ms ease-out, visibility 0s 150ms;
  }
 
  .contacts-page.open {
    visibility: visible;
    opacity: 1;
-   transform: translateY(0);
    pointer-events: auto;
-   transition: opacity 220ms ease, transform 220ms ease, visibility 0s linear 0s;
+   transition: opacity 150ms ease-out, visibility 0s 0ms;
  }
 
  .contacts-page-inner {
@@ -15575,17 +15587,15 @@
    overflow-y: auto;
    visibility: hidden;
    opacity: 0;
-   transform: translateY(16px);
    pointer-events: none;
-   transition: opacity 220ms ease, transform 220ms ease, visibility 0s linear 220ms;
+   transition: opacity 150ms ease-out, visibility 0s 150ms;
  }
 
  .about-page.open {
    visibility: visible;
    opacity: 1;
-   transform: translateY(0);
    pointer-events: auto;
-   transition: opacity 220ms ease, transform 220ms ease, visibility 0s linear 0s;
+   transition: opacity 150ms ease-out, visibility 0s 0ms;
  }
 
  .about-topbar {

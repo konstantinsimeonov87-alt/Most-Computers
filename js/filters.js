@@ -685,6 +685,7 @@ const SUBCATS = {
     { id: 'ultrabook',    label: '✈ Ултрабуци' },
     { id: 'budget',       label: '💰 Бюджетни' },
     { id: 'convertible',  label: '🔄 2-в-1' },
+    { id: 'ai_laptop',    label: '🤖 AI лаптопи' },
     { id: 'for_students', label: '🎓 За студенти' },
     { id: 'for_devs',     label: '👨‍💻 За програмисти' },
     { id: 'for_design',   label: '🎨 За дизайнери' },
@@ -748,6 +749,7 @@ const SUBCATS = {
     { id: 'switch',   label: '🔀 Суичове' },
     { id: 'ap',       label: '📶 Access Points' },
     { id: 'adapter',  label: '🔌 WiFi адаптери' },
+    { id: 'ipcam',    label: '📷 IP камери' },
     { id: 'outdoor',  label: '🏔️ Outdoor CPE' },
     { id: 'sfp',      label: '🔗 SFP модули' },
     { id: 'cable',    label: '🔗 Мрежови кабели' },
@@ -790,6 +792,7 @@ const MEGA_MENU = {
     { title: 'По марка', id: 'ultrabook', items: ['ASUS ZenBook', 'Lenovo ThinkPad', 'Lenovo IdeaPad', 'MSI Prestige', 'Acer Swift'] },
     { title: 'По бюджет', id: 'budget', items: ['До 500 €', '500–800 €', '800–1500 €', '1500 €+'] },
     { title: 'Use-case', id: 'for_students', items: ['За студенти', 'За програмисти', 'За дизайнери', 'За игри'] },
+    { title: '🤖 AI лаптопи', id: 'ai_laptop', items: ['Snapdragon X Elite', 'Intel Core Ultra', 'Copilot+ PC', 'AMD Ryzen AI'] },
   ],
   desktops: [
     { title: 'Офис и Workstation', id: 'office_pc', items: ['Офис компютри', 'Workstation', 'All-in-One'] },
@@ -827,6 +830,7 @@ const MEGA_MENU = {
     { title: 'Mesh и AP', id: 'mesh', items: ['Mesh системи', 'Asus ZenWiFi', 'Tenda Nova/MW', 'Access Points', 'Range Extenders'] },
     { title: 'Суичове', id: 'switch', items: ['5 порта', '8 порта', '16 порта', '24+ порта', 'PoE суичове', 'Managed'] },
     { title: 'Адаптери и SFP', id: 'adapter', items: ['USB WiFi адаптери', 'USB LAN адаптери', '2.5G / 10G карти', 'SFP модули', 'Outdoor CPE'] },
+    { title: '📷 IP камери', id: 'ipcam', items: ['Вътрешни камери', 'Външни камери', 'PTZ камери', 'PoE камери', '4K / 8MP'] },
   ],
   storage: [
     { title: 'Сторидж', id: 'nas', items: ['NAS устройства', 'Сървъри', 'Rack системи'] },
@@ -874,11 +878,12 @@ const CAT_SPEC_FILTERS = {
     { key: 'Размер',    label: '📐 Диагонал',   values: ['23"','24"','27"','31.5"','32"','34"','40"+'] },
   ],
   laptops: [
-    { key: 'CPU',     label: '💻 Процесор',            values: ['Intel Core i5','Intel Core i7','Intel Core i9','Intel Core Ultra','AMD Ryzen 5','AMD Ryzen 7','AMD Ryzen 9'] },
-    { key: 'RAM',     label: '🧠 Оперативна памет',    values: ['8 GB','16 GB','24 GB','32 GB','64 GB'] },
-    { key: 'GPU',     label: '🎮 Видео карта',         values: ['RTX 4050','RTX 4060','RTX 4070','RTX 4080','RTX 4090','Integrated'] },
-    { key: 'Display', label: '📐 Диагонал',            values: ['13"','14"','15.6"','16"','17"'] },
-    { key: 'OS',      label: '🪟 Операционна система', values: ['Windows 11','macOS','Linux','Без OS'] },
+    { key: 'CPU',         label: '💻 Процесор',            values: ['Intel Core i5','Intel Core i7','Intel Core i9','Intel Core Ultra','AMD Ryzen 5','AMD Ryzen 7','AMD Ryzen 9'] },
+    { key: 'RAM',         label: '🧠 Оперативна памет',    values: ['8 GB','16 GB','24 GB','32 GB','64 GB'] },
+    { key: 'GPU',         label: '🎮 Видео карта',         values: ['RTX 4050','RTX 4060','RTX 4070','RTX 4080','RTX 4090','Integrated'] },
+    { key: 'Display',     label: '📐 Диагонал',            values: ['13"','14"','15.6"','16"','17"'] },
+    { key: 'OS',          label: '🪟 Операционна система', values: ['Windows 11','macOS','Linux','Без OS'] },
+    { key: 'BGKeyboard',  label: '⌨ BG клавиатура',       values: ['С кирилица'] },
   ],
   desktops: [
     { key: 'CPU',     label: '💻 Процесор',            values: ['Intel Core i5','Intel Core i7','Intel Core i9','AMD Ryzen 7','AMD Ryzen 9'] },
@@ -1016,6 +1021,12 @@ const SUBCAT_SPEC_FILTERS = {
   portable: [
     { key: 'WiFi',       label: '📡 WiFi',             values: ['Да'] },
   ],
+  ai_laptop: [
+    { key: 'CPU',        label: '💻 Процесор',          values: ['Snapdragon X Elite','Snapdragon X Plus','Intel Core Ultra','AMD Ryzen AI'] },
+    { key: 'RAM',        label: '🧠 Оперативна памет',  values: ['16 GB','32 GB','64 GB'] },
+    { key: 'Display',    label: '📐 Диагонал',          values: ['13"','14"','15.6"','16"'] },
+    { key: 'OS',         label: '🪟 Операционна система', values: ['Windows 11','macOS'] },
+  ],
   // Monitor subcats
   gaming_mon: [
     { key: 'Честота',   label: '⚡ Честота',     values: ['144Hz','165Hz','180Hz','200Hz','240Hz','360Hz'] },
@@ -1063,6 +1074,13 @@ const SUBCAT_SPEC_FILTERS = {
     { key: 'Speed', label: '⚡ Скорост',      values: ['300 Mbps','650 Mbps','900 Mbps','2.5 Gbps','10 Gbps'] },
     { key: 'WiFi',  label: '📡 WiFi',         values: ['WiFi 6','WiFi 5','WiFi 4'] },
   ],
+  ipcam: [
+    { key: 'Резолюция', label: '🔍 Резолюция',    values: ['2MP (1080p)','4MP','5MP','8MP (4K)'] },
+    { key: 'Тип',       label: '📦 Вид',           values: ['Куполна','Цилиндрична','PTZ','Fisheye'] },
+    { key: 'Монтаж',    label: '🏠 Монтаж',        values: ['Вътрешна','Външна','Вътрешна и външна'] },
+    { key: 'WiFi',      label: '📡 WiFi',           values: ['Да'] },
+    { key: 'PoE',       label: '⚡ PoE',            values: ['Да'] },
+  ],
 };
 
 function renderSubcatBar(cat) {
@@ -1109,7 +1127,7 @@ function renderCatSpecFilters(cat, subcat) {
     return;
   }
 
-  const subcatLabels = { cpu:'Процесори', gpu:'Видео карти', motherboard:'Дънни платки', ram:'RAM памет', ssd:'SSD / NVMe', hdd:'HDD дискове' };
+  const subcatLabels = { cpu:'Процесори', gpu:'Видео карти', motherboard:'Дънни платки', ram:'RAM памет', ssd:'SSD / NVMe', hdd:'HDD дискове', ai_laptop:'AI Лаптопи', ipcam:'IP Камери' };
   const titleText = (subcat && subcat !== 'all' && subcatLabels[subcat])
     ? `⚙ ${subcatLabels[subcat]} — филтри`
     : `⚙ ${CAT_LABELS[cat] || cat} — филтри`;
@@ -1179,6 +1197,7 @@ function matchesSubcat(p, subcat) {
     ultrabook:     () => all.includes('ultra') || all.includes('air') || all.includes('slim') || p.price < 3000,
     budget:        () => (p.price / (typeof EUR_RATE!=='undefined'&&EUR_RATE?EUR_RATE:1.95583)) < 500,
     convertible:   () => all.includes('2-in-1') || all.includes('2 в 1') || all.includes('convertible') || all.includes('flip') || all.includes('surface pro') || all.includes('yoga'),
+    ai_laptop:     () => all.includes('copilot+') || all.includes('copilot +') || all.includes('snapdragon x') || all.includes('snapdragon 8cx') || all.includes('ai laptop') || all.includes('ai лаптоп') || all.includes('npu') || all.includes('neural') || all.includes('ai pc') || all.includes('arm laptop') || all.includes('qualcomm'),
     for_students:  () => (p.price / (typeof EUR_RATE!=='undefined'&&EUR_RATE?EUR_RATE:1.95583)) < 700 || all.includes('student') || all.includes('студент') || all.includes('chromebook'),
     for_devs:      () => all.includes('thinkpad') || all.includes('xps') || all.includes('macbook pro') || all.includes('linux') || all.includes('програмист'),
     for_design:    () => all.includes('macbook') || all.includes('design') || all.includes('creator') || all.includes('дизайн') || all.includes('retina') || all.includes('4k display'),
@@ -1235,6 +1254,7 @@ function matchesSubcat(p, subcat) {
     sfp:           () => all.includes('sfp') || all.includes('gbic') || all.includes('mini-gbic') || all.includes('exp module') || all.includes('mod-gm') || all.includes('mod-fm') || all.includes('mod-mg') || all.includes('aoc-e10'),
     outdoor:       () => all.includes('outdoor') || all.includes('cpe') || all.includes('ptp') || /\bo[136]\b/.test(all),
     cable:         () => (p.cat === 'network') && (all.includes('utp') || all.includes('ftp') || all.includes('patch cab') || all.includes('305m') || (all.includes('100m') && all.includes('cat'))),
+    ipcam:         () => p.subcat === 'ipcam' || all.includes('ip camera') || all.includes('ip камер') || all.includes('ipcam') || all.includes('surveillance') || all.includes('hikvision') || all.includes('dahua') || all.includes('imou') || all.includes('reolink') || all.includes('видеонаблюдение') || all.includes('cctv'),
     // UPS
     ups_home:      () => p.subcat === 'ups_home'   || (p.cat === 'ups' && !p.subcat),
     ups_office:    () => p.subcat === 'ups_office',
@@ -1314,6 +1334,13 @@ function matchesCatSpec(p) {
     if (key === 'Ядра') {
       const coreNum = ((p.specs || {})['Ядра'] || '').trim();
       return [...vals].some(v => coreNum === (v.match(/^(\d+)/)?.[1] || ''));
+    }
+    // BG keyboard — checks product name/desc for cyrillic keyboard mention
+    if (key === 'BGKeyboard') {
+      return [...vals].some(v => v === 'С кирилица'
+        ? (all.includes('кирилиц') || all.includes('bg layout') || all.includes('bg клавиатур') || all.includes('bulgarian') || ((p.specs||{})['Клавиатура']||'').toLowerCase().includes('bg') || ((p.specs||{})['Клавиатура']||'').toLowerCase().includes('кирилиц'))
+        : false
+      );
     }
     // Form factor — exact match to avoid 'ATX' matching 'Micro-ATX'
     if (key === 'Форм фактор') {

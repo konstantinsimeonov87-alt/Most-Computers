@@ -1052,6 +1052,8 @@ function cpGetFiltered() {
   if (cpCat === 'new') { list = list.slice().sort((a,b) => b.id - a.id); }
   else if (cpCat === 'sale') list = list.filter(p => p.badge === 'sale' || p.badge === 'Намаление' || !!p.old);
   else if (cpCat !== 'all') list = list.filter(p => normalizeCat(p.cat) === cpCat);
+  // hide out-of-stock by default (same as main grid)
+  if (!cpStockOnly) list = list.filter(p => p.stock !== false);
   // subcat filter
   if (cpSubcat && cpSubcat !== 'all' && typeof matchesSubcat === 'function')
     list = list.filter(p => matchesSubcat(p, cpSubcat));
@@ -1091,7 +1093,7 @@ function cpGetFiltered() {
   else if (cpSort === 'price-desc') list.sort((a,b) => b.price - a.price);
   else if (cpSort === 'rating') list.sort((a,b) => b.rating - a.rating);
   else if (cpSort === 'discount') list.sort((a,b) => (b.old ? (b.old-b.price)/b.old : 0) - (a.old ? (a.old-a.price)/a.old : 0));
-  else list.sort((a,b) => (b.rv||0) - (a.rv||0)); // bestseller default
+  else list.sort((a,b) => (b.rating*Math.log1p(b.rv||1)) - (a.rating*Math.log1p(a.rv||1))); // bestseller: rating × log(reviews)
   return list;
 }
 

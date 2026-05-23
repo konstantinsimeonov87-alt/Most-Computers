@@ -3538,35 +3538,76 @@ var _pdpBackdropScrollHandler = null;
   }
 })();
 
+// ── Bulgarian public holiday helpers ──
+var _bgHolCache = null;
+function _dk(d) {
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+}
+function _bgHolidays(year) {
+  if (_bgHolCache && _bgHolCache.y === year) return _bgHolCache.h;
+  var h = new Set();
+  function add(y, m, d) {
+    var dt = new Date(y, m-1, d), dow = dt.getDay();
+    h.add(_dk(dt));
+    // Substitute working day when holiday falls on weekend
+    if (dow === 0) h.add(_dk(new Date(y, m-1, d+1)));      // Sunday → Monday
+    else if (dow === 6) h.add(_dk(new Date(y, m-1, d+2))); // Saturday → Monday
+  }
+  // Fixed Bulgarian public holidays (Labour Code art.154)
+  add(year,1,1);  add(year,3,3);  add(year,5,1);  add(year,5,6);
+  add(year,5,24); add(year,9,6);  add(year,9,22); add(year,12,25); add(year,12,26);
+  // Orthodox Easter: Julian calendar algorithm → Gregorian (+13 days, valid through 2099)
+  var c=year%19, a=year%4, b=year%7;
+  var dv=(19*c+15)%30, ev=(2*a+4*b-dv+34)%7, fv=dv+ev+114;
+  var easter = new Date(year, Math.floor(fv/31)-1, fv%31+1);
+  easter.setDate(easter.getDate()+13);
+  var gf = new Date(easter); gf.setDate(gf.getDate()-2); // Велики петък
+  var em = new Date(easter); em.setDate(em.getDate()+1);  // Великденски понеделник
+  h.add(_dk(gf)); h.add(_dk(easter)); h.add(_dk(em));
+  _bgHolCache = { y: year, h: h };
+  return h;
+}
+function _isWorkday(d) {
+  var dow = d.getDay();
+  return dow !== 0 && dow !== 6 && !_bgHolidays(d.getFullYear()).has(_dk(d));
+}
+function _nextWorkday(from) {
+  var d = new Date(from);
+  d.setDate(d.getDate()+1);
+  while (!_isWorkday(d)) d.setDate(d.getDate()+1);
+  return d;
+}
+function _delivLabel(now, del) {
+  var tom = new Date(now); tom.setDate(tom.getDate()+1);
+  if (_dk(del) === _dk(tom)) return 'утре';
+  return 'в ' + ['неделя','понеделник','вторник','сряда','четвъртък','петък','събота'][del.getDay()];
+}
+
 // 1. DELIVERY TIMER
 function pdpInitDeliveryTimer() {
-  const el = document.getElementById('pdpDeliveryMsg');
-  const cd = document.getElementById('pdpDeliveryCd');
+  var el = document.getElementById('pdpDeliveryMsg');
+  var cd = document.getElementById('pdpDeliveryCd');
   if (!el) return;
   clearInterval(pdpInitDeliveryTimer._iv);
 
   function update() {
-    const now = new Date();
-    const h = now.getHours(), m = now.getMinutes();
-    const day = now.getDay();
-    const isWeekend = day === 0 || day === 6;
-    if (isWeekend) {
-      el.innerHTML = 'Поръчай сега и получи в <strong>понеделник</strong>';
-      if (cd) cd.textContent = '';
-      return;
-    }
-    // Cutoff: 16:30 = 16h 30m
-    const cutoffSec = 16 * 3600 + 30 * 60;
-    const nowSec = h * 3600 + m * 60 + now.getSeconds();
-    if (nowSec < cutoffSec) {
-      const secLeft = cutoffSec - nowSec;
-      const hh = Math.floor(secLeft / 3600);
-      const mm = String(Math.floor((secLeft % 3600) / 60)).padStart(2, '0');
-      const ss = String(secLeft % 60).padStart(2, '0');
-      el.innerHTML = 'Поръчай до <strong>16:30 ч.</strong> и получи <strong>утре</strong>';
+    var now = new Date();
+    var cutoffSec = 16*3600 + 30*60;
+    var nowSec = now.getHours()*3600 + now.getMinutes()*60 + now.getSeconds();
+    if (_isWorkday(now) && nowSec < cutoffSec) {
+      // Dispatch today → deliver next workday (skips holidays + weekends)
+      var del = _nextWorkday(now);
+      var secLeft = cutoffSec - nowSec;
+      var hh = Math.floor(secLeft/3600);
+      var mm = String(Math.floor((secLeft%3600)/60)).padStart(2,'0');
+      var ss = String(secLeft%60).padStart(2,'0');
+      el.innerHTML = 'Поръчай до <strong>16:30 ч.</strong> и получи <strong>' + _delivLabel(now, del) + '</strong>';
       if (cd) cd.textContent = '(остават ' + hh + ':' + mm + ':' + ss + ')';
     } else {
-      el.innerHTML = 'Поръчай сега — изпращаме <strong>утре</strong>';
+      // Weekend / holiday / after cutoff → dispatch next workday, deliver workday after that
+      var send = _nextWorkday(now);
+      var del2 = _nextWorkday(send);
+      el.innerHTML = 'Изпращаме <strong>' + _delivLabel(now, send) + '</strong> — получаваш <strong>' + _delivLabel(now, del2) + '</strong>';
       if (cd) cd.textContent = '';
     }
   }

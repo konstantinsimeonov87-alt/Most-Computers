@@ -306,3 +306,15 @@ console.log(`  ${'─'.repeat(35)}`);
 console.log(`  ${'TOTAL'.padEnd(20)} ${(totalSize/1024).toFixed(1)} KB`);
 console.log(`\n${GREEN}${BOLD}✅ Build complete!${RESET} Output in ${BOLD}dist/${RESET}`);
 console.log(`   Run: ${YELLOW}npx http-server dist/ -p 3333 -c-1${RESET}\n`);
+
+// 8. Sync root files for GitHub Pages
+console.log(`\n📤 Syncing root files for GitHub Pages...`);
+const ROOT_SYNC = ['app.js', 'app-lazy.js', 'styles.css', 'index.html', 'sw.js', 'sitemap.xml', 'products.js'];
+ROOT_SYNC.forEach(f => {
+  const src = path.join(DIST, f);
+  const dst = path.join(ROOT, f);
+  if (fs.existsSync(src)) {
+    fs.copyFileSync(src, dst);
+    log(`Synced ${f} → root`);
+  }
+});

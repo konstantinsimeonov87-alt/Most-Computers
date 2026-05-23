@@ -8996,17 +8996,15 @@
    overflow-y: auto;
    visibility: hidden;
    opacity: 0;
-   transform: translateY(16px);
    pointer-events: none;
-   transition: opacity 220ms ease, transform 220ms ease, visibility 0s linear 220ms;
+   transition: opacity 150ms ease-out, visibility 0s 150ms;
  }
 
  .megamenu-page.open {
    visibility: visible;
    opacity: 1;
-   transform: translateY(0);
    pointer-events: auto;
-   transition: opacity 220ms ease, transform 220ms ease, visibility 0s linear 0s;
+   transition: opacity 150ms ease-out, visibility 0s 0ms;
  }
 
  .megamenu-topbar {
@@ -13970,17 +13968,15 @@
    overflow-y: auto;
    visibility: hidden;
    opacity: 0;
-   transform: translateY(16px);
    pointer-events: none;
-   transition: opacity 220ms ease, transform 220ms ease, visibility 0s linear 220ms;
+   transition: opacity 150ms ease-out, visibility 0s 150ms;
  }
 
  .cat-page.open {
    visibility: visible;
    opacity: 1;
-   transform: translateY(0);
    pointer-events: auto;
-   transition: opacity 220ms ease, transform 220ms ease, visibility 0s linear 0s;
+   transition: opacity 150ms ease-out, visibility 0s 0ms;
  }
 
  .cat-page-inner {

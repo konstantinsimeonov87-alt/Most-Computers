@@ -667,9 +667,7 @@ function openAboutPage() {
   const page = document.getElementById('aboutPage');
   if (!page) return;
   _setPgBc('aboutBc', 'За нас', 'closeAboutPage');
-  page.style.display = 'flex';
-  page.style.flexDirection = 'column';
-  requestAnimationFrame(() => page.classList.add('open'));
+  page.classList.add('open');
   document.body.style.overflow = 'hidden';
   if (typeof setPageMeta === 'function') setPageMeta('За нас — Most Computers', 'Most Computers — над 36 години опит в продажбата на компютри и електроника. Специализиран магазин в центъра на София.');
   if (typeof bcOnPage === 'function') bcOnPage('За нас');
@@ -679,7 +677,6 @@ function closeAboutPage() {
   const page = document.getElementById('aboutPage');
   if (!page) return;
   page.classList.remove('open');
-  setTimeout(() => { page.style.display = 'none'; }, 300);
   document.body.style.overflow = '';
   if (typeof restorePageMeta === 'function') restorePageMeta();
   if (typeof bcSet === 'function') bcSet([]);

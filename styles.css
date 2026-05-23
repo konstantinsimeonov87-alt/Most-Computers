@@ -537,14 +537,13 @@
    z-index: 700;
    background: var(--bg);
    overflow-y: auto;
-   transform: translateY(100%);
-   transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+   opacity: 0;
+   transition: opacity 150ms ease-out;
    pointer-events: none;
-   will-change: transform;
  }
 
  .search-results-page.open {
-   transform: translateY(0);
+   opacity: 1;
    pointer-events: auto;
  }
 
@@ -6026,14 +6025,13 @@
    z-index: 10000;
    background: var(--bg);
    overflow-y: auto;
-   transform: translateY(100%);
-   transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+   opacity: 0;
+   transition: opacity 150ms ease-out;
    pointer-events: none;
-   will-change: transform;
  }
 
  .wishlist-page.open {
-   transform: translateY(0);
+   opacity: 1;
    pointer-events: auto;
  }
 
@@ -12350,17 +12348,23 @@
 
  /* ===== PRODUCT PAGE (FULL) ===== */
  .pdp-backdrop {
-   display: none;
    position: fixed;
    inset: 0;
    z-index: 9500;
    background: var(--bg);
    overflow-y: auto;
    -webkit-overflow-scrolling: touch;
+   visibility: hidden;
+   opacity: 0;
+   pointer-events: none;
+   transition: opacity 150ms ease-out, visibility 0s 150ms;
  }
 
  .pdp-backdrop.open {
-   display: block;
+   visibility: visible;
+   opacity: 1;
+   pointer-events: auto;
+   transition: opacity 150ms ease-out, visibility 0s 0ms;
  }
 
 
@@ -13942,14 +13946,13 @@
    z-index: var(--z-toast);
    background: var(--bg);
    overflow-y: auto;
-   transform: translateY(100%);
-   transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+   opacity: 0;
+   transition: opacity 150ms ease-out;
    pointer-events: none;
-   will-change: transform;
  }
 
  .cat-page.open {
-   transform: translateY(0);
+   opacity: 1;
    pointer-events: auto;
  }
 

@@ -1,5 +1,21 @@
 # WCAG 2.1 AA Accessibility Audit — mostcomputers.bg
-**Дата:** 2026-05-13 | **Обновен:** 2026-05-15
+**Дата:** 2026-05-13 | **Обновен:** 2026-05-24
+
+---
+
+## ✅ Fix summary — 2026-05-24
+
+| Fix | WCAG | Файл |
+|-----|------|------|
+| 6× `<nav>` без `aria-label` → добавени (bottomNav, blogBc, serviceBc, deliveryBc, aboutBc, admin-nav) | 2.4.1 AA | index.html |
+| `push-optin-banner` dialog → добавен `aria-modal="true"` | 4.1.2 AA | index.html |
+| `pdpShareFb` и `pdpCopyBtn` → добавени `aria-label` (допълват `title`) | 4.1.2 AA | index.html |
+
+**Тестове след fix:** 185/185 ✅
+
+---
+
+## ✅ Fix summary — 2026-05-15 (commit 6b23022)
 **Одитор:** Claude Code (a11y skill)
 **Scope:** `index.html`, `styles.css`, `js/` (всички файлове от `_load-order.txt`)
 **Стандарт:** WCAG 2.1 Level AA

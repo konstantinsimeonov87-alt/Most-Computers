@@ -339,10 +339,10 @@ function openMegamenu() {
     const subcatHtml = isComp ? `<div class="mega-comp-subcats" id="megaCompSubcats">${
       _compSubcats.map(s => {
         const sc = products.filter(p => (p.cat==='components'||normalizeCat(p.cat)==='components') && p.subcat===s.id).length;
-        return sc > 0 ? `<span class="mega-comp-sub" onclick="event.stopPropagation();megaFilterCompSubcat('${s.id}')">${s.label} <em>${sc}</em></span>` : '';
+        return sc > 0 ? `<span class="mega-comp-sub" onclick="event.stopPropagation();megaFilterCompSubcat('${escHtml(s.id)}')">${s.label} <em>${sc}</em></span>` : '';
       }).join('')
     }</div>` : '';
-    return `<div class="megamenu-cat-card${isComp?' has-subcats':''}" onclick="megaFilterCat('${c.cat}')">
+    return `<div class="megamenu-cat-card${isComp?' has-subcats':''}" onclick="megaFilterCat('${escHtml(c.cat)}')">
       <div class="megamenu-cat-icon">${c.icon}</div>
       <div class="megamenu-cat-name">${c.name}</div>
       <div class="megamenu-cat-count">${count} продукта</div>
@@ -353,7 +353,7 @@ function openMegamenu() {
   // Render brands
   var _el_megamenuBrands=document.getElementById('megamenuBrands'); if(_el_megamenuBrands) _el_megamenuBrands.innerHTML = megaBrands.map(b => {
     const count = products.filter(p=>p.brand===b).length;
-    return `<div class="megamenu-brand-card" onclick="megaFilterBrand('${b}')">
+    return `<div class="megamenu-brand-card" onclick="megaFilterBrand('${escHtml(b)}')">
       <div>${b}</div>
       <div style="font-size:10px;color:var(--muted);margin-top:2px;">${count} продукта</div>
     </div>`;
@@ -598,11 +598,14 @@ function releaseFocus(containerEl) {
   function hookModal(id) {
     const el = document.getElementById(id);
     if (!el) return;
-    new MutationObserver(() => {
+    if (el._modalObserver) el._modalObserver.disconnect();
+    const _obs = new MutationObserver(() => {
       const isOpen = el.classList.contains('open') || el.classList.contains('active') || el.style.display === 'block';
       if (isOpen && !el._trapActive) { el._trapActive = true; trapFocus(el); }
       else if (!isOpen && el._trapActive) { el._trapActive = false; releaseFocus(el); }
-    }).observe(el, { attributes: true, attributeFilter: ['class','style'] });
+    });
+    _obs.observe(el, { attributes: true, attributeFilter: ['class','style'] });
+    el._modalObserver = _obs;
   }
   document.addEventListener('DOMContentLoaded', () => MODAL_IDS.forEach(hookModal));
 })();
@@ -4692,6 +4695,13 @@ function closeCheckoutPageAndTrack() {
   _stub('toggleCompare');
   _stub('showSearchResultsPage');
   _stub('openBlogPost');
+
+  // Fallback: drain queue after 8s in case lazy bundle never loads
+  setTimeout(function () {
+    if (_q.length && typeof window._drainLazyQueue === 'function') {
+      window._drainLazyQueue();
+    }
+  }, 8000);
 }());
 
 (function () {
@@ -4707,8 +4717,13 @@ function closeCheckoutPageAndTrack() {
   // Inject data.js as an async script so it doesn't block DOMContentLoaded.
   // Browser downloads it immediately (preload hint in <head>), executes async.
   var s = document.createElement('script');
-  s.src = 'data.js?v=20260522';
+  s.src = 'data.js?v=20260523';
   s.onload = function () {
+    window._productsReady = true;
+    _cbs.splice(0).forEach(function (fn) { fn(); });
+  };
+  s.onerror = function () {
+    console.error('[MC] data.js failed to load — products unavailable');
     window._productsReady = true;
     _cbs.splice(0).forEach(function (fn) { fn(); });
   };
@@ -4921,7 +4936,7 @@ _whenProducts(function () {
   function _loadLazy() {
     if (_ll) return; _ll = true;
     var s = document.createElement('script');
-    s.src = 'app-lazy.js?v=20260522';
+    s.src = 'app-lazy.js?v=20260523';
     document.head.appendChild(s);
   }
   ['click', 'scroll', 'touchstart', 'keydown', 'mousemove'].forEach(function (ev) {

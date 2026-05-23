@@ -406,6 +406,8 @@ function _prodThumb(p, size) {
 }
 
 function saveCart() { try { localStorage.setItem('mc_cart', JSON.stringify(cart.map(x => ({ id: x.id, qty: x.qty })))); } catch (e) { } }
+function getCartTotal() { return cart.reduce(function(s, x) { return s + x.price * (x.qty || 1); }, 0); }
+function getCartCount() { return cart.reduce(function(s, x) { return s + x.qty; }, 0); }
 
 function oosNotify(id) {
   const p = products.find(x => x.id === id);
@@ -440,7 +442,7 @@ function addToCart(id) {
     if (!ct) { showToast('✓ ' + prod.name.substring(0, 32) + '… добавен!'); return; }
     document.getElementById('cartToastEmoji').textContent = prod.emoji || '🛒';
     document.getElementById('cartToastMsg').textContent = prod.name.substring(0, 36) + (prod.name.length > 36 ? '…' : '') + ' добавен!';
-    var total = cart.reduce(function(s,x){return s+x.price*x.qty;},0);
+    var total = getCartTotal();
     var fill = document.getElementById('cartToastShipFill');
     var label = document.getElementById('cartToastShipLabel');
     var wrap = document.getElementById('cartToastShipWrap');
@@ -506,7 +508,7 @@ const FREE_SHIP_BGN = Math.round(100 * EUR_RATE * 100) / 100; // 100 EUR в ле
   }
 })();
 function updateCart() {
-  const count = cart.reduce((s, x) => s + x.qty, 0), total = cart.reduce((s, x) => s + x.price * x.qty, 0);
+  const count = getCartCount(), total = getCartTotal();
   const badge = document.getElementById('cartBadge');
   if (badge) {
     const prev = parseInt(badge.textContent, 10) || 0;
@@ -791,7 +793,7 @@ function ckClearSavedAddr() {
 }
 
 function renderOrderSummary() {
-  const subtotal = cart.reduce((s, x) => s + x.price * x.qty, 0);
+  const subtotal = getCartTotal();
   const savings = cart.reduce((s, x) => s + (x.old ? (x.old - x.price) * x.qty : 0), 0);
   const delivery = ckDeliveryCosts[ckDeliveryIdx];
   const codFee = ckPaymentType === 'cod' ? 1.50 : 0;
@@ -1149,7 +1151,7 @@ function submitOrder() {
     let _prevOrders = [];
     try { _prevOrders = JSON.parse(localStorage.getItem('mc_orders') || '[]'); } catch (e) { }
     const orderNum = 'MC-' + String(_prevOrders.length + 1).padStart(6, '0');
-    const subtotal = cart.reduce((s, x) => s + x.price * x.qty, 0);
+    const subtotal = getCartTotal();
     const delivery = ckDeliveryCosts[ckDeliveryIdx];
     const codFee = ckPaymentType === 'cod' ? 1.50 : 0;
     const promoDisc = promoApplied ? subtotal * ((promoDiscountPct || 10) / 100) : 0;
@@ -1477,7 +1479,7 @@ function closeCartPage() {
 }
 
 function renderCartPage() {
-  const count = cart.reduce((s, x) => s + x.qty, 0);
+  const count = getCartCount();
   const countEl = document.getElementById('cpItemCount');
   if (countEl) countEl.textContent = count + ' бр.';
 
@@ -1542,7 +1544,7 @@ function renderCartPage() {
 function renderCartPageSummary() {
   const el = document.getElementById('cpSummary');
   if (!el) return;
-  const subtotal = cart.reduce((s, x) => s + x.price * x.qty, 0);
+  const subtotal = getCartTotal();
   const savings = cart.reduce((s, x) => s + (x.old ? (x.old - x.price) * x.qty : 0), 0);
   const delivery = subtotal >= FREE_SHIP_BGN ? 0 : Math.round(9.99 * EUR_RATE * 100) / 100;
   const total = subtotal + delivery;
@@ -1553,7 +1555,7 @@ function renderCartPageSummary() {
   }
 
   el.innerHTML = `
-    <div class="cp-sum-row"><span>Продукти (${cart.reduce((s, x) => s + x.qty, 0)} бр.)</span><span>${fmtEur(subtotal)}<small>${fmtBgn(subtotal)}</small></span></div>
+    <div class="cp-sum-row"><span>Продукти (${getCartCount()} бр.)</span><span>${fmtEur(subtotal)}<small>${fmtBgn(subtotal)}</small></span></div>
     ${savings > 0 ? `<div class="cp-sum-row cp-sum-save"><span>✓ Спестяваш</span><span>−${fmtEur(savings)}</span></div>` : ''}
     <div class="cp-sum-row"><span>Доставка</span><span>${delivery === 0 ? '<b style="color:var(--accent2)">Безплатна</b>' : fmtEur(delivery)}</span></div>
     <div class="cp-sum-row"><span>ДДС (вкл.)</span><span>${fmtEur(total * 0.2)}</span></div>
@@ -1630,8 +1632,8 @@ function cpGoCheckout() {
     _reminderShown = true;
     sessionStorage.setItem('mc_cart_reminded', '1');
 
-    var total = cart.reduce(function(s, x) { return s + x.price * x.qty; }, 0);
-    var count = cart.reduce(function(s, x) { return s + x.qty; }, 0);
+    var total = getCartTotal();
+    var count = getCartCount();
     var totalStr = typeof fmtEur === 'function' ? fmtEur(total) : total.toFixed(2) + ' €';
 
     var el = document.createElement('div');
@@ -2311,7 +2313,7 @@ function openProductPage(id) {
     _bcItems.push({ label: p.name, url: `https://mostcomputers.bg/?product=${p.id}`, fn: null });
     bcSet(_bcItems);
   }
-  document.title = p.name + ' | Most Computers';
+  document.title = escHtml(p.name || '') + ' | Most Computers';
 
   // SEO — Dynamic meta description
   const metaDesc = document.querySelector('meta[name="description"]');
@@ -2728,6 +2730,13 @@ function openProductPage(id) {
 
 function closeProductPage() {
   pdpSearchDropClose();
+  if (typeof _pdpWheelHandler !== 'undefined' && _pdpWheelHandler) {
+    document.removeEventListener('wheel', _pdpWheelHandler, { passive: false });
+  }
+  var _backdrop = document.getElementById('pdpBackdrop');
+  if (_backdrop && typeof _pdpBackdropScrollHandler !== 'undefined' && _pdpBackdropScrollHandler) {
+    _backdrop.removeEventListener('scroll', _pdpBackdropScrollHandler, { passive: true });
+  }
   const _st = document.getElementById('pdpScrollTop');
   if (_st) _st.style.display = 'none';
   // Restore main H1 visibility for screen readers
@@ -3486,18 +3495,17 @@ function _pdpLbKey(e) {
   if (e.key === 'ArrowLeft') pdpLbNav(-1);
   if (e.key === 'ArrowRight') pdpLbNav(1);
 }
-// Wheel zoom
-(function() {
-  document.addEventListener('wheel', function(e) {
-    var lb = document.getElementById('pdpLightbox');
-    if (!lb || lb.style.display === 'none') return;
-    e.preventDefault();
-    var lbImg = document.getElementById('pdpLbImg');
-    var cur = parseFloat(lbImg.style.getPropertyValue('--lb-scale') || '1');
-    var next = Math.min(4, Math.max(1, cur - e.deltaY * 0.003));
-    lbImg.style.setProperty('--lb-scale', next);
-  }, { passive: false });
-})();
+// Wheel zoom — stored so closeProductPage can remove it
+var _pdpWheelHandler = function(e) {
+  var lb = document.getElementById('pdpLightbox');
+  if (!lb || lb.style.display === 'none') return;
+  e.preventDefault();
+  var lbImg = document.getElementById('pdpLbImg');
+  var cur = parseFloat(lbImg.style.getPropertyValue('--lb-scale') || '1');
+  var next = Math.min(4, Math.max(1, cur - e.deltaY * 0.003));
+  lbImg.style.setProperty('--lb-scale', next);
+};
+document.addEventListener('wheel', _pdpWheelHandler, { passive: false });
 
 // Scroll-to-top button visibility + action
 function pdpGoToTop() {
@@ -3505,15 +3513,17 @@ function pdpGoToTop() {
   if (!b) return;
   b.scrollTop = 0;
 }
+var _pdpBackdropScrollHandler = null;
 (function() {
   var backdrop = document.getElementById('pdpBackdrop');
   if (!backdrop) return;
-  backdrop.addEventListener('scroll', function() {
+  _pdpBackdropScrollHandler = function() {
     var btn = document.getElementById('pdpScrollTop');
     if (!btn) return;
     var show = backdrop.scrollTop > 400;
     btn.style.display = show ? '' : 'none';
-  }, { passive: true });
+  };
+  backdrop.addEventListener('scroll', _pdpBackdropScrollHandler, { passive: true });
   // wire button via JS (works on both click and touch)
   var _wireBtn = function() {
     var btn = document.getElementById('pdpScrollTop');
@@ -3762,7 +3772,7 @@ function pdpRenderRecsWidget(p) {
 
   if (!recs.length) { widget.style.display = 'none'; return; }
 
-  var _e = function(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); };
+  var _e = escHtml;
   var _thumb = function(r) {
     if (r.img) return '<img src="' + _e(r.img) + '" alt="" width="40" height="40" style="width:40px;height:40px;object-fit:contain;border-radius:6px;" loading="lazy" onerror="this.style.display=\'none\'">';
     return '<span style="font-size:22px;line-height:1;">' + _e(r.emoji||'') + '</span>';
@@ -3802,7 +3812,7 @@ function pdpRenderRvCarousel() {
 
 // Shared carousel card renderer
 function _pdpCarCard(p) {
-  var _e = typeof _esc === 'function' ? _esc : escHtml;
+  var _e = escHtml;
   var price = (typeof fmtEur === 'function') ? fmtEur(p.price) : (p.price + ' лв.');
   var thumb = p.img
     ? '<img class="pdp-car-img" src="' + _e(p.img) + '" alt="" loading="lazy" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">'
@@ -3835,7 +3845,7 @@ function pdpRenderSpecsSidebar(p) {
   var keys = Object.keys(specs).slice(0, 10);
   if (!keys.length) { sb.style.display = 'none'; return; }
   var rows = keys.map(function(k) {
-    var _e = typeof _esc === 'function' ? _esc : escHtml;
+    var _e = escHtml;
     return '<tr><td class="pdp-sb-key">' + _e(k) + '</td><td class="pdp-sb-val">' + _e(specs[k]) + '</td></tr>';
   }).join('');
   sb.innerHTML =
@@ -3932,7 +3942,7 @@ function pdpBsOpen(p) {
   if (nameEl) nameEl.textContent = p.name;
   if (priceEl) priceEl.textContent = (typeof fmtEur === 'function') ? fmtEur(p.price) : p.price + ' лв.';
   if (thumbEl) {
-    var _e = typeof _esc === 'function' ? _esc : escHtml;
+    var _e = escHtml;
     thumbEl.innerHTML = p.img
       ? '<img src="' + _e(p.img) + '" style="width:44px;height:44px;object-fit:contain;border-radius:6px;">'
       : '<span style="font-size:28px;">' + (p.emoji || '📦') + '</span>';
@@ -4038,7 +4048,7 @@ function openProdPreview(id) {
   var ratingEl = document.getElementById('ppRating');
   var priceEl = document.getElementById('ppPrice');
 
-  var _e = typeof _esc === 'function' ? _esc : escHtml;
+  var _e = escHtml;
   if (imgEl) imgEl.innerHTML = p.img
     ? '<img src="' + _e(p.img) + '" style="width:72px;height:72px;object-fit:contain;border-radius:10px;">'
     : '<span style="font-size:44px;">' + (p.emoji || '📦') + '</span>';

@@ -29,18 +29,17 @@ function _pdpLbKey(e) {
   if (e.key === 'ArrowLeft') pdpLbNav(-1);
   if (e.key === 'ArrowRight') pdpLbNav(1);
 }
-// Wheel zoom
-(function() {
-  document.addEventListener('wheel', function(e) {
-    var lb = document.getElementById('pdpLightbox');
-    if (!lb || lb.style.display === 'none') return;
-    e.preventDefault();
-    var lbImg = document.getElementById('pdpLbImg');
-    var cur = parseFloat(lbImg.style.getPropertyValue('--lb-scale') || '1');
-    var next = Math.min(4, Math.max(1, cur - e.deltaY * 0.003));
-    lbImg.style.setProperty('--lb-scale', next);
-  }, { passive: false });
-})();
+// Wheel zoom — stored so closeProductPage can remove it
+var _pdpWheelHandler = function(e) {
+  var lb = document.getElementById('pdpLightbox');
+  if (!lb || lb.style.display === 'none') return;
+  e.preventDefault();
+  var lbImg = document.getElementById('pdpLbImg');
+  var cur = parseFloat(lbImg.style.getPropertyValue('--lb-scale') || '1');
+  var next = Math.min(4, Math.max(1, cur - e.deltaY * 0.003));
+  lbImg.style.setProperty('--lb-scale', next);
+};
+document.addEventListener('wheel', _pdpWheelHandler, { passive: false });
 
 // Scroll-to-top button visibility + action
 function pdpGoToTop() {
@@ -48,15 +47,17 @@ function pdpGoToTop() {
   if (!b) return;
   b.scrollTop = 0;
 }
+var _pdpBackdropScrollHandler = null;
 (function() {
   var backdrop = document.getElementById('pdpBackdrop');
   if (!backdrop) return;
-  backdrop.addEventListener('scroll', function() {
+  _pdpBackdropScrollHandler = function() {
     var btn = document.getElementById('pdpScrollTop');
     if (!btn) return;
     var show = backdrop.scrollTop > 400;
     btn.style.display = show ? '' : 'none';
-  }, { passive: true });
+  };
+  backdrop.addEventListener('scroll', _pdpBackdropScrollHandler, { passive: true });
   // wire button via JS (works on both click and touch)
   var _wireBtn = function() {
     var btn = document.getElementById('pdpScrollTop');
@@ -305,7 +306,7 @@ function pdpRenderRecsWidget(p) {
 
   if (!recs.length) { widget.style.display = 'none'; return; }
 
-  var _e = function(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); };
+  var _e = escHtml;
   var _thumb = function(r) {
     if (r.img) return '<img src="' + _e(r.img) + '" alt="" width="40" height="40" style="width:40px;height:40px;object-fit:contain;border-radius:6px;" loading="lazy" onerror="this.style.display=\'none\'">';
     return '<span style="font-size:22px;line-height:1;">' + _e(r.emoji||'') + '</span>';
@@ -345,7 +346,7 @@ function pdpRenderRvCarousel() {
 
 // Shared carousel card renderer
 function _pdpCarCard(p) {
-  var _e = typeof _esc === 'function' ? _esc : escHtml;
+  var _e = escHtml;
   var price = (typeof fmtEur === 'function') ? fmtEur(p.price) : (p.price + ' лв.');
   var thumb = p.img
     ? '<img class="pdp-car-img" src="' + _e(p.img) + '" alt="" loading="lazy" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">'
@@ -378,7 +379,7 @@ function pdpRenderSpecsSidebar(p) {
   var keys = Object.keys(specs).slice(0, 10);
   if (!keys.length) { sb.style.display = 'none'; return; }
   var rows = keys.map(function(k) {
-    var _e = typeof _esc === 'function' ? _esc : escHtml;
+    var _e = escHtml;
     return '<tr><td class="pdp-sb-key">' + _e(k) + '</td><td class="pdp-sb-val">' + _e(specs[k]) + '</td></tr>';
   }).join('');
   sb.innerHTML =
@@ -475,7 +476,7 @@ function pdpBsOpen(p) {
   if (nameEl) nameEl.textContent = p.name;
   if (priceEl) priceEl.textContent = (typeof fmtEur === 'function') ? fmtEur(p.price) : p.price + ' лв.';
   if (thumbEl) {
-    var _e = typeof _esc === 'function' ? _esc : escHtml;
+    var _e = escHtml;
     thumbEl.innerHTML = p.img
       ? '<img src="' + _e(p.img) + '" style="width:44px;height:44px;object-fit:contain;border-radius:6px;">'
       : '<span style="font-size:28px;">' + (p.emoji || '📦') + '</span>';
@@ -581,7 +582,7 @@ function openProdPreview(id) {
   var ratingEl = document.getElementById('ppRating');
   var priceEl = document.getElementById('ppPrice');
 
-  var _e = typeof _esc === 'function' ? _esc : escHtml;
+  var _e = escHtml;
   if (imgEl) imgEl.innerHTML = p.img
     ? '<img src="' + _e(p.img) + '" style="width:72px;height:72px;object-fit:contain;border-radius:10px;">'
     : '<span style="font-size:44px;">' + (p.emoji || '📦') + '</span>';

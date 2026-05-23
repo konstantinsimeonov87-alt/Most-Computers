@@ -47,7 +47,7 @@ function openProductPage(id) {
     _bcItems.push({ label: p.name, url: `https://mostcomputers.bg/?product=${p.id}`, fn: null });
     bcSet(_bcItems);
   }
-  document.title = p.name + ' | Most Computers';
+  document.title = escHtml(p.name || '') + ' | Most Computers';
 
   // SEO — Dynamic meta description
   const metaDesc = document.querySelector('meta[name="description"]');
@@ -464,6 +464,13 @@ function openProductPage(id) {
 
 function closeProductPage() {
   pdpSearchDropClose();
+  if (typeof _pdpWheelHandler !== 'undefined' && _pdpWheelHandler) {
+    document.removeEventListener('wheel', _pdpWheelHandler, { passive: false });
+  }
+  var _backdrop = document.getElementById('pdpBackdrop');
+  if (_backdrop && typeof _pdpBackdropScrollHandler !== 'undefined' && _pdpBackdropScrollHandler) {
+    _backdrop.removeEventListener('scroll', _pdpBackdropScrollHandler, { passive: true });
+  }
   const _st = document.getElementById('pdpScrollTop');
   if (_st) _st.style.display = 'none';
   // Restore main H1 visibility for screen readers

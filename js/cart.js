@@ -5,6 +5,8 @@ function _prodThumb(p, size) {
 }
 
 function saveCart() { try { localStorage.setItem('mc_cart', JSON.stringify(cart.map(x => ({ id: x.id, qty: x.qty })))); } catch (e) { } }
+function getCartTotal() { return cart.reduce(function(s, x) { return s + x.price * (x.qty || 1); }, 0); }
+function getCartCount() { return cart.reduce(function(s, x) { return s + x.qty; }, 0); }
 
 function oosNotify(id) {
   const p = products.find(x => x.id === id);
@@ -39,7 +41,7 @@ function addToCart(id) {
     if (!ct) { showToast('✓ ' + prod.name.substring(0, 32) + '… добавен!'); return; }
     document.getElementById('cartToastEmoji').textContent = prod.emoji || '🛒';
     document.getElementById('cartToastMsg').textContent = prod.name.substring(0, 36) + (prod.name.length > 36 ? '…' : '') + ' добавен!';
-    var total = cart.reduce(function(s,x){return s+x.price*x.qty;},0);
+    var total = getCartTotal();
     var fill = document.getElementById('cartToastShipFill');
     var label = document.getElementById('cartToastShipLabel');
     var wrap = document.getElementById('cartToastShipWrap');
@@ -105,7 +107,7 @@ const FREE_SHIP_BGN = Math.round(100 * EUR_RATE * 100) / 100; // 100 EUR в ле
   }
 })();
 function updateCart() {
-  const count = cart.reduce((s, x) => s + x.qty, 0), total = cart.reduce((s, x) => s + x.price * x.qty, 0);
+  const count = getCartCount(), total = getCartTotal();
   const badge = document.getElementById('cartBadge');
   if (badge) {
     const prev = parseInt(badge.textContent, 10) || 0;
@@ -390,7 +392,7 @@ function ckClearSavedAddr() {
 }
 
 function renderOrderSummary() {
-  const subtotal = cart.reduce((s, x) => s + x.price * x.qty, 0);
+  const subtotal = getCartTotal();
   const savings = cart.reduce((s, x) => s + (x.old ? (x.old - x.price) * x.qty : 0), 0);
   const delivery = ckDeliveryCosts[ckDeliveryIdx];
   const codFee = ckPaymentType === 'cod' ? 1.50 : 0;
@@ -748,7 +750,7 @@ function submitOrder() {
     let _prevOrders = [];
     try { _prevOrders = JSON.parse(localStorage.getItem('mc_orders') || '[]'); } catch (e) { }
     const orderNum = 'MC-' + String(_prevOrders.length + 1).padStart(6, '0');
-    const subtotal = cart.reduce((s, x) => s + x.price * x.qty, 0);
+    const subtotal = getCartTotal();
     const delivery = ckDeliveryCosts[ckDeliveryIdx];
     const codFee = ckPaymentType === 'cod' ? 1.50 : 0;
     const promoDisc = promoApplied ? subtotal * ((promoDiscountPct || 10) / 100) : 0;
@@ -1076,7 +1078,7 @@ function closeCartPage() {
 }
 
 function renderCartPage() {
-  const count = cart.reduce((s, x) => s + x.qty, 0);
+  const count = getCartCount();
   const countEl = document.getElementById('cpItemCount');
   if (countEl) countEl.textContent = count + ' бр.';
 
@@ -1141,7 +1143,7 @@ function renderCartPage() {
 function renderCartPageSummary() {
   const el = document.getElementById('cpSummary');
   if (!el) return;
-  const subtotal = cart.reduce((s, x) => s + x.price * x.qty, 0);
+  const subtotal = getCartTotal();
   const savings = cart.reduce((s, x) => s + (x.old ? (x.old - x.price) * x.qty : 0), 0);
   const delivery = subtotal >= FREE_SHIP_BGN ? 0 : Math.round(9.99 * EUR_RATE * 100) / 100;
   const total = subtotal + delivery;
@@ -1152,7 +1154,7 @@ function renderCartPageSummary() {
   }
 
   el.innerHTML = `
-    <div class="cp-sum-row"><span>Продукти (${cart.reduce((s, x) => s + x.qty, 0)} бр.)</span><span>${fmtEur(subtotal)}<small>${fmtBgn(subtotal)}</small></span></div>
+    <div class="cp-sum-row"><span>Продукти (${getCartCount()} бр.)</span><span>${fmtEur(subtotal)}<small>${fmtBgn(subtotal)}</small></span></div>
     ${savings > 0 ? `<div class="cp-sum-row cp-sum-save"><span>✓ Спестяваш</span><span>−${fmtEur(savings)}</span></div>` : ''}
     <div class="cp-sum-row"><span>Доставка</span><span>${delivery === 0 ? '<b style="color:var(--accent2)">Безплатна</b>' : fmtEur(delivery)}</span></div>
     <div class="cp-sum-row"><span>ДДС (вкл.)</span><span>${fmtEur(total * 0.2)}</span></div>
@@ -1229,8 +1231,8 @@ function cpGoCheckout() {
     _reminderShown = true;
     sessionStorage.setItem('mc_cart_reminded', '1');
 
-    var total = cart.reduce(function(s, x) { return s + x.price * x.qty; }, 0);
-    var count = cart.reduce(function(s, x) { return s + x.qty; }, 0);
+    var total = getCartTotal();
+    var count = getCartCount();
     var totalStr = typeof fmtEur === 'function' ? fmtEur(total) : total.toFixed(2) + ' €';
 
     var el = document.createElement('div');

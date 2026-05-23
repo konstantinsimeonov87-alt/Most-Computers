@@ -16,5 +16,10 @@
     window._productsReady = true;
     _cbs.splice(0).forEach(function (fn) { fn(); });
   };
+  s.onerror = function () {
+    console.error('[MC] data.js failed to load — products unavailable');
+    window._productsReady = true;
+    _cbs.splice(0).forEach(function (fn) { fn(); });
+  };
   document.head.appendChild(s);
 }());

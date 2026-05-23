@@ -27,4 +27,11 @@
   _stub('toggleCompare');
   _stub('showSearchResultsPage');
   _stub('openBlogPost');
+
+  // Fallback: drain queue after 8s in case lazy bundle never loads
+  setTimeout(function () {
+    if (_q.length && typeof window._drainLazyQueue === 'function') {
+      window._drainLazyQueue();
+    }
+  }, 8000);
 }());

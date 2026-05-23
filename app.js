@@ -15,12 +15,15 @@ function fmtDual(bgn) { return `${fmtEur(bgn)} / ${fmtBgn(bgn)}`; }
 // Единен речник на категориите — canonical + legacy ключове
 const CAT_LABELS = {
   all:'Всички продукти',
-  laptops:'Лаптопи', desktops:'Настолни компютри', components:'Компоненти',
-  peripherals:'Периферия', network:'Мрежово оборудване', storage:'Сървъри и сторидж',
-  software:'Софтуер', accessories:'Аксесоари', consumables:'Консумативи',
+  // Канонични категории
+  laptops:'Лаптопи', desktops:'Настолни компютри', gaming:'Гейминг',
+  components:'Компоненти', monitors:'Монитори', peripherals:'Периферия',
+  phones:'Телефони и таблети', network:'Мрежово оборудване', storage:'Сървъри и сторидж',
+  software:'Софтуер', accessories:'Аксесоари', printers:'Принтери',
+  ups:'UPS устройства', consumables:'Консумативи',
   sale:'Промоции', new:'Нови продукти',
-  // Legacy ключове
-  laptop:'Лаптопи', desktop:'Десктопи', gaming:'Гейминг',
+  // Legacy ключове (обратна съвместимост)
+  laptop:'Лаптопи', desktop:'Настолни компютри',
   audio:'Аудио', mobile:'Телефони', tablet:'Таблети',
   tv:'Телевизори', camera:'Фотоапарати', smart:'Смарт устройства',
   print:'Принтери', acc:'Аксесоари', monitor:'Монитори',

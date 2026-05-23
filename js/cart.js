@@ -12,7 +12,7 @@ function oosNotify(id) {
   const p = products.find(x => x.id === id);
   if (!p) return;
   const email = prompt('Въведи имейл — ще те уведомим когато "' + p.name.substring(0, 40) + '" е на склад:');
-  if (!email || !email.includes('@')) return;
+  if (!email || !email.includes('@') || !email.includes('.')) return;
   try {
     const notifs = JSON.parse(localStorage.getItem('mc_oos_notify') || '[]');
     if (!notifs.find(n => n.id === id && n.email === email)) {

@@ -979,7 +979,7 @@ function cpApplySubcat(id, btn) {
   const cpCatSpecWrap = document.getElementById('cpCatSpecWrap');
   if (cpCatSpecWrap) cpCatSpecWrap.style.display = (!id || id === 'all') ? '' : 'none';
   // Update brand filter title + list for subcat-specific manufacturers
-  const _subcatMfr = { cpu: ['Intel','AMD'], gpu: ['ASUS','MSI','Gigabyte','Sapphire','Palit','PowerColor','Zotac','Inno3D','AXLE'], motherboard: ['ASUS','MSI','Gigabyte','ASRock'] };
+  const _subcatMfr = { cpu: ['Intel','AMD'], gpu: ['Palit','Gainward','Gigabyte','Sapphire','MSI','ASUS','ASRock','TD'], motherboard: ['ASUS','MSI','Gigabyte','ASRock'] };
   const brandTitle = document.getElementById('cpBrandTitle');
   const brandList  = document.getElementById('cpBrandList');
   const brandSearch = document.getElementById('cpBrandSearch');

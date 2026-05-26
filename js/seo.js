@@ -454,6 +454,7 @@ const CAT_META = {
   accessories:{ emoji:'🎒', icon:'ic-mouse',      label:'Аксесоари',            sub:'Чанти, Кабели, Smart Home, TV', badge:null },
   printers:   { emoji:'🖨', icon:'ic-printer',    label:'Принтери',             sub:'Мастиленоструйни, MegaTank, Лазерни', badge:null },
   ups:        { emoji:'⚡', icon:'ic-bolt',       label:'UPS устройства',       sub:'Домашни, Офис, Онлайн / Чиста синусоида', badge:null },
+  consumables:{ emoji:'🖨️', icon:'ic-printer',    label:'Консумативи',          sub:'Тонери, Мастила, Фото хартия', badge:null },
   new:        { emoji:'🆕', icon:'ic-star',       label:'Нови продукти',        sub:'Пресни пристигания', badge:'NEW' },
   sale:       { emoji:'%',  icon:'ic-tag',        label:'Намаления',            sub:'До -60% на избрани продукти', badge:'SALE' },
 };
@@ -609,6 +610,7 @@ function openCatPage(cat, preSubcat, fromURL = false) {
   // Defer render so overflow/class paint commits before heavy grid work
   requestAnimationFrame(() => {
     if (fromURL) cpApplyURLFilters();
+    else cpUpdateSlider(true); // initialize slider track/label (catPage is now open)
     cpRenderGrid();
     setSidebarActive(cat, preSubcat);
   });
@@ -961,7 +963,13 @@ function cpUpdateCatBreadcrumb(cat, subcat) {
 function cpApplySubcat(id, btn) {
   cpSubcat = id;
   document.querySelectorAll('#cpSubcatBar .subcat-pill').forEach(p => p.classList.remove('active'));
-  if (btn) btn.classList.add('active');
+  if (btn) {
+    btn.classList.add('active');
+  } else if (id === 'all') {
+    // Called programmatically (e.g. from breadcrumb) — activate the "Всички" pill
+    const allPill = document.querySelector('#cpSubcatBar .subcat-pill:first-child');
+    if (allPill) allPill.classList.add('active');
+  }
   cpRenderGrid();
   cpUpdateCatBreadcrumb(cpCat, id);
   setSidebarActive(cpCat, id);

@@ -3139,7 +3139,7 @@ var products = [
    specs:{'Сокет':'FCLGA1700','Ядра':'20','Нишки':'28','Честота':'Max Turbo Frequency: 5.6 GHz; Turbo Boost Max Technology 3.0 Frequency: ‡ 5.6 GHz; Performance-core ','Кеш':'28 MB','Памет':'Max Memory Size (dependent on memory type:) 192 GB | Тип: Up to DDR5 5600 MT/s; Up to DDR4 3200 MT/s','Интегрирана графика':'UHD Graphics 770'},
    rating:4.5,rv:0,reviews:[],
    desc:'Intel I7-14700K 5.5GHZ 28M BOX 1700 — сокет FCLGA1700, 20 ядра.',
-   img:'./images/products/37393.webp',stock:false},
+   img:'./images/products/37393.webp',stock:true},
 
   {id:449,name:'INTEL I7-14700 5.4GHZ 33M TRAY 1700',brand:'Intel',cat:'components',subcat:'cpu',
    price:682,old:null,pct:null,badge:null,emoji:'🔵',sku:'CM8071504820817',ean:'4251538816939',
@@ -3545,7 +3545,7 @@ var products = [
    specs:{'Manufacturer':'AMD','Сокет':'AM4','Ядра':'8','Нишки':'16','Честота':'Max. Boost Clock: Up to 4.6 GHz;Base Clock: 3.4 GHz','Кеш':'L1 Cache: 512 KB;L2 Cache: 4 MB;L3 Cache: 32 MB','Max. PCI Express Lanes':'24 , 20 (Total/Usable)','Памет':'NVMe Support: Boot , RAID0 , RAID1 , RAID10;System Memory Type: DDR4;Memory Channels: 2;Max. Memory:','Fan':'Yes','Интегрирана графика':'Discrete Graphics Card Required'},
    rating:4.5,rv:0,reviews:[],
    desc:'AMD AMD RYZEN 7 5700X MPK — сокет AM4, 8 ядра.',
-   img:'./images/products/51901.webp',stock:false},
+   img:'./images/products/51901.webp',stock:true},
 
   {id:507,name:'AMD RYZEN 7 5700X BOX',brand:'AMD',cat:'components',subcat:'cpu',
    price:306,old:null,pct:null,badge:null,emoji:'🔴',sku:'100-100000926WOF',ean:'730143314275',
@@ -3818,7 +3818,7 @@ var products = [
    specs:{'Manufacturer':'AMD','Сокет':'AM5','Ядра':'6','Нишки':'12','Честота':'Max. Boost Clock: Up to 5 GHz;Max Zen4c Clock: Up to 3.7 GHz;Base Clock: 3.5 GHz;Zen4 Base Clock: 4.','Кеш':'L2 Cache: 6 MB;L3 Cache: 16 MB','Max. PCI Express Lanes':'Total 14;Usable 10','Памет':'System Memory Type DDR5;Memory Channels 2;Max. Memory 256 GB;System Memory Subtype UDIMM;Max Memory ','Fan':'Wraith Stealth','Интегрирана графика':'Graphics Model AMD Radeon™ 740M;Graphics Core Count 4;Graphics Frequency 2800 MHz;DirectX® Version 1','TDP':'65W','Other':'Architecture: 2x Zen 4 , 4x Zen 4c;AMD Configurable TDP (cTDP): 45-65W;Processor Technology for CPU '},
    rating:4.5,rv:0,reviews:[],
    desc:'AMD AMD RYZEN 5 PRO 8500G MPK — сокет AM5, 6 ядра, TDP 65W.',
-   img:'./images/products/43518.webp',stock:false},
+   img:'./images/products/43518.webp',stock:true},
 
   {id:546,name:'AMD RYZEN 5 8600G 4.3G BOX',brand:'AMD',cat:'components',subcat:'cpu',
    price:313,old:null,pct:null,badge:null,emoji:'🔴',sku:'100-100001237BOX',ean:'730143316163',
@@ -3965,7 +3965,7 @@ var products = [
    specs:{'Manufacturer':'AMD','Сокет':'AM5','Ядра':'8','Нишки':'16','Честота':'Max. Boost Clock Up to 5.5 GHz;Base Clock 3.8 GHz','Кеш':'L1 Cache 640 KB;L2 Cache 8 MB;L3 Cache 32 MB','Max. PCI Express Lanes':'Total 28;Usable 24','Fan':'Wraith Stealth','Интегрирана графика':'Graphics Model: AMD Radeon™ Graphics;Graphics Core Count: 2;Graphics Frequency: 2200 MHz;USB Type-C®','TDP':'65W','Other':'Architecture Zen 5;Processor Technology for CPU Cores TSMC 4nm FinFET;Processor Technology for I/O D'},
    rating:4.5,rv:0,reviews:[],
    desc:'AMD AMD RYZEN 7 9700X 3.8G MPK — сокет AM5, 8 ядра, TDP 65W.',
-   img:'./images/products/43488.webp',stock:false},
+   img:'./images/products/43488.webp',stock:true},
 
   {id:567,name:'AMD RYZEN 7 9700X 3.8G BOX',brand:'AMD',cat:'components',subcat:'cpu',
    price:565,old:null,pct:null,badge:null,emoji:'🔴',sku:'100-100001404WOF',ean:'0730143315593',
@@ -4021,7 +4021,7 @@ var products = [
    specs:{'Model':'AMD Ryzen™ 9 9900X','Сокет':'AM5','Ядра':'12','Нишки':'24','Честота':'Up to 5.6 GHz; Base Clock ; 4.4 GHz;','Кеш':'L1 Cache; 960 KB; L2 Cache; 12 MB; L3 Cache; 64 MB;','Памет':'System Memory Type DDR5; Memory Channels 2; Max. Memory 192 GB; System Memory Subtype UDIMM; Max Mem','Package':'3','Интегрирана графика':'AMD Radeon™ Graphics','TDP':'120W'},
    rating:4.5,rv:0,reviews:[],
    desc:'AMD AMD RYZEN 9 9900X 4.4G 64M BOX — сокет AM5, 12 ядра, TDP 120W.',
-   img:'./images/products/41781.webp',stock:false},
+   img:'./images/products/41781.webp',stock:true},
 
   {id:575,name:'AMD RYZEN 9 9900X3D BOX',brand:'AMD',cat:'components',subcat:'cpu',
    price:1038,old:null,pct:null,badge:null,emoji:'🔴',sku:'100-100001368WOF',ean:'0730143315579',

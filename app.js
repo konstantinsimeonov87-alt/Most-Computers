@@ -2630,6 +2630,44 @@ document.addEventListener('DOMContentLoaded', () => {
   bcRender(); // renders just "Начало"
 });
 
+// ─── SIDEBAR ACTIVE STATE ───
+function setSidebarActive(cat, subcat) {
+  // Clear previous active
+  document.querySelectorAll('.cat-item.active').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.cat-subcat-link.active').forEach(el => el.classList.remove('active'));
+
+  if (!cat || cat === 'all') return;
+
+  // Find the cat-item for this category
+  const catItems = document.querySelectorAll('.sidebar-categories .cat-item');
+  let targetItem = null;
+  catItems.forEach(item => {
+    const fn = item.getAttribute('onclick') || '';
+    if (fn.includes(`'${cat}'`)) targetItem = item;
+  });
+  if (!targetItem) return;
+
+  targetItem.classList.add('active');
+
+  // Open accordion if not already open
+  if (!targetItem.classList.contains('open')) {
+    toggleSidebarCat(targetItem, cat);
+  }
+
+  // Mark active subcat link
+  if (subcat && subcat !== 'all') {
+    const subList = targetItem.nextElementSibling;
+    if (subList && subList.classList.contains('cat-subcat-list')) {
+      subList.querySelectorAll('.cat-subcat-link').forEach(link => {
+        if ((link.getAttribute('onclick') || '').includes(`'${subcat}'`)) {
+          link.classList.add('active');
+        }
+      });
+    }
+  }
+}
+// ───────────────────────────
+
 // ─── SIDEBAR ACCORDION ───
 function toggleSidebarCat(el, cat) {
   const isOpen = el.classList.contains('open');
@@ -2657,11 +2695,9 @@ function toggleSidebarCat(el, cat) {
 
   const list = document.createElement('div');
   list.className = 'cat-subcat-list';
-  list.innerHTML =
-    `<a href="/?cat=${cat}" class="cat-subcat-link cat-subcat-all" onclick="event.preventDefault();openCatPage('${cat}')">Всички</a>` +
-    subs.map(s =>
-      `<a href="/?cat=${cat}&sub=${s.id}" class="cat-subcat-link" onclick="event.preventDefault();openCatPage('${cat}','${s.id}')">${cleanLabel(s)}</a>`
-    ).join('');
+  list.innerHTML = subs.map(s =>
+    `<a href="/?cat=${cat}&sub=${s.id}" class="cat-subcat-link" onclick="event.preventDefault();openCatPage('${cat}','${s.id}')">${cleanLabel(s)}</a>`
+  ).join('');
 
   el.insertAdjacentElement('afterend', list);
 }
@@ -3074,11 +3110,7 @@ function openCatPage(cat, preSubcat, fromURL = false) {
   if (cpTitle) cpTitle.textContent = m.label;
   if (cpSubtitle) cpSubtitle.textContent = m.sub;
 
-  const bc = document.getElementById('catBreadcrumb');
-  if (bc) {
-    const _catHomeIcon = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9.5z"/><polyline points="9 21 9 12 15 12 15 21"/></svg>';
-    bc.innerHTML = `<ol itemscope itemtype="https://schema.org/BreadcrumbList"><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="/" itemprop="item" onclick="closeCatPage();return false;" aria-label="Начало"><span class="bc-home-icon">${_catHomeIcon}</span><meta itemprop="name" content="Начало"></a><meta itemprop="position" content="1"></li><span class="bc-sep" aria-hidden="true">›</span><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><span itemprop="name">${m.label.replace(/</g,'&lt;')}</span><meta itemprop="position" content="2"></li></ol>`;
-  }
+  cpUpdateCatBreadcrumb(cat, preSubcat);
 
   // Build sidebar HTML
   buildCpSidebar(cat);
@@ -3110,6 +3142,7 @@ function openCatPage(cat, preSubcat, fromURL = false) {
   requestAnimationFrame(() => {
     if (fromURL) cpApplyURLFilters();
     cpRenderGrid();
+    setSidebarActive(cat, preSubcat);
   });
 }
 
@@ -3143,7 +3176,7 @@ function closeCatPage() {
   const canonical = document.querySelector('link[rel="canonical"]');
   if (canonical) canonical.setAttribute('href', 'https://mostcomputers.bg/');
   try{history.pushState({}, '', location.pathname);}catch(e){}
-  // Restore scroll position
+  setSidebarActive(null);
   requestAnimationFrame(() => window.scrollTo(0, _catPageScrollY));
 }
 
@@ -3402,11 +3435,68 @@ function cpRenderSubcatBar(cat) {
     ).join('');
 }
 
+const _BC_HOME_ICON = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9.5z"/><polyline points="9 21 9 12 15 12 15 21"/></svg>';
+
+function cpUpdateCatBreadcrumb(cat, subcat) {
+  const bc = document.getElementById('catBreadcrumb');
+  if (!bc) return;
+  const m = CAT_META[cat] || { label: cat };
+  const hasSubcat = subcat && subcat !== 'all';
+
+  // Намери label на подкатегорията без емотиконки
+  let subcatLabel = '';
+  if (hasSubcat && typeof SUBCATS !== 'undefined' && SUBCATS[cat]) {
+    const found = SUBCATS[cat].find(s => s.id === subcat);
+    if (found) subcatLabel = found.label.replace(/[\p{Emoji_Presentation}\p{Extended_Pictographic}]/gu, '').trim();
+  }
+  if (!subcatLabel && hasSubcat) subcatLabel = subcat;
+
+  let html = '<ol itemscope itemtype="https://schema.org/BreadcrumbList">';
+
+  // Ниво 1: Начало
+  html += `<li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+    <a href="/" class="bc-home-link" itemprop="item" onclick="closeCatPage();return false;" aria-label="Начало">
+      <span class="bc-home-icon">${_BC_HOME_ICON}</span>
+      <meta itemprop="name" content="Начало">
+    </a>
+    <meta itemprop="position" content="1">
+  </li>`;
+
+  html += '<span class="bc-sep" aria-hidden="true">›</span>';
+
+  if (hasSubcat) {
+    // Ниво 2: Категория — кликаема, изчиства подкатегорията
+    html += `<li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+      <a href="/?cat=${cat}" class="bc-cat-link" itemprop="item" onclick="event.preventDefault();cpApplySubcat('all',null)">
+        <span itemprop="name">${m.label.replace(/</g,'&lt;')}</span>
+      </a>
+      <meta itemprop="position" content="2">
+    </li>`;
+    html += '<span class="bc-sep" aria-hidden="true">›</span>';
+    // Ниво 3: Подкатегория — текущата страница, не е линк
+    html += `<li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+      <span class="bc-current" itemprop="name">${subcatLabel}</span>
+      <meta itemprop="position" content="3">
+    </li>`;
+  } else {
+    // Ниво 2: Категория — текущата страница, не е линк
+    html += `<li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+      <span class="bc-current" itemprop="name">${m.label.replace(/</g,'&lt;')}</span>
+      <meta itemprop="position" content="2">
+    </li>`;
+  }
+
+  html += '</ol>';
+  bc.innerHTML = html;
+}
+
 function cpApplySubcat(id, btn) {
   cpSubcat = id;
   document.querySelectorAll('#cpSubcatBar .subcat-pill').forEach(p => p.classList.remove('active'));
   if (btn) btn.classList.add('active');
   cpRenderGrid();
+  cpUpdateCatBreadcrumb(cpCat, id);
+  setSidebarActive(cpCat, id);
 }
 
 function cpUpdateURL() {
@@ -4787,7 +4877,7 @@ initScrollAnimations();
   function _loadLazy() {
     if (_ll) return; _ll = true;
     var s = document.createElement('script');
-    s.src = 'app-lazy.js?v=20260522';
+    s.src = 'app-lazy.js?v=20260525';
     document.head.appendChild(s);
   }
   ['click', 'scroll', 'touchstart', 'keydown', 'mousemove'].forEach(function (ev) {

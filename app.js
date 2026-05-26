@@ -1918,6 +1918,9 @@ function applySubcat(id, btn) {
   currentSubcat = id;
   document.querySelectorAll('.subcat-pill').forEach(p => p.classList.remove('active'));
   if (btn) btn.classList.add('active');
+  // Hide generic cat spec filters in sidebar when a specific subcat is active
+  const cpCatSpecWrap = document.getElementById('cpCatSpecWrap');
+  if (cpCatSpecWrap) cpCatSpecWrap.style.display = (!id || id === 'all') ? '' : 'none';
   if (typeof renderCatSpecFilters === 'function' && currentFilter && currentFilter !== 'all')
     renderCatSpecFilters(currentFilter, id);
   renderTopGrid();
@@ -3271,6 +3274,7 @@ function buildCpSidebar(cat) {
   // ── Spec filters ──
   const specs = CAT_SPEC_FILTERS[cat];
   if (specs && specs.length) {
+    html += `<div id="cpCatSpecWrap">`;
     specs.forEach(spec => {
       html += `<div class="sidebar-filter-block" style="border-bottom:1px solid var(--border);padding:16px;">
         <div class="sfb-title" style="font-size:12px;font-weight:800;color:var(--text2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;">${spec.label}</div>
@@ -3283,6 +3287,7 @@ function buildCpSidebar(cat) {
       });
       html += `</div></div>`;
     });
+    html += `</div>`;
   }
 
   // ── Brands (collapsed by default) ──

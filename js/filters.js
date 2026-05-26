@@ -1086,6 +1086,9 @@ function applySubcat(id, btn) {
   currentSubcat = id;
   document.querySelectorAll('.subcat-pill').forEach(p => p.classList.remove('active'));
   if (btn) btn.classList.add('active');
+  // Hide generic cat spec filters in sidebar when a specific subcat is active
+  const cpCatSpecWrap = document.getElementById('cpCatSpecWrap');
+  if (cpCatSpecWrap) cpCatSpecWrap.style.display = (!id || id === 'all') ? '' : 'none';
   if (typeof renderCatSpecFilters === 'function' && currentFilter && currentFilter !== 'all')
     renderCatSpecFilters(currentFilter, id);
   renderTopGrid();

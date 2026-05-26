@@ -741,6 +741,7 @@ function buildCpSidebar(cat) {
   // ── Spec filters ──
   const specs = CAT_SPEC_FILTERS[cat];
   if (specs && specs.length) {
+    html += `<div id="cpCatSpecWrap">`;
     specs.forEach(spec => {
       html += `<div class="sidebar-filter-block" style="border-bottom:1px solid var(--border);padding:16px;">
         <div class="sfb-title" style="font-size:12px;font-weight:800;color:var(--text2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;">${spec.label}</div>
@@ -753,6 +754,7 @@ function buildCpSidebar(cat) {
       });
       html += `</div></div>`;
     });
+    html += `</div>`;
   }
 
   // ── Brands (collapsed by default) ──

@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:images.icecat.biz)",
+      "Read(//tmp/**)",
+      "Read(//c/tmp/**)",
+      "WebFetch(domain:developer.chrome.com)",
+      "PowerShell(Start-Process \"c:\\\\Users\\\\user\\\\Desktop\\\\New folder\\\\index.html\")"
+    ]
+  }
+}

@@ -5827,8 +5827,9 @@
    display: block;
    font-size: 17px;
    font-weight: 800;
+   font-family: 'Inter', sans-serif;
    line-height: 1.1;
-   letter-spacing: -0.2px;
+   letter-spacing: -0.03em;
  }
 
  .price-eur.sale {
@@ -15906,8 +15907,7 @@
  }
 
  /* Price — big numbers feel premium with tighter tracking */
- .pdp-price-main,
- .price-eur {
+ .pdp-price-main {
    letter-spacing: -0.02em !important;
  }
 
@@ -16074,13 +16074,6 @@
    color: var(--muted) !important;
  }
 
- /* Price row — bigger EUR, smaller BGN */
- .price-eur {
-   font-size: 17px !important;
-   font-weight: 900 !important;
-   letter-spacing: -0.03em !important;
- }
-
  .price-bgn {
    font-size: 11px !important;
    color: var(--muted) !important;
@@ -16168,11 +16161,7 @@
    font-family: 'Inter', sans-serif !important;
  }
 
- /* Product price — slightly tighter */
- .price-eur {
-   font-family: 'Inter', sans-serif !important;
-   letter-spacing: -0.5px;
- }
+
 
  /* ═══════════════════════════════════════════
    ЦВЕТОВА ДИСЦИПЛИНА — по-малко червено
@@ -16310,11 +16299,7 @@
    border-radius: 16px !important;
  }
 
- /* Price — larger, more impact */
- .price-eur {
-   font-size: 17px !important;
-   font-weight: 800 !important;
- }
+
 
  .price-bgn {
    font-size: 11px !important;

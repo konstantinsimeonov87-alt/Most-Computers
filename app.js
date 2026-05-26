@@ -1785,10 +1785,11 @@ const SUBCAT_SPEC_FILTERS = {
     { key: '_mb_connect',   label: '📡 Свързаност',          values: ['Wi-Fi','Bluetooth','2.5G LAN'] },
   ],
   ram: [
-    { key: 'Тип',        label: '💾 Тип памет',    values: ['DDR5','DDR4','DDR3','DDR3L'] },
-    { key: 'Капацитет',  label: '📦 Капацитет',    values: ['8 GB','16 GB','32 GB','64 GB'] },
-    { key: 'Честота',    label: '⚡ Честота',       values: ['3200 MHz','3600 MHz','4800 MHz','5200 MHz','5600 MHz','6000 MHz','6400 MHz'] },
-    { key: 'Форм фактор',label: '💻 Форм фактор',  values: ['DIMM','SO-DIMM'] },
+    { key: 'Тип',         label: '💾 Тип памет',   values: ['DDR5','DDR4','DDR3','DDR3L','ECC'] },
+    { key: '_ram_cap',    label: '📦 Обем',         values: ['4 GB','8 GB','16 GB','32 GB','48 GB','64 GB'] },
+    { key: 'Честота',     label: '⚡ Честота',      values: ['1600 MHz','2400 MHz','2666 MHz','3200 MHz','3600 MHz','4800 MHz','5200 MHz','5600 MHz','6000 MHz','6400 MHz','6800 MHz'] },
+    { key: 'Форм фактор', label: '💻 Форм фактор', values: ['DIMM','SO-DIMM'] },
+    { key: '_ram_kit',    label: '📦 Екстри',       values: ['Kit (комплект)'] },
   ],
   ssd: [
     { key: 'Интерфейс',  label: '🔌 Интерфейс',    values: ['NVMe PCIe Gen4','NVMe PCIe Gen3','SATA III'] },
@@ -3520,7 +3521,7 @@ function cpApplySubcat(id, btn) {
   const cpCatSpecWrap = document.getElementById('cpCatSpecWrap');
   if (cpCatSpecWrap) cpCatSpecWrap.style.display = (!id || id === 'all') ? '' : 'none';
   // Update brand filter title + list for subcat-specific manufacturers
-  const _subcatMfr = { cpu: ['Intel','AMD'], gpu: ['Palit','Gainward','Gigabyte','Sapphire','MSI','ASUS','ASRock','TD'], motherboard: ['ASUS','MSI','Gigabyte','ASRock'] };
+  const _subcatMfr = { cpu: ['Intel','AMD'], gpu: ['Palit','Gainward','Gigabyte','Sapphire','MSI','ASUS','ASRock','TD'], motherboard: ['ASUS','MSI','Gigabyte','ASRock'], ram: ['Kingston','ADATA','Crucial','KingSpec','TeamGroup','Samsung'] };
   const brandTitle = document.getElementById('cpBrandTitle');
   const brandList  = document.getElementById('cpBrandList');
   const brandSearch = document.getElementById('cpBrandSearch');
@@ -3795,6 +3796,20 @@ function cpGetFiltered() {
           if (v === 'DVI') return /DVI/i.test(out);
           return out.toUpperCase().includes(v.toUpperCase());
         });
+      });
+      return;
+    }
+    if (key === '_ram_cap') {
+      list = list.filter(p => {
+        const cap = (p.specs && p.specs['Капацитет']) || '';
+        return [...vals].some(v => cap === v || cap.startsWith(v + ' '));
+      });
+      return;
+    }
+    if (key === '_ram_kit') {
+      list = list.filter(p => {
+        const cap = (p.specs && p.specs['Капацитет']) || '';
+        return [...vals].some(v => v === 'Kit (комплект)' && /[×x×]/.test(cap));
       });
       return;
     }

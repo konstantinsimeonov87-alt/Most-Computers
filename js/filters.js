@@ -953,10 +953,11 @@ const SUBCAT_SPEC_FILTERS = {
     { key: '_mb_connect',   label: '📡 Свързаност',          values: ['Wi-Fi','Bluetooth','2.5G LAN'] },
   ],
   ram: [
-    { key: 'Тип',        label: '💾 Тип памет',    values: ['DDR5','DDR4','DDR3','DDR3L'] },
-    { key: 'Капацитет',  label: '📦 Капацитет',    values: ['8 GB','16 GB','32 GB','64 GB'] },
-    { key: 'Честота',    label: '⚡ Честота',       values: ['3200 MHz','3600 MHz','4800 MHz','5200 MHz','5600 MHz','6000 MHz','6400 MHz'] },
-    { key: 'Форм фактор',label: '💻 Форм фактор',  values: ['DIMM','SO-DIMM'] },
+    { key: 'Тип',         label: '💾 Тип памет',   values: ['DDR5','DDR4','DDR3','DDR3L','ECC'] },
+    { key: '_ram_cap',    label: '📦 Обем',         values: ['4 GB','8 GB','16 GB','32 GB','48 GB','64 GB'] },
+    { key: 'Честота',     label: '⚡ Честота',      values: ['1600 MHz','2400 MHz','2666 MHz','3200 MHz','3600 MHz','4800 MHz','5200 MHz','5600 MHz','6000 MHz','6400 MHz','6800 MHz'] },
+    { key: 'Форм фактор', label: '💻 Форм фактор', values: ['DIMM','SO-DIMM'] },
+    { key: '_ram_kit',    label: '📦 Екстри',       values: ['Kit (комплект)'] },
   ],
   ssd: [
     { key: 'Интерфейс',  label: '🔌 Интерфейс',    values: ['NVMe PCIe Gen4','NVMe PCIe Gen3','SATA III'] },

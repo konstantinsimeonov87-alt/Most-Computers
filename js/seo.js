@@ -979,7 +979,7 @@ function cpApplySubcat(id, btn) {
   const cpCatSpecWrap = document.getElementById('cpCatSpecWrap');
   if (cpCatSpecWrap) cpCatSpecWrap.style.display = (!id || id === 'all') ? '' : 'none';
   // Update brand filter title + list for subcat-specific manufacturers
-  const _subcatMfr = { cpu: ['Intel','AMD'], gpu: ['Palit','Gainward','Gigabyte','Sapphire','MSI','ASUS','ASRock','TD'], motherboard: ['ASUS','MSI','Gigabyte','ASRock'] };
+  const _subcatMfr = { cpu: ['Intel','AMD'], gpu: ['Palit','Gainward','Gigabyte','Sapphire','MSI','ASUS','ASRock','TD'], motherboard: ['ASUS','MSI','Gigabyte','ASRock'], ram: ['Kingston','ADATA','Crucial','KingSpec','TeamGroup','Samsung'] };
   const brandTitle = document.getElementById('cpBrandTitle');
   const brandList  = document.getElementById('cpBrandList');
   const brandSearch = document.getElementById('cpBrandSearch');
@@ -1254,6 +1254,20 @@ function cpGetFiltered() {
           if (v === 'DVI') return /DVI/i.test(out);
           return out.toUpperCase().includes(v.toUpperCase());
         });
+      });
+      return;
+    }
+    if (key === '_ram_cap') {
+      list = list.filter(p => {
+        const cap = (p.specs && p.specs['Капацитет']) || '';
+        return [...vals].some(v => cap === v || cap.startsWith(v + ' '));
+      });
+      return;
+    }
+    if (key === '_ram_kit') {
+      list = list.filter(p => {
+        const cap = (p.specs && p.specs['Капацитет']) || '';
+        return [...vals].some(v => v === 'Kit (комплект)' && /[×x×]/.test(cap));
       });
       return;
     }

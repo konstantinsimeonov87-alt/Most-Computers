@@ -50,8 +50,9 @@ updateWishlistUI();
 function initCatCounts() {
   const catMap = {};
   products.forEach(p => { const c = normalizeCat(p.cat); catMap[c] = (catMap[c] || 0) + 1; });
-  document.querySelectorAll('.cat-item[data-action]').forEach(el => {
-    const m = el.dataset.action.match(/openCatPage\('([^']+)'\)/);
+  document.querySelectorAll('.sidebar-categories .cat-item').forEach(el => {
+    const fn = el.getAttribute('onclick') || '';
+    const m = fn.match(/toggleSidebarCat\(this,'([^']+)'\)/);
     if (!m) return;
     const count = catMap[m[1]] || 0;
     if (!count) return;

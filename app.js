@@ -3605,10 +3605,11 @@ function cpGetFiltered() {
       if (subcats.length) { list = list.filter(p => subcats.includes(p.subcat)); return; }
     }
     list = list.filter(p => {
-      const sv = p.specs[key] || p.specs[Object.keys(p.specs).find(k => k.toLowerCase() === key.toLowerCase()) || ''] || '';
+      const _specs = p.specs || {};
+      const sv = _specs[key] || _specs[Object.keys(_specs).find(k => k.toLowerCase() === key.toLowerCase()) || ''] || '';
       if (sv) return [...vals].some(v => sv.toString().toLowerCase().includes(v.toLowerCase()));
       // Fallback: search through all spec values + name + desc (handles Cyrillic keys)
-      const allText = (p.name + ' ' + (p.desc||'') + ' ' + Object.values(p.specs||{}).join(' ')).toLowerCase();
+      const allText = (p.name + ' ' + (p.desc||'') + ' ' + Object.values(_specs).join(' ')).toLowerCase();
       return [...vals].some(v => allText.includes(v.toLowerCase()));
     });
   });
@@ -4740,8 +4741,9 @@ updateWishlistUI();
 function initCatCounts() {
   const catMap = {};
   products.forEach(p => { const c = normalizeCat(p.cat); catMap[c] = (catMap[c] || 0) + 1; });
-  document.querySelectorAll('.cat-item[data-action]').forEach(el => {
-    const m = el.dataset.action.match(/openCatPage\('([^']+)'\)/);
+  document.querySelectorAll('.sidebar-categories .cat-item').forEach(el => {
+    const fn = el.getAttribute('onclick') || '';
+    const m = fn.match(/toggleSidebarCat\(this,'([^']+)'\)/);
     if (!m) return;
     const count = catMap[m[1]] || 0;
     if (!count) return;

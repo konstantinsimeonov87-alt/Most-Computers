@@ -1936,7 +1936,7 @@ function renderCatSpecFilters(cat, subcat) {
   let specs = (subcat && subcat !== 'all' && SUBCAT_SPEC_FILTERS[subcat])
     ? SUBCAT_SPEC_FILTERS[subcat]
     : CAT_SPEC_FILTERS[cat];
-  if (cat === 'components') specs = [];
+  if (cat === 'components' && (!subcat || subcat === 'all')) specs = [];
   if (!specs || !specs.length) {
     block.style.display = 'none';
     return;
@@ -3323,6 +3323,9 @@ function buildCpSidebar(cat) {
   </div>`;
 
 
+  // ── Subcat-specific spec filters (populated by cpApplySubcat) ──
+  html += `<div id="cpSubcatSpecBlock"></div>`;
+
   // ── Reset button ──
   html += `<div style="padding:12px 16px 16px;">
     <button type="button" onclick="cpResetFilters()" style="width:100%;background:none;border:1px solid var(--border);border-radius:8px;padding:9px;font-size:12px;font-weight:700;color:var(--text2);cursor:pointer;font-family:'Outfit',sans-serif;transition:all .18s;" onmouseover="this.style.borderColor='var(--primary)';this.style.color='var(--primary)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text2)'">
@@ -3385,6 +3388,7 @@ function cpSpecChange(cb) {
   }
   cpRenderGrid();
 }
+const cpSubcatSpecChange = cpSpecChange;
 
 function cpToggleBrands(header) {
   const body = document.getElementById('cpBrandBody');
@@ -3510,6 +3514,25 @@ function cpApplySubcat(id, btn) {
   // Hide generic cat spec filters when a specific subcat is active
   const cpCatSpecWrap = document.getElementById('cpCatSpecWrap');
   if (cpCatSpecWrap) cpCatSpecWrap.style.display = (!id || id === 'all') ? '' : 'none';
+  // Render subcat-specific spec filters into sidebar
+  const cpSubcatSpecBlock = document.getElementById('cpSubcatSpecBlock');
+  if (cpSubcatSpecBlock) {
+    const subcatSpecs = (id && id !== 'all' && typeof SUBCAT_SPEC_FILTERS !== 'undefined') ? SUBCAT_SPEC_FILTERS[id] : null;
+    if (subcatSpecs && subcatSpecs.length) {
+      cpSubcatSpecBlock.innerHTML = subcatSpecs.map(spec => `
+        <div class="sidebar-filter-block" style="border-bottom:1px solid var(--border);padding:16px;">
+          <div class="sfb-title" style="font-size:12px;font-weight:800;color:var(--text2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;">${spec.label}</div>
+          <div style="display:flex;flex-direction:column;gap:4px;">
+            ${spec.values.map(val => `<label class="brand-filter-item" style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+              <input type="checkbox" data-spec-key="${spec.key}" value="${val}" onchange="cpSubcatSpecChange(this)">
+              <span style="flex:1;font-size:13px;">${val}</span>
+            </label>`).join('')}
+          </div>
+        </div>`).join('');
+    } else {
+      cpSubcatSpecBlock.innerHTML = '';
+    }
+  }
   cpRenderGrid();
   cpUpdateCatBreadcrumb(cpCat, id);
   setSidebarActive(cpCat, id);

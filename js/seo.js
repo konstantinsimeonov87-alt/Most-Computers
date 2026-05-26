@@ -759,7 +759,7 @@ function buildCpSidebar(cat) {
   // ── Brands (collapsed by default) ──
   html += `<div class="sidebar-filter-block" style="border-bottom:1px solid var(--border);">
     <div onclick="cpToggleBrands(this)" style="display:flex;align-items:center;justify-content:space-between;padding:16px;cursor:pointer;user-select:none;">
-      <div class="sfb-title" style="font-size:12px;font-weight:800;color:var(--text2);text-transform:uppercase;letter-spacing:.08em;margin:0;">🏷 Марка</div>
+      <div class="sfb-title" id="cpBrandTitle" style="font-size:12px;font-weight:800;color:var(--text2);text-transform:uppercase;letter-spacing:.08em;margin:0;">🏷 Марка</div>
       <span id="cpBrandArrow" style="color:var(--muted);font-size:13px;transition:transform .2s;">▾</span>
     </div>
     <div id="cpBrandBody" style="display:none;padding:0 16px 14px;">
@@ -978,6 +978,35 @@ function cpApplySubcat(id, btn) {
   // Hide generic cat spec filters when a specific subcat is active
   const cpCatSpecWrap = document.getElementById('cpCatSpecWrap');
   if (cpCatSpecWrap) cpCatSpecWrap.style.display = (!id || id === 'all') ? '' : 'none';
+  // Update brand filter title + list for subcat-specific manufacturers
+  const _subcatMfr = { cpu: ['Intel','AMD'], gpu: ['ASUS','MSI','Gigabyte','Sapphire','Palit','PowerColor','Zotac'], motherboard: ['ASUS','MSI','Gigabyte','ASRock'] };
+  const brandTitle = document.getElementById('cpBrandTitle');
+  const brandList  = document.getElementById('cpBrandList');
+  const brandSearch = document.getElementById('cpBrandSearch');
+  const brandBody  = document.getElementById('cpBrandBody');
+  if (brandTitle && brandList) {
+    const mfr = id && id !== 'all' ? _subcatMfr[id] : null;
+    if (mfr) {
+      brandTitle.textContent = '🏷 Производител';
+      if (brandSearch) brandSearch.style.display = 'none';
+      brandList.innerHTML = mfr.map(b => {
+        const cnt = products.filter(p => p.brand === b && (p.subcat === id || (normalizeCat(p.cat) === cpCat && (!p.subcat || p.subcat === id)))).length;
+        return `<label class="brand-filter-item"><input type="checkbox" value="${b}" onchange="cpBrandChange(this)"><span style="flex:1;">${b}</span><span class="brand-count">${cnt}</span></label>`;
+      }).join('');
+      if (brandBody) brandBody.style.display = '';
+    } else {
+      brandTitle.textContent = '🏷 Марка';
+      if (brandSearch) brandSearch.style.display = '';
+      if (brandBody) brandBody.style.display = 'none';
+      // Restore full list — rebuild from cpCat products
+      const catProds = products.filter(p => normalizeCat(p.cat) === cpCat);
+      const allBrands = [...new Set(catProds.map(p => p.brand))].sort();
+      brandList.innerHTML = allBrands.map(b => {
+        const cnt = catProds.filter(p => p.brand === b).length;
+        return `<label class="brand-filter-item"><input type="checkbox" value="${b}" onchange="cpBrandChange(this)"><span style="flex:1;">${b}</span><span class="brand-count">${cnt}</span></label>`;
+      }).join('');
+    }
+  }
   // Render subcat-specific spec filters into sidebar
   const cpSubcatSpecBlock = document.getElementById('cpSubcatSpecBlock');
   if (cpSubcatSpecBlock) {

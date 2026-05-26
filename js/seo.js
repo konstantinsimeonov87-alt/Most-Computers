@@ -979,7 +979,7 @@ function cpApplySubcat(id, btn) {
   const cpCatSpecWrap = document.getElementById('cpCatSpecWrap');
   if (cpCatSpecWrap) cpCatSpecWrap.style.display = (!id || id === 'all') ? '' : 'none';
   // Update brand filter title + list for subcat-specific manufacturers
-  const _subcatMfr = { cpu: ['Intel','AMD'], gpu: ['ASUS','MSI','Gigabyte','Sapphire','Palit','PowerColor','Zotac'], motherboard: ['ASUS','MSI','Gigabyte','ASRock'] };
+  const _subcatMfr = { cpu: ['Intel','AMD'], gpu: ['ASUS','MSI','Gigabyte','Sapphire','Palit','PowerColor','Zotac','Inno3D','AXLE'], motherboard: ['ASUS','MSI','Gigabyte','ASRock'] };
   const brandTitle = document.getElementById('cpBrandTitle');
   const brandList  = document.getElementById('cpBrandList');
   const brandSearch = document.getElementById('cpBrandSearch');
@@ -1215,6 +1215,44 @@ function cpGetFiltered() {
           if (v === 'Bluetooth') return bt.length > 0;
           if (v === '2.5G LAN')  return lan.includes('2.5');
           return false;
+        });
+      });
+      return;
+    }
+    // GPU computed filters
+    if (key === '_gpu_chip') {
+      list = list.filter(p => {
+        const gpu = (Object.entries(p.specs||{}).find(([k]) => k === 'GPU')?.[1] || p.name + ' ' + (p.desc||'')).toString().toUpperCase();
+        return [...vals].some(v => {
+          if (v === 'NVIDIA') return /NVIDIA|GEFORCE|RTX|GTX/i.test(gpu);
+          if (v === 'AMD')    return /AMD|RADEON|RX\s/i.test(gpu);
+          if (v === 'Intel')  return /INTEL|ARC/i.test(gpu);
+          return false;
+        });
+      });
+      return;
+    }
+    if (key === '_gpu_vram') {
+      list = list.filter(p => {
+        const mem = (Object.entries(p.specs||{}).find(([k]) => k === 'Памет')?.[1] || '').toString();
+        return [...vals].some(v => mem.startsWith(v));
+      });
+      return;
+    }
+    if (key === '_gpu_memtype') {
+      list = list.filter(p => {
+        const mem = (Object.entries(p.specs||{}).find(([k]) => k === 'Памет')?.[1] || '').toString();
+        return [...vals].some(v => mem.toUpperCase().includes(v));
+      });
+      return;
+    }
+    if (key === '_gpu_outputs') {
+      list = list.filter(p => {
+        const out = (Object.entries(p.specs||{}).find(([k]) => k === 'Изходи')?.[1] || '').toString();
+        return [...vals].some(v => {
+          if (v === 'DisplayPort') return /\bDP\b|DisplayPort/i.test(out);
+          if (v === 'DVI') return /DVI/i.test(out);
+          return out.toUpperCase().includes(v.toUpperCase());
         });
       });
       return;

@@ -935,8 +935,13 @@ const SUBCAT_SPEC_FILTERS = {
     { key: '_tdp',   label: '🌡 Макс. консумация (TDP)', values: ['До 65 W','66 – 100 W','Над 101 W'] },
   ],
   gpu: [
-    { key: 'Памет', label: '💾 Видео памет',  values: ['4 GB','6 GB','8 GB','10 GB','12 GB','16 GB','24 GB'] },
-    { key: 'Слот',  label: '🔌 Интерфейс',   values: ['PCI-E 5.0','PCI-E 4.0','PCI-E 3.0'] },
+    { key: '_gpu_chip',    label: '🏭 Производител на чипа',  values: ['NVIDIA','AMD'] },
+    { key: 'GPU',          label: '🎮 Графичен процесор',     values: ['RTX 50','RTX 40','RTX 30','RTX 20','GTX 16','GTX 10','RX 9','RX 8','RX 7','RX 6','Arc'] },
+    { key: '_gpu_vram',    label: '💾 Обем памет',            values: ['4 GB','6 GB','8 GB','12 GB','16 GB','24 GB','32 GB'] },
+    { key: '_gpu_memtype', label: '🔢 Тип памет',             values: ['GDDR7','GDDR6X','GDDR6','GDDR5'] },
+    { key: 'Интерфейс',   label: '🔌 Ширина на шината',      values: ['512-bit','384-bit','256-bit','192-bit','128-bit','96-bit','64-bit'] },
+    { key: 'Слот',         label: '📌 PCI Express',           values: ['PCI-E 5.0','PCI-E 4.0','PCI-E 3.0','PCI-E 2.0'] },
+    { key: '_gpu_outputs', label: '🖥 Изходи',                values: ['HDMI','DisplayPort','DVI'] },
   ],
   motherboard: [
     { key: 'Сокет',         label: '🔩 Сокет',              values: ['AM5','AM4','LGA1851','LGA1700','LGA1200'] },

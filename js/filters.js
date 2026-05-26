@@ -175,13 +175,13 @@ function updateSidebarFiltersVisibility() {
 
 function renderGrids(){
   const _inStock = p => p.stock !== false;
-  const _flashProds=[...products].filter(p=>_inStock(p)&&p.old&&p.pct>0).sort((a,b)=>b.pct-a.pct).slice(0,5);
+  const _flashProds=[...products].filter(p=>_inStock(p)&&p.old&&p.pct>0).sort((a,b)=>b.pct-a.pct).slice(0,3);
   const flashSection=document.getElementById('sale');
   if(flashSection) flashSection.style.display=_flashProds.length?'':'none';
   const fg=document.getElementById('flashGrid');
   if(fg){
     fg.innerHTML=_flashProds.map(p=>makeCard(p,true)).join('');
-    fg.className='products-row cols'+Math.min(_flashProds.length,5);
+    fg.className='products-row cols'+Math.min(_flashProds.length,3);
   }
   renderTopGrid();
   // Bestsellers grid — top rated products not tied to discounts

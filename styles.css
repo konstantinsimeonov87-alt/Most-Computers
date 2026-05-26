@@ -14173,6 +14173,9 @@
  .hp-cats-section {
    padding: 32px 0 8px;
  }
+ @media (min-width: 769px) {
+   .hp-cats-section { display: none; }
+ }
 
  .hp-cats-header {
    display: flex;

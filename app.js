@@ -3119,13 +3119,10 @@ function openCatPage(cat, preSubcat, fromURL = false) {
   // Build subcat bar
   cpRenderSubcatBar(cat);
 
-  // Highlight pre-selected subcat pill if provided
+  // Apply pre-selected subcat if provided (populates spec filters + highlights pill)
   if (preSubcat && preSubcat !== 'all') {
-    document.querySelectorAll('#cpSubcatBar .subcat-pill').forEach(p => p.classList.remove('active'));
     const activePill = document.querySelector(`#cpSubcatBar .subcat-pill[onclick*="'${preSubcat}'"]`);
-    if (activePill) activePill.classList.add('active');
-    const cpCatSpecWrap = document.getElementById('cpCatSpecWrap');
-    if (cpCatSpecWrap) cpCatSpecWrap.style.display = 'none';
+    cpApplySubcat(preSubcat, activePill);
   }
 
   // Update SEO

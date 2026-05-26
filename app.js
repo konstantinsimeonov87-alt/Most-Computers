@@ -1759,12 +1759,12 @@ const CAT_SPEC_FILTERS = {
 // Subcat-specific spec filters (shown when a subcat pill is active)
 const SUBCAT_SPEC_FILTERS = {
   cpu: [
-    { key: 'Серия',    label: '📋 Серия',                values: ['Ryzen 9','Ryzen 7','Ryzen 5','Ryzen 3','Core i9','Core i7','Core i5','Core i3','Core Ultra'] },
-    { key: 'Сокет',   label: '🔩 Сокет',                values: ['LGA1851','LGA1700','LGA1200','AM5','AM4'] },
-    { key: 'Ядра',    label: '🧮 Брой ядра',            values: ['4 ядра','6 ядра','8 ядра','10 ядра','12 ядра','16 ядра','20 ядра','24 ядра'] },
-    { key: 'TDP',     label: '🌡 TDP',                  values: ['35 W','45 W','65 W','95 W','105 W','125 W','170 W'] },
-    { key: 'iGPU',    label: '🖥 Интегрирана графика',  values: ['С iGPU','Без iGPU'] },
-    { key: 'Опаковка',label: '📦 Опаковка',             values: ['BOX','TRAY','MPK'] },
+    { key: 'Сокет',  label: '🔩 Сокет',             values: ['AM5','AM4','LGA1851','LGA1700','LGA1200','sTR5','LGA2066'] },
+    { key: 'Серия',  label: '📋 Модел / Серия',      values: ['Core Ultra','Core i9','Core i7','Core i5','Core i3','Ryzen 9','Ryzen 7','Ryzen 5','Ryzen 3','Threadripper','Xeon'] },
+    { key: '_freq',  label: '⚡ Работна честота',     values: ['До 1.5 GHz','1.6 – 2.5 GHz','2.6 – 3.5 GHz','Над 3.6 GHz'] },
+    { key: '_cores', label: '🧮 Физически ядра',      values: ['2','4','6','8','10','12','14','16','20','24','32+'] },
+    { key: '_igpu',  label: '🖥 Графично ядро',       values: ['С iGPU','Без iGPU'] },
+    { key: '_tdp',   label: '🌡 Макс. консумация (TDP)', values: ['До 65 W','66 – 100 W','Над 101 W'] },
   ],
   gpu: [
     { key: 'Памет', label: '💾 Видео памет',  values: ['4 GB','6 GB','8 GB','10 GB','12 GB','16 GB','24 GB'] },
@@ -3601,6 +3601,56 @@ function cpGetFiltered() {
     if (key === 'Тип') {
       const subcats = [...vals].map(v => _типToSubcat[v.toLowerCase()]).filter(Boolean);
       if (subcats.length) { list = list.filter(p => subcats.includes(p.subcat)); return; }
+    }
+    // Numeric/computed CPU filters (keys prefixed with _)
+    if (key === '_tdp') {
+      list = list.filter(p => {
+        const tdpStr = (Object.entries(p.specs || {}).find(([k]) => k.toLowerCase() === 'tdp')?.[1] || '').toString();
+        const m = tdpStr.match(/(\d+)/);
+        if (!m) return false;
+        const tdp = parseInt(m[1]);
+        return [...vals].some(v => {
+          if (v === 'До 65 W') return tdp <= 65;
+          if (v === '66 – 100 W') return tdp >= 66 && tdp <= 100;
+          if (v === 'Над 101 W') return tdp > 100;
+          return false;
+        });
+      });
+      return;
+    }
+    if (key === '_freq') {
+      list = list.filter(p => {
+        const freqStr = (Object.entries(p.specs || {}).find(([k]) => k.toLowerCase() === 'честота')?.[1] || '').toString();
+        const m = freqStr.match(/(\d+(?:\.\d+)?)\s*ghz/i);
+        if (!m) return false;
+        const freq = parseFloat(m[1]);
+        return [...vals].some(v => {
+          if (v === 'До 1.5 GHz') return freq <= 1.5;
+          if (v === '1.6 – 2.5 GHz') return freq >= 1.6 && freq <= 2.5;
+          if (v === '2.6 – 3.5 GHz') return freq >= 2.6 && freq <= 3.5;
+          if (v === 'Над 3.6 GHz') return freq > 3.6;
+          return false;
+        });
+      });
+      return;
+    }
+    if (key === '_cores') {
+      list = list.filter(p => {
+        const coreStr = (Object.entries(p.specs || {}).find(([k]) => k.toLowerCase() === 'ядра')?.[1] || '').toString();
+        const m = coreStr.match(/^(\d+)/);
+        if (!m) return false;
+        const cores = parseInt(m[1]);
+        return [...vals].some(v => v === '32+' ? cores >= 32 : parseInt(v) === cores);
+      });
+      return;
+    }
+    if (key === '_igpu') {
+      list = list.filter(p => {
+        const igpuVal = (Object.entries(p.specs || {}).find(([k]) => k.toLowerCase().includes('интегрирана'))?.[1] || '').toString().trim();
+        const has = igpuVal.length > 0 && igpuVal !== '-';
+        return [...vals].some(v => v === 'С iGPU' ? has : !has);
+      });
+      return;
     }
     list = list.filter(p => {
       const _specs = p.specs || {};

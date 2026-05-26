@@ -1072,6 +1072,56 @@ function cpGetFiltered() {
       const subcats = [...vals].map(v => _типToSubcat[v.toLowerCase()]).filter(Boolean);
       if (subcats.length) { list = list.filter(p => subcats.includes(p.subcat)); return; }
     }
+    // Numeric/computed CPU filters (keys prefixed with _)
+    if (key === '_tdp') {
+      list = list.filter(p => {
+        const tdpStr = (Object.entries(p.specs || {}).find(([k]) => k.toLowerCase() === 'tdp')?.[1] || '').toString();
+        const m = tdpStr.match(/(\d+)/);
+        if (!m) return false;
+        const tdp = parseInt(m[1]);
+        return [...vals].some(v => {
+          if (v === 'До 65 W') return tdp <= 65;
+          if (v === '66 – 100 W') return tdp >= 66 && tdp <= 100;
+          if (v === 'Над 101 W') return tdp > 100;
+          return false;
+        });
+      });
+      return;
+    }
+    if (key === '_freq') {
+      list = list.filter(p => {
+        const freqStr = (Object.entries(p.specs || {}).find(([k]) => k.toLowerCase() === 'честота')?.[1] || '').toString();
+        const m = freqStr.match(/(\d+(?:\.\d+)?)\s*ghz/i);
+        if (!m) return false;
+        const freq = parseFloat(m[1]);
+        return [...vals].some(v => {
+          if (v === 'До 1.5 GHz') return freq <= 1.5;
+          if (v === '1.6 – 2.5 GHz') return freq >= 1.6 && freq <= 2.5;
+          if (v === '2.6 – 3.5 GHz') return freq >= 2.6 && freq <= 3.5;
+          if (v === 'Над 3.6 GHz') return freq > 3.6;
+          return false;
+        });
+      });
+      return;
+    }
+    if (key === '_cores') {
+      list = list.filter(p => {
+        const coreStr = (Object.entries(p.specs || {}).find(([k]) => k.toLowerCase() === 'ядра')?.[1] || '').toString();
+        const m = coreStr.match(/^(\d+)/);
+        if (!m) return false;
+        const cores = parseInt(m[1]);
+        return [...vals].some(v => v === '32+' ? cores >= 32 : parseInt(v) === cores);
+      });
+      return;
+    }
+    if (key === '_igpu') {
+      list = list.filter(p => {
+        const igpuVal = (Object.entries(p.specs || {}).find(([k]) => k.toLowerCase().includes('интегрирана'))?.[1] || '').toString().trim();
+        const has = igpuVal.length > 0 && igpuVal !== '-';
+        return [...vals].some(v => v === 'С iGPU' ? has : !has);
+      });
+      return;
+    }
     list = list.filter(p => {
       const _specs = p.specs || {};
       const sv = _specs[key] || _specs[Object.keys(_specs).find(k => k.toLowerCase() === key.toLowerCase()) || ''] || '';

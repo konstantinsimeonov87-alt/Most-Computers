@@ -927,12 +927,12 @@ const CAT_SPEC_FILTERS = {
 // Subcat-specific spec filters (shown when a subcat pill is active)
 const SUBCAT_SPEC_FILTERS = {
   cpu: [
-    { key: 'Серия',    label: '📋 Серия',                values: ['Ryzen 9','Ryzen 7','Ryzen 5','Ryzen 3','Core i9','Core i7','Core i5','Core i3','Core Ultra'] },
-    { key: 'Сокет',   label: '🔩 Сокет',                values: ['LGA1851','LGA1700','LGA1200','AM5','AM4'] },
-    { key: 'Ядра',    label: '🧮 Брой ядра',            values: ['4 ядра','6 ядра','8 ядра','10 ядра','12 ядра','16 ядра','20 ядра','24 ядра'] },
-    { key: 'TDP',     label: '🌡 TDP',                  values: ['35 W','45 W','65 W','95 W','105 W','125 W','170 W'] },
-    { key: 'iGPU',    label: '🖥 Интегрирана графика',  values: ['С iGPU','Без iGPU'] },
-    { key: 'Опаковка',label: '📦 Опаковка',             values: ['BOX','TRAY','MPK'] },
+    { key: 'Сокет',  label: '🔩 Сокет',             values: ['AM5','AM4','LGA1851','LGA1700','LGA1200','sTR5','LGA2066'] },
+    { key: 'Серия',  label: '📋 Модел / Серия',      values: ['Core Ultra','Core i9','Core i7','Core i5','Core i3','Ryzen 9','Ryzen 7','Ryzen 5','Ryzen 3','Threadripper','Xeon'] },
+    { key: '_freq',  label: '⚡ Работна честота',     values: ['До 1.5 GHz','1.6 – 2.5 GHz','2.6 – 3.5 GHz','Над 3.6 GHz'] },
+    { key: '_cores', label: '🧮 Физически ядра',      values: ['2','4','6','8','10','12','14','16','20','24','32+'] },
+    { key: '_igpu',  label: '🖥 Графично ядро',       values: ['С iGPU','Без iGPU'] },
+    { key: '_tdp',   label: '🌡 Макс. консумация (TDP)', values: ['До 65 W','66 – 100 W','Над 101 W'] },
   ],
   gpu: [
     { key: 'Памет', label: '💾 Видео памет',  values: ['4 GB','6 GB','8 GB','10 GB','12 GB','16 GB','24 GB'] },

@@ -993,6 +993,26 @@ function cpApplySubcat(id, btn) {
       {label:'Samsung', value:'Samsung'},
       {label:'Other',   value:'__other__'},
     ],
+    ssd: [
+      {label:'Team',    value:'TeamGroup'},
+      {label:'ADATA',   value:'ADATA'},
+      {label:'Kingston',value:'Kingston'},
+      {label:'KingSpec',value:'KingSpec'},
+      {label:'MSI',     value:'MSI'},
+      {label:'Emtec',   value:'Emtec'},
+      {label:'Other',   value:'__other__'},
+    ],
+    hdd: ['Seagate'],
+    ssd_hdd: [
+      {label:'Team',    value:'TeamGroup'},
+      {label:'ADATA',   value:'ADATA'},
+      {label:'Kingston',value:'Kingston'},
+      {label:'KingSpec',value:'KingSpec'},
+      {label:'MSI',     value:'MSI'},
+      {label:'Emtec',   value:'Emtec'},
+      {label:'Seagate', value:'Seagate'},
+      {label:'Other',   value:'__other__'},
+    ],
   };
   const brandTitle = document.getElementById('cpBrandTitle');
   const brandList  = document.getElementById('cpBrandList');
@@ -1293,6 +1313,41 @@ function cpGetFiltered() {
       list = list.filter(p => {
         const cap = (p.specs && p.specs['Капацитет']) || '';
         return [...vals].some(v => v === 'Kit (комплект)' && /[×x×]/.test(cap));
+      });
+      return;
+    }
+    if (key === '_storage_cap') {
+      // Normalize capacity to GB for comparison (handles "1 TB" ≈ "1000 GB" ≈ "1024 GB")
+      const toGB = s => {
+        const m = (s || '').match(/(\d+(?:\.\d+)?)\s*(GB|TB)/i);
+        if (!m) return null;
+        return m[2].toUpperCase() === 'TB' ? parseFloat(m[1]) * 1000 : parseFloat(m[1]);
+      };
+      list = list.filter(p => {
+        const capRaw = (p.specs && (p.specs['Капацитет'] || p.specs['Обем'])) || '';
+        const capGB = toGB(capRaw);
+        return [...vals].some(v => {
+          const vGB = toGB(v);
+          if (capGB === null || vGB === null) return capRaw.toLowerCase().includes(v.toLowerCase());
+          return Math.abs(capGB - vGB) / vGB < 0.25;
+        });
+      });
+      return;
+    }
+    if (key === '_hdd_rpm') {
+      list = list.filter(p => {
+        const rpm = ((p.specs && p.specs['RPM']) || '').replace(/[,.\s]/g, '').replace(/rpm/i, '');
+        return [...vals].some(v => rpm === v.replace(/,/g, ''));
+      });
+      return;
+    }
+    if (key === '_hdd_cache') {
+      list = list.filter(p => {
+        const cache = ((p.specs && p.specs['Кеш']) || '').replace(/\s/g, '').toUpperCase();
+        return [...vals].some(v => {
+          const n = v.replace(/\s/g, '').toUpperCase();
+          return cache.startsWith(n.split('MB')[0] + 'MB') || cache.startsWith(n.replace('MB','') + 'MB');
+        });
       });
       return;
     }

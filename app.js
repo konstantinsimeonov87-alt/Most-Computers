@@ -1792,14 +1792,22 @@ const SUBCAT_SPEC_FILTERS = {
     { key: '_ram_kit',    label: '📦 Екстри',       values: ['Kit (комплект)'] },
   ],
   ssd: [
-    { key: 'Интерфейс',  label: '🔌 Интерфейс',    values: ['NVMe PCIe Gen4','NVMe PCIe Gen3','SATA III'] },
-    { key: 'Капацитет',  label: '📦 Капацитет',    values: ['120 GB','240 GB','250 GB','256 GB','480 GB','500 GB','512 GB','1 TB','2 TB','4 TB'] },
-    { key: 'Форм фактор',label: '📐 Форм фактор',  values: ['M.2 2280','M.2 2242','2.5"'] },
+    { key: 'Интерфейс',    label: '🔌 Интерфейс',   values: ['NVMe PCIe Gen4','NVMe PCIe Gen3','SATA III'] },
+    { key: '_storage_cap', label: '📦 Капацитет',    values: ['120 GB','256 GB','480 GB','512 GB','1 TB','2 TB','4 TB'] },
+    { key: 'Форм фактор',  label: '📐 Форм фактор',  values: ['M.2 2280','M.2 2242','2.5"'] },
   ],
   hdd: [
-    { key: 'Капацитет',  label: '📦 Капацитет',    values: ['500 GB','1 TB','2 TB','4 TB','6 TB','8 TB','10 TB'] },
-    { key: 'RPM',        label: '🌀 RPM',           values: ['5400','7200'] },
-    { key: 'Форм фактор',label: '📐 Форм фактор',  values: ['3.5"','2.5"'] },
+    { key: '_storage_cap', label: '📦 Капацитет',    values: ['1 TB','2 TB','3 TB','4 TB','6 TB','8 TB','10 TB','12 TB','16 TB','20 TB'] },
+    { key: 'Форм фактор',  label: '📐 Форм фактор',  values: ['3.5"','2.5"'] },
+    { key: '_hdd_rpm',     label: '🌀 RPM',           values: ['5400','7200'] },
+    { key: '_hdd_cache',   label: '💾 Кеш',           values: ['128 MB','256 MB','512 MB'] },
+    { key: 'Интерфейс',    label: '🔌 Интерфейс',    values: ['SATA III','SAS'] },
+  ],
+  ssd_hdd: [
+    { key: 'Интерфейс',    label: '🔌 Интерфейс',   values: ['NVMe PCIe Gen4','NVMe PCIe Gen3','SATA III','SAS'] },
+    { key: '_storage_cap', label: '📦 Капацитет',    values: ['120 GB','256 GB','512 GB','1 TB','2 TB','4 TB','6 TB','8 TB','10 TB'] },
+    { key: 'Форм фактор',  label: '📐 Форм фактор',  values: ['M.2 2280','M.2 2242','2.5"','3.5"'] },
+    { key: '_hdd_rpm',     label: '🌀 RPM',           values: ['5400','7200'] },
   ],
   keyboard: [
     { key: 'Връзка',    label: '📡 Връзка',         values: ['Кабелна','Безжична','Bluetooth'] },
@@ -3535,6 +3543,26 @@ function cpApplySubcat(id, btn) {
       {label:'Samsung', value:'Samsung'},
       {label:'Other',   value:'__other__'},
     ],
+    ssd: [
+      {label:'Team',    value:'TeamGroup'},
+      {label:'ADATA',   value:'ADATA'},
+      {label:'Kingston',value:'Kingston'},
+      {label:'KingSpec',value:'KingSpec'},
+      {label:'MSI',     value:'MSI'},
+      {label:'Emtec',   value:'Emtec'},
+      {label:'Other',   value:'__other__'},
+    ],
+    hdd: ['Seagate'],
+    ssd_hdd: [
+      {label:'Team',    value:'TeamGroup'},
+      {label:'ADATA',   value:'ADATA'},
+      {label:'Kingston',value:'Kingston'},
+      {label:'KingSpec',value:'KingSpec'},
+      {label:'MSI',     value:'MSI'},
+      {label:'Emtec',   value:'Emtec'},
+      {label:'Seagate', value:'Seagate'},
+      {label:'Other',   value:'__other__'},
+    ],
   };
   const brandTitle = document.getElementById('cpBrandTitle');
   const brandList  = document.getElementById('cpBrandList');
@@ -3835,6 +3863,41 @@ function cpGetFiltered() {
       list = list.filter(p => {
         const cap = (p.specs && p.specs['Капацитет']) || '';
         return [...vals].some(v => v === 'Kit (комплект)' && /[×x×]/.test(cap));
+      });
+      return;
+    }
+    if (key === '_storage_cap') {
+      // Normalize capacity to GB for comparison (handles "1 TB" ≈ "1000 GB" ≈ "1024 GB")
+      const toGB = s => {
+        const m = (s || '').match(/(\d+(?:\.\d+)?)\s*(GB|TB)/i);
+        if (!m) return null;
+        return m[2].toUpperCase() === 'TB' ? parseFloat(m[1]) * 1000 : parseFloat(m[1]);
+      };
+      list = list.filter(p => {
+        const capRaw = (p.specs && (p.specs['Капацитет'] || p.specs['Обем'])) || '';
+        const capGB = toGB(capRaw);
+        return [...vals].some(v => {
+          const vGB = toGB(v);
+          if (capGB === null || vGB === null) return capRaw.toLowerCase().includes(v.toLowerCase());
+          return Math.abs(capGB - vGB) / vGB < 0.25;
+        });
+      });
+      return;
+    }
+    if (key === '_hdd_rpm') {
+      list = list.filter(p => {
+        const rpm = ((p.specs && p.specs['RPM']) || '').replace(/[,.\s]/g, '').replace(/rpm/i, '');
+        return [...vals].some(v => rpm === v.replace(/,/g, ''));
+      });
+      return;
+    }
+    if (key === '_hdd_cache') {
+      list = list.filter(p => {
+        const cache = ((p.specs && p.specs['Кеш']) || '').replace(/\s/g, '').toUpperCase();
+        return [...vals].some(v => {
+          const n = v.replace(/\s/g, '').toUpperCase();
+          return cache.startsWith(n.split('MB')[0] + 'MB') || cache.startsWith(n.replace('MB','') + 'MB');
+        });
       });
       return;
     }

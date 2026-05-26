@@ -960,14 +960,22 @@ const SUBCAT_SPEC_FILTERS = {
     { key: '_ram_kit',    label: '📦 Екстри',       values: ['Kit (комплект)'] },
   ],
   ssd: [
-    { key: 'Интерфейс',  label: '🔌 Интерфейс',    values: ['NVMe PCIe Gen4','NVMe PCIe Gen3','SATA III'] },
-    { key: 'Капацитет',  label: '📦 Капацитет',    values: ['120 GB','240 GB','250 GB','256 GB','480 GB','500 GB','512 GB','1 TB','2 TB','4 TB'] },
-    { key: 'Форм фактор',label: '📐 Форм фактор',  values: ['M.2 2280','M.2 2242','2.5"'] },
+    { key: 'Интерфейс',    label: '🔌 Интерфейс',   values: ['NVMe PCIe Gen4','NVMe PCIe Gen3','SATA III'] },
+    { key: '_storage_cap', label: '📦 Капацитет',    values: ['120 GB','256 GB','480 GB','512 GB','1 TB','2 TB','4 TB'] },
+    { key: 'Форм фактор',  label: '📐 Форм фактор',  values: ['M.2 2280','M.2 2242','2.5"'] },
   ],
   hdd: [
-    { key: 'Капацитет',  label: '📦 Капацитет',    values: ['500 GB','1 TB','2 TB','4 TB','6 TB','8 TB','10 TB'] },
-    { key: 'RPM',        label: '🌀 RPM',           values: ['5400','7200'] },
-    { key: 'Форм фактор',label: '📐 Форм фактор',  values: ['3.5"','2.5"'] },
+    { key: '_storage_cap', label: '📦 Капацитет',    values: ['1 TB','2 TB','3 TB','4 TB','6 TB','8 TB','10 TB','12 TB','16 TB','20 TB'] },
+    { key: 'Форм фактор',  label: '📐 Форм фактор',  values: ['3.5"','2.5"'] },
+    { key: '_hdd_rpm',     label: '🌀 RPM',           values: ['5400','7200'] },
+    { key: '_hdd_cache',   label: '💾 Кеш',           values: ['128 MB','256 MB','512 MB'] },
+    { key: 'Интерфейс',    label: '🔌 Интерфейс',    values: ['SATA III','SAS'] },
+  ],
+  ssd_hdd: [
+    { key: 'Интерфейс',    label: '🔌 Интерфейс',   values: ['NVMe PCIe Gen4','NVMe PCIe Gen3','SATA III','SAS'] },
+    { key: '_storage_cap', label: '📦 Капацитет',    values: ['120 GB','256 GB','512 GB','1 TB','2 TB','4 TB','6 TB','8 TB','10 TB'] },
+    { key: 'Форм фактор',  label: '📐 Форм фактор',  values: ['M.2 2280','M.2 2242','2.5"','3.5"'] },
+    { key: '_hdd_rpm',     label: '🌀 RPM',           values: ['5400','7200'] },
   ],
   keyboard: [
     { key: 'Връзка',    label: '📡 Връзка',         values: ['Кабелна','Безжична','Bluetooth'] },

@@ -1548,8 +1548,6 @@ const SUBCATS = {
     { id: 'gpu',         label: '🎮 Видео карти' },
     { id: 'ram',         label: '🧠 RAM памет' },
     { id: 'ssd_hdd',     label: '💿 SSD / HDD дискове' },
-    { id: 'ssd',         label: '💿 SSD / NVMe' },
-    { id: 'hdd',         label: '💾 HDD дискове' },
     { id: 'motherboard', label: '🔩 Дънни платки' },
     { id: 'psu',         label: '⚡ Захранвания' },
     { id: 'case_cooling',label: '❄ Кутии и охлаждане' },

@@ -558,6 +558,7 @@ let cpRating = 0;
 let cpSaleOnly = false, cpNewOnly = false, cpStockOnly = false;
 let cpSpecFilters = {};
 let cpSubcat = 'all';
+let _cpSubcatBrands = null; // known brand values for current subcat (to power "Other" filter)
 
 let _catPageScrollY = 0;
 function openCatPage(cat, preSubcat, fromURL = false) {
@@ -979,7 +980,20 @@ function cpApplySubcat(id, btn) {
   const cpCatSpecWrap = document.getElementById('cpCatSpecWrap');
   if (cpCatSpecWrap) cpCatSpecWrap.style.display = (!id || id === 'all') ? '' : 'none';
   // Update brand filter title + list for subcat-specific manufacturers
-  const _subcatMfr = { cpu: ['Intel','AMD'], gpu: ['Palit','Gainward','Gigabyte','Sapphire','MSI','ASUS','ASRock','TD'], motherboard: ['ASUS','MSI','Gigabyte','ASRock'], ram: ['Kingston','ADATA','Crucial','KingSpec','TeamGroup','Samsung'] };
+  const _subcatMfr = {
+    cpu: ['Intel','AMD'],
+    gpu: ['Palit','Gainward','Gigabyte','Sapphire','MSI','ASUS','ASRock','TD'],
+    motherboard: ['ASUS','MSI','Gigabyte','ASRock'],
+    ram: [
+      {label:'Team',    value:'TeamGroup'},
+      {label:'ADATA',   value:'ADATA'},
+      {label:'Kingston',value:'Kingston'},
+      {label:'KingSpec',value:'KingSpec'},
+      {label:'Crucial', value:'Crucial'},
+      {label:'Samsung', value:'Samsung'},
+      {label:'Other',   value:'__other__'},
+    ],
+  };
   const brandTitle = document.getElementById('cpBrandTitle');
   const brandList  = document.getElementById('cpBrandList');
   const brandSearch = document.getElementById('cpBrandSearch');
@@ -989,9 +1003,16 @@ function cpApplySubcat(id, btn) {
     if (mfr) {
       brandTitle.textContent = '🏷 Производител';
       if (brandSearch) brandSearch.style.display = 'none';
-      brandList.innerHTML = mfr.map(b => {
-        const cnt = products.filter(p => p.brand === b && (p.subcat === id || (normalizeCat(p.cat) === cpCat && (!p.subcat || p.subcat === id)))).length;
-        return `<label class="brand-filter-item"><input type="checkbox" value="${b}" onchange="cpBrandChange(this)"><span style="flex:1;">${b}</span><span class="brand-count">${cnt}</span></label>`;
+      // Resolve label/value for each entry (supports plain string or {label,value} object)
+      const mfrEntries = mfr.map(b => typeof b === 'object' ? b : {label: b, value: b});
+      const knownValues = mfrEntries.map(e => e.value).filter(v => v !== '__other__');
+      _cpSubcatBrands = knownValues;
+      const subcatProds = products.filter(p => p.subcat === id || (normalizeCat(p.cat) === cpCat && (!p.subcat || p.subcat === id)));
+      brandList.innerHTML = mfrEntries.map(({label, value}) => {
+        const cnt = value === '__other__'
+          ? subcatProds.filter(p => !knownValues.includes(p.brand)).length
+          : subcatProds.filter(p => p.brand === value).length;
+        return `<label class="brand-filter-item"><input type="checkbox" value="${value}" onchange="cpBrandChange(this)"><span style="flex:1;">${label}</span><span class="brand-count">${cnt}</span></label>`;
       }).join('');
       if (brandBody) brandBody.style.display = '';
     } else {
@@ -1108,7 +1129,11 @@ function cpGetFiltered() {
   // price
   list = list.filter(p => { const e = toEur(p.price); return e >= cpPriceMin && e <= cpPriceMax; });
   // brands
-  if (cpBrands.size > 0) list = list.filter(p => cpBrands.has(p.brand));
+  if (cpBrands.size > 0) list = list.filter(p => {
+    if (cpBrands.has(p.brand)) return true;
+    if (cpBrands.has('__other__') && _cpSubcatBrands && !_cpSubcatBrands.includes(p.brand)) return true;
+    return false;
+  });
   // rating
   if (cpRating > 0) list = list.filter(p => p.rating >= cpRating);
   // toggles

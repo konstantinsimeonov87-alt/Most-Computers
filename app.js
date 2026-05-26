@@ -1771,10 +1771,13 @@ const SUBCAT_SPEC_FILTERS = {
     { key: 'Слот',  label: '🔌 Интерфейс',   values: ['PCI-E 5.0','PCI-E 4.0','PCI-E 3.0'] },
   ],
   motherboard: [
-    { key: 'Сокет',       label: '🔩 Сокет',       values: ['AM5','AM4','LGA1851','LGA1700','LGA1200'] },
-    { key: 'Форм фактор', label: '📐 Форм фактор', values: ['ATX','Micro-ATX','Mini-ITX'] },
-    { key: 'Памет',       label: '🧠 Вид RAM',      values: ['DDR5','DDR4'] },
-    { key: 'WiFi',        label: '📡 WiFi',         values: ['WiFi 7','WiFi 6E','WiFi 6'] },
+    { key: 'Сокет',         label: '🔩 Сокет',              values: ['AM5','AM4','LGA1851','LGA1700','LGA1200'] },
+    { key: 'Чипсет',        label: '🔧 Чипсет',             values: ['Z890','Z790','X870','X670','B860','B850','B760','B660','B650','B550','H610','H510','A620','A520','B450'] },
+    { key: '_mb_ram_type',  label: '💾 Тип памет',           values: ['DDR5','DDR4','DDR3'] },
+    { key: '_mb_ram_slots', label: '🧮 Слотове за памет',    values: ['2','4'] },
+    { key: 'Форм фактор',   label: '📐 Форм фактор',        values: ['ATX','Micro-ATX','Mini-ITX'] },
+    { key: '_mb_outputs',   label: '🖥 Изходи',              values: ['HDMI','DisplayPort','DVI','VGA'] },
+    { key: '_mb_connect',   label: '📡 Свързаност',          values: ['Wi-Fi','Bluetooth','2.5G LAN'] },
   ],
   ram: [
     { key: 'Тип',        label: '💾 Тип памет',    values: ['DDR5','DDR4','DDR3','DDR3L'] },
@@ -3708,6 +3711,47 @@ function cpGetFiltered() {
         const igpuVal = (Object.entries(p.specs || {}).find(([k]) => k.toLowerCase().includes('интегрирана'))?.[1] || '').toString().trim();
         const has = igpuVal.length > 0 && igpuVal !== '-';
         return [...vals].some(v => v === 'С iGPU' ? has : !has);
+      });
+      return;
+    }
+    // Motherboard computed filters
+    if (key === '_mb_ram_type') {
+      list = list.filter(p => {
+        const mem = (Object.entries(p.specs||{}).find(([k]) => k === 'Памет')?.[1] || '').toString();
+        return [...vals].some(v => mem.includes(v));
+      });
+      return;
+    }
+    if (key === '_mb_ram_slots') {
+      list = list.filter(p => {
+        const mem = (Object.entries(p.specs||{}).find(([k]) => k === 'Памет')?.[1] || '').toString();
+        return [...vals].some(v => mem.startsWith(v + '×'));
+      });
+      return;
+    }
+    if (key === '_mb_outputs') {
+      list = list.filter(p => {
+        const out = (Object.entries(p.specs||{}).find(([k]) => k === 'Изходи')?.[1] || '').toString();
+        return [...vals].some(v => {
+          if (v === 'DisplayPort') return /DP|DisplayPort/i.test(out);
+          if (v === 'DVI') return /DVI/i.test(out);
+          return out.toUpperCase().includes(v.toUpperCase());
+        });
+      });
+      return;
+    }
+    if (key === '_mb_connect') {
+      list = list.filter(p => {
+        const sp = p.specs || {};
+        const wifi = (Object.entries(sp).find(([k]) => k === 'WiFi')?.[1] || '').toString().trim();
+        const bt   = (Object.entries(sp).find(([k]) => k === 'Bluetooth')?.[1] || '').toString().trim();
+        const lan  = (Object.entries(sp).find(([k]) => k === 'LAN')?.[1] || '').toString();
+        return [...vals].some(v => {
+          if (v === 'Wi-Fi')     return wifi.length > 0;
+          if (v === 'Bluetooth') return bt.length > 0;
+          if (v === '2.5G LAN')  return lan.includes('2.5');
+          return false;
+        });
       });
       return;
     }

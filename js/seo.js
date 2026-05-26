@@ -1178,6 +1178,47 @@ function cpGetFiltered() {
       });
       return;
     }
+    // Motherboard computed filters
+    if (key === '_mb_ram_type') {
+      list = list.filter(p => {
+        const mem = (Object.entries(p.specs||{}).find(([k]) => k === 'Памет')?.[1] || '').toString();
+        return [...vals].some(v => mem.includes(v));
+      });
+      return;
+    }
+    if (key === '_mb_ram_slots') {
+      list = list.filter(p => {
+        const mem = (Object.entries(p.specs||{}).find(([k]) => k === 'Памет')?.[1] || '').toString();
+        return [...vals].some(v => mem.startsWith(v + '×'));
+      });
+      return;
+    }
+    if (key === '_mb_outputs') {
+      list = list.filter(p => {
+        const out = (Object.entries(p.specs||{}).find(([k]) => k === 'Изходи')?.[1] || '').toString();
+        return [...vals].some(v => {
+          if (v === 'DisplayPort') return /DP|DisplayPort/i.test(out);
+          if (v === 'DVI') return /DVI/i.test(out);
+          return out.toUpperCase().includes(v.toUpperCase());
+        });
+      });
+      return;
+    }
+    if (key === '_mb_connect') {
+      list = list.filter(p => {
+        const sp = p.specs || {};
+        const wifi = (Object.entries(sp).find(([k]) => k === 'WiFi')?.[1] || '').toString().trim();
+        const bt   = (Object.entries(sp).find(([k]) => k === 'Bluetooth')?.[1] || '').toString().trim();
+        const lan  = (Object.entries(sp).find(([k]) => k === 'LAN')?.[1] || '').toString();
+        return [...vals].some(v => {
+          if (v === 'Wi-Fi')     return wifi.length > 0;
+          if (v === 'Bluetooth') return bt.length > 0;
+          if (v === '2.5G LAN')  return lan.includes('2.5');
+          return false;
+        });
+      });
+      return;
+    }
     list = list.filter(p => {
       const _specs = p.specs || {};
       const sv = _specs[key] || _specs[Object.keys(_specs).find(k => k.toLowerCase() === key.toLowerCase()) || ''] || '';

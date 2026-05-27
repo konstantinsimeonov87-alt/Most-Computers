@@ -483,7 +483,7 @@ function renderHpCats() {
 // RENDER HOMEPAGE SUBCATEGORY STRIP
 // ═══════════════════════════════════════
 const HP_SUBCATS = [
-  { cat:'laptops',    id:'gaming_l',    label:'Gaming лаптопи',        icon:'🎮', trending:true  },
+  { cat:'laptops',    id:'gaming',      label:'Gaming лаптопи',        icon:'🎮', trending:true  },
   { cat:'components', id:'gpu',         label:'Видеокарти',            icon:'🎴', trending:true  },
   { cat:'monitors',   id:'gaming_mon',   label:'Gaming монитори',       icon:'🎮', trending:true  },
   { cat:'monitors',   id:'oled_mon',    label:'OLED монитори',         icon:'✨', trending:true  },
@@ -497,7 +497,7 @@ const HP_SUBCATS = [
   { cat:'storage',    id:'nas',         label:'NAS / Сторидж',         icon:'💾'                },
   { cat:'storage',    id:'usb_flash',   label:'USB флашки',             icon:'💾'                },
   { cat:'storage',    id:'microsd',     label:'microSD карти',          icon:'📱'                },
-  { cat:'laptops',    id:'for_students',label:'Студентски лаптопи',    icon:'🎓'                },
+  { cat:'laptops',    id:'budget',      label:'Бюджетни лаптопи',      icon:'💰'                },
   { cat:'peripherals',id:'mouse',       label:'Геймърски мишки',       icon:'🖱'                },
   { cat:'peripherals',id:'webcam',      label:'Уеб камери',            icon:'📸'                },
   { cat:'components', id:'ram',         label:'RAM памет',             icon:'🧠'                },
@@ -507,7 +507,7 @@ const HP_SUBCATS = [
   { cat:'network',    id:'switch',      label:'Суичове',               icon:'🔀'                },
   { cat:'accessories',id:'hub',         label:'USB хъбове',            icon:'🔌'                },
   { cat:'components', id:'psu',         label:'Захранвания',           icon:'🔋'                },
-  { cat:'laptops',    id:'for_design',  label:'За дизайн',             icon:'🎨'                },
+  { cat:'laptops',    id:'business',    label:'Бизнес лаптопи',        icon:'💼'                },
   { cat:'printers',   id:'megatank',     label:'MegaTank принтери',     icon:'♾️'               },
   { cat:'printers',   id:'inkjet_aio',  label:'Мастиленоструйни МФУ',  icon:'🖨'                },
   { cat:'components', id:'case_cooling',label:'Кутии и охлаждане',     icon:'❄️'               },

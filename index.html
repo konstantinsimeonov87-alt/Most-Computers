@@ -757,16 +757,15 @@
             <span class="mob-acc-arrow">›</span>
           </button>
           <div class="mob-sub-accordion-body">
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:laptops">Всички
-              Лаптопи</button>
+            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:laptops">Всички Лаптопи</button>
             <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:laptops"
               onclick="setTimeout(()=>applySubcatById('gaming'),50)">🎮 Геймърски</button>
             <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:laptops"
+              onclick="setTimeout(()=>applySubcatById('ultrabook'),50)">✈ Ултрабуци</button>
+            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:laptops"
               onclick="setTimeout(()=>applySubcatById('business'),50)">💼 Бизнес</button>
             <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:laptops"
-              onclick="setTimeout(()=>applySubcatById('ultrabook'),50)">✈ Ултрабук</button>
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:laptops"
-              onclick="setTimeout(()=>applySubcatById('workstation'),50)">🔬 Workstation</button>
+              onclick="setTimeout(()=>applySubcatById('convertible'),50)">🔄 2-в-1</button>
             <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:laptops"
               onclick="setTimeout(()=>applySubcatById('budget'),50)">💰 Бюджетни</button>
           </div>
@@ -1671,9 +1670,9 @@
         <a href="/?cat=phones&sub=tablet" class="nav-mega-sub" onclick="event.preventDefault();openCatPage('phones','tablet')">Таблети</a>
         <a href="/?cat=phones&sub=smartwatch" class="nav-mega-sub" onclick="event.preventDefault();openCatPage('phones','smartwatch')">Смарт часовници</a>
         <a href="/?cat=laptops" class="nav-mega-cat" onclick="event.preventDefault();openCatPage('laptops')">💻 Лаптопи</a>
-        <a href="/?cat=laptops&sub=work" class="nav-mega-sub" onclick="event.preventDefault();openCatPage('laptops','work')">За работа</a>
-        <a href="/?cat=laptops&sub=gaming_l" class="nav-mega-sub" onclick="event.preventDefault();openCatPage('laptops','gaming_l')">За гейминг</a>
+        <a href="/?cat=laptops&sub=gaming" class="nav-mega-sub" onclick="event.preventDefault();openCatPage('laptops','gaming')">Геймърски</a>
         <a href="/?cat=laptops&sub=ultrabook" class="nav-mega-sub" onclick="event.preventDefault();openCatPage('laptops','ultrabook')">Ултрабуци</a>
+        <a href="/?cat=laptops&sub=business" class="nav-mega-sub" onclick="event.preventDefault();openCatPage('laptops','business')">Бизнес</a>
         <a href="/?cat=desktops" class="nav-mega-cat" onclick="event.preventDefault();openCatPage('desktops')">🖥 Настолни компютри</a>
         <a href="/?cat=desktops&sub=office_pc" class="nav-mega-sub" onclick="event.preventDefault();openCatPage('desktops','office_pc')">Офис компютри</a>
         <a href="/?cat=desktops&sub=workstation" class="nav-mega-sub" onclick="event.preventDefault();openCatPage('desktops','workstation')">Workstation</a>

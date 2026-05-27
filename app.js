@@ -1512,15 +1512,11 @@ const SUBCATS = {
     { id: 'smartwatch',   label: '⌚ Смарт часовници' },
   ],
   laptops: [
-    { id: 'work',         label: '💼 За работа' },
-    { id: 'gaming_l',     label: '🎮 За гейминг' },
-    { id: 'ultrabook',    label: '✈ Ултрабуци' },
-    { id: 'budget',       label: '💰 Бюджетни' },
-    { id: 'convertible',  label: '🔄 2-в-1' },
-    { id: 'for_students', label: '🎓 За студенти' },
-    { id: 'for_devs',     label: '👨‍💻 За програмисти' },
-    { id: 'for_design',   label: '🎨 За дизайнери' },
-    { id: 'for_gaming',   label: '🕹 За игри' },
+    { id: 'gaming',      label: '🎮 Геймърски' },
+    { id: 'ultrabook',   label: '✈ Ултрабуци' },
+    { id: 'business',    label: '💼 Бизнес' },
+    { id: 'convertible', label: '🔄 2-в-1' },
+    { id: 'budget',      label: '💰 Бюджетни' },
   ],
   desktops: [
     { id: 'office_pc',    label: '💼 Офис компютри' },
@@ -1616,10 +1612,10 @@ const MEGA_MENU = {
     { title: 'Смарт часовници', id: 'smartwatch', items: ['Nokia', 'Realme', 'Xiaomi'] },
   ],
   laptops: [
-    { title: 'По предназначение', id: 'work', items: ['За работа', 'За гейминг', 'Ултрабуци', 'Workstation'] },
-    { title: 'По марка', id: 'ultrabook', items: ['ASUS ZenBook', 'Lenovo ThinkPad', 'Lenovo IdeaPad', 'MSI Prestige', 'Acer Swift'] },
-    { title: 'По бюджет', id: 'budget', items: ['До 500 €', '500–800 €', '800–1500 €', '1500 €+'] },
-    { title: 'Use-case', id: 'for_students', items: ['За студенти', 'За програмисти', 'За дизайнери', 'За игри'] },
+    { title: 'Геймърски', id: 'gaming', items: ['ASUS ROG', 'ASUS TUF Gaming', 'Lenovo Legion', 'MSI Katana', 'Acer Nitro', 'Acer Predator'] },
+    { title: 'Ултрабуци', id: 'ultrabook', items: ['ASUS ZenBook', 'MSI Prestige', 'Lenovo IdeaPad Slim', 'Acer Swift'] },
+    { title: 'Бизнес', id: 'business', items: ['ASUS ExpertBook', 'Lenovo ThinkBook', 'MSI Modern', 'Acer TravelMate'] },
+    { title: '2-в-1 и Бюджетни', id: 'convertible', items: ['2-в-1 лаптопи', 'Бюджетни лаптопи'] },
   ],
   desktops: [
     { title: 'Офис и Workstation', id: 'office_pc', items: ['Офис компютри', 'Workstation', 'All-in-One'] },
@@ -2034,16 +2030,66 @@ function matchesSubcat(p, subcat) {
     smartphone:      () => all.includes('iphone') || all.includes('galaxy s') || all.includes('pixel') || all.includes('xiaomi') || all.includes('смартфон') || (p.emoji === '📱'),
     tablet:          () => all.includes('ipad') || all.includes('galaxy tab') || all.includes('таблет') || all.includes('tablet') || (p.emoji === '📟'),
     smartwatch:      () => all.includes('watch') || all.includes('часов') || all.includes('band') || (p.emoji === '⌚'),
-    // Laptops
-    work:          () => all.includes('business') || all.includes('thinkpad') || all.includes('latitude') || all.includes('elitebook') || all.includes('бизнес') || all.includes('xps'),
-    gaming_l:      () => all.includes('gaming') || all.includes('rog') || all.includes('rtx') || all.includes('геймърски') || all.includes('republic of gamers'),
-    ultrabook:     () => all.includes('ultra') || all.includes('air') || all.includes('slim') || p.price < 3000,
-    budget:        () => (p.price / (typeof EUR_RATE!=='undefined'&&EUR_RATE?EUR_RATE:1.95583)) < 500,
-    convertible:   () => all.includes('2-in-1') || all.includes('2 в 1') || all.includes('convertible') || all.includes('flip') || all.includes('surface pro') || all.includes('yoga'),
-    for_students:  () => (p.price / (typeof EUR_RATE!=='undefined'&&EUR_RATE?EUR_RATE:1.95583)) < 700 || all.includes('student') || all.includes('студент') || all.includes('chromebook'),
-    for_devs:      () => all.includes('thinkpad') || all.includes('xps') || all.includes('macbook pro') || all.includes('linux') || all.includes('програмист'),
-    for_design:    () => all.includes('macbook') || all.includes('design') || all.includes('creator') || all.includes('дизайн') || all.includes('retina') || all.includes('4k display'),
-    for_gaming:    () => all.includes('gaming') || all.includes('rtx') || all.includes('rog') || all.includes('rx 6') || all.includes('rx 7'),
+    // Laptops — 5 clear subcategories tied to spec filters
+    gaming:      () => {
+      const gpu = ((p.specs && p.specs['GPU']) || '').toLowerCase();
+      const scr = ((p.specs && p.specs['Екран']) || '').replace(/\s/g,'').toLowerCase();
+      const hz  = parseInt((scr.match(/(\d+)hz/i)||[])[1]||'0');
+      return /rtx|gtx|radeon\s*rx/i.test(gpu) || hz >= 120 ||
+        all.includes('rog') || all.includes('tuf gaming') || all.includes('legion') ||
+        all.includes('nitro') || all.includes('predator') || all.includes('katana') ||
+        all.includes('cyborg') || all.includes('raider') || all.includes('sword') ||
+        all.includes('loq') ||
+        /asus\s+(g6\d\d|ga[34]\d\d|fa6\d\d|fa7\d\d|fx6\d\d)/i.test(p.name);
+    },
+    business:    () => {
+      const gpu = ((p.specs && p.specs['GPU']) || '').toLowerCase();
+      const isGaming = /rtx|gtx|radeon\s*rx/i.test(gpu) ||
+        all.includes('rog') || all.includes('tuf gaming') || all.includes('legion') ||
+        all.includes('nitro') || all.includes('predator') || all.includes('katana') ||
+        all.includes('cyborg') || all.includes('loq');
+      if (isGaming) return false;
+      return all.includes('expertbook') || all.includes('thinkbook') || all.includes('thinkpad') ||
+        all.includes('travelmate') || all.includes('modern') || all.includes('summit') ||
+        all.includes('vivobook pro') ||
+        /lenovo\s+tp\s/i.test(p.name) ||
+        /lenovo\s+tpx/i.test(p.name) ||
+        /lenovo\s+tb\s/i.test(p.name) ||
+        /lenovo\s+ws\s/i.test(p.name) ||
+        /acer\s+tmp/i.test(p.name);
+    },
+    ultrabook:   () => {
+      const gpu = ((p.specs && p.specs['GPU']) || '').toLowerCase();
+      const isGaming = /rtx|gtx|radeon\s*rx/i.test(gpu) ||
+        all.includes('rog') || all.includes('tuf gaming') || all.includes('legion') ||
+        all.includes('nitro') || all.includes('predator') || all.includes('loq');
+      if (isGaming) return false;
+      const wt  = ((p.specs && p.specs['Тегло']) || '').replace(/\s/g,'').replace(',','.');
+      const kg  = parseFloat(wt);
+      const scr = ((p.specs && p.specs['Екран']) || '').toLowerCase();
+      const isLight = !isNaN(kg) && kg <= 1.5;
+      const isSmall = /\b1[34][^0-9]/.test(scr);
+      return (isLight && isSmall) || all.includes('zenbook') || all.includes('swift') ||
+        (all.includes('prestige') && !all.includes('gaming')) ||
+        (all.includes('slim') && !all.includes('gaming')) ||
+        /lenovo\s+yg\s/i.test(p.name) ||
+        /asus\s+(ux|um|uh|s5|h7)\d/i.test(p.name);
+    },
+    convertible: () => {
+      return all.includes('2-in-1') || all.includes('2in1') || all.includes('2 в 1') ||
+        all.includes('flip') || all.includes('spin') || all.includes('yoga') ||
+        all.includes('flex') || all.includes('convertible') ||
+        /asus\s+tp\d/i.test(p.name);
+    },
+    budget:      () => {
+      const os  = ((p.specs && p.specs['ОС']) || '').toLowerCase();
+      const cpu = ((p.specs && p.specs['Процесор']) || '').toLowerCase();
+      const eur = p.price / (typeof EUR_RATE!=='undefined'&&EUR_RATE?EUR_RATE:1.95583);
+      return os.includes('free dos') || os.includes('freedos') || os.includes('linux') ||
+        os.includes('chrome') || /athlon/i.test(cpu) || eur < 700 ||
+        /acer\s+cbe/i.test(p.name) ||
+        /lenovo\s+v\d+/i.test(p.name);
+    },
     // Desktops
     office_pc:     () => all.includes('office') || all.includes('офис') || all.includes('business') || (p.price/(typeof EUR_RATE!=='undefined'&&EUR_RATE?EUR_RATE:1.95583) < 800 && !all.includes('gaming')),
     workstation:   () => all.includes('workstation') || all.includes('xeon') || all.includes('quadro') || p.price > 4000,
@@ -3137,7 +3183,7 @@ function renderHpCats() {
 // RENDER HOMEPAGE SUBCATEGORY STRIP
 // ═══════════════════════════════════════
 const HP_SUBCATS = [
-  { cat:'laptops',    id:'gaming_l',    label:'Gaming лаптопи',        icon:'🎮', trending:true  },
+  { cat:'laptops',    id:'gaming',      label:'Gaming лаптопи',        icon:'🎮', trending:true  },
   { cat:'components', id:'gpu',         label:'Видеокарти',            icon:'🎴', trending:true  },
   { cat:'monitors',   id:'gaming_mon',   label:'Gaming монитори',       icon:'🎮', trending:true  },
   { cat:'monitors',   id:'oled_mon',    label:'OLED монитори',         icon:'✨', trending:true  },
@@ -3151,7 +3197,7 @@ const HP_SUBCATS = [
   { cat:'storage',    id:'nas',         label:'NAS / Сторидж',         icon:'💾'                },
   { cat:'storage',    id:'usb_flash',   label:'USB флашки',             icon:'💾'                },
   { cat:'storage',    id:'microsd',     label:'microSD карти',          icon:'📱'                },
-  { cat:'laptops',    id:'for_students',label:'Студентски лаптопи',    icon:'🎓'                },
+  { cat:'laptops',    id:'budget',      label:'Бюджетни лаптопи',      icon:'💰'                },
   { cat:'peripherals',id:'mouse',       label:'Геймърски мишки',       icon:'🖱'                },
   { cat:'peripherals',id:'webcam',      label:'Уеб камери',            icon:'📸'                },
   { cat:'components', id:'ram',         label:'RAM памет',             icon:'🧠'                },
@@ -3161,7 +3207,7 @@ const HP_SUBCATS = [
   { cat:'network',    id:'switch',      label:'Суичове',               icon:'🔀'                },
   { cat:'accessories',id:'hub',         label:'USB хъбове',            icon:'🔌'                },
   { cat:'components', id:'psu',         label:'Захранвания',           icon:'🔋'                },
-  { cat:'laptops',    id:'for_design',  label:'За дизайн',             icon:'🎨'                },
+  { cat:'laptops',    id:'business',    label:'Бизнес лаптопи',        icon:'💼'                },
   { cat:'printers',   id:'megatank',     label:'MegaTank принтери',     icon:'♾️'               },
   { cat:'printers',   id:'inkjet_aio',  label:'Мастиленоструйни МФУ',  icon:'🖨'                },
   { cat:'components', id:'case_cooling',label:'Кутии и охлаждане',     icon:'❄️'               },

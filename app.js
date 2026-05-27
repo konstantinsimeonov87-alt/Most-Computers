@@ -1711,6 +1711,7 @@ const CAT_SPEC_FILTERS = {
   ],
   desktops: [
     { key: '_desktop_brand', label: '🏷 Производител',        values: ['Lenovo','MSI','Asus'] },
+    { key: '_desktop_cpu',   label: '💻 Процесор',            values: ['Core i3','Core i5','Core i7','Core i9','Core Ultra 7','Core Ultra 9','Ryzen 5','Ryzen 7','Ryzen 9'] },
     { key: '_desktop_ram',   label: '🧠 Оперативна памет',    values: ['8 GB','16 GB','32 GB','64 GB'] },
     { key: '_desktop_ssd',   label: '💾 SSD',                 values: ['256 GB','512 GB','1 TB','2 TB'] },
     { key: '_desktop_gpu',   label: '🎮 Видео карта',         values: ['RTX 50','RTX 40','Интегрирана'] },
@@ -1919,18 +1920,21 @@ const SUBCAT_SPEC_FILTERS = {
   ],
   office_pc: [
     { key: '_desktop_brand', label: '🏷 Производител',        values: ['Lenovo','MSI','Asus'] },
+    { key: '_desktop_cpu',   label: '💻 Процесор',            values: ['Core i3','Core i5','Core i7','Core Ultra 5','Core Ultra 7'] },
     { key: '_desktop_ram',   label: '🧠 Оперативна памет',    values: ['8 GB','16 GB','32 GB'] },
     { key: '_desktop_ssd',   label: '💾 SSD',                 values: ['256 GB','512 GB','1 TB'] },
     { key: '_desktop_os',    label: '🪟 Операционна система', values: ['Windows 11','Без OS'] },
   ],
   workstation: [
     { key: '_desktop_brand', label: '🏷 Производител',        values: ['Lenovo','MSI'] },
+    { key: '_desktop_cpu',   label: '💻 Процесор',            values: ['Core i7','Core i9','Core Ultra 7','Core Ultra 9','Ryzen 7','Ryzen 9'] },
     { key: '_desktop_ram',   label: '🧠 Оперативна памет',    values: ['16 GB','32 GB','64 GB','128 GB'] },
     { key: '_desktop_ssd',   label: '💾 SSD',                 values: ['512 GB','1 TB','2 TB'] },
     { key: '_desktop_gpu',   label: '🎮 Видео карта',         values: ['RTX 50','RTX 40','Интегрирана'] },
   ],
   aio: [
     { key: '_desktop_brand', label: '🏷 Производител',        values: ['Lenovo','MSI','Asus'] },
+    { key: '_desktop_cpu',   label: '💻 Процесор',            values: ['Core i3','Core i5','Core i7','Core Ultra 7','Ryzen 5','Ryzen 7'] },
     { key: '_desktop_ram',   label: '🧠 Оперативна памет',    values: ['8 GB','16 GB','32 GB'] },
     { key: '_desktop_ssd',   label: '💾 SSD',                 values: ['256 GB','512 GB','1 TB'] },
     { key: '_desktop_os',    label: '🪟 Операционна система', values: ['Windows 11','Без OS'] },
@@ -2288,6 +2292,23 @@ function matchesCatSpec(p) {
       return [...vals].some(v => ff === v.toLowerCase());
     }
     // Desktop computed filters
+    if (key === '_desktop_cpu') {
+      const cpu = ((p.specs || {})['Процесор'] || '').replace(/[®™©]/g, ' ').toLowerCase();
+      if (!cpu) return false;
+      return [...vals].some(v => {
+        if (v === 'Core i3')      return /\bi3[-\s\d]|core\s+i3|core\s+3\s+\d|with intel i3/i.test(cpu);
+        if (v === 'Core i5')      return /\bi5[-\s\d]|core\s+i5|core\s+5\s+\d|with intel i5/i.test(cpu);
+        if (v === 'Core i7')      return /\bi7[-\s\d]|core\s+i7|core\s+7\s+\d|with intel i7/i.test(cpu);
+        if (v === 'Core i9')      return /\bi9[-\s\d]|core\s+i9/i.test(cpu);
+        if (v === 'Core Ultra 5') return /ultra\s*5[\s\d]/i.test(cpu);
+        if (v === 'Core Ultra 7') return /ultra\s*7[\s\d]/i.test(cpu);
+        if (v === 'Core Ultra 9') return /ultra\s*9[\s\d]/i.test(cpu);
+        if (v === 'Ryzen 5')      return /ryzen\s*5[\s\d]/i.test(cpu);
+        if (v === 'Ryzen 7')      return /ryzen\s*7[\s\d]/i.test(cpu);
+        if (v === 'Ryzen 9')      return /ryzen\s*9[\s\d]/i.test(cpu);
+        return cpu.includes(v.toLowerCase());
+      });
+    }
     if (key === '_desktop_brand') {
       return [...vals].some(v => (p.brand || '').toLowerCase() === v.toLowerCase());
     }
@@ -4224,6 +4245,26 @@ function cpGetFiltered() {
       return;
     }
     // Desktop computed filters
+    if (key === '_desktop_cpu') {
+      list = list.filter(p => {
+        const cpu = ((p.specs || {})['Процесор'] || '').replace(/[®™©]/g, ' ').toLowerCase();
+        if (!cpu) return false;
+        return [...vals].some(v => {
+          if (v === 'Core i3')      return /\bi3[-\s\d]|core\s+i3|core\s+3\s+\d|with intel i3/i.test(cpu);
+          if (v === 'Core i5')      return /\bi5[-\s\d]|core\s+i5|core\s+5\s+\d|with intel i5/i.test(cpu);
+          if (v === 'Core i7')      return /\bi7[-\s\d]|core\s+i7|core\s+7\s+\d|with intel i7/i.test(cpu);
+          if (v === 'Core i9')      return /\bi9[-\s\d]|core\s+i9/i.test(cpu);
+          if (v === 'Core Ultra 5') return /ultra\s*5[\s\d]/i.test(cpu);
+          if (v === 'Core Ultra 7') return /ultra\s*7[\s\d]/i.test(cpu);
+          if (v === 'Core Ultra 9') return /ultra\s*9[\s\d]/i.test(cpu);
+          if (v === 'Ryzen 5')      return /ryzen\s*5[\s\d]/i.test(cpu);
+          if (v === 'Ryzen 7')      return /ryzen\s*7[\s\d]/i.test(cpu);
+          if (v === 'Ryzen 9')      return /ryzen\s*9[\s\d]/i.test(cpu);
+          return cpu.includes(v.toLowerCase());
+        });
+      });
+      return;
+    }
     if (key === '_desktop_brand') {
       list = list.filter(p => [...vals].some(v => (p.brand || '').toLowerCase() === v.toLowerCase()));
       return;

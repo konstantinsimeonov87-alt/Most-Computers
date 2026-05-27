@@ -1417,6 +1417,26 @@ function cpGetFiltered() {
       return;
     }
     // Desktop computed filters
+    if (key === '_desktop_cpu') {
+      list = list.filter(p => {
+        const cpu = ((p.specs || {})['Процесор'] || '').replace(/[®™©]/g, ' ').toLowerCase();
+        if (!cpu) return false;
+        return [...vals].some(v => {
+          if (v === 'Core i3')      return /\bi3[-\s\d]|core\s+i3|core\s+3\s+\d|with intel i3/i.test(cpu);
+          if (v === 'Core i5')      return /\bi5[-\s\d]|core\s+i5|core\s+5\s+\d|with intel i5/i.test(cpu);
+          if (v === 'Core i7')      return /\bi7[-\s\d]|core\s+i7|core\s+7\s+\d|with intel i7/i.test(cpu);
+          if (v === 'Core i9')      return /\bi9[-\s\d]|core\s+i9/i.test(cpu);
+          if (v === 'Core Ultra 5') return /ultra\s*5[\s\d]/i.test(cpu);
+          if (v === 'Core Ultra 7') return /ultra\s*7[\s\d]/i.test(cpu);
+          if (v === 'Core Ultra 9') return /ultra\s*9[\s\d]/i.test(cpu);
+          if (v === 'Ryzen 5')      return /ryzen\s*5[\s\d]/i.test(cpu);
+          if (v === 'Ryzen 7')      return /ryzen\s*7[\s\d]/i.test(cpu);
+          if (v === 'Ryzen 9')      return /ryzen\s*9[\s\d]/i.test(cpu);
+          return cpu.includes(v.toLowerCase());
+        });
+      });
+      return;
+    }
     if (key === '_desktop_brand') {
       list = list.filter(p => [...vals].some(v => (p.brand || '').toLowerCase() === v.toLowerCase()));
       return;

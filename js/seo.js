@@ -1022,6 +1022,7 @@ function cpApplySubcat(id, btn) {
       {label:'Gigabyte',        value:'Gigabyte'},
       {label:'Other',           value:'__other__'},
     ],
+    laptops: ['Acer','ASUS','Lenovo','MSI'],
   };
   const brandTitle = document.getElementById('cpBrandTitle');
   const brandList  = document.getElementById('cpBrandList');
@@ -1411,6 +1412,126 @@ function cpGetFiltered() {
           if (v === 'Без вентилатор') return fan.includes('fanless') || fan.includes('без');
           const mm = v.replace(' мм', '').trim();
           return fan.includes(mm + 'mm') || fan.includes(mm + ' mm');
+        });
+      });
+      return;
+    }
+    // Laptop computed filters
+    if (key === '_laptop_cpu') {
+      list = list.filter(p => {
+        const cpu = ((p.specs && p.specs['Процесор']) || p.name || '').toLowerCase();
+        return [...vals].some(v => {
+          if (v === 'Core i3') return /core\s*(™\s*)?i3/i.test(cpu);
+          if (v === 'Core i5') return /core\s*(™\s*)?i5/i.test(cpu);
+          if (v === 'Core i7') return /core\s*(™\s*)?i7/i.test(cpu);
+          if (v === 'Core i9') return /core\s*(™\s*)?i9/i.test(cpu);
+          if (v === 'Core Ultra 5') return /ultra\s*(™\s*)?5/i.test(cpu);
+          if (v === 'Core Ultra 7') return /ultra\s*(™\s*)?7/i.test(cpu);
+          if (v === 'Core Ultra 9') return /ultra\s*(™\s*)?9/i.test(cpu);
+          if (v === 'Ryzen 5') return /ryzen\s*(™\s*)?5/i.test(cpu);
+          if (v === 'Ryzen 7') return /ryzen\s*(™\s*)?7/i.test(cpu);
+          if (v === 'Ryzen 9') return /ryzen\s*(™\s*)?9/i.test(cpu);
+          if (v === 'AMD Athlon') return /athlon/i.test(cpu);
+          return cpu.includes(v.toLowerCase());
+        });
+      });
+      return;
+    }
+    if (key === '_laptop_ram') {
+      list = list.filter(p => {
+        const ram = ((p.specs && p.specs['RAM']) || '').replace(/\s/g, '').toUpperCase();
+        const gb = parseInt(ram);
+        return !isNaN(gb) && [...vals].some(v => parseInt(v) === gb);
+      });
+      return;
+    }
+    if (key === '_laptop_ssd') {
+      list = list.filter(p => {
+        const ssd = ((p.specs && p.specs['SSD']) || '').trim().toUpperCase().replace(/\s/g, '');
+        return [...vals].some(v => {
+          const vl = v.toUpperCase().replace(/\s/g, '');
+          if (vl.endsWith('TB')) {
+            const tb = parseFloat(vl);
+            if (ssd.endsWith('TB')) return Math.abs(parseFloat(ssd) - tb) < 0.1;
+            if (ssd.endsWith('GB')) return Math.abs(parseFloat(ssd) / 1000 - tb) < 0.15;
+          }
+          if (vl.endsWith('GB')) {
+            const gb2 = parseInt(vl);
+            if (ssd.endsWith('GB')) return parseInt(ssd) === gb2;
+            if (ssd.endsWith('TB')) return Math.abs(parseFloat(ssd) * 1000 - gb2) < gb2 * 0.25;
+          }
+          return false;
+        });
+      });
+      return;
+    }
+    if (key === '_laptop_screen') {
+      list = list.filter(p => {
+        const scr = ((p.specs && p.specs['Екран']) || '').toLowerCase();
+        return [...vals].some(v => {
+          const d = v.replace('"', '');
+          return scr.includes(d + '"') || scr.includes(d + '″') || scr.includes(d + "'") || new RegExp(d.replace('.', '\\.') + '[^\\d]').test(scr);
+        });
+      });
+      return;
+    }
+    if (key === '_laptop_display') {
+      list = list.filter(p => {
+        const scr = ((p.specs && p.specs['Екран']) || '').toLowerCase();
+        return [...vals].some(v => scr.includes(v.toLowerCase()));
+      });
+      return;
+    }
+    if (key === '_laptop_gpu') {
+      list = list.filter(p => {
+        const gpu = ((p.specs && p.specs['GPU']) || (p.specs && p.specs['Видеокарта']) || p.name || '').toLowerCase();
+        return [...vals].some(v => {
+          if (v === 'RTX 50') return /rtx\s*50\d\d/i.test(gpu);
+          if (v === 'RTX 40') return /rtx\s*40\d\d/i.test(gpu);
+          if (v === 'RTX 30') return /rtx\s*30\d\d/i.test(gpu);
+          if (v === 'GTX') return /gtx/i.test(gpu);
+          if (v === 'AMD Radeon RX') return /radeon\s*rx/i.test(gpu);
+          if (v === 'Интегрирана') return /iris\s*xe/i.test(gpu) || /uhd\s*\d/i.test(gpu) || /radeon\s*graphics/i.test(gpu) || /integrated/i.test(gpu) || gpu.includes('интегрирана');
+          return gpu.includes(v.toLowerCase());
+        });
+      });
+      return;
+    }
+    if (key === '_laptop_os') {
+      list = list.filter(p => {
+        const os = ((p.specs && p.specs['ОС']) || '').toLowerCase();
+        return [...vals].some(v => {
+          if (v === 'Windows 11') return os.includes('windows 11');
+          if (v === 'Free DOS / Linux') return os.includes('free dos') || os.includes('freedos') || os.includes('linux') || os.trim() === '';
+          return os.includes(v.toLowerCase());
+        });
+      });
+      return;
+    }
+    if (key === '_laptop_weight') {
+      list = list.filter(p => {
+        const wt = ((p.specs && p.specs['Тегло']) || '').replace(/\s/g, '').replace(',', '.');
+        const kg = parseFloat(wt);
+        return !isNaN(kg) && [...vals].some(v => {
+          if (v === 'До 1.5 кг') return kg <= 1.5;
+          if (v === '1.5 – 2 кг') return kg > 1.5 && kg <= 2.0;
+          if (v === 'Над 2 кг') return kg > 2.0;
+          return false;
+        });
+      });
+      return;
+    }
+    if (key === '_laptop_hz') {
+      list = list.filter(p => {
+        const scr = ((p.specs && p.specs['Екран']) || '').replace(/\s/g, '').toLowerCase();
+        const m = scr.match(/(\d+)hz/i);
+        const hz = m ? parseInt(m[1]) : 0;
+        return [...vals].some(v => {
+          if (v === '60 Hz') return hz === 0 || hz === 60;
+          if (v === '120 Hz') return hz >= 120 && hz < 140;
+          if (v === '144 Hz') return hz >= 140 && hz < 160;
+          if (v === '165+ Hz') return hz >= 165;
+          return false;
         });
       });
       return;

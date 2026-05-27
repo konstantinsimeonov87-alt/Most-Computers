@@ -932,7 +932,7 @@ function cpUpdateCatBreadcrumb(cat, subcat) {
   // Ниво 1: Начало
   html += `<li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
     <a href="/" class="bc-home-link" itemprop="item" onclick="closeCatPage();return false;" aria-label="Начало">
-      <span class="bc-home-icon">${_BC_HOME_ICON}</span>
+      <span class="bc-home-icon">${_BC_HOME_ICON}</span><span class="bc-home-label">Начало</span>
       <meta itemprop="name" content="Начало">
     </a>
     <meta itemprop="position" content="1">

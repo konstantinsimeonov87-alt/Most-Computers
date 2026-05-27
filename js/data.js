@@ -6014,7 +6014,7 @@ var products = [
    specs:{'Капацитет':'1 TB','Интерфейс':'NVMe PCIe Gen4','Форм фактор':'M.2 2280'},
    rating:4.3,rv:0,reviews:[],
    desc:'Kingston KINGSTON SNV3S/1000G M2 PCIE — NVMe SSD 1 TB, NVMe PCIe Gen4, M.2 2280.',
-   img:'./images/products/43112.webp',stock:false},
+   img:'./images/products/43112.webp',stock:true},
 
   {id:859,name:'KINGSTON SNV2S/2000G M2 PCIE',brand:'Kingston',cat:'components',subcat:'ssd',
    price:177,old:null,pct:null,badge:null,emoji:'⚡',sku:'SNV2S/2000G',ean:'0740617329971',
@@ -6504,7 +6504,7 @@ var products = [
    specs:{'Капацитет':'480 GB','Интерфейс':'SATA III','Форм фактор':'2.5\''},
    rating:4.3,rv:0,reviews:[],
    desc:'ADATA ADATA SSD SU650 480GB 3D NAND — SSD 480 GB, SATA III, 2.5".',
-   img:'./images/products/16189.webp',stock:false},
+   img:'./images/products/16189.webp',stock:true},
 
   {id:929,name:'ADATA SSD SU650 512GB 3D NAND',brand:'ADATA',cat:'components',subcat:'ssd',
    price:147,old:null,pct:null,badge:null,emoji:'💾',sku:'ASU650SS-512GT-R',ean:'4711085931528',
@@ -12137,7 +12137,7 @@ const _desktops = [
   {id:2723,name:'Lenovo LEGION T5 26/90UY0075RM',brand:'Lenovo',cat:'desktops',subcat:'office_pc',price:2518,old:null,pct:null,badge:null,emoji:'🖥',sku:'90UY0075RM',ean:'0197532440425',specs:{'RAM':'32 GB, Memory:2x 16GB UDIMM DDR5-5600','GPU':'NVIDIA® GeForce RTX™ 4060 8GB GDDR6','SSD':'1 TB','ОС':'N/A','Захранване':'500W 85%','Размери':'205 x 396.9 x 425.9 mm'},rating:4.4,rv:38,reviews:[],desc:'Lenovo LEGION T5 26/90UY0075RM, 32 GB RAM, 1 TB SSD',img:'./images/products/39526.webp',stock:false},
   {id:2724,name:'Lenovo LEGION T5 / 90YA000XRM',brand:'Lenovo',cat:'desktops',subcat:'office_pc',price:4166,old:null,pct:null,badge:null,emoji:'🖥',sku:'90YA000XRM',ean:'0198156967183',specs:{'RAM':'64GB (2x32GB), UDIMM DDR5-5600','GPU':'NVIDIA® GeForce RTX™ 5070 12GB GDDR7','SSD':'1TB','ОС':'None','Захранване':'500W 85%','Размери':'Tower (30L);211 x 490.4 x 414 mm'},rating:4.9,rv:20,reviews:[],desc:'Lenovo LEGION T5 / 90YA000XRM, 64GB (2x32GB) RAM, 1TB SSD',img:'./images/products/47598.webp',stock:false},
   {id:2725,name:'Lenovo DT LEGION T5/90YE002LRM',brand:'Lenovo',cat:'desktops',subcat:'office_pc',price:2666,old:null,pct:null,badge:null,emoji:'🖥',sku:'90YE002LRM',ean:'0198158892612',specs:{'RAM':'32GB, 2x 16GB SO-DIMM DDR5-5600','GPU':'NVIDIA® GeForce RTX™ 5060 Ti 8GB GDDR7','SSD':'1TB','ОС':'None','Захранване':'500W 85%','Размери':'Tower (30L);211 x 490.4 x 414 mm'},rating:3.9,rv:3,reviews:[],desc:'Lenovo DT LEGION T5/90YE002LRM, 32GB RAM, 1TB SSD',img:'./images/products/49037.webp',stock:false},
-  {id:2726,name:'Lenovo DT LEGION T5/90YJ0012RM',brand:'Lenovo',cat:'desktops',subcat:'office_pc',price:4916,old:null,pct:null,badge:null,emoji:'🖥',sku:'90YJ0012RM',ean:'0198156967176',specs:{'RAM':'32GB (2x16GB), UDIMM DDR5-5600','GPU':'NVIDIA® GeForce RTX™ 5070 12GB GDDR7','SSD':'1TB','ОС':'None','Захранване':'850W 90%','Размери':'Tower (30L);211 x 490.4 x 413.5 mm'},rating:4.3,rv:45,reviews:[],desc:'Lenovo DT LEGION T5/90YJ0012RM, 32GB (2x16GB) RAM, 1TB SSD',img:'./images/products/49100.webp',stock:false},
+  {id:2726,name:'Lenovo DT LEGION T5/90YJ0012RM',brand:'Lenovo',cat:'desktops',subcat:'office_pc',price:4916,old:null,pct:null,badge:null,emoji:'🖥',sku:'90YJ0012RM',ean:'0198156967176',specs:{'RAM':'32GB (2x16GB), UDIMM DDR5-5600','GPU':'NVIDIA® GeForce RTX™ 5070 12GB GDDR7','SSD':'1TB','ОС':'None','Захранване':'850W 90%','Размери':'Tower (30L);211 x 490.4 x 413.5 mm'},rating:4.3,rv:45,reviews:[],desc:'Lenovo DT LEGION T5/90YJ0012RM, 32GB (2x16GB) RAM, 1TB SSD',img:'./images/products/49100.webp',stock:true},
   {id:2727,name:'Lenovo DT LEGION T5/90YJ0037RM',brand:'Lenovo',cat:'desktops',subcat:'office_pc',price:3499,old:null,pct:null,badge:null,emoji:'🖥',sku:'90YJ0037RM',ean:'198158892728',specs:{'RAM':'32GB (2x16GB), UDIMM DDR5-5600','GPU':'NVIDIA® GeForce RTX™ 5060 Ti 8GB GDDR7','SSD':'1TB','ОС':'None','Захранване':'500W 85%','Размери':'Tower (30L);211 x 490.4 x 413.5 mm'},rating:4.1,rv:15,reviews:[],desc:'Lenovo DT LEGION T5/90YJ0037RM, 32GB (2x16GB) RAM, 1TB SSD',img:'./images/products/49112.webp',stock:false},
   {id:2728,name:'Lenovo DT LEGION T5/90YJ0035RM',brand:'Lenovo',cat:'desktops',subcat:'office_pc',price:3916,old:null,pct:null,badge:null,emoji:'🖥',sku:'90YJ0035RM',ean:'0198158892674',specs:{'RAM':'32GB (2x16GB), UDIMM DDR5-5600','GPU':'NVIDIA® GeForce RTX™ 5070 12GB GDDR7','SSD':'1TB','ОС':'None','Захранване':'850W 90%','Размери':'211 x 490.4 x 413.5 mm'},rating:4.6,rv:15,reviews:[],desc:'Lenovo DT LEGION T5/90YJ0035RM, 32GB (2x16GB) RAM, 1TB SSD',img:'./images/products/49824.webp',stock:false},
   {id:2729,name:'Lenovo DT LEGION T5/90YJ0039RM',brand:'Lenovo',cat:'desktops',subcat:'office_pc',price:5416,old:null,pct:null,badge:null,emoji:'🖥',sku:'90YJ0039RM',ean:'0198158892681',specs:{'RAM':'32GB (2x16GB), UDIMM DDR5-5600','GPU':'NVIDIA® GeForce RTX™ 5070 Ti 16GB GDDR7','SSD':'2TB','ОС':'None','Захранване':'850W 90%','Размери':'211 x 490.4 x 413.5 mm'},rating:4.9,rv:40,reviews:[],desc:'Lenovo DT LEGION T5/90YJ0039RM, 32GB (2x16GB) RAM, 2TB SSD',img:'./images/products/49646.webp',stock:true},

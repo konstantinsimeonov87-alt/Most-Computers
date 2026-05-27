@@ -1700,6 +1700,7 @@ const CAT_SPEC_FILTERS = {
     { key: 'Размер',    label: '📐 Диагонал',   values: ['23"','24"','27"','31.5"','32"','34"','40"+'] },
   ],
   laptops: [
+    { key: '_laptop_brand',   label: '🏷 Производител',           values: ['Lenovo','Asus','Acer','MSI'] },
     { key: '_laptop_cpu',     label: '💻 Процесор',               values: ['Core i3','Core i5','Core i7','Core i9','Core Ultra 5','Core Ultra 7','Core Ultra 9','Ryzen 5','Ryzen 7','Ryzen 9','AMD Athlon'] },
     { key: '_laptop_ram',     label: '🧠 RAM памет',              values: ['8 GB','12 GB','16 GB','24 GB','32 GB','64 GB'] },
     { key: '_laptop_ssd',     label: '💾 SSD',                    values: ['256 GB','512 GB','1 TB','2 TB'] },
@@ -1918,6 +1919,7 @@ const SUBCAT_SPEC_FILTERS = {
     { key: 'WiFi',  label: '📡 WiFi',         values: ['WiFi 6','WiFi 5','WiFi 4'] },
   ],
   gaming: [
+    { key: '_laptop_brand',  label: '🏷 Производител',           values: ['Lenovo','Asus','Acer','MSI'] },
     { key: '_laptop_cpu',    label: '💻 Процесор',               values: ['Core i5','Core i7','Core i9','Core Ultra 5','Core Ultra 7','Core Ultra 9','Ryzen 5','Ryzen 7','Ryzen 9'] },
     { key: '_laptop_gpu',    label: '🎮 Видео карта',            values: ['RTX 50','RTX 40','RTX 30','GTX','AMD Radeon RX'] },
     { key: '_laptop_ram',    label: '🧠 RAM памет',              values: ['8 GB','16 GB','24 GB','32 GB','64 GB'] },
@@ -1925,6 +1927,7 @@ const SUBCAT_SPEC_FILTERS = {
     { key: '_laptop_hz',     label: '🔄 Честота на опресняване', values: ['120 Hz','144 Hz','165+ Hz'] },
   ],
   ultrabook: [
+    { key: '_laptop_brand',   label: '🏷 Производител',           values: ['Lenovo','Asus','Acer','MSI'] },
     { key: '_laptop_cpu',     label: '💻 Процесор',               values: ['Core i5','Core i7','Core Ultra 5','Core Ultra 7','Core Ultra 9','Ryzen 5','Ryzen 7','Ryzen 9'] },
     { key: '_laptop_ram',     label: '🧠 RAM памет',              values: ['8 GB','16 GB','32 GB','64 GB'] },
     { key: '_laptop_ssd',     label: '💾 SSD',                    values: ['256 GB','512 GB','1 TB','2 TB'] },
@@ -1933,6 +1936,7 @@ const SUBCAT_SPEC_FILTERS = {
     { key: '_laptop_os',      label: '🪟 Операционна система',    values: ['Windows 11','Free DOS / Linux'] },
   ],
   business: [
+    { key: '_laptop_brand',   label: '🏷 Производител',           values: ['Lenovo','Asus','Acer','MSI'] },
     { key: '_laptop_cpu',     label: '💻 Процесор',               values: ['Core i5','Core i7','Core i9','Core Ultra 5','Core Ultra 7','Ryzen 5','Ryzen 7','Ryzen 9'] },
     { key: '_laptop_ram',     label: '🧠 RAM памет',              values: ['8 GB','16 GB','24 GB','32 GB','64 GB'] },
     { key: '_laptop_ssd',     label: '💾 SSD',                    values: ['256 GB','512 GB','1 TB','2 TB'] },
@@ -1941,6 +1945,7 @@ const SUBCAT_SPEC_FILTERS = {
     { key: '_laptop_weight',  label: '⚖ Тегло',                  values: ['До 1.5 кг','1.5 – 2 кг','Над 2 кг'] },
   ],
   convertible: [
+    { key: '_laptop_brand',   label: '🏷 Производител',           values: ['Lenovo','Asus','Acer','MSI'] },
     { key: '_laptop_cpu',     label: '💻 Процесор',               values: ['Core i5','Core i7','Core Ultra 5','Core Ultra 7','Ryzen 5','Ryzen 7'] },
     { key: '_laptop_ram',     label: '🧠 RAM памет',              values: ['8 GB','16 GB','32 GB'] },
     { key: '_laptop_ssd',     label: '💾 SSD',                    values: ['256 GB','512 GB','1 TB'] },
@@ -1949,6 +1954,7 @@ const SUBCAT_SPEC_FILTERS = {
     { key: '_laptop_os',      label: '🪟 Операционна система',    values: ['Windows 11','Free DOS / Linux'] },
   ],
   budget: [
+    { key: '_laptop_brand',   label: '🏷 Производител',           values: ['Lenovo','Asus','Acer','MSI'] },
     { key: '_laptop_cpu',     label: '💻 Процесор',               values: ['Core i3','Core i5','Core Ultra 5','Ryzen 5','AMD Athlon'] },
     { key: '_laptop_ram',     label: '🧠 RAM памет',              values: ['8 GB','12 GB','16 GB'] },
     { key: '_laptop_ssd',     label: '💾 SSD',                    values: ['256 GB','512 GB'] },
@@ -2266,6 +2272,10 @@ function matchesCatSpec(p) {
       return [...vals].some(v => ff === v.toLowerCase());
     }
     // Laptop computed filters
+    if (key === '_laptop_brand') {
+      const b = (p.brand || '').toLowerCase();
+      return [...vals].some(v => b === v.toLowerCase());
+    }
     if (key === '_laptop_cpu') {
       const cpu = ((p.specs && p.specs['Процесор']) || p.name || '').toLowerCase();
       return [...vals].some(v => {
@@ -4155,6 +4165,10 @@ function cpGetFiltered() {
       return;
     }
     // Laptop computed filters
+    if (key === '_laptop_brand') {
+      list = list.filter(p => [...vals].some(v => (p.brand || '').toLowerCase() === v.toLowerCase()));
+      return;
+    }
     if (key === '_laptop_cpu') {
       list = list.filter(p => {
         const cpu = ((p.specs && p.specs['Процесор']) || p.name || '').toLowerCase();

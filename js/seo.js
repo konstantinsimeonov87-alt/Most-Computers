@@ -1417,6 +1417,10 @@ function cpGetFiltered() {
       return;
     }
     // Laptop computed filters
+    if (key === '_laptop_brand') {
+      list = list.filter(p => [...vals].some(v => (p.brand || '').toLowerCase() === v.toLowerCase()));
+      return;
+    }
     if (key === '_laptop_cpu') {
       list = list.filter(p => {
         const cpu = ((p.specs && p.specs['Процесор']) || p.name || '').toLowerCase();

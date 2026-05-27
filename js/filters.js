@@ -1527,10 +1527,10 @@ function matchesCatSpec(p) {
     if (key === '_laptop_cpu') {
       const cpu = ((p.specs && p.specs['Процесор']) || p.name || '').toLowerCase();
       return [...vals].some(v => {
-        if (v === 'Core i3') return /core\s*(™\s*)?i3/i.test(cpu);
-        if (v === 'Core i5') return /core\s*(™\s*)?i5/i.test(cpu);
-        if (v === 'Core i7') return /core\s*(™\s*)?i7/i.test(cpu);
-        if (v === 'Core i9') return /core\s*(™\s*)?i9/i.test(cpu);
+        if (v === 'Core i3') return /core\s*(™\s*)?i3|\bi3-\d/i.test(cpu);
+        if (v === 'Core i5') return /core\s*(™\s*)?i5|\bi5-\d|core\s+5\s+\d/i.test(cpu);
+        if (v === 'Core i7') return /core\s*(™\s*)?i7|\bi7-\d|core\s+7\s+\d/i.test(cpu);
+        if (v === 'Core i9') return /core\s*(™\s*)?i9|\bi9-\d/i.test(cpu);
         if (v === 'Core Ultra 5') return /ultra\s*(™\s*)?5/i.test(cpu);
         if (v === 'Core Ultra 7') return /ultra\s*(™\s*)?7/i.test(cpu);
         if (v === 'Core Ultra 9') return /ultra\s*(™\s*)?9/i.test(cpu);

@@ -1522,7 +1522,6 @@ const SUBCATS = {
     { id: 'office_pc',    label: '💼 Офис компютри' },
     { id: 'workstation',  label: '🔬 Workstation' },
     { id: 'aio',          label: '🖥 All-in-One' },
-    { id: 'mac_desktop',  label: '🍎 Mac' },
   ],
   gaming: [
     { id: 'gaming_laptop_s', label: '💻 Геймърски лаптопи' },
@@ -1619,7 +1618,6 @@ const MEGA_MENU = {
   ],
   desktops: [
     { title: 'Офис и Workstation', id: 'office_pc', items: ['Офис компютри', 'Workstation', 'All-in-One'] },
-    { title: 'По марка', id: 'mac_desktop', items: ['ASUS', 'MSI', 'Lenovo', 'Acer'] },
   ],
   gaming: [
     { title: 'Геймърски лаптопи', id: 'gaming_laptop_s', items: ['ASUS ROG', 'Razer Blade', 'MSI Titan', 'Lenovo Legion'] },
@@ -2138,7 +2136,6 @@ function matchesSubcat(p, subcat) {
     office_pc:     () => all.includes('office') || all.includes('офис') || all.includes('business') || (p.price/(typeof EUR_RATE!=='undefined'&&EUR_RATE?EUR_RATE:1.95583) < 800 && !all.includes('gaming')),
     workstation:   () => all.includes('workstation') || all.includes('xeon') || all.includes('quadro') || p.price > 4000,
     aio:           () => all.includes('all-in-one') || all.includes('aio') || all.includes('imac') || all.includes('моноблок'),
-    mac_desktop:   () => brand === 'apple' || all.includes('mac mini') || all.includes('imac') || all.includes('mac studio') || all.includes('mac pro'),
     // Gaming
     gaming_laptop_s: () => all.includes('laptop') || all.includes('лаптоп') || all.includes('notebook') || (p.emoji === '💻'),
     gaming_pc_s:     () => all.includes('desktop') || all.includes('настолен') || all.includes('tower') || all.includes('gaming desktop') || (p.emoji === '🖥' && !all.includes('monitor')),

@@ -1416,6 +1416,62 @@ function cpGetFiltered() {
       });
       return;
     }
+    // Desktop computed filters
+    if (key === '_desktop_brand') {
+      list = list.filter(p => [...vals].some(v => (p.brand || '').toLowerCase() === v.toLowerCase()));
+      return;
+    }
+    if (key === '_desktop_ram') {
+      list = list.filter(p => {
+        const raw = ((p.specs || {}).RAM || '').replace(/\s/g, '');
+        const gb = parseInt(raw);
+        return !isNaN(gb) && [...vals].some(v => parseInt(v) === gb);
+      });
+      return;
+    }
+    if (key === '_desktop_ssd') {
+      list = list.filter(p => {
+        const ssd = ((p.specs || {}).SSD || '').trim().toUpperCase().replace(/\s/g, '');
+        return [...vals].some(v => {
+          const vl = v.toUpperCase().replace(/\s/g, '');
+          if (vl.endsWith('TB')) {
+            const tb = parseFloat(vl);
+            if (ssd.endsWith('TB')) return Math.abs(parseFloat(ssd) - tb) < 0.1;
+            if (ssd.endsWith('GB')) return Math.abs(parseFloat(ssd) / 1000 - tb) < 0.15;
+          }
+          if (vl.endsWith('GB')) {
+            const gb2 = parseInt(vl);
+            if (ssd.endsWith('GB')) return parseInt(ssd) === gb2;
+            if (ssd.endsWith('TB')) return Math.abs(parseFloat(ssd) * 1000 - gb2) < gb2 * 0.25;
+          }
+          return false;
+        });
+      });
+      return;
+    }
+    if (key === '_desktop_gpu') {
+      list = list.filter(p => {
+        const gpu = ((p.specs || {}).GPU || '').toLowerCase();
+        return [...vals].some(v => {
+          if (v === 'RTX 50') return /rtx.{0,3}50\d\d/i.test(gpu);
+          if (v === 'RTX 40') return /rtx.{0,3}40\d\d/i.test(gpu);
+          if (v === 'Интегрирана') return /intel.*uhd|intel.*iris|amd\s*radeon.*graphics|integrated|uma/i.test(gpu);
+          return gpu.includes(v.toLowerCase());
+        });
+      });
+      return;
+    }
+    if (key === '_desktop_os') {
+      list = list.filter(p => {
+        const os = ((p.specs || {}).ОС || '').toLowerCase();
+        return [...vals].some(v => {
+          if (v === 'Windows 11') return os.includes('windows 11') || os.includes('windows® 11');
+          if (v === 'Без OS') return !os || os === 'none' || os === 'n/a' || os.includes('free dos') || os.includes('freedos');
+          return os.includes(v.toLowerCase());
+        });
+      });
+      return;
+    }
     // Laptop computed filters
     if (key === '_laptop_brand') {
       list = list.filter(p => [...vals].some(v => (p.brand || '').toLowerCase() === v.toLowerCase()));
@@ -1490,8 +1546,8 @@ function cpGetFiltered() {
       list = list.filter(p => {
         const gpu = ((p.specs && p.specs['GPU']) || (p.specs && p.specs['Видеокарта']) || p.name || '').toLowerCase();
         return [...vals].some(v => {
-          if (v === 'RTX 50') return /rtx\s*50\d\d/i.test(gpu);
-          if (v === 'RTX 40') return /rtx\s*40\d\d/i.test(gpu);
+          if (v === 'RTX 50') return /rtx.{0,3}50\d\d/i.test(gpu);
+          if (v === 'RTX 40') return /rtx.{0,3}40\d\d/i.test(gpu);
           if (v === 'RTX 30') return /rtx\s*30\d\d/i.test(gpu);
           if (v === 'GTX') return /gtx/i.test(gpu);
           if (v === 'AMD Radeon RX') return /radeon\s*rx/i.test(gpu);

@@ -1013,6 +1013,15 @@ function cpApplySubcat(id, btn) {
       {label:'Seagate', value:'Seagate'},
       {label:'Other',   value:'__other__'},
     ],
+    psu: [
+      {label:'Cooler Master',   value:'Cooler Master'},
+      {label:'Fortron',         value:'Fortron'},
+      {label:'Seasonic',        value:'Seasonic'},
+      {label:'Fractal Design',  value:'Fractal Design'},
+      {label:'MSI',             value:'MSI'},
+      {label:'Gigabyte',        value:'Gigabyte'},
+      {label:'Other',           value:'__other__'},
+    ],
   };
   const brandTitle = document.getElementById('cpBrandTitle');
   const brandList  = document.getElementById('cpBrandList');
@@ -1347,6 +1356,61 @@ function cpGetFiltered() {
         return [...vals].some(v => {
           const n = v.replace(/\s/g, '').toUpperCase();
           return cache.startsWith(n.split('MB')[0] + 'MB') || cache.startsWith(n.replace('MB','') + 'MB');
+        });
+      });
+      return;
+    }
+    if (key === '_psu_watt') {
+      list = list.filter(p => {
+        const w = parseInt(((p.specs && p.specs['Мощност']) || '').replace(/\D/g, '')) || 0;
+        return [...vals].some(v => {
+          if (v === 'До 500 W')      return w > 0 && w <= 500;
+          if (v === '501 – 749 W')   return w >= 501 && w <= 749;
+          if (v === '750 – 999 W')   return w >= 750 && w <= 999;
+          if (v === 'Над 1000 W')    return w >= 1000;
+          return false;
+        });
+      });
+      return;
+    }
+    if (key === '_psu_80plus') {
+      list = list.filter(p => {
+        const eff = ((p.specs && p.specs['Ефективност']) || '').replace('80+', '80 Plus').replace('80 Plus ', '80 Plus ');
+        return [...vals].some(v => eff.toLowerCase().includes(v.toLowerCase().replace('80 plus', '').trim()) && eff.toLowerCase().includes('80'));
+      });
+      return;
+    }
+    if (key === '_psu_form') {
+      list = list.filter(p => {
+        const ff = ((p.specs && p.specs['Формфактор']) || '').toLowerCase();
+        return [...vals].some(v => {
+          if (v === 'ATX 3.1') return ff.includes('3.1') || ff.includes('atx12v 3.1') || ff.includes('atx12v v3.1');
+          if (v === 'ATX 3.0') return ff.includes('3.0') || ff.includes('atx 3.0') || ff.includes('v3.0');
+          if (v === 'SFX / ITX') return ff.includes('sfx') || ff.includes('itx') || ff.includes('micro atx');
+          if (v === 'ATX') return ff.includes('atx') && !ff.includes('3.0') && !ff.includes('3.1') && !ff.includes('sfx') && !ff.includes('itx');
+          return false;
+        });
+      });
+      return;
+    }
+    if (key === '_psu_modular') {
+      list = list.filter(p => {
+        const mod = ((p.specs && p.specs['Модулно']) || '').toLowerCase();
+        return [...vals].some(v => {
+          if (v === 'Модулно')  return mod === 'да' || mod === 'yes' || mod === 'full' || mod === 'full modular';
+          if (v === 'Фиксирано') return !mod || mod === 'не' || mod === 'no';
+          return false;
+        });
+      });
+      return;
+    }
+    if (key === '_psu_fan') {
+      list = list.filter(p => {
+        const fan = ((p.specs && p.specs['Вентилатор']) || '').toLowerCase();
+        return [...vals].some(v => {
+          if (v === 'Без вентилатор') return fan.includes('fanless') || fan.includes('без');
+          const mm = v.replace(' мм', '').trim();
+          return fan.includes(mm + 'mm') || fan.includes(mm + ' mm');
         });
       });
       return;

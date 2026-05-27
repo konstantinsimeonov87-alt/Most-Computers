@@ -977,6 +977,13 @@ const SUBCAT_SPEC_FILTERS = {
     { key: 'Форм фактор',  label: '📐 Форм фактор',  values: ['M.2 2280','M.2 2242','2.5"','3.5"'] },
     { key: '_hdd_rpm',     label: '🌀 RPM',           values: ['5400','7200'] },
   ],
+  psu: [
+    { key: '_psu_watt',     label: '⚡ Мощност',           values: ['До 500 W','501 – 749 W','750 – 999 W','Над 1000 W'] },
+    { key: '_psu_80plus',   label: '🏆 80 Plus рейтинг',   values: ['80 Plus','80 Plus Bronze','80 Plus Gold','80 Plus Platinum','80 Plus Titanium'] },
+    { key: '_psu_form',     label: '📐 Форм фактор',       values: ['ATX','ATX 3.0','ATX 3.1','SFX / ITX'] },
+    { key: '_psu_modular',  label: '🔌 Окабеляване',       values: ['Модулно','Фиксирано'] },
+    { key: '_psu_fan',      label: '🌀 Вентилатор',        values: ['80 мм','120 мм','135 мм','140 мм','Без вентилатор'] },
+  ],
   keyboard: [
     { key: 'Връзка',    label: '📡 Връзка',         values: ['Кабелна','Безжична','Bluetooth'] },
     { key: 'Тип',       label: '⌨ Тип превключвател', values: ['Механична','Мембранна'] },

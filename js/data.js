@@ -2738,7 +2738,7 @@ var products = [
    specs:{'Форм фактор':'ATX','Сокет':'LGA1700'},
    rating:4.4,rv:0,reviews:[],
    desc:'ASUS дънна платка ASUS ROG STRIX Z890-F GAM WIFI.',
-   img:'./images/products/48267.webp',stock:false},
+   img:'./images/products/48267.webp',stock:true},
 
   {id:392,name:'ASUS ROG STRIX Z890-E GAM WIFI',brand:'Asus',cat:'components',subcat:'motherboard',
    price:902,old:null,pct:null,badge:null,emoji:'⚙️',sku:'90MB1IM0-M0EAY0',ean:'4711387756133',

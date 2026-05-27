@@ -13274,8 +13274,8 @@
  }
 
  .subcat-pill:hover {
-   background: var(--primary-light);
-   border-color: var(--primary);
+   background: rgba(189,17,5,0.10);
+   border-color: rgba(189,17,5,0.45);
    color: var(--primary);
  }
 

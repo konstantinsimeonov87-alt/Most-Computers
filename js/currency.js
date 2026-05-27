@@ -20,7 +20,7 @@ const CAT_LABELS = {
   software:'Софтуер', accessories:'Аксесоари', consumables:'Консумативи',
   sale:'Промоции', new:'Нови продукти',
   // Legacy ключове
-  laptop:'Лаптопи', desktop:'Десктопи', gaming:'Гейминг',
+  laptop:'Лаптопи', desktop:'Настолни компютри', gaming:'Гейминг',
   audio:'Аудио', mobile:'Телефони', tablet:'Таблети',
   tv:'Телевизори', camera:'Фотоапарати', smart:'Смарт устройства',
   print:'Принтери', acc:'Аксесоари', monitor:'Монитори',

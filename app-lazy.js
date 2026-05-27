@@ -2000,7 +2000,7 @@ function showSearchResultsPage(query) {
 
   // Category pills with data-label for dynamic count updates
   const cats = [...new Set(allResults.map(p => normalizeCat(p.cat)))];
-  const catLabels = {phones:'Телефони и таблети',laptops:'Лаптопи',desktops:'Десктопи',gaming:'Гейминг',monitors:'Монитори',components:'Компоненти',peripherals:'Периферия',network:'Мрежа',storage:'Съхранение',accessories:'Аксесоари',software:'Софтуер'};
+  const catLabels = {phones:'Телефони и таблети',laptops:'Лаптопи',desktops:'Настолни компютри',gaming:'Гейминг',monitors:'Монитори',components:'Компоненти',peripherals:'Периферия',network:'Мрежа',storage:'Съхранение',accessories:'Аксесоари',software:'Софтуер'};
   const el_srpFilters = document.getElementById('srpFilters');
   if (el_srpFilters) {
     el_srpFilters.innerHTML =

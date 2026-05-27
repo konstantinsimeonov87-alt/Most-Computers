@@ -2192,7 +2192,7 @@ function xmlParseAndPreview(xmlStr) {
   window._xmlForceSubcat = '';
 
   // Build subcat dropdown options from SUBCATS (defined in filters.js / app.js)
-  const _CAT_LABELS_BG = { phones:'Телефони', laptops:'Лаптопи', desktops:'Десктопи', gaming:'Гейминг', monitors:'Монитори', components:'Компоненти', peripherals:'Периферия', network:'Мрежово', storage:'Съхранение', accessories:'Аксесоари' };
+  const _CAT_LABELS_BG = { phones:'Телефони', laptops:'Лаптопи', desktops:'Настолни компютри', gaming:'Гейминг', monitors:'Монитори', components:'Компоненти', peripherals:'Периферия', network:'Мрежово', storage:'Съхранение', accessories:'Аксесоари' };
   const _subcatOpts = (typeof SUBCATS !== 'undefined')
     ? Object.entries(SUBCATS).map(([cat, subs]) =>
         `<optgroup label="${_CAT_LABELS_BG[cat]||cat}">${subs.map(s=>`<option value="${s.id}">${s.label}</option>`).join('')}</optgroup>`

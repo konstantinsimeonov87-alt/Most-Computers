@@ -1655,6 +1655,7 @@ const SUBCATS = {
     { id: 'cable',    label: '🔗 Мрежови кабели' },
   ],
   storage: [
+    { id: 'ext_drive',    label: '🖴 Външни дискове' },
     { id: 'usb_flash',    label: '💾 USB флашки' },
     { id: 'microsd',      label: '📱 microSD карти' },
     { id: 'sd_card',      label: '📷 SD карти' },
@@ -1739,6 +1740,7 @@ const MEGA_MENU = {
     { title: 'Адаптери и SFP', id: 'adapter', items: ['USB WiFi адаптери', 'USB LAN адаптери', '2.5G / 10G карти', 'SFP модули', 'Outdoor CPE'] },
   ],
   storage: [
+    { title: 'Външни дискове', id: 'ext_drive', items: ['Портативни SSD', 'Портативни HDD', 'Kingston XS2000', 'Seagate One Touch'] },
     { title: 'Флаш памет', id: 'usb_flash', items: ['USB флашки', 'USB-C флашки', 'Dual OTG флашки'] },
     { title: 'Карти с памет', id: 'microsd', items: ['microSD карти', 'SD карти', 'CF карти', 'Четци за карти'] },
   ],
@@ -1948,6 +1950,11 @@ const SUBCAT_SPEC_FILTERS = {
   cam_poe: [
     { key: 'Резолюция',     label: '📷 Резолюция',      values: ['4MP'] },
     { key: 'Нощно виждане', label: '🌙 Нощно виждане', values: ['Да'] },
+  ],
+  ext_drive: [
+    { key: 'Тип',        label: '💾 Тип',         values: ['Портативен SSD','Портативен HDD'] },
+    { key: 'Капацитет',  label: '📦 Капацитет',   values: ['512 GB','1 TB','2 TB','4 TB','5 TB','6 TB','8 TB'] },
+    { key: 'Интерфейс',  label: '🔌 Интерфейс',   values: ['USB 3.0','USB 3.1','USB 3.2 Gen 2','USB 3.2 Gen 2x2','USB-C 3.1','USB-C 3.2 Gen 2','USB-C 3.2 Gen 2x2'] },
   ],
   usb_flash: [
     { key: 'Капацитет',  label: '📦 Капацитет',  values: ['16 GB','32 GB','64 GB','128 GB','256 GB'] },
@@ -2436,7 +2443,7 @@ function matchesSubcat(p, subcat) {
     // Storage
     nas:           () => all.includes('nas') || all.includes('network attached') || all.includes('qnap') || all.includes('synology'),
     server:        () => all.includes('сървър') || all.includes('server') || all.includes('rack'),
-    ext_drive:     () => all.includes('portable') || all.includes('портативен') || all.includes('external') || all.includes('външен'),
+    ext_drive:     () => p.subcat === 'ext_drive' || all.includes('portable') || all.includes('портативен') || all.includes('external') || all.includes('външен'),
     flash:         () => p.subcat === 'usb_flash' || p.subcat === 'microsd' || p.subcat === 'sd_card' || p.subcat === 'cf_card' || p.subcat === 'card_reader',
     usb_flash:     () => p.subcat === 'usb_flash',
     microsd:       () => p.subcat === 'microsd',

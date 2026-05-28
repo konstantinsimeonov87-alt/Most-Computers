@@ -28,10 +28,13 @@ jobs:
       - name: Sync stock from XML feeds
         run: node scripts/sync-stock.js
 
+      - name: Sync prices and detect discounts
+        run: node scripts/sync-prices.js
+
       - name: Rebuild app.js if data changed
         run: |
           if git diff --quiet js/data.js; then
-            echo "No stock changes — skipping rebuild."
+            echo "No changes — skipping rebuild."
             exit 0
           fi
           node build.js
@@ -44,6 +47,6 @@ jobs:
           fi
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add js/data.js app.js dist/app.js dist/sw.js
-          git commit -m "chore(stock): auto-sync nalichnosti $(date -u +'%Y-%m-%d %H:%M UTC') [skip ci]"
+          git add js/data.js app.js dist/app.js dist/sw.js price-history.json
+          git commit -m "chore(stock): auto-sync stock+prices $(date -u +'%Y-%m-%d %H:%M UTC') [skip ci]"
           git push

@@ -912,10 +912,13 @@ function cpRenderSubcatBar(cat) {
   if (!bar) return;
   const subs = typeof SUBCATS !== 'undefined' ? SUBCATS[cat] : null;
   if (!subs || !subs.length) { bar.innerHTML = ''; bar.style.display = 'none'; return; }
+  const catProds = (typeof products !== 'undefined' ? products : []).filter(p => normalizeCat(p.cat) === cat);
+  const activeSubs = subs.filter(s => catProds.some(p => matchesSubcat(p, s.id)));
+  if (!activeSubs.length) { bar.innerHTML = ''; bar.style.display = 'none'; return; }
   bar.style.display = '';
   bar.innerHTML =
     `<button type="button" class="subcat-pill active" onclick="cpApplySubcat('all',this)">Всички</button>` +
-    subs.map(s =>
+    activeSubs.map(s =>
       `<button type="button" class="subcat-pill" onclick="cpApplySubcat('${s.id}',this)">${s.label}</button>`
     ).join('');
 }

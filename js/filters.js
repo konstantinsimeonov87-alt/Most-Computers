@@ -946,9 +946,8 @@ const CAT_SPEC_FILTERS = {
     { key: 'Type',  label: '📦 Тип устройство', values: ['Рутер','Mesh нод','Суич','Access Point','USB адаптер','Outdoor CPE','SFP модул','Кабел'] },
   ],
   storage: [
-    { key: 'Type',      label: '💾 Тип',               values: ['NAS','Сървър','Портативен SSD','Портативен HDD','USB Flash','SD карта','microSD','CF карта','Четец'] },
-    { key: 'Capacity',  label: '📦 Капацитет',         values: ['16 GB','32 GB','64 GB','128 GB','256 GB','512 GB','1 TB','2 TB','4 TB','8 TB+'] },
-    { key: 'Interface', label: '🔌 Интерфейс',         values: ['USB-C','USB-A','USB 3.0','USB 3.2','Thunderbolt','Ethernet','microSD','SD'] },
+    { key: 'Капацитет',  label: '📦 Капацитет',  values: ['8 GB','16 GB','32 GB','64 GB','128 GB','256 GB','512 GB','1 TB','2 TB'] },
+    { key: 'Интерфейс',  label: '🔌 Интерфейс',  values: ['USB 2.0','USB 3.0','USB 3.1','USB 3.2','USB-C'] },
   ],
   ups: [
     { key: 'Мощност',    label: '⚡ Мощност (VA/KVA)',    values: ['600VA','800VA','850VA','1KVA','1.5KVA','2KVA','3KVA','6KVA+'] },
@@ -1055,6 +1054,16 @@ const SUBCAT_SPEC_FILTERS = {
   cam_poe: [
     { key: 'Резолюция',     label: '📷 Резолюция',      values: ['4MP'] },
     { key: 'Нощно виждане', label: '🌙 Нощно виждане', values: ['Да'] },
+  ],
+  usb_flash: [
+    { key: 'Капацитет',  label: '📦 Капацитет',  values: ['16 GB','32 GB','64 GB','128 GB','256 GB'] },
+    { key: 'Интерфейс',  label: '🔌 Интерфейс',  values: ['USB 2.0','USB 3.0','USB 3.1','USB 3.2'] },
+  ],
+  microsd: [
+    { key: 'Капацитет',  label: '📦 Капацитет',  values: ['32 GB','64 GB','128 GB','256 GB'] },
+  ],
+  sd_card: [
+    { key: 'Капацитет',  label: '📦 Капацитет',  values: ['32 GB','64 GB','128 GB','256 GB'] },
   ],
   keyboard: [
     { key: 'Връзка',    label: '📡 Връзка',         values: ['Кабелна','Безжична','Bluetooth'] },

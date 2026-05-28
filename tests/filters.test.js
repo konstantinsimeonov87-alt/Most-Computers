@@ -50,8 +50,8 @@ describe('getFilteredSorted — категория', () => {
     expect(result).toHaveLength(PRODUCTS.length);
   });
 
-  test('филтрира peripherals — включва audio продукти (normalizeCat)', () => {
-    global.currentFilter = 'peripherals';
+  test('филтрира audio — включва audio продукти (normalizeCat)', () => {
+    global.currentFilter = 'audio';
     const result = getFilteredSorted();
     expect(result).toHaveLength(1);
     expect(result[0].cat).toBe('audio');
@@ -251,7 +251,7 @@ describe('syncFiltersToUrl — записва URL параметри', () => {
 // ── normalizeCat — категорийно нормализиране ────────────────────────────────
 describe('normalizeCat — маппинг', () => {
   // normalizeCat е дефинирана в filters.js и достъпна чрез global след require
-  test('audio → peripherals', () => expect(normalizeCat('audio')).toBe('peripherals'));
+  test('audio → audio',       () => expect(normalizeCat('audio')).toBe('audio'));
   test('mobile → phones',    () => expect(normalizeCat('mobile')).toBe('phones'));
   test('tablet → phones',    () => expect(normalizeCat('tablet')).toBe('phones'));
   test('gaming → gaming',    () => expect(normalizeCat('gaming')).toBe('gaming'));

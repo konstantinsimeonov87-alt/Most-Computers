@@ -16,12 +16,12 @@ function fmtDual(bgn) { return `${fmtEur(bgn)} / ${fmtBgn(bgn)}`; }
 const CAT_LABELS = {
   all:'Всички продукти',
   laptops:'Лаптопи', desktops:'Настолни компютри', components:'Компоненти',
-  peripherals:'Периферия', network:'Мрежово оборудване', storage:'Сървъри и сторидж',
+  peripherals:'Периферия', audio:'Аудио и слушалки', cameras:'Камери', network:'Мрежово оборудване', storage:'Сървъри и сторидж',
   software:'Софтуер', accessories:'Аксесоари', consumables:'Консумативи',
   sale:'Промоции', new:'Нови продукти',
   // Legacy ключове
   laptop:'Лаптопи', desktop:'Настолни компютри', gaming:'Гейминг',
-  audio:'Аудио', mobile:'Телефони', tablet:'Таблети',
+  mobile:'Телефони', tablet:'Таблети',
   tv:'Телевизори', camera:'Фотоапарати', smart:'Смарт устройства',
   print:'Принтери', acc:'Аксесоари', monitor:'Монитори',
 };

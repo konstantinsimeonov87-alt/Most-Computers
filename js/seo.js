@@ -334,6 +334,8 @@ function generateSitemap() {
     { url: '/?cat=desktops', priority: '0.9', freq: 'weekly' },
     { url: '/?cat=components', priority: '0.8', freq: 'weekly' },
     { url: '/?cat=peripherals', priority: '0.8', freq: 'weekly' },
+    { url: '/?cat=audio',      priority: '0.8', freq: 'weekly' },
+    { url: '/?cat=cameras',    priority: '0.7', freq: 'weekly' },
     { url: '/?cat=network', priority: '0.7', freq: 'weekly' },
     { url: '/?cat=storage', priority: '0.7', freq: 'weekly' },
     { url: '/?cat=accessories', priority: '0.7', freq: 'weekly' },
@@ -448,7 +450,9 @@ const CAT_META = {
   gaming:     { emoji:'🎮', icon:'ic-gamepad',    label:'Гейминг',              sub:'Gaming лаптопи, PC, Мишки, Клавиатури', badge:'hot' },
   monitors:   { emoji:'🖥', icon:'ic-monitor',    label:'Монитори',             sub:'Gaming 144Hz+, 4K, OLED, UltraWide', badge:null },
   components: { emoji:'⚙️', icon:'ic-cpu',        label:'Компоненти',           sub:'CPU, GPU, RAM, SSD/HDD, Дъна', badge:null },
-  peripherals:{ emoji:'🖱', icon:'ic-mouse',      label:'Периферия',            sub:'Клавиатури, Мишки, Слушалки, Камери', badge:null },
+  peripherals:{ emoji:'🖱', icon:'ic-mouse',      label:'Периферия',            sub:'Клавиатури, Мишки, Уеб камери', badge:null },
+  cameras:    { emoji:'📹', icon:'ic-camera',     label:'Камери',               sub:'За закрито, За открито, POE камери', badge:null },
+  audio:      { emoji:'🎧', icon:'ic-headphones', label:'Аудио и слушалки',     sub:'Gaming, Bluetooth, Тапи, Офис headset', badge:null },
   network:    { emoji:'📡', icon:'ic-wifi',       label:'Мрежово оборудване',   sub:'Рутери, Суичове, Mesh, AP', badge:null },
   storage:    { emoji:'💾', icon:'ic-storage',    label:'Сървъри и сторидж',    sub:'NAS, Сървъри, Външни дискове', badge:null },
   accessories:{ emoji:'🎒', icon:'ic-mouse',      label:'Аксесоари',            sub:'Чанти, Кабели, Smart Home, TV', badge:null },
@@ -458,7 +462,7 @@ const CAT_META = {
   new:        { emoji:'🆕', icon:'ic-star',       label:'Нови продукти',        sub:'Пресни пристигания', badge:'NEW' },
   sale:       { emoji:'%',  icon:'ic-tag',        label:'Намаления',            sub:'До -60% на избрани продукти', badge:'SALE' },
 };
-const HP_CAT_ORDER = ['laptops','desktops','components','monitors','peripherals','network','storage','accessories'];
+const HP_CAT_ORDER = ['laptops','desktops','components','monitors','peripherals','audio','cameras','network','storage','accessories'];
 
 // ═══════════════════════════════════════
 // RENDER HOMEPAGE CATEGORY CARDS (kept for fallback)
@@ -486,11 +490,11 @@ const HP_SUBCATS = [
   { cat:'laptops',    id:'gaming',      label:'Gaming лаптопи',        icon:'🎮', trending:true  },
   { cat:'components', id:'gpu',         label:'Видеокарти',            icon:'🎴', trending:true  },
   { cat:'monitors',   id:'gaming_mon',   label:'Gaming монитори',       icon:'🎮', trending:true  },
-  { cat:'monitors',   id:'oled_mon',    label:'OLED монитори',         icon:'✨', trending:true  },
+  { cat:'monitors',   id:'oled_mon',    label:'OLED & QLED монитори',  icon:'✨', trending:true  },
   { cat:'gaming',     id:'gaming_pc_s', label:'Gaming PC',             icon:'🕹'                },
   { cat:'components', id:'cpu',         label:'Процесори',             icon:'⚡'                },
   { cat:'laptops',    id:'ultrabook',   label:'Ултрабуци',             icon:'💼'                },
-  { cat:'peripherals',id:'keyboard',    label:'Клавиатури',            icon:'⌨️'               },
+  { cat:'peripherals',id:'keyboard',    label:'Клавиатури',            icon:'⌨️'                },
   { cat:'network',    id:'router',      label:'Рутери',                icon:'📡'                },
   { cat:'network',    id:'mesh',        label:'Mesh Wi-Fi системи',    icon:'🕸️'               },
   { cat:'network',    id:'adapter',     label:'Wi-Fi адаптери',        icon:'🔌'                },
@@ -498,12 +502,17 @@ const HP_SUBCATS = [
   { cat:'storage',    id:'usb_flash',   label:'USB флашки',             icon:'💾'                },
   { cat:'storage',    id:'microsd',     label:'microSD карти',          icon:'📱'                },
   { cat:'laptops',    id:'budget',      label:'Бюджетни лаптопи',      icon:'💰'                },
-  { cat:'peripherals',id:'mouse',       label:'Геймърски мишки',       icon:'🖱'                },
-  { cat:'peripherals',id:'webcam',      label:'Уеб камери',            icon:'📸'                },
+  { cat:'peripherals',id:'mouse',       label:'Геймърски мишки',       icon:'🖱'                 },
+  { cat:'peripherals',id:'webcam',      label:'Уеб камери',            icon:'📸'                 },
   { cat:'components', id:'ram',         label:'RAM памет',             icon:'🧠'                },
   { cat:'components', id:'ssd_hdd',     label:'SSD дискове',           icon:'💿'                },
   { cat:'desktops',   id:'workstation', label:'Работни станции',       icon:'🖥'                },
-  { cat:'peripherals',id:'headphones',  label:'Слушалки',              icon:'🎧'                },
+  { cat:'audio',      id:'hp_gaming',    label:'Gaming слушалки',       icon:'🎮'                },
+  { cat:'audio',      id:'hp_wireless',  label:'Bluetooth слушалки',    icon:'📡'                },
+  { cat:'audio',      id:'hp_inear',     label:'Тапи (In-ear)',         icon:'🎧'                },
+  { cat:'cameras',    id:'cam_indoor',   label:'Камери за закрито',     icon:'🏠'                },
+  { cat:'cameras',    id:'cam_outdoor',  label:'Outdoor камери',        icon:'🌧'                },
+  { cat:'cameras',    id:'cam_poe',      label:'POE камери',            icon:'🔌'                },
   { cat:'network',    id:'switch',      label:'Суичове',               icon:'🔀'                },
   { cat:'accessories',id:'hub',         label:'USB хъбове',            icon:'🔌'                },
   { cat:'components', id:'psu',         label:'Захранвания',           icon:'🔋'                },
@@ -1614,6 +1623,105 @@ function cpGetFiltered() {
           return false;
         });
       });
+      return;
+    }
+    if (key === '_monitor_brand') {
+      list = list.filter(p => [...vals].some(v => (p.brand || '').toLowerCase() === v.toLowerCase()));
+      return;
+    }
+    if (key === '_monitor_panel') {
+      list = list.filter(p => {
+        const panel = ((p.specs || {}).Панел || '').toLowerCase();
+        return [...vals].some(v => {
+          if (v === 'IPS')  return /\bips\b/i.test(panel);
+          if (v === 'VA')   return /\bva\b/i.test(panel);
+          if (v === 'OLED') return /oled/i.test(panel);
+          if (v === 'TN')   return /\btn\b/i.test(panel);
+          if (v === 'QLED') return /qled/i.test(panel);
+          return false;
+        });
+      });
+      return;
+    }
+    if (key === '_monitor_hz') {
+      list = list.filter(p => {
+        const raw = ((p.specs || {}).Честота || '').replace(/\s/g, '');
+        const hz = parseInt(raw);
+        return !isNaN(hz) && [...vals].some(v => parseInt(v) === hz);
+      });
+      return;
+    }
+    if (key === '_monitor_res') {
+      list = list.filter(p => {
+        const r = ((p.specs || {}).Резолюция || '').toLowerCase();
+        return [...vals].some(v => {
+          if (v === 'FHD 1920×1080' || v === 'Full HD') return /1920.{0,3}1080|full\s*hd/i.test(r);
+          if (v === 'QHD 2560×1440') return /2560.{0,3}1440/i.test(r);
+          if (v === '4K 3840×2160'  || v === '4K UHD') return /3840.{0,3}2160|4k\s*uhd/i.test(r);
+          if (v === 'WUXGA 1920×1200') return /1920.{0,3}1200/i.test(r);
+          if (v === 'UltraWide') return /3440.{0,3}1440/i.test(r);
+          if (v === 'QLED') return /qled/i.test(r);
+          return false;
+        });
+      });
+      return;
+    }
+    if (key === '_monitor_size') {
+      list = list.filter(p => {
+        const raw = ((p.specs || {}).Размер || '').replace(/[^\d.,]/g, '').replace(',', '.');
+        const inch = parseFloat(raw);
+        return !isNaN(inch) && [...vals].some(v => {
+          if (v === 'До 19"')   return inch <= 19;
+          if (v === '21"–23"')  return inch > 19  && inch <= 23;
+          if (v === '23"–25"')  return inch > 23  && inch <= 25;
+          if (v === '25"–27"')  return inch > 25  && inch <= 27;
+          if (v === '27"–29"')  return inch > 27  && inch <= 29;
+          if (v === 'Над 29"')  return inch > 29;
+          if (v === '40"+')     return inch >= 40;
+          const n = parseFloat(v);
+          return !isNaN(n) && Math.abs(inch - n) < 0.6;
+        });
+      });
+      return;
+    }
+    if (key === '_monitor_gaming') {
+      list = list.filter(p => {
+        const specs = p.specs || {};
+        return [...vals].some(v => {
+          if (v === 'FreeSync') return /freesync/i.test(specs.Sync || '');
+          if (v === 'G-Sync')   return /g.?sync/i.test(specs.Sync || '');
+          if (v === 'HDR')      return specs.HDR === 'Да';
+          if (v === 'Curved')   return !!(specs.Curved);
+          return false;
+        });
+      });
+      return;
+    }
+    if (key === '_monitor_interface') {
+      list = list.filter(p => {
+        const specs = p.specs || {};
+        return [...vals].some(v => {
+          if (v === 'HDMI')        return specs.HDMI === 'Да';
+          if (v === 'DisplayPort') return specs.DP   === 'Да';
+          if (v === 'USB-C')       return specs.USBC === 'Да';
+          return false;
+        });
+      });
+      return;
+    }
+    if (key === '_monitor_stand') {
+      list = list.filter(p => {
+        const specs = p.specs || {};
+        return [...vals].some(v => {
+          if (v === 'Pivot')  return specs.Pivot  === 'Да';
+          if (v === 'Swivel') return specs.Swivel === 'Да';
+          return false;
+        });
+      });
+      return;
+    }
+    if (key === '_hp_brand') {
+      list = list.filter(p => [...vals].some(v => (p.brand || '').toLowerCase() === v.toLowerCase()));
       return;
     }
     list = list.filter(p => {

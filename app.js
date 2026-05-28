@@ -16,12 +16,12 @@ function fmtDual(bgn) { return `${fmtEur(bgn)} / ${fmtBgn(bgn)}`; }
 const CAT_LABELS = {
   all:'Всички продукти',
   laptops:'Лаптопи', desktops:'Настолни компютри', components:'Компоненти',
-  peripherals:'Периферия', network:'Мрежово оборудване', storage:'Сървъри и сторидж',
+  peripherals:'Периферия', audio:'Аудио и слушалки', cameras:'Камери', network:'Мрежово оборудване', storage:'Сървъри и сторидж',
   software:'Софтуер', accessories:'Аксесоари', consumables:'Консумативи',
   sale:'Промоции', new:'Нови продукти',
   // Legacy ключове
   laptop:'Лаптопи', desktop:'Настолни компютри', gaming:'Гейминг',
-  audio:'Аудио', mobile:'Телефони', tablet:'Таблети',
+  mobile:'Телефони', tablet:'Таблети',
   tv:'Телевизори', camera:'Фотоапарати', smart:'Смарт устройства',
   print:'Принтери', acc:'Аксесоари', monitor:'Монитори',
 };
@@ -43,6 +43,73 @@ if (typeof module !== 'undefined' && module.exports) {
 
 function starsHTML(r){return '★'.repeat(Math.round(r))+'☆'.repeat(5-Math.round(r));}
 
+const _SVG_PLACEHOLDERS = (function(){
+  function enc(s){ return 'data:image/svg+xml,'+encodeURIComponent(s); }
+  const S='stroke="#cbd5e1"',SW='stroke-width',F='fill="#e2e8f0"',BG='fill="#f8fafc"',N='fill="none"';
+  return {
+    monitor:    enc(`<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="200" ${BG}/><rect x="28" y="30" width="144" height="100" rx="6" ${N} ${S} ${SW}="5"/><rect x="38" y="40" width="124" height="80" rx="2" ${F}/><rect x="86" y="130" width="28" height="22" ${N} ${S} ${SW}="5"/><rect x="56" y="150" width="88" height="10" rx="5" ${N} ${S} ${SW}="5"/></svg>`),
+    laptop:     enc(`<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="200" ${BG}/><rect x="26" y="38" width="148" height="96" rx="6" ${N} ${S} ${SW}="5"/><rect x="36" y="48" width="128" height="76" rx="2" ${F}/><path d="M14 148 Q14 136 26 136 L174 136 Q186 136 186 148 L190 160 Q192 166 186 166 L14 166 Q8 166 10 160 Z" ${N} ${S} ${SW}="5"/><rect x="74" y="146" width="52" height="12" rx="4" ${N} ${S} ${SW}="3"/></svg>`),
+    cpu:        enc(`<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="200" ${BG}/><rect x="55" y="55" width="90" height="90" rx="6" ${N} ${S} ${SW}="5"/><rect x="67" y="67" width="66" height="66" rx="3" ${F}/><line x1="75" y1="55" x2="75" y2="38" ${S} ${SW}="4" stroke-linecap="round"/><line x1="92" y1="55" x2="92" y2="38" ${S} ${SW}="4" stroke-linecap="round"/><line x1="109" y1="55" x2="109" y2="38" ${S} ${SW}="4" stroke-linecap="round"/><line x1="126" y1="55" x2="126" y2="38" ${S} ${SW}="4" stroke-linecap="round"/><line x1="75" y1="145" x2="75" y2="162" ${S} ${SW}="4" stroke-linecap="round"/><line x1="92" y1="145" x2="92" y2="162" ${S} ${SW}="4" stroke-linecap="round"/><line x1="109" y1="145" x2="109" y2="162" ${S} ${SW}="4" stroke-linecap="round"/><line x1="126" y1="145" x2="126" y2="162" ${S} ${SW}="4" stroke-linecap="round"/><line x1="55" y1="75" x2="38" y2="75" ${S} ${SW}="4" stroke-linecap="round"/><line x1="55" y1="92" x2="38" y2="92" ${S} ${SW}="4" stroke-linecap="round"/><line x1="55" y1="109" x2="38" y2="109" ${S} ${SW}="4" stroke-linecap="round"/><line x1="55" y1="126" x2="38" y2="126" ${S} ${SW}="4" stroke-linecap="round"/><line x1="145" y1="75" x2="162" y2="75" ${S} ${SW}="4" stroke-linecap="round"/><line x1="145" y1="92" x2="162" y2="92" ${S} ${SW}="4" stroke-linecap="round"/><line x1="145" y1="109" x2="162" y2="109" ${S} ${SW}="4" stroke-linecap="round"/><line x1="145" y1="126" x2="162" y2="126" ${S} ${SW}="4" stroke-linecap="round"/></svg>`),
+    gpu:        enc(`<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="200" ${BG}/><rect x="16" y="62" width="164" height="76" rx="8" ${N} ${S} ${SW}="5"/><circle cx="70" cy="100" r="27" ${N} ${S} ${SW}="4"/><circle cx="70" cy="100" r="10" ${F}/><circle cx="130" cy="100" r="27" ${N} ${S} ${SW}="4"/><circle cx="130" cy="100" r="10" ${F}/><rect x="170" y="68" width="12" height="64" rx="4" ${N} ${S} ${SW}="4"/><rect x="26" y="50" width="20" height="14" rx="2" ${N} ${S} ${SW}="4"/><rect x="52" y="50" width="20" height="14" rx="2" ${N} ${S} ${SW}="4"/></svg>`),
+    case:       enc(`<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="200" ${BG}/><rect x="58" y="20" width="84" height="158" rx="8" ${N} ${S} ${SW}="5"/><rect x="68" y="30" width="64" height="106" rx="3" ${F}/><rect x="68" y="144" width="30" height="8" rx="3" ${N} ${S} ${SW}="3"/><circle cx="114" cy="148" r="5" ${N} ${S} ${SW}="3"/></svg>`),
+    ram:        enc(`<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="200" ${BG}/><rect x="30" y="72" width="140" height="52" rx="4" ${N} ${S} ${SW}="5"/><rect x="40" y="82" width="120" height="32" rx="2" ${F}/><rect x="92" y="124" width="16" height="12" rx="2" ${N} ${S} ${SW}="4"/><rect x="48" y="87" width="18" height="22" rx="2" ${N} ${S} ${SW}="3"/><rect x="74" y="87" width="18" height="22" rx="2" ${N} ${S} ${SW}="3"/><rect x="100" y="87" width="18" height="22" rx="2" ${N} ${S} ${SW}="3"/><rect x="126" y="87" width="18" height="22" rx="2" ${N} ${S} ${SW}="3"/><line x1="48" y1="124" x2="48" y2="142" ${S} ${SW}="3" stroke-linecap="round"/><line x1="58" y1="124" x2="58" y2="142" ${S} ${SW}="3" stroke-linecap="round"/><line x1="68" y1="124" x2="68" y2="142" ${S} ${SW}="3" stroke-linecap="round"/><line x1="78" y1="124" x2="78" y2="142" ${S} ${SW}="3" stroke-linecap="round"/><line x1="112" y1="124" x2="112" y2="142" ${S} ${SW}="3" stroke-linecap="round"/><line x1="122" y1="124" x2="122" y2="142" ${S} ${SW}="3" stroke-linecap="round"/><line x1="132" y1="124" x2="132" y2="142" ${S} ${SW}="3" stroke-linecap="round"/><line x1="142" y1="124" x2="142" y2="142" ${S} ${SW}="3" stroke-linecap="round"/></svg>`),
+    ssd:        enc(`<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="200" ${BG}/><rect x="30" y="82" width="140" height="36" rx="5" ${N} ${S} ${SW}="5"/><rect x="40" y="92" width="108" height="16" rx="2" ${F}/><line x1="148" y1="92" x2="160" y2="92" ${S} ${SW}="3" stroke-linecap="round"/><line x1="148" y1="100" x2="160" y2="100" ${S} ${SW}="3" stroke-linecap="round"/><line x1="148" y1="108" x2="160" y2="108" ${S} ${SW}="3" stroke-linecap="round"/><rect x="44" y="94" width="20" height="12" rx="1" ${N} ${S} ${SW}="2.5"/><rect x="72" y="94" width="20" height="12" rx="1" ${N} ${S} ${SW}="2.5"/><rect x="100" y="94" width="20" height="12" rx="1" ${N} ${S} ${SW}="2.5"/><circle cx="38" cy="100" r="6" ${N} ${S} ${SW}="3"/><rect x="44" y="118" width="72" height="10" rx="3" ${N} ${S} ${SW}="2.5"/></svg>`),
+    mobo:       enc(`<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="200" ${BG}/><rect x="22" y="22" width="156" height="156" rx="5" ${N} ${S} ${SW}="5"/><rect x="38" y="52" width="56" height="56" rx="3" ${N} ${S} ${SW}="4"/><rect x="48" y="62" width="36" height="36" rx="2" ${F}/><rect x="108" y="38" width="10" height="52" rx="2" ${N} ${S} ${SW}="3"/><rect x="124" y="38" width="10" height="52" rx="2" ${N} ${S} ${SW}="3"/><rect x="140" y="38" width="10" height="52" rx="2" ${N} ${S} ${SW}="3"/><rect x="156" y="38" width="10" height="52" rx="2" ${N} ${S} ${SW}="3"/><rect x="38" y="126" width="134" height="8" rx="2" ${N} ${S} ${SW}="3"/><rect x="38" y="144" width="96" height="8" rx="2" ${N} ${S} ${SW}="3"/><rect x="22" y="22" width="16" height="90" ${F}/></svg>`),
+    psu:        enc(`<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="200" ${BG}/><rect x="28" y="48" width="144" height="104" rx="8" ${N} ${S} ${SW}="5"/><rect x="38" y="58" width="94" height="84" rx="3" ${F}/><circle cx="152" cy="100" r="28" ${N} ${S} ${SW}="3"/><circle cx="152" cy="100" r="14" ${N} ${S} ${SW}="2.5"/><line x1="152" y1="72" x2="152" y2="128" ${S} ${SW}="2.5" stroke-linecap="round"/><line x1="124" y1="100" x2="180" y2="100" ${S} ${SW}="2.5" stroke-linecap="round"/><rect x="42" y="64" width="16" height="10" rx="2" ${N} ${S} ${SW}="2.5"/><circle cx="110" cy="69" r="5" ${N} ${S} ${SW}="2.5"/><line x1="28" y1="80" x2="10" y2="80" ${S} ${SW}="3" stroke-linecap="round"/><line x1="28" y1="94" x2="10" y2="94" ${S} ${SW}="3" stroke-linecap="round"/><line x1="28" y1="108" x2="10" y2="108" ${S} ${SW}="3" stroke-linecap="round"/><line x1="28" y1="122" x2="10" y2="122" ${S} ${SW}="3" stroke-linecap="round"/></svg>`),
+    cooling:    enc(`<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="200" ${BG}/><circle cx="100" cy="100" r="72" ${N} ${S} ${SW}="5"/><circle cx="100" cy="100" r="18" ${F} ${S} ${SW}="4"/><path d="M100 28 Q118 50 104 82 Q88 62 100 28Z" ${N} ${S} ${SW}="4" stroke-linejoin="round"/><path d="M172 100 Q150 118 118 104 Q138 88 172 100Z" ${N} ${S} ${SW}="4" stroke-linejoin="round"/><path d="M100 172 Q82 150 96 118 Q112 138 100 172Z" ${N} ${S} ${SW}="4" stroke-linejoin="round"/><path d="M28 100 Q50 82 82 96 Q62 112 28 100Z" ${N} ${S} ${SW}="4" stroke-linejoin="round"/><circle cx="40" cy="40" r="5" ${N} ${S} ${SW}="3"/><circle cx="160" cy="40" r="5" ${N} ${S} ${SW}="3"/><circle cx="160" cy="160" r="5" ${N} ${S} ${SW}="3"/><circle cx="40" cy="160" r="5" ${N} ${S} ${SW}="3"/></svg>`),
+    keyboard:   enc(`<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="200" ${BG}/><rect x="16" y="62" width="168" height="88" rx="8" ${N} ${S} ${SW}="5"/><rect x="26" y="72" width="148" height="68" rx="4" ${F}/><rect x="32" y="78" width="14" height="10" rx="2" ${N} ${S} ${SW}="2"/><rect x="50" y="78" width="14" height="10" rx="2" ${N} ${S} ${SW}="2"/><rect x="68" y="78" width="14" height="10" rx="2" ${N} ${S} ${SW}="2"/><rect x="86" y="78" width="14" height="10" rx="2" ${N} ${S} ${SW}="2"/><rect x="104" y="78" width="14" height="10" rx="2" ${N} ${S} ${SW}="2"/><rect x="122" y="78" width="14" height="10" rx="2" ${N} ${S} ${SW}="2"/><rect x="140" y="78" width="24" height="10" rx="2" ${N} ${S} ${SW}="2"/><rect x="32" y="92" width="20" height="10" rx="2" ${N} ${S} ${SW}="2"/><rect x="56" y="92" width="14" height="10" rx="2" ${N} ${S} ${SW}="2"/><rect x="74" y="92" width="14" height="10" rx="2" ${N} ${S} ${SW}="2"/><rect x="92" y="92" width="14" height="10" rx="2" ${N} ${S} ${SW}="2"/><rect x="110" y="92" width="14" height="10" rx="2" ${N} ${S} ${SW}="2"/><rect x="128" y="92" width="14" height="10" rx="2" ${N} ${S} ${SW}="2"/><rect x="146" y="92" width="18" height="10" rx="2" ${N} ${S} ${SW}="2"/><rect x="56" y="118" width="88" height="12" rx="3" ${N} ${S} ${SW}="3"/></svg>`),
+    mouse:      enc(`<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="200" ${BG}/><path d="M100 168 Q56 168 44 130 Q34 96 48 70 Q62 44 100 40 Q138 44 152 70 Q166 96 156 130 Q144 168 100 168Z" ${F} ${S} ${SW}="5"/><line x1="100" y1="40" x2="100" y2="110" ${S} ${SW}="4" stroke-linecap="round"/><rect x="90" y="70" width="20" height="32" rx="10" ${N} ${S} ${SW}="4"/><path d="M100 40 Q100 22 110 14" ${N} ${S} ${SW}="3" stroke-linecap="round"/></svg>`),
+    headphones: enc(`<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="200" ${BG}/><path d="M44 110 Q44 44 100 44 Q156 44 156 110" ${N} ${S} ${SW}="5" stroke-linecap="round"/><rect x="24" y="102" width="32" height="44" rx="14" ${N} ${S} ${SW}="5"/><rect x="32" y="110" width="16" height="28" rx="8" ${F}/><rect x="144" y="102" width="32" height="44" rx="14" ${N} ${S} ${SW}="5"/><rect x="152" y="110" width="16" height="28" rx="8" ${F}/><line x1="44" y1="108" x2="44" y2="82" ${S} ${SW}="4" stroke-linecap="round"/><line x1="156" y1="108" x2="156" y2="82" ${S} ${SW}="4" stroke-linecap="round"/></svg>`),
+    webcam:     enc(`<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="200" ${BG}/><rect x="50" y="52" width="100" height="72" rx="10" ${N} ${S} ${SW}="5"/><rect x="60" y="62" width="80" height="52" rx="6" ${F}/><circle cx="100" cy="88" r="22" ${N} ${S} ${SW}="4"/><circle cx="100" cy="88" r="11" ${N} ${S} ${SW}="3"/><circle cx="100" cy="88" r="5" fill="#cbd5e1"/><rect x="82" y="124" width="36" height="10" rx="3" ${N} ${S} ${SW}="4"/><rect x="70" y="134" width="60" height="12" rx="4" ${N} ${S} ${SW}="4"/><circle cx="134" cy="64" r="4" ${N} ${S} ${SW}="2.5"/></svg>`),
+    phone:      enc(`<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="200" ${BG}/><rect x="62" y="22" width="76" height="156" rx="14" ${N} ${S} ${SW}="5"/><rect x="72" y="36" width="56" height="116" rx="6" ${F}/><rect x="82" y="160" width="36" height="5" rx="3" ${N} ${S} ${SW}="3"/><circle cx="100" cy="30" r="4" ${N} ${S} ${SW}="2.5"/><rect x="58" y="68" width="6" height="20" rx="3" ${N} ${S} ${SW}="3"/><rect x="58" y="94" width="6" height="20" rx="3" ${N} ${S} ${SW}="3"/><rect x="136" y="78" width="6" height="16" rx="3" ${N} ${S} ${SW}="3"/></svg>`),
+    tablet:     enc(`<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="200" ${BG}/><rect x="18" y="52" width="164" height="110" rx="12" ${N} ${S} ${SW}="5"/><rect x="30" y="64" width="136" height="86" rx="5" ${F}/><circle cx="186" cy="107" r="6" ${N} ${S} ${SW}="3"/><circle cx="100" cy="56" r="3.5" ${N} ${S} ${SW}="2.5"/></svg>`),
+    smartwatch: enc(`<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="200" ${BG}/><rect x="62" y="58" width="76" height="84" rx="18" ${N} ${S} ${SW}="5"/><rect x="74" y="70" width="52" height="60" rx="10" ${F}/><rect x="136" y="84" width="8" height="18" rx="4" ${N} ${S} ${SW}="3"/><rect x="78" y="34" width="44" height="28" rx="6" ${N} ${S} ${SW}="4"/><rect x="78" y="138" width="44" height="28" rx="6" ${N} ${S} ${SW}="4"/><line x1="82" y1="158" x2="118" y2="158" ${S} ${SW}="3" stroke-linecap="round"/></svg>`),
+    printer:    enc(`<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="200" ${BG}/><rect x="22" y="68" width="156" height="78" rx="8" ${N} ${S} ${SW}="5"/><rect x="32" y="78" width="136" height="58" rx="4" ${F}/><rect x="42" y="144" width="116" height="20" rx="4" ${N} ${S} ${SW}="4"/><rect x="42" y="50" width="116" height="20" rx="4" ${N} ${S} ${SW}="4"/><rect x="62" y="36" width="76" height="18" rx="2" ${N} ${S} ${SW}="3"/><circle cx="150" cy="98" r="6" ${N} ${S} ${SW}="3"/><circle cx="164" cy="98" r="6" ${N} ${S} ${SW}="3"/><rect x="38" y="84" width="56" height="26" rx="3" ${N} ${S} ${SW}="2.5"/></svg>`),
+    tv:         enc(`<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="200" ${BG}/><rect x="14" y="28" width="172" height="114" rx="8" ${N} ${S} ${SW}="5"/><rect x="24" y="38" width="152" height="94" rx="3" ${F}/><rect x="38" y="142" width="26" height="22" rx="4" ${N} ${S} ${SW}="4"/><rect x="136" y="142" width="26" height="22" rx="4" ${N} ${S} ${SW}="4"/><rect x="28" y="162" width="46" height="8" rx="4" ${N} ${S} ${SW}="4"/><rect x="126" y="162" width="46" height="8" rx="4" ${N} ${S} ${SW}="4"/></svg>`),
+  };
+})();
+
+function categoryPlaceholderSvg(cat, subcat){
+  const s=(subcat||'').toLowerCase();
+  // TV subcat (monitors category)
+  if(s==='tv')                                          return _SVG_PLACEHOLDERS.tv;
+  // Components
+  if(s==='case')                                        return _SVG_PLACEHOLDERS.case;
+  if(s==='gpu')                                         return _SVG_PLACEHOLDERS.gpu;
+  if(s==='cpu')                                         return _SVG_PLACEHOLDERS.cpu;
+  if(s==='ram')                                         return _SVG_PLACEHOLDERS.ram;
+  if(s==='ssd_hdd')                                     return _SVG_PLACEHOLDERS.ssd;
+  if(s==='motherboard')                                 return _SVG_PLACEHOLDERS.mobo;
+  if(s==='psu')                                         return _SVG_PLACEHOLDERS.psu;
+  if(s==='cooling')                                     return _SVG_PLACEHOLDERS.cooling;
+  // Desktops / gaming
+  if(s==='aio')                                         return _SVG_PLACEHOLDERS.monitor;
+  if(s==='gaming_pc_s'||s==='office_pc'||s==='workstation') return _SVG_PLACEHOLDERS.case;
+  if(s==='gaming_laptop_s'||s==='gaming'||s==='ultrabook'||s==='business'||s==='convertible'||s==='budget') return _SVG_PLACEHOLDERS.laptop;
+  // Peripherals
+  if(s==='keyboard')                                    return _SVG_PLACEHOLDERS.keyboard;
+  if(s==='mouse')                                       return _SVG_PLACEHOLDERS.mouse;
+  if(s==='headphones')                                  return _SVG_PLACEHOLDERS.headphones;
+  if(s==='webcam')                                      return _SVG_PLACEHOLDERS.webcam;
+  // Phones
+  if(s==='smartphone')                                  return _SVG_PLACEHOLDERS.phone;
+  if(s==='tablet')                                      return _SVG_PLACEHOLDERS.tablet;
+  if(s==='smartwatch')                                  return _SVG_PLACEHOLDERS.smartwatch;
+  // Category fallback
+  const c=(cat||'').toLowerCase();
+  if(c==='monitors'||c==='monitor'||c==='display')      return _SVG_PLACEHOLDERS.monitor;
+  if(c==='laptops'||c==='laptop'||c==='gaming'||c==='game') return _SVG_PLACEHOLDERS.laptop;
+  if(c==='desktops'||c==='desktop')                     return _SVG_PLACEHOLDERS.case;
+  if(c==='components'||c==='component')                 return _SVG_PLACEHOLDERS.cpu;
+  if(c==='cameras'||c==='camera')                       return _SVG_PLACEHOLDERS.webcam;
+  if(c==='peripherals')                                 return _SVG_PLACEHOLDERS.keyboard;
+  if(c==='audio')                                       return _SVG_PLACEHOLDERS.headphones;
+  if(c==='phones'||c==='phone'||c==='mobile'||c==='smartphones'||c==='tablet') return _SVG_PLACEHOLDERS.phone;
+  if(c==='printers'||c==='printer'||c==='print')        return _SVG_PLACEHOLDERS.printer;
+  if(c==='ups')                                         return _SVG_PLACEHOLDERS.psu;
+  return _SVG_PLACEHOLDERS.cpu;
+}
+
 // Filter out promotional/banner images that contain keywords indicating
 // they are not real product photos (e.g. Icecat promo banners).
 function isSafeImgUrl(url) {
@@ -56,7 +123,7 @@ function makeCard(p,small=false){
   const safeImg = isSafeImgUrl(p.img) ? p.img : null;
   const imgHtml = safeImg
     ? `<img class="product-img-real" src="${escHtml(safeImg)}" alt="${_eName}" itemprop="image" loading="lazy" width="300" height="300" decoding="async" onload="this.classList.add('img-loaded')" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="product-img-emoji is-hidden" aria-hidden="true">${p.emoji}</span>`
-    : `<span class="product-img-emoji">${p.emoji}</span>`;
+    : `<img class="product-img-placeholder" src="${categoryPlaceholderSvg(p.cat,p.subcat)}" alt="" aria-hidden="true" width="200" height="200" loading="lazy">`;
   return `<article class="product-card pos-rel" itemscope itemtype="https://schema.org/Product">
     <div class="product-badge-wrap">
       ${p.badge==='sale'?'<span class="badge badge-sale">Промо</span>':''}
@@ -840,7 +907,7 @@ function normalizeCat(cat) {
     gaming:'gaming',     game:'gaming',
     components:'components', component:'components',
     monitor:'monitors',  monitors:'monitors',  display:'monitors',
-    audio:'peripherals', camera:'peripherals', peripherals:'peripherals',
+    audio:'audio',       аудио:'audio',       headphones:'audio',       слушалки:'audio',       camera:'cameras',  cameras:'cameras',  камери:'cameras',  peripherals:'peripherals',
     print:'printers',    printer:'printers',   printers:'printers',
     consumables:'consumables', consumable:'consumables', toner:'consumables', cartridge:'consumables',
     ups:'ups',           ups_home:'ups',       ups_office:'ups',    ups_server:'ups',
@@ -1531,11 +1598,12 @@ const SUBCATS = {
     { id: 'gaming_headset',  label: '🎧 Геймърски слушалки' },
   ],
   monitors: [
-    { id: 'gaming_mon',   label: '🎮 Gaming 144Hz+' },
-    { id: 'mon_4k',       label: '🔭 4K / UHD' },
-    { id: 'oled_mon',     label: '✨ OLED' },
+    { id: 'gaming_mon',   label: '🎮 Gaming' },
+    { id: 'qhd_mon',      label: '🔲 QHD / 2K' },
     { id: 'ultrawide',    label: '↔️ UltraWide' },
-    { id: 'office_mon',   label: '💼 Офис монитори' },
+    { id: 'oled_mon',     label: '✨ OLED & QLED' },
+    { id: 'curved_mon',   label: '🔄 Curved' },
+    { id: 'office_mon',   label: '💼 Офис' },
     { id: 'tv',           label: '📺 Телевизори' },
   ],
   components: [
@@ -1545,15 +1613,24 @@ const SUBCATS = {
     { id: 'ssd_hdd',     label: '💿 SSD / HDD дискове' },
     { id: 'motherboard', label: '🔩 Дънни платки' },
     { id: 'psu',         label: '⚡ Захранвания' },
-    { id: 'case_cooling',label: '❄ Кутии и охлаждане' },
     { id: 'case',        label: '🗄 Кутии' },
     { id: 'cooling',     label: '❄ Охлаждане' },
   ],
   peripherals: [
     { id: 'keyboard',     label: '⌨ Клавиатури' },
     { id: 'mouse',        label: '🖱 Мишки' },
-    { id: 'headphones',   label: '🎧 Слушалки' },
     { id: 'webcam',       label: '📷 Уеб камери' },
+  ],
+  cameras: [
+    { id: 'cam_indoor',   label: '🏠 За закрито' },
+    { id: 'cam_outdoor',  label: '🌧 За открито' },
+    { id: 'cam_poe',      label: '🔌 POE камери' },
+  ],
+  audio: [
+    { id: 'hp_gaming',    label: '🎮 Gaming' },
+    { id: 'hp_wireless',  label: '📡 Bluetooth / Безжични' },
+    { id: 'hp_inear',     label: '🎧 Тапи' },
+    { id: 'hp_office',    label: '💼 Офис' },
   ],
   printers: [
     { id: 'inkjet_aio', label: '🖨️ Мастиленоструйни МФУ' },
@@ -1625,10 +1702,10 @@ const MEGA_MENU = {
     { title: 'Периферия', id: 'gaming_mouse', items: ['Геймърски мишки', 'Механични клавиатури', 'Геймърски слушалки'] },
   ],
   monitors: [
-    { title: 'Gaming монитори', id: 'gaming_mon', items: ['144Hz FHD', '144Hz QHD', '165Hz', '240Hz', '360Hz', 'G-Sync / FreeSync'] },
-    { title: 'По резолюция', id: 'mon_4k', items: ['4K UHD 3840×2160', 'QHD 2560×1440', 'Full HD 1920×1080', 'WUXGA 1920×1200'] },
-    { title: 'По технология', id: 'oled_mon', items: ['OLED монитори', 'IPS панели', 'VA панели', 'UltraWide 21:9', 'Curved'] },
-    { title: 'Телевизори', id: 'tv', items: ['Smart TV 24-27"', 'Smart TV 32"', 'Smart TV 40-55"', 'QLED TV', '4K UHD TV'] },
+    { title: 'Gaming монитори', id: 'gaming_mon', items: ['144Hz+', '165Hz', '240Hz', '360Hz', 'G-Sync / FreeSync', 'HDR'] },
+    { title: 'QHD / 2K', id: 'qhd_mon', items: ['QHD 27"', 'QHD 32"', 'QHD IPS', 'QHD VA', 'WQHD'] },
+    { title: 'OLED & QLED', id: 'oled_mon', items: ['OLED монитори', 'QLED монитори', 'UltraWide OLED', '4K OLED', 'HDR'] },
+    { title: 'Телевизори', id: 'tv', items: ['Smart TV 24-27"', 'Smart TV 32"', 'Smart TV 40-55"', '4K UHD TV'] },
   ],
   components: [
     { title: 'Процесори', id: 'cpu', items: ['Intel Core i5/i7/i9', 'Intel Core Ultra', 'AMD Ryzen 5/7/9', 'AMD Threadripper'] },
@@ -1638,8 +1715,20 @@ const MEGA_MENU = {
     { title: 'Дъно и корпус', id: 'motherboard', items: ['Intel LGA1851', 'Intel LGA1700', 'AMD AM5', 'AMD AM4', 'Захранвания', 'Кутии'] },
   ],
   peripherals: [
-    { title: 'Въвеждане', id: 'keyboard', items: ['Механични клавиатури', 'Офис мишки', 'Trackpad', 'Геймпадове'] },
-    { title: 'Аудио и видео', id: 'headphones', items: ['Слушалки', 'Тонколони', 'Уеб камери'] },
+    { title: 'Клавиатури', id: 'keyboard', items: ['Механични клавиатури', 'Офис клавиатури', 'Безжични клавиатури', 'Геймпадове'] },
+    { title: 'Мишки', id: 'mouse', items: ['Геймърски мишки', 'Офис мишки', 'Ергономични', 'Trackpad'] },
+    { title: 'Уеб камери', id: 'webcam', items: ['Full HD камери', '4K камери', 'С микрофон', 'За стрийминг'] },
+  ],
+  audio: [
+    { title: 'Gaming слушалки', id: 'hp_gaming', items: ['7.1 Surround', 'RGB слушалки', 'Геймърски headset', 'USB слушалки'] },
+    { title: 'Bluetooth / Безжични', id: 'hp_wireless', items: ['Over-ear', 'On-ear', 'Noise Cancelling', 'Безжични слушалки'] },
+    { title: 'Тапи и In-ear', id: 'hp_inear', items: ['TWS слушалки', 'In-ear тапи', 'Bluetooth тапи', 'Кабелни тапи'] },
+    { title: 'Офис headset', id: 'hp_office', items: ['USB headset', '3.5mm headset', 'С микрофон', 'За конферентни разговори'] },
+  ],
+  cameras: [
+    { title: 'За закрито', id: 'cam_indoor',  items: ['Pan/Tilt камери', 'Smart Home', '1080p', '2K / 3MP'] },
+    { title: 'За открито', id: 'cam_outdoor', items: ['Outdoor Wi-Fi', 'С нощно виждане', 'IP66 защита', 'Двойна леща'] },
+    { title: 'POE камери', id: 'cam_poe',     items: ['4MP POE', 'Full Color нощен режим', 'IP66 защита'] },
   ],
   printers: [
     { title: 'Мастиленоструйни МФУ', id: 'inkjet_aio', items: ['Домашен МФУ', 'С WiFi', 'С факс и ADF', 'A3 формат', 'Двустранен печат'] },
@@ -1692,10 +1781,14 @@ const CAT_SPEC_FILTERS = {
     { key: 'RAM',   label: '🧠 Оперативна памет',       values: ['16 GB','32 GB','64 GB'] },
   ],
   monitors: [
-    { key: 'Панел',     label: '🖥 Тип панел',  values: ['IPS','VA','OLED','TN'] },
-    { key: 'Резолюция', label: '🔍 Резолюция',  values: ['FHD 1920×1080','QHD 2560×1440','4K 3840×2160','WUXGA 1920×1200','UltraWide'] },
-    { key: 'Честота',   label: '⚡ Честота',     values: ['60Hz','75Hz','100Hz','120Hz','144Hz','165Hz','180Hz','240Hz','360Hz'] },
-    { key: 'Размер',    label: '📐 Диагонал',   values: ['23"','24"','27"','31.5"','32"','34"','40"+'] },
+    { key: '_monitor_brand',     label: '🏷 Производител',    values: ['Acer','LG','Lenovo','MSI','Asus','Koorui','ASRock','Thomson'] },
+    { key: '_monitor_panel',     label: '🖥 Тип панел',        values: ['IPS','VA','OLED','TN','Nano IPS','QLED'] },
+    { key: '_monitor_res',       label: '🔍 Резолюция',        values: ['FHD 1920×1080','QHD 2560×1440','4K 3840×2160','WUXGA 1920×1200','UltraWide'] },
+    { key: '_monitor_hz',        label: '⚡ Честота',          values: ['60Hz','75Hz','100Hz','120Hz','144Hz','165Hz','180Hz','200Hz','240Hz','360Hz'] },
+    { key: '_monitor_size',      label: '📐 Диагонал',         values: ['До 19"','21"–23"','23"–25"','25"–27"','27"–29"','Над 29"'] },
+    { key: '_monitor_gaming',    label: '🎮 Gaming функции',   values: ['FreeSync','G-Sync','HDR','Curved'] },
+    { key: '_monitor_interface', label: '🔌 Интерфейси',       values: ['HDMI','DisplayPort','USB-C'] },
+    { key: '_monitor_stand',     label: '🔧 Стойка',           values: ['Pivot','Swivel'] },
   ],
   laptops: [
     { key: '_laptop_brand',   label: '🏷 Производител',           values: ['Lenovo','Asus','Acer','MSI'] },
@@ -1724,8 +1817,21 @@ const CAT_SPEC_FILTERS = {
     { key: 'TDP',      label: '🌡 TDP / Мощност',     values: ['35 W','45 W','65 W','95 W','105 W','125 W','165 W','250 W','320 W'] },
   ],
   peripherals: [
-    { key: 'Type',        label: '📦 Тип',             values: ['Клавиатура','Мишка','Слушалки','Уеб камера'] },
+    { key: 'Type',        label: '📦 Тип',             values: ['Клавиатура','Мишка','Уеб камера'] },
     { key: 'Connection',  label: '🔗 Връзка',          values: ['USB','Bluetooth','Безжична','2.4GHz'] },
+  ],
+  cameras: [
+    { key: 'Резолюция',       label: '📷 Резолюция',        values: ['1080p','2K','4MP'] },
+    { key: 'Монтаж',          label: '🏠 Приложение',       values: ['За закрито','За открито'] },
+    { key: 'Връзка',          label: '🔗 Връзка',           values: ['Wi-Fi','LAN','POE'] },
+    { key: 'Нощно виждане',   label: '🌙 Нощно виждане',   values: ['Да'] },
+    { key: 'Микрофон',        label: '🎙 Микрофон',         values: ['Да'] },
+  ],
+  audio: [
+    { key: 'Тип',      label: '🎧 Тип',       values: ['Слушалки','Тапи','Тонколони'] },
+    { key: 'Връзка',   label: '📡 Връзка',    values: ['Кабелна','Bluetooth','Кабелна + BT'] },
+    { key: 'Микрофон', label: '🎙 Микрофон',  values: ['Да'] },
+    { key: 'Gaming',   label: '🎮 Gaming',     values: ['Да'] },
   ],
   printers: [
     { key: 'Функции',    label: '⚙ Функции',          values: ['Принт, Копиране, Сканиране','Принт, Копиране, Сканиране, Факс','Принт'] },
@@ -1817,6 +1923,38 @@ const SUBCAT_SPEC_FILTERS = {
     { key: '_psu_modular',  label: '🔌 Окабеляване',       values: ['Модулно','Фиксирано'] },
     { key: '_psu_fan',      label: '🌀 Вентилатор',        values: ['80 мм','120 мм','135 мм','140 мм','Без вентилатор'] },
   ],
+  case: [
+    { key: '_case_brand',  label: '🏷 Производител',  values: ['Fractal Design','Fortron','ADATA','MSI','BitFenix','NZXT'] },
+    { key: 'Формфактор',   label: '📐 Форм-фактор',   values: ['Mini-ITX','Mid Tower','Micro-ATX'] },
+    { key: '_case_color',  label: '🎨 Цвят',           values: ['Black','White'] },
+  ],
+  cooling: [
+    { key: '_cooling_brand',  label: '🏷 Производител',  values: ['Fractal Design','MSI','Noctua','Deepcool','ADATA','Fortron'] },
+    { key: '_cooling_type',   label: '⚙ Тип',            values: ['CPU въздушно','AIO водно','Вентилатор'] },
+    { key: '_cooling_socket', label: '🔩 Сокет',          values: ['AM5','AM4','LGA1700','LGA1200','LGA1151'] },
+  ],
+  webcam: [
+    { key: 'Резолюция', label: '📷 Резолюция',  values: ['720p','1080p','2K','4K'] },
+    { key: 'Връзка',    label: '🔗 Връзка',     values: ['USB 2.0','USB-C','Wi-Fi'] },
+    { key: 'Микрофон',  label: '🎙 Микрофон',  values: ['Да'] },
+    { key: 'Автофокус', label: '🔍 Автофокус', values: ['Да'] },
+  ],
+  cam_indoor: [
+    { key: 'Резолюция',     label: '📷 Резолюция',      values: ['1080p','2K','4MP'] },
+    { key: 'Връзка',        label: '🔗 Връзка',         values: ['Wi-Fi','LAN'] },
+    { key: 'Микрофон',      label: '🎙 Микрофон',       values: ['Да'] },
+    { key: 'Pan/Tilt',      label: '🔄 Pan/Tilt',       values: ['Да'] },
+  ],
+  cam_outdoor: [
+    { key: 'Резолюция',     label: '📷 Резолюция',      values: ['1080p','2K','4MP','6MP'] },
+    { key: 'Връзка',        label: '🔗 Връзка',         values: ['Wi-Fi','LAN','Wi-Fi + LAN'] },
+    { key: 'Нощно виждане', label: '🌙 Нощно виждане', values: ['Да'] },
+    { key: 'Микрофон',      label: '🎙 Микрофон',       values: ['Да'] },
+  ],
+  cam_poe: [
+    { key: 'Резолюция',     label: '📷 Резолюция',      values: ['4MP'] },
+    { key: 'Нощно виждане', label: '🌙 Нощно виждане', values: ['Да'] },
+  ],
   keyboard: [
     { key: 'Връзка',    label: '📡 Връзка',         values: ['Кабелна','Безжична','Bluetooth'] },
     { key: 'Тип',       label: '⌨ Тип превключвател', values: ['Механична','Мембранна'] },
@@ -1828,11 +1966,26 @@ const SUBCAT_SPEC_FILTERS = {
     { key: 'Сензор',  label: '🎯 Сензор',           values: ['Оптичен','Лазерен'] },
     { key: 'Gaming',  label: '🎮 Gaming',            values: ['Да'] },
   ],
-  headphones: [
-    { key: 'Тип',      label: '🎧 Тип',              values: ['Слушалки','Тапи','Тонколони'] },
-    { key: 'Връзка',   label: '📡 Връзка',           values: ['Кабелна','Bluetooth','Кабелна + BT'] },
-    { key: 'Микрофон', label: '🎙 Микрофон',         values: ['Да'] },
-    { key: 'Gaming',   label: '🎮 Gaming',            values: ['Да'] },
+  hp_gaming: [
+    { key: '_hp_brand', label: '🏷 Производител', values: ['Logitech','A4Tech','Asus','Acer','Lenovo'] },
+    { key: 'Връзка',    label: '📡 Връзка',       values: ['Кабелна','Bluetooth','Кабелна + BT'] },
+    { key: 'Микрофон',  label: '🎙 Микрофон',     values: ['Да'] },
+    { key: 'Gaming',    label: '🎮 Gaming',        values: ['Да'] },
+  ],
+  hp_wireless: [
+    { key: '_hp_brand', label: '🏷 Производител', values: ['Logitech','Realme','Nokia','A4Tech','Lenovo','Acer'] },
+    { key: 'Връзка',    label: '📡 Връзка',       values: ['Bluetooth','Кабелна + BT'] },
+    { key: 'Микрофон',  label: '🎙 Микрофон',     values: ['Да'] },
+  ],
+  hp_inear: [
+    { key: '_hp_brand', label: '🏷 Производител', values: ['A4Tech','Realme','Nokia','Lenovo','iFrogz'] },
+    { key: 'Връзка',    label: '📡 Връзка',       values: ['Кабелна','Bluetooth'] },
+    { key: 'Микрофон',  label: '🎙 Микрофон',     values: ['Да'] },
+  ],
+  hp_office: [
+    { key: '_hp_brand', label: '🏷 Производител', values: ['Logitech','A4Tech','Acer','Lenovo','Meliconi'] },
+    { key: 'Връзка',    label: '📡 Връзка',       values: ['Кабелна','Bluetooth','Кабелна + BT'] },
+    { key: 'Микрофон',  label: '🎙 Микрофон',     values: ['Да'] },
   ],
   projector: [
     { key: 'Резолюция', label: '🔍 Резолюция',       values: ['4K UHD','Full HD','WXGA','XGA','SVGA'] },
@@ -1873,29 +2026,56 @@ const SUBCAT_SPEC_FILTERS = {
   ],
   // Monitor subcats
   gaming_mon: [
-    { key: 'Честота',   label: '⚡ Честота',     values: ['144Hz','165Hz','180Hz','200Hz','240Hz','360Hz'] },
-    { key: 'Панел',     label: '🖥 Панел',        values: ['IPS','VA','OLED','TN'] },
-    { key: 'Резолюция', label: '🔍 Резолюция',   values: ['FHD 1920×1080','QHD 2560×1440','4K 3840×2160'] },
-    { key: 'Размер',    label: '📐 Диагонал',     values: ['24"','27"','32"','34"'] },
+    { key: '_monitor_brand',   label: '🏷 Производител',      values: ['Acer','LG','Lenovo','MSI','Asus','Koorui','ASRock','Thomson'] },
+    { key: '_monitor_hz',      label: '⚡ Честота',            values: ['144Hz','165Hz','180Hz','200Hz','240Hz','360Hz'] },
+    { key: '_monitor_panel',   label: '🖥 Панел',              values: ['IPS','VA','OLED','TN'] },
+    { key: '_monitor_gaming',  label: '🎮 Gaming функции',    values: ['FreeSync','G-Sync','HDR','Curved'] },
+    { key: '_monitor_res',     label: '🔍 Резолюция',         values: ['FHD 1920×1080','QHD 2560×1440','4K 3840×2160'] },
+    { key: '_monitor_size',    label: '📐 Диагонал',           values: ['24"','27"','32"','34"'] },
   ],
-  mon_4k: [
-    { key: 'Размер',    label: '📐 Диагонал',    values: ['27"','32"','34"','40"+'] },
-    { key: 'Панел',     label: '🖥 Панел',        values: ['IPS','VA','OLED'] },
-    { key: 'Честота',   label: '⚡ Честота',      values: ['60Hz','120Hz','144Hz','160Hz'] },
+  qhd_mon: [
+    { key: '_monitor_brand',     label: '🏷 Производител',    values: ['Acer','LG','Lenovo','MSI','Asus','Koorui','ASRock','Thomson'] },
+    { key: '_monitor_size',      label: '📐 Диагонал',        values: ['23"–25"','25"–27"','27"–29"','Над 29"'] },
+    { key: '_monitor_hz',        label: '⚡ Честота',          values: ['60Hz','75Hz','100Hz','144Hz','165Hz','180Hz','240Hz'] },
+    { key: '_monitor_panel',     label: '🖥 Панел',            values: ['IPS','VA','OLED'] },
+    { key: '_monitor_gaming',    label: '🎮 Gaming функции',  values: ['FreeSync','G-Sync','HDR','Curved'] },
+    { key: '_monitor_interface', label: '🔌 Интерфейси',      values: ['HDMI','DisplayPort','USB-C'] },
   ],
   oled_mon: [
-    { key: 'Размер',    label: '📐 Диагонал',    values: ['27"','34"','45"','49"'] },
-    { key: 'Честота',   label: '⚡ Честота',      values: ['120Hz','144Hz','165Hz','240Hz'] },
-    { key: 'Резолюция', label: '🔍 Резолюция',   values: ['FHD 1920×1080','QHD 2560×1440','4K 3840×2160','UltraWide'] },
+    { key: '_monitor_brand',   label: '🏷 Производител',      values: ['Acer','LG','Lenovo','MSI','Asus','Koorui','ASRock','Thomson'] },
+    { key: '_monitor_panel',   label: '🖥 Панел',              values: ['OLED','QLED'] },
+    { key: '_monitor_size',    label: '📐 Диагонал',           values: ['27"','34"','45"','49"'] },
+    { key: '_monitor_hz',      label: '⚡ Честота',            values: ['120Hz','144Hz','165Hz','240Hz'] },
+    { key: '_monitor_res',     label: '🔍 Резолюция',         values: ['FHD 1920×1080','QHD 2560×1440','4K 3840×2160','UltraWide'] },
+    { key: '_monitor_gaming',  label: '🎮 Gaming функции',    values: ['FreeSync','G-Sync','HDR'] },
+  ],
+  curved_mon: [
+    { key: '_monitor_brand',   label: '🏷 Производител',      values: ['Acer','LG','Lenovo','MSI','Asus','Koorui','ASRock','Thomson'] },
+    { key: '_monitor_size',    label: '📐 Диагонал',           values: ['27"–29"','Над 29"'] },
+    { key: '_monitor_hz',      label: '⚡ Честота',            values: ['60Hz','100Hz','144Hz','165Hz','180Hz','240Hz'] },
+    { key: '_monitor_res',     label: '🔍 Резолюция',         values: ['FHD 1920×1080','QHD 2560×1440','4K 3840×2160','UltraWide'] },
+    { key: '_monitor_gaming',  label: '🎮 Gaming функции',    values: ['FreeSync','G-Sync','HDR'] },
+  ],
+  ultrawide: [
+    { key: '_monitor_brand',   label: '🏷 Производител',      values: ['Acer','LG','Lenovo','MSI','Asus','Koorui','ASRock','Thomson'] },
+    { key: '_monitor_size',    label: '📐 Диагонал',           values: ['29"','34"','38"','45"','49"'] },
+    { key: '_monitor_res',     label: '🔍 Резолюция',         values: ['UltraWide','QHD 2560×1440','4K 3840×2160'] },
+    { key: '_monitor_hz',      label: '⚡ Честота',            values: ['60Hz','100Hz','144Hz','165Hz','240Hz'] },
+    { key: '_monitor_panel',   label: '🖥 Панел',              values: ['IPS','VA','OLED'] },
+    { key: '_monitor_gaming',  label: '🎮 Gaming функции',    values: ['FreeSync','G-Sync','HDR','Curved'] },
   ],
   office_mon: [
-    { key: 'Размер',    label: '📐 Диагонал',    values: ['23"','24"','27"','32"'] },
-    { key: 'Панел',     label: '🖥 Панел',        values: ['IPS','VA'] },
-    { key: 'Резолюция', label: '🔍 Резолюция',   values: ['FHD 1920×1080','QHD 2560×1440','WUXGA 1920×1200'] },
+    { key: '_monitor_brand',     label: '🏷 Производител',    values: ['Acer','LG','Lenovo','MSI','Asus','Koorui','ASRock','Thomson'] },
+    { key: '_monitor_size',      label: '📐 Диагонал',        values: ['23"','24"','27"','32"'] },
+    { key: '_monitor_panel',     label: '🖥 Панел',            values: ['IPS','VA'] },
+    { key: '_monitor_res',       label: '🔍 Резолюция',       values: ['FHD 1920×1080','QHD 2560×1440','WUXGA 1920×1200'] },
+    { key: '_monitor_interface', label: '🔌 Интерфейси',      values: ['HDMI','DisplayPort','USB-C'] },
+    { key: '_monitor_stand',     label: '🔧 Стойка',          values: ['Pivot','Swivel'] },
   ],
   tv: [
-    { key: 'Размер',    label: '📐 Диагонал',    values: ['24"','27"','32"','40"','43"','50"','55"'] },
-    { key: 'Резолюция', label: '🔍 Резолюция',   values: ['Full HD','4K UHD','QLED'] },
+    { key: '_monitor_brand',   label: '🏷 Производител',      values: ['Acer','LG','Thomson','Koorui'] },
+    { key: '_monitor_size',    label: '📐 Диагонал',           values: ['24"','27"','32"','40"','43"','50"','55"'] },
+    { key: '_monitor_res',     label: '🔍 Резолюция',         values: ['Full HD','4K UHD','QLED'] },
   ],
   // Network subcats
   router: [
@@ -2166,11 +2346,18 @@ function matchesSubcat(p, subcat) {
     gaming_kb:       () => all.includes('keyboard') || all.includes('клавиатур') || (p.emoji === '⌨'),
     gaming_headset:  () => all.includes('headset') || all.includes('headphone') || all.includes('слушалк') || (p.emoji === '🎧'),
     // Monitors
-    tv:         () => p.subcat === 'tv' || all.includes(' tv ') || all.match(/^tv /) || all.includes('qled') || all.includes('smart tv') || all.includes('телевизор'),
+    tv:         () => p.subcat === 'tv' || all.includes('smart tv') || all.includes('телевизор'),
     gaming_mon: () => p.subcat === 'gaming_mon' || (all.includes('hz') && parseInt(all.match(/(\d+)hz/)?.[1]||0) >= 144),
     mon_4k:     () => p.subcat === 'mon_4k' || all.includes('4k') || all.includes('uhd') || all.includes('3840') || all.includes('4к'),
+    qhd_mon:    () => {
+      const res = ((p.specs || {}).Резолюция || '');
+      return p.subcat === 'qhd_mon' || /2560.?1440/i.test(res) || /\bwqhd\b|\bqhd\b/i.test(res) ||
+        /2560.?1440/i.test(all) || /\bwqhd\b/i.test(all) || all.includes('quad hd') ||
+        (/\bqhd\b/i.test(all) && !all.includes('ultrawide') && !all.includes('ultra-wide'));
+    },
     ultrawide:  () => p.subcat === 'ultrawide' || all.includes('ultrawide') || all.includes('ultra-wide') || all.includes('21:9') || all.includes('32:9'),
-    oled_mon:   () => p.subcat === 'oled_mon' || all.includes('oled'),
+    oled_mon:   () => p.subcat === 'oled_mon' || all.includes('oled') || (p.specs||{}).Панел === 'QLED' || all.includes('qled'),
+    curved_mon: () => p.subcat === 'curved_mon' || (p.specs||{}).Curved === 'Да' || /\bcurved?\b/i.test(all),
     office_mon: () => p.subcat === 'office_mon' || (!all.includes('gaming') && !all.includes('oled') && !all.includes(' tv ') && (p.price / (typeof EUR_RATE!=='undefined'&&EUR_RATE?EUR_RATE:1.95583)) < 600),
     monitor:    () => (normalizeCat(p.cat) === 'peripherals' || p.cat === 'monitors') && (all.includes('монитор') || all.includes('monitor') || (all.includes('hz') && (all.includes('ips') || all.includes('oled') || all.includes('va') || all.includes('qhd') || all.includes('4k') || all.includes('1440')))),
     // Components
@@ -2189,8 +2376,39 @@ function matchesSubcat(p, subcat) {
     // Peripherals
     keyboard:      () => all.includes('клавиатур') || all.includes('keyboard'),
     mouse:         () => all.includes('мишк') || all.includes('mouse') || all.includes('trackpad'),
-    headphones:    () => all.includes('слушалк') || all.includes('headphone') || all.includes('headset') || all.includes('earphone') || all.includes('earbud'),
-    webcam:        () => all.includes('webcam') || all.includes('уеб камер') || all.includes('web camera'),
+    headphones:    () => p.subcat === 'headphones' || all.includes('слушалк') || all.includes('headphone') || all.includes('headset') || all.includes('earphone') || all.includes('earbud'),
+    hp_gaming: () => {
+      const typ  = ((p.specs||{}).Тип||'').toLowerCase();
+      if (typ === 'тапи' || typ === 'тонколони') return false;
+      return p.subcat === 'hp_gaming' || (p.specs||{}).Gaming === 'Да' ||
+        ((all.includes('слушалк') || all.includes('headphone') || all.includes('headset')) &&
+         (all.includes('gaming') || /\bg\d{3}\b/i.test(p.name||'') || all.includes('7.1') || all.includes('surround') || all.includes('rgb')));
+    },
+    hp_wireless: () => {
+      const typ  = ((p.specs||{}).Тип||'').toLowerCase();
+      if (typ === 'тапи' || typ === 'тонколони') return false;
+      if ((p.specs||{}).Gaming === 'Да') return false;
+      const conn = ((p.specs||{}).Връзка||'').toLowerCase();
+      return p.subcat === 'hp_wireless' || conn.includes('bluetooth') || conn.includes('кабелна + bt');
+    },
+    hp_inear: () => {
+      const typ = ((p.specs||{}).Тип||'').toLowerCase();
+      if (typ === 'слушалки' || typ === 'тонколони') return false;
+      return p.subcat === 'hp_inear' || typ === 'тапи' ||
+        all.includes('earphone') || all.includes('earbud') || all.includes('тапи') ||
+        /\btws\b/i.test(p.name||'') || all.includes('in-ear');
+    },
+    hp_office: () => {
+      const typ  = ((p.specs||{}).Тип||'').toLowerCase();
+      if (typ === 'тапи' || typ === 'тонколони') return false;
+      if ((p.specs||{}).Gaming === 'Да') return false;
+      const conn = ((p.specs||{}).Връзка||'').toLowerCase();
+      return p.subcat === 'hp_office' || (typ === 'слушалки' && conn === 'кабелна');
+    },
+    webcam:        () => p.subcat === 'webcam' || all.includes('webcam') || all.includes('уеб камер') || all.includes('web camera'),
+    cam_indoor:    () => p.subcat === 'cam_indoor'  || (p.cat === 'cameras' && (p.specs||{}).Монтаж === 'За закрито'),
+    cam_outdoor:   () => p.subcat === 'cam_outdoor' || (p.cat === 'cameras' && (p.specs||{}).Монтаж === 'За открито'),
+    cam_poe:       () => p.subcat === 'cam_poe'     || (p.cat === 'cameras' && (p.specs||{}).Връзка === 'POE'),
     printer:       () => p.cat === 'printers' || all.includes('принтер') || all.includes('printer') || all.includes('lbp') || all.includes('pixma') || all.includes('maxify'),
     // Printers
     inkjet_aio:    () => p.subcat === 'inkjet_aio' || (p.cat === 'printers' && (all.includes('ts') || all.includes('tr') || all.includes('mg')) && !all.includes('megatank') && !all.includes('laser')),
@@ -2448,6 +2666,138 @@ function matchesCatSpec(p) {
         return false;
       });
     }
+    if (key === '_monitor_brand') {
+      return [...vals].some(v => (p.brand || '').toLowerCase() === v.toLowerCase());
+    }
+    if (key === '_monitor_panel') {
+      const panel = ((p.specs || {}).Панел || '').toLowerCase();
+      return [...vals].some(v => {
+        if (v === 'IPS')  return /\bips\b/i.test(panel);
+        if (v === 'VA')   return /\bva\b/i.test(panel);
+        if (v === 'OLED') return /oled/i.test(panel);
+        if (v === 'TN')   return /\btn\b/i.test(panel);
+        if (v === 'QLED') return /qled/i.test(panel);
+        return false;
+      });
+    }
+    if (key === '_monitor_hz') {
+      const raw = ((p.specs || {}).Честота || '').replace(/\s/g, '');
+      const hz = parseInt(raw);
+      return !isNaN(hz) && [...vals].some(v => parseInt(v) === hz);
+    }
+    if (key === '_monitor_res') {
+      const r = ((p.specs || {}).Резолюция || '').toLowerCase();
+      return [...vals].some(v => {
+        if (v === 'FHD 1920×1080' || v === 'Full HD') return /1920.{0,3}1080|full\s*hd/i.test(r);
+        if (v === 'QHD 2560×1440') return /2560.{0,3}1440/i.test(r);
+        if (v === '4K 3840×2160'  || v === '4K UHD') return /3840.{0,3}2160|4k\s*uhd/i.test(r);
+        if (v === 'WUXGA 1920×1200') return /1920.{0,3}1200/i.test(r);
+        if (v === 'UltraWide') return /3440.{0,3}1440/i.test(r);
+        if (v === 'QLED') return /qled/i.test(r);
+        return false;
+      });
+    }
+    if (key === '_monitor_size') {
+      const raw = ((p.specs || {}).Размер || '').replace(/[^\d.,]/g, '').replace(',', '.');
+      const inch = parseFloat(raw);
+      return !isNaN(inch) && [...vals].some(v => {
+        if (v === 'До 19"')   return inch <= 19;
+        if (v === '21"–23"')  return inch > 19  && inch <= 23;
+        if (v === '23"–25"')  return inch > 23  && inch <= 25;
+        if (v === '25"–27"')  return inch > 25  && inch <= 27;
+        if (v === '27"–29"')  return inch > 27  && inch <= 29;
+        if (v === 'Над 29"')  return inch > 29;
+        if (v === '40"+')     return inch >= 40;
+        const n = parseFloat(v);
+        return !isNaN(n) && Math.abs(inch - n) < 0.6;
+      });
+    }
+    if (key === '_monitor_gaming') {
+      const specs = p.specs || {};
+      return [...vals].some(v => {
+        if (v === 'FreeSync') return /freesync/i.test(specs.Sync || '');
+        if (v === 'G-Sync')   return /g.?sync/i.test(specs.Sync || '');
+        if (v === 'HDR')      return specs.HDR === 'Да';
+        if (v === 'Curved')   return !!(specs.Curved);
+        return false;
+      });
+    }
+    if (key === '_monitor_interface') {
+      const specs = p.specs || {};
+      return [...vals].some(v => {
+        if (v === 'HDMI')        return specs.HDMI === 'Да';
+        if (v === 'DisplayPort') return specs.DP   === 'Да';
+        if (v === 'USB-C')       return specs.USBC === 'Да';
+        return false;
+      });
+    }
+    if (key === '_monitor_stand') {
+      const specs = p.specs || {};
+      return [...vals].some(v => {
+        if (v === 'Pivot')  return specs.Pivot  === 'Да';
+        if (v === 'Swivel') return specs.Swivel === 'Да';
+        return false;
+      });
+    }
+    if (key === '_case_brand') {
+      return [...vals].some(v => (p.brand || '').toLowerCase() === v.toLowerCase());
+    }
+    if (key === '_case_color') {
+      const color = ((p.specs || {}).Цвят || '').toLowerCase();
+      return [...vals].some(v => {
+        if (v === 'Black') return color.includes('black') || color.includes('charcoal') || color.includes('dark') || color === 'black';
+        if (v === 'White') return color.includes('white') || color.includes('light gray') || color.includes('silver');
+        return false;
+      });
+    }
+    if (key === '_cooling_brand') {
+      return [...vals].some(v => (p.brand || '').toLowerCase() === v.toLowerCase());
+    }
+    if (key === '_cooling_type') {
+      const name = (p.name || '').toLowerCase();
+      const specAll = Object.values(p.specs || {}).join(' ').toLowerCase();
+      return [...vals].some(v => {
+        if (v === 'AIO водно')    return /aio|liquid|water|celsius|kraken/i.test(name) || /pump spec/i.test(specAll);
+        if (v === 'CPU въздушно') return /nh-|hyper\s*\d|d15|d14|l12|u12|u14|thermalright|cpu.*cool|cool.*cpu|tower.*cool|air.*cool/i.test(name) || (/noctua|deepcool|arctic/i.test(p.brand||'') && /cool/i.test(name));
+        if (v === 'Вентилатор')   return /\bfan\b|вентил/i.test(name) && !/aio|liquid|water|cpu|cool/i.test(name);
+        return false;
+      });
+    }
+    if (key === '_cooling_socket') {
+      const sock = ((p.specs || {})['CPU socket support'] || '').toLowerCase();
+      return [...vals].some(v => {
+        const num = v.replace(/^lga/i, '');
+        return sock.includes(v.toLowerCase()) || sock.includes(num.toLowerCase());
+      });
+    }
+    if (key === '_hp_brand') {
+      return [...vals].some(v => (p.brand||'').toLowerCase() === v.toLowerCase());
+    }
+    if (key === '_hp_conn') {
+      const nm = (p.name||'').toLowerCase();
+      const sc = ((p.specs||{}).Връзка || (p.specs||{}).Connection || '').toLowerCase();
+      return [...vals].some(v => {
+        if (v === 'USB')             return nm.includes('usb') || sc.includes('usb');
+        if (v === 'Bluetooth')       return nm.includes('bluetooth') || sc.includes('bluetooth');
+        if (v === 'Безжична 2.4GHz') return /wireless|2\.4/.test(nm) || /wireless|2\.4/.test(sc);
+        if (v === 'Кабелна')         return !nm.includes('bluetooth') && !nm.includes('wireless') && !nm.includes('безжич');
+        if (v === '3.5mm')           return /3\.5\s*mm|jack|aux/.test(nm) || sc.includes('3.5');
+        return sc.includes(v.toLowerCase()) || nm.includes(v.toLowerCase());
+      });
+    }
+    if (key === '_hp_mic') {
+      const nm = (p.name||'').toLowerCase();
+      const sp = Object.values(p.specs||{}).join(' ').toLowerCase();
+      return [...vals].some(v => v === 'Да' ? (nm.includes('mic') || nm.includes('микрофон') || sp.includes('mic') || nm.includes('headset')) : false);
+    }
+    if (key === '_hp_surround') {
+      const nm = (p.name||'').toLowerCase();
+      return [...vals].some(v => {
+        if (v === '7.1 Surround') return /7\.1|surround/.test(nm);
+        if (v === 'Стерео')       return !/7\.1|surround/.test(nm);
+        return false;
+      });
+    }
     // Direct spec lookup with substring (handles FCLGA1700 matching LGA1700)
     const specVal = ((p.specs || {})[key] || '').toLowerCase();
     if (specVal) return [...vals].some(v => specVal.includes(v.toLowerCase()));
@@ -2477,7 +2827,7 @@ function updateURL() {
 }
 
 // Allowed canonical categories + sort values — used to validate URL params before querySelector
-const _VALID_CATS = new Set(['all','laptops','desktops','gaming','components','monitors','peripherals','phones','network','storage','software','accessories','printers','ups','consumables','new','sale']);
+const _VALID_CATS = new Set(['all','laptops','desktops','gaming','components','monitors','peripherals','audio','cameras','phones','network','storage','software','accessories','printers','ups','consumables','new','sale']);
 const _VALID_SORTS = new Set(['bestseller','price-asc','price-desc','rating','discount','new']);
 
 function readURLParams() {
@@ -2696,9 +3046,9 @@ function applySubcatById(id) {
 // ═══════════════════════════════════════
 // SIDEBAR WIDGET A — TOP PRODUCT ROTATOR
 // ═══════════════════════════════════════
-const _HP_CAT_CYCLE = ['laptops','desktops','components','monitors','peripherals','network','storage','accessories'];
-const _CAT_EMOJI_SB = {laptops:'💻',desktops:'🖥️',components:'⚙️',monitors:'🖥',peripherals:'⌨️',network:'🌐',storage:'💾',accessories:'🎧'};
-const _CAT_LABEL_SB = {laptops:'Лаптопи',desktops:'Настолни',components:'Компоненти',monitors:'Монитори',peripherals:'Периферия',network:'Мрежа',storage:'Съхранение',accessories:'Аксесоари'};
+const _HP_CAT_CYCLE = ['laptops','desktops','components','monitors','peripherals','audio','cameras','network','storage','accessories'];
+const _CAT_EMOJI_SB = {laptops:'💻',desktops:'🖥️',components:'⚙️',monitors:'🖥',peripherals:'⌨️',audio:'🎧',cameras:'📹',network:'🌐',storage:'💾',accessories:'🎒'};
+const _CAT_LABEL_SB = {laptops:'Лаптопи',desktops:'Настолни',components:'Компоненти',monitors:'Монитори',peripherals:'Периферия',audio:'Аудио',cameras:'Камери',network:'Мрежа',storage:'Съхранение',accessories:'Аксесоари'};
 let _sbTopCatIndex = Math.floor(Math.random() * _HP_CAT_CYCLE.length);
 
 function renderSidebarTopProduct(forceNext) {
@@ -3162,6 +3512,8 @@ function generateSitemap() {
     { url: '/?cat=desktops', priority: '0.9', freq: 'weekly' },
     { url: '/?cat=components', priority: '0.8', freq: 'weekly' },
     { url: '/?cat=peripherals', priority: '0.8', freq: 'weekly' },
+    { url: '/?cat=audio',      priority: '0.8', freq: 'weekly' },
+    { url: '/?cat=cameras',    priority: '0.7', freq: 'weekly' },
     { url: '/?cat=network', priority: '0.7', freq: 'weekly' },
     { url: '/?cat=storage', priority: '0.7', freq: 'weekly' },
     { url: '/?cat=accessories', priority: '0.7', freq: 'weekly' },
@@ -3276,7 +3628,9 @@ const CAT_META = {
   gaming:     { emoji:'🎮', icon:'ic-gamepad',    label:'Гейминг',              sub:'Gaming лаптопи, PC, Мишки, Клавиатури', badge:'hot' },
   monitors:   { emoji:'🖥', icon:'ic-monitor',    label:'Монитори',             sub:'Gaming 144Hz+, 4K, OLED, UltraWide', badge:null },
   components: { emoji:'⚙️', icon:'ic-cpu',        label:'Компоненти',           sub:'CPU, GPU, RAM, SSD/HDD, Дъна', badge:null },
-  peripherals:{ emoji:'🖱', icon:'ic-mouse',      label:'Периферия',            sub:'Клавиатури, Мишки, Слушалки, Камери', badge:null },
+  peripherals:{ emoji:'🖱', icon:'ic-mouse',      label:'Периферия',            sub:'Клавиатури, Мишки, Уеб камери', badge:null },
+  cameras:    { emoji:'📹', icon:'ic-camera',     label:'Камери',               sub:'За закрито, За открито, POE камери', badge:null },
+  audio:      { emoji:'🎧', icon:'ic-headphones', label:'Аудио и слушалки',     sub:'Gaming, Bluetooth, Тапи, Офис headset', badge:null },
   network:    { emoji:'📡', icon:'ic-wifi',       label:'Мрежово оборудване',   sub:'Рутери, Суичове, Mesh, AP', badge:null },
   storage:    { emoji:'💾', icon:'ic-storage',    label:'Сървъри и сторидж',    sub:'NAS, Сървъри, Външни дискове', badge:null },
   accessories:{ emoji:'🎒', icon:'ic-mouse',      label:'Аксесоари',            sub:'Чанти, Кабели, Smart Home, TV', badge:null },
@@ -3286,7 +3640,7 @@ const CAT_META = {
   new:        { emoji:'🆕', icon:'ic-star',       label:'Нови продукти',        sub:'Пресни пристигания', badge:'NEW' },
   sale:       { emoji:'%',  icon:'ic-tag',        label:'Намаления',            sub:'До -60% на избрани продукти', badge:'SALE' },
 };
-const HP_CAT_ORDER = ['laptops','desktops','components','monitors','peripherals','network','storage','accessories'];
+const HP_CAT_ORDER = ['laptops','desktops','components','monitors','peripherals','audio','cameras','network','storage','accessories'];
 
 // ═══════════════════════════════════════
 // RENDER HOMEPAGE CATEGORY CARDS (kept for fallback)
@@ -3314,11 +3668,11 @@ const HP_SUBCATS = [
   { cat:'laptops',    id:'gaming',      label:'Gaming лаптопи',        icon:'🎮', trending:true  },
   { cat:'components', id:'gpu',         label:'Видеокарти',            icon:'🎴', trending:true  },
   { cat:'monitors',   id:'gaming_mon',   label:'Gaming монитори',       icon:'🎮', trending:true  },
-  { cat:'monitors',   id:'oled_mon',    label:'OLED монитори',         icon:'✨', trending:true  },
+  { cat:'monitors',   id:'oled_mon',    label:'OLED & QLED монитори',  icon:'✨', trending:true  },
   { cat:'gaming',     id:'gaming_pc_s', label:'Gaming PC',             icon:'🕹'                },
   { cat:'components', id:'cpu',         label:'Процесори',             icon:'⚡'                },
   { cat:'laptops',    id:'ultrabook',   label:'Ултрабуци',             icon:'💼'                },
-  { cat:'peripherals',id:'keyboard',    label:'Клавиатури',            icon:'⌨️'               },
+  { cat:'peripherals',id:'keyboard',    label:'Клавиатури',            icon:'⌨️'                },
   { cat:'network',    id:'router',      label:'Рутери',                icon:'📡'                },
   { cat:'network',    id:'mesh',        label:'Mesh Wi-Fi системи',    icon:'🕸️'               },
   { cat:'network',    id:'adapter',     label:'Wi-Fi адаптери',        icon:'🔌'                },
@@ -3326,12 +3680,17 @@ const HP_SUBCATS = [
   { cat:'storage',    id:'usb_flash',   label:'USB флашки',             icon:'💾'                },
   { cat:'storage',    id:'microsd',     label:'microSD карти',          icon:'📱'                },
   { cat:'laptops',    id:'budget',      label:'Бюджетни лаптопи',      icon:'💰'                },
-  { cat:'peripherals',id:'mouse',       label:'Геймърски мишки',       icon:'🖱'                },
-  { cat:'peripherals',id:'webcam',      label:'Уеб камери',            icon:'📸'                },
+  { cat:'peripherals',id:'mouse',       label:'Геймърски мишки',       icon:'🖱'                 },
+  { cat:'peripherals',id:'webcam',      label:'Уеб камери',            icon:'📸'                 },
   { cat:'components', id:'ram',         label:'RAM памет',             icon:'🧠'                },
   { cat:'components', id:'ssd_hdd',     label:'SSD дискове',           icon:'💿'                },
   { cat:'desktops',   id:'workstation', label:'Работни станции',       icon:'🖥'                },
-  { cat:'peripherals',id:'headphones',  label:'Слушалки',              icon:'🎧'                },
+  { cat:'audio',      id:'hp_gaming',    label:'Gaming слушалки',       icon:'🎮'                },
+  { cat:'audio',      id:'hp_wireless',  label:'Bluetooth слушалки',    icon:'📡'                },
+  { cat:'audio',      id:'hp_inear',     label:'Тапи (In-ear)',         icon:'🎧'                },
+  { cat:'cameras',    id:'cam_indoor',   label:'Камери за закрито',     icon:'🏠'                },
+  { cat:'cameras',    id:'cam_outdoor',  label:'Outdoor камери',        icon:'🌧'                },
+  { cat:'cameras',    id:'cam_poe',      label:'POE камери',            icon:'🔌'                },
   { cat:'network',    id:'switch',      label:'Суичове',               icon:'🔀'                },
   { cat:'accessories',id:'hub',         label:'USB хъбове',            icon:'🔌'                },
   { cat:'components', id:'psu',         label:'Захранвания',           icon:'🔋'                },
@@ -4442,6 +4801,105 @@ function cpGetFiltered() {
           return false;
         });
       });
+      return;
+    }
+    if (key === '_monitor_brand') {
+      list = list.filter(p => [...vals].some(v => (p.brand || '').toLowerCase() === v.toLowerCase()));
+      return;
+    }
+    if (key === '_monitor_panel') {
+      list = list.filter(p => {
+        const panel = ((p.specs || {}).Панел || '').toLowerCase();
+        return [...vals].some(v => {
+          if (v === 'IPS')  return /\bips\b/i.test(panel);
+          if (v === 'VA')   return /\bva\b/i.test(panel);
+          if (v === 'OLED') return /oled/i.test(panel);
+          if (v === 'TN')   return /\btn\b/i.test(panel);
+          if (v === 'QLED') return /qled/i.test(panel);
+          return false;
+        });
+      });
+      return;
+    }
+    if (key === '_monitor_hz') {
+      list = list.filter(p => {
+        const raw = ((p.specs || {}).Честота || '').replace(/\s/g, '');
+        const hz = parseInt(raw);
+        return !isNaN(hz) && [...vals].some(v => parseInt(v) === hz);
+      });
+      return;
+    }
+    if (key === '_monitor_res') {
+      list = list.filter(p => {
+        const r = ((p.specs || {}).Резолюция || '').toLowerCase();
+        return [...vals].some(v => {
+          if (v === 'FHD 1920×1080' || v === 'Full HD') return /1920.{0,3}1080|full\s*hd/i.test(r);
+          if (v === 'QHD 2560×1440') return /2560.{0,3}1440/i.test(r);
+          if (v === '4K 3840×2160'  || v === '4K UHD') return /3840.{0,3}2160|4k\s*uhd/i.test(r);
+          if (v === 'WUXGA 1920×1200') return /1920.{0,3}1200/i.test(r);
+          if (v === 'UltraWide') return /3440.{0,3}1440/i.test(r);
+          if (v === 'QLED') return /qled/i.test(r);
+          return false;
+        });
+      });
+      return;
+    }
+    if (key === '_monitor_size') {
+      list = list.filter(p => {
+        const raw = ((p.specs || {}).Размер || '').replace(/[^\d.,]/g, '').replace(',', '.');
+        const inch = parseFloat(raw);
+        return !isNaN(inch) && [...vals].some(v => {
+          if (v === 'До 19"')   return inch <= 19;
+          if (v === '21"–23"')  return inch > 19  && inch <= 23;
+          if (v === '23"–25"')  return inch > 23  && inch <= 25;
+          if (v === '25"–27"')  return inch > 25  && inch <= 27;
+          if (v === '27"–29"')  return inch > 27  && inch <= 29;
+          if (v === 'Над 29"')  return inch > 29;
+          if (v === '40"+')     return inch >= 40;
+          const n = parseFloat(v);
+          return !isNaN(n) && Math.abs(inch - n) < 0.6;
+        });
+      });
+      return;
+    }
+    if (key === '_monitor_gaming') {
+      list = list.filter(p => {
+        const specs = p.specs || {};
+        return [...vals].some(v => {
+          if (v === 'FreeSync') return /freesync/i.test(specs.Sync || '');
+          if (v === 'G-Sync')   return /g.?sync/i.test(specs.Sync || '');
+          if (v === 'HDR')      return specs.HDR === 'Да';
+          if (v === 'Curved')   return !!(specs.Curved);
+          return false;
+        });
+      });
+      return;
+    }
+    if (key === '_monitor_interface') {
+      list = list.filter(p => {
+        const specs = p.specs || {};
+        return [...vals].some(v => {
+          if (v === 'HDMI')        return specs.HDMI === 'Да';
+          if (v === 'DisplayPort') return specs.DP   === 'Да';
+          if (v === 'USB-C')       return specs.USBC === 'Да';
+          return false;
+        });
+      });
+      return;
+    }
+    if (key === '_monitor_stand') {
+      list = list.filter(p => {
+        const specs = p.specs || {};
+        return [...vals].some(v => {
+          if (v === 'Pivot')  return specs.Pivot  === 'Да';
+          if (v === 'Swivel') return specs.Swivel === 'Да';
+          return false;
+        });
+      });
+      return;
+    }
+    if (key === '_hp_brand') {
+      list = list.filter(p => [...vals].some(v => (p.brand || '').toLowerCase() === v.toLowerCase()));
       return;
     }
     list = list.filter(p => {
@@ -5631,7 +6089,7 @@ function submitContactForm() {
 const _CAT_MIGRATE = {
   laptop:'laptops', desktop:'desktops', monitor:'monitors',
   mobile:'phones', tablet:'phones', tv:'accessories',
-  audio:'peripherals', camera:'peripherals', print:'peripherals',
+  audio:'audio',       camera:'cameras',      print:'peripherals',
   smart:'accessories', acc:'accessories',
 };
 products.forEach(p => { if (_CAT_MIGRATE[p.cat]) p.cat = _CAT_MIGRATE[p.cat]; });
@@ -5727,7 +6185,7 @@ initScrollAnimations();
   function _loadLazy() {
     if (_ll) return; _ll = true;
     var s = document.createElement('script');
-    s.src = 'app-lazy.js?v=20260527';
+    s.src = 'app-lazy.js?v=20260528';
     document.head.appendChild(s);
   }
   ['click', 'scroll', 'touchstart', 'keydown', 'mousemove'].forEach(function (ev) {

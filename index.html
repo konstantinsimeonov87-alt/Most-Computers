@@ -41,9 +41,9 @@
     content="лаптопи, смартфони, телевизори, таблети, аудио, гейминг, Most Computers, онлайн магазин електроника, компютри, аксесоари, Samsung, ASUS, Sony, Lenovo, MSI">
   <link rel="alternate" hreflang="bg" href="https://mostcomputers.bg/">
   <link rel="preload" href="styles.css" as="style">
-  <link rel="preload" href="data.js?v=20260527" as="script">
-  <link rel="preload" href="app.js?v=20260527" as="script">
-  <link rel="preload" href="app-lazy.js?v=20260527" as="script">
+  <link rel="preload" href="data.js?v=20260528" as="script">
+  <link rel="preload" href="app.js?v=20260528" as="script">
+  <link rel="preload" href="app-lazy.js?v=20260528" as="script">
   <link rel="alternate" hreflang="x-default" href="https://mostcomputers.bg/">
   <link rel="canonical" href="https://mostcomputers.bg/">
   <link rel="sitemap" type="application/xml" href="/sitemap.xml">
@@ -714,6 +714,12 @@
         <button type="button" class="mob-cat-tile" data-action="toggleMobMenu;openCatPage('peripherals')">
           <span class="mob-cat-emoji">🖱</span><span>Периферия</span>
         </button>
+        <button type="button" class="mob-cat-tile" data-action="toggleMobMenu;openCatPage('audio')">
+          <span class="mob-cat-emoji">🎧</span><span>Аудио</span>
+        </button>
+        <button type="button" class="mob-cat-tile" data-action="toggleMobMenu;openCatPage('cameras')">
+          <span class="mob-cat-emoji">📹</span><span>Камери</span>
+        </button>
         <button type="button" class="mob-cat-tile" data-action="toggleMobMenu;openCatPage('network')">
           <span class="mob-cat-emoji">📡</span><span>Мрежово</span>
         </button>
@@ -827,18 +833,36 @@
             <span class="mob-acc-arrow">›</span>
           </button>
           <div class="mob-sub-accordion-body">
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:peripherals">Всички
+            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:audio">Всички
               Слушалки</button>
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:peripherals"
-              onclick="setTimeout(()=>applySubcatById('wireless'),50)">📶 Безжични</button>
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:peripherals"
-              onclick="setTimeout(()=>applySubcatById('nc'),50)">🔇 Noise Cancelling</button>
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:peripherals"
-              onclick="setTimeout(()=>applySubcatById('earbuds'),50)">🎵 True Wireless</button>
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:peripherals"
-              onclick="setTimeout(()=>applySubcatById('studio'),50)">🎤 Студийни</button>
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:peripherals"
-              onclick="setTimeout(()=>applySubcatById('gaming_h'),50)">🎮 Геймърски</button>
+            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:audio"
+              onclick="setTimeout(()=>applySubcatById('hp_gaming'),50)">🎮 Gaming</button>
+            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:audio"
+              onclick="setTimeout(()=>applySubcatById('hp_wireless'),50)">📡 Bluetooth / Безжични</button>
+            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:audio"
+              onclick="setTimeout(()=>applySubcatById('hp_inear'),50)">🎧 Тапи (In-ear)</button>
+            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:audio"
+              onclick="setTimeout(()=>applySubcatById('hp_office'),50)">💼 Офис headset</button>
+          </div>
+        </div>
+        <!-- Cameras -->
+        <div class="mob-sub-accordion">
+          <button class="mob-sub-accordion-toggle"
+            onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open');this.setAttribute('aria-expanded',this.classList.contains('open'))" type="button" aria-expanded="false">
+            <div style="display:flex;align-items:center;gap:12px;"><span class="mi-icon"><svg width="18" height="18"
+                  class="svg-ic" aria-hidden="true">
+                  <use href="#ic-camera" />
+                </svg></span>Камери</div>
+            <span class="mob-acc-arrow">›</span>
+          </button>
+          <div class="mob-sub-accordion-body">
+            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:cameras">Всички камери</button>
+            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:cameras"
+              onclick="setTimeout(()=>applySubcatById('cam_indoor'),50)">🏠 За закрито</button>
+            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:cameras"
+              onclick="setTimeout(()=>applySubcatById('cam_outdoor'),50)">🌧 За открито</button>
+            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:cameras"
+              onclick="setTimeout(()=>applySubcatById('cam_poe'),50)">🔌 POE камери</button>
           </div>
         </div>
         <!-- TV -->
@@ -903,7 +927,7 @@
             class="mi-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true">
               <use href="#ic-storage" />
             </svg></span>Съхранение<span class="mi-arr">›</span></button>
-        <button type="button" class="mob-nav-item" data-action="toggleMobMenu;filterCat:peripherals"><span
+        <button type="button" class="mob-nav-item" data-action="toggleMobMenu;filterCat:printers"><span
             class="mi-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true">
               <use href="#ic-printer" />
             </svg></span>Принтери<span class="mi-arr">›</span></button>
@@ -1696,7 +1720,15 @@
         <a href="/?cat=peripherals" class="nav-mega-cat" onclick="event.preventDefault();openCatPage('peripherals')">🖱 Периферия</a>
         <a href="/?cat=peripherals&sub=keyboard" class="nav-mega-sub" onclick="event.preventDefault();openCatPage('peripherals','keyboard')">Клавиатури</a>
         <a href="/?cat=peripherals&sub=mouse" class="nav-mega-sub" onclick="event.preventDefault();openCatPage('peripherals','mouse')">Мишки</a>
-        <a href="/?cat=peripherals&sub=headphones" class="nav-mega-sub" onclick="event.preventDefault();openCatPage('peripherals','headphones')">Слушалки</a>
+        <a href="/?cat=peripherals&sub=webcam" class="nav-mega-sub" onclick="event.preventDefault();openCatPage('peripherals','webcam')">Уеб камери</a>
+        <a href="/?cat=audio" class="nav-mega-cat" onclick="event.preventDefault();openCatPage('audio')">🎧 Аудио и слушалки</a>
+        <a href="/?cat=audio&sub=hp_gaming" class="nav-mega-sub" onclick="event.preventDefault();openCatPage('audio','hp_gaming')">Gaming слушалки</a>
+        <a href="/?cat=audio&sub=hp_wireless" class="nav-mega-sub" onclick="event.preventDefault();openCatPage('audio','hp_wireless')">Bluetooth / Безжични</a>
+        <a href="/?cat=audio&sub=hp_inear" class="nav-mega-sub" onclick="event.preventDefault();openCatPage('audio','hp_inear')">Тапи (In-ear)</a>
+        <a href="/?cat=cameras" class="nav-mega-cat" onclick="event.preventDefault();openCatPage('cameras')">📹 Камери</a>
+        <a href="/?cat=cameras&sub=cam_indoor" class="nav-mega-sub" onclick="event.preventDefault();openCatPage('cameras','cam_indoor')">За закрито</a>
+        <a href="/?cat=cameras&sub=cam_outdoor" class="nav-mega-sub" onclick="event.preventDefault();openCatPage('cameras','cam_outdoor')">За открито</a>
+        <a href="/?cat=cameras&sub=cam_poe" class="nav-mega-sub" onclick="event.preventDefault();openCatPage('cameras','cam_poe')">POE камери</a>
         <a href="/?cat=network" class="nav-mega-cat" onclick="event.preventDefault();openCatPage('network')">📡 Мрежово оборудване</a>
         <a href="/?cat=network&sub=router" class="nav-mega-sub" onclick="event.preventDefault();openCatPage('network','router')">Рутери</a>
         <a href="/?cat=network&sub=mesh" class="nav-mega-sub" onclick="event.preventDefault();openCatPage('network','mesh')">Mesh системи</a>
@@ -1770,7 +1802,9 @@
         <div class="cat-item" role="button" tabindex="0" onclick="toggleSidebarCat(this,'desktops')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleSidebarCat(this,'desktops')}"><span class="cat-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-desktop"/></svg></span> Настолни компютри <span class="cat-arrow">›</span></div>
         <div class="cat-item" role="button" tabindex="0" onclick="toggleSidebarCat(this,'components')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleSidebarCat(this,'components')}"><span class="cat-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-cpu"/></svg></span> Компоненти <span class="cat-arrow">›</span></div>
         <div class="cat-item" role="button" tabindex="0" onclick="toggleSidebarCat(this,'monitors')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleSidebarCat(this,'monitors')}"><span class="cat-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-monitor"/></svg></span> Монитори <span class="cat-arrow">›</span></div>
-        <div class="cat-item" role="button" tabindex="0" onclick="toggleSidebarCat(this,'peripherals')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleSidebarCat(this,'peripherals')}"><span class="cat-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-headphones"/></svg></span> Аудио и слушалки <span class="cat-arrow">›</span></div>
+        <div class="cat-item" role="button" tabindex="0" onclick="toggleSidebarCat(this,'peripherals')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleSidebarCat(this,'peripherals')}"><span class="cat-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-mouse"/></svg></span> Периферия <span class="cat-arrow">›</span></div>
+        <div class="cat-item" role="button" tabindex="0" onclick="toggleSidebarCat(this,'audio')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleSidebarCat(this,'audio')}"><span class="cat-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-headphones"/></svg></span> Аудио и слушалки <span class="cat-arrow">›</span></div>
+        <div class="cat-item" role="button" tabindex="0" onclick="toggleSidebarCat(this,'cameras')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleSidebarCat(this,'cameras')}"><span class="cat-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-camera"/></svg></span> Камери <span class="cat-arrow">›</span></div>
         <div class="cat-item" role="button" tabindex="0" onclick="toggleSidebarCat(this,'storage')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleSidebarCat(this,'storage')}"><span class="cat-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-storage"/></svg></span> Съхранение <span class="cat-arrow">›</span></div>
         <div class="cat-item" role="button" tabindex="0" onclick="toggleSidebarCat(this,'network')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleSidebarCat(this,'network')}"><span class="cat-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-wifi"/></svg></span> Мрежово оборудване <span class="cat-arrow">›</span></div>
         <div class="cat-item" role="button" tabindex="0" onclick="toggleSidebarCat(this,'phones')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleSidebarCat(this,'phones')}"><span class="cat-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-phone"/></svg></span> Телефони и таблети <span class="cat-arrow">›</span></div>
@@ -3314,8 +3348,8 @@
   </footer>
 
   <!-- Leaflet loaded on-demand: see _loadLeaflet() in pages.js -->
-  <script src="data.js?v=20260527" defer></script>
-  <script src="app.js?v=20260527" defer></script>
+  <script src="data.js?v=20260528" defer></script>
+  <script src="app.js?v=20260528" defer></script>
   <!-- Supabase loaded lazily on first checkout attempt (~50 KiB saved on initial load) -->
 
   <!-- Dark toggle moved to header -->
@@ -3952,6 +3986,8 @@
               <option value="monitors">🖥 Монитори</option>
               <option value="components">🔲 Компоненти</option>
               <option value="peripherals">🖱 Периферия</option>
+              <option value="audio">🎧 Аудио и слушалки</option>
+              <option value="cameras">📹 Камери</option>
               <option value="network">📡 Мрежово оборудване</option>
               <option value="ups">⚡ UPS устройства</option>
               <option value="storage">💾 Съхранение</option>

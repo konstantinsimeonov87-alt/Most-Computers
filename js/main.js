@@ -100,7 +100,7 @@ function submitContactForm() {
 const _CAT_MIGRATE = {
   laptop:'laptops', desktop:'desktops', monitor:'monitors',
   mobile:'phones', tablet:'phones', tv:'accessories',
-  audio:'peripherals', camera:'peripherals', print:'peripherals',
+  audio:'audio',       camera:'cameras',      print:'peripherals',
   smart:'accessories', acc:'accessories',
 };
 products.forEach(p => { if (_CAT_MIGRATE[p.cat]) p.cat = _CAT_MIGRATE[p.cat]; });

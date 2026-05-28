@@ -185,6 +185,63 @@ function bucketize(p, key) {
     return '⚠ UNMATCHED: ' + os.slice(0, 30);
   }
 
+  // ── Monitor ──
+  if (key === '_monitor_brand') return p.brand || null;
+  if (key === '_monitor_panel') {
+    const panel = (specs['Панел'] || '').toLowerCase();
+    if (/\bips\b/i.test(panel))  return 'IPS';
+    if (/\bva\b/i.test(panel))   return 'VA';
+    if (/oled/i.test(panel))     return 'OLED';
+    if (/\btn\b/i.test(panel))   return 'TN';
+    if (/qled/i.test(panel))     return 'QLED';
+    return panel ? '(unknown panel: ' + panel.slice(0, 20) + ')' : null;
+  }
+  if (key === '_monitor_hz') {
+    const raw = (specs['Честота'] || '').replace(/\s/g, '');
+    const hz = parseInt(raw);
+    return isNaN(hz) ? null : hz + 'Hz';
+  }
+  if (key === '_monitor_res') {
+    const r = (specs['Резолюция'] || '').toLowerCase();
+    if (/1920.{0,3}1080|full\s*hd/i.test(r)) return 'FHD 1920×1080';
+    if (/2560.{0,3}1440/i.test(r))           return 'QHD 2560×1440';
+    if (/3840.{0,3}2160/i.test(r))           return '4K 3840×2160';
+    if (/1920.{0,3}1200/i.test(r))           return 'WUXGA 1920×1200';
+    if (/3440.{0,3}1440/i.test(r))           return 'UltraWide';
+    return r ? '⚠ UNMATCHED: ' + r.slice(0, 30) : null;
+  }
+  if (key === '_monitor_size') {
+    const raw = (specs['Размер'] || '').replace(/[^\d.,]/g, '').replace(',', '.');
+    const inch = parseFloat(raw);
+    if (isNaN(inch)) return null;
+    if (inch <= 19)               return 'До 19"';
+    if (inch > 19 && inch <= 23)  return '21"–23"';
+    if (inch > 23 && inch <= 25)  return '23"–25"';
+    if (inch > 25 && inch <= 27)  return '25"–27"';
+    if (inch > 27 && inch <= 29)  return '27"–29"';
+    return 'Над 29"';
+  }
+  if (key === '_monitor_gaming') {
+    const sync = (specs.Sync || '');
+    if (/freesync/i.test(sync) && /g.?sync/i.test(sync)) return '(FreeSync+G-Sync — OK)';
+    if (/freesync/i.test(sync)) return 'FreeSync';
+    if (/g.?sync/i.test(sync))  return 'G-Sync';
+    if (specs.HDR === 'Да')     return 'HDR';
+    if (specs.Curved)           return 'Curved';
+    return null;
+  }
+  if (key === '_monitor_interface') {
+    if (specs.HDMI === 'Да')  return 'HDMI';
+    if (specs.DP   === 'Да')  return 'DisplayPort';
+    if (specs.USBC === 'Да')  return 'USB-C';
+    return null;
+  }
+  if (key === '_monitor_stand') {
+    if (specs.Pivot  === 'Да') return 'Pivot';
+    if (specs.Swivel === 'Да') return 'Swivel';
+    return null;
+  }
+
   // Direct spec key fallback
   return (specs[key] || '').trim() || null;
 }

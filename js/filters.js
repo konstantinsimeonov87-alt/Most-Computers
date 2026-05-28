@@ -175,7 +175,9 @@ function updateSidebarFiltersVisibility() {
 
 function renderGrids(){
   const _inStock = p => p.stock !== false;
-  const _flashProds=[...products].filter(p=>_inStock(p)&&p.old&&p.pct>0).sort((a,b)=>b.pct-a.pct).slice(0,5);
+  const _flashAll=[...products].filter(p=>_inStock(p)&&p.old&&p.pct>0);
+  for(let i=_flashAll.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[_flashAll[i],_flashAll[j]]=[_flashAll[j],_flashAll[i]];}
+  const _flashProds=_flashAll.slice(0,4);
   const flashSection=document.getElementById('sale');
   if(flashSection) flashSection.style.display=_flashProds.length?'':'none';
   const fg=document.getElementById('flashGrid');
@@ -756,7 +758,7 @@ const SUBCATS = {
     { id: 'cable',    label: '🔗 Мрежови кабели' },
   ],
   storage: [
-    { id: 'ext_drive',    label: '🖴 Външни дискове' },
+    { id: 'ext_drive',    label: 'Външни дискове' },
     { id: 'usb_flash',    label: '💾 USB флашки' },
     { id: 'microsd',      label: '📱 microSD карти' },
     { id: 'sd_card',      label: '📷 SD карти' },

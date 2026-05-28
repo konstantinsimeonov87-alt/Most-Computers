@@ -1657,7 +1657,7 @@ const SUBCATS = {
     { id: 'cable',    label: '🔗 Мрежови кабели' },
   ],
   storage: [
-    { id: 'ext_drive',    label: '🖴 Външни дискове' },
+    { id: 'ext_drive',    label: 'Външни дискове' },
     { id: 'usb_flash',    label: '💾 USB флашки' },
     { id: 'microsd',      label: '📱 microSD карти' },
     { id: 'sd_card',      label: '📷 SD карти' },

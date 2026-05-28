@@ -756,14 +756,14 @@ const SUBCATS = {
     { id: 'cable',    label: '🔗 Мрежови кабели' },
   ],
   storage: [
-    { id: 'nas',          label: '🗄 NAS устройства' },
-    { id: 'server',       label: '🖥 Сървъри' },
-    { id: 'ext_drive',    label: '💾 Външни дискове' },
     { id: 'usb_flash',    label: '💾 USB флашки' },
     { id: 'microsd',      label: '📱 microSD карти' },
     { id: 'sd_card',      label: '📷 SD карти' },
     { id: 'cf_card',      label: '📷 CF карти' },
     { id: 'card_reader',  label: '🔌 Четци за карти' },
+    { id: 'ext_drive',    label: '💾 Външни дискове' },
+    { id: 'nas',          label: '🗄 NAS устройства' },
+    { id: 'server',       label: '🖥 Сървъри' },
   ],
   accessories: [
     { id: 'projector',    label: '🎥 Проектори' },
@@ -843,10 +843,8 @@ const MEGA_MENU = {
     { title: 'Адаптери и SFP', id: 'adapter', items: ['USB WiFi адаптери', 'USB LAN адаптери', '2.5G / 10G карти', 'SFP модули', 'Outdoor CPE'] },
   ],
   storage: [
-    { title: 'NAS и сървъри', id: 'nas', items: ['NAS устройства', 'Сървъри', 'Rack системи'] },
-    { title: 'Носители', id: 'ext_drive', items: ['Портативни SSD', 'Портативни HDD'] },
     { title: 'Флаш памет', id: 'usb_flash', items: ['USB флашки', 'USB-C флашки', 'Dual OTG флашки'] },
-    { title: 'Карти', id: 'microsd', items: ['microSD карти', 'SD карти', 'CF карти', 'Четци за карти'] },
+    { title: 'Карти с памет', id: 'microsd', items: ['microSD карти', 'SD карти', 'CF карти', 'Четци за карти'] },
   ],
   ups: [
     { title: 'Домашни UPS', id: 'ups_home', items: ['До 800VA', 'Fortron Nano', 'Fortron FP серия', 'Inform Guardian', 'Hikvision DS-UPS'] },

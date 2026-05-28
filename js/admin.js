@@ -284,7 +284,7 @@ var _adminProd = { sort: 'cat', dir: 1, cat: '', status: '', q: '', brand: '', p
 const _adminCatNamesMap = {
   phones:'📱 Телефони и таблети', laptops:'💻 Лаптопи', desktops:'🖥 Настолни компютри',
   gaming:'🎮 Гейминг', monitors:'🖥 Монитори', components:'⚙️ Компоненти',
-  peripherals:'🖱 Периферия', network:'📡 Мрежово', storage:'💾 Сторидж',
+  peripherals:'🖱 Периферия', network:'📡 Мрежово', storage:'💾 Памет и съхранение',
   software:'📀 Софтуер', accessories:'🎒 Аксесоари',
   // legacy aliases
   laptop:'💻 Лаптопи', desktop:'🖥 Настолни', monitor:'🖥 Монитори',
@@ -705,7 +705,7 @@ function adminShowTab(tab) {
   } else if (tab === 'products') {
     const catCounts = {};
     products.forEach(p => { const nc = normalizeCat(p.cat); catCounts[nc] = (catCounts[nc]||0) + 1; });
-    const catPills = [['','Всички'],['phones','📱 Телефони'],['laptops','💻 Лаптопи'],['desktops','🖥 Настолни'],['gaming','🎮 Гейминг'],['monitors','🖥 Монитори'],['components','⚙️ Компоненти'],['peripherals','🖱 Периферия'],['network','📡 Мрежово'],['storage','💾 Сторидж'],['software','📀 Софтуер'],['accessories','🎒 Аксесоари']];
+    const catPills = [['','Всички'],['phones','📱 Телефони'],['laptops','💻 Лаптопи'],['desktops','🖥 Настолни'],['gaming','🎮 Гейминг'],['monitors','🖥 Монитори'],['components','⚙️ Компоненти'],['peripherals','🖱 Периферия'],['network','📡 Мрежово'],['storage','💾 Памет и съхранение'],['software','📀 Софтуер'],['accessories','🎒 Аксесоари']];
     main.innerHTML = `
       <div class="admin-topbar">
         <div><div class="admin-page-title">🏷 Продукти</div><div class="admin-page-sub">${products.length} продукта в базата</div></div>
@@ -2192,7 +2192,7 @@ function xmlParseAndPreview(xmlStr) {
   window._xmlForceSubcat = '';
 
   // Build subcat dropdown options from SUBCATS (defined in filters.js / app.js)
-  const _CAT_LABELS_BG = { phones:'Телефони', laptops:'Лаптопи', desktops:'Настолни компютри', gaming:'Гейминг', monitors:'Монитори', components:'Компоненти', peripherals:'Периферия', network:'Мрежово', storage:'Съхранение', accessories:'Аксесоари' };
+  const _CAT_LABELS_BG = { phones:'Телефони', laptops:'Лаптопи', desktops:'Настолни компютри', gaming:'Гейминг', monitors:'Монитори', components:'Компоненти', peripherals:'Периферия', network:'Мрежово', storage:'Памет и съхранение', accessories:'Аксесоари' };
   const _subcatOpts = (typeof SUBCATS !== 'undefined')
     ? Object.entries(SUBCATS).map(([cat, subs]) =>
         `<optgroup label="${_CAT_LABELS_BG[cat]||cat}">${subs.map(s=>`<option value="${s.id}">${s.label}</option>`).join('')}</optgroup>`

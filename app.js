@@ -16,7 +16,7 @@ function fmtDual(bgn) { return `${fmtEur(bgn)} / ${fmtBgn(bgn)}`; }
 const CAT_LABELS = {
   all:'Всички продукти',
   laptops:'Лаптопи', desktops:'Настолни компютри', components:'Компоненти',
-  peripherals:'Периферия', audio:'Аудио и слушалки', cameras:'Камери', network:'Мрежово оборудване', storage:'Сървъри и сторидж',
+  peripherals:'Периферия', audio:'Аудио и слушалки', cameras:'Камери', network:'Мрежово оборудване', storage:'Памет и съхранение',
   software:'Софтуер', accessories:'Аксесоари', consumables:'Консумативи',
   sale:'Промоции', new:'Нови продукти',
   // Legacy ключове
@@ -1313,7 +1313,7 @@ function updateActiveFiltersBar() {
   window._afRemove = [];
   const active = [];
   // Category chip
-  const _catLabels = { phones:'📱 Телефони', laptops:'💻 Лаптопи', desktops:'🖥 Настолни', gaming:'🎮 Гейминг', monitors:'🖥 Монитори', components:'⚙️ Компоненти', peripherals:'🖱 Периферия', network:'📡 Мрежово', storage:'💾 Сторидж', software:'📀 Софтуер', accessories:'🎒 Аксесоари', printers:'🖨 Принтери', ups:'⚡ UPS устройства', consumables:'🖨️ Консумативи' };
+  const _catLabels = { phones:'📱 Телефони', laptops:'💻 Лаптопи', desktops:'🖥 Настолни', gaming:'🎮 Гейминг', monitors:'🖥 Монитори', components:'⚙️ Компоненти', peripherals:'🖱 Периферия', network:'📡 Мрежово', storage:'💾 Памет и съхранение', software:'📀 Софтуер', accessories:'🎒 Аксесоари', printers:'🖨 Принтери', ups:'⚡ UPS устройства', consumables:'🖨️ Консумативи' };
   if (currentFilter && currentFilter !== 'all') {
     const idx = window._afRemove.length;
     window._afRemove.push(() => {
@@ -1742,7 +1742,7 @@ const MEGA_MENU = {
     { title: 'Адаптери и SFP', id: 'adapter', items: ['USB WiFi адаптери', 'USB LAN адаптери', '2.5G / 10G карти', 'SFP модули', 'Outdoor CPE'] },
   ],
   storage: [
-    { title: 'Сторидж', id: 'nas', items: ['NAS устройства', 'Сървъри', 'Rack системи'] },
+    { title: 'NAS и сървъри', id: 'nas', items: ['NAS устройства', 'Сървъри', 'Rack системи'] },
     { title: 'Носители', id: 'ext_drive', items: ['Портативни SSD', 'Портативни HDD'] },
     { title: 'Флаш памет', id: 'usb_flash', items: ['USB флашки', 'USB-C флашки', 'Dual OTG флашки'] },
     { title: 'Карти', id: 'microsd', items: ['microSD карти', 'SD карти', 'CF карти', 'Четци за карти'] },
@@ -3048,7 +3048,7 @@ function applySubcatById(id) {
 // ═══════════════════════════════════════
 const _HP_CAT_CYCLE = ['laptops','desktops','components','monitors','peripherals','audio','cameras','network','storage','accessories'];
 const _CAT_EMOJI_SB = {laptops:'💻',desktops:'🖥️',components:'⚙️',monitors:'🖥',peripherals:'⌨️',audio:'🎧',cameras:'📹',network:'🌐',storage:'💾',accessories:'🎒'};
-const _CAT_LABEL_SB = {laptops:'Лаптопи',desktops:'Настолни',components:'Компоненти',monitors:'Монитори',peripherals:'Периферия',audio:'Аудио',cameras:'Камери',network:'Мрежа',storage:'Съхранение',accessories:'Аксесоари'};
+const _CAT_LABEL_SB = {laptops:'Лаптопи',desktops:'Настолни',components:'Компоненти',monitors:'Монитори',peripherals:'Периферия',audio:'Аудио',cameras:'Камери',network:'Мрежа',storage:'Памет и съхранение',accessories:'Аксесоари'};
 let _sbTopCatIndex = Math.floor(Math.random() * _HP_CAT_CYCLE.length);
 
 function renderSidebarTopProduct(forceNext) {
@@ -3632,7 +3632,7 @@ const CAT_META = {
   cameras:    { emoji:'📹', icon:'ic-camera',     label:'Камери',               sub:'За закрито, За открито, POE камери', badge:null },
   audio:      { emoji:'🎧', icon:'ic-headphones', label:'Аудио и слушалки',     sub:'Gaming, Bluetooth, Тапи, Офис headset', badge:null },
   network:    { emoji:'📡', icon:'ic-wifi',       label:'Мрежово оборудване',   sub:'Рутери, Суичове, Mesh, AP', badge:null },
-  storage:    { emoji:'💾', icon:'ic-storage',    label:'Сървъри и сторидж',    sub:'NAS, Сървъри, Външни дискове', badge:null },
+  storage:    { emoji:'💾', icon:'ic-storage',    label:'Памет и съхранение',    sub:'USB флашки, microSD, NAS, Външни дискове', badge:null },
   accessories:{ emoji:'🎒', icon:'ic-mouse',      label:'Аксесоари',            sub:'Чанти, Кабели, Smart Home, TV', badge:null },
   printers:   { emoji:'🖨', icon:'ic-printer',    label:'Принтери',             sub:'Мастиленоструйни, MegaTank, Лазерни', badge:null },
   ups:        { emoji:'⚡', icon:'ic-bolt',       label:'UPS устройства',       sub:'Домашни, Офис, Онлайн / Чиста синусоида', badge:null },
@@ -3676,7 +3676,7 @@ const HP_SUBCATS = [
   { cat:'network',    id:'router',      label:'Рутери',                icon:'📡'                },
   { cat:'network',    id:'mesh',        label:'Mesh Wi-Fi системи',    icon:'🕸️'               },
   { cat:'network',    id:'adapter',     label:'Wi-Fi адаптери',        icon:'🔌'                },
-  { cat:'storage',    id:'nas',         label:'NAS / Сторидж',         icon:'💾'                },
+  { cat:'storage',    id:'nas',         label:'NAS и сървъри',         icon:'💾'                },
   { cat:'storage',    id:'usb_flash',   label:'USB флашки',             icon:'💾'                },
   { cat:'storage',    id:'microsd',     label:'microSD карти',          icon:'📱'                },
   { cat:'laptops',    id:'budget',      label:'Бюджетни лаптопи',      icon:'💰'                },

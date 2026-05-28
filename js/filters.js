@@ -414,7 +414,7 @@ function updateActiveFiltersBar() {
   window._afRemove = [];
   const active = [];
   // Category chip
-  const _catLabels = { phones:'📱 Телефони', laptops:'💻 Лаптопи', desktops:'🖥 Настолни', gaming:'🎮 Гейминг', monitors:'🖥 Монитори', components:'⚙️ Компоненти', peripherals:'🖱 Периферия', network:'📡 Мрежово', storage:'💾 Сторидж', software:'📀 Софтуер', accessories:'🎒 Аксесоари', printers:'🖨 Принтери', ups:'⚡ UPS устройства', consumables:'🖨️ Консумативи' };
+  const _catLabels = { phones:'📱 Телефони', laptops:'💻 Лаптопи', desktops:'🖥 Настолни', gaming:'🎮 Гейминг', monitors:'🖥 Монитори', components:'⚙️ Компоненти', peripherals:'🖱 Периферия', network:'📡 Мрежово', storage:'💾 Памет и съхранение', software:'📀 Софтуер', accessories:'🎒 Аксесоари', printers:'🖨 Принтери', ups:'⚡ UPS устройства', consumables:'🖨️ Консумативи' };
   if (currentFilter && currentFilter !== 'all') {
     const idx = window._afRemove.length;
     window._afRemove.push(() => {
@@ -843,7 +843,7 @@ const MEGA_MENU = {
     { title: 'Адаптери и SFP', id: 'adapter', items: ['USB WiFi адаптери', 'USB LAN адаптери', '2.5G / 10G карти', 'SFP модули', 'Outdoor CPE'] },
   ],
   storage: [
-    { title: 'Сторидж', id: 'nas', items: ['NAS устройства', 'Сървъри', 'Rack системи'] },
+    { title: 'NAS и сървъри', id: 'nas', items: ['NAS устройства', 'Сървъри', 'Rack системи'] },
     { title: 'Носители', id: 'ext_drive', items: ['Портативни SSD', 'Портативни HDD'] },
     { title: 'Флаш памет', id: 'usb_flash', items: ['USB флашки', 'USB-C флашки', 'Dual OTG флашки'] },
     { title: 'Карти', id: 'microsd', items: ['microSD карти', 'SD карти', 'CF карти', 'Четци за карти'] },
@@ -2149,7 +2149,7 @@ function applySubcatById(id) {
 // ═══════════════════════════════════════
 const _HP_CAT_CYCLE = ['laptops','desktops','components','monitors','peripherals','audio','cameras','network','storage','accessories'];
 const _CAT_EMOJI_SB = {laptops:'💻',desktops:'🖥️',components:'⚙️',monitors:'🖥',peripherals:'⌨️',audio:'🎧',cameras:'📹',network:'🌐',storage:'💾',accessories:'🎒'};
-const _CAT_LABEL_SB = {laptops:'Лаптопи',desktops:'Настолни',components:'Компоненти',monitors:'Монитори',peripherals:'Периферия',audio:'Аудио',cameras:'Камери',network:'Мрежа',storage:'Съхранение',accessories:'Аксесоари'};
+const _CAT_LABEL_SB = {laptops:'Лаптопи',desktops:'Настолни',components:'Компоненти',monitors:'Монитори',peripherals:'Периферия',audio:'Аудио',cameras:'Камери',network:'Мрежа',storage:'Памет и съхранение',accessories:'Аксесоари'};
 let _sbTopCatIndex = Math.floor(Math.random() * _HP_CAT_CYCLE.length);
 
 function renderSidebarTopProduct(forceNext) {

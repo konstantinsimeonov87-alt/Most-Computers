@@ -16,7 +16,7 @@ function fmtDual(bgn) { return `${fmtEur(bgn)} / ${fmtBgn(bgn)}`; }
 const CAT_LABELS = {
   all:'Всички продукти',
   laptops:'Лаптопи', desktops:'Настолни компютри', components:'Компоненти',
-  peripherals:'Периферия', audio:'Аудио и слушалки', cameras:'Камери', network:'Мрежово оборудване', storage:'Сървъри и сторидж',
+  peripherals:'Периферия', audio:'Аудио и слушалки', cameras:'Камери', network:'Мрежово оборудване', storage:'Памет и съхранение',
   software:'Софтуер', accessories:'Аксесоари', consumables:'Консумативи',
   sale:'Промоции', new:'Нови продукти',
   // Legacy ключове

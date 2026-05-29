@@ -537,15 +537,19 @@
    z-index: 700;
    background: var(--bg);
    overflow-y: auto;
-   transform: translateY(100%);
-   transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+   opacity: 0;
+   transform: scale(0.99);
    pointer-events: none;
-   will-change: transform;
+   visibility: hidden;
+   transition: opacity 150ms ease-out, transform 150ms ease-out, visibility 0s linear 150ms;
  }
 
  .search-results-page.open {
-   transform: translateY(0);
+   opacity: 1;
+   transform: scale(1);
    pointer-events: auto;
+   visibility: visible;
+   transition: opacity 150ms ease-out, transform 150ms ease-out, visibility 0s linear 0s;
  }
 
  .srp-header {
@@ -2764,6 +2768,44 @@
    border-color: var(--primary);
  }
 
+ /* ===== NEW PRODUCTS PERIOD CHIPS ===== */
+ .npc-wrap {
+   display: flex;
+   gap: 6px;
+   align-items: center;
+   flex-shrink: 0;
+ }
+ .npc-chip {
+   font-family: 'Inter', sans-serif;
+   font-size: 11.5px;
+   font-weight: 500;
+   padding: 4px 11px;
+   border-radius: 20px;
+   border: 1px solid var(--border);
+   background: var(--white);
+   color: var(--muted);
+   cursor: pointer;
+   transition: border-color .15s, color .15s, background .15s;
+   white-space: nowrap;
+   line-height: 1.4;
+ }
+ .npc-chip:hover { border-color: var(--primary); color: var(--primary); }
+ .npc-chip.npc-active {
+   background: var(--primary);
+   border-color: var(--primary);
+   color: #fff;
+ }
+
+ @media (max-width: 640px) {
+   .npc-wrap {
+     overflow-x: auto;
+     -webkit-overflow-scrolling: touch;
+     scrollbar-width: none;
+     padding-bottom: 1px;
+   }
+   .npc-wrap::-webkit-scrollbar { display: none; }
+ }
+
  /* ===== PRODUCT CARDS ===== */
  .products-row {
    display: grid;
@@ -3538,14 +3580,21 @@
    background: var(--white);
    box-shadow: -8px 0 40px rgba(0, 0, 0, 0.15);
    z-index: 10001;
-   transform: translateX(100%);
-   transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+   opacity: 0;
+   transform: scale(0.99);
+   pointer-events: none;
+   visibility: hidden;
+   transition: opacity 150ms ease-out, transform 150ms ease-out, visibility 0s linear 150ms;
    display: flex;
    flex-direction: column;
  }
 
  .cart-panel.open {
-   transform: translateX(0);
+   opacity: 1;
+   transform: scale(1);
+   pointer-events: auto;
+   visibility: visible;
+   transition: opacity 150ms ease-out, transform 150ms ease-out, visibility 0s linear 0s;
  }
 
  .cart-panel-header {
@@ -4221,15 +4270,22 @@
    width: 300px;
    background: var(--white);
    z-index: 2001;
-   transform: translateX(-100%);
-   transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+   opacity: 0;
+   transform: scale(0.99);
+   pointer-events: none;
+   visibility: hidden;
+   transition: opacity 150ms ease-out, transform 150ms ease-out, visibility 0s linear 150ms;
    display: flex;
    flex-direction: column;
    overflow-y: auto;
  }
 
  .mob-drawer.open {
-   transform: translateX(0);
+   opacity: 1;
+   transform: scale(1);
+   pointer-events: auto;
+   visibility: visible;
+   transition: opacity 150ms ease-out, transform 150ms ease-out, visibility 0s linear 0s;
  }
 
  .mob-drawer-header {
@@ -6060,15 +6116,19 @@
    z-index: 10000;
    background: var(--bg);
    overflow-y: auto;
-   transform: translateY(100%);
-   transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+   opacity: 0;
+   transform: scale(0.99);
    pointer-events: none;
-   will-change: transform;
+   visibility: hidden;
+   transition: opacity 150ms ease-out, transform 150ms ease-out, visibility 0s linear 150ms;
  }
 
  .wishlist-page.open {
-   transform: translateY(0);
+   opacity: 1;
+   transform: scale(1);
    pointer-events: auto;
+   visibility: visible;
+   transition: opacity 150ms ease-out, transform 150ms ease-out, visibility 0s linear 0s;
  }
 
  .wishlist-topbar {
@@ -6619,16 +6679,24 @@
 
  /* ===== CONTACT PAGE ===== */
  .contact-page {
-   display: none;
    position: fixed;
    inset: 0;
    z-index: 700;
    background: var(--bg);
    overflow-y: auto;
+   opacity: 0;
+   transform: scale(0.99);
+   pointer-events: none;
+   visibility: hidden;
+   transition: opacity 150ms ease-out, transform 150ms ease-out, visibility 0s linear 150ms;
  }
 
  .contact-page.open {
-   display: block;
+   opacity: 1;
+   transform: scale(1);
+   pointer-events: auto;
+   visibility: visible;
+   transition: opacity 150ms ease-out, transform 150ms ease-out, visibility 0s linear 0s;
  }
 
  .contact-topbar {
@@ -6983,15 +7051,19 @@
    background: var(--bg);
    overflow-y: auto;
    overscroll-behavior: contain;
-   transform: translateY(100%);
-   transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+   opacity: 0;
+   transform: scale(0.99);
    pointer-events: none;
-   will-change: transform;
+   visibility: hidden;
+   transition: opacity 150ms ease-out, transform 150ms ease-out, visibility 0s linear 150ms;
  }
 
  .checkout-page.open {
-   transform: translateY(0);
+   opacity: 1;
+   transform: scale(1);
    pointer-events: auto;
+   visibility: visible;
+   transition: opacity 150ms ease-out, transform 150ms ease-out, visibility 0s linear 0s;
  }
 
  .checkout-topbar {
@@ -7780,16 +7852,24 @@
 
  /* ===== THANK YOU PAGE ===== */
  .thankyou-page {
-   display: none;
    position: fixed;
    inset: 0;
    z-index: 700;
    background: var(--bg);
    overflow-y: auto;
+   opacity: 0;
+   transform: scale(0.99);
+   pointer-events: none;
+   visibility: hidden;
+   transition: opacity 150ms ease-out, transform 150ms ease-out, visibility 0s linear 150ms;
  }
 
  .thankyou-page.open {
-   display: block;
+   opacity: 1;
+   transform: scale(1);
+   pointer-events: auto;
+   visibility: visible;
+   transition: opacity 150ms ease-out, transform 150ms ease-out, visibility 0s linear 0s;
  }
 
  .ty-topbar {
@@ -9027,16 +9107,24 @@
 
  /* ===== MEGA MENU ===== */
  .megamenu-page {
-   display: none;
    position: fixed;
    inset: 0;
    z-index: 700;
    background: var(--bg);
    overflow-y: auto;
+   opacity: 0;
+   transform: scale(0.99);
+   pointer-events: none;
+   visibility: hidden;
+   transition: opacity 150ms ease-out, transform 150ms ease-out, visibility 0s linear 150ms;
  }
 
  .megamenu-page.open {
-   display: block;
+   opacity: 1;
+   transform: scale(1);
+   pointer-events: auto;
+   visibility: visible;
+   transition: opacity 150ms ease-out, transform 150ms ease-out, visibility 0s linear 0s;
  }
 
  .megamenu-topbar {
@@ -9459,16 +9547,24 @@
 
  /* ===== ORDER TRACKER ===== */
  .order-tracker-page {
-   display: none;
    position: fixed;
    inset: 0;
    z-index: 700;
    background: var(--bg);
    overflow-y: auto;
+   opacity: 0;
+   transform: scale(0.99);
+   pointer-events: none;
+   visibility: hidden;
+   transition: opacity 150ms ease-out, transform 150ms ease-out, visibility 0s linear 150ms;
  }
 
  .order-tracker-page.open {
-   display: block;
+   opacity: 1;
+   transform: scale(1);
+   pointer-events: auto;
+   visibility: visible;
+   transition: opacity 150ms ease-out, transform 150ms ease-out, visibility 0s linear 0s;
  }
 
  .ot-topbar {
@@ -10447,16 +10543,24 @@
 
  /* ===== ADMIN PANEL ===== */
  .admin-page {
-   display: none;
    position: fixed;
    inset: 0;
    z-index: 700;
    background: #0f1117;
    overflow-y: auto;
+   opacity: 0;
+   transform: scale(0.99);
+   pointer-events: none;
+   visibility: hidden;
+   transition: opacity 150ms ease-out, transform 150ms ease-out, visibility 0s linear 150ms;
  }
 
  .admin-page.open {
-   display: block;
+   opacity: 1;
+   transform: scale(1);
+   pointer-events: auto;
+   visibility: visible;
+   transition: opacity 150ms ease-out, transform 150ms ease-out, visibility 0s linear 0s;
  }
 
  .admin-layout {
@@ -10900,18 +11004,27 @@
 
  /* ===== 404 PAGE ===== */
  .page-404 {
-   display: none;
    position: fixed;
    inset: 0;
    z-index: 700;
    background: var(--bg);
    overflow-y: auto;
+   display: flex;
    align-items: center;
    justify-content: center;
+   opacity: 0;
+   transform: scale(0.99);
+   pointer-events: none;
+   visibility: hidden;
+   transition: opacity 150ms ease-out, transform 150ms ease-out, visibility 0s linear 150ms;
  }
 
  .page-404.open {
-   display: flex;
+   opacity: 1;
+   transform: scale(1);
+   pointer-events: auto;
+   visibility: visible;
+   transition: opacity 150ms ease-out, transform 150ms ease-out, visibility 0s linear 0s;
  }
 
  .page-404-inner {
@@ -12394,17 +12507,25 @@
 
  /* ===== PRODUCT PAGE (FULL) ===== */
  .pdp-backdrop {
-   display: none;
    position: fixed;
    inset: 0;
    z-index: 9500;
    background: var(--bg);
    overflow-y: auto;
    -webkit-overflow-scrolling: touch;
+   opacity: 0;
+   transform: scale(0.99);
+   pointer-events: none;
+   visibility: hidden;
+   transition: opacity 150ms ease-out, transform 150ms ease-out, visibility 0s linear 150ms;
  }
 
  .pdp-backdrop.open {
-   display: block;
+   opacity: 1;
+   transform: scale(1);
+   pointer-events: auto;
+   visibility: visible;
+   transition: opacity 150ms ease-out, transform 150ms ease-out, visibility 0s linear 0s;
  }
 
 
@@ -13986,15 +14107,19 @@
    z-index: var(--z-toast);
    background: var(--bg);
    overflow-y: auto;
-   transform: translateY(100%);
-   transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+   opacity: 0;
+   transform: scale(0.99);
    pointer-events: none;
-   will-change: transform;
+   visibility: hidden;
+   transition: opacity 150ms ease-out, transform 150ms ease-out, visibility 0s linear 150ms;
  }
 
  .cat-page.open {
-   transform: translateY(0);
+   opacity: 1;
+   transform: scale(1);
    pointer-events: auto;
+   visibility: visible;
+   transition: opacity 150ms ease-out, transform 150ms ease-out, visibility 0s linear 0s;
  }
 
  .cat-page-inner {
@@ -14115,22 +14240,35 @@
  }
 
  .page-breadcrumb {
-   display: flex; align-items: center; flex-shrink: 0;
-   font-size: 12.5px; gap: 0; overflow: hidden; white-space: nowrap;
+   display: flex; align-items: center; flex: 1;
+   overflow: hidden; white-space: nowrap;
  }
- .page-breadcrumb ol { display:flex; align-items:center; gap:0; list-style:none; margin:0; padding:0; }
- .page-breadcrumb li { display:flex; align-items:center; }
- .page-breadcrumb .bc-sep { margin: 0 6px; color: var(--muted); font-size: 11px; flex-shrink: 0; }
- .page-breadcrumb a {
-   background: none; border: none; padding: 2px 0;
-   cursor: pointer; font-size: 12.5px;
-   color: var(--primary);
+ .pg-bc-list {
+   display: flex; align-items: center; gap: 0;
+   list-style: none; margin: 0; padding: 0;
+   font-family: 'Inter', sans-serif;
+   font-size: 13px;
+ }
+ .pg-bc-list li { display: flex; align-items: center; }
+ .pg-bc-home {
+   color: var(--muted);
    text-decoration: none;
-   transition: opacity .15s;
-   display: flex; align-items: center;
+   font-weight: 400;
+   transition: color .15s;
  }
- .page-breadcrumb a:hover { opacity: .65; }
- .page-breadcrumb li:last-child span { color: var(--text2); font-weight: 600; }
+ .pg-bc-home:hover { color: var(--text); }
+ .pg-bc-sep {
+   margin: 0 7px;
+   color: var(--muted);
+   font-size: 12px;
+   font-weight: 400;
+   user-select: none;
+ }
+ .pg-bc-current {
+   color: var(--text);
+   font-weight: 700;
+   font-size: 13px;
+ }
 
  .bc-list { display:flex; gap:0; list-style:none; margin:0; padding:0; font-size:11px; color:var(--muted); white-space:nowrap; overflow:hidden; }
  .bc-list li { display:flex; align-items:center; }
@@ -14865,12 +15003,19 @@
    z-index: 700;
    background: var(--bg);
    overflow-y: auto;
-   transform: translateY(100%);
-   transition: transform 0.35s cubic-bezier(.4, 0, .2, 1);
+   opacity: 0;
+   transform: scale(0.99);
+   pointer-events: none;
+   visibility: hidden;
+   transition: opacity 150ms ease-out, transform 150ms ease-out, visibility 0s linear 150ms;
  }
 
  .contacts-page.open {
-   transform: translateY(0);
+   opacity: 1;
+   transform: scale(1);
+   pointer-events: auto;
+   visibility: visible;
+   transition: opacity 150ms ease-out, transform 150ms ease-out, visibility 0s linear 0s;
  }
 
  .contacts-page-inner {
@@ -15599,13 +15744,16 @@
    z-index: 700;
    background: var(--bg);
    overflow-y: auto;
-   transform: translateX(100%);
-   transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-   display: none;
+   opacity: 0;
+   transform: scale(0.99);
+   pointer-events: none;
+   transition: opacity 150ms ease-out, transform 150ms ease-out;
  }
 
  .about-page.open {
-   transform: translateX(0);
+   opacity: 1;
+   transform: scale(1);
+   pointer-events: auto;
  }
 
  .about-topbar {
@@ -16535,11 +16683,22 @@
   inset: 0;
   z-index: 700;
   background: var(--bg);
-  display: none;
+  display: flex;
   flex-direction: column;
   overflow: hidden;
+  opacity: 0;
+  transform: scale(0.99);
+  pointer-events: none;
+  visibility: hidden;
+  transition: opacity 150ms ease-out, transform 150ms ease-out, visibility 0s linear 150ms;
 }
-#myOrdersPage.open { display: flex; }
+#myOrdersPage.open {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+  visibility: visible;
+  transition: opacity 150ms ease-out, transform 150ms ease-out, visibility 0s linear 0s;
+}
 
 .mo-header {
   display: flex;
@@ -17938,12 +18097,21 @@ html[data-theme="dark"] .cart-upsell-title {
   border-radius: 20px 20px 0 0;
   padding: 4px 20px 28px;
   z-index: var(--z-modal);
-  transform: translateY(100%);
-  transition: transform .28s cubic-bezier(.32,1,.32,1);
+  opacity: 0;
+  transform: scale(0.99);
+  pointer-events: none;
+  visibility: hidden;
+  transition: opacity 150ms ease-out, transform 150ms ease-out, visibility 0s linear 150ms;
   max-height: 80vh;
   overflow-y: auto;
 }
-.prod-preview-sheet.open { transform: translateY(0); }
+.prod-preview-sheet.open {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+  visibility: visible;
+  transition: opacity 150ms ease-out, transform 150ms ease-out, visibility 0s linear 0s;
+}
 .pp-inner {
   display: flex; gap: 14px; align-items: flex-start;
   padding: 14px 0 16px;

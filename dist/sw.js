@@ -1,5 +1,10 @@
-// Most Computers — Service Worker 30fddddc
-const CACHE = 'mc-30fddddc';
+<<<<<<< Updated upstream
+// Most Computers — Service Worker f247d321
+const CACHE = 'mc-f247d321';
+=======
+// Most Computers — Service Worker 02d13805
+const CACHE = 'mc-02d13805';
+>>>>>>> Stashed changes
 const PRECACHE = [
   './',
   './index.html',

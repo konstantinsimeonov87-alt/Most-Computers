@@ -80,7 +80,7 @@ const lines = products.map(function(p) {
   const skuStr = p.sku ? "'" + esc(p.sku) + "'" : 'null';
   const eanStr = p.ean ? "'" + p.ean + "'" : 'null';
   const imgStr = p.img ? "'" + p.img + "'" : 'null';
-  return "  {id:" + p.id + ",vendorId:" + p.vendorId + ",name:'" + esc(p.name) + "',brand:'" + p.brand + "',cat:'storage',subcat:'" + p.subcat + "',price:" + p.price + ",old:null,pct:null,emoji:'" + p.emoji + "',img:" + imgStr + ",sku:" + skuStr + ",ean:" + eanStr + ",specs:{" + specsEntries + "},rating:4.2,rv:0,reviews:[],inStock:" + p.inStock + ",badge:null,desc:''}";
+  return "  {id:" + p.id + ",vendorId:" + p.vendorId + ",name:'" + esc(p.name) + "',brand:'" + p.brand + "',cat:'storage',subcat:'" + p.subcat + "',price:" + p.price + ",old:null,pct:null,badge:null,added:'" + new Date().toISOString().slice(0,10) + "',emoji:'" + p.emoji + "',img:" + imgStr + ",sku:" + skuStr + ",ean:" + eanStr + ",specs:{" + specsEntries + "},rating:4.2,rv:0,reviews:[],inStock:" + p.inStock + ",desc:''}";
 });
 
 const today = new Date().toISOString().slice(0, 10);

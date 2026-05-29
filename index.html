@@ -2168,7 +2168,12 @@
               <div class="section-subtitle">Най-новите постъпления в магазина</div>
             </div>
           </div>
-          <a href="#" class="view-all-link" data-action="openCatPage('new')">Виж всички →</a>
+          <div class="npc-wrap" id="newPeriodChips">
+            <button type="button" class="npc-chip" data-days="7">7 дни</button>
+            <button type="button" class="npc-chip npc-active" data-days="30">30 дни</button>
+            <button type="button" class="npc-chip" data-days="90">3 месеца</button>
+            <button type="button" class="npc-chip" data-days="9999">Всички нови</button>
+          </div>
         </div>
         <div class="products-row cols5" id="newGrid"></div>
       </div>
@@ -2921,8 +2926,7 @@
       <!-- CONTACT PAGE -->
       <div class="contact-page" id="contactPage">
         <div class="contact-topbar">
-          <button type="button" class="contact-back" data-action="closeContactPage">←</button>
-          <div class="contact-topbar-title">📞 Контакти</div>
+          <nav class="page-breadcrumb" id="contactBc"></nav>
         </div>
         <div class="contact-body">
 
@@ -3493,9 +3497,8 @@
   <!-- BLOG PAGE -->
   <div class="megamenu-page" id="blogPage">
     <div class="megamenu-topbar">
-      <button type="button" class="megamenu-back" id="blogBackBtn" data-action="closeBlogPage" aria-label="Назад">←</button>
       <nav class="page-breadcrumb" id="blogBc"></nav>
-      <div class="megamenu-topbar-title" id="blogPageTitle">📰 Блог и новини</div>
+      <div class="megamenu-topbar-title" id="blogPageTitle" style="display:none">Блог и новини</div>
       <div class="overlay-search-wrap" role="search" aria-label="Търсене">
         <button type="button" class="overlay-search-icon-btn" aria-label="Търсене" aria-expanded="false">
           <svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-search"/></svg>
@@ -3524,9 +3527,7 @@
   <!-- SERVICE PAGE -->
   <div class="megamenu-page" id="servicePage">
     <div class="megamenu-topbar">
-      <button type="button" class="megamenu-back" data-action="closeServicePage" aria-label="Назад">←</button>
       <nav class="page-breadcrumb" id="serviceBc"></nav>
-      <div class="megamenu-topbar-title">🔧 Сервиз и поддръжка</div>
       <div class="overlay-search-wrap" role="search" aria-label="Търсене">
         <button type="button" class="overlay-search-icon-btn" aria-label="Търсене" aria-expanded="false">
           <svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-search"/></svg>
@@ -3754,9 +3755,7 @@
   <!-- DELIVERY PAGE -->
   <div class="megamenu-page" id="deliveryPage">
     <div class="megamenu-topbar">
-      <button type="button" class="megamenu-back" data-action="closeDeliveryPage" aria-label="Назад">←</button>
       <nav class="page-breadcrumb" id="deliveryBc"></nav>
-      <div class="megamenu-topbar-title">🚚 Доставка и плащане</div>
       <div class="overlay-search-wrap" role="search" aria-label="Търсене">
         <button type="button" class="overlay-search-icon-btn" aria-label="Търсене" aria-expanded="false">
           <svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-search"/></svg>
@@ -4573,9 +4572,7 @@
   <!-- ABOUT PAGE -->
   <div class="about-page" id="aboutPage" style="display:none;">
     <div class="about-topbar">
-      <button type="button" class="about-back" data-action="closeAboutPage">← Назад</button>
       <nav class="page-breadcrumb" id="aboutBc"></nav>
-      <div class="about-topbar-title">🏢 За нас</div>
     </div>
     <div class="about-body">
 
@@ -4780,13 +4777,7 @@
   <div class="contacts-page" id="contactsPage">
     <!-- Sticky topbar -->
     <div class="contacts-topbar">
-      <button type="button" class="contacts-back-btn" data-action="closeContactsPage">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-          <path d="M19 12H5M12 5l-7 7 7 7" />
-        </svg>
-        Назад
-      </button>
-      <span class="contacts-topbar-title">📍 Контакти & Как да ни намерите</span>
+      <nav class="page-breadcrumb" id="contactsBc"></nav>
     </div>
 
     <div class="contacts-page-inner">

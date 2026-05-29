@@ -98,7 +98,7 @@ async function main() {
     const imgStr = img ? `'${img}'` : 'null';
     const desc = esc(name + (vaM2 ? ' — ' + vaM2[0].toUpperCase().replace(/\s+/, '') : '') + ', ' + brand);
 
-    lines.push(`  {id:${nextId},name:'${esc(name)}',brand:'${esc(brand)}',cat:'ups',subcat:'${subcat}',price:${price},old:null,pct:null,badge:null,emoji:'⚡',sku:'${esc(sku)}',ean:'${ean}',specs:{${specsStr}},rating:4.5,rv:0,reviews:[],desc:'${desc}',img:${imgStr},stock:true},`);
+    lines.push(`  {id:${nextId},name:'${esc(name)}',brand:'${esc(brand)}',cat:'ups',subcat:'${subcat}',price:${price},old:null,pct:null,badge:null,added:'${new Date().toISOString().slice(0,10)}',emoji:'⚡',sku:'${esc(sku)}',ean:'${ean}',specs:{${specsStr}},rating:4.5,rv:0,reviews:[],desc:'${desc}',img:${imgStr},stock:true},`);
     nextId++;
   }
 

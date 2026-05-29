@@ -210,7 +210,15 @@ function renderGrids(){
   const _s4 = products.find(p=>p.id===1884);
   const _s4el = document.getElementById('slide4Price');
   if(_s4 && _s4el) _s4el.innerHTML = `${(_s4.price/EUR_RATE).toFixed(2)} € / ${_s4.price} лв. <small>с ДДС</small>`;
-  const _newProducts=[...products].filter(p=>_inStock(p)).sort((a,b)=>b.id-a.id); const ng=document.getElementById('newGrid'); if(ng) ng.innerHTML=_newProducts.slice(0,8).map(p=>makeCard(p,true)).join('');
+  renderNewGrid(window._newPeriodDays || 30);
+  document.getElementById('newPeriodChips')?.addEventListener('click', e => {
+    const chip = e.target.closest('.npc-chip');
+    if (!chip) return;
+    document.querySelectorAll('.npc-chip').forEach(c => c.classList.remove('npc-active'));
+    chip.classList.add('npc-active');
+    window._newPeriodDays = +chip.dataset.days;
+    renderNewGrid(window._newPeriodDays);
+  });
   // Promo strip - update free delivery threshold with current EUR rate
   const _freeDelEur = 100;
   const _freeDelBgn = (Math.round(_freeDelEur * EUR_RATE * 100) / 100).toFixed(2);
@@ -2292,4 +2300,15 @@ function renderSidebarBrandSpot() {
     <div class="sb-bs-meta">${brandProds.length} продукта · от ${fmtEur(minPrice)}</div>
     <div class="sb-bs-thumbs">${thumbs}</div>
     <button type="button" class="sb-bs-btn" data-brand-search="${escHtml(brand)}">Разгледай всички →</button>`;
+}
+
+
+function renderNewGrid(days) {
+  const cutoff = new Date(Date.now() - days * 86400000);
+  const prods = [...products]
+    .filter(p => p.stock !== false && p.added && new Date(p.added) >= cutoff)
+    .sort((a, b) => new Date(b.added) - new Date(a.added))
+    .slice(0, 10);
+  const ng = document.getElementById('newGrid');
+  if (ng) ng.innerHTML = prods.map(p => makeCard(p, true)).join('');
 }

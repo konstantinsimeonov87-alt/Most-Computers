@@ -17,7 +17,7 @@ function bcRender() {
   const html = crumbs.map((c, i) => {
     const isLast = i === crumbs.length - 1;
     const sep    = i > 0 ? '<span class="bc-sep" aria-hidden="true">›</span>' : '';
-    const display = i === 0 ? `<span class="bc-home-icon" aria-label="Начало">${_homeIcon}</span>` : c.label;
+    const display = i === 0 ? 'Начало' : c.label;
     if (isLast) {
       return `${sep}<div class="bc-item current" aria-current="page"><span title="${c.label}">${c.label}</span></div>`;
     }
@@ -944,7 +944,7 @@ function cpUpdateCatBreadcrumb(cat, subcat) {
   // Ниво 1: Начало
   html += `<li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
     <a href="/" class="bc-home-link" itemprop="item" onclick="closeCatPage();return false;" aria-label="Начало">
-      <span class="bc-home-icon">${_BC_HOME_ICON}</span><span class="bc-home-label">Начало</span>
+      Начало
       <meta itemprop="name" content="Начало">
     </a>
     <meta itemprop="position" content="1">

@@ -231,6 +231,7 @@
    display: flex;
    align-items: center;
    gap: 16px;
+   position: relative;
  }
 
  .logo-wrap {
@@ -265,10 +266,11 @@
  }
 
  .search-wrap {
-   flex: 2;
-   max-width: 808px;
-   position: relative;
-   margin-left: -6px;
+   position: absolute;
+   left: 50%;
+   transform: translateX(-50%);
+   width: 808px;
+   max-width: calc(100% - 440px);
  }
 
  .search-bar {

@@ -173,6 +173,20 @@ function updateSidebarFiltersVisibility() {
   el.classList.toggle('visible', active);
 }
 
+function initNewPeriodChips() {
+  const wrap = document.getElementById('newPeriodChips');
+  if (!wrap || wrap.dataset.init) return;
+  wrap.dataset.init = '1';
+  wrap.addEventListener('click', e => {
+    const chip = e.target.closest('.npc-chip');
+    if (!chip) return;
+    wrap.querySelectorAll('.npc-chip').forEach(c => c.classList.remove('npc-active'));
+    chip.classList.add('npc-active');
+    window._newPeriodDays = +chip.dataset.days;
+    renderNewGrid(window._newPeriodDays);
+  });
+}
+
 function renderGrids(){
   const _inStock = p => p.stock !== false;
   const _flashAll=[...products].filter(p=>_inStock(p)&&p.old&&p.pct>0);
@@ -211,14 +225,7 @@ function renderGrids(){
   const _s4el = document.getElementById('slide4Price');
   if(_s4 && _s4el) _s4el.innerHTML = `${(_s4.price/EUR_RATE).toFixed(2)} € / ${_s4.price} лв. <small>с ДДС</small>`;
   renderNewGrid(window._newPeriodDays || 30);
-  document.getElementById('newPeriodChips')?.addEventListener('click', e => {
-    const chip = e.target.closest('.npc-chip');
-    if (!chip) return;
-    document.querySelectorAll('.npc-chip').forEach(c => c.classList.remove('npc-active'));
-    chip.classList.add('npc-active');
-    window._newPeriodDays = +chip.dataset.days;
-    renderNewGrid(window._newPeriodDays);
-  });
+  initNewPeriodChips();
   // Promo strip - update free delivery threshold with current EUR rate
   const _freeDelEur = 100;
   const _freeDelBgn = (Math.round(_freeDelEur * EUR_RATE * 100) / 100).toFixed(2);

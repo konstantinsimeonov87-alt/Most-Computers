@@ -186,7 +186,7 @@ function renderGrids(){
     fg.className='products-row';
   }
   renderTopGrid();
-  // Bestsellers grid — top rated products not tied to discounts
+  // Bestsellers grid - top rated products not tied to discounts
   const bg=document.getElementById('bestsellersGrid');
   if(bg){
     const _best=[...products].filter(p=>_inStock(p)).sort((a,b)=>(b.rating*Math.log1p(b.rv||1))-(a.rating*Math.log1p(a.rv||1))).slice(0,5);
@@ -195,23 +195,23 @@ function renderGrids(){
     const bs=document.getElementById('bestsellersSection');
     if(bs) bs.style.display=_best.length?'':'none';
   }
-  // Slide 1 — cheapest flash-sale product
+  // Slide 1 - cheapest flash-sale product
   const _s1Prods = [...products].filter(p=>_inStock(p)&&p.old&&p.pct>0).sort((a,b)=>a.price-b.price);
   const _s1el = document.getElementById('slide1Price');
   if(_s1Prods.length && _s1el) {
     const _s1min = _s1Prods[0], _s1max = _s1Prods[_s1Prods.length-1];
     _s1el.innerHTML = `от <b>${(_s1min.price/EUR_RATE).toFixed(2)} €</b> / ${_s1min.price} лв. <small>вместо ${(_s1min.old/EUR_RATE).toFixed(2)} € / ${_s1min.old} лв.</small>`;
   }
-  // Slide 2 — sync price from products array (id:1600 = MSI Katana 15)
+  // Slide 2 - sync price from products array (id:1600 = MSI Katana 15)
   const _s2 = products.find(p=>p.id===1600);
   const _s2el = document.getElementById('slide2Price');
   if(_s2 && _s2el) _s2el.innerHTML = `${(_s2.price/EUR_RATE).toFixed(2)} € / ${_s2.price} лв. <small>с ДДС</small>`;
-  // Slide 4 — sync price from products array (id:1884 = Lenovo Legion Pro 7 RTX 5090)
+  // Slide 4 - sync price from products array (id:1884 = Lenovo Legion Pro 7 RTX 5090)
   const _s4 = products.find(p=>p.id===1884);
   const _s4el = document.getElementById('slide4Price');
   if(_s4 && _s4el) _s4el.innerHTML = `${(_s4.price/EUR_RATE).toFixed(2)} € / ${_s4.price} лв. <small>с ДДС</small>`;
   const _newProducts=[...products].filter(p=>_inStock(p)).sort((a,b)=>b.id-a.id); const ng=document.getElementById('newGrid'); if(ng) ng.innerHTML=_newProducts.slice(0,8).map(p=>makeCard(p,true)).join('');
-  // Promo strip — update free delivery threshold with current EUR rate
+  // Promo strip - update free delivery threshold with current EUR rate
   const _freeDelEur = 100;
   const _freeDelBgn = (Math.round(_freeDelEur * EUR_RATE * 100) / 100).toFixed(2);
   document.querySelectorAll('.promo-free-del').forEach((el, i) => {
@@ -294,7 +294,7 @@ function updatePriceSlider(){
   const rng=document.getElementById('sliderRange');
   if(rng){ rng.style.left=pct(minV)+'%'; rng.style.width=(pct(maxV)-pct(minV))+'%'; }
   const srpVals=document.getElementById('srpPriceVals');
-  if(srpVals) srpVals.textContent=fmtEur(minV)+' — '+fmtEur(maxV);
+  if(srpVals) srpVals.textContent=fmtEur(minV)+' - '+fmtEur(maxV);
   const rate=typeof EUR_RATE!=='undefined'?EUR_RATE:1.95583;
   const mnNum=document.getElementById('srpMinNum'), mxNum=document.getElementById('srpMaxNum');
   if(mnNum) mnNum.value=Math.round(minV/rate);
@@ -511,7 +511,7 @@ function filterCat(cat) {
   if (typeof setPageMeta === 'function' && cat && cat !== 'all') {
     const label = (typeof CAT_LABELS !== 'undefined' && CAT_LABELS[cat]) ? CAT_LABELS[cat] : cat;
     setPageMeta(
-      label + ' — Most Computers',
+      label + ' | Most Computers',
       'Купи ' + label + ' онлайн от Most Computers. Най-добри цени, гаранция, бърза доставка.'
     );
   } else if (typeof restorePageMeta === 'function' && (!cat || cat === 'all')) {
@@ -525,7 +525,7 @@ function filterCat(cat) {
 
 // Export for tests/environment detection
 
-// syncFiltersToUrl е псевдоним на updateURL() — дефинирана по-долу в файла
+// syncFiltersToUrl е псевдоним на updateURL() - дефинирана по-долу в файла
 function syncFiltersToUrl() { if (typeof updateURL === 'function') updateURL(); }
 
 // ===== SIDEBAR PRICE SLIDER =====
@@ -549,7 +549,7 @@ function updateSbSlider() {
 
   // Update label
   const vals = document.getElementById('sbPriceVals');
-  if (vals) vals.textContent = `${minV} € — ${maxV} €`;
+  if (vals) vals.textContent = `${minV} € - ${maxV} €`;
 
   // Deactivate price group buttons
   document.querySelectorAll('.price-group-btn').forEach(b => b.classList.remove('active'));
@@ -576,7 +576,7 @@ function setPriceGroup(minEur, maxEur, groupId) {
 
   // Update label
   const vals = document.getElementById('sbPriceVals');
-  if (vals) vals.textContent = minEur === 0 && maxEur >= _sbPriceAbsMax ? 'Всички цени' : `${minEur} € — ${maxEur} €`;
+  if (vals) vals.textContent = minEur === 0 && maxEur >= _sbPriceAbsMax ? 'Всички цени' : `${minEur} € - ${maxEur} €`;
 
   // Highlight active group
   document.querySelectorAll('.price-group-btn').forEach(b => b.classList.remove('active'));
@@ -870,10 +870,11 @@ const MEGA_MENU = {
 
 const CAT_SPEC_FILTERS = {
   phones: [
-    { key: 'OS',       label: '📱 Операционна система', values: ['iOS','Android'] },
-    { key: 'RAM',      label: '🧠 RAM',                 values: ['6 GB','8 GB','12 GB','16 GB'] },
-    { key: 'Storage',  label: '💾 Памет',               values: ['128 GB','256 GB','512 GB','1 TB'] },
-    { key: 'Display',  label: '📐 Диагонал',            values: ['6"','6.1"','6.7"','11"','13"'] },
+    { key: '_phone_brand', label: '🏷 Производител',          values: ['Nokia','HMD','Realme','Samsung','Xiaomi','Asus'] },
+    { key: 'ОС',           label: '📱 Операционна система',   values: ['Android','S30+','KaiOS'] },
+    { key: 'Мрежа',        label: '📡 Мрежа',                 values: ['5G','4G'] },
+    { key: 'RAM',          label: '🧠 RAM',                   values: ['4 GB','6 GB','8 GB','12 GB'] },
+    { key: 'Памет',        label: '💾 Вградена памет',        values: ['64 GB','128 GB','256 GB'] },
   ],
   gaming: [
     { key: 'Type',  label: '📦 Тип',                    values: ['Лаптоп','Настолен','Мишка','Клавиатура','Слушалки'] },
@@ -1327,8 +1328,8 @@ function renderCatSpecFilters(cat, subcat) {
 
   const subcatLabels = { cpu:'Процесори', gpu:'Видео карти', motherboard:'Дънни платки', ram:'RAM памет', ssd:'SSD / NVMe', hdd:'HDD дискове' };
   const titleText = (subcat && subcat !== 'all' && subcatLabels[subcat])
-    ? `⚙ ${subcatLabels[subcat]} — филтри`
-    : `⚙ ${CAT_LABELS[cat] || cat} — филтри`;
+    ? `⚙ ${subcatLabels[subcat]}, филтри`
+    : `⚙ ${CAT_LABELS[cat] || cat}, филтри`;
   if (title) title.textContent = titleText;
 
   inner.innerHTML = specs.map(spec => `
@@ -1362,7 +1363,7 @@ function hideCatSpecFilters() {
   catSpecActiveFilters = {};
 }
 
-// Subcat filtering logic — maps subcat ID to product spec matching
+// Subcat filtering logic - maps subcat ID to product spec matching
 function matchesSubcat(p, subcat) {
   if (subcat === 'all') return true;
   if (p.subcat === subcat) return true;
@@ -1389,7 +1390,7 @@ function matchesSubcat(p, subcat) {
     smartphone:      () => all.includes('iphone') || all.includes('galaxy s') || all.includes('pixel') || all.includes('xiaomi') || all.includes('смартфон') || (p.emoji === '📱'),
     tablet:          () => all.includes('ipad') || all.includes('galaxy tab') || all.includes('таблет') || all.includes('tablet') || (p.emoji === '📟'),
     smartwatch:      () => all.includes('watch') || all.includes('часов') || all.includes('band') || (p.emoji === '⌚'),
-    // Laptops — 5 clear subcategories tied to spec filters
+    // Laptops - 5 clear subcategories tied to spec filters
     gaming:      () => {
       const gpu = ((p.specs && p.specs['GPU']) || '').toLowerCase();
       const scr = ((p.specs && p.specs['Екран']) || '').replace(/\s/g,'').toLowerCase();
@@ -1586,7 +1587,7 @@ function matchesCatSpec(p) {
         return sub ? (p.subcat === sub) : all.includes(v.toLowerCase());
       });
     }
-    // CPU Series — extracted from product name
+    // CPU Series - extracted from product name
     if (key === 'Серия') {
       const n = (p.name || '').toUpperCase();
       const getSeries = () => {
@@ -1609,16 +1610,16 @@ function matchesCatSpec(p) {
       const hasIgpu = !!((p.specs || {})['Интегрирана графика']);
       return [...vals].some(v => v === 'С iGPU' ? hasIgpu : !hasIgpu);
     }
-    // Package type — BOX / TRAY / MPK from product name
+    // Package type - BOX / TRAY / MPK from product name
     if (key === 'Опаковка') {
       return [...vals].some(v => new RegExp(v, 'i').test(p.name || ''));
     }
-    // Cores — "N ядра" filter values matched against numeric spec
+    // Cores - "N ядра" filter values matched against numeric spec
     if (key === 'Ядра') {
       const coreNum = ((p.specs || {})['Ядра'] || '').trim();
       return [...vals].some(v => coreNum === (v.match(/^(\d+)/)?.[1] || ''));
     }
-    // Form factor — exact match to avoid 'ATX' matching 'Micro-ATX'
+    // Form factor - exact match to avoid 'ATX' matching 'Micro-ATX'
     if (key === 'Форм фактор') {
       const ff = ((p.specs || {})['Форм фактор'] || '').toLowerCase();
       return [...vals].some(v => ff === v.toLowerCase());
@@ -1640,6 +1641,9 @@ function matchesCatSpec(p) {
         if (v === 'Ryzen 9')      return /ryzen\s*9[\s\d]/i.test(cpu);
         return cpu.includes(v.toLowerCase());
       });
+    }
+    if (key === '_phone_brand') {
+      return [...vals].some(v => (p.brand || '').toLowerCase() === v.toLowerCase());
     }
     if (key === '_desktop_brand') {
       return [...vals].some(v => (p.brand || '').toLowerCase() === v.toLowerCase());
@@ -1940,7 +1944,7 @@ function updateURL() {
   history.replaceState(null, '', newUrl);
 }
 
-// Allowed canonical categories + sort values — used to validate URL params before querySelector
+// Allowed canonical categories + sort values - used to validate URL params before querySelector
 const _VALID_CATS = new Set(['all','laptops','desktops','gaming','components','monitors','peripherals','audio','cameras','phones','network','storage','software','accessories','printers','ups','consumables','new','sale']);
 const _VALID_SORTS = new Set(['bestseller','price-asc','price-desc','rating','discount','new']);
 
@@ -2055,8 +2059,8 @@ let _megaMenuActiveCat = null;
 // On touch devices: first tap opens menu, second tap navigates
 function megaMenuTouchHandler(catEl, cat, event) {
   const hasMega = MEGA_MENU[cat] && MEGA_MENU[cat].length;
-  if (!hasMega) return; // no mega menu — let click through normally
-  if (_megaMenuActiveCat === cat && _megaMenuOpen) return; // second tap — let openCatPage run
+  if (!hasMega) return; // no mega menu - let click through normally
+  if (_megaMenuActiveCat === cat && _megaMenuOpen) return; // second tap - let openCatPage run
   event.preventDefault();
   event.stopPropagation();
   megaMenuOpen(catEl, cat);
@@ -2144,7 +2148,7 @@ function megaMenuKeepOpen() {
 
 function applySubcatById(id) {
   setTimeout(() => {
-    // catPage is open — use cpApplySubcat
+    // catPage is open - use cpApplySubcat
     if (document.getElementById('catPage')?.classList.contains('open')) {
       const pill = document.querySelector(`#cpSubcatBar .subcat-pill[onclick*="'${id}'"]`);
       if (pill) { pill.click(); }
@@ -2158,7 +2162,7 @@ function applySubcatById(id) {
 }
 
 // ═══════════════════════════════════════
-// SIDEBAR WIDGET A — TOP PRODUCT ROTATOR
+// SIDEBAR WIDGET A - TOP PRODUCT ROTATOR
 // ═══════════════════════════════════════
 const _HP_CAT_CYCLE = ['laptops','desktops','components','monitors','peripherals','audio','cameras','network','storage','accessories'];
 const _CAT_EMOJI_SB = {laptops:'💻',desktops:'🖥️',components:'⚙️',monitors:'🖥',peripherals:'⌨️',audio:'🎧',cameras:'📹',network:'🌐',storage:'💾',accessories:'🎒'};
@@ -2197,7 +2201,7 @@ function renderSidebarTopProduct(forceNext) {
 }
 
 // ═══════════════════════════════════════
-// SIDEBAR WIDGET C — COMPARE TRAY
+// SIDEBAR WIDGET C - COMPARE TRAY
 // ═══════════════════════════════════════
 function updateSidebarCompare() {
   const wrap = document.getElementById('sidebarCompare');
@@ -2245,7 +2249,7 @@ function updateSidebarCompare() {
 }
 
 // ═══════════════════════════════════════
-// SIDEBAR WIDGET — BRAND SPOTLIGHT
+// SIDEBAR WIDGET - BRAND SPOTLIGHT
 // ═══════════════════════════════════════
 const _SB_BRANDS = ['Acer','LG','Lenovo','Fractal Design','Tenda','MSI','Asus','Canon','ASRock','Noctua','Deepcool','ADATA','Fortron','Arctic'];
 
@@ -2260,7 +2264,7 @@ document.addEventListener('click', function(e) {
 function renderSidebarBrandSpot() {
   const wrap = document.getElementById('sidebarBrandSpot');
   if (!wrap) return;
-  // Rotate by day — different brand each day
+  // Rotate by day - different brand each day
   const dayIdx = Math.floor(Date.now() / 86400000) % _SB_BRANDS.length;
   const brand = _SB_BRANDS[dayIdx];
   const brandProds = products.filter(p => p.brand === brand && p.stock !== false);

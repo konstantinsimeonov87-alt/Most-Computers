@@ -1769,10 +1769,11 @@ const MEGA_MENU = {
 
 const CAT_SPEC_FILTERS = {
   phones: [
-    { key: 'OS',       label: '📱 Операционна система', values: ['iOS','Android'] },
-    { key: 'RAM',      label: '🧠 RAM',                 values: ['6 GB','8 GB','12 GB','16 GB'] },
-    { key: 'Storage',  label: '💾 Памет',               values: ['128 GB','256 GB','512 GB','1 TB'] },
-    { key: 'Display',  label: '📐 Диагонал',            values: ['6"','6.1"','6.7"','11"','13"'] },
+    { key: '_phone_brand', label: '🏷 Производител',          values: ['Nokia','HMD','Realme','Samsung','Xiaomi','Asus'] },
+    { key: 'ОС',           label: '📱 Операционна система',   values: ['Android','S30+','KaiOS'] },
+    { key: 'Мрежа',        label: '📡 Мрежа',                 values: ['5G','4G'] },
+    { key: 'RAM',          label: '🧠 RAM',                   values: ['4 GB','6 GB','8 GB','12 GB'] },
+    { key: 'Памет',        label: '💾 Вградена памет',        values: ['64 GB','128 GB','256 GB'] },
   ],
   gaming: [
     { key: 'Type',  label: '📦 Тип',                    values: ['Лаптоп','Настолен','Мишка','Клавиатура','Слушалки'] },
@@ -2539,6 +2540,9 @@ function matchesCatSpec(p) {
         if (v === 'Ryzen 9')      return /ryzen\s*9[\s\d]/i.test(cpu);
         return cpu.includes(v.toLowerCase());
       });
+    }
+    if (key === '_phone_brand') {
+      return [...vals].some(v => (p.brand || '').toLowerCase() === v.toLowerCase());
     }
     if (key === '_desktop_brand') {
       return [...vals].some(v => (p.brand || '').toLowerCase() === v.toLowerCase());
@@ -3960,7 +3964,7 @@ function buildCpSidebar(cat) {
   // ── Brands (collapsed by default) ──
   html += `<div class="sidebar-filter-block" style="border-bottom:1px solid var(--border);">
     <div onclick="cpToggleBrands(this)" style="display:flex;align-items:center;justify-content:space-between;padding:16px;cursor:pointer;user-select:none;">
-      <div class="sfb-title" id="cpBrandTitle" style="font-size:12px;font-weight:800;color:var(--text2);text-transform:uppercase;letter-spacing:.08em;margin:0;">🏷 Марка</div>
+      <div class="sfb-title" id="cpBrandTitle" style="font-size:12px;font-weight:800;color:var(--text2);text-transform:uppercase;letter-spacing:.08em;margin:0;">🏷 Производител</div>
       <span id="cpBrandArrow" style="color:var(--muted);font-size:13px;transition:transform .2s;">▾</span>
     </div>
     <div id="cpBrandBody" style="display:none;padding:0 16px 14px;">
@@ -4638,6 +4642,10 @@ function cpGetFiltered() {
           return cpu.includes(v.toLowerCase());
         });
       });
+      return;
+    }
+    if (key === '_phone_brand') {
+      list = list.filter(p => [...vals].some(v => (p.brand || '').toLowerCase() === v.toLowerCase()));
       return;
     }
     if (key === '_desktop_brand') {

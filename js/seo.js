@@ -769,7 +769,7 @@ function buildCpSidebar(cat) {
   // ── Brands (collapsed by default) ──
   html += `<div class="sidebar-filter-block" style="border-bottom:1px solid var(--border);">
     <div onclick="cpToggleBrands(this)" style="display:flex;align-items:center;justify-content:space-between;padding:16px;cursor:pointer;user-select:none;">
-      <div class="sfb-title" id="cpBrandTitle" style="font-size:12px;font-weight:800;color:var(--text2);text-transform:uppercase;letter-spacing:.08em;margin:0;">🏷 Марка</div>
+      <div class="sfb-title" id="cpBrandTitle" style="font-size:12px;font-weight:800;color:var(--text2);text-transform:uppercase;letter-spacing:.08em;margin:0;">🏷 Производител</div>
       <span id="cpBrandArrow" style="color:var(--muted);font-size:13px;transition:transform .2s;">▾</span>
     </div>
     <div id="cpBrandBody" style="display:none;padding:0 16px 14px;">
@@ -1447,6 +1447,10 @@ function cpGetFiltered() {
           return cpu.includes(v.toLowerCase());
         });
       });
+      return;
+    }
+    if (key === '_phone_brand') {
+      list = list.filter(p => [...vals].some(v => (p.brand || '').toLowerCase() === v.toLowerCase()));
       return;
     }
     if (key === '_desktop_brand') {

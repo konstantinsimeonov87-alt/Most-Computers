@@ -773,6 +773,7 @@
    align-items: center;
    gap: 8px;
    flex-shrink: 0;
+   margin-left: 12px;
  }
 
  .hdr-btn {
@@ -2807,6 +2808,33 @@
    }
    .npc-wrap::-webkit-scrollbar { display: none; }
  }
+
+ /* ===== NEW GRID PAGER ===== */
+ .ng-pager {
+   display: flex;
+   gap: 4px;
+   align-items: center;
+   justify-content: center;
+   padding: 16px 0 4px;
+ }
+ .ng-pg-btn {
+   font-family: 'Inter', sans-serif;
+   font-size: 13px;
+   font-weight: 500;
+   min-width: 34px;
+   height: 34px;
+   padding: 0 8px;
+   border-radius: 8px;
+   border: 1px solid var(--border);
+   background: var(--white);
+   color: var(--text);
+   cursor: pointer;
+   transition: border-color .15s, background .15s, color .15s;
+ }
+ .ng-pg-btn:hover:not(:disabled) { border-color: var(--primary); color: var(--primary); }
+ .ng-pg-btn:disabled { opacity: .35; cursor: default; }
+ .ng-pg-btn.ng-pg-active { background: var(--primary); border-color: var(--primary); color: #fff; }
+ .ng-pg-ellipsis { font-size: 13px; color: var(--muted); padding: 0 4px; line-height: 34px; }
 
  /* ===== PRODUCT CARDS ===== */
  .products-row {

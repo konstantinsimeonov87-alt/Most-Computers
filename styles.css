@@ -270,7 +270,7 @@
    left: 50%;
    transform: translateX(-50%);
    width: 808px;
-   max-width: calc(100% - 620px);
+   max-width: calc(100% - 780px);
  }
 
  .search-bar {

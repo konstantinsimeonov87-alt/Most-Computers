@@ -1058,7 +1058,7 @@ function cpApplySubcat(id, btn) {
       }).join('');
       if (brandBody) brandBody.style.display = '';
     } else {
-      brandTitle.textContent = '🏷 Марка';
+      brandTitle.textContent = '🏷 Производител';
       if (brandSearch) brandSearch.style.display = '';
       if (brandBody) brandBody.style.display = 'none';
       // Restore full list — rebuild from cpCat products

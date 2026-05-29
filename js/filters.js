@@ -2286,7 +2286,7 @@ function renderSidebarBrandSpot() {
 
   wrap.innerHTML = `
     <div class="sb-bs-header">
-      <span class="sb-bs-label">🏷 Марка на деня</span>
+      <span class="sb-bs-label">🏷 Производител на деня</span>
     </div>
     <div class="sb-bs-name">${escHtml(brand)}</div>
     <div class="sb-bs-meta">${brandProds.length} продукта · от ${fmtEur(minPrice)}</div>

@@ -9,21 +9,26 @@ const demoUsers = [
 function openAuthModal(tab = 'login') {
   switchAuthTab(tab);
   resetAuthForms();
-  document.getElementById('authBackdrop').classList.add('open');
-  document.body.style.overflow = 'hidden';
+  const backdrop = document.getElementById('authBackdrop');
+  if (backdrop) { backdrop.classList.add('open'); document.body.style.overflow = 'hidden'; }
 }
 function closeAuthModal(e) { if (e.target === e.currentTarget) closeAuthModalDirect(); }
-function closeAuthModalDirect() { document.getElementById('authBackdrop').classList.remove('open'); document.body.style.overflow = ''; }
+function closeAuthModalDirect() {
+  const backdrop = document.getElementById('authBackdrop');
+  if (backdrop) backdrop.classList.remove('open');
+  document.body.style.overflow = '';
+}
 
 function switchAuthTab(tab) {
-  document.getElementById('tabLogin').classList.toggle('active', tab === 'login');
-  document.getElementById('tabRegister').classList.toggle('active', tab === 'register');
-  document.getElementById('formLogin').classList.toggle('active', tab === 'login');
-  document.getElementById('formRegister').classList.toggle('active', tab === 'register');
-  document.getElementById('formForgot').classList.toggle('active', tab === 'forgot');
-  document.getElementById('authSuccess').classList.remove('show');
+  const _t = (id, cls, val) => { const el = document.getElementById(id); if (el) el.classList.toggle(cls, val); };
+  _t('tabLogin',      'active', tab === 'login');
+  _t('tabRegister',   'active', tab === 'register');
+  _t('formLogin',     'active', tab === 'login');
+  _t('formRegister',  'active', tab === 'register');
+  _t('formForgot',    'active', tab === 'forgot');
+  const success = document.getElementById('authSuccess'); if (success) success.classList.remove('show');
   const subs = { login: 'Влез в своя профил', register: 'Създай нов акаунт безплатно', forgot: 'Нулиране на парола' };
-  document.getElementById('authHeaderSub').textContent = subs[tab] || '';
+  const sub = document.getElementById('authHeaderSub'); if (sub) sub.textContent = subs[tab] || '';
 }
 
 function showForgotPw() { switchAuthTab('forgot'); document.getElementById('tabLogin').classList.remove('active'); document.getElementById('tabRegister').classList.remove('active'); }

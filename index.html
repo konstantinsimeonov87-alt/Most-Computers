@@ -2024,7 +2024,7 @@
             <div class="slide-price" id="slide1Price">от <b>101.75 €</b> / 199 лв. <small>вместо 178.44 € / 349
                 лв.</small></div>
             <button type="button" class="slide-btn"
-              data-action="scrollToFeatured">Пазарувай сега →</button>
+              data-action="openMegamenu">Пазарувай сега →</button>
             <div class="slide-emoji">💻</div>
           </div>
           <div class="slide slide-2">
@@ -2273,29 +2273,6 @@
         </div>
       </div>
 
-      <!-- BROWSE ALL PRODUCTS -->
-      <div class="section-wrap" id="featured">
-        <div class="section-header">
-          <div class="section-header-left">
-            <div class="section-accent"></div>
-            <div>
-              <h2 class="section-title">Всички продукти</h2>
-              <div class="section-subtitle">Разгледай целия каталог или избери категория</div>
-            </div>
-          </div>
-        </div>
-        <button type="button" class="mobile-filter-toggle" data-action="toggleMobileFilters" aria-label="Отвори филтри">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <line x1="4" y1="6" x2="20" y2="6" />
-            <line x1="8" y1="12" x2="16" y2="12" />
-            <line x1="10" y1="18" x2="14" y2="18" />
-          </svg>
-          Филтри и сортиране
-        </button>
-        <div class="subcat-bar" id="subcatBar"></div>
-        <div class="products-row" id="topGrid" style="min-height:560px"></div>
-      </div>
 
       <!-- RECENTLY VIEWED (legacy - superseded by hero-rv-widget) -->
       <div class="recently-viewed-section" id="recentlyViewedSection" style="display:none" aria-hidden="true">
@@ -3262,7 +3239,7 @@
       </div>
       <div class="footer-col">
         <h3 class="footer-col-title">Магазин</h3>
-        <a href="#" data-action="scrollToFeatured">Всички продукти</a>
+        <a href="#" data-action="openMegamenu">Всички продукти</a>
         <a href="#" data-action="scrollToSale">Намаления</a>
         <a href="#" data-action="document.getElementById('newGrid').closest('.section-wrap').scrollIntoView({behavior:'smooth'})">Нови продукти</a>
         <a href="#" data-action="document.getElementById('bestsellersSection').scrollIntoView({behavior:'smooth'})">Топ продавани</a>

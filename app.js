@@ -1046,6 +1046,7 @@ function renderTopGrid(){
   const totalPages = Math.max(1, Math.ceil(list.length / TOP_PAGE_SIZE));
   if (topGridPage > totalPages) topGridPage = totalPages;
   const grid = document.getElementById('topGrid');
+  if (!grid) return;
   if (typeof showSkeletons === 'function') showSkeletons('topGrid', 8);
   const from = (topGridPage - 1) * TOP_PAGE_SIZE;
   const shown = list.slice(from, from + TOP_PAGE_SIZE);
@@ -3878,6 +3879,8 @@ function closeCatPage() {
   // Close any open product page or modal first
   const pdp = document.getElementById('pdpBackdrop');
   if (pdp && pdp.classList.contains('open')) pdp.classList.remove('open');
+  const _sb = document.getElementById('pdpStickyBar');
+  if (_sb) _sb.classList.remove('visible');
   const modal = document.getElementById('productModalBackdrop');
   if (modal && modal.classList.contains('open')) modal.classList.remove('open');
   document.getElementById('catPage').classList.remove('open');

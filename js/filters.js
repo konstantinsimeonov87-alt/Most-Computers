@@ -147,6 +147,7 @@ function renderTopGrid(){
   const totalPages = Math.max(1, Math.ceil(list.length / TOP_PAGE_SIZE));
   if (topGridPage > totalPages) topGridPage = totalPages;
   const grid = document.getElementById('topGrid');
+  if (!grid) return;
   if (typeof showSkeletons === 'function') showSkeletons('topGrid', 8);
   const from = (topGridPage - 1) * TOP_PAGE_SIZE;
   const shown = list.slice(from, from + TOP_PAGE_SIZE);

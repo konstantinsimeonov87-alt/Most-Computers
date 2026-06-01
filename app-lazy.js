@@ -3132,6 +3132,7 @@ function submitNotifyStock() {
     const backdrop = document.getElementById('pdpBackdrop');
     if (!backdrop) return;
     let ticking = false;
+    let _barWasVisible = false;
     backdrop.addEventListener('scroll', () => {
       if (!ticking) {
         requestAnimationFrame(() => {
@@ -3139,8 +3140,14 @@ function submitNotifyStock() {
           const addBtn = document.getElementById('pdpAddBtn');
           if (!bar || !addBtn) { ticking = false; return; }
           const rect = addBtn.getBoundingClientRect();
-          const show = rect.bottom < 0;
-          bar.classList.toggle('visible', show);
+          const tabsEl = document.getElementById('pdpTabs');
+          const tabsTop = tabsEl ? tabsEl.getBoundingClientRect().top : 0;
+          const barH = bar.offsetHeight || 65;
+          const show = rect.bottom < 0 && tabsTop < (window.innerHeight - barH - 10);
+          if (show !== _barWasVisible) {
+            bar.classList.toggle('visible', show);
+            _barWasVisible = show;
+          }
           // Sync qty
           const qtyMain = document.getElementById('pdpQty');
           const qtySticky = document.getElementById('pdpStickyQty');

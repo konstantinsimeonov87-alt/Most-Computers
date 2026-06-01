@@ -377,7 +377,7 @@ function renderHeroRightPanel() {
       panel.innerHTML = '<div class="hrp-widget">' +
         '<div class="hrp-title">❤ Твоите любими продукти</div>' +
         wlProds.map(function(p){return _hrpItem(p,false);}).join('') +
-        '<button class="hrp-see-all" onclick="openWishlist()">Виж всички любими продукти →</button></div>';
+        '<button class="hrp-see-all" onclick="openWishlist()">Виж всички →</button></div>';
       return;
     }
   }

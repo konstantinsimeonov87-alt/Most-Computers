@@ -676,12 +676,14 @@ window.addEventListener('popstate', e => {
       const postView = document.getElementById('blogPostView');
       if (postView && postView.style.display !== 'none') {
         if (typeof closeBlogPost === 'function') closeBlogPost();
-      } else if (typeof openBlogPage === 'function') {
-        openBlogPage();
+      } else {
+        // Only reopen blog list if product page is NOT open
+        const pdpOpen = document.getElementById('pdpBackdrop')?.classList.contains('open');
+        if (!pdpOpen && typeof openBlogPage === 'function') openBlogPage();
       }
     }
   } else {
-    // Navigated back to homepage — close all overlays
+    // Navigated back to homepage — close all overlays and clear breadcrumb
     const pg = document.getElementById('catPage');
     if (pg) pg.classList.remove('open');
     const blogPg = document.getElementById('blogPage');
@@ -694,6 +696,7 @@ window.addEventListener('popstate', e => {
     document.body.style.overflow = '';
     const _ld = document.getElementById('_blogPostLD');
     if (_ld) _ld.remove();
+    if (typeof bcSet === 'function') bcSet([]);
   }
 });
 

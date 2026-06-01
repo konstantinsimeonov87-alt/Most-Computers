@@ -256,16 +256,87 @@ function pdpRenderRelated(p) {
 
 // 8. CROSS-SELL WIDGET (right column, below CTA)
 var _CROSS_SELL = {
-  printers:    ['consumables','accessories'],
-  printer:     ['consumables','accessories'],
-  laptops:     ['accessories','peripherals'],
-  phones:      ['accessories'],
-  desktops:    ['peripherals','accessories'],
-  monitors:    ['accessories','peripherals'],
-  tablets:     ['accessories'],
-  cameras:     ['accessories'],
+  // Лаптопи → мишки, клавиатури, слушалки
+  laptops:     ['mouse','keyboard','headphones','accessories'],
+  gaming_l:    ['mouse','keyboard','headphones','accessories'],
+  convertible: ['mouse','keyboard','accessories'],
+
+  // Настолни компютри → монитори, клавиатури, мишки
+  desktops:    ['monitor','monitors','keyboard','mouse'],
+  office_pc:   ['monitor','monitors','keyboard','mouse'],
+  aio:         ['keyboard','mouse','accessories'],
+
+  // Монитори → кабели/аксесоари, клавиатури, мишки
+  monitor:     ['keyboard','mouse','accessories'],
+  monitors:    ['keyboard','mouse','accessories'],
+
+  // Телефони / смартфони → аксесоари, памет, слушалки
+  phones:      ['accessories','microsd','headphones'],
+  smartphone:  ['accessories','microsd','headphones'],
+
+  // Принтери → консумативи, хартия
+  printers:    ['consumables','photo_paper','accessories'],
+  inkjet:      ['consumables','photo_paper'],
+  inkjet_aio:  ['consumables','photo_paper'],
+  laser:       ['consumables','accessories'],
+  megatank:    ['consumables','photo_paper'],
+
+  // PC компоненти → кутии, захранвания
+  components:  ['case','psu','accessories'],
+  gpu:         ['psu','case','accessories'],
+  cpu:         ['case','psu','accessories'],
+  motherboard: ['ram','psu','case'],
+  ram:         ['ssd','accessories'],
+  ssd:         ['accessories','case'],
+  hdd:         ['case','accessories'],
+  storage:     ['accessories'],
+  ext_drive:   ['usb_flash','accessories'],
+  psu:         ['case','accessories'],
+  case:        ['psu','accessories'],
+
+  // Периферия
+  keyboard:    ['mouse','headphones','accessories'],
+  mouse:       ['keyboard','accessories'],
+  headphones:  ['microsd','accessories'],
+  audio:       ['accessories'],
+  webcam:      ['headphones','accessories'],
+
+  // UPS системи → батерии/аксесоари
+  ups:         ['ups_battery','accessories'],
+  ups_home:    ['ups_battery','accessories'],
+  ups_office:  ['ups_battery','accessories'],
+  ups_server:  ['ups_battery'],
+  ups_battery: [],
+
+  // Проектори → аксесоари, носители
+  projector:   ['accessories'],
+
+  // Камери и видеонаблюдение → памет, аксесоари
+  cameras:     ['microsd','sd_card','accessories'],
+  cam_indoor:  ['microsd','accessories'],
+  cam_outdoor: ['microsd','accessories'],
+  cam_poe:     ['accessories'],
+
+  // Флаш и карти памет
+  usb_flash:   ['ext_drive','accessories'],
+  microsd:     ['card_reader','accessories'],
+  sd_card:     ['card_reader','accessories'],
+  card_reader: ['microsd','sd_card'],
+  cf_card:     ['card_reader'],
+
+  // Консумативи → принтери (обратна посока)
+  consumables: ['printers','inkjet','laser'],
+  photo_paper: ['inkjet','inkjet_aio','megatank'],
+
+  // Офис / работно място
+  chair:       ['monitor','monitors','accessories'],
+
+  // Широка периферия / аксесоари — без cross-sell
   accessories: [],
-  peripherals: []
+  peripherals: [],
+  multimedia:  [],
+  controller:  [],
+  portable:    ['accessories']
 };
 
 function pdpRenderRecsWidget(p) {
@@ -273,7 +344,7 @@ function pdpRenderRecsWidget(p) {
   if (!widget) return;
   var all = (typeof products !== 'undefined') ? products : [];
   var inCart = new Set((typeof cart !== 'undefined' ? cart : []).map(function(x) { return x.id; }));
-  var cats = _CROSS_SELL[p.cat] || [];
+  var cats = _CROSS_SELL[p.subcat] || _CROSS_SELL[p.cat] || [];
   var recs = [];
 
   // 1. Same category, different subcat (accessories for this type)
@@ -323,7 +394,7 @@ function pdpRenderRecsWidget(p) {
         '<button type="button" class="pdp-rw-add" onclick="event.stopPropagation();addToCart(' + r.id + ');this.textContent=\'✓\';this.classList.add(\'added\');setTimeout(function(){this.textContent=\'+\';this.classList.remove(\'added\');}.bind(this),1400);" aria-label="Добави ' + _e(r.name) + ' в кошница">+</button>' +
       '</div>';
     }).join('') +
-    '<div class="pdp-rw-foot">Добавяни заедно с подобни продукти</div>';
+    '<div class="pdp-rw-foot">Клиентите купуват заедно с този продукт</div>';
 
   widget.style.display = '';
 }

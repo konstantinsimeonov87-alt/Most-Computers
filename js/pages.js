@@ -258,7 +258,7 @@ function closeBlogPost() {
   if (typeof setPageMeta === 'function') setPageMeta('Блог — Most Computers', 'Ревюта, сравнения и съвети за компютри, лаптопи и електроника от екипа на Most Computers.');
   const ogType = document.querySelector('meta[property="og:type"]');
   if (ogType) ogType.setAttribute('content', 'website');
-  try { history.pushState({ page: 'blog' }, '', '?page=blog'); } catch(e) {}
+  try { history.replaceState({ page: 'blog' }, '', '?page=blog'); } catch(e) {}
 }
 function closeBlogPage() {
   // If a post is open, close post first and go back to list

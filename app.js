@@ -63,7 +63,6 @@ const _SVG_PLACEHOLDERS = (function(){
     webcam:     enc(`<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="200" ${BG}/><rect x="50" y="52" width="100" height="72" rx="10" ${N} ${S} ${SW}="5"/><rect x="60" y="62" width="80" height="52" rx="6" ${F}/><circle cx="100" cy="88" r="22" ${N} ${S} ${SW}="4"/><circle cx="100" cy="88" r="11" ${N} ${S} ${SW}="3"/><circle cx="100" cy="88" r="5" fill="#cbd5e1"/><rect x="82" y="124" width="36" height="10" rx="3" ${N} ${S} ${SW}="4"/><rect x="70" y="134" width="60" height="12" rx="4" ${N} ${S} ${SW}="4"/><circle cx="134" cy="64" r="4" ${N} ${S} ${SW}="2.5"/></svg>`),
     phone:      enc(`<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="200" ${BG}/><rect x="62" y="22" width="76" height="156" rx="14" ${N} ${S} ${SW}="5"/><rect x="72" y="36" width="56" height="116" rx="6" ${F}/><rect x="82" y="160" width="36" height="5" rx="3" ${N} ${S} ${SW}="3"/><circle cx="100" cy="30" r="4" ${N} ${S} ${SW}="2.5"/><rect x="58" y="68" width="6" height="20" rx="3" ${N} ${S} ${SW}="3"/><rect x="58" y="94" width="6" height="20" rx="3" ${N} ${S} ${SW}="3"/><rect x="136" y="78" width="6" height="16" rx="3" ${N} ${S} ${SW}="3"/></svg>`),
     tablet:     enc(`<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="200" ${BG}/><rect x="18" y="52" width="164" height="110" rx="12" ${N} ${S} ${SW}="5"/><rect x="30" y="64" width="136" height="86" rx="5" ${F}/><circle cx="186" cy="107" r="6" ${N} ${S} ${SW}="3"/><circle cx="100" cy="56" r="3.5" ${N} ${S} ${SW}="2.5"/></svg>`),
-    smartwatch: enc(`<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="200" ${BG}/><rect x="62" y="58" width="76" height="84" rx="18" ${N} ${S} ${SW}="5"/><rect x="74" y="70" width="52" height="60" rx="10" ${F}/><rect x="136" y="84" width="8" height="18" rx="4" ${N} ${S} ${SW}="3"/><rect x="78" y="34" width="44" height="28" rx="6" ${N} ${S} ${SW}="4"/><rect x="78" y="138" width="44" height="28" rx="6" ${N} ${S} ${SW}="4"/><line x1="82" y1="158" x2="118" y2="158" ${S} ${SW}="3" stroke-linecap="round"/></svg>`),
     printer:    enc(`<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="200" ${BG}/><rect x="22" y="68" width="156" height="78" rx="8" ${N} ${S} ${SW}="5"/><rect x="32" y="78" width="136" height="58" rx="4" ${F}/><rect x="42" y="144" width="116" height="20" rx="4" ${N} ${S} ${SW}="4"/><rect x="42" y="50" width="116" height="20" rx="4" ${N} ${S} ${SW}="4"/><rect x="62" y="36" width="76" height="18" rx="2" ${N} ${S} ${SW}="3"/><circle cx="150" cy="98" r="6" ${N} ${S} ${SW}="3"/><circle cx="164" cy="98" r="6" ${N} ${S} ${SW}="3"/><rect x="38" y="84" width="56" height="26" rx="3" ${N} ${S} ${SW}="2.5"/></svg>`),
     tv:         enc(`<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="200" ${BG}/><rect x="14" y="28" width="172" height="114" rx="8" ${N} ${S} ${SW}="5"/><rect x="24" y="38" width="152" height="94" rx="3" ${F}/><rect x="38" y="142" width="26" height="22" rx="4" ${N} ${S} ${SW}="4"/><rect x="136" y="142" width="26" height="22" rx="4" ${N} ${S} ${SW}="4"/><rect x="28" y="162" width="46" height="8" rx="4" ${N} ${S} ${SW}="4"/><rect x="126" y="162" width="46" height="8" rx="4" ${N} ${S} ${SW}="4"/></svg>`),
   };
@@ -94,8 +93,7 @@ function categoryPlaceholderSvg(cat, subcat){
   // Phones
   if(s==='smartphone')                                  return _SVG_PLACEHOLDERS.phone;
   if(s==='tablet')                                      return _SVG_PLACEHOLDERS.tablet;
-  if(s==='smartwatch')                                  return _SVG_PLACEHOLDERS.smartwatch;
-  // Category fallback
+// Category fallback
   const c=(cat||'').toLowerCase();
   if(c==='monitors'||c==='monitor'||c==='display')      return _SVG_PLACEHOLDERS.monitor;
   if(c==='laptops'||c==='laptop'||c==='gaming'||c==='game') return _SVG_PLACEHOLDERS.laptop;
@@ -1636,7 +1634,6 @@ const SUBCATS = {
   phones: [
     { id: 'smartphone',   label: '📱 Смартфони' },
     { id: 'tablet',       label: '📟 Таблети' },
-    { id: 'smartwatch',   label: '⌚ Смарт часовници' },
   ],
   laptops: [
     { id: 'gaming',      label: '🎮 Геймърски' },
@@ -1743,7 +1740,6 @@ const MEGA_MENU = {
   phones: [
     { title: 'Смартфони', id: 'smartphone', items: ['Nokia', 'Realme', 'Xiaomi', 'Samsung'] },
     { title: 'Таблети', id: 'tablet', items: ['Lenovo таблети', 'Android таблети'] },
-    { title: 'Смарт часовници', id: 'smartwatch', items: ['Nokia', 'Realme', 'Xiaomi'] },
   ],
   laptops: [
     { title: 'Геймърски', id: 'gaming', items: ['ASUS ROG', 'ASUS TUF Gaming', 'Lenovo Legion', 'MSI Katana', 'Acer Nitro', 'Acer Predator'] },
@@ -1812,7 +1808,7 @@ const MEGA_MENU = {
   ],
   accessories: [
     { title: 'Проектори', id: 'projector', items: ['Full HD проектори', '4K проектори', 'Лазерни проектори', 'Мини проектори', 'Бизнес проектори'] },
-    { title: 'Смарт устройства', id: 'smart_dev', items: ['Смарт часовници', 'Фитнес тракери', 'Смарт говорители', 'Смарт лампи', 'Умен дом'] },
+    { title: 'Смарт устройства', id: 'smart_dev', items: ['Фитнес тракери', 'Смарт говорители', 'Смарт лампи', 'Умен дом'] },
     { title: 'Gaming аксесоари', id: 'chair', items: ['Gaming столове', 'Контролери', 'Геймпадове', 'Рулета и джойстици'] },
     { title: 'Аксесоари', id: 'hub', items: ['USB хъбове', 'Зарядни устройства', 'Чанти за лаптоп', 'Тонколони'] },
   ],
@@ -1913,7 +1909,7 @@ const CAT_SPEC_FILTERS = {
     { key: 'AVR',        label: '🛡 AVR защита',          values: ['Да'] },
   ],
   accessories: [
-    { key: 'Тип',       label: '⚙ Вид аксесоар',         values: ['Проектор','Смарт часовник','Фитнес тракер','Gaming стол','Контролер','USB хъб','Чанта'] },
+    { key: 'Тип',       label: '⚙ Вид аксесоар',         values: ['Проектор','Фитнес тракер','Gaming стол','Контролер','USB хъб','Чанта'] },
     { key: 'Резолюция', label: '🔍 Резолюция (проектор)', values: ['4K UHD','Full HD','WXGA','XGA','SVGA'] },
     { key: 'WiFi',      label: '📡 WiFi',                 values: ['Да'] },
     { key: 'Връзка',    label: '📡 Връзка',               values: ['Bluetooth','Безжична','Кабелна'] },
@@ -2071,8 +2067,16 @@ const SUBCAT_SPEC_FILTERS = {
   controller: [
     { key: 'Връзка', label: '📡 Връзка', values: ['Безжичен','Кабелен'] },
   ],
+  tablet: [
+    { key: '_hp_brand', label: '🏷 Производител',        values: ['Lenovo'] },
+    { key: 'RAM',       label: '💾 RAM',                 values: ['4 GB','8 GB','12 GB'] },
+    { key: 'Памет',     label: '📦 Вградена памет',       values: ['128 GB','256 GB'] },
+    { key: 'WiFi',      label: '📶 WiFi стандарт',        values: ['Wi-Fi 5','Wi-Fi 7'] },
+    { key: 'LTE',       label: '📡 4G/LTE',              values: ['Да'] },
+    { key: 'ОС',        label: '💻 Операционна система', values: ['Android 14','Android 15'] },
+  ],
   smart_dev: [
-    { key: 'Тип',    label: '⌚ Вид устройство',  values: ['Смарт часовник','Фитнес тракер','Смарт говорител','Таблет'] },
+    { key: 'Тип',    label: '⌚ Вид устройство',  values: ['Фитнес тракер','Смарт говорител','Таблет'] },
     { key: 'Връзка', label: '📡 Свързаност',      values: ['Bluetooth','WiFi','4G/LTE'] },
     { key: 'ОС',     label: '💻 Операционна система', values: ['Android','Wear OS','iOS','Независима'] },
   ],
@@ -2346,8 +2350,7 @@ function matchesSubcat(p, subcat) {
     // Phones
     smartphone:      () => all.includes('iphone') || all.includes('galaxy s') || all.includes('pixel') || all.includes('xiaomi') || all.includes('смартфон') || (p.emoji === '📱'),
     tablet:          () => all.includes('ipad') || all.includes('galaxy tab') || all.includes('таблет') || all.includes('tablet') || (p.emoji === '📟'),
-    smartwatch:      () => all.includes('watch') || all.includes('часов') || all.includes('band') || (p.emoji === '⌚'),
-    // Laptops - 5 clear subcategories tied to spec filters
+// Laptops - 5 clear subcategories tied to spec filters
     gaming:      () => {
       const gpu = ((p.specs && p.specs['GPU']) || '').toLowerCase();
       const scr = ((p.specs && p.specs['Екран']) || '').replace(/\s/g,'').toLowerCase();
@@ -3736,7 +3739,7 @@ document.addEventListener('click', e => {
 // CATEGORY META
 // ═══════════════════════════════════════
 const CAT_META = {
-  phones:     { emoji:'📱', icon:'ic-phone',      label:'Телефони и таблети',   sub:'Смартфони, Таблети, Смарт часовници', badge:null },
+  phones:     { emoji:'📱', icon:'ic-phone',      label:'Телефони и таблети',   sub:'Смартфони, Таблети', badge:null },
   laptops:    { emoji:'💻', icon:'ic-laptop',     label:'Лаптопи',              sub:'За работа, Гейминг, Ултрабуци', badge:null },
   desktops:   { emoji:'🖥', icon:'ic-desktop',    label:'Настолни компютри',    sub:'Офис, Workstation, All-in-One', badge:null },
   gaming:     { emoji:'🎮', icon:'ic-gamepad',    label:'Гейминг',              sub:'Gaming лаптопи, PC, Мишки, Клавиатури', badge:'hot' },

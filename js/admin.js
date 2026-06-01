@@ -309,8 +309,7 @@ const CAT_MAP_GENERIC = [
   // Phones & Tablets — check BEFORE generic accessories
   [['IPHONE','SAMSUNG GALAXY S','SAMSUNG GALAXY A','PIXEL','XIAOMI','СМАРТФОН','SMARTPHONE'], 'phones'],
   [['IPAD','GALAXY TAB','ТАБЛЕТ','TABLET PC'], 'phones'],
-  [['SMARTWATCH','SMART WATCH','GALAXY WATCH','APPLE WATCH'], 'phones'],
-  [['PHONE','MOBILE','ТЕЛЕФОН','МОБИЛЕН'], 'phones'],
+[['PHONE','MOBILE','ТЕЛЕФОН','МОБИЛЕН'], 'phones'],
   [['TABLET','ТАБЛЕТ'], 'phones'],
   // Gaming — check BEFORE laptops/desktops
   [['GAMING LAPTOP','GAMING NOTEBOOK','GAMING НОТ','ГЕЙМЪРСКИ ЛАПТОП'], 'gaming'],
@@ -370,8 +369,7 @@ function inferSubcat(name, cat) {
     return 'work_l';
   }
   if (cat === 'phones') {
-    if (n.includes('watch') || n.includes('часовник') || n.includes('galaxy watch') || n.includes('apple watch')) return 'smartwatch';
-    if (n.includes('tablet') || n.includes('таблет') || n.includes(' tab') || n.includes('ipad') || n.includes('galaxy tab') || n.includes('pad')) return 'tablet';
+if (n.includes('tablet') || n.includes('таблет') || n.includes(' tab') || n.includes('ipad') || n.includes('galaxy tab') || n.includes('pad')) return 'tablet';
     return 'smartphone';
   }
   if (cat === 'gaming') {

@@ -125,8 +125,8 @@ describe('inferSubcat — телефони', () => {
   test('iPad → tablet', () => {
     expect(inferSubcat('Apple iPad Pro 12.9"', 'phones')).toBe('tablet');
   });
-  test('smartwatch → smartwatch', () => {
-    expect(inferSubcat('Apple Watch Series 10', 'phones')).toBe('smartwatch');
+  test('watch-branded product → smartphone (no smartwatch category)', () => {
+    expect(inferSubcat('Apple Watch Series 10', 'phones')).toBe('smartphone');
   });
 });
 

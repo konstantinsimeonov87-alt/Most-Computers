@@ -701,7 +701,6 @@ const SUBCATS = {
   phones: [
     { id: 'smartphone',   label: '📱 Смартфони' },
     { id: 'tablet',       label: '📟 Таблети' },
-    { id: 'smartwatch',   label: '⌚ Смарт часовници' },
   ],
   laptops: [
     { id: 'gaming',      label: '🎮 Геймърски' },
@@ -808,7 +807,6 @@ const MEGA_MENU = {
   phones: [
     { title: 'Смартфони', id: 'smartphone', items: ['Nokia', 'Realme', 'Xiaomi', 'Samsung'] },
     { title: 'Таблети', id: 'tablet', items: ['Lenovo таблети', 'Android таблети'] },
-    { title: 'Смарт часовници', id: 'smartwatch', items: ['Nokia', 'Realme', 'Xiaomi'] },
   ],
   laptops: [
     { title: 'Геймърски', id: 'gaming', items: ['ASUS ROG', 'ASUS TUF Gaming', 'Lenovo Legion', 'MSI Katana', 'Acer Nitro', 'Acer Predator'] },
@@ -877,7 +875,7 @@ const MEGA_MENU = {
   ],
   accessories: [
     { title: 'Проектори', id: 'projector', items: ['Full HD проектори', '4K проектори', 'Лазерни проектори', 'Мини проектори', 'Бизнес проектори'] },
-    { title: 'Смарт устройства', id: 'smart_dev', items: ['Смарт часовници', 'Фитнес тракери', 'Смарт говорители', 'Смарт лампи', 'Умен дом'] },
+    { title: 'Смарт устройства', id: 'smart_dev', items: ['Фитнес тракери', 'Смарт говорители', 'Смарт лампи', 'Умен дом'] },
     { title: 'Gaming аксесоари', id: 'chair', items: ['Gaming столове', 'Контролери', 'Геймпадове', 'Рулета и джойстици'] },
     { title: 'Аксесоари', id: 'hub', items: ['USB хъбове', 'Зарядни устройства', 'Чанти за лаптоп', 'Тонколони'] },
   ],
@@ -978,7 +976,7 @@ const CAT_SPEC_FILTERS = {
     { key: 'AVR',        label: '🛡 AVR защита',          values: ['Да'] },
   ],
   accessories: [
-    { key: 'Тип',       label: '⚙ Вид аксесоар',         values: ['Проектор','Смарт часовник','Фитнес тракер','Gaming стол','Контролер','USB хъб','Чанта'] },
+    { key: 'Тип',       label: '⚙ Вид аксесоар',         values: ['Проектор','Фитнес тракер','Gaming стол','Контролер','USB хъб','Чанта'] },
     { key: 'Резолюция', label: '🔍 Резолюция (проектор)', values: ['4K UHD','Full HD','WXGA','XGA','SVGA'] },
     { key: 'WiFi',      label: '📡 WiFi',                 values: ['Да'] },
     { key: 'Връзка',    label: '📡 Връзка',               values: ['Bluetooth','Безжична','Кабелна'] },
@@ -1136,8 +1134,16 @@ const SUBCAT_SPEC_FILTERS = {
   controller: [
     { key: 'Връзка', label: '📡 Връзка', values: ['Безжичен','Кабелен'] },
   ],
+  tablet: [
+    { key: '_hp_brand', label: '🏷 Производител',        values: ['Lenovo'] },
+    { key: 'RAM',       label: '💾 RAM',                 values: ['4 GB','8 GB','12 GB'] },
+    { key: 'Памет',     label: '📦 Вградена памет',       values: ['128 GB','256 GB'] },
+    { key: 'WiFi',      label: '📶 WiFi стандарт',        values: ['Wi-Fi 5','Wi-Fi 7'] },
+    { key: 'LTE',       label: '📡 4G/LTE',              values: ['Да'] },
+    { key: 'ОС',        label: '💻 Операционна система', values: ['Android 14','Android 15'] },
+  ],
   smart_dev: [
-    { key: 'Тип',    label: '⌚ Вид устройство',  values: ['Смарт часовник','Фитнес тракер','Смарт говорител','Таблет'] },
+    { key: 'Тип',    label: '⌚ Вид устройство',  values: ['Фитнес тракер','Смарт говорител','Таблет'] },
     { key: 'Връзка', label: '📡 Свързаност',      values: ['Bluetooth','WiFi','4G/LTE'] },
     { key: 'ОС',     label: '💻 Операционна система', values: ['Android','Wear OS','iOS','Независима'] },
   ],
@@ -1411,8 +1417,7 @@ function matchesSubcat(p, subcat) {
     // Phones
     smartphone:      () => all.includes('iphone') || all.includes('galaxy s') || all.includes('pixel') || all.includes('xiaomi') || all.includes('смартфон') || (p.emoji === '📱'),
     tablet:          () => all.includes('ipad') || all.includes('galaxy tab') || all.includes('таблет') || all.includes('tablet') || (p.emoji === '📟'),
-    smartwatch:      () => all.includes('watch') || all.includes('часов') || all.includes('band') || (p.emoji === '⌚'),
-    // Laptops - 5 clear subcategories tied to spec filters
+// Laptops - 5 clear subcategories tied to spec filters
     gaming:      () => {
       const gpu = ((p.specs && p.specs['GPU']) || '').toLowerCase();
       const scr = ((p.specs && p.specs['Екран']) || '').replace(/\s/g,'').toLowerCase();

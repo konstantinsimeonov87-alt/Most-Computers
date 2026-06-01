@@ -82,7 +82,7 @@ function makeCard(p,small=false){
   const imgHtml = safeImg
     ? `<img class="product-img-real" src="${escHtml(safeImg)}" alt="${_eName}" itemprop="image" loading="lazy" width="300" height="300" decoding="async" onload="this.classList.add('img-loaded')" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="product-img-emoji is-hidden" aria-hidden="true">${p.emoji}</span>`
     : `<img class="product-img-placeholder" src="${categoryPlaceholderSvg(p.cat,p.subcat)}" alt="" aria-hidden="true" width="200" height="200" loading="lazy">`;
-  return `<article class="product-card pos-rel" itemscope itemtype="https://schema.org/Product">
+  return `<article class="product-card pos-rel${p.stock===false?' is-out-of-stock':''}" itemscope itemtype="https://schema.org/Product">
     <div class="product-badge-wrap">
       ${p.badge==='sale'?'<span class="badge badge-sale">Промо</span>':''}
       ${p.badge==='new'?'<span class="badge badge-new">Ново</span>':''}
@@ -108,7 +108,8 @@ function makeCard(p,small=false){
         ${p.stock!==false?`<div class="card-delivery-hint">📦 Доставка до 2 работни дни</div>`:''}
         ${p.stock!==false?`<div class="card-warranty">🛡 2г. гаранция</div>`:''}
         ${p.stock===false
-          ? `<button type="button" class="add-cart-btn oos-notify-btn" onclick="oosNotify(${p.id})">🔔 Уведоми ме при наличност</button>`
+          ? `<button type="button" class="add-cart-btn oos-notify-btn" onclick="oosNotify(${p.id})">🔔 Уведоми ме при наличност</button>
+          <button type="button" class="card-see-similar" onclick="event.stopPropagation();openCatPage('${p.cat}')">Виж подобни →</button>`
           : `<button type="button" class="add-cart-btn" id="cb-${p.id}" onclick="addToCart(${p.id})"><svg width="15" height="15" class="svg-ic" aria-hidden="true"><use href="#ic-cart"/></svg> Добави в кошница</button>`
         }
         <div class="row-gap-6 card-secondary-btns" style="margin-top:6px;">

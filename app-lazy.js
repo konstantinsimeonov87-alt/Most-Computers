@@ -2475,9 +2475,10 @@ function openProductPage(id) {
   }
   var _el_pdpMonthly=document.getElementById('pdpMonthly');
   if(_el_pdpMonthly){
-    if(p.price>=999){
-      const mo=Math.ceil(p.price/12/EUR_RATE*100)/100;
-      _el_pdpMonthly.innerHTML=`<span>или от <strong>${mo.toFixed(2)} €/мес.</strong> на 12 вноски</span>`;
+    const _eurPrice = p.price / EUR_RATE;
+    if(_eurPrice >= 60){
+      const mo24 = (_eurPrice / 24).toFixed(2);
+      _el_pdpMonthly.innerHTML=`<span>или от <strong>${mo24} €/мес.</strong> × 24 вноски</span>`;
       _el_pdpMonthly.style.display='';
     } else {
       _el_pdpMonthly.innerHTML='';
@@ -2516,6 +2517,26 @@ function openProductPage(id) {
       if (notifyEmail) notifyEmail.value = '';
     }
   }
+
+  // M-1: Price alert button state
+  (function _pdpRenderAlertBtn(prod) {
+    const btn = document.getElementById('pdpPriceAlertBtn');
+    const lbl = document.getElementById('pdpPriceAlertLabel');
+    if (!btn || !lbl) return;
+    let alerts = {};
+    try { alerts = JSON.parse(localStorage.getItem('mc_price_alerts') || '{}'); } catch(e) {}
+    const isSet = !!alerts[prod.id];
+    btn.classList.toggle('active', isSet);
+    lbl.textContent = isSet ? 'Следиш цената ✓' : 'При намаление';
+    // Check if price dropped since alert was set
+    if (isSet && prod.price < alerts[prod.id].price) {
+      showToast('🎉 Цената на "' + prod.name.substring(0, 30) + '..." е паднала!');
+      delete alerts[prod.id];
+      try { localStorage.setItem('mc_price_alerts', JSON.stringify(alerts)); } catch(e) {}
+      btn.classList.remove('active');
+      lbl.textContent = 'При намаление';
+    }
+  })(p);
 
   // Quick specs hidden
   const specs = p.specs || {};
@@ -2644,6 +2665,7 @@ function openProductPage(id) {
   pdpInitZoom();
   pdpInitSwipe();
   pdpInitTabsScroll();
+  if (typeof pdpInitDeliveryTimer === 'function') pdpInitDeliveryTimer();
   // Sidebar disabled — specs already shown in main tab
   if (typeof pdpInitPinch === 'function') pdpInitPinch();
   if (typeof _pdpCompareReset === 'function') _pdpCompareReset();
@@ -2907,6 +2929,27 @@ function pdpCopyProductLink() {
     document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove();
     showToast('🔗 Линкът е копиран!');
   });
+}
+
+function pdpTogglePriceAlert() {
+  const p = products.find(x => x.id === pdpProductId);
+  if (!p) return;
+  let alerts = {};
+  try { alerts = JSON.parse(localStorage.getItem('mc_price_alerts') || '{}'); } catch(e) {}
+  const btn = document.getElementById('pdpPriceAlertBtn');
+  const lbl = document.getElementById('pdpPriceAlertLabel');
+  if (alerts[p.id]) {
+    delete alerts[p.id];
+    if (btn) btn.classList.remove('active');
+    if (lbl) lbl.textContent = 'При намаление';
+    showToast('🔕 Спрян price alert за ' + p.name.substring(0, 25) + '...');
+  } else {
+    alerts[p.id] = { price: p.price, name: p.name, set: Date.now() };
+    if (btn) btn.classList.add('active');
+    if (lbl) lbl.textContent = 'Следиш цената ✓';
+    showToast('🔔 Ще те уведомим ако цената падне!');
+  }
+  try { localStorage.setItem('mc_price_alerts', JSON.stringify(alerts)); } catch(e) {}
 }
 
 function pdpShareFacebook() {

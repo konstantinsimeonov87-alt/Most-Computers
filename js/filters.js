@@ -221,6 +221,12 @@ function renderGrids(){
   const _s2 = products.find(p=>p.id===1600);
   const _s2el = document.getElementById('slide2Price');
   if(_s2 && _s2el) _s2el.innerHTML = `${(_s2.price/EUR_RATE).toFixed(2)} € / ${_s2.price} лв. <small>с ДДС</small>`;
+  // Slide 3 - max savings from flash-sale products
+  const _s3el = document.querySelector('.slide-3 .slide-price');
+  if(_s3el && _s1Prods.length) {
+    const _maxSave = _s1Prods.reduce((mx,p)=>Math.max(mx,p.old-p.price),0);
+    if(_maxSave>0) _s3el.innerHTML = `Спести до <b>${(_maxSave/EUR_RATE).toFixed(2)} €</b> / ${_maxSave} лв.`;
+  }
   // Slide 4 - sync price from products array (id:1884 = Lenovo Legion Pro 7 RTX 5090)
   const _s4 = products.find(p=>p.id===1884);
   const _s4el = document.getElementById('slide4Price');

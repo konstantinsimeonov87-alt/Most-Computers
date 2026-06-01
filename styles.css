@@ -19051,3 +19051,87 @@ body.dark .svc-copy-btn  { background:var(--bg2); }
   from { opacity:0; transform:translateY(-4px); }
   to   { opacity:1; transform:translateY(0); }
 }
+
+/* ════════════════════════════════════════════
+   QW-5 — OOS карти с намален opacity
+════════════════════════════════════════════ */
+.product-card.is-out-of-stock {
+  opacity: 0.62;
+  filter: grayscale(0.25);
+  transition: opacity 0.2s ease, filter 0.2s ease, transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+.product-card.is-out-of-stock:hover {
+  opacity: 0.88;
+  filter: none;
+}
+
+/* ════════════════════════════════════════════
+   QW-2 — Виж подобни бутон на OOS карти
+════════════════════════════════════════════ */
+.card-see-similar {
+  display: block;
+  width: 100%;
+  margin-top: 6px;
+  padding: 6px 10px;
+  background: var(--bg2);
+  color: var(--text2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: 'Outfit', sans-serif;
+  cursor: pointer;
+  transition: all 0.18s;
+  text-align: center;
+}
+.card-see-similar:hover {
+  background: var(--primary-light);
+  color: var(--primary);
+  border-color: var(--primary);
+}
+
+/* ════════════════════════════════════════════
+   M-1 — Price alert бутон в PDP
+════════════════════════════════════════════ */
+.pdp-price-alert-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: 1.5px solid var(--border);
+  border-radius: 9px;
+  padding: 8px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text2);
+  cursor: pointer;
+  font-family: 'Outfit', sans-serif;
+  transition: all 0.18s;
+  white-space: nowrap;
+}
+.pdp-price-alert-btn:hover, .pdp-price-alert-btn.active {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: var(--primary-light);
+}
+.pdp-price-alert-btn.active {
+  font-weight: 700;
+}
+
+/* ════════════════════════════════════════════
+   QW-4 — Активни филтри badge
+════════════════════════════════════════════ */
+.cp-filter-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--primary);
+  color: #fff;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  font-size: 10px;
+  font-weight: 800;
+  margin-left: 4px;
+  line-height: 1;
+}

@@ -39,9 +39,33 @@ function renderRecentlyViewed() {
     }
   }
 
-  // Legacy bottom section — keep hidden
+  // M-3: Show bottom section for return visitors with ≥3 items
   const section = document.getElementById('recentlyViewedSection');
-  if (section) section.style.display = 'none';
+  if (section) {
+    if (items.length >= 3) {
+      const rvScroll = document.getElementById('rvScroll');
+      if (rvScroll) {
+        rvScroll.innerHTML = items.slice(0, 8).map(p => {
+          const _safeName = escHtml(p.name || '');
+          const _safeImg = p.img && isSafeImgUrl(p.img) ? escHtml(p.img) : null;
+          return `<div class="rv-card" onclick="openProductPage(${p.id})" role="button" tabindex="0" aria-label="${_safeName}">
+            <div class="rv-card-img">
+              ${_safeImg
+                ? `<img src="${_safeImg}" alt="" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="rv-card-emoji" style="display:none">${p.emoji||''}</span>`
+                : `<span class="rv-card-emoji">${p.emoji||''}</span>`}
+            </div>
+            <div class="rv-card-name">${_safeName.length > 40 ? _safeName.substring(0,40)+'…' : _safeName}</div>
+            <div class="rv-card-price">${fmtEur(p.price)}</div>
+          </div>`;
+        }).join('');
+      }
+      section.style.display = '';
+      section.removeAttribute('aria-hidden');
+    } else {
+      section.style.display = 'none';
+      section.setAttribute('aria-hidden', 'true');
+    }
+  }
 }
 
 function clearRecentlyViewed() {

@@ -1747,11 +1747,41 @@ function cpGetFiltered() {
   else if (cpSort === 'price-desc') list.sort((a,b) => b.price - a.price);
   else if (cpSort === 'rating') list.sort((a,b) => b.rating - a.rating);
   else if (cpSort === 'discount') list.sort((a,b) => (b.old ? (b.old-b.price)/b.old : 0) - (a.old ? (a.old-a.price)/a.old : 0));
-  else list.sort((a,b) => (b.rv||0) - (a.rv||0)); // bestseller default
+  else {
+    // M-2: bestseller default — in-stock first, then by reviews
+    list.sort((a,b) => {
+      const stockA = a.stock !== false ? 0 : 1;
+      const stockB = b.stock !== false ? 0 : 1;
+      if (stockA !== stockB) return stockA - stockB;
+      return (b.rv||0) - (a.rv||0);
+    });
+  }
   return list;
 }
 
+function cpUpdateFilterBadge() {
+  let count = 0;
+  if (cpBrands && cpBrands.size > 0) count += cpBrands.size;
+  if (cpPriceMin > 0 || cpPriceMax < _cpMaxEur) count++;
+  if (cpSaleOnly) count++;
+  if (cpNewOnly) count++;
+  if (cpStockOnly) count++;
+  if (cpRating > 0) count++;
+  if (typeof currentSubcat !== 'undefined' && currentSubcat && currentSubcat !== 'all') count++;
+  const btns = document.querySelectorAll('[data-action="toggleMobileFilters"], .cp-sticky-filters');
+  btns.forEach(btn => {
+    let badge = btn.querySelector('.cp-filter-badge');
+    if (count > 0) {
+      if (!badge) { badge = document.createElement('span'); badge.className = 'cp-filter-badge'; btn.appendChild(badge); }
+      badge.textContent = count;
+    } else if (badge) {
+      badge.remove();
+    }
+  });
+}
+
 function cpRenderGrid() {
+  cpUpdateFilterBadge();
   const grid = document.getElementById('cpGrid');
   const count = document.getElementById('cpResultsCount');
   if (!grid) return;

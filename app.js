@@ -124,7 +124,7 @@ function makeCard(p,small=false){
   const imgHtml = safeImg
     ? `<img class="product-img-real" src="${escHtml(safeImg)}" alt="${_eName}" itemprop="image" loading="lazy" width="300" height="300" decoding="async" onload="this.classList.add('img-loaded')" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="product-img-emoji is-hidden" aria-hidden="true">${p.emoji}</span>`
     : `<img class="product-img-placeholder" src="${categoryPlaceholderSvg(p.cat,p.subcat)}" alt="" aria-hidden="true" width="200" height="200" loading="lazy">`;
-  return `<article class="product-card pos-rel" itemscope itemtype="https://schema.org/Product">
+  return `<article class="product-card pos-rel${p.stock===false?' is-out-of-stock':''}" itemscope itemtype="https://schema.org/Product">
     <div class="product-badge-wrap">
       ${p.badge==='sale'?'<span class="badge badge-sale">Промо</span>':''}
       ${p.badge==='new'?'<span class="badge badge-new">Ново</span>':''}
@@ -150,7 +150,8 @@ function makeCard(p,small=false){
         ${p.stock!==false?`<div class="card-delivery-hint">📦 Доставка до 2 работни дни</div>`:''}
         ${p.stock!==false?`<div class="card-warranty">🛡 2г. гаранция</div>`:''}
         ${p.stock===false
-          ? `<button type="button" class="add-cart-btn oos-notify-btn" onclick="oosNotify(${p.id})">🔔 Уведоми ме при наличност</button>`
+          ? `<button type="button" class="add-cart-btn oos-notify-btn" onclick="oosNotify(${p.id})">🔔 Уведоми ме при наличност</button>
+          <button type="button" class="card-see-similar" onclick="event.stopPropagation();openCatPage('${p.cat}')">Виж подобни →</button>`
           : `<button type="button" class="add-cart-btn" id="cb-${p.id}" onclick="addToCart(${p.id})"><svg width="15" height="15" class="svg-ic" aria-hidden="true"><use href="#ic-cart"/></svg> Добави в кошница</button>`
         }
         <div class="row-gap-6 card-secondary-btns" style="margin-top:6px;">
@@ -880,9 +881,33 @@ function renderRecentlyViewed() {
     }
   }
 
-  // Legacy bottom section — keep hidden
+  // M-3: Show bottom section for return visitors with ≥3 items
   const section = document.getElementById('recentlyViewedSection');
-  if (section) section.style.display = 'none';
+  if (section) {
+    if (items.length >= 3) {
+      const rvScroll = document.getElementById('rvScroll');
+      if (rvScroll) {
+        rvScroll.innerHTML = items.slice(0, 8).map(p => {
+          const _safeName = escHtml(p.name || '');
+          const _safeImg = p.img && isSafeImgUrl(p.img) ? escHtml(p.img) : null;
+          return `<div class="rv-card" onclick="openProductPage(${p.id})" role="button" tabindex="0" aria-label="${_safeName}">
+            <div class="rv-card-img">
+              ${_safeImg
+                ? `<img src="${_safeImg}" alt="" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="rv-card-emoji" style="display:none">${p.emoji||''}</span>`
+                : `<span class="rv-card-emoji">${p.emoji||''}</span>`}
+            </div>
+            <div class="rv-card-name">${_safeName.length > 40 ? _safeName.substring(0,40)+'…' : _safeName}</div>
+            <div class="rv-card-price">${fmtEur(p.price)}</div>
+          </div>`;
+        }).join('');
+      }
+      section.style.display = '';
+      section.removeAttribute('aria-hidden');
+    } else {
+      section.style.display = 'none';
+      section.setAttribute('aria-hidden', 'true');
+    }
+  }
 }
 
 function clearRecentlyViewed() {
@@ -1120,6 +1145,12 @@ function renderGrids(){
   const _s2 = products.find(p=>p.id===1600);
   const _s2el = document.getElementById('slide2Price');
   if(_s2 && _s2el) _s2el.innerHTML = `${(_s2.price/EUR_RATE).toFixed(2)} € / ${_s2.price} лв. <small>с ДДС</small>`;
+  // Slide 3 - max savings from flash-sale products
+  const _s3el = document.querySelector('.slide-3 .slide-price');
+  if(_s3el && _s1Prods.length) {
+    const _maxSave = _s1Prods.reduce((mx,p)=>Math.max(mx,p.old-p.price),0);
+    if(_maxSave>0) _s3el.innerHTML = `Спести до <b>${(_maxSave/EUR_RATE).toFixed(2)} €</b> / ${_maxSave} лв.`;
+  }
   // Slide 4 - sync price from products array (id:1884 = Lenovo Legion Pro 7 RTX 5090)
   const _s4 = products.find(p=>p.id===1884);
   const _s4el = document.getElementById('slide4Price');
@@ -4997,11 +5028,41 @@ function cpGetFiltered() {
   else if (cpSort === 'price-desc') list.sort((a,b) => b.price - a.price);
   else if (cpSort === 'rating') list.sort((a,b) => b.rating - a.rating);
   else if (cpSort === 'discount') list.sort((a,b) => (b.old ? (b.old-b.price)/b.old : 0) - (a.old ? (a.old-a.price)/a.old : 0));
-  else list.sort((a,b) => (b.rv||0) - (a.rv||0)); // bestseller default
+  else {
+    // M-2: bestseller default — in-stock first, then by reviews
+    list.sort((a,b) => {
+      const stockA = a.stock !== false ? 0 : 1;
+      const stockB = b.stock !== false ? 0 : 1;
+      if (stockA !== stockB) return stockA - stockB;
+      return (b.rv||0) - (a.rv||0);
+    });
+  }
   return list;
 }
 
+function cpUpdateFilterBadge() {
+  let count = 0;
+  if (cpBrands && cpBrands.size > 0) count += cpBrands.size;
+  if (cpPriceMin > 0 || cpPriceMax < _cpMaxEur) count++;
+  if (cpSaleOnly) count++;
+  if (cpNewOnly) count++;
+  if (cpStockOnly) count++;
+  if (cpRating > 0) count++;
+  if (typeof currentSubcat !== 'undefined' && currentSubcat && currentSubcat !== 'all') count++;
+  const btns = document.querySelectorAll('[data-action="toggleMobileFilters"], .cp-sticky-filters');
+  btns.forEach(btn => {
+    let badge = btn.querySelector('.cp-filter-badge');
+    if (count > 0) {
+      if (!badge) { badge = document.createElement('span'); badge.className = 'cp-filter-badge'; btn.appendChild(badge); }
+      badge.textContent = count;
+    } else if (badge) {
+      badge.remove();
+    }
+  });
+}
+
 function cpRenderGrid() {
+  cpUpdateFilterBadge();
   const grid = document.getElementById('cpGrid');
   const count = document.getElementById('cpResultsCount');
   if (!grid) return;

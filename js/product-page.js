@@ -470,6 +470,8 @@ function closeProductPage() {
   const mainH1 = document.querySelector('main h1.sr-only');
   if (mainH1) mainH1.removeAttribute('aria-hidden');
   document.getElementById('pdpBackdrop').classList.remove('open');
+  const _sb = document.getElementById('pdpStickyBar');
+  if (_sb) _sb.classList.remove('visible');
   // Keep body locked if cat-page is still open
   if (!document.getElementById('catPage')?.classList.contains('open')) {
     document.documentElement.style.overflow = '';

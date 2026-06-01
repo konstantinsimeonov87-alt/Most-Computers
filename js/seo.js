@@ -629,6 +629,8 @@ function closeCatPage() {
   // Close any open product page or modal first
   const pdp = document.getElementById('pdpBackdrop');
   if (pdp && pdp.classList.contains('open')) pdp.classList.remove('open');
+  const _sb = document.getElementById('pdpStickyBar');
+  if (_sb) _sb.classList.remove('visible');
   const modal = document.getElementById('productModalBackdrop');
   if (modal && modal.classList.contains('open')) modal.classList.remove('open');
   document.getElementById('catPage').classList.remove('open');

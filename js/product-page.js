@@ -883,7 +883,11 @@ function submitNotifyStock() {
           const addBtn = document.getElementById('pdpAddBtn');
           if (!bar || !addBtn) { ticking = false; return; }
           const rect = addBtn.getBoundingClientRect();
-          const show = rect.bottom < 0;
+          const tabsEl = document.getElementById('pdpTabs');
+          const tabsTop = tabsEl ? tabsEl.getBoundingClientRect().top : 9999;
+          const BAR_H = bar.offsetHeight || 72;
+          // Show only when add-to-cart is above viewport AND tabs are not in sticky-bar danger zone
+          const show = rect.bottom < 0 && tabsTop < (window.innerHeight - BAR_H);
           if (show !== _barWasVisible) {
             bar.classList.toggle('visible', show);
             _barWasVisible = show;

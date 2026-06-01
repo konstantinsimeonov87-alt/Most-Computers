@@ -570,7 +570,7 @@ function renderHeroRightPanel() {
           '<div class="hrp-blog-meta"><span>' + escHtml(post.read) + '</span><span>·</span><span>' + escHtml((post.date||'').split(' ').slice(0,2).join(' ')) + '</span></div>' +
         '</div></div>';
     });
-    blogHtml += '<button class="hrp-see-all" onclick="openBlogPage()">Всички статии →</button></div>';
+    blogHtml += '<button class="hrp-see-all" onclick="openBlogPage()">Виж още →</button></div>';
     panel.innerHTML = blogHtml;
     return;
   }

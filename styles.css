@@ -13084,10 +13084,6 @@
    margin-bottom: 0;
    gap: 0;
    overflow-x: auto;
-   position: sticky;
-   top: 96px;
-   background: var(--bg);
-   z-index: 9;
  }
 
  .pdp-tab {
@@ -15735,7 +15731,7 @@
    bottom: 0;
    left: 0;
    right: 0;
-   z-index: 520;
+   z-index: 9510;
    background: var(--white);
    border-top: 1.5px solid var(--border);
    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
@@ -15749,10 +15745,6 @@
    pointer-events: auto;
  }
 
- /* Push scroll content up when sticky bar is visible so it doesn't cover tabs */
- .pdp-backdrop:has(.pdp-sticky-bar.visible) {
-   padding-bottom: 72px;
- }
 
  .pdp-mob-back { display: none; }
  .pdp-sticky-inner {

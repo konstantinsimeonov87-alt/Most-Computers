@@ -41,9 +41,9 @@
     content="лаптопи, смартфони, телевизори, таблети, аудио, гейминг, Most Computers, онлайн магазин електроника, компютри, аксесоари, Samsung, ASUS, Sony, Lenovo, MSI">
   <link rel="alternate" hreflang="bg" href="https://mostcomputers.bg/">
   <link rel="preload" href="styles.css" as="style">
-  <link rel="preload" href="data.js?v=20260529" as="script">
-  <link rel="preload" href="app.js?v=20260529" as="script">
-  <link rel="preload" href="app-lazy.js?v=20260529" as="script">
+  <link rel="preload" href="data.js?v=20260601" as="script">
+  <link rel="preload" href="app.js?v=20260601" as="script">
+  <link rel="preload" href="app-lazy.js?v=20260601" as="script">
   <link rel="alternate" hreflang="x-default" href="https://mostcomputers.bg/">
   <link rel="canonical" href="https://mostcomputers.bg/">
   <link rel="sitemap" type="application/xml" href="/sitemap.xml">
@@ -2170,9 +2170,8 @@
           </div>
           <div class="npc-wrap" id="newPeriodChips">
             <button type="button" class="npc-chip" data-days="7">7 дни</button>
-            <button type="button" class="npc-chip npc-active" data-days="30">30 дни</button>
-            <button type="button" class="npc-chip" data-days="90">3 месеца</button>
-            <button type="button" class="npc-chip" data-days="9999">Всички нови</button>
+            <button type="button" class="npc-chip npc-active" data-days="14">14 дни</button>
+            <button type="button" class="npc-chip" data-days="30">30 дни</button>
           </div>
         </div>
         <div class="products-row cols5" id="newGrid"></div>
@@ -3353,8 +3352,8 @@
   </footer>
 
   <!-- Leaflet loaded on-demand: see _loadLeaflet() in pages.js -->
-  <script src="data.js?v=20260529" defer></script>
-  <script src="app.js?v=20260529" defer></script>
+  <script src="data.js?v=20260601" defer></script>
+  <script src="app.js?v=20260601" defer></script>
   <!-- Supabase loaded lazily on first checkout attempt (~50 KiB saved on initial load) -->
 
   <!-- Dark toggle moved to header -->
@@ -4509,8 +4508,11 @@
       </div>
 
     </div><!-- /product-page-inner -->
-    <!-- Sticky Add-to-Cart bar (shows on scroll) -->
-    <div class="pdp-sticky-bar" id="pdpStickyBar">
+
+  </div><!-- /pdpBackdrop -->
+
+  <!-- Sticky Add-to-Cart bar — must be OUTSIDE pdpBackdrop so position:fixed works vs viewport -->
+  <div class="pdp-sticky-bar" id="pdpStickyBar">
       <div class="pdp-sticky-inner">
         <button type="button" class="pdp-mob-back" data-action="closeProductPage" aria-label="Назад">
           <svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-arrow-left"/></svg>
@@ -4567,8 +4569,6 @@
 
     <!-- Hidden print area -->
     <div id="pdpPrintArea" style="display:none;"></div>
-
-  </div><!-- /productPage -->
 
   <!-- ABOUT PAGE -->
   <div class="about-page" id="aboutPage" style="display:none;">

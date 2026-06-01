@@ -1,6 +1,8 @@
 // Lazy bundle initialization — runs after app-lazy.js loads
+// blogPosts (pages.js) is only available after lazy load — re-render hero panel so blog widget appears
 // Calls functions deferred from main.js (cart badge was shown inline; full init runs here)
 (function () {
+  if (typeof renderHeroRightPanel === 'function') renderHeroRightPanel();
   if (typeof loadCart === 'function') loadCart();
   if (typeof renderRecentlyDiscounted === 'function') {
     var el = document.getElementById('recentlyDiscountedGrid');

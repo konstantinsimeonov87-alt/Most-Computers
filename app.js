@@ -549,19 +549,23 @@ function renderHeroRightPanel() {
     }
   }
 
-  // Priority 2: Recently viewed
-  var rv = [];
-  try { rv = JSON.parse(localStorage.getItem('mc_rv') || '[]'); } catch(e) {}
-  if (rv.length > 0) {
-    var last = products.find(function(x){return x.id===rv[0];});
-    if (last) {
-      panel.innerHTML = '<div class="hrp-widget">' +
-        '<div class="hrp-title">🕐 Продължи откъдето спря</div>' +
-        _hrpItem(last, true) +
-        '<button class="add-cart-btn hrp-cta" onclick="addToCart(' + last.id + ');event.stopPropagation()">' +
-        '<svg width="14" height="14" class="svg-ic" aria-hidden="true"><use href="#ic-cart"/></svg> Добави в кошница</button></div>';
-      return;
-    }
+  // Priority 2: Blog posts (always fresh, never niche/irrelevant)
+  if (typeof blogPosts !== 'undefined' && blogPosts.length) {
+    var posts = blogPosts.slice(0, 3);
+    var blogHtml = '<div class="hrp-widget"><div class="hrp-title">📰 От блога</div>';
+    posts.forEach(function(post, i) {
+      if (i > 0) blogHtml += '<div class="hrp-blog-divider"></div>';
+      blogHtml += '<div class="hrp-blog-item" onclick="openBlogPost(\'' + post.slug + '\')" role="button" tabindex="0">' +
+        '<div class="hrp-blog-emoji">' + escHtml(post.emoji || '📄') + '</div>' +
+        '<div class="hrp-blog-info">' +
+          '<div class="hrp-blog-cat">' + escHtml(post.cat) + '</div>' +
+          '<div class="hrp-blog-title">' + escHtml(post.title) + '</div>' +
+          '<div class="hrp-blog-meta"><span>' + escHtml(post.read) + '</span><span>·</span><span>' + escHtml((post.date||'').split(' ').slice(0,2).join(' ')) + '</span></div>' +
+        '</div></div>';
+    });
+    blogHtml += '<button class="hrp-see-all" onclick="openBlogPage()">Всички статии →</button></div>';
+    panel.innerHTML = blogHtml;
+    return;
   }
 
   // Priority 3: Top rated product
@@ -1155,7 +1159,7 @@ function renderGrids(){
   const _s4 = products.find(p=>p.id===1884);
   const _s4el = document.getElementById('slide4Price');
   if(_s4 && _s4el) _s4el.innerHTML = `${(_s4.price/EUR_RATE).toFixed(2)} € / ${_s4.price} лв. <small>с ДДС</small>`;
-  renderNewGrid(window._newPeriodDays || 30);
+  renderNewGrid(window._newPeriodDays || 14);
   initNewPeriodChips();
   // Promo strip - update free delivery threshold with current EUR rate
   const _freeDelEur = 100;

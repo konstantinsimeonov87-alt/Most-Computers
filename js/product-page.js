@@ -886,9 +886,6 @@ function submitNotifyStock() {
           const show = rect.bottom < 0;
           if (show !== _barWasVisible) {
             bar.classList.toggle('visible', show);
-            // Compensate scroll so bar never covers content
-            if (show) backdrop.scrollTop += 72;
-            else backdrop.scrollTop -= 72;
             _barWasVisible = show;
           }
           // Sync qty

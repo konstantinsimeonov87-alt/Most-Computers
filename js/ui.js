@@ -384,12 +384,19 @@ function renderHeroRightPanel() {
 
   // Priority 2: Blog posts (always fresh, never niche/irrelevant)
   if (typeof blogPosts !== 'undefined' && blogPosts.length) {
+    var _blogCatIcon = { 'Ревю':'ic-star', 'Сравнение':'ic-compare', 'Топ 5':'ic-tag',
+      'Съвети':'ic-info', 'Smart Home':'ic-home', 'Гейминг':'ic-gamepad' };
+    var _svgIcon = function(id) {
+      return '<svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#' + id + '"/></svg>';
+    };
     var posts = blogPosts.slice(0, 3);
-    var blogHtml = '<div class="hrp-widget"><div class="hrp-title">📰 От блога</div>';
+    var blogHtml = '<div class="hrp-widget">' +
+      '<div class="hrp-title">' + _svgIcon('ic-globe') + ' От блога</div>';
     posts.forEach(function(post, i) {
       if (i > 0) blogHtml += '<div class="hrp-blog-divider"></div>';
+      var iconId = _blogCatIcon[post.cat] || 'ic-info';
       blogHtml += '<div class="hrp-blog-item" onclick="openBlogPost(\'' + post.slug + '\')" role="button" tabindex="0">' +
-        '<div class="hrp-blog-emoji">' + escHtml(post.emoji || '📄') + '</div>' +
+        '<div class="hrp-blog-icon">' + _svgIcon(iconId) + '</div>' +
         '<div class="hrp-blog-info">' +
           '<div class="hrp-blog-cat">' + escHtml(post.cat) + '</div>' +
           '<div class="hrp-blog-title">' + escHtml(post.title) + '</div>' +

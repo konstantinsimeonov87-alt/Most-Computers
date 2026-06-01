@@ -6,3 +6,6 @@ coverage/
 # Agent reports (internal)
 Most-Computers/
 verify-*.png
+mockup-*.html
+mockup-*.png
+compare-*.png

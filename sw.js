@@ -1,5 +1,5 @@
-// Most Computers — Service Worker fafca3c4
-const CACHE = 'mc-fafca3c4';
+// Most Computers — Service Worker ebc7406
+const CACHE = 'mc-ebc7406';
 const PRECACHE = [
   './',
   './index.html',

@@ -3474,8 +3474,40 @@
    display: grid;
    grid-template-columns: 1.6fr 1fr 1fr 1fr 1fr 1fr;
    gap: 24px;
-   margin-bottom: 40px;
+   margin-bottom: 0;
  }
+
+ .newsletter-above-footer {
+   background: #1a1d2e;
+   border-top: 1px solid rgba(255,255,255,0.07);
+ }
+ .footer-nl-full {
+   max-width: 860px;
+   margin: 0 auto;
+   padding: 22px 20px;
+   display: flex;
+   align-items: center;
+   gap: 16px;
+   flex-wrap: wrap;
+   justify-content: center;
+ }
+ .footer-nl-full h3.footer-col-title {
+   white-space: nowrap;
+   margin-bottom: 0;
+   border-bottom: none;
+   padding-bottom: 0;
+   font-size: 13px;
+ }
+ .footer-nl-full .footer-nl-desc {
+   white-space: nowrap;
+   margin-bottom: 0;
+   font-size: 12px;
+ }
+ .footer-nl-full .footer-nl-form {
+   flex: 0 0 320px;
+   margin-bottom: 0;
+ }
+ .footer-nl-full .footer-nl-note { display: none; }
 
  .footer-logo {
    font-size: 22px;
@@ -3528,6 +3560,50 @@
    margin-bottom: 12px;
    padding-bottom: 8px;
    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+ }
+
+ .footer-nl-desc {
+   font-size: 11px;
+   color: rgba(255,255,255,0.6);
+   margin-bottom: 10px;
+   line-height: 1.5;
+ }
+ .footer-nl-form {
+   display: flex;
+   gap: 6px;
+   margin-bottom: 6px;
+ }
+ .footer-nl-input {
+   flex: 1;
+   font-family: 'Inter', sans-serif;
+   font-size: 12px;
+   padding: 7px 10px;
+   border-radius: 7px;
+   border: 1px solid rgba(255,255,255,0.2);
+   background: rgba(255,255,255,0.08);
+   color: #fff;
+   outline: none;
+   transition: border-color .15s;
+ }
+ .footer-nl-input::placeholder { color: rgba(255,255,255,0.35); }
+ .footer-nl-input:focus { border-color: rgba(255,255,255,0.5); }
+ .footer-nl-btn {
+   font-family: 'Inter', sans-serif;
+   font-size: 14px;
+   font-weight: 700;
+   padding: 7px 14px;
+   border-radius: 7px;
+   border: none;
+   background: var(--primary);
+   color: #fff;
+   cursor: pointer;
+   transition: opacity .15s;
+   flex-shrink: 0;
+ }
+ .footer-nl-btn:hover { opacity: .85; }
+ .footer-nl-note {
+   font-size: 10px;
+   color: rgba(255,255,255,0.3);
  }
 
  .footer-col a {
@@ -15667,6 +15743,11 @@
  .pdp-sticky-bar.visible {
    transform: translateY(0);
    pointer-events: auto;
+ }
+
+ /* Push scroll content up when sticky bar is visible so it doesn't cover tabs */
+ .pdp-backdrop:has(.pdp-sticky-bar.visible) {
+   padding-bottom: 72px;
  }
 
  .pdp-mob-back { display: none; }

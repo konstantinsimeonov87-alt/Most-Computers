@@ -1123,7 +1123,7 @@ function renderGrids(){
   const _s4 = products.find(p=>p.id===1884);
   const _s4el = document.getElementById('slide4Price');
   if(_s4 && _s4el) _s4el.innerHTML = `${(_s4.price/EUR_RATE).toFixed(2)} € / ${_s4.price} лв. <small>с ДДС</small>`;
-  renderNewGrid(window._newPeriodDays || 30);
+  renderNewGrid(window._newPeriodDays || 14);
   initNewPeriodChips();
   // Promo strip - update free delivery threshold with current EUR rate
   const _freeDelEur = 100;
@@ -6268,7 +6268,7 @@ initScrollAnimations();
   function _loadLazy() {
     if (_ll) return; _ll = true;
     var s = document.createElement('script');
-    s.src = 'app-lazy.js?v=20260529';
+    s.src = 'app-lazy.js?v=20260601';
     document.head.appendChild(s);
   }
   ['click', 'scroll', 'touchstart', 'keydown', 'mousemove'].forEach(function (ev) {

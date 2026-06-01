@@ -884,6 +884,7 @@ function submitNotifyStock() {
           const rect = addBtn.getBoundingClientRect();
           const show = rect.bottom < 0;
           bar.classList.toggle('visible', show);
+          backdrop.style.paddingBottom = show ? '72px' : '';
           // Sync qty
           const qtyMain = document.getElementById('pdpQty');
           const qtySticky = document.getElementById('pdpStickyQty');

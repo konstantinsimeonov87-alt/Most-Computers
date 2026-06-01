@@ -215,17 +215,17 @@ function renderGrids(){
   const _s1el = document.getElementById('slide1Price');
   if(_s1Prods.length && _s1el) {
     const _s1min = _s1Prods[0], _s1max = _s1Prods[_s1Prods.length-1];
-    _s1el.innerHTML = `от <b>${(_s1min.price/EUR_RATE).toFixed(2)} €</b> / ${_s1min.price} лв. <small>вместо ${(_s1min.old/EUR_RATE).toFixed(2)} € / ${_s1min.old} лв.</small>`;
+    _s1el.innerHTML = `от <b>${(_s1min.price/EUR_RATE).toFixed(2)} €</b> / ${fmtBgn(_s1min.price)} <small>вместо ${(_s1min.old/EUR_RATE).toFixed(2)} € / ${fmtBgn(_s1min.old)}</small>`;
   }
   // Slide 2 - sync price from products array (id:1600 = MSI Katana 15)
   const _s2 = products.find(p=>p.id===1600);
   const _s2el = document.getElementById('slide2Price');
-  if(_s2 && _s2el) _s2el.innerHTML = `${(_s2.price/EUR_RATE).toFixed(2)} € / ${_s2.price} лв. <small>с ДДС</small>`;
+  if(_s2 && _s2el) _s2el.innerHTML = `${(_s2.price/EUR_RATE).toFixed(2)} € / ${fmtBgn(_s2.price)} <small>с ДДС</small>`;
   // Slide 3 - max savings from flash-sale products
   const _s3el = document.querySelector('.slide-3 .slide-price');
   if(_s3el && _s1Prods.length) {
     const _maxSave = _s1Prods.reduce((mx,p)=>Math.max(mx,p.old-p.price),0);
-    if(_maxSave>0) _s3el.innerHTML = `Спести до <b>${(_maxSave/EUR_RATE).toFixed(2)} €</b> / ${_maxSave} лв.`;
+    if(_maxSave>0) _s3el.innerHTML = `Спести до <b>${(_maxSave/EUR_RATE).toFixed(2)} €</b> / ${fmtBgn(_maxSave)}`;
   }
   // Slide 4 - sync price from products array (id:1884 = Lenovo Legion Pro 7 RTX 5090)
   const _s4 = products.find(p=>p.id===1884);

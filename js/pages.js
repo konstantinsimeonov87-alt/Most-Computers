@@ -457,6 +457,27 @@ function openBlogPost(slug) {
   postView.style.display = '';
   const titleEl = document.getElementById('blogPageTitle');
   if (titleEl) titleEl.textContent = post.title;
+  // Update breadcrumb: Начало > Блог > [Title]
+  const bcEl = document.getElementById('blogBc');
+  if (bcEl) {
+    const shortTitle = post.title.length > 40 ? post.title.slice(0, 40) + '…' : post.title;
+    bcEl.innerHTML = `<ol class="pg-bc-list" itemscope itemtype="https://schema.org/BreadcrumbList">
+    <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+      <a href="/" class="pg-bc-home" onclick="closeBlogPage();return false;">Начало</a>
+      <meta itemprop="position" content="1"/>
+    </li>
+    <li class="pg-bc-sep" aria-hidden="true">›</li>
+    <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+      <a class="pg-bc-home" onclick="closeBlogPost();return false;" style="cursor:pointer">Блог</a>
+      <meta itemprop="position" content="2"/>
+    </li>
+    <li class="pg-bc-sep" aria-hidden="true">›</li>
+    <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+      <strong class="pg-bc-current" itemprop="name">${shortTitle}</strong>
+      <meta itemprop="position" content="3"/>
+    </li>
+  </ol>`;
+  }
   const brand = post.brand || 'general';
   const specsHtml = post.specs
     ? `<table class="blog-specs-table">${Object.entries(post.specs).map(([k,v]) =>
@@ -488,10 +509,7 @@ function openBlogPost(slug) {
       ${specsHtml}
       <div class="blog-article-body">${post.body}</div>
       ${verdictHtml}
-    </div>
-    <footer class="blog-article-footer">
-      <div class="blog-article-tags">${post.tags.map(t => `<span class="blog-tag">${escHtml(t)}</span>`).join('')}</div>
-    </footer>`;
+    </div>`;
   // SEO meta
   if (typeof setPageMeta === 'function') setPageMeta(post.title + ' — Most Computers', post.metaDesc);
   const canonical = document.querySelector('link[rel="canonical"]');
@@ -541,6 +559,7 @@ function closeBlogPost() {
   const ogType = document.querySelector('meta[property="og:type"]');
   if (ogType) ogType.setAttribute('content', 'website');
   try { history.replaceState({ page: 'blog' }, '', '?page=blog'); } catch(e) {}
+  _setPgBc('blogBc', 'Блог и новини', 'closeBlogPage');
 }
 function closeBlogPage() {
   // If a post is open, close post first and go back to list

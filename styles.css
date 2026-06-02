@@ -16254,6 +16254,188 @@
    .about-partner { width: 33.33%; border-bottom: 1px solid var(--border); }
  }
 
+ /* ════════════════════════════════════════════
+   DELIVERY PAGE — Premium redesign
+════════════════════════════════════════════ */
+ .dlv-eyebrow {
+   font-size: 10.5px; font-weight: 600; letter-spacing: .18em;
+   text-transform: uppercase; color: var(--primary); margin-bottom: 10px;
+ }
+ /* Hero */
+ .dlv-hero {
+   display: grid; grid-template-columns: 1fr 200px;
+   background: var(--surface); border-bottom: 1px solid var(--border);
+ }
+ .dlv-hero-left {
+   padding: 56px 40px 56px 32px; border-right: 1px solid var(--border);
+   position: relative; display: flex; flex-direction: column; justify-content: center;
+ }
+ .dlv-hero-left::before {
+   content: ''; position: absolute; left: 0; top: 36px; bottom: 36px;
+   width: 3px; background: var(--primary); border-radius: 0 2px 2px 0;
+ }
+ .dlv-hero-title {
+   font-family: 'Outfit', sans-serif; font-size: clamp(24px, 3vw, 38px);
+   font-weight: 700; color: var(--text); letter-spacing: -.025em;
+   line-height: 1.15; margin: 0 0 14px;
+ }
+ .dlv-hero-title em { font-style: normal; color: var(--primary); }
+ .dlv-hero-sub {
+   font-size: 13.5px; color: var(--muted); line-height: 1.7; margin: 0; max-width: 380px;
+ }
+ .dlv-hero-right {
+   background: var(--bg); display: flex; flex-direction: column;
+   align-items: center; justify-content: center; padding: 32px 24px; gap: 5px; text-align: center;
+ }
+ .dlv-hero-badge-icon {
+   width: 44px; height: 44px; background: #dcfce7; border-radius: 50%;
+   display: flex; align-items: center; justify-content: center; margin-bottom: 6px;
+ }
+ .dlv-hero-badge-label {
+   font-size: 10px; font-weight: 600; text-transform: uppercase;
+   letter-spacing: .12em; color: var(--muted);
+ }
+ .dlv-hero-badge-amount {
+   font-family: 'Outfit', sans-serif; font-size: 20px; font-weight: 700;
+   color: #16a34a; letter-spacing: -.02em;
+ }
+ .dlv-hero-badge-sub { font-size: 11px; color: var(--muted); }
+ /* Trust strip */
+ .dlv-trust-strip {
+   background: var(--surface); border-bottom: 1px solid var(--border);
+   display: flex; align-items: stretch; max-width: 100%; overflow-x: auto;
+ }
+ .dlv-trust-item {
+   flex: 1; display: flex; align-items: center; gap: 9px;
+   padding: 16px 20px; font-size: 12.5px; font-weight: 500; color: var(--text2);
+   border-right: 1px solid var(--border); white-space: nowrap;
+ }
+ .dlv-trust-item:last-child { border-right: none; }
+ .dlv-check {
+   width: 20px; height: 20px; background: #dcfce7; border-radius: 50%;
+   display: flex; align-items: center; justify-content: center;
+   font-size: 10px; color: #16a34a; font-weight: 700; flex-shrink: 0;
+ }
+ /* Body */
+ .dlv-body { max-width: 900px; margin: 0 auto; padding: 0 0 60px; }
+ .dlv-section { padding: 64px 32px; background: var(--surface); border-top: 1px solid var(--border); }
+ .dlv-section--alt { background: var(--bg); }
+ .dlv-section-title {
+   font-family: 'Outfit', sans-serif; font-size: 26px; font-weight: 600;
+   color: var(--text); letter-spacing: -.02em; margin: 0 0 36px; line-height: 1.2;
+ }
+ /* Delivery cards */
+ .dlv-grid { display: grid; gap: 14px; }
+ .dlv-grid--2x2 { grid-template-columns: 1fr 1fr; }
+ .dlv-grid--4col { grid-template-columns: repeat(4, 1fr); }
+ .dlv-card {
+   background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+   padding: 24px 22px; position: relative;
+   border-top: 2px solid transparent; transition: border-color .15s, background .15s;
+ }
+ .dlv-card:hover { background: var(--bg); border-top-color: var(--primary); }
+ .dlv-card--active {
+   background: #fef9f9; border-color: #e5b4b4; border-top-color: var(--primary);
+ }
+ .dlv-card-badge {
+   position: absolute; top: 14px; right: 14px;
+   background: #fef2f2; color: var(--primary); border: 1px solid #fca5a5;
+   font-size: 10px; font-weight: 700; letter-spacing: .06em;
+   padding: 2px 8px; border-radius: 20px; text-transform: uppercase;
+ }
+ .dlv-card-icon {
+   width: 28px; height: 28px; color: var(--primary); margin-bottom: 14px; display: block;
+ }
+ .dlv-card-title {
+   font-family: 'Outfit', sans-serif; font-size: 15px; font-weight: 600;
+   color: var(--text); margin-bottom: 4px;
+ }
+ .dlv-card-sub { font-size: 12.5px; color: var(--muted); margin-bottom: 14px; }
+ .dlv-card-price {
+   font-family: 'Outfit', sans-serif; font-size: 18px; font-weight: 700;
+   color: var(--text); display: flex; flex-direction: column; gap: 3px;
+ }
+ .dlv-card-price--free { color: #16a34a; }
+ .dlv-price-note { font-size: 11px; font-weight: 400; color: var(--muted); font-family: 'Inter', sans-serif; }
+ /* Free banner */
+ .dlv-free-banner {
+   margin-top: 20px; background: #fff5f5; border: 1px solid #fca5a5;
+   border-radius: 12px; padding: 24px 28px;
+   display: flex; align-items: center; justify-content: space-between; gap: 20px;
+ }
+ .dlv-free-banner-text {
+   font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 500; color: var(--text);
+ }
+ .dlv-free-banner-text strong { color: var(--primary); }
+ .dlv-btn-primary {
+   background: var(--primary); color: #fff; border: none; border-radius: 8px;
+   padding: 11px 20px; font-size: 13px; font-weight: 600; cursor: pointer;
+   white-space: nowrap; transition: background .2s; font-family: 'Inter', sans-serif;
+ }
+ .dlv-btn-primary:hover { background: var(--primary-dark); }
+ /* Payment cards */
+ .dlv-pay-card {
+   background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+   padding: 24px 18px; border-top: 2px solid transparent; transition: border-color .15s, background .15s;
+ }
+ .dlv-pay-card:hover { background: var(--bg); border-top-color: var(--primary); }
+ /* FAQ */
+ .dlv-faq { display: flex; flex-direction: column; gap: 2px; }
+ .dlv-faq-item {
+   background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+   overflow: hidden;
+ }
+ .dlv-faq-q {
+   display: flex; align-items: center; justify-content: space-between;
+   padding: 18px 24px; font-family: 'Outfit', sans-serif; font-size: 15px;
+   font-weight: 600; color: var(--text); cursor: pointer; list-style: none;
+ }
+ .dlv-faq-q::-webkit-details-marker { display: none; }
+ .dlv-faq-q::after {
+   content: '+'; font-size: 20px; font-weight: 300; color: var(--muted);
+   flex-shrink: 0; margin-left: 12px;
+ }
+ details[open] .dlv-faq-q::after { content: '−'; color: var(--primary); }
+ details[open] .dlv-faq-q { color: var(--primary); }
+ .dlv-faq-a {
+   padding: 0 24px 18px; font-size: 13.5px; color: var(--text2); line-height: 1.7; margin: 0;
+   border-top: 1px solid var(--border);
+ }
+ /* CTA */
+ .dlv-cta {
+   background: var(--primary); padding: 48px 32px;
+   display: flex; align-items: center; justify-content: space-between; gap: 24px;
+ }
+ .dlv-cta-text {
+   font-family: 'Outfit', sans-serif; font-size: 22px; font-weight: 700;
+   color: #fff; letter-spacing: -.01em;
+ }
+ .dlv-cta-text span {
+   display: block; font-family: 'Inter', sans-serif; font-size: 13px;
+   font-weight: 400; color: rgba(255,255,255,.6); margin-top: 4px; letter-spacing: 0;
+ }
+ .dlv-btn-phone {
+   display: inline-flex; align-items: center; gap: 9px;
+   background: transparent; color: #fff; border: 1.5px solid rgba(255,255,255,.35);
+   border-radius: 8px; padding: 13px 22px; font-size: 15px; font-weight: 600;
+   cursor: pointer; text-decoration: none; white-space: nowrap;
+   transition: border-color .2s, background .2s; font-family: 'Inter', sans-serif;
+ }
+ .dlv-btn-phone:hover { border-color: rgba(255,255,255,.7); background: rgba(255,255,255,.08); }
+ /* Responsive */
+ @media (max-width: 680px) {
+   .dlv-hero { grid-template-columns: 1fr; }
+   .dlv-hero-left { padding: 40px 20px; border-right: none; border-bottom: 1px solid var(--border); }
+   .dlv-hero-right { padding: 24px 20px; flex-direction: row; gap: 16px; text-align: left; }
+   .dlv-grid--2x2 { grid-template-columns: 1fr; }
+   .dlv-grid--4col { grid-template-columns: 1fr 1fr; }
+   .dlv-section { padding: 48px 20px; }
+   .dlv-trust-strip { flex-wrap: wrap; }
+   .dlv-trust-item { width: 50%; border-bottom: 1px solid var(--border); }
+   .dlv-free-banner { flex-direction: column; align-items: flex-start; }
+   .dlv-cta { flex-direction: column; align-items: flex-start; padding: 40px 20px; }
+ }
+
  /* ════════════════════════════════════════════════════════════
    PREMIUM UPGRADE — Typography · Color Discipline · Cards
 ════════════════════════════════════════════════════════════ */

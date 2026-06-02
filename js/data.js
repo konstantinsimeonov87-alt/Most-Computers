@@ -368,7 +368,7 @@ var products = [
    img:'./images/products/37790.webp',stock:false},
 
   {id:53,name:'ASROCK A620AM-HVS',brand:'ASRock',cat:'components',subcat:'motherboard',
-   price:126.91,old:134,pct:5,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'A620AM-HVS',ean:'4711581490819',
+   price:126.68,old:134,pct:5,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'A620AM-HVS',ean:'4711581490819',
    specs:{'Памет':'2× DDR5','SATA3':'4×SATA3','RAID':'Да','M.2':'1xM2','PCIe x16':'1×PCIEx16','PCIe x1':'1xPCIEx1','Изходи':'HDMI / VGA','Форм фактор':'ATX','Сокет':'AM5'},
    rating:4.4,rv:0,reviews:[],
    desc:'ASRock дънна платка ASROCK A620AM-HVS.',
@@ -428,7 +428,7 @@ var products = [
    specs:{'Чипсет':'AMD/Intel B650','Памет':'4× DDR5','SATA3':'4×SATA3','RAID':'Да','M.2':'3xM2','PCIe x16':'2×PCIEx16','Изходи':'HDMI / DP','Форм фактор':'ATX','Сокет':'AM5'},
    rating:4.4,rv:0,reviews:[],
    desc:'ASRock дънна платка ASROCK B650M PG LIGHTNING.',
-   img:'./images/products/40460.webp',stock:true},
+   img:'./images/products/40460.webp',stock:false},
 
   {id:62,name:'ASROCK B650M PRO RS /AM5',brand:'ASRock',cat:'components',subcat:'motherboard',
    price:221,old:null,pct:null,badge:null,added:'2026-04-20',emoji:'⚙️',sku:'B650M PRO RS',ean:'4710483943096',
@@ -512,7 +512,7 @@ var products = [
    specs:{'Чипсет':'AMD/Intel B850','Памет':'4× DDR5','SATA3':'4×SATA3','RAID':'Да','M.2':'3xM2','PCIe x16':'1×PCIEx16','PCIe x1':'1xPCIEx1','Изходи':'HDMI / DP','Форм фактор':'ATX','Сокет':'AM5'},
    rating:4.4,rv:0,reviews:[],
    desc:'ASRock дънна платка ASROCK B850M PRO RS WIFI.',
-   img:'./images/products/45008.webp',stock:true},
+   img:'./images/products/45008.webp',stock:false},
 
   {id:74,name:'ASROCK B850M RIPTIDE WIFI',brand:'ASRock',cat:'components',subcat:'motherboard',
    price:283,old:null,pct:null,badge:null,added:'2026-04-20',emoji:'⚙️',sku:'B850M RIPTIDE WIFI',ean:'4711581490482',
@@ -529,7 +529,7 @@ var products = [
    img:'./images/products/48791.webp',stock:true},
 
   {id:76,name:'ASROCK B850 PRO RS /AM5',brand:'ASRock',cat:'components',subcat:'motherboard',
-   price:255.49,old:273,pct:6,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'B850 PRO RS',ean:'4711581490161',
+   price:255.02,old:273,pct:7,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'B850 PRO RS',ean:'4711581490161',
    specs:{'Чипсет':'AMD/Intel B850','Памет':'4× DDR5','SATA3':'4×SATA3','RAID':'Да','M.2':'4xM2','PCIe x16':'1×PCIEx16','Изходи':'HDMI','Форм фактор':'ATX','Сокет':'AM5'},
    rating:4.4,rv:0,reviews:[],
    desc:'ASRock дънна платка ASROCK B850 PRO RS /AM5.',
@@ -543,11 +543,11 @@ var products = [
    img:'./images/products/47015.webp',stock:false},
 
   {id:78,name:'ASROCK B850 PRO RS WIFI /AM5',brand:'ASRock',cat:'components',subcat:'motherboard',
-   price:278.8,old:302,pct:8,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'B850 PRO RS WIFI',ean:'4711581490178',
+   price:278.31,old:302,pct:8,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'B850 PRO RS WIFI',ean:'4711581490178',
    specs:{'Чипсет':'AMD/Intel B850','Памет':'4× DDR5','SATA3':'4×SATA3','RAID':'Да','M.2':'4xM2','PCIe x16':'1×PCIEx16','Изходи':'HDMI','Форм фактор':'ATX','Сокет':'AM5'},
    rating:4.4,rv:0,reviews:[],
    desc:'ASRock дънна платка ASROCK B850 PRO RS WIFI /AM5.',
-   img:'./images/products/44599.webp',stock:true},
+   img:'./images/products/44599.webp',stock:false},
 
   {id:79,name:'ASROCK B850 PRO-A WIFI /AM5',brand:'ASRock',cat:'components',subcat:'motherboard',
    price:277,old:null,pct:null,badge:null,added:'2026-04-20',emoji:'⚙️',sku:'B850 PRO-A WIFI',ean:'4711581490192',
@@ -631,7 +631,7 @@ var products = [
    specs:{'Чипсет':'AMD/Intel H610','Памет':'2× DDR4','SATA3':'4×SATA3','M.2':'1xM2','PCIe x16':'1×PCIEx16','PCIe x1':'1xPCIEx1','Изходи':'HDMI / VGA','Форм фактор':'Micro-ATX','Сокет':'LGA1700'},
    rating:4.4,rv:0,reviews:[],
    desc:'ASRock дънна платка ASROCK H610M-HVS/M.2 R2.0/DDR4.',
-   img:'./images/products/33033.webp',stock:true},
+   img:'./images/products/33033.webp',stock:false},
 
   {id:91,name:'ASROCK H610M-H2/M.2 D5',brand:'ASRock',cat:'components',subcat:'motherboard',
    price:106,old:null,pct:null,badge:null,added:'2026-04-20',emoji:'⚙️',sku:'H610M-H2/M.2 D5',ean:'4710483943775',
@@ -746,7 +746,7 @@ var products = [
    img:'./images/products/37854.webp',stock:true},
 
   {id:107,name:'ASROCK H810M-H',brand:'ASRock',cat:'components',subcat:'motherboard',
-   price:125.56,old:142,pct:12,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'H810M-H',ean:'4711581490833',
+   price:125.33,old:142,pct:12,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'H810M-H',ean:'4711581490833',
    specs:{'Чипсет':'AMD/Intel H610','Памет':'2× DDR5','SATA3':'4×SATA3','M.2':'1xM2','PCIe x16':'1×PCIEx16','PCIe x1':'1xPCIEx1','Изходи':'HDMI','Форм фактор':'ATX','Сокет':'LGA1700'},
    rating:4.4,rv:0,reviews:[],
    desc:'ASRock дънна платка ASROCK H810M-H.',
@@ -767,14 +767,14 @@ var products = [
    img:'./images/products/44603.webp',stock:false},
 
   {id:110,name:'ASROCK B860M-H2',brand:'ASRock',cat:'components',subcat:'motherboard',
-   price:163.82,old:181,pct:9,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'B860M-H2',ean:'4711581490437',
+   price:163.53,old:181,pct:10,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'B860M-H2',ean:'4711581490437',
    specs:{'Форм фактор':'ATX','Сокет':'LGA1700'},
    rating:4.4,rv:0,reviews:[],
    desc:'ASRock дънна платка ASROCK B860M-H2.',
    img:'./images/products/49879.webp',stock:true},
 
   {id:111,name:'ASROCK B860M PRO RS',brand:'ASRock',cat:'components',subcat:'motherboard',
-   price:221.62,old:235,pct:6,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'B860M PRO RS',ean:'4711581490277',
+   price:221.22,old:235,pct:6,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'B860M PRO RS',ean:'4711581490277',
    specs:{'Чипсет':'AMD/Intel B860','Памет':'4× DDR5','SATA3':'4×SATA3','RAID':'Да','M.2':'3xM2','PCIe x16':'1×PCIEx16','Изходи':'HDMI / DP','Форм фактор':'ATX','Сокет':'LGA1700'},
    rating:4.4,rv:0,reviews:[],
    desc:'ASRock дънна платка ASROCK B860M PRO RS.',
@@ -788,7 +788,7 @@ var products = [
    img:'./images/products/48799.webp',stock:false},
 
   {id:113,name:'ASROCK B860M PRO-A',brand:'ASRock',cat:'components',subcat:'motherboard',
-   price:203.58,old:224,pct:9,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'B860M PRO-A',ean:'4711581490291',
+   price:203.23,old:224,pct:9,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'B860M PRO-A',ean:'4711581490291',
    specs:{'Чипсет':'AMD/Intel B860','Памет':'4× DDR5','SATA3':'4×SATA3','RAID':'Да','M.2':'3xM2','PCIe x16':'1×PCIEx16','Изходи':'HDMI / DP','Форм фактор':'ATX','Сокет':'LGA1700'},
    rating:4.4,rv:0,reviews:[],
    desc:'ASRock дънна платка ASROCK B860M PRO-A.',
@@ -851,7 +851,7 @@ var products = [
    img:'./images/products/44619.webp',stock:true},
 
   {id:122,name:'ASROCK B860 PRO-A WIFI/LGA1851',brand:'ASRock',cat:'components',subcat:'motherboard',
-   price:232.57,old:256,pct:9,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'B860 PRO-A WIFI',ean:'4711581490253',
+   price:232.16,old:256,pct:9,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'B860 PRO-A WIFI',ean:'4711581490253',
    specs:{'Чипсет':'AMD/Intel B860','Памет':'4× DDR5','SATA3':'4×SATA3','RAID':'Да','M.2':'3xM2','PCIe x16':'2×PCIEx16','Изходи':'HDMI / DP','Форм фактор':'ATX','Сокет':'LGA1851'},
    rating:4.4,rv:0,reviews:[],
    desc:'ASRock дънна платка ASROCK B860 PRO-A WIFI/LGA1851.',
@@ -876,7 +876,7 @@ var products = [
    specs:{'Чипсет':'AMD/Intel B860','Памет':'4× DDR5','SATA3':'4×SATA3','RAID':'Да','M.2':'4xM2','PCIe x16':'1×PCIEx16','PCIe x1':'3xPCIEx1','Изходи':'HDMI / DP','Форм фактор':'ATX','Сокет':'LGA1700'},
    rating:4.4,rv:0,reviews:[],
    desc:'ASRock дънна платка ASROCK Z890 PRO-A.',
-   img:'./images/products/43028.webp',stock:true},
+   img:'./images/products/43028.webp',stock:false},
 
   {id:126,name:'ASROCK Z890 PRO-A WIFI',brand:'ASRock',cat:'components',subcat:'motherboard',
    price:323,old:null,pct:null,badge:null,added:'2026-04-20',emoji:'⚙️',sku:'Z890 PRO-A WIFI',ean:'4710483947544',
@@ -2209,7 +2209,7 @@ var products = [
    img:'./images/products/27094.webp',stock:false},
 
   {id:316,name:'ASUS TUF GAMING B550M-PLUS/AM4',brand:'Asus',cat:'components',subcat:'motherboard',
-   price:178.65,old:251,pct:29,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'90MB14A0-M0EAY0',ean:'4718017623544',
+   price:178.33,old:251,pct:29,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'90MB14A0-M0EAY0',ean:'4718017623544',
    specs:{'Чипсет':'AMD/Intel B550','Памет':'4× DDR4','SATA3':'4×SATA3','RAID':'Да','M.2':'2xM2','PCIe x16':'2×PCIEx16','PCIe x1':'1xPCIEx1','Изходи':'HDMI / DP','Форм фактор':'ATX','Сокет':'AM4'},
    rating:4.4,rv:0,reviews:[],
    desc:'ASUS дънна платка ASUS TUF GAMING B550M-PLUS/AM4.',
@@ -2223,7 +2223,7 @@ var products = [
    img:'./images/products/37075.webp',stock:false},
 
   {id:318,name:'ASUS PRIME B550-PLUS /AM4',brand:'Asus',cat:'components',subcat:'motherboard',
-   price:171.9,old:257,pct:33,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'90MB14U0-M0EAY0',ean:'4718017782340',
+   price:171.6,old:257,pct:33,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'90MB14U0-M0EAY0',ean:'4718017782340',
    specs:{'Чипсет':'AMD/Intel B550','Памет':'4× DDR4','SATA3':'6×SATA3','RAID':'Да','M.2':'2xM2','PCIe x16':'2×PCIEx16','PCIe x1':'3xPCIEx1','Изходи':'HDMI / DP','Форм фактор':'ATX','Сокет':'AM4'},
    rating:4.4,rv:0,reviews:[],
    desc:'ASUS дънна платка ASUS PRIME B550-PLUS /AM4.',
@@ -2370,7 +2370,7 @@ var products = [
    img:'./images/products/48195.webp',stock:true},
 
   {id:339,name:'ASUS TUF GAMING B850-PLUS WIFI',brand:'Asus',cat:'components',subcat:'motherboard',
-   price:345.5,old:447,pct:23,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'90MB1J30-M0EAY0',ean:'4711387781609',
+   price:344.87,old:447,pct:23,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'90MB1J30-M0EAY0',ean:'4711387781609',
    specs:{'Форм фактор':'ATX','Сокет':'AM5'},
    rating:4.4,rv:0,reviews:[],
    desc:'ASUS дънна платка ASUS TUF GAMING B850-PLUS WIFI.',
@@ -2573,7 +2573,7 @@ var products = [
    img:'./images/products/48252.webp',stock:false},
 
   {id:368,name:'ASUS PRIME B760M-A-CSM/LGA1700',brand:'Asus',cat:'components',subcat:'motherboard',
-   price:188.76,old:215,pct:12,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'90MB1EK0-M1EAYC',ean:'4711387140710',
+   price:188.42,old:215,pct:12,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'90MB1EK0-M1EAYC',ean:'4711387140710',
    specs:{'Чипсет':'AMD/Intel B760','Памет':'4× DDR5','SATA3':'4×SATA3','RAID':'Да','M.2':'2xM2','PCIe x16':'3×PCIEx16','Изходи':'DP','Форм фактор':'ATX','Сокет':'LGA1700'},
    rating:4.4,rv:0,reviews:[],
    desc:'ASUS дънна платка ASUS PRIME B760M-A-CSM/LGA1700.',
@@ -2734,7 +2734,7 @@ var products = [
    img:'./images/products/48264.webp',stock:true},
 
   {id:391,name:'ASUS ROG STRIX Z890-F GAM WIFI',brand:'Asus',cat:'components',subcat:'motherboard',
-   price:755.03,old:802,pct:6,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'90MB1I40-M0EAY0',ean:'4711387755921',
+   price:753.7,old:802,pct:6,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'90MB1I40-M0EAY0',ean:'4711387755921',
    specs:{'Форм фактор':'ATX','Сокет':'LGA1700'},
    rating:4.4,rv:0,reviews:[],
    desc:'ASUS дънна платка ASUS ROG STRIX Z890-F GAM WIFI.',
@@ -2901,7 +2901,7 @@ var products = [
    specs:{'Сокет':'FCLGA1700, FCBGA1700','Ядра':'6','Нишки':'12','Честота':'Max Turbo Frequency:4.60 GHz; Performance-core Max Turbo Frequency:4.60 GHz; Performance-core Base F','Кеш':'18 MB Smart Cache','Памет':'Макс: 128 GB | Тип: Up to DDR5 4800 MT/s; Up to DDR4 3200 MT/s | Канали: 2 | 76.8 GB/s','Интегрирана графика':'UHD Graphics 770'},
    rating:4.5,rv:0,reviews:[],
    desc:'Intel I5-12500 /3.0G/18MB BOX - сокет FCLGA1700, FCBGA1700, 6 ядра.',
-   img:'./images/products/29843.webp',stock:true},
+   img:'./images/products/29843.webp',stock:false},
 
   {id:415,name:'INTEL I5-12500 /3.0G/18MBTRAY',brand:'Intel',cat:'components',subcat:'cpu',
    price:318,old:null,pct:null,badge:null,added:'2026-04-20',emoji:'🔵',sku:'CM8071504647605',ean:null,
@@ -3037,14 +3037,14 @@ var products = [
    img:'./images/products/32560.webp',stock:false},
 
   {id:434,name:'INTEL I3-14100 3.5GHZ 12MB BOX 1700',brand:'Intel',cat:'components',subcat:'cpu',
-   price:244.38,old:302,pct:19,badge:'sale',added:'2026-04-20',emoji:'🔵',sku:'INB71514100SRMX1',ean:'5032037279079',
+   price:243.93,old:302,pct:19,badge:'sale',added:'2026-04-20',emoji:'🔵',sku:'INB71514100SRMX1',ean:'5032037279079',
    specs:{'Сокет':'FCLGA1700','Ядра':'4','Нишки':'8','Честота':'Max Turbo Frequency: 4.7 GHz; Performance-core Max Turbo Frequency: 4.7 GHz; Performance-core Base F','Кеш':'12 MB Smart Cache','Памет':'Макс: 192 GB; Memory Types Up to DDR5 4800 MT/s; Up to DDR4 3200 MT/s | Канали: 2 | 76.8 GB/s','Интегрирана графика':'UHD Graphics 730','TDP':'60 W'},
    rating:4.5,rv:0,reviews:[],
    desc:'Intel I3-14100 3.5GHZ 12MB BOX 1700 - сокет FCLGA1700, 4 ядра, TDP 60 W.',
    img:'./images/products/38366.webp',stock:false},
 
   {id:435,name:'INTEL I3-14100 3.5GHZ 12M TRAY 1700',brand:'Intel',cat:'components',subcat:'cpu',
-   price:240.16,old:272,pct:12,badge:'sale',added:'2026-04-20',emoji:'🔵',sku:'CM8071505092206',ean:'4251538816816',
+   price:239.73,old:272,pct:12,badge:'sale',added:'2026-04-20',emoji:'🔵',sku:'CM8071505092206',ean:'4251538816816',
    specs:{'Manufacturer':'Intel','Сокет':'FCLGA1700','Ядра':'4','Нишки':'8','Честота':'Max Turbo Frequency: 4.7 GHz;Performance-core Max Turbo Frequency: 4.7 GHz;Performance-core Base Fre','Кеш':'12 MB Smart Cache;Total L2 Cache: 5 MB','Памет':'Max Memory Size: 192 GB | Тип: Up to DDR5 4800 MT/s, Up to DDR4 3200 MT/s | Канали: 2 | 76.8 GB/s','Tray':'Yes','Интегрирана графика':'UHD Graphics 730, 1.5 GHz,'},
    rating:4.5,rv:0,reviews:[],
    desc:'Intel I3-14100 3.5GHZ 12M TRAY 1700 - сокет FCLGA1700, 4 ядра.',
@@ -3086,7 +3086,7 @@ var products = [
    img:'./images/products/50431.webp',stock:false},
 
   {id:441,name:'INTEL I5-14500 3.7GHZ 24MB BOX 1700',brand:'Intel',cat:'components',subcat:'cpu',
-   price:476.11,old:500,pct:5,badge:'sale',added:'2026-04-20',emoji:'🔵',sku:'INV71514500SRN3T',ean:'5032037279185',
+   price:475.27,old:500,pct:5,badge:'sale',added:'2026-04-20',emoji:'🔵',sku:'INV71514500SRN3T',ean:'5032037279185',
    specs:{'Сокет':'FCLGA1700','Ядра':'14','Нишки':'20','Честота':'Max Turbo Frequency:5 GHz; Performance-core Max Turbo Frequency:5 GHz; Efficient-core Max Turbo Freq','Кеш':'24 MB Smart Cache','Памет':'Макс: 192 GB | Тип: Up to DDR5 4800 MT/s; Up to DDR4 3200 MT/s | Канали: 2 | 76.8 GB/s','Интегрирана графика':'UHD Graphics 770'},
    rating:4.5,rv:0,reviews:[],
    desc:'Intel I5-14500 3.7GHZ 24MB BOX 1700 - сокет FCLGA1700, 14 ядра.',
@@ -3202,7 +3202,7 @@ var products = [
    specs:{'Manufacturer':'INTEL','Сокет':'FCLGA1851','Ядра':'10','Нишки':'10','Честота':'Max Turbo Frequency: 4.9 GHz; Performance-core Max Turbo Frequency: 4.9 GHz; Efficient-core Max Turb','Кеш':'Cache: 20 MB Smart Cache; Total L2 Cache: 22 MB','Max. PCI Express Lanes':'24','Памет':'Макс: 256 GB | Тип: Up to DDR5 6400 MT/s | Канали: 2','Интегрирана графика':'Graphics 300 MHz, 1.8 GHz, TOPS 4','Other':'NPU: AI Boost 13'},
    rating:4.5,rv:0,reviews:[],
    desc:'Intel INTEL CORE ULTRA 5 225 BOX - сокет FCLGA1851, 10 ядра.',
-   img:'./images/products/100196.webp',stock:true},
+   img:'./images/products/100196.webp',stock:false},
 
   {id:458,name:'INTEL CORE ULTRA 5 235 BOX',brand:'Intel',cat:'components',subcat:'cpu',
    price:477,old:null,pct:null,badge:null,added:'2026-04-20',emoji:'🔵',sku:'BX80768235',ean:'5032037282925',
@@ -3601,7 +3601,7 @@ var products = [
    specs:{'Manufacturer':'AMD','Сокет':'AM5','Ядра':'6','Нишки':'12','Честота':'Max. Boost Clock: Up to 5 GHz;Base Clock: 3.7 GHz','Кеш':'L1 Cache: 384 KB;L2 Cache: 6 MB;L3 Cache: 32 MB','Max. PCI Express Lanes':'Total 28 /Usable 24','Памет':'System Memory Type: DDR5;Memory Channels: 2;Max. Memory: 128 GB;System Memory Subtype: UDIMM;Max Mem','Fan':'Not included','Tray':'Yes','Интегрирана графика':'Discrete Graphics Card Required','TDP':'65W'},
    rating:4.5,rv:0,reviews:[],
    desc:'AMD AMD RYZEN 5 7500F TRAY - сокет AM5, 6 ядра, TDP 65W.',
-   img:'./images/products/45878.webp',stock:true},
+   img:'./images/products/45878.webp',stock:false},
 
   {id:515,name:'AMD RYZEN 5 7500F MPK',brand:'AMD',cat:'components',subcat:'cpu',
    price:247,old:null,pct:null,badge:null,added:'2026-04-20',emoji:'🔴',sku:'100-100000597MPK',ean:null,
@@ -3639,7 +3639,7 @@ var products = [
    img:'./images/products/35197.webp',stock:false},
 
   {id:520,name:'AMD RYZEN 5 7600X 4.7G 38M BOX',brand:'AMD',cat:'components',subcat:'cpu',
-   price:321.05,old:345,pct:7,badge:'sale',added:'2026-04-20',emoji:'🔴',sku:'100-100000593WOF',ean:'0730143314442',
+   price:320.48,old:345,pct:7,badge:'sale',added:'2026-04-20',emoji:'🔴',sku:'100-100000593WOF',ean:'0730143314442',
    specs:{'Сокет':'AM5','Ядра':'6','Нишки':'12','Честота':'Max. Boost Clock:Up to 5.3GHz; Base Clock:4.7GHz','Кеш':'L1 Cache:384KB; L2 Cache:6MB; L3 Cache:32MB','Памет':'System Memory Type:DDR5; Memory Channels:2; Max Memory Speed: 2x1R-DDR5-5200','Интегрирана графика':'AMD Radeon™ Graphics','TDP':'105W'},
    rating:4.5,rv:0,reviews:[],
    desc:'AMD AMD RYZEN 5 7600X 4.7G 38M BOX - сокет AM5, 6 ядра, TDP 105W.',
@@ -3702,7 +3702,7 @@ var products = [
    img:'./images/products/45880.webp',stock:false},
 
   {id:529,name:'AMD RYZEN 7 7800X3D BOX',brand:'AMD',cat:'components',subcat:'cpu',
-   price:664.02,old:738,pct:10,badge:'sale',added:'2026-04-20',emoji:'🔴',sku:'100-100000910WOF',ean:'0730143314930',
+   price:662.85,old:738,pct:10,badge:'sale',added:'2026-04-20',emoji:'🔴',sku:'100-100000910WOF',ean:'0730143314930',
    specs:{'Сокет':'AM5','Ядра':'8','Нишки':'16','Честота':'Max. Boost Clock:Up to 5.0GHz; Base Clock:4.2GHz','Кеш':'L1 Cache:512KB; L2 Cache:8MB; L3 Cache:96MB','Памет':'PCI Express® Version:PCIe® 5.0; System Memory Type:DDR5; Memory Channels:2; Max Memory Speed: 2x1R; ','Интегрирана графика':'Graphics Model:AMD Radeon™ Graphics; Graphics Core Count:2; Graphics Frequency:2200 MHz','TDP':'120W'},
    rating:4.5,rv:0,reviews:[],
    desc:'AMD AMD RYZEN 7 7800X3D BOX - сокет AM5, 8 ядра, TDP 120W.',
@@ -3716,7 +3716,7 @@ var products = [
    img:'./images/products/46354.webp',stock:true},
 
   {id:531,name:'AMD RYZEN 9 7900X 4.7G 76M BOX',brand:'AMD',cat:'components',subcat:'cpu',
-   price:574.7,old:615,pct:7,badge:'sale',added:'2026-04-20',emoji:'🔴',sku:'AW100100000589WOF',ean:'0730143314558',
+   price:573.68,old:615,pct:7,badge:'sale',added:'2026-04-20',emoji:'🔴',sku:'AW100100000589WOF',ean:'0730143314558',
    specs:{'Ядра':'12','Нишки':'24','Честота':'Max. Boost Clock:Up to 5.6GHz; Base Clock:4.7GHz','Кеш':'L1 Cache:768KB; L2 Cache:12MB; L3 Cache:64MB','Памет':'System Memory Type:DDR5; Memory Channels:2; Max Memory Speed: 2x1R-DDR5-5200; 2x2R-DDR5-5200; 4x1R-D','Интегрирана графика':'AMD Radeon™ Graphics','TDP':'170W'},
    rating:4.5,rv:0,reviews:[],
    desc:'AMD AMD RYZEN 9 7900X 4.7G 76M BOX, 12 ядра, TDP 170W.',
@@ -3807,7 +3807,7 @@ var products = [
    img:'./images/products/40311.webp',stock:false},
 
   {id:544,name:'AMD RYZEN 5 PRO 8500G TRAY',brand:'AMD',cat:'components',subcat:'cpu',
-   price:321.89,old:340,pct:5,badge:'sale',added:'2026-04-20',emoji:'🔴',sku:'100-000001183',ean:'5054444595115',
+   price:321.32,old:340,pct:5,badge:'sale',added:'2026-04-20',emoji:'🔴',sku:'100-000001183',ean:'5054444595115',
    specs:{'Manufacturer':'AMD','Сокет':'AM5','Ядра':'6','Нишки':'12','Честота':'Max. Boost Clock: Up to 5 GHz;Base Clock: Up to 3.7 GHz','Кеш':'L2 Cache: 6 MB;L3 Cache: 16 MB','Max. PCI Express Lanes':'Total 14/Usable 10','Памет':'System Memory Type: DDR5;Memory Channels: 2;Max. Memory: 256 GB;System Memory Subtype: UDIMM;Max Mem','Tray':'Yes','Интегрирана графика':'AMD Radeon™ 740M 4 2800 MHz','TDP':'65W'},
    rating:4.5,rv:0,reviews:[],
    desc:'AMD AMD RYZEN 5 PRO 8500G TRAY - сокет AM5, 6 ядра, TDP 65W.',
@@ -3870,7 +3870,7 @@ var products = [
    img:'./images/products/40313.webp',stock:false},
 
   {id:553,name:'AMD RYZEN 7 8700G 4.2G SR1 BOX',brand:'AMD',cat:'components',subcat:'cpu',
-   price:443.25,old:467,pct:5,badge:'sale',added:'2026-04-20',emoji:'🔴',sku:'100-100001236SBX',ean:'730143317696',
+   price:442.45,old:467,pct:5,badge:'sale',added:'2026-04-20',emoji:'🔴',sku:'100-100001236SBX',ean:'730143317696',
    specs:{'Manufacturer':'AMD','Сокет':'AM5','Ядра':'8','Нишки':'16','Честота':'Max. Boost Clock: Up to 5.1 GHz;Base Clock: 4.2 GHz','Кеш':'L2 Cache: 8 MB;L3 Cache: 16 MB','Max. PCI Express Lanes':'20 , 16 (Total/Usable)','Памет':'System Memory Type: DDR5;Memory Channels: 2;Max. Memory: 256 GB;System Memory Subtype: UDIMM;Max Mem','Интегрирана графика':'AMD Radeon™ 780M, 2900 MHz','TDP':'65W'},
    rating:4.5,rv:0,reviews:[],
    desc:'AMD AMD RYZEN 7 8700G 4.2G SR1 BOX - сокет AM5, 8 ядра, TDP 65W.',
@@ -3884,7 +3884,7 @@ var products = [
    img:'./images/products/49798.webp',stock:true},
 
   {id:555,name:'AMD RYZEN 7 PRO 8700G MPK',brand:'AMD',cat:'components',subcat:'cpu',
-   price:508,old:null,pct:null,badge:null,added:'2026-04-20',emoji:'🔴',sku:'100-100001238MPK',ean:'00730143316217',
+   price:484.77,old:508,pct:5,badge:'sale',added:'2026-04-20',emoji:'🔴',sku:'100-100001238MPK',ean:'00730143316217',
    specs:{'Сокет':'AM5','Ядра':'8','Нишки':'16','Честота':'Max. Boost Clock Up to 5.1 GHz;Base Clock 4.2 GHz','Кеш':'L2 Cache 8 MB;L3 Cache 16 MB','Max. PCI Express Lanes':'Total 20;Usable 16','Памет':'System Memory Type DDR5;Memory Channels 2;Max. Memory 256 GB;System Memory Subtype UDIMM;Max Memory ','Интегрирана графика':'Graphics Model AMD Radeon™ 780M;Graphics Core Count 12;Graphics Frequency 2900 MHz;DirectX® Version ','TDP':'65W','Other':'Architecture Zen 4;AMD Configurable TDP (cTDP) 45-65W;Processor Technology for CPU Cores TSMC 4nm Fi'},
    rating:4.5,rv:0,reviews:[],
    desc:'AMD AMD RYZEN 7 PRO 8700G MPK - сокет AM5, 8 ядра, TDP 65W.',
@@ -3947,7 +3947,7 @@ var products = [
    img:'./images/products/48584.webp',stock:true},
 
   {id:564,name:'AMD RYZEN 5 9600X 3.9GZ BOX',brand:'AMD',cat:'components',subcat:'cpu',
-   price:372.47,old:392,pct:5,badge:'sale',added:'2026-04-20',emoji:'🔴',sku:'100-100001405WOF',ean:'0730143315609',
+   price:371.8,old:392,pct:5,badge:'sale',added:'2026-04-20',emoji:'🔴',sku:'100-100001405WOF',ean:'0730143315609',
    specs:{'Model':'AMD Ryzen™ 5 9600X','Сокет':'AM5','Ядра':'6','Нишки':'12','Честота':'3.9 GHz','Кеш':'32 MB','Памет':'Memory Channels 2; Max. Memory; 192 GB; UDIMM; 2x1R DDR5-5600; 2x2R DDR5-5600; 4x1R DDR5-3600; 4x2R ','Package':'2','Интегрирана графика':'AMD Radeon™ Graphics;Graphics Core Count 2; 2200 MHz;','TDP':'65W'},
    rating:4.5,rv:0,reviews:[],
    desc:'AMD AMD RYZEN 5 9600X 3.9GZ BOX - сокет AM5, 6 ядра, TDP 65W.',
@@ -3968,7 +3968,7 @@ var products = [
    img:'./images/products/43488.webp',stock:true},
 
   {id:567,name:'AMD RYZEN 7 9700X 3.8G BOX',brand:'AMD',cat:'components',subcat:'cpu',
-   price:535.94,old:565,pct:5,badge:'sale',added:'2026-04-20',emoji:'🔴',sku:'100-100001404WOF',ean:'0730143315593',
+   price:534.98,old:565,pct:5,badge:'sale',added:'2026-04-20',emoji:'🔴',sku:'100-100001404WOF',ean:'0730143315593',
    specs:{'Model':'Ryzen 9000 Series','Сокет':'AM5','Ядра':'8','Нишки':'16','Честота':'5.5 GHz','Кеш':'640 KB; L2 Cache; 8 MB; L3 Cache; 32 MB;','Памет':'Boot,RAID0,RAID1,RAID5,RAID10; System Memory Type DDR5; Memory Channels 2; Max. Memory 192 GB; Syste','Package':'2','Интегрирана графика':'AMD Radeon™ Graphics; Graphics Core Count 2; Graphics Frequency; 2200 MHz;','TDP':'65W'},
    rating:4.5,rv:0,reviews:[],
    desc:'AMD AMD RYZEN 7 9700X 3.8G BOX - сокет AM5, 8 ядра, TDP 65W.',
@@ -4017,14 +4017,14 @@ var products = [
    img:'./images/products/51094.webp',stock:true},
 
   {id:574,name:'AMD RYZEN 9 9900X 4.4G 64M BOX',brand:'AMD',cat:'components',subcat:'cpu',
-   price:642.12,old:708,pct:9,badge:'sale',added:'2026-04-20',emoji:'🔴',sku:'100-100000662WOF',ean:'0730143315296',
+   price:640.96,old:708,pct:9,badge:'sale',added:'2026-04-20',emoji:'🔴',sku:'100-100000662WOF',ean:'0730143315296',
    specs:{'Model':'AMD Ryzen™ 9 9900X','Сокет':'AM5','Ядра':'12','Нишки':'24','Честота':'Up to 5.6 GHz; Base Clock ; 4.4 GHz;','Кеш':'L1 Cache; 960 KB; L2 Cache; 12 MB; L3 Cache; 64 MB;','Памет':'System Memory Type DDR5; Memory Channels 2; Max. Memory 192 GB; System Memory Subtype UDIMM; Max Mem','Package':'3','Интегрирана графика':'AMD Radeon™ Graphics','TDP':'120W'},
    rating:4.5,rv:0,reviews:[],
    desc:'AMD AMD RYZEN 9 9900X 4.4G 64M BOX - сокет AM5, 12 ядра, TDP 120W.',
    img:'./images/products/41781.webp',stock:true},
 
   {id:575,name:'AMD RYZEN 9 9900X3D BOX',brand:'AMD',cat:'components',subcat:'cpu',
-   price:962.33,old:1038,pct:7,badge:'sale',added:'2026-04-20',emoji:'🔴',sku:'100-100001368WOF',ean:'0730143315579',
+   price:960.63,old:1038,pct:7,badge:'sale',added:'2026-04-20',emoji:'🔴',sku:'100-100001368WOF',ean:'0730143315579',
    specs:{'Manufacturer':'AMD','Сокет':'AM5','Ядра':'12','Нишки':'24','Честота':'Max. Boost Clock: Up to 5.5 GHz;Base Clock: 4.4 GHz','Кеш':'L1 Cache: 960 KB;L2 Cache: 12 MB;L3 Cache: 128 MB','Max. PCI Express Lanes':'Total 28/ Usable 24','Памет':'System Memory Type: DDR5;Memory Channels: 2;Max. Memory: 192 GB;System Memory Subtype: UDIMM;Max Mem','Fan':'Not included','Интегрирана графика':'AMD Radeon™ Graphics 2 2200 MHz','TDP':'120W'},
    rating:4.5,rv:0,reviews:[],
    desc:'AMD AMD RYZEN 9 9900X3D BOX - сокет AM5, 12 ядра, TDP 120W.',
@@ -4059,7 +4059,7 @@ var products = [
    img:'./images/products/45215.webp',stock:false},
 
   {id:580,name:'AMD RYZEN 9 9950X3D BOX',brand:'AMD',cat:'components',subcat:'cpu',
-   price:1151.08,old:1228,pct:6,badge:'sale',added:'2026-04-20',emoji:'🔴',sku:'100-100000719WOF',ean:'730143315555',
+   price:1149.05,old:1228,pct:6,badge:'sale',added:'2026-04-20',emoji:'🔴',sku:'100-100000719WOF',ean:'730143315555',
    specs:{'Manufacturer':'AMD','Сокет':'AM5','Ядра':'16','Нишки':'32','Честота':'Max. Boost Clock: Up to 5.7 GHz;Base Clock: 4.3 GHz','Кеш':'L1 Cache: 1280 KB;L2 Cache: 16 MB;L3 Cache: 128 MB','Max. PCI Express Lanes':'28 , 24 (Total/Usable)','Памет':'System Memory Type: DDR5;Memory Channels: 2;Max. Memory: 192 GB;System Memory Subtype: UDIMM;Max Mem','Fan':'Not Included','Интегрирана графика':'Graphics Model: AMD Radeon™ Graphics;Graphics Core Count: 2;Graphics Frequency: 2200 MHz;USB Type-C®','TDP':'170W'},
    rating:4.5,rv:0,reviews:[],
    desc:'AMD AMD RYZEN 9 9950X3D BOX - сокет AM5, 16 ядра, TDP 170W.',
@@ -4164,7 +4164,7 @@ var products = [
    specs:{'Тип':'DDR4','Капацитет':'8 GB','Честота':'3200 MHz','Латентност':'CL22-22-22-52','Форм фактор':'DIMM','Напрежение':'1.2V'},
    rating:4.4,rv:0,reviews:[],
    desc:'TeamGroup 8G DDR4 3200 TEAM ELITE - DDR4 DIMM 3200 MHz, 8 GB, CL22-22-22-52.',
-   img:'./images/products/25585.webp',stock:true},
+   img:'./images/products/25585.webp',stock:false},
 
   {id:595,name:'8G DDR4 3200 CRUCIAL',brand:'Crucial',cat:'components',subcat:'ram',
    price:124,old:null,pct:null,badge:null,added:'2026-04-20',emoji:'🟢',sku:'CT8G4DFRA32A',ean:'649528903549',
@@ -5070,7 +5070,7 @@ var products = [
    img:'./images/products/33472.webp',stock:true},
 
   {id:724,name:'32G DDR5 6000 KING FURY BEAST',brand:'Kingston',cat:'components',subcat:'ram',
-   price:825.81,old:968,pct:15,badge:'sale',added:'2026-04-20',emoji:'🟢',sku:'KF560C36BBE2-32',ean:null,
+   price:824.34,old:968,pct:15,badge:'sale',added:'2026-04-20',emoji:'🟢',sku:'KF560C36BBE2-32',ean:null,
    specs:{'Тип':'DDR4','Форм фактор':'DIMM'},
    rating:4.4,rv:0,reviews:[],
    desc:'Kingston 32G DDR5 6000 KING FURY BEAST - DDR4 DIMM.',
@@ -5238,7 +5238,7 @@ var products = [
    img:'./images/products/45511.webp',stock:true},
 
   {id:748,name:'8GB DDR4 3200 TEAM ELITE SODIM',brand:'TeamGroup',cat:'components',subcat:'ram',
-   price:96.07,old:104,pct:8,badge:'sale',added:'2026-04-20',emoji:'💻',sku:'TED48G3200C22-S01',ean:'0765441651722',
+   price:95.89,old:104,pct:8,badge:'sale',added:'2026-04-20',emoji:'💻',sku:'TED48G3200C22-S01',ean:'0765441651722',
    specs:{'Тип':'DDR4','Капацитет':'8 GB','Честота':'3200 MHz','Форм фактор':'SO-DIMM','Напрежение':'1.2V'},
    rating:4.4,rv:0,reviews:[],
    desc:'TeamGroup 8GB DDR4 3200 TEAM ELITE SODIM - DDR4 SO-DIMM 3200 MHz, 8 GB.',
@@ -6178,21 +6178,21 @@ var products = [
    img:'./images/products/100159.webp',stock:true},
 
   {id:882,name:'TEAM SSD GX1 480G 2.5INCH',brand:'TeamGroup',cat:'components',subcat:'ssd',
-   price:133.31,old:145,pct:8,badge:'sale',added:'2026-04-21',emoji:'💾',sku:'T253X1480G0C101',ean:'0765441645264',
+   price:133.07,old:145,pct:8,badge:'sale',added:'2026-04-21',emoji:'💾',sku:'T253X1480G0C101',ean:'0765441645264',
    specs:{'Капацитет':'480 GB','Интерфейс':'SATA III','Форм фактор':'2.5\''},
    rating:4.3,rv:0,reviews:[],
    desc:'TeamGroup TEAM SSD GX1 480G 2.5INCH - SSD 480 GB, SATA III, 2.5".',
    img:'./images/products/100160.webp',stock:true},
 
   {id:883,name:'TEAM SSD GX2 256G 2.5INCH',brand:'TeamGroup',cat:'components',subcat:'ssd',
-   price:86.12,old:98,pct:12,badge:'sale',added:'2026-04-21',emoji:'💾',sku:'T253X2256G0C101',ean:'0765441645189',
+   price:85.96,old:98,pct:12,badge:'sale',added:'2026-04-21',emoji:'💾',sku:'T253X2256G0C101',ean:'0765441645189',
    specs:{'Капацитет':'256 GB','Интерфейс':'SATA III','Форм фактор':'2.5\''},
    rating:4.3,rv:0,reviews:[],
    desc:'TeamGroup TEAM SSD GX2 256G 2.5INCH - SSD 256 GB, SATA III, 2.5".',
    img:'./images/products/31109.webp',stock:true},
 
   {id:884,name:'TEAM SSD GX2 512G 2.5INCH',brand:'TeamGroup',cat:'components',subcat:'ssd',
-   price:144.11,old:158,pct:9,badge:'sale',added:'2026-04-21',emoji:'💾',sku:'T253X2512G0C101',ean:'0765441645196',
+   price:143.83,old:158,pct:9,badge:'sale',added:'2026-04-21',emoji:'💾',sku:'T253X2512G0C101',ean:'0765441645196',
    specs:{'Капацитет':'512 GB','Интерфейс':'SATA III','Форм фактор':'2.5\''},
    rating:4.3,rv:0,reviews:[],
    desc:'TeamGroup TEAM SSD GX2 512G 2.5INCH - SSD 512 GB, SATA III, 2.5".',
@@ -6336,7 +6336,7 @@ var products = [
    specs:{'Капацитет':'2 TB','Интерфейс':'NVMe PCIe Gen4','Форм фактор':'M.2 2280'},
    rating:4.3,rv:0,reviews:[],
    desc:'TeamGroup TEAM SSD MP44Q 2TB M2 PCI-E - NVMe SSD 2 TB, NVMe PCIe Gen4, M.2 2280.',
-   img:'./images/products/42167.webp',stock:true},
+   img:'./images/products/42167.webp',stock:false},
 
   {id:905,name:'TEAM SSD MP44Q 1TB M2 PCI-E',brand:'TeamGroup',cat:'components',subcat:'ssd',
    price:300,old:null,pct:null,badge:null,added:'2026-04-21',emoji:'⚡',sku:'TM8FFD001T0C101',ean:'4711430802824',
@@ -6504,7 +6504,7 @@ var products = [
    specs:{'Капацитет':'480 GB','Интерфейс':'SATA III','Форм фактор':'2.5\''},
    rating:4.3,rv:0,reviews:[],
    desc:'ADATA ADATA SSD SU650 480GB 3D NAND - SSD 480 GB, SATA III, 2.5".',
-   img:'./images/products/16189.webp',stock:false},
+   img:'./images/products/16189.webp',stock:true},
 
   {id:929,name:'ADATA SSD SU650 512GB 3D NAND',brand:'ADATA',cat:'components',subcat:'ssd',
    price:147,old:null,pct:null,badge:null,added:'2026-04-21',emoji:'💾',sku:'ASU650SS-512GT-R',ean:'4711085931528',
@@ -6528,7 +6528,7 @@ var products = [
    img:'./images/products/36409.webp',stock:true},
 
   {id:932,name:'2TB XPG S60 M2 PCI GEN4',brand:'ADATA',cat:'components',subcat:'ssd',
-   price:483.11,old:506,pct:5,badge:'sale',added:'2026-04-21',emoji:'⚡',sku:'AGAMMIXS60-2T-CS',ean:'4711085946164',
+   price:482.25,old:506,pct:5,badge:'sale',added:'2026-04-21',emoji:'⚡',sku:'AGAMMIXS60-2T-CS',ean:'4711085946164',
    specs:{'Капацитет':'2 TB','Интерфейс':'NVMe PCIe Gen4','Форм фактор':'M.2 2280'},
    rating:4.3,rv:0,reviews:[],
    desc:'ADATA 2TB XPG S60 M2 PCI GEN4 - NVMe SSD 2 TB, NVMe PCIe Gen4, M.2 2280.',
@@ -6710,7 +6710,7 @@ var products = [
    img:'./images/products/45200.webp',stock:true},
 
   {id:958,name:'EMTEC SSD X150 480G 2.5INCH',brand:'Emtec',cat:'components',subcat:'ssd',
-   price:133.13,old:152,pct:12,badge:'sale',added:'2026-04-21',emoji:'💾',sku:'ECSSD480GX150',ean:'3126170136411',
+   price:133.25,old:152,pct:12,badge:'sale',added:'2026-04-21',emoji:'💾',sku:'ECSSD480GX150',ean:'3126170136411',
    specs:{'Капацитет':'480 GB','Интерфейс':'SATA III','Форм фактор':'2.5\''},
    rating:4.3,rv:0,reviews:[],
    desc:'Emtec EMTEC SSD X150 480G 2.5INCH - SSD 480 GB, SATA III, 2.5".',
@@ -12409,7 +12409,7 @@ const _cases = [
   {id:2993,name:'FD NORTH XL CHALK WHITE',brand:'Fractal Design',cat:'components',subcat:'case',price:310,old:null,pct:null,badge:null,added:'2026-04-22',emoji:'🖥',sku:'FD-C-NOR1X-03',ean:'7340172706557',specs:{'Формфактор':'Mini-ITX','I/O':'1xUSB 3.1 Gen 2 Type-C, 2xUSB 3.0, Audio &amp; Mic','Охлаждане':'Total fan mounts (Mesh Version):9 x 120 mm or 8 x 140 mm; Fr','Размери':'503 x 240 x 509 mm'},rating:4.7,rv:4,reviews:[],desc:'FD NORTH XL CHALK WHITE, Mini-ITX',img:'./images/products/39427.webp',stock:true},
   {id:2994,name:'FD NORTH XL CHALK WHITE TG CLR',brand:'Fractal Design',cat:'components',subcat:'case',price:310,old:null,pct:null,badge:null,added:'2026-04-22',emoji:'🖥',sku:'FD-C-NOR1X-04',ean:'7340172706564',specs:{'Формфактор':'Mini-ITX','I/O':'1xUSB 3.1 Gen 2 Type-C, 2xUSB 3.0, Audio &amp; Mic','Охлаждане':'Total fan mounts (TG Version):7 x 120 mm or 6 x 140 mm; Fron','Размери':'503 x 240 x 509 mm'},rating:5.0,rv:16,reviews:[],desc:'FD NORTH XL CHALK WHITE TG CLR, Mini-ITX',img:'./images/products/39434.webp',stock:true},
   {id:2995,name:'FD NORTH XL RC BLACK TG DARK',brand:'Fractal Design',cat:'components',subcat:'case',price:310,old:null,pct:null,badge:null,added:'2026-04-22',emoji:'🖥',sku:'FD-C-NOR1X-05',ean:'7340172709466',specs:{'Цвят':'XL RC Black TG Dark','I/O':'1x USB 3.2 Gen 2x2 Type-C (20 Gbps), 2xUSB 3.0, Audio &amp; Mic','Охлаждане':'Total fan mounts (TG Version): 7 x 120 mm or 6 x 140 mm;Tota','Размери':'503 x 240 x 509 mm'},rating:4.7,rv:34,reviews:[],desc:'FD NORTH XL RC BLACK TG DARK, XL RC Black TG Dark',img:'./images/products/48541.webp',stock:true},
-  {id:2996,name:'FD NORTH XL MOMENTUM EDITION',brand:'Fractal Design',cat:'components',subcat:'case',price:359.72,old:377,pct:5,badge:'sale',added:'2026-04-22',emoji:'🖥',sku:'FD-C-NOR1X-07',ean:'7340172711186',specs:{'Цвят':'Black','I/O':'2 x USB Type-A 5 Gbps, 1x USB Type-C 20 Gbps, 1 x Audio Jack, 1 x Microphone Jac','Охлаждане':'Total fan mounts: 7 x 120 mm or 5 x 140 mm;Front fan: 3 x 12','Размери':'503 x 240 x 509 mm'},rating:4.6,rv:28,reviews:[],desc:'FD NORTH XL MOMENTUM EDITION, Black',img:'./images/products/100793.webp',stock:true},
+  {id:2996,name:'FD NORTH XL MOMENTUM EDITION',brand:'Fractal Design',cat:'components',subcat:'case',price:360.03,old:377,pct:5,badge:'sale',added:'2026-04-22',emoji:'🖥',sku:'FD-C-NOR1X-07',ean:'7340172711186',specs:{'Цвят':'Black','I/O':'2 x USB Type-A 5 Gbps, 1x USB Type-C 20 Gbps, 1 x Audio Jack, 1 x Microphone Jac','Охлаждане':'Total fan mounts: 7 x 120 mm or 5 x 140 mm;Front fan: 3 x 12','Размери':'503 x 240 x 509 mm'},rating:4.6,rv:28,reviews:[],desc:'FD NORTH XL MOMENTUM EDITION, Black',img:'./images/products/100793.webp',stock:true},
   {id:2997,name:'FD TORRENT NANO BLACK TGD',brand:'Fractal Design',cat:'components',subcat:'case',price:216,old:null,pct:null,badge:null,added:'2026-04-22',emoji:'🖥',sku:'FD-C-TOR1N-01',ean:null,specs:{'I/O':'1x USB 3.1 Gen 2 Type-C, 2x USB 3.0, Audio','Охлаждане':'Total fan mounts:1x 180 mm, 4x 140 mm, or 5x 120 mm (with in','Размери':'417 x 222 x 374 mm'},rating:3.9,rv:10,reviews:[],desc:'FD TORRENT NANO BLACK TGD',img:'./images/products/31218.webp',stock:false},
   {id:2998,name:'FD TORRENT NANO RGB BLACK TGL',brand:'Fractal Design',cat:'components',subcat:'case',price:234,old:null,pct:null,badge:null,added:'2026-04-22',emoji:'🖥',sku:'FD-C-TOR1N-02',ean:null,specs:{'I/O':'1x USB 3.1 Gen 2 Type-C, 2x USB 3.0, Audio','Охлаждане':'Total fan mounts:1x 180 mm, 4x 140 mm, or 5x 120 mm (with in','Размери':'417 x 222 x 374 mm'},rating:4.8,rv:16,reviews:[],desc:'FD TORRENT NANO RGB BLACK TGL',img:'./images/products/31222.webp',stock:false},
   {id:2999,name:'FD TORRENT NANO WHITE TG CLEAR',brand:'Fractal Design',cat:'components',subcat:'case',price:209,old:null,pct:null,badge:null,added:'2026-04-22',emoji:'🖥',sku:'FD-C-TOR1N-03',ean:null,specs:{'I/O':'1x USB 3.1 Gen 2 Type-C, 2x USB 3.0, Audio','Охлаждане':'Total fan mounts:1x 180 mm, 4x 140 mm, or 5x 120 mm (with in','Размери':'417 x 222 x 374 mm'},rating:4.1,rv:10,reviews:[],desc:'FD TORRENT NANO WHITE TG CLEAR',img:'./images/products/36518.webp',stock:false},
@@ -12437,7 +12437,7 @@ const _cases = [
   {id:3021,name:'PSU MSI MAG A500DN',brand:'MSI',cat:'components',subcat:'psu',price:61,old:null,pct:null,badge:null,added:'2026-04-22',emoji:'⚡',sku:'306-7ZP6A11-809',ean:'4719072970277',specs:{'Мощност':'500W','Ефективност':'80 Plus','Вентилатор':'Fan Size: 120 mm'},rating:4.3,rv:35,reviews:[],desc:'PSU MSI MAG A500DN, 500W, 80 Plus',img:'./images/products/38097.webp',stock:false},
   {id:3022,name:'PSU MSI MAG A550BN',brand:'MSI',cat:'components',subcat:'psu',price:74,old:null,pct:null,badge:null,added:'2026-04-22',emoji:'⚡',sku:'306-7ZP2A11-CE0',ean:null,specs:{'Модулно':'Да','Вентилатор':'120mm Low Noise Fan'},rating:4.8,rv:31,reviews:[],desc:'PSU MSI MAG A550BN',img:'./images/products/42007.webp',stock:false},
   {id:3023,name:'PSU MSI MAG A550BNL',brand:'MSI',cat:'components',subcat:'psu',price:77,old:null,pct:null,badge:null,added:'2026-04-22',emoji:'⚡',sku:'306-7ZPAY11-809',ean:null,specs:{'Вентилатор':'Fan Size: 120 mm'},rating:4.9,rv:31,reviews:[],desc:'PSU MSI MAG A550BNL',img:'./images/products/43151.webp',stock:false},
-  {id:3024,name:'PSU MSI MAG A600DN',brand:'MSI',cat:'components',subcat:'psu',price:78,old:null,pct:null,badge:null,added:'2026-04-22',emoji:'⚡',sku:'306-7ZP6B11-809',ean:'4719072970284',specs:{'Мощност':'600W','Ефективност':'80 Plus','Вентилатор':'120 mm'},rating:4.7,rv:25,reviews:[],desc:'PSU MSI MAG A600DN, 600W, 80 Plus',img:'./images/products/37269.webp',stock:true},
+  {id:3024,name:'PSU MSI MAG A600DN',brand:'MSI',cat:'components',subcat:'psu',price:78,old:null,pct:null,badge:null,added:'2026-04-22',emoji:'⚡',sku:'306-7ZP6B11-809',ean:'4719072970284',specs:{'Мощност':'600W','Ефективност':'80 Plus','Вентилатор':'120 mm'},rating:4.7,rv:25,reviews:[],desc:'PSU MSI MAG A600DN, 600W, 80 Plus',img:'./images/products/37269.webp',stock:false},
   {id:3025,name:'PSU MSI MAG A650BN',brand:'MSI',cat:'components',subcat:'psu',price:84,old:null,pct:null,badge:null,added:'2026-04-22',emoji:'⚡',sku:'306-7ZP2B11-CE0',ean:'4719072849627',specs:{'Мощност':'650W','Ефективност':'80+ Bronze','Формфактор':'ATX','Вентилатор':'Fan Size: 120 mm'},rating:4.3,rv:15,reviews:[],desc:'PSU MSI MAG A650BN, 650W, 80+ Bronze',img:'./images/products/37536.webp',stock:true},
   {id:3026,name:'PSU MSI MAG A650BNL',brand:'MSI',cat:'components',subcat:'psu',price:80,old:null,pct:null,badge:null,added:'2026-04-22',emoji:'⚡',sku:'306-7ZPAX11-809',ean:null,specs:{'Модулно':'Да','Вентилатор':'120 mm'},rating:4.0,rv:29,reviews:[],desc:'PSU MSI MAG A650BNL',img:'./images/products/42009.webp',stock:false},
   {id:3027,name:'PSU MSI MAG A650GL',brand:'MSI',cat:'components',subcat:'psu',price:110,old:null,pct:null,badge:null,added:'2026-04-22',emoji:'⚡',sku:'306-7ZP8C11-CE0',ean:'4711377084277',specs:{'Модулно':'Да','Вентилатор':'Fan Size: 120 mm'},rating:4.0,rv:31,reviews:[],desc:'PSU MSI MAG A650GL',img:'./images/products/39667.webp',stock:true},
@@ -12467,7 +12467,7 @@ const _cases = [
   {id:3051,name:'PSU FORTRON HEXA 85+ PRO 350',brand:'Fortron',cat:'components',subcat:'psu',price:80,old:null,pct:null,badge:null,added:'2026-04-22',emoji:'⚡',sku:'PPA3505301',ean:null,specs:{'Мощност':'350W','Формфактор':'ATX','Модулно':'Да','Вентилатор':'Sleeve Fan, 120mm'},rating:4.0,rv:0,reviews:[],desc:'PSU FORTRON HEXA 85+ PRO 350, 350W',img:'./images/products/33102.webp',stock:false},
   {id:3052,name:'PSU FORTRON SFX PRO 450',brand:'Fortron',cat:'components',subcat:'psu',price:100,old:null,pct:null,badge:null,added:'2026-04-22',emoji:'⚡',sku:'PPA450AA00',ean:null,specs:{'Мощност':'450W','Ефективност':'80+ Bronze','Формфактор':'SFX','Вентилатор':'Rifle, 80mm'},rating:4.7,rv:23,reviews:[],desc:'PSU FORTRON SFX PRO 450, 450W, 80+ Bronze',img:'./images/products/34802.webp',stock:true},
   {id:3053,name:'PSU FORTRON HEXA 85+ PRO 450',brand:'Fortron',cat:'components',subcat:'psu',price:90,old:null,pct:null,badge:null,added:'2026-04-22',emoji:'⚡',sku:'PPA450AD01',ean:null,specs:{'Мощност':'450W','Ефективност':'80+ Bronze','Формфактор':'ATX','Модулно':'Да','Вентилатор':'Sleeve Fan, 120mm'},rating:4.4,rv:17,reviews:[],desc:'PSU FORTRON HEXA 85+ PRO 450, 450W, 80+ Bronze',img:'./images/products/34783.webp',stock:false},
-  {id:3054,name:'PSU FORTRON FSP500-50AAC/500W',brand:'Fortron',cat:'components',subcat:'psu',price:83,old:null,pct:null,badge:null,added:'2026-04-22',emoji:'⚡',sku:'9PA500C708',ean:null,specs:{'Мощност':'500W','Ефективност':'80 Plus','Вентилатор':'120 mm fan'},rating:4.5,rv:15,reviews:[],desc:'PSU FORTRON FSP500-50AAC/500W, 500W, 80 Plus',img:'./images/products/39207.webp',stock:true},
+  {id:3054,name:'PSU FORTRON FSP500-50AAC/500W',brand:'Fortron',cat:'components',subcat:'psu',price:83,old:null,pct:null,badge:null,added:'2026-04-22',emoji:'⚡',sku:'9PA500C708',ean:null,specs:{'Мощност':'500W','Ефективност':'80 Plus','Вентилатор':'120 mm fan'},rating:4.5,rv:15,reviews:[],desc:'PSU FORTRON FSP500-50AAC/500W, 500W, 80 Plus',img:'./images/products/39207.webp',stock:false},
   {id:3055,name:'PSU FORTRON HYPER 80+ PRO 450',brand:'Fortron',cat:'components',subcat:'psu',price:71,old:null,pct:null,badge:null,added:'2026-04-22',emoji:'⚡',sku:'9PA450A404',ean:null,specs:{'Мощност':'450W','Формфактор':'ATX','Вентилатор':'Sleeve Fan, 120mm'},rating:4.2,rv:11,reviews:[],desc:'PSU FORTRON HYPER 80+ PRO 450, 450W',img:'./images/products/25474.webp',stock:false},
   {id:3056,name:'PSU FORTRON VITA-550BD 550W 80',brand:'Fortron',cat:'components',subcat:'psu',price:89,old:null,pct:null,badge:null,added:'2026-04-22',emoji:'⚡',sku:'PPA5506103',ean:null,specs:{'Мощност':'550W','Формфактор':'ATX12V V3.1','Вентилатор':'Sleeve Bearing, 120mm'},rating:4.3,rv:31,reviews:[],desc:'PSU FORTRON VITA-550BD 550W 80, 550W',img:'./images/products/47686.webp',stock:true},
   {id:3057,name:'PSU FORTRON VITA-650BD 650W 80',brand:'Fortron',cat:'components',subcat:'psu',price:97,old:null,pct:null,badge:null,added:'2026-04-22',emoji:'⚡',sku:'PPA6506703',ean:null,specs:{'Мощност':'650W','Формфактор':'ATX12V V3.1','Вентилатор':'Sleeve Bearing, 120mm'},rating:4.7,rv:34,reviews:[],desc:'PSU FORTRON VITA-650BD 650W 80, 650W',img:'./images/products/47691.webp',stock:false},
@@ -13629,10 +13629,10 @@ products.push(
   {id:4097,vendorId:65709,name:'EXT 1T ADATA HD710P USB3.1 RED',brand:'Adata',cat:'storage',subcat:'ext_drive',price:69.18,old:null,pct:null,badge:null,added:'2026-05-28',emoji:'💾',img:'./images/products/28645.webp',sku:'AHD710P-1TU31-CRD',ean:'4713218460417',specs:{'Тип':'Портативен HDD','Капацитет':'1 TB','Интерфейс':'USB 3.1'},rating:4.3,rv:0,reviews:[],stock:true,desc:''},
   {id:4098,vendorId:58667,name:'EXT 2TB ADATA HV620S USB3 BLK',brand:'Adata',cat:'storage',subcat:'ext_drive',price:97.86,old:null,pct:null,badge:null,added:'2026-05-28',emoji:'💾',img:'./images/products/15593.webp',sku:'AHV620S-2TU31-CBK',ean:'4713218463043',specs:{'Тип':'Портативен HDD','Капацитет':'2 TB','Интерфейс':'USB 3.1'},rating:4.3,rv:0,reviews:[],stock:true,desc:''},
   {id:4099,vendorId:58668,name:'EXT 2TB ADATA HV620S USB3 WHI',brand:'Adata',cat:'storage',subcat:'ext_drive',price:81.07,old:null,pct:null,badge:null,added:'2026-05-28',emoji:'💾',img:'./images/products/15595.webp',sku:'AHV620S-2TU31-CWH',ean:'4713218463081',specs:{'Тип':'Портативен HDD','Капацитет':'2 TB','Интерфейс':'USB 3.1'},rating:4.3,rv:0,reviews:[],stock:true,desc:''},
-  {id:4100,vendorId:67604,name:'EXT 2TB ADATA HV620S USB3 BLUE',brand:'Adata',cat:'storage',subcat:'ext_drive',price:80.89,old:null,pct:null,badge:null,added:'2026-05-28',emoji:'💾',img:'./images/products/32972.webp',sku:'AHV620S-2TU31-CBL',ean:'4713218465337',specs:{'Тип':'Портативен HDD','Капацитет':'2 TB','Интерфейс':'USB 3.2 Gen 1'},rating:4.3,rv:0,reviews:[],stock:true,desc:''},
+  {id:4100,vendorId:67604,name:'EXT 2TB ADATA HV620S USB3 BLUE',brand:'Adata',cat:'storage',subcat:'ext_drive',price:80.89,old:null,pct:null,badge:null,added:'2026-05-28',emoji:'💾',img:'./images/products/32972.webp',sku:'AHV620S-2TU31-CBL',ean:'4713218465337',specs:{'Тип':'Портативен HDD','Капацитет':'2 TB','Интерфейс':'USB 3.2 Gen 1'},rating:4.3,rv:0,reviews:[],stock:false,desc:''},
   {id:4101,vendorId:58263,name:'EXT 2T ADATA HD710P USB3.1 BLK',brand:'Adata',cat:'storage',subcat:'ext_drive',price:86.84,old:null,pct:null,badge:null,added:'2026-05-28',emoji:'💾',img:'./images/products/19758.webp',sku:'AHD710P-2TU31-CBK',ean:'4713218460424',specs:{'Тип':'Портативен HDD','Капацитет':'2 TB','Интерфейс':'USB 3.1'},rating:4.3,rv:0,reviews:[],stock:false,desc:''},
   {id:4102,vendorId:65710,name:'EXT 2T ADATA HD710P USB3.1 RED',brand:'Adata',cat:'storage',subcat:'ext_drive',price:87.44,old:null,pct:null,badge:null,added:'2026-05-28',emoji:'💾',img:'./images/products/28435.webp',sku:'AHD710P-2TU31-CRD',ean:'4713218460431',specs:{'Тип':'Портативен HDD','Капацитет':'2 TB','Интерфейс':'USB 3.1'},rating:4.3,rv:0,reviews:[],stock:true,desc:''},
-  {id:4103,vendorId:58663,name:'EXT 2TB ADATA HD710P USB3.1 YL',brand:'Adata',cat:'storage',subcat:'ext_drive',price:85.29,old:null,pct:null,badge:null,added:'2026-05-28',emoji:'💾',img:'./images/products/15597.webp',sku:'AHD710P-2TU31-CYL',ean:'4713218460684',specs:{'Тип':'Портативен HDD','Капацитет':'2 TB','Интерфейс':'USB 3.1'},rating:4.3,rv:0,reviews:[],stock:true,desc:''},
+  {id:4103,vendorId:58663,name:'EXT 2TB ADATA HD710P USB3.1 YL',brand:'Adata',cat:'storage',subcat:'ext_drive',price:85.29,old:null,pct:null,badge:null,added:'2026-05-28',emoji:'💾',img:'./images/products/15597.webp',sku:'AHD710P-2TU31-CYL',ean:'4713218460684',specs:{'Тип':'Портативен HDD','Капацитет':'2 TB','Интерфейс':'USB 3.1'},rating:4.3,rv:0,reviews:[],stock:false,desc:''},
   {id:4104,vendorId:59112,name:'EXT 2TB ADATA 710M USB3.1 CMFL',brand:'Adata',cat:'storage',subcat:'ext_drive',price:80.46,old:null,pct:null,badge:null,added:'2026-05-28',emoji:'💾',img:'./images/products/16506.webp',sku:'AHD710MP-2TU31-CCF',ean:'4713218464101',specs:{'Тип':'Портативен HDD','Капацитет':'2 TB','Интерфейс':'USB 3.1'},rating:4.3,rv:0,reviews:[],stock:false,desc:''},
   {id:4105,vendorId:58398,name:'EXT 2TB ADATA HD650 USB3.1',brand:'Adata',cat:'storage',subcat:'ext_drive',price:75.03,old:null,pct:null,badge:null,added:'2026-05-28',emoji:'💾',img:'./images/products/15108.webp',sku:'AHD650--2TU31-CBK',ean:'4713218460455',specs:{'Тип':'Портативен HDD','Капацитет':'2 TB','Интерфейс':'USB 3.1'},rating:4.3,rv:0,reviews:[],stock:false,desc:''},
   {id:4106,vendorId:59482,name:'EXT 4TB ADATA HD710P USB3.1 BK',brand:'Adata',cat:'storage',subcat:'ext_drive',price:191.25,old:null,pct:null,badge:null,added:'2026-05-28',emoji:'💾',img:'./images/products/17171.webp',sku:'AHD710P-4TU31-CBK',ean:'4713218461209',specs:{'Тип':'Портативен HDD','Капацитет':'4 TB','Интерфейс':'USB 3.1'},rating:4.3,rv:0,reviews:[],stock:true,desc:''},
@@ -13659,18 +13659,18 @@ products.push(...[
    price:107.64,old:null,pct:null,badge:null,added:'2026-06-01',emoji:'📟',sku:'ZAF10172GR',ean:'0198158239127',
    specs:{'Дисплей':'8.7" HD IPS, 1340×800, 60Hz','Процесор':'MediaTek Helio G85, 8 ядра, 2.0 GHz','RAM':'4 GB LPDDR4X','Памет':'128 GB eMMC 5.1','Батерия':'5100 mAh','ОС':'Android 14','WiFi':'Wi-Fi 5','LTE':'Да','Bluetooth':'5.3','Камера':'8 MP / 2 MP','USB':'USB-C','Звук':'Dolby Atmos','Размери':'211 × 124.8 × 8.5 мм','Тегло':'320 г','Цвят':'Luna Grey'},
    img:null,
-   rating:4.3,rv:0,reviews:[],stock:true,
+   rating:4.3,rv:0,reviews:[],stock:false,
    desc:'Lenovo Tab TB305XU с 8.7" HD дисплей и 4G/LTE свързаност. Helio G85, 4 GB RAM, 128 GB памет, Dolby Atmos и 3.5mm жак. Идеален за ежедневна употреба.'},
   {id:4116,vendorId:71894,name:'Lenovo Tab TB361FU 8GB/256GB 12.1" + Stylus',brand:'Lenovo',cat:'phones',subcat:'tablet',
    price:249.55,old:null,pct:null,badge:null,added:'2026-06-01',emoji:'📟',sku:'ZAG70071GR',ean:'0198158814638',
    specs:{'Дисплей':'12.1" 2.5K IPS, 2560×1600, 90Hz','Процесор':'MediaTek Dimensity 6400, 8 ядра, 2.5 GHz','RAM':'8 GB LPDDR4X','Памет':'256 GB UFS 2.2','Батерия':'10200 mAh','ОС':'Android 15','WiFi':'Wi-Fi 5','LTE':'Не','Bluetooth':'5.2','GPS':'Да','Камера':'13 MP / 8 MP','USB':'USB-C','Звук':'4 тонколони Dolby Atmos','Стилус':'Включен','Размери':'278.8 × 181.05 × 6.29 мм','Тегло':'530 г','Цвят':'Luna Grey'},
    img:'https://images.icecat.biz/img/gallery/ed662c750e222122d22eaa9532b344b8da793dcf.jpg',
-   rating:4.5,rv:0,reviews:[],stock:true,
+   rating:4.5,rv:0,reviews:[],stock:false,
    desc:'Lenovo Tab TB361FU с 12.1" 2.5K дисплей, Dimensity 6400 и 10 200 mAh батерия. 8 GB RAM, 256 GB, 4 тонколони Dolby Atmos, GPS и стилус включен в комплекта.'},
   {id:4117,vendorId:71904,name:'Lenovo Tab TB710FU 12GB/256GB 11.1" 144Hz',brand:'Lenovo',cat:'phones',subcat:'tablet',
    price:383.07,old:null,pct:null,badge:null,added:'2026-06-01',emoji:'📟',sku:'ZAG60036GR',ean:'0198158755207',
    specs:{'Дисплей':'11.1" 3.2K LTPS, 3200×2000, 144Hz','Процесор':'Qualcomm Snapdragon 8 Gen 3, Adreno 750','RAM':'12 GB LPDDR5X','Памет':'256 GB UFS 4.0','Батерия':'8860 mAh','ОС':'Android 15','WiFi':'Wi-Fi 7','LTE':'Не','Bluetooth':'5.4','Камера':'13 MP + 2 MP / 13 MP','USB':'USB-C 3.2 Gen 1','Звук':'4 тонколони Dolby Atmos','Размери':'255.52 × 165.84 × 6.2 мм','Тегло':'458 г','Цвят':'Luna Grey'},
    img:'https://images.icecat.biz/img/gallery/772e6f65559504a8c7bd9f88abd868b005f36ba2.jpg',
-   rating:4.6,rv:0,reviews:[],stock:true,
+   rating:4.6,rv:0,reviews:[],stock:false,
    desc:'Lenovo Tab TB710FU с 11.1" 3.2K дисплей 144Hz и Snapdragon 8 Gen 3. 12 GB RAM, 256 GB UFS 4.0, Wi-Fi 7, 8860 mAh батерия и 4 тонколони Dolby Atmos.'}
 ]);

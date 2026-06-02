@@ -6349,7 +6349,7 @@ initScrollAnimations();
   function _loadLazy() {
     if (_ll) return; _ll = true;
     var s = document.createElement('script');
-    s.src = 'app-lazy.js?v=20260601';
+    s.src = 'app-lazy.js?v=20260602';
     document.head.appendChild(s);
   }
   ['click', 'scroll', 'touchstart', 'keydown', 'mousemove'].forEach(function (ev) {

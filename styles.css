@@ -16263,8 +16263,11 @@
  }
  /* Hero */
  .dlv-hero {
-   display: grid; grid-template-columns: 1fr 200px;
    background: var(--surface); border-bottom: 1px solid var(--border);
+ }
+ .dlv-hero-inner {
+   max-width: 900px; margin: 0 auto;
+   display: grid; grid-template-columns: 1fr 200px; align-items: stretch;
  }
  .dlv-hero-left {
    padding: 56px 40px 56px 32px; border-right: 1px solid var(--border);
@@ -16303,7 +16306,10 @@
  /* Trust strip */
  .dlv-trust-strip {
    background: var(--surface); border-bottom: 1px solid var(--border);
-   display: flex; align-items: stretch; max-width: 100%; overflow-x: auto;
+ }
+ .dlv-trust-inner {
+   max-width: 900px; margin: 0 auto;
+   display: flex; align-items: stretch; overflow-x: auto;
  }
  .dlv-trust-item {
    flex: 1; display: flex; align-items: center; gap: 9px;

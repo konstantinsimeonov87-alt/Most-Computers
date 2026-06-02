@@ -6,6 +6,85 @@ function _setPgBc(id, label, closeFnName) {
 }
 const blogPosts = [
   {
+    slug: 'palit-rtx-4070-super-jetstream-oc-review',
+    emoji: '🎮', cat: 'Ревю', title: 'Palit RTX 4070 Super JetStream OC — Крал на средния клас',
+    date: '02 Юни 2026', dateISO: '2026-06-02', read: '6 мин', author: 'Most Computers',
+    summary: 'RTX 4070 Super JetStream OC от Palit е може би най-балансираната видеокарта за 2026. Тествахме я в игри, рендериране и DLSS 3.',
+    metaDesc: 'Palit GeForce RTX 4070 Super JetStream OC ревю — тест при 1440p и 4K, DLSS 3, температури. Най-добрата GeForce за парите?',
+    tags: ['Nvidia', 'Palit', 'GPU', 'гейминг', 'ревю'],
+    body: `<h2>Паспорт на картата</h2>
+<p>Palit GeForce RTX 4070 Super JetStream OC разполага с 7168 CUDA ядра (Ada Lovelace), 12 GB GDDR6X памет на 192-битова шина и factory OC от 2535 MHz boost. Трисекционният охладител с 3 вентилатора × 90 мм осигурява ниски температури и почти безшумна работа при умерено натоварване.</p>
+<h2>Производителност при 1440p</h2>
+<p>При <strong>1440p Ultra</strong> Palit RTX 4070 Super JetStream OC постига:</p>
+<ul>
+<li>Cyberpunk 2077 (RT Ultra + DLSS Quality) — 85 fps средно</li>
+<li>Alan Wake 2 (Path Tracing + DLSS Quality) — 72 fps средно</li>
+<li>CS2 (High) — 260 fps средно</li>
+<li>Microsoft Flight Simulator 2024 (High) — 68 fps средно</li>
+</ul>
+<p>При 1440p без ray tracing практически всяка игра тече над 100 fps — нивото, от което играта е наистина плавна.</p>
+<h2>Производителност при 4K</h2>
+<p>4K не е основната целева резолюция на тази карта, но с DLSS 3 Quality (реален рендер при 1440p) резултатите изненадват: Cyberpunk 2077 — 62 fps, Alan Wake 2 — 54 fps. За 4K без DLSS Frame Generation е нужна RTX 4080 Super или по-висока карта.</p>
+<h2>DLSS 3 и Frame Generation</h2>
+<p>Transformer-базираният DLSS 3.7 дава визуално качество, неотличимо от native резолюция. Frame Generation удвоява fps-ите при GPU-bound сценарии без забележима латентност при Reflex + G-Sync. В Cyberpunk 2077 с всички RT ефекти и FG — 165 fps при 1440p.</p>
+<h2>Температури и шум</h2>
+<p>При full load GPU температурата е 68°C при стайна температура 22°C. Вентилаторите спират напълно при натоварване под 60W. При игри нивото е около 36 dBA — тихо дори в отворен корпус.</p>
+<h2>Заключение</h2>
+<p>Palit RTX 4070 Super JetStream OC е <strong>безспорният избор за 1440p гейминг</strong> с бюджет до 1200 €. JetStream охладителят е един от най-добрите в класа, а factory OC носи малък, но реален бонус. <strong>Оценка: 9.1 / 10</strong></p>`
+  },
+  {
+    slug: 'amd-ryzen-9-9950x3d-review',
+    emoji: '🔴', cat: 'Ревю', title: 'AMD Ryzen 9 9950X3D — Краят на компромисите',
+    date: '02 Юни 2026', dateISO: '2026-06-02', read: '7 мин', author: 'Most Computers',
+    summary: 'AMD комбинира Zen 5 архитектурата с 3D V-Cache технологията. Резултатът е процесорът, за който геймърите мечтаеха.',
+    metaDesc: 'AMD Ryzen 9 9950X3D ревю — Zen 5 + 3D V-Cache. Тест в игри, рендериране и съдържателна работа. Лидерът за 2026.',
+    tags: ['AMD', 'процесори', 'гейминг', 'ревю'],
+    body: `<h2>Zen 5 + 3D V-Cache: мощната комбинация</h2>
+<p>Ryzen 9 9950X3D носи 16 ядра / 32 нишки на Zen 5 архитектура с 5.7 GHz boost честота плюс 128 MB 3D V-Cache върху CCD-то. Общо: 192 MB кеш (L2 + L3). AMD е решила дилемата от предишните X3D модели — кешираното CCD вече не ограничава максималните честоти.</p>
+<h2>Производителност в игри</h2>
+<p>В гейминг тестовете 9950X3D е <strong>недостижим в момента</strong>. При 1080p (CPU-limited) резултатите са:</p>
+<ul>
+<li>Cyberpunk 2077 — 245 fps средно (+18% vs 9800X3D)</li>
+<li>CS2 — 680 fps средно (+22% vs Intel Core Ultra 9 285K)</li>
+<li>Microsoft Flight Simulator 2024 — 115 fps (+25% vs 9900X)</li>
+</ul>
+<p>Подобренията идват от по-бързия Zen 5 IPC и увеличения кеш — двойна полза при силно зависими от кеша игри.</p>
+<h2>Производителност в съдържателни задачи</h2>
+<p>За разлика от 7950X3D, 9950X3D не жертва производителност при рендериране. В Cinebench 2025 Multi-Core надминава Core Ultra 9 285K с около <strong>12%</strong>. При компилация на голям C++ проект — 9950X3D е ~8% по-бърз от Intel.</p>
+<h2>Температура и охлаждане</h2>
+<p>TDP е 170W. AMD препоръчва минимум 360 мм AIO охладител. При добро охлаждане температурите са около 72°C при full load — отлично за 16-ядрен процесор.</p>
+<h2>Платформа AM5 и надстройка</h2>
+<p>Сокет AM5 осигурява дълголетие — платките от X670E клас поддържат DDR5-6400+ и PCIe 5.0 x16. Ако вече имаш AM5 система, 9950X3D е директна надстройка без смяна на дъното.</p>
+<h2>Заключение</h2>
+<p>9950X3D е първият процесор, при който <em>не е нужен компромис</em> между гейминг и продуктивност. Скъп, но оправдан. <strong>Оценка: 9.5 / 10</strong></p>`
+  },
+  {
+    slug: 'intel-core-ultra-300-arrow-lake-2026',
+    emoji: '🔵', cat: 'Новини', title: 'Intel Core Ultra 300 (Arrow Lake-R) — Пресичане на пропастта',
+    date: '02 Юни 2026', dateISO: '2026-06-02', read: '5 мин', author: 'Most Computers',
+    summary: 'Intel Arrow Lake-R донесе значителни подобрения с BIOS оптимизации. Вече ли е достоен конкурент на AMD Ryzen 9000?',
+    metaDesc: 'Intel Core Ultra 300 Arrow Lake-R ревю 2026 — IPC ръст, BIOS оптимизации, AI Boost. Сравнение с AMD Ryzen 9 9900X.',
+    tags: ['Intel', 'процесори', 'Arrow Lake', 'новини'],
+    body: `<h2>Какво се промени при Arrow Lake-R?</h2>
+<p>Серията Core Ultra 300 (Arrow Lake-R) е освежен вариант на Arrow Lake с нови BIOS микрокодове, оптимизации за Thread Director 2.0 и подобрени E-ядра (Skymont). Intel признава, че оригиналният Arrow Lake не постигна очакванията при гейминг — <strong>освежената версия коригира значителна част от проблемите</strong>.</p>
+<h2>Core Ultra 9 285K vs предшественика</h2>
+<p>При идентичен силиций, новите BIOS оптимизации носят:</p>
+<ul>
+<li>+11% средно в гейминг тестове при 1080p</li>
+<li>+7% в Cinebench 2025 Multi-Core</li>
+<li>-15W средна консумация при игри</li>
+</ul>
+<p>Резултатите поставят 285K по-близо до AMD Ryzen 9 9900X, но без 3D V-Cache вариантите, геймингът все още е предимство на AMD.</p>
+<h2>AI Boost — Intel NPU в действие</h2>
+<p>Arrow Lake-R включва NPU с <strong>48 TOPS</strong> AI производителност. Microsoft Copilot+, Adobe Firefly локално и GitHub Copilot с локален модел работят значително по-плавно. Ако AI инструментите са ключови за работата ти — Intel е по-добрата платформа в момента.</p>
+<h2>Платформа LGA1851 и памет</h2>
+<p>Core Ultra 300 изисква DDR5 — DDR4 вече не се поддържа. Оптималното е DDR5-6400 CL32. Intel препоръчва платки от Z890 клас за максимална производителност. PCIe 5.0 x16 за GPU и x4 за NVMe SSD са стандарт.</p>
+<h2>За кого е Intel Core Ultra 300?</h2>
+<p>Ако работиш интензивно с AI инструменти, нуждаеш се от Thunderbolt 5, или вече имаш LGA1851 платка — Core Ultra 300 е логичният избор. За чист гейминг AMD все още държи короната. За смесена употреба двете платформи са практически равни.</p>
+<h2>Заключение</h2>
+<p>Intel се върна в играта с Arrow Lake-R. Не е перфектен, но е значително подобрен. Очакваме Panther Lake (края на 2026) да затвори окончателно пропастта с AMD. <strong>Оценка: 8.3 / 10</strong></p>`
+  },
+  {
     slug: 'macbook-pro-m4-pro-review',
     emoji: '💻', cat: 'Ревю', title: 'MacBook Pro M4 Pro — Worth It?',
     date: '07 Март 2026', dateISO: '2026-03-07', read: '5 мин', author: 'Most Computers',

@@ -18477,7 +18477,7 @@ html[data-theme="dark"] .cart-upsell-title {
 }
 .po-input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(189,17,5,.1); }
 .po-submit {
-  display: block; margin: 12px auto 0; padding: 12px 36px;
+  display: block; width: fit-content; margin: 12px auto 0; padding: 12px 36px;
   background: var(--primary); color: #fff;
   border: none; border-radius: 10px;
   font-size: 15px; font-weight: 700; cursor: pointer;

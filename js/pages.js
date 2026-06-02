@@ -97,6 +97,171 @@ const blogPosts = [
 <p>Intel се върна в играта с Arrow Lake-R. Не е перфектен, но е значително подобрен. Очакваме Panther Lake (края на 2026) да затвори окончателно пропастта с AMD. <strong>Оценка: 8.3 / 10</strong></p>`
   },
   {
+    slug: 'amd-ryzen-7-9800x3d-review-2026',
+    emoji: '🔴', cat: 'Ревю', title: 'AMD Ryzen 7 9800X3D — Най-добрият геймърски процесор за парите',
+    date: '26 Май 2026', dateISO: '2026-05-26', read: '6 мин', author: 'Most Computers',
+    summary: 'Ryzen 7 9800X3D предлага 9950X3D гейминг производителност на половин цена. Тествахме го в 12 игри и при рендериране.',
+    metaDesc: 'AMD Ryzen 7 9800X3D ревю 2026 — тест в игри, Zen 5 + 3D V-Cache, сравнение с 9950X3D. Най-добрият геймърски CPU за цената.',
+    tags: ['AMD', 'процесори', 'гейминг', 'ревю'],
+    brand: 'amd', rating: '9.4',
+    model: 'Ryzen 7 9800X3D', modelSub: 'Zen 5 · 3D V-Cache · AM5', brandLabel: 'AMD · CPU',
+    verdict: 'Абсолютният крал на гейминг производителност за цената. Ако бюджетът не позволява 9950X3D — 9800X3D е правилният избор.',
+    specs: {'Архитектура':'Zen 5 (TSMC 4nm)','Ядра / Нишки':'8C / 16T','Boost честота':'5.7 GHz','Кеш (L3)':'96 MB 3D V-Cache','TDP':'120 W','Сокет':'AM5 (LGA1718)'},
+    body: `<h2>Защо 9800X3D е специален?</h2>
+<p>AMD Ryzen 7 9800X3D съчетава Zen 5 IPC с 96 MB 3D V-Cache — комбинация, която е почти недостижима в гейминг при CPU-limited сценарии. За разлика от 7800X3D, новото поколение не жертва честота за кеш — 5.7 GHz boost е реален и постижим при охлаждане с 240+ мм AIO.</p>
+<h2>Гейминг тестове при 1080p</h2>
+<p>При <strong>1080p CPU-limited</strong> тестове 9800X3D e:</p>
+<ul>
+<li>Cyberpunk 2077 — 275 fps средно</li>
+<li>CS2 — 620 fps средно</li>
+<li>Hogwarts Legacy — 198 fps средно</li>
+<li>Star Wars Outlaws — 165 fps средно</li>
+<li>Microsoft Flight Simulator 2024 — 108 fps средно</li>
+</ul>
+<p>Разликата спрямо Ryzen 9 9950X3D е под <strong>8% в повечето игри</strong> — незначителна за практически употреби при 1440p с RTX 4070+ GPU.</p>
+<h2>Продуктивност — слабата страна?</h2>
+<p>При 8 ядра срещу 16 при 9950X3D, разликата в рендериране е реална: Blender Classroom — 9800X3D е ~42% по-бавен. За чиста продуктивна работа 9950X3D или 9900X са по-добри. 9800X3D е оптимален за геймъри, които понякога стриймват или компилират.</p>
+<h2>Температура и платформа</h2>
+<p>TDP е 120W — по-лесен за охлаждане от 9950X3D. 240 мм AIO е достатъчен. Работи на всяка AM5 платка с актуален BIOS. Препоръчителна памет: DDR5-6000 CL30 в 2×16 GB конфигурация.</p>
+<h2>Заключение</h2>
+<p>9800X3D е процесорът, който повечето геймъри <em>действително</em> трябва да купят. Оферира 95% от гейминг производителността на 9950X3D на под 60% от цената. <strong>Оценка: 9.4 / 10</strong></p>`
+  },
+  {
+    slug: 'intel-vs-amd-cpu-2026',
+    emoji: '⚔️', cat: 'Сравнение', title: 'Intel vs AMD 2026 — Кой процесор да изберем?',
+    date: '19 Май 2026', dateISO: '2026-05-19', read: '7 мин', author: 'Most Computers',
+    summary: 'Arrow Lake-R срещу Zen 5 — пълно сравнение по гейминг, продуктивност, AI и платформа. Кой побеждава в средата на 2026?',
+    metaDesc: 'Intel vs AMD 2026 — сравнение Core Ultra 300 Arrow Lake-R срещу Ryzen 9000 Zen 5. Кой CPU да купим за гейминг и работа?',
+    tags: ['Intel', 'AMD', 'процесори', 'сравнение'],
+    brand: 'general',
+    body: `<h2>Платформи — AM5 срещу LGA1851</h2>
+<p><strong>AMD AM5</strong> е по-зряла платформа — съществува от 2022 и поддържа Ryzen 7000, 8000 и 9000 серии. Съществуващите AM5 платки (X670E, B650E, B650) работят с нов BIOS. <strong>Intel LGA1851</strong> е по-нова — само Z890 и B860 дъни, DDR5 задължителна. AMD дава по-дълготрайна инвестиция в момента.</p>
+<h2>Гейминг — AMD доминира</h2>
+<p>При 1080p CPU-limited гейминг, Ryzen 7 9800X3D и 9950X3D са недостижими за Intel. Core Ultra 9 285K изостава с 15-25% в кешово-зависими игри. Без 3D V-Cache Intel губи директния дуел. При 1440p и 4K с мощна GPU разликата намалява до под 5% — практически незначителна.</p>
+<h2>Продуктивност — по-изравнена битка</h2>
+<p>В Cinebench 2025 Multi-Core: Core Ultra 9 285K е около 8% пред Ryzen 9 9900X, но 12% зад 9950X3D. При video export (DaVinci Resolve) Intel е по-бърз с ~6% спрямо 9900X. AMD печели при компилация и научни изчисления благодарение на по-голям кеш.</p>
+<h2>AI — Intel NPU срещу AMD XDNA 2</h2>
+<p>Intel Core Ultra 300 предлага <strong>48 TOPS NPU</strong>, AMD Ryzen 9000 — <strong>50 TOPS XDNA 2</strong>. Двете платформи са практически равни при локален AI инфер. Microsoft Copilot+ работи добре и на двете.</p>
+<h2>Препоръки по случай</h2>
+<ul>
+<li><strong>Чист гейминг</strong> → AMD Ryzen 7 9800X3D</li>
+<li><strong>Гейминг + продуктивност</strong> → AMD Ryzen 9 9950X3D</li>
+<li><strong>AI работни натоварвания + Thunderbolt 5</strong> → Intel Core Ultra 9 285K</li>
+<li><strong>Бюджет до 200 €</strong> → Intel Core i5-14600K или AMD Ryzen 5 9600X</li>
+</ul>
+<h2>Заключение</h2>
+<p>AMD печели 2026 при гейминг. Intel отговаря с по-добри AI инструменти и Thunderbolt 5. За повечето потребители — AMD е по-доброто решение в момента.</p>`
+  },
+  {
+    slug: 'palit-rtx-4080-super-jetstream-review',
+    emoji: '🎮', cat: 'Ревю', title: 'Palit RTX 4080 Super JetStream OC — За 4K без компромис',
+    date: '12 Май 2026', dateISO: '2026-05-12', read: '5 мин', author: 'Most Computers',
+    summary: 'RTX 4080 Super с JetStream охладителя на Palit е отговорът за истинско 4K гейминг. Тествахме го при максимални настройки.',
+    metaDesc: 'Palit RTX 4080 Super JetStream OC ревю 2026 — 4K гейминг тест, температури, сравнение с RTX 4070 Ti Super. Worth it?',
+    tags: ['Nvidia', 'Palit', 'GPU', 'гейминг', 'ревю'],
+    brand: 'palit', rating: '8.9',
+    model: 'RTX 4080 Super', modelSub: 'JetStream OC · 16 GB', brandLabel: 'PALIT · GPU',
+    verdict: 'Оптималният избор за 4K гейминг с бюджет под 2000 €. JetStream охладителят го прави тих дори при максимално натоварване.',
+    specs: {'GPU чип':'Ada Lovelace AD102','CUDA ядра':'10 240','Памет':'16 GB GDDR6X, 256-bit','Boost Clock':'2595 MHz (factory OC)','TDP':'320 W','Охладител':'JetStream 3×100 мм'},
+    body: `<h2>RTX 4080 Super — позицията в линейката</h2>
+<p>RTX 4080 Super запълва пространството между RTX 4070 Ti Super и RTX 4090. С 10 240 CUDA ядра и 16 GB GDDR6X на 256-битова шина, картата предлага около <strong>15% повече производителност</strong> спрямо RTX 4070 Ti Super при ~20% по-висока цена. Palit JetStream OC версията идва с factory overclock до 2595 MHz boost.</p>
+<h2>4K гейминг производителност</h2>
+<p>При <strong>4K Ultra</strong> настройки без ray tracing:</p>
+<ul>
+<li>Cyberpunk 2077 — 82 fps средно</li>
+<li>Alan Wake 2 — 74 fps средно</li>
+<li>Red Dead Redemption 2 — 98 fps средно</li>
+<li>Microsoft Flight Simulator 2024 — 72 fps средно</li>
+</ul>
+<p>С DLSS 3 Quality (рендер при 1440p) числата скачат до 130-165 fps — 4K гейминг над 60 fps е постижимо без Frame Generation при повечето заглавия.</p>
+<h2>Ray Tracing и DLSS 3</h2>
+<p>RTX 4080 Super е <strong>значително по-добър от RTX 4070 Ti Super при RT</strong> — 18-22% разлика при Path Tracing в Cyberpunk 2077. Frame Generation удвоява fps при GPU-bound сценарии, а Reflex 2 запазва латентността под контрол.</p>
+<h2>Температури и шум</h2>
+<p>Palit JetStream охладителят с три 100 мм вентилатора държи GPU на 72°C при full load при стайна температура 22°C. Шумното ниво е 38 dBA — практически безшумен в затворен корпус. Вентилаторите спират напълно при 2D натоварване.</p>
+<h2>Заключение</h2>
+<p>Palit RTX 4080 Super JetStream OC е правилният избор за 4K геймъри, които не искат да плащат RTX 4090 цена. При 1440p — RTX 4070 Super е по-добрата стойност. <strong>Оценка: 8.9 / 10</strong></p>`
+  },
+  {
+    slug: 'ddr5-6000-gaming-guide-2026',
+    emoji: '🧠', cat: 'Съвети', title: 'DDR5 памет за гейминг 2026 — Колко и каква?',
+    date: '05 Май 2026', dateISO: '2026-05-05', read: '5 мин', author: 'Most Computers',
+    summary: 'DDR5-6000 или DDR5-6400? 32 GB или 64 GB? Пълен наръчник за избор на памет за AMD AM5 и Intel LGA1851.',
+    metaDesc: 'DDR5 памет за гейминг 2026 — DDR5-6000 vs 6400, 32 GB vs 64 GB, AMD AM5 и Intel Z890. Как да изберем правилно.',
+    tags: ['памет', 'DDR5', 'AM5', 'съвети'],
+    brand: 'general',
+    body: `<h2>Колко GB памет е нужна за гейминг?</h2>
+<p><strong>32 GB (2×16 GB)</strong> е стандартът за 2026. Повечето съвременни игри използват 16-24 GB при максимални настройки. 64 GB има смисъл само ако правиш едновременно гейминг + стрийминг + видео монтаж. За чист гейминг 32 GB е оптималното.</p>
+<h2>DDR5-6000 vs DDR5-6400 — каква е разликата?</h2>
+<p>За <strong>AMD AM5</strong> — DDR5-6000 CL30 е оптималното: попада в EXPO профила и синхронизира Infinity Fabric към 2000 MHz (1:1 режим). DDR5-6400 CL32 е леко по-бързо, но цената е непропорционална. Над DDR5-6400 AM5 преминава в 1:2 режим и производителността пада.</p>
+<p>За <strong>Intel LGA1851</strong> — DDR5-6400 CL32 е препоръчителното. Intel XMP профилите са добре оптимизирани до тази честота. По-бързата памет носи минимални ползи при реална употреба.</p>
+<h2>Dual Channel — задължителен</h2>
+<p>Никога не купувай един модул. 2×16 GB dual channel е <strong>значително по-бърза</strong> от 1×32 GB single channel — до 20% разлика в гейминг производителност. Ако имаш бюджет за 64 GB — 2×32 GB вместо 4×16 GB (по-малко стрес върху контролера).</p>
+<h2>CL (CAS Latency) — важен ли е?</h2>
+<p>При равни честоти — по-нисък CL е по-добър. DDR5-6000 CL30 е по-бърза от DDR5-6000 CL36. Формулата е: <strong>латентност (ns) = (CL / честота) × 2000</strong>. При DDR5-6000 CL30: 10 ns — отлично.</p>
+<h2>Препоръки за платформа</h2>
+<ul>
+<li><strong>AMD AM5 (Ryzen 9000)</strong> → DDR5-6000 CL30, 2×16 GB</li>
+<li><strong>Intel LGA1851 (Core Ultra 300)</strong> → DDR5-6400 CL32, 2×16 GB</li>
+<li><strong>AMD AM4 (Ryzen 5000)</strong> → все още DDR4-3600 CL18</li>
+</ul>`
+  },
+  {
+    slug: 'byudzhetna-gaming-sistema-2026',
+    emoji: '🖥', cat: 'Съвети', title: 'Бюджетна гейминг система за 2026 — план за 800 €',
+    date: '28 Април 2026', dateISO: '2026-04-28', read: '6 мин', author: 'Most Computers',
+    summary: 'Как да сглобим пълна гейминг система за около 800 € с компоненти, налични в Most Computers. Съвети за всеки бюджет.',
+    metaDesc: 'Бюджетна гейминг система 2026 — AMD Ryzen 5 9600X, Palit RTX 4060, B650 дъна. Как да изберем правилните компоненти за 800 €.',
+    tags: ['гейминг', 'AMD', 'Palit', 'съвети', 'build'],
+    brand: 'general',
+    body: `<h2>Стратегия: CPU или GPU — кое е по-важно?</h2>
+<p>За гейминг <strong>GPU-то е по-важно</strong>. При ограничен бюджет — вложи повече в видеокартата. Ryzen 5 9600X за 220 € + RTX 4060 8GB за 310 € е по-добра гейминг система от Ryzen 9 9950X3D + GTX 1660 Super. Правилото: GPU = 40-50% от бюджета.</p>
+<h2>Примерна конфигурация за ~800 €</h2>
+<ul>
+<li><strong>CPU:</strong> AMD Ryzen 5 9600X — 220 € (6 ядра, Zen 5, 5.9 GHz boost)</li>
+<li><strong>GPU:</strong> Palit GeForce RTX 4060 8GB — 310 € (DLSS 3, Frame Gen, 1080p/1440p)</li>
+<li><strong>Дъна:</strong> ASRock B650M-HDV/M.2 AM5 — 110 € (B650, PCIe 4.0, 2× DDR5)</li>
+<li><strong>RAM:</strong> DDR5-6000 CL30 2×8 GB — 65 € (достатъчно за гейминг)</li>
+<li><strong>SSD:</strong> 1 TB NVMe Gen4 — 60 €</li>
+<li><strong>Захранване:</strong> 650W 80+ Bronze — 55 €</li>
+</ul>
+<p><strong>Общо: ~820 €</strong> — пълна система без корпус и охладяване.</p>
+<h2>RTX 4060 — добра ли е за парите?</h2>
+<p>При 1080p Ultra — RTX 4060 постига 85-120 fps в повечето AAA заглавия. С DLSS 3 Frame Generation резултатите при 1440p са изненадващо добри (65-90 fps). За геймъри с 1080p монитор е отличен избор. За 1440p — препоръчваме RTX 4070 Super.</p>
+<h2>Как да надградиш по-късно?</h2>
+<p>AM5 платформата поддържа до Ryzen 9000 серия — можеш да смениш CPU по-късно без смяна на дъното. Захранването от 650W поддържа до RTX 4080 Super надстройка. Инвестирай в добро захранване от самото начало.</p>
+<h2>Съвет за спестяване</h2>
+<p>Ако бюджетът е под 700 € — замени Ryzen 5 9600X с Ryzen 5 9600 (MPK версия, ~185 €) и RTX 4060 с RTX 3060 12GB (~250 €). Системата ще е около 100 € по-евтина при само ~10% по-ниска производителност.</p>`
+  },
+  {
+    slug: 'am5-motherboard-guide-2026',
+    emoji: '🔧', cat: 'Съвети', title: 'AM5 дъна платка 2026 — ASRock, ASUS, Gigabyte или MSI?',
+    date: '21 Април 2026', dateISO: '2026-04-21', read: '6 мин', author: 'Most Computers',
+    summary: 'B650 или X670? Кой производител предлага най-добро качество за цената при AM5 платформата? Пълен наръчник.',
+    metaDesc: 'AM5 дъна платка 2026 — B650 vs X670E, ASRock vs ASUS vs Gigabyte vs MSI. Кое дъно да изберем за AMD Ryzen 9000?',
+    tags: ['дъни платки', 'AM5', 'AMD', 'съвети'],
+    brand: 'general',
+    body: `<h2>B650 или X670E — какво да изберем?</h2>
+<p><strong>B650</strong> е достатъчен за 95% от потребителите. Поддържа DDR5 ECC, PCIe 4.0 x4 за NVMe и USB 3.2 Gen 2. <strong>X670E</strong> добавя PCIe 5.0 x16 за GPU и PCIe 5.0 x4 за NVMe — полезно само ако имаш PCIe 5.0 SSD или RTX 4090 клас GPU. За Ryzen 5/7 — B650 е оптималното.</p>
+<h2>Кой производител?</h2>
+<h3>ASRock</h3>
+<p>Най-добра стойност за парите. <strong>ASRock B650M Pro RS</strong> и <strong>B650M HDV/M.2</strong> предлагат солидни VRM за Ryzen 9000 на конкурентна цена. Добра BIOS поддръжка с редовни обновявания. Минус: по-скромен дизайн.</p>
+<h3>ASUS</h3>
+<p>Отлична BIOS среда (UEFI), богата функционалност, добра VRM. <strong>ASUS Prime B650M-A</strong> е популярен избор за mid-range системи. По-скъпо от ASRock, но оправдано при Ryzen 7/9.</p>
+<h3>Gigabyte</h3>
+<p>Добро охлаждане на VRM зоната. <strong>Gigabyte B650M DS3H</strong> е евтина и надеждна. Pro серията предлага подобрена аудио секция и по-добри конектори. Стабилна опция.</p>
+<h3>MSI</h3>
+<p>Висококачествен дизайн и богата екосистема с EZ Debug LED. <strong>MSI B650M Gaming Plus WiFi</strong> е отличен избор ако искаш WiFi включен. По-добра геймърска естетика от ASRock.</p>
+<h2>Какво да проверим при избор</h2>
+<ul>
+<li><strong>VRM фазове</strong> — за Ryzen 9 9950X3D трябват минимум 12+2 фази с 60A+ дросели</li>
+<li><strong>M.2 слотове</strong> — минимум 2 за система + storage</li>
+<li><strong>WiFi</strong> — не всички B650 имат; проверявай спецификациите</li>
+<li><strong>USB портове</strong> — USB4 / Thunderbolt само при X670E</li>
+</ul>
+<h2>Препоръка</h2>
+<p>За <strong>Ryzen 5/7 9000</strong> → ASRock B650M Pro RS (~120 €). За <strong>Ryzen 9 9950X3D</strong> → ASUS Prime X670-P или MSI MEG X670E Ace за максимална стабилност.</p>`
+  },
+  {
     slug: 'macbook-pro-m4-pro-review',
     emoji: '💻', cat: 'Ревю', title: 'MacBook Pro M4 Pro — Worth It?',
     date: '07 Март 2026', dateISO: '2026-03-07', read: '5 мин', author: 'Most Computers',

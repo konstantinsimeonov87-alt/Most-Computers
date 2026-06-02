@@ -5,7 +5,9 @@
       "Read(//tmp/**)",
       "Read(//c/tmp/**)",
       "WebFetch(domain:developer.chrome.com)",
-      "PowerShell(Start-Process \"c:\\\\Users\\\\user\\\\Desktop\\\\New folder\\\\index.html\")"
+      "PowerShell(Start-Process \"c:\\\\Users\\\\user\\\\Desktop\\\\New folder\\\\index.html\")",
+      "WebFetch(domain:www.gsmarena.com)",
+      "WebFetch(domain:psref.lenovo.com)"
     ]
   }
 }

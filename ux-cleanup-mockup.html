@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UX Cleanup — Преди / След — Most Computers</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: #f1f3f5; padding: 40px 24px 64px; }
+
+  .page-title { text-align: center; font-size: 22px; font-weight: 900; color: #111; margin-bottom: 6px; letter-spacing: -.02em; }
+  .page-sub   { text-align: center; font-size: 13px; color: #888; margin-bottom: 40px; }
+
+  /* ── LEGEND ── */
+  .legend { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; margin-bottom: 36px; }
+  .leg { display: flex; align-items: center; gap: 7px; font-size: 12px; color: #555; font-weight: 600; }
+  .leg-dot { width: 14px; height: 14px; border-radius: 3px; flex-shrink: 0; }
+  .dot-remove  { background: #fecaca; border: 2px solid #ef4444; }
+  .dot-keep    { background: #d1fae5; border: 2px solid #10b981; }
+  .dot-simplify{ background: #fef3c7; border: 2px solid #f59e0b; }
+  .dot-new     { background: #dbeafe; border: 2px solid #3b82f6; }
+
+  /* ── COMPARISON GRID ── */
+  .compare { display: grid; grid-template-columns: 1fr 48px 1fr; gap: 0; max-width: 1120px; margin: 0 auto; align-items: start; }
+  .arrow-col { display: flex; align-items: center; justify-content: center; padding-top: 120px; }
+  .arrow-col svg { color: #94a3b8; }
+
+  .panel { background: #fff; border-radius: 16px; box-shadow: 0 4px 24px rgba(0,0,0,.10); overflow: hidden; }
+  .panel-header { padding: 16px 20px; border-bottom: 2px solid; display: flex; align-items: center; gap: 10px; }
+  .panel-header.before { background: #fff5f5; border-color: #ef4444; }
+  .panel-header.after  { background: #f0fdf4; border-color: #10b981; }
+  .panel-title { font-size: 15px; font-weight: 900; letter-spacing: -.01em; }
+  .panel-title.before { color: #dc2626; }
+  .panel-title.after  { color: #059669; }
+  .panel-stat { margin-left: auto; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 20px; }
+  .panel-stat.before { background: #fee2e2; color: #b91c1c; }
+  .panel-stat.after  { background: #d1fae5; color: #065f46; }
+
+  .wireframe { padding: 12px; display: flex; flex-direction: column; gap: 4px; }
+
+  /* ── BLOCKS ── */
+  .blk {
+    border-radius: 8px;
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: #374151;
+    border: 1.5px solid transparent;
+    transition: opacity .2s;
+  }
+  .blk-label { flex: 1; line-height: 1.35; }
+  .blk-label strong { display: block; font-size: 12px; font-weight: 800; color: #111; }
+  .blk-label span   { font-size: 10.5px; color: #6b7280; font-weight: 500; }
+  .blk-icon  { font-size: 16px; flex-shrink: 0; }
+  .blk-badge { font-size: 9.5px; font-weight: 700; padding: 2px 7px; border-radius: 10px; flex-shrink: 0; }
+
+  /* colours */
+  .blk-remove   { background: #fef2f2; border-color: #fca5a5; }
+  .blk-remove .blk-badge { background: #ef4444; color: #fff; }
+  .blk-keep     { background: #f0fdf4; border-color: #6ee7b7; }
+  .blk-keep .blk-badge   { background: #10b981; color: #fff; }
+  .blk-simplify { background: #fffbeb; border-color: #fcd34d; }
+  .blk-simplify .blk-badge { background: #f59e0b; color: #fff; }
+  .blk-neutral  { background: #f8fafc; border-color: #e2e8f0; }
+  .blk-new      { background: #eff6ff; border-color: #93c5fd; }
+  .blk-new .blk-badge     { background: #3b82f6; color: #fff; }
+
+  /* strikethrough for removed */
+  .blk-remove .blk-label strong { text-decoration: line-through; text-decoration-color: #ef4444; color: #9ca3af; }
+
+  /* height variations */
+  .h-xs  { min-height: 28px; }
+  .h-sm  { min-height: 38px; }
+  .h-md  { min-height: 52px; }
+  .h-lg  { min-height: 70px; }
+  .h-xl  { min-height: 90px; }
+  .h-2xl { min-height: 120px; }
+
+  /* MAIN AREA: sidebar + content side by side */
+  .main-row { display: flex; gap: 4px; align-items: stretch; }
+  .sidebar-col { width: 130px; flex-shrink: 0; display: flex; flex-direction: column; gap: 4px; }
+  .content-col { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+
+  .sidebar-blk { border-radius: 8px; padding: 8px 10px; font-size: 10px; font-weight: 600; }
+  .sb-keep     { background: #f0fdf4; border: 1.5px solid #6ee7b7; color: #065f46; }
+  .sb-remove   { background: #fef2f2; border: 1.5px solid #fca5a5; color: #991b1b; }
+  .sb-simplify { background: #fffbeb; border: 1.5px solid #fcd34d; color: #92400e; }
+  .sb-label    { font-size: 9.5px; font-weight: 800; letter-spacing: .02em; margin-bottom: 3px; }
+  .sb-items    { font-size: 9px; color: #6b7280; line-height: 1.6; }
+
+  /* inline "problem callout" */
+  .callout {
+    margin-left: 4px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: #fef2f2;
+    border: 1px solid #fca5a5;
+    border-radius: 6px;
+    padding: 2px 7px;
+    font-size: 9.5px;
+    font-weight: 700;
+    color: #b91c1c;
+    white-space: nowrap;
+  }
+  .callout.ok { background: #f0fdf4; border-color: #6ee7b7; color: #065f46; }
+
+  /* annotation arrows */
+  .annotations { padding: 12px 16px 16px; border-top: 1px solid #f1f5f9; display: flex; flex-direction: column; gap: 6px; }
+  .ann { display: flex; align-items: flex-start; gap: 8px; font-size: 11px; color: #4b5563; line-height: 1.4; }
+  .ann-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 3px; }
+
+  /* counts */
+  .count-row { display: flex; gap: 12px; padding: 12px 16px; border-top: 1px solid #f1f5f9; justify-content: center; flex-wrap: wrap; }
+  .count-item { text-align: center; }
+  .count-num  { font-size: 22px; font-weight: 900; line-height: 1; }
+  .count-lbl  { font-size: 9.5px; color: #9ca3af; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; margin-top: 1px; }
+  .red   { color: #ef4444; }
+  .green { color: #10b981; }
+  .amber { color: #f59e0b; }
+
+  /* DIVIDER ─────── */
+  .section-divider { height: 4px; background: linear-gradient(90deg, transparent, #e2e8f0, transparent); margin: 2px 0; border-radius: 2px; }
+
+  /* Duplicate warning badge */
+  .dup { background: #fef3c7; color: #92400e; border: 1px solid #fcd34d; font-size: 9px; font-weight: 700; padding: 1px 6px; border-radius: 8px; margin-left: 4px; }
+
+  /* ── BOTTOM NOTES ── */
+  .notes { max-width: 1120px; margin: 32px auto 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .note-card { background: #fff; border-radius: 12px; padding: 20px; box-shadow: 0 2px 12px rgba(0,0,0,.07); }
+  .note-icon { font-size: 22px; margin-bottom: 8px; }
+  .note-title { font-size: 13px; font-weight: 800; color: #111; margin-bottom: 6px; }
+  .note-body  { font-size: 11.5px; color: #6b7280; line-height: 1.65; }
+  .note-body b { color: #374151; font-weight: 700; }
+
+  @media (max-width: 800px) {
+    .compare { grid-template-columns: 1fr; }
+    .arrow-col { display: none; }
+    .notes { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<h1 class="page-title">UX Одит — Начална страница</h1>
+<p class="page-sub">Most Computers · Преди и след почистването · Юни 2026</p>
+
+<!-- LEGEND -->
+<div class="legend">
+  <div class="leg"><div class="leg-dot dot-remove"></div>Премахва се</div>
+  <div class="leg"><div class="leg-dot dot-keep"></div>Остава</div>
+  <div class="leg"><div class="leg-dot dot-simplify"></div>Опростява се</div>
+  <div class="leg"><div class="leg-dot dot-new"></div>Ново / Подобрено</div>
+</div>
+
+<!-- COMPARE -->
+<div class="compare">
+
+  <!-- ══════════════ BEFORE ══════════════ -->
+  <div class="panel">
+    <div class="panel-header before">
+      <span style="font-size:20px">⚠️</span>
+      <span class="panel-title before">ПРЕДИ — Текущо състояние</span>
+      <span class="panel-stat before">6 проблема</span>
+    </div>
+    <div class="wireframe">
+
+      <!-- TOP BAR -->
+      <div class="blk blk-simplify h-sm">
+        <div class="blk-icon">▬</div>
+        <div class="blk-label">
+          <strong>Top Bar</strong>
+          <span>🚚 Безплатна доставка&nbsp;<span class="dup">USP×1</span>&nbsp; ↩ 14 дни&nbsp;<span class="dup">USP×2</span>&nbsp; 📞 Тел. · Вход · Регистрация</span>
+        </div>
+        <div class="blk-badge">Опрости</div>
+      </div>
+
+      <!-- HEADER -->
+      <div class="blk blk-keep h-md">
+        <div class="blk-icon">🖥</div>
+        <div class="blk-label">
+          <strong>Header</strong>
+          <span>Лого · Търсачка · Кошница · Любими · Профил</span>
+        </div>
+        <div class="blk-badge">Остава</div>
+      </div>
+
+      <!-- NAVBAR -->
+      <div class="blk blk-keep h-sm">
+        <div class="blk-icon">≡</div>
+        <div class="blk-label">
+          <strong>Навигация</strong>
+          <span>Начало · За нас · Блог · Доставка · Контакти · Сервиз · 🔥 Нови</span>
+        </div>
+        <div class="blk-badge">Остава</div>
+      </div>
+
+      <!-- PROMO STRIP ← REMOVE -->
+      <div class="blk blk-remove h-sm">
+        <div class="blk-icon">📢</div>
+        <div class="blk-label">
+          <strong>Promo Strip (анимиран ticker)</strong>
+          <span>🚚 Безплатна доставка&nbsp;<span class="dup">USP×3</span>&nbsp; ✓ 2г. гаранция&nbsp;<span class="dup">USP×4</span>&nbsp; ↩ 14 дни&nbsp;<span class="dup">USP×5</span></span>
+        </div>
+        <div class="blk-badge">Премахни</div>
+      </div>
+
+      <div class="section-divider"></div>
+
+      <!-- MAIN ROW: sidebar + content -->
+      <div class="main-row">
+
+        <!-- SIDEBAR -->
+        <div class="sidebar-col">
+          <div class="sidebar-blk sb-keep" style="min-height:200px;">
+            <div class="sb-label">SIDEBAR — Категории</div>
+            <div class="sb-items">
+              💻 Лаптопи<br>
+              🖥 Настолни<br>
+              ⚙️ Компоненти<br>
+              📺 Монитори<br>
+              🖱 Периферия<br>
+              🎧 Аудио<br>
+              📷 Камери<br>
+              <i style="color:#94a3b8;">... +7 още</i>
+            </div>
+          </div>
+          <div class="sidebar-blk sb-keep" style="min-height:80px;">
+            <div class="sb-label">Филтри</div>
+            <div class="sb-items">Цена · Марка · Рейтинг · Наличност</div>
+          </div>
+          <!-- SIDEBAR PROMO ← REMOVE -->
+          <div class="sidebar-blk sb-remove" style="min-height:64px;">
+            <div class="sb-label">⚠ Sidebar Promo Box</div>
+            <div class="sb-items">🚚 Безплатна доставка<br>над 100 € <span class="dup">USP×6</span></div>
+          </div>
+          <div class="sidebar-blk sb-keep" style="min-height:60px;">
+            <div class="sb-label">Топ продукт</div>
+            <div class="sb-items">Ротиращ widget</div>
+          </div>
+        </div>
+
+        <!-- CONTENT -->
+        <div class="content-col">
+
+          <!-- HERO -->
+          <div class="blk blk-keep h-xl">
+            <div class="blk-icon">🖼</div>
+            <div class="blk-label">
+              <strong>Hero Slider</strong>
+              <span>Промоционални слайдове с продукти</span>
+            </div>
+            <div class="blk-badge">Остава</div>
+          </div>
+
+          <!-- TRUST BAR -->
+          <div class="blk blk-keep h-sm">
+            <div class="blk-icon">✅</div>
+            <div class="blk-label">
+              <strong>Trust Bar (4 иконки)</strong>
+              <span>🚚 Доставка · 🛡 Гаранция · ↩ Връщане · 💳 Плащане</span>
+            </div>
+            <div class="blk-badge">Остава</div>
+          </div>
+
+          <!-- CATEGORY CARDS ← SIMPLIFY -->
+          <div class="blk blk-simplify h-md">
+            <div class="blk-icon">🗂</div>
+            <div class="blk-label">
+              <strong>Категории Grid (hp-cats-section)</strong>
+              <span>Дублира sidebar категориите на desktop</span>
+            </div>
+            <div class="blk-badge">Опрости</div>
+          </div>
+
+          <!-- FLASH SALE -->
+          <div class="blk blk-keep h-lg">
+            <div class="blk-icon">⚡</div>
+            <div class="blk-label">
+              <strong>Светкавични оферти (Flash Sale)</strong>
+              <span>Таймер + 5 продуктови карти с намаление</span>
+            </div>
+            <div class="blk-badge">Остава</div>
+          </div>
+
+          <!-- PROMO SPLIT BANNER ← SIMPLIFY/REMOVE ONE -->
+          <div class="blk blk-simplify h-md">
+            <div class="blk-icon">🎯</div>
+            <div class="blk-label">
+              <strong>Promo Split Banner</strong>
+              <span>RTX 5060 + Canon — веднага след Flash Sale</span>
+            </div>
+            <div class="blk-badge">Опрости</div>
+          </div>
+
+          <!-- NEW PRODUCTS -->
+          <div class="blk blk-simplify h-xl">
+            <div class="blk-icon">🆕</div>
+            <div class="blk-label">
+              <strong>Нови продукти</strong>
+              <span>Табове: "7 дни / 14 дни / 30 дни" + pagination</span>
+            </div>
+            <div class="blk-badge">Опрости</div>
+          </div>
+
+          <!-- PROMO BANNER (dynamic) ← REMOVE ONE OF TWO -->
+          <div class="blk blk-simplify h-sm">
+            <div class="blk-icon">🔴</div>
+            <div class="blk-label">
+              <strong>Dynamic Promo Banner</strong>
+              <span>3-то промо в рамките на ~400px вертикален scroll</span>
+            </div>
+            <div class="blk-badge">Опрости</div>
+          </div>
+
+          <!-- BESTSELLERS -->
+          <div class="blk blk-keep h-lg">
+            <div class="blk-icon">🏆</div>
+            <div class="blk-label">
+              <strong>Най-продавани</strong>
+              <span>5 продуктови карти с висок рейтинг</span>
+            </div>
+            <div class="blk-badge">Остава</div>
+          </div>
+
+          <!-- BRANDS BAR ← SIMPLIFY -->
+          <div class="blk blk-simplify h-sm">
+            <div class="blk-icon">™</div>
+            <div class="blk-label">
+              <strong>Brands Bar (35+ текстови имена)</strong>
+              <span>Безкраен ticker — само текст, без лога</span>
+            </div>
+            <div class="blk-badge">Опрости</div>
+          </div>
+
+          <!-- RECENTLY VIEWED ← REMOVE (legacy) -->
+          <div class="blk blk-remove h-sm">
+            <div class="blk-icon">👻</div>
+            <div class="blk-label">
+              <strong>Наскоро разгледани (legacy)</strong>
+              <span>display:none в кода — мъртъв DOM</span>
+            </div>
+            <div class="blk-badge">Премахни</div>
+          </div>
+
+          <!-- NEWSLETTER -->
+          <div class="blk blk-keep h-md">
+            <div class="blk-icon">📩</div>
+            <div class="blk-label">
+              <strong>Newsletter Strip</strong>
+              <span>Имейл абонамент — добра позиция преди footer</span>
+            </div>
+            <div class="blk-badge">Остава</div>
+          </div>
+
+        </div><!-- /content-col -->
+      </div><!-- /main-row -->
+
+      <!-- FOOTER -->
+      <div class="blk blk-keep h-md">
+        <div class="blk-icon">⬇️</div>
+        <div class="blk-label">
+          <strong>Footer</strong>
+          <span>Магазин · Информация · Контакти · Сервиз · Социални мрежи</span>
+        </div>
+        <div class="blk-badge">Остава</div>
+      </div>
+
+    </div><!-- /wireframe -->
+
+    <!-- STATS -->
+    <div class="count-row">
+      <div class="count-item"><div class="count-num red">3</div><div class="count-lbl">Секции за премахване</div></div>
+      <div class="count-item"><div class="count-num amber">4</div><div class="count-lbl">За опростяване</div></div>
+      <div class="count-item"><div class="count-num red">6×</div><div class="count-lbl">Повторения на USP-та</div></div>
+    </div>
+
+    <!-- ANNOTATIONS -->
+    <div class="annotations">
+      <div class="ann"><div class="ann-dot" style="background:#ef4444"></div>Promo Strip дублира Top Bar + Trust Bar — потребителят вижда "Безплатна доставка" 4+ пъти</div>
+      <div class="ann"><div class="ann-dot" style="background:#ef4444"></div>Sidebar Promo Box е 4-то повторение на едно и също USP съобщение</div>
+      <div class="ann"><div class="ann-dot" style="background:#ef4444"></div>Legacy секцията е мъртъв DOM, невидима, но увеличава HTML</div>
+      <div class="ann"><div class="ann-dot" style="background:#f59e0b"></div>Категории Grid дублира Sidebar на desktop — потребителят вижда категориите 3 пъти</div>
+      <div class="ann"><div class="ann-dot" style="background:#f59e0b"></div>3 промо секции последователно = FOMO overload → потребителят игнорира всички</div>
+    </div>
+  </div>
+
+  <!-- ARROW -->
+  <div class="arrow-col">
+    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+      <path d="M5 12h14M12 5l7 7-7 7"/>
+    </svg>
+  </div>
+
+  <!-- ══════════════ AFTER ══════════════ -->
+  <div class="panel">
+    <div class="panel-header after">
+      <span style="font-size:20px">✅</span>
+      <span class="panel-title after">СЛЕД — Почистено</span>
+      <span class="panel-stat after">3 слоя по-малко</span>
+    </div>
+    <div class="wireframe">
+
+      <!-- TOP BAR — simplified -->
+      <div class="blk blk-new h-sm">
+        <div class="blk-icon">▬</div>
+        <div class="blk-label">
+          <strong>Top Bar (опростен)</strong>
+          <span>📞 (+359 2) 91 823 &nbsp;·&nbsp; Вход &nbsp;·&nbsp; Регистрация &nbsp;·&nbsp; 🚚 Безплатна доставка над 100 €</span>
+        </div>
+        <span class="callout ok">✓ 1× USP</span>
+      </div>
+
+      <!-- HEADER -->
+      <div class="blk blk-keep h-md">
+        <div class="blk-icon">🖥</div>
+        <div class="blk-label">
+          <strong>Header</strong>
+          <span>Лого · Търсачка · Кошница · Любими · Профил</span>
+        </div>
+        <div class="blk-badge">Остава</div>
+      </div>
+
+      <!-- NAVBAR -->
+      <div class="blk blk-keep h-sm">
+        <div class="blk-icon">≡</div>
+        <div class="blk-label">
+          <strong>Навигация</strong>
+          <span>Начало · За нас · Блог · Доставка · Контакти · Сервиз · 🔥 Нови</span>
+        </div>
+        <div class="blk-badge">Остава</div>
+      </div>
+
+      <!-- Promo Strip GONE — показва свободно пространство -->
+      <div style="height:6px; border-radius:4px; background: linear-gradient(90deg,#d1fae5,#a7f3d0); display:flex; align-items:center; justify-content:center; overflow:visible; position:relative;">
+        <span style="position:absolute; right:8px; top:-8px; font-size:9px; font-weight:800; color:#10b981; background:#fff; padding:2px 6px; border-radius:8px; border:1px solid #6ee7b7; white-space:nowrap;">Ticker премахнат — спестено ~28px и DOM шум</span>
+      </div>
+
+      <div class="section-divider"></div>
+
+      <!-- MAIN ROW -->
+      <div class="main-row">
+
+        <!-- SIDEBAR — without promo box -->
+        <div class="sidebar-col">
+          <div class="sidebar-blk sb-keep" style="min-height:200px;">
+            <div class="sb-label">SIDEBAR — Категории</div>
+            <div class="sb-items">
+              💻 Лаптопи<br>
+              🖥 Настолни<br>
+              ⚙️ Компоненти<br>
+              📺 Монитори<br>
+              🖱 Периферия<br>
+              🎧 Аудио<br>
+              📷 Камери<br>
+              <i style="color:#94a3b8;">... +7 още</i>
+            </div>
+          </div>
+          <div class="sidebar-blk sb-keep" style="min-height:80px;">
+            <div class="sb-label">Филтри</div>
+            <div class="sb-items">Цена · Марка · Рейтинг · Наличност</div>
+          </div>
+          <!-- Promo Box GONE — топ продукт заема цялото място -->
+          <div class="sidebar-blk" style="min-height:80px; background:#eff6ff; border:1.5px solid #93c5fd;">
+            <div class="sb-label" style="color:#1d4ed8;">Топ продукт</div>
+            <div class="sb-items" style="color:#3b82f6;">Ротиращ widget<br><i>(увеличено пространство)</i></div>
+          </div>
+          <div class="sidebar-blk" style="min-height:60px; background:#eff6ff; border:1.5px solid #93c5fd;">
+            <div class="sb-label" style="color:#1d4ed8;">Brand Spotlight</div>
+            <div class="sb-items" style="color:#3b82f6;">Марка на деня</div>
+          </div>
+        </div>
+
+        <!-- CONTENT -->
+        <div class="content-col">
+
+          <!-- HERO -->
+          <div class="blk blk-keep h-xl">
+            <div class="blk-icon">🖼</div>
+            <div class="blk-label">
+              <strong>Hero Slider</strong>
+              <span>Промоционални слайдове с продукти</span>
+            </div>
+            <div class="blk-badge">Остава</div>
+          </div>
+
+          <!-- TRUST BAR -->
+          <div class="blk blk-keep h-sm">
+            <div class="blk-icon">✅</div>
+            <div class="blk-label">
+              <strong>Trust Bar (4 иконки)</strong>
+              <span>🚚 Доставка · 🛡 Гаранция · ↩ Връщане · 💳 Плащане &nbsp;<span style="font-size:9px;color:#10b981;font-weight:700;">← единственото USP място</span></span>
+            </div>
+            <div class="blk-badge">Остава</div>
+          </div>
+
+          <!-- CATEGORY CARDS — mobile only -->
+          <div class="blk blk-new h-sm" style="opacity:.55;">
+            <div class="blk-icon">🗂</div>
+            <div class="blk-label">
+              <strong>Категории Grid</strong>
+              <span>Видими само на mobile (скрити на desktop с CSS)</span>
+            </div>
+            <div class="blk-badge">Mobile-only</div>
+          </div>
+
+          <!-- FLASH SALE -->
+          <div class="blk blk-keep h-lg">
+            <div class="blk-icon">⚡</div>
+            <div class="blk-label">
+              <strong>Светкавични оферти (Flash Sale)</strong>
+              <span>Таймер + 5 продуктови карти с намаление</span>
+            </div>
+            <div class="blk-badge">Остава</div>
+          </div>
+
+          <!-- PROMO SPLIT BANNER — stays but moved AFTER new products -->
+          <div class="blk blk-new h-xl">
+            <div class="blk-icon">🆕</div>
+            <div class="blk-label">
+              <strong>Нови продукти</strong>
+              <span>Табове: "Тази седмица / Последния месец" (по-четими)</span>
+            </div>
+            <div class="blk-badge">Подобрено</div>
+          </div>
+
+          <!-- ONE PROMO BANNER (pick one) -->
+          <div class="blk blk-new h-md">
+            <div class="blk-icon">🎯</div>
+            <div class="blk-label">
+              <strong>Promo Banner (едно, не три)</strong>
+              <span>Split Banner ИЛИ Dynamic Banner — само едно на страница</span>
+            </div>
+            <div class="blk-badge">Опростено</div>
+          </div>
+
+          <!-- BESTSELLERS -->
+          <div class="blk blk-keep h-lg">
+            <div class="blk-icon">🏆</div>
+            <div class="blk-label">
+              <strong>Най-продавани</strong>
+              <span>5 продуктови карти с висок рейтинг</span>
+            </div>
+            <div class="blk-badge">Остава</div>
+          </div>
+
+          <!-- BRANDS BAR — simplified, static logos -->
+          <div class="blk blk-new h-sm">
+            <div class="blk-icon">™</div>
+            <div class="blk-label">
+              <strong>Brands Bar (8-10 лога, статично)</strong>
+              <span>Asus · Lenovo · MSI · Canon · Kingston · Tenda…</span>
+            </div>
+            <div class="blk-badge">Подобрено</div>
+          </div>
+
+          <!-- Recently Viewed GONE -->
+          <div style="height:4px; border-radius:4px; background: linear-gradient(90deg,#d1fae5,#a7f3d0); margin: 2px 0; position:relative;">
+            <span style="position:absolute; right:8px; top:-8px; font-size:9px; font-weight:800; color:#10b981; background:#fff; padding:2px 6px; border-radius:8px; border:1px solid #6ee7b7; white-space:nowrap;">Legacy DOM изтрит</span>
+          </div>
+
+          <!-- NEWSLETTER -->
+          <div class="blk blk-keep h-md">
+            <div class="blk-icon">📩</div>
+            <div class="blk-label">
+              <strong>Newsletter Strip</strong>
+              <span>Имейл абонамент</span>
+            </div>
+            <div class="blk-badge">Остава</div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- FOOTER -->
+      <div class="blk blk-keep h-md">
+        <div class="blk-icon">⬇️</div>
+        <div class="blk-label">
+          <strong>Footer</strong>
+          <span>Магазин · Информация · Контакти · Сервиз · Социални мрежи</span>
+        </div>
+        <div class="blk-badge">Остава</div>
+      </div>
+
+    </div><!-- /wireframe -->
+
+    <!-- STATS -->
+    <div class="count-row">
+      <div class="count-item"><div class="count-num green">1×</div><div class="count-lbl">USP повторения</div></div>
+      <div class="count-item"><div class="count-num green">−3</div><div class="count-lbl">Премахнати секции</div></div>
+      <div class="count-item"><div class="count-num green">~28px</div><div class="count-lbl">По-малко header шум</div></div>
+    </div>
+
+    <!-- ANNOTATIONS -->
+    <div class="annotations">
+      <div class="ann"><div class="ann-dot" style="background:#10b981"></div>"Безплатна доставка" се показва само веднъж — в Trust Bar, веднага след Hero-то</div>
+      <div class="ann"><div class="ann-dot" style="background:#10b981"></div>Sidebar без прекъсващ Promo Box — по-чиста вертикална лента</div>
+      <div class="ann"><div class="ann-dot" style="background:#10b981"></div>Категориите на desktop само в Sidebar — без дублиращ grid в content area</div>
+      <div class="ann"><div class="ann-dot" style="background:#3b82f6"></div>Промо банерите са консолидирани — само един активен на страница</div>
+      <div class="ann"><div class="ann-dot" style="background:#3b82f6"></div>Brands Bar — 8-10 лога вместо 35+ текстови имена в ticker</div>
+    </div>
+  </div>
+
+</div><!-- /compare -->
+
+<!-- ── BOTTOM NOTES ── -->
+<div class="notes">
+  <div class="note-card">
+    <div class="note-icon">🗑</div>
+    <div class="note-title">Какво се премахва (3 елемента)</div>
+    <div class="note-body">
+      <b>Promo Strip ticker</b> — ред 1766–1792 в index.html<br><br>
+      <b>Sidebar Promo Box</b> — ред 1994–2000<br><br>
+      <b>Legacy recently-viewed</b> — ред 2277–2295<br><br>
+      Нулева загуба на функционалност. Всички три са дублирано или мъртво съдържание.
+    </div>
+  </div>
+  <div class="note-card">
+    <div class="note-icon">✏️</div>
+    <div class="note-title">Какво се опростява (4 елемента)</div>
+    <div class="note-body">
+      <b>Категории Grid</b> → само на mobile (CSS media query)<br><br>
+      <b>Промо банери</b> → Split Banner <i>или</i> Dynamic Banner, не и двата наведнъж<br><br>
+      <b>Нови продукти табове</b> → "Тази седмица / Последния месец"<br><br>
+      <b>Brands Bar</b> → 8-10 лога, статично, без ticker
+    </div>
+  </div>
+  <div class="note-card">
+    <div class="note-icon">📈</div>
+    <div class="note-title">Очакван резултат</div>
+    <div class="note-body">
+      Потребителят вижда <b>по-бързо</b> Flash Sale и продуктите без да "разчита" три ленти с еднаква информация.<br><br>
+      Намален <b>cognitive load</b> — по-малко решения "кое промо да кликна".<br><br>
+      Hero → Trust → Sale → Нови → Bestsellers е <b>ясен conversion path</b> без прекъсвания.
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

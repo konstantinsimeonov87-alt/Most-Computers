@@ -21,7 +21,9 @@
       "WebFetch(domain:psref.lenovo.com)",
       "WebFetch(domain:www.notebookcheck.net)",
       "WebFetch(domain:www.techradar.com)",
-      "WebFetch(domain:www.techinn.com)"
+      "WebFetch(domain:www.techinn.com)",
+      "WebFetch(domain:smartshop-it.com)",
+      "WebFetch(domain:www.gsmchoice.com)"
     ],
     "additionalDirectories": [
       "c:\\Users\\user\\.claude\\projects\\c--Users-user-Desktop-New-folder\\memory"

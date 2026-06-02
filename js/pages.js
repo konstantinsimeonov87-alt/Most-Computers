@@ -12,6 +12,10 @@ const blogPosts = [
     summary: 'RTX 4070 Super JetStream OC от Palit е може би най-балансираната видеокарта за 2026. Тествахме я в игри, рендериране и DLSS 3.',
     metaDesc: 'Palit GeForce RTX 4070 Super JetStream OC ревю — тест при 1440p и 4K, DLSS 3, температури. Най-добрата GeForce за парите?',
     tags: ['Nvidia', 'Palit', 'GPU', 'гейминг', 'ревю'],
+    brand: 'palit', rating: '9.1',
+    model: 'RTX 4070 Super', modelSub: 'JetStream OC · 12 GB', brandLabel: 'PALIT · GPU',
+    verdict: 'Безспорен избор за 1440p гейминг с бюджет до 1200 €. JetStream охладителят е сред най-добрите в класа, а factory OC носи реален бонус.',
+    specs: {'GPU чип':'Ada Lovelace AD104','CUDA ядра':'7 168','Памет':'12 GB GDDR6X, 192-bit','Boost Clock':'2535 MHz (factory OC)','TDP':'220 W','Охладител':'JetStream 3×90 мм вентилатора'},
     body: `<h2>Паспорт на картата</h2>
 <p>Palit GeForce RTX 4070 Super JetStream OC разполага с 7168 CUDA ядра (Ada Lovelace), 12 GB GDDR6X памет на 192-битова шина и factory OC от 2535 MHz boost. Трисекционният охладител с 3 вентилатора × 90 мм осигурява ниски температури и почти безшумна работа при умерено натоварване.</p>
 <h2>Производителност при 1440p</h2>
@@ -39,6 +43,10 @@ const blogPosts = [
     summary: 'AMD комбинира Zen 5 архитектурата с 3D V-Cache технологията. Резултатът е процесорът, за който геймърите мечтаеха.',
     metaDesc: 'AMD Ryzen 9 9950X3D ревю — Zen 5 + 3D V-Cache. Тест в игри, рендериране и съдържателна работа. Лидерът за 2026.',
     tags: ['AMD', 'процесори', 'гейминг', 'ревю'],
+    brand: 'amd', rating: '9.5',
+    model: 'Ryzen 9 9950X3D', modelSub: 'Zen 5 · 3D V-Cache · AM5', brandLabel: 'AMD · CPU',
+    verdict: 'Първият процесор без компромис между гейминг и продуктивност. Скъп, но напълно оправдан за enthusiast системи.',
+    specs: {'Архитектура':'Zen 5 (TSMC 4nm)','Ядра / Нишки':'16C / 32T','Boost честота':'5.7 GHz','Кеш (L3)':'128 MB 3D V-Cache + 64 MB','TDP':'170 W','Сокет':'AM5 (LGA1718)'},
     body: `<h2>Zen 5 + 3D V-Cache: мощната комбинация</h2>
 <p>Ryzen 9 9950X3D носи 16 ядра / 32 нишки на Zen 5 архитектура с 5.7 GHz boost честота плюс 128 MB 3D V-Cache върху CCD-то. Общо: 192 MB кеш (L2 + L3). AMD е решила дилемата от предишните X3D модели — кешираното CCD вече не ограничава максималните честоти.</p>
 <h2>Производителност в игри</h2>
@@ -65,6 +73,10 @@ const blogPosts = [
     summary: 'Intel Arrow Lake-R донесе значителни подобрения с BIOS оптимизации. Вече ли е достоен конкурент на AMD Ryzen 9000?',
     metaDesc: 'Intel Core Ultra 300 Arrow Lake-R ревю 2026 — IPC ръст, BIOS оптимизации, AI Boost. Сравнение с AMD Ryzen 9 9900X.',
     tags: ['Intel', 'процесори', 'Arrow Lake', 'новини'],
+    brand: 'intel', rating: '8.3',
+    model: 'Core Ultra 9 285K', modelSub: 'Arrow Lake-R · LGA1851', brandLabel: 'INTEL · CPU',
+    verdict: 'Arrow Lake-R затваря голяма част от пропастта с AMD. Добър избор за AI работни натоварвания и смесена употреба.',
+    specs: {'Архитектура':'Lion Cove + Skymont E-cores','Ядра':'8P + 16E = 24 ядра','Boost честота':'5.7 GHz','Кеш (L3)':'36 MB','TDP':'125 W (253 W PL2)','Сокет':'LGA1851 (Z890)','NPU':'48 TOPS'},
     body: `<h2>Какво се промени при Arrow Lake-R?</h2>
 <p>Серията Core Ultra 300 (Arrow Lake-R) е освежен вариант на Arrow Lake с нови BIOS микрокодове, оптимизации за Thread Director 2.0 и подобрени E-ядра (Skymont). Intel признава, че оригиналният Arrow Lake не постигна очакванията при гейминг — <strong>освежената версия коригира значителна част от проблемите</strong>.</p>
 <h2>Core Ultra 9 285K vs предшественика</h2>
@@ -222,12 +234,6 @@ const blogPosts = [
   },
 ];
 
-const reviewPosts = [
-  { emoji:'⭐', title:'Sony WH-1000XM6 — 9.4/10', sub:'Най-добрите ANC слушалки на пазара' },
-  { emoji:'⭐', title:'ASUS ROG Zephyrus G16 — 9.1/10', sub:'Мощ и стил в тънко тяло' },
-  { emoji:'⭐', title:'Samsung S95C OLED — 9.6/10', sub:'Безкомпромисен телевизор' },
-  { emoji:'⭐', title:'Lenovo LOQ 15 RTX 4050 — 8.7/10', sub:'Най-добрият геймърски лаптоп за парите' },
-];
 
 function openBlogPage() {
   const listView = document.getElementById('blogListView');
@@ -246,29 +252,34 @@ function openBlogPage() {
 }
 function _renderBlogGrid() {
   const grid = document.getElementById('blogGrid');
-  if (grid) grid.innerHTML = blogPosts.map(p => `
-    <div style="background:var(--white);border-radius:14px;border:1px solid var(--border);overflow:hidden;cursor:pointer;transition:all .22s;box-shadow:var(--shadow-card);"
-         onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='var(--shadow-hover)'"
-         onmouseout="this.style.transform='';this.style.boxShadow='var(--shadow-card)'"
-         onclick="openBlogPost('${p.slug}')">
-      <div style="background:linear-gradient(135deg,var(--primary-light),var(--bg2));height:120px;display:flex;align-items:center;justify-content:center;font-size:52px;">${p.emoji}</div>
-      <div style="padding:16px 18px;">
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
-          <span style="background:var(--primary-light);color:var(--primary);font-size:10px;font-weight:800;padding:2px 8px;border-radius:10px;letter-spacing:.05em;">${escHtml(p.cat)}</span>
-          <span class="text-11-muted">${escHtml(p.date)}</span>
-          <span style="font-size:11px;color:var(--muted);margin-left:auto;">📖 ${escHtml(p.read)}</span>
-        </div>
-        <div style="font-size:15px;font-weight:800;margin-bottom:8px;line-height:1.3;">${escHtml(p.title)}</div>
-        <div style="font-size:12px;color:var(--text2);line-height:1.6;">${escHtml(p.summary)}</div>
-        <div style="margin-top:12px;font-size:12px;color:var(--primary);font-weight:700;">Прочети повече →</div>
+  if (!grid) return;
+  grid.innerHTML = blogPosts.map(p => {
+    const brand = p.brand || 'general';
+    const hdContent = p.model
+      ? `${p.brandLabel ? `<div class="blog-mag-brand-lbl">${escHtml(p.brandLabel)}</div>` : ''}
+         <div class="blog-mag-model">${escHtml(p.model)}</div>
+         ${p.modelSub ? `<div class="blog-mag-submodel">${escHtml(p.modelSub)}</div>` : ''}`
+      : `<div class="blog-mag-emoji">${p.emoji}</div>`;
+    return `<div class="blog-mag-card" onclick="openBlogPost('${p.slug}')">
+      <div class="blog-mag-hd blog-brand-${brand}">
+        <span class="blog-mag-cat-pill">${escHtml(p.cat)}</span>
+        ${p.rating ? `<span class="blog-mag-rating-badge">${escHtml(p.rating)}</span>` : ''}
+        ${hdContent}
       </div>
-    </div>`).join('');
-  const rGrid = document.getElementById('reviewsGrid');
-  if (rGrid) rGrid.innerHTML = reviewPosts.map(r => `
-    <div class="megamenu-cat-card" style="flex-direction:row;text-align:left;gap:14px;cursor:default;">
-      <div style="font-size:28px;">${r.emoji}</div>
-      <div><div style="font-size:13px;font-weight:800;">${escHtml(r.title)}</div><div style="font-size:11px;color:var(--muted);margin-top:3px;">${escHtml(r.sub)}</div></div>
-    </div>`).join('');
+      <div class="blog-mag-body">
+        <div class="blog-mag-meta">
+          <span class="blog-mag-date">${escHtml(p.date)}</span>
+          <span class="blog-mag-read"><span class="blog-mag-dot"></span>${escHtml(p.read)} четене</span>
+        </div>
+        <div class="blog-mag-title">${escHtml(p.title)}</div>
+        <div class="blog-mag-summary">${escHtml(p.summary)}</div>
+        <div class="blog-mag-footer">
+          <span class="blog-mag-tag">${escHtml(p.tags[0]||'')}</span>
+          <span class="blog-mag-cta">Прочети →</span>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
 }
 function openBlogPost(slug) {
   const post = blogPosts.find(p => p.slug === slug);
@@ -281,18 +292,38 @@ function openBlogPost(slug) {
   postView.style.display = '';
   const titleEl = document.getElementById('blogPageTitle');
   if (titleEl) titleEl.textContent = post.title;
+  const brand = post.brand || 'general';
+  const specsHtml = post.specs
+    ? `<table class="blog-specs-table">${Object.entries(post.specs).map(([k,v]) =>
+        `<tr><td>${escHtml(k)}</td><td>${escHtml(v)}</td></tr>`).join('')}</table>`
+    : '';
+  const verdictHtml = post.rating
+    ? `<div class="blog-verdict">
+        <div class="blog-verdict-score">${escHtml(post.rating)}<span>/ 10</span></div>
+        <div class="blog-verdict-text">
+          <h3>Нашата присъда</h3>
+          <p>${escHtml(post.verdict||post.summary)}</p>
+        </div>
+       </div>`
+    : '';
   article.innerHTML = `
-    <header class="blog-article-header">
-      <div class="blog-article-meta">
-        <span class="blog-article-cat">${escHtml(post.cat)}</span>
-        <time datetime="${post.dateISO}" class="blog-article-date">${escHtml(post.date)}</time>
-        <span class="blog-article-read">📖 ${escHtml(post.read)}</span>
+    <div class="blog-reading-bar"><div class="blog-reading-fill" id="blogReadingFill"></div></div>
+    <header class="blog-article-hero blog-brand-${brand}">
+      ${post.brandLabel ? `<div class="blog-article-hero-brand">${escHtml(post.brandLabel)}</div>` : ''}
+      <h1>${escHtml(post.title)}</h1>
+      <div class="blog-article-hero-meta">
+        <span class="blog-article-hero-badge cat">${escHtml(post.cat)}</span>
+        <time datetime="${post.dateISO}" class="blog-article-hero-badge info">${escHtml(post.date)}</time>
+        <span class="blog-article-hero-badge info">📖 ${escHtml(post.read)}</span>
+        <span class="blog-article-hero-badge info">✍️ ${escHtml(post.author)}</span>
       </div>
-      <h1 class="blog-article-title">${escHtml(post.title)}</h1>
-      <p class="blog-article-summary">${escHtml(post.summary)}</p>
-      <div class="blog-article-author">✍️ ${escHtml(post.author)}</div>
     </header>
-    <div class="blog-article-body">${post.body}</div>
+    <div class="blog-article-body-wrap">
+      <p class="blog-article-lead">${escHtml(post.summary)}</p>
+      ${specsHtml}
+      <div class="blog-article-body">${post.body}</div>
+      ${verdictHtml}
+    </div>
     <footer class="blog-article-footer">
       <div class="blog-article-tags">${post.tags.map(t => `<span class="blog-tag">${escHtml(t)}</span>`).join('')}</div>
     </footer>`;
@@ -323,6 +354,13 @@ function openBlogPost(slug) {
   }
   try { history.pushState({ page: 'blog', post: slug }, '', '?page=blog&post=' + slug); } catch(e) {}
   postView.scrollTop = 0;
+  const fill = document.getElementById('blogReadingFill');
+  if (postView._blogScrollFn) postView.removeEventListener('scroll', postView._blogScrollFn);
+  postView._blogScrollFn = () => {
+    const total = postView.scrollHeight - postView.clientHeight;
+    if (fill && total > 0) fill.style.width = Math.min(100, (postView.scrollTop / total) * 100) + '%';
+  };
+  postView.addEventListener('scroll', postView._blogScrollFn);
 }
 function closeBlogPost() {
   const listView = document.getElementById('blogListView');

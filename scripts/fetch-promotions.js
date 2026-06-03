@@ -100,7 +100,8 @@ function parseProducts(xml) {
     const eanM    = block.match(/<EAN>([\s\S]*?)<\/EAN>/i);
     const wtyM    = block.match(/<warrantyInMonths>(\d+)<\/warrantyInMonths>/i);
     const statusM = block.match(/<product_status>([\s\S]*?)<\/product_status>/i);
-    const imgM    = block.match(/<image>([\s\S]*?)<\/image>/i);
+    const galleryM = block.match(/<gallery>([\s\S]*?)<\/gallery>/i);
+    const imgM    = galleryM ? galleryM[1].match(/<pictureUrl>([\s\S]*?)<\/pictureUrl>/i) : null;
 
     if (!idM || !nameM || !priceM) continue;
 

@@ -5556,7 +5556,7 @@ function updateAuthUI() {
   const profileLabel = document.getElementById('profileLabel');
   const profileIcon = document.getElementById('profileIcon');
   if (currentUser) {
-    const initials = (currentUser.firstName[0] + (currentUser.lastName ? currentUser.lastName[0] : '')).toUpperCase();
+    const initials = ((currentUser.firstName || 'А')[0] + (currentUser.lastName ? currentUser.lastName[0] : '')).toUpperCase();
     if (topLogin) topLogin.style.display = 'none';
     if (topReg) topReg.style.display = 'none';
     if (profileBtn) profileBtn.style.display = '';

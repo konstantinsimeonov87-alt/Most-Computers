@@ -669,6 +669,7 @@ function filterCatScroll(type) {
 
 // ===== CONTACTS PAGE =====
 let _contactsMap = null;
+let _warehouseMap = null;
 function openContactsPage() {
   _setPgBc('contactsBc', 'Контакти & Как да ни намерите', 'closeContactsPage');
   document.getElementById('contactsPage').classList.add('open');
@@ -676,6 +677,7 @@ function openContactsPage() {
   checkOpenNow();
   try{history.pushState({page:'contacts'}, '', '?page=contacts');}catch(e){}
   _contactsMapInit();
+  _warehouseMapInit();
 }
 function _contactsMapInit() {
   const el = document.getElementById('contactsLeafletMap');
@@ -698,6 +700,30 @@ function _contactsMapInit() {
       .addTo(_contactsMap)
       .bindPopup('<strong>Мост Компютърс</strong><br>бул. Шипченски проход 240');
     setTimeout(() => _contactsMap.invalidateSize(), 200);
+  });
+}
+
+function _warehouseMapInit() {
+  const el = document.getElementById('warehouseLeafletMap');
+  if (!el) return;
+  if (_warehouseMap) { setTimeout(() => _warehouseMap.invalidateSize(), 200); return; }
+  _loadLeaflet(function() {
+    if (_warehouseMap) return;
+    _warehouseMap = L.map(el, { zoomControl: true, scrollWheelZoom: false }).setView([42.6558, 23.3894], 16);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      maxZoom: 19
+    }).addTo(_warehouseMap);
+    const pinIcon = L.divIcon({
+      className: '',
+      html: '<svg width="28" height="36" viewBox="0 0 28 36" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 0C6.268 0 0 6.268 0 14c0 9.333 14 22 14 22s14-12.667 14-22C28 6.268 21.732 0 14 0z" fill="#bd1105"/><circle cx="14" cy="14" r="5.5" fill="#fff"/></svg>',
+      iconSize: [28, 36],
+      iconAnchor: [14, 36]
+    });
+    L.marker([42.6558, 23.3894], { icon: pinIcon })
+      .addTo(_warehouseMap)
+      .bindPopup('<strong>Централен склад</strong><br>ул. Магнаурска школа №13, ЗИТ');
+    setTimeout(() => _warehouseMap.invalidateSize(), 200);
   });
 }
 
@@ -732,6 +758,13 @@ function copyAddress() {
     document.body.removeChild(ta);
     showToast('📋 Адресът е копиран!');
   }
+}
+
+function copyWarehouseAddress() {
+  const addr = 'ул. Магнаурска школа №13, 1784 София, ЗИТ, сграда 1';
+  navigator.clipboard ? navigator.clipboard.writeText(addr).then(() => showToast('📋 Адресът е копиран!')).catch(() => {
+    const ta = document.createElement('textarea'); ta.value = addr; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); showToast('📋 Адресът е копиран!');
+  }) : (() => { const ta = document.createElement('textarea'); ta.value = addr; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); showToast('📋 Адресът е копиран!'); })();
 }
 
 function copyPlusCode() {

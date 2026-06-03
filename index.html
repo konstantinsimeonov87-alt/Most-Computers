@@ -5181,6 +5181,95 @@
         </div>
       </div>
 
+      <!-- ── Warehouse section ── -->
+      <div class="contacts-section-divider">
+        <span>Централен склад</span>
+      </div>
+
+      <div class="contacts-main-layout">
+
+        <!-- Map + nav -->
+        <div class="contacts-map-col">
+          <div class="contacts-map-wrap">
+            <div id="warehouseLeafletMap" style="width:100%;height:100%;"></div>
+          </div>
+          <div class="nav-buttons-row">
+            <a class="nav-btn nav-btn-google"
+              href="https://www.google.com/maps/dir/?api=1&destination=42.6558,23.3894&destination_place_id=Most+Computers+Warehouse+Sofia"
+              target="_blank" rel="noopener noreferrer">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+              </svg>
+              Google Maps
+            </a>
+            <a class="nav-btn nav-btn-waze" href="https://waze.com/ul?ll=42.6558,23.3894&navigate=yes&zoom=17"
+              target="_blank" rel="noopener noreferrer">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+              </svg>
+              Waze
+            </a>
+            <a class="nav-btn nav-btn-apple" href="https://maps.apple.com/?daddr=42.6558,23.3894&dirflg=d"
+              target="_blank" rel="noopener noreferrer">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+              </svg>
+              Apple Maps
+            </a>
+            <button type="button" class="nav-btn nav-btn-copy" data-action="copyWarehouseAddress">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+                <rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+              </svg>
+              Копирай адреса
+            </button>
+          </div>
+        </div>
+
+        <!-- Info + hours -->
+        <div class="contacts-info-col">
+
+          <div class="contact-info-card">
+            <div class="ci-card-title">Централен склад — ЗИТ</div>
+
+            <div class="contact-info-row">
+              <svg class="ci-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+              </svg>
+              <div>
+                <span class="label">Адрес</span>
+                ул. „Магнаурска школа" №13, 1784 София<br>
+                (бул. „Цариградско шосе", 7-ми км), ЗИТ, сграда 1
+              </div>
+            </div>
+
+            <div class="contact-info-row">
+              <svg class="ci-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+                <rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/>
+              </svg>
+              <div>
+                <span class="label">Тип</span>
+                Само за получаване на стоки и B2B вземане
+              </div>
+            </div>
+          </div>
+
+          <div class="contact-info-card">
+            <div class="ci-card-title">Работно време на склада</div>
+            <table class="hours-table">
+              <tr><th scope="row">Понеделник</th><td class="hours-open">09:00 – 17:00</td></tr>
+              <tr><th scope="row">Вторник</th><td class="hours-open">09:00 – 17:00</td></tr>
+              <tr><th scope="row">Сряда</th><td class="hours-open">09:00 – 17:00</td></tr>
+              <tr><th scope="row">Четвъртък</th><td class="hours-open">09:00 – 17:00</td></tr>
+              <tr><th scope="row">Петък</th><td class="hours-open">09:00 – 17:00</td></tr>
+              <tr><th scope="row">Събота</th><td class="hours-closed">Почивен ден</td></tr>
+              <tr><th scope="row">Неделя</th><td class="hours-closed">Почивен ден</td></tr>
+            </table>
+          </div>
+
+        </div><!-- /contacts-info-col -->
+
+      </div><!-- /contacts-main-layout (warehouse) -->
+
     </div><!-- /contacts-page-inner -->
   </div><!-- /contacts-page -->
 

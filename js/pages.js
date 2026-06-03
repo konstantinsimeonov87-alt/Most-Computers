@@ -899,7 +899,7 @@ function _svcTrkSearch(order, warranty) {
       const demo = { found:true, status:'В ремонт', updatedAt:'20.11.2025',
         step:'Изчаква резервни части', location:'Сервизен център — София', searchType, searchValue };
       _svcTrkShowResult(demo, false);
-      localStorage.setItem(_SVCTRK_LAST, JSON.stringify(demo));
+      try { localStorage.setItem(_SVCTRK_LAST, JSON.stringify(demo)); } catch(e) {}
       _svcTrkSaveHistory(demo);
       _svcTrkUpdateHistory();
     }

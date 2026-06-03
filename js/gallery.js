@@ -367,6 +367,8 @@ if(slides.length){if(_heroSliderIv)clearInterval(_heroSliderIv);_heroSliderIv=se
     if(totalSecs===0){ localStorage.removeItem('mc_flash_end'); }
   }
   tick();
+  const _ftEl=document.getElementById('flashTimer');
+  if(_ftEl)_ftEl.style.visibility='visible';
   if(window._countdownIv)clearInterval(window._countdownIv);
   window._countdownIv=setInterval(tick,1000);
 })();

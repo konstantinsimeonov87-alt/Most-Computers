@@ -134,9 +134,39 @@ function renderDropdown(query) {
 
   if (results.length === 0) {
     let hint = '';
-    if (qtype === 'ean') hint = '<div class="sd-empty-sub">Търсенето по EAN не намери продукт с баркод <strong>' + escHtml(q) + '</strong></div>';
-    else if (qtype === 'sku') hint = '<div class="sd-empty-sub">Търсенето по SKU не намери продукт с код <strong>' + escHtml(q) + '</strong></div>';
-    else hint = '<div class="sd-empty-sub">Провери правописа или опитай с SKU / EAN баркод</div>';
+    if (qtype === 'ean') {
+      hint = '<div class="sd-empty-sub">Търсенето по EAN не намери продукт с баркод <strong>' + escHtml(q) + '</strong></div>';
+    } else if (qtype === 'sku') {
+      hint = '<div class="sd-empty-sub">Търсенето по SKU не намери продукт с код <strong>' + escHtml(q) + '</strong></div>';
+    } else {
+      // "Did you mean?" — намери близки марки/имена с Levenshtein
+      const ql = q.toLowerCase().trim();
+      const suggestions = [];
+      if (ql.length >= 3 && typeof products !== 'undefined') {
+        const seen = new Set();
+        const candidates = [];
+        products.forEach(p => {
+          [p.brand, ...(p.name||'').split(' ').slice(0,2)].forEach(w => {
+            const wl = (w||'').toLowerCase();
+            if (wl.length >= 3 && !seen.has(wl) && Math.abs(wl.length - ql.length) <= 3) {
+              seen.add(wl);
+              const dist = _levenshtein(ql, wl.substring(0, ql.length + 2));
+              if (dist > 0 && dist <= 2) candidates.push({w, dist});
+            }
+          });
+        });
+        candidates.sort((a,b) => a.dist - b.dist);
+        candidates.slice(0,3).forEach(c => suggestions.push(c.w));
+      }
+      if (suggestions.length) {
+        const chips = suggestions.map(s =>
+          `<span class="sd-suggestion-chip" onclick="document.getElementById('searchInput').value=${JSON.stringify(s)};showSearchResults(${JSON.stringify(s)})">${escHtml(s)}</span>`
+        ).join('');
+        hint = `<div class="sd-empty-sub">Може би търсиш: ${chips}</div>`;
+      } else {
+        hint = '<div class="sd-empty-sub">Провери правописа или опитай с SKU / EAN баркод</div>';
+      }
+    }
     searchDropdown.innerHTML = `
       <div class="sd-empty">
         <div class="sd-empty-icon">🔍</div>

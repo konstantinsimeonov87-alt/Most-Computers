@@ -4024,6 +4024,7 @@ window.addEventListener('popstate', e => {
 function buildCpSidebar(cat) {
   const sb = document.getElementById('cpSidebar');
   if (!sb) return;
+  const _si = (d,s='') => `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:inline-block;vertical-align:-2px;margin-right:5px;flex-shrink:0">${d}</svg>`;
 
   const _promoProds = (typeof promoProducts !== 'undefined') ? promoProducts : [];
   const catProds = cat === 'promo' ? _promoProds :
@@ -4039,7 +4040,7 @@ function buildCpSidebar(cat) {
   // ── Price block ──
   let html = `
     <div class="sidebar-filter-block" style="border-bottom:1px solid var(--border);padding:16px;">
-      <div class="sfb-title" style="font-size:12px;font-weight:800;color:var(--text2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;">💰 Ценови диапазон</div>
+      <div class="sfb-title" style="font-size:12px;font-weight:800;color:var(--text2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;">${_si('<line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>')}Ценови диапазон</div>
       <div class="sidebar-price-slider">
         <div class="price-slider-header">
           <span style="font-size:11px;color:var(--muted);font-weight:600;">Диапазон (€):</span>
@@ -4055,18 +4056,18 @@ function buildCpSidebar(cat) {
 
   // ── Availability toggles ──
   html += `<div class="sidebar-filter-block" style="border-bottom:1px solid var(--border);padding:16px;">
-    <div class="sfb-title" style="font-size:12px;font-weight:800;color:var(--text2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;">📦 Наличност</div>
+    <div class="sfb-title" style="font-size:12px;font-weight:800;color:var(--text2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;">${_si('<path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>')}Наличност</div>
     <div class="stock-filter-list">
       <div class="stock-toggle-row">
-        <span class="text-13">✅ Само налични</span>
+        <span class="text-13">${_si('<polyline points="20 6 9 17 4 12"/>')}Само налични</span>
         <label class="stock-toggle"><input type="checkbox" id="cpStockToggle" onchange="cpApplyFilters()"><span class="stock-slider-toggle"></span></label>
       </div>
       <div class="stock-toggle-row" style="margin-top:8px;">
-        <span class="text-13">🔥 Само намалени</span>
+        <span class="text-13">${_si('<path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/>')}Само намалени</span>
         <label class="stock-toggle"><input type="checkbox" id="cpSaleToggle" onchange="cpApplyFilters()"><span class="stock-slider-toggle"></span></label>
       </div>
       <div class="stock-toggle-row" style="margin-top:8px;">
-        <span class="text-13">🆕 Само нови</span>
+        <span class="text-13">${_si('<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>')}Само нови</span>
         <label class="stock-toggle"><input type="checkbox" id="cpNewToggle" onchange="cpApplyFilters()"><span class="stock-slider-toggle"></span></label>
       </div>
     </div>
@@ -4094,11 +4095,11 @@ function buildCpSidebar(cat) {
   // ── Brands (collapsed by default) ──
   html += `<div class="sidebar-filter-block" style="border-bottom:1px solid var(--border);">
     <div onclick="cpToggleBrands(this)" style="display:flex;align-items:center;justify-content:space-between;padding:16px;cursor:pointer;user-select:none;">
-      <div class="sfb-title" id="cpBrandTitle" style="font-size:12px;font-weight:800;color:var(--text2);text-transform:uppercase;letter-spacing:.08em;margin:0;">🏷 Производител</div>
+      <div class="sfb-title" id="cpBrandTitle" style="font-size:12px;font-weight:800;color:var(--text2);text-transform:uppercase;letter-spacing:.08em;margin:0;">${_si('<rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/>')}Производител</div>
       <span id="cpBrandArrow" style="color:var(--muted);font-size:13px;transition:transform .2s;transform:rotate(180deg);">▾</span>
     </div>
     <div id="cpBrandBody" style="display:block;padding:0 16px 14px;">
-      <input id="cpBrandSearch" placeholder="🔍  Търси марка..." oninput="cpFilterBrandList(this.value)" autocomplete="off" style="width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:8px;font-size:12px;font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);box-sizing:border-box;margin-bottom:8px;">
+      <input id="cpBrandSearch" placeholder="Търси марка…" oninput="cpFilterBrandList(this.value)" autocomplete="off" style="width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:8px;font-size:12px;font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);box-sizing:border-box;margin-bottom:8px;">
       <div class="brand-filter-list" id="cpBrandList" style="max-height:220px;overflow-y:auto;">`;
   brands.forEach(b => {
     const cnt = catProds.filter(p => p.brand === b).length;
@@ -4112,7 +4113,7 @@ function buildCpSidebar(cat) {
 
   // ── Rating ──
   html += `<div class="sidebar-filter-block" style="border-bottom:1px solid var(--border);padding:16px;">
-    <div class="sfb-title" style="font-size:12px;font-weight:800;color:var(--text2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;">⭐ Рейтинг</div>
+    <div class="sfb-title" style="font-size:12px;font-weight:800;color:var(--text2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;">${_si('<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>')}Рейтинг</div>
     <div class="rating-filter-list">
       <label class="rating-filter-item" style="display:flex;align-items:center;gap:8px;padding:5px 0;cursor:pointer;font-size:13px;"><input type="radio" name="cpRating" value="0" checked onchange="cpRatingChange(this)"><span>Всички</span></label>
       <label class="rating-filter-item" style="display:flex;align-items:center;gap:8px;padding:5px 0;cursor:pointer;font-size:13px;"><input type="radio" name="cpRating" value="4.5" onchange="cpRatingChange(this)"><span>★★★★★ 4.5+</span></label>
@@ -4368,7 +4369,7 @@ function cpApplySubcat(id, btn) {
   if (brandTitle && brandList) {
     const mfr = id && id !== 'all' ? _subcatMfr[id] : null;
     if (mfr) {
-      brandTitle.textContent = '🏷 Производител';
+      brandTitle.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:inline-block;vertical-align:-2px;margin-right:5px;flex-shrink:0"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>Производител';
       if (brandSearch) brandSearch.style.display = 'none';
       // Resolve label/value for each entry (supports plain string or {label,value} object)
       const mfrEntries = mfr.map(b => typeof b === 'object' ? b : {label: b, value: b});
@@ -4383,7 +4384,7 @@ function cpApplySubcat(id, btn) {
       }).join('');
       if (brandBody) brandBody.style.display = '';
     } else {
-      brandTitle.textContent = '🏷 Производител';
+      brandTitle.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:inline-block;vertical-align:-2px;margin-right:5px;flex-shrink:0"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>Производител';
       if (brandSearch) brandSearch.style.display = '';
       if (brandBody) brandBody.style.display = 'none';
       // Restore full list — rebuild from cpCat products
@@ -5116,7 +5117,7 @@ function cpRenderGrid() {
     const hasPriceFilter = cpPriceMin > 0 || cpPriceMax < _cpMaxEur;
     const hasBrandFilter = cpBrands.size > 0;
     grid.innerHTML = `<div class="cp-empty-state">
-      <div class="cp-empty-icon">🔍</div>
+      <div class="cp-empty-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity=".35"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
       <div class="cp-empty-title">Няма продукти по тези критерии</div>
       <div class="cp-empty-sub">${hasPriceFilter ? 'Опитай с по-широк ценови диапазон.' : hasBrandFilter ? 'Опитай с друга марка или премахни марковия филтър.' : 'Промени филтрите или разгледай всички продукти в категорията.'}<br>Общо ${allInCat.length} продукта в тази категория.</div>
       <div class="cp-empty-actions">

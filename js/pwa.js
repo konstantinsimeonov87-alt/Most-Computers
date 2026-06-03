@@ -48,8 +48,8 @@
   // 4. Install prompt logic
   let deferredPrompt = null;
   const banner = document.getElementById('pwaBanner');
-  const dismissed = localStorage.getItem('mc_pwa_dismissed');
-  const installed = localStorage.getItem('mc_pwa_installed');
+  let dismissed, installed;
+  try { dismissed = localStorage.getItem('mc_pwa_dismissed'); installed = localStorage.getItem('mc_pwa_installed'); } catch(e) {}
 
   if (installed || dismissed) return; // already handled
 
@@ -85,8 +85,8 @@ function pwaInstall() {
     prompt.prompt();
     prompt.userChoice.then(choice => {
       if (choice.outcome === 'accepted') {
-        localStorage.setItem('mc_pwa_installed', '1');
-        showToast('✓ Most Computers е инсталиран!');
+        try { localStorage.setItem('mc_pwa_installed', '1'); } catch(e) {}
+        showToast('✓ Мост Компютърс е инсталиран!');
       }
       document.getElementById('pwaBanner').classList.remove('show');
     });
@@ -99,7 +99,7 @@ function pwaInstall() {
 
 function pwaDismiss() {
   document.getElementById('pwaBanner').classList.remove('show');
-  localStorage.setItem('mc_pwa_dismissed', '1');
+  try { localStorage.setItem('mc_pwa_dismissed', '1'); } catch(e) {}
 }
 
 // helper called from data-action to scroll modal to top
@@ -134,7 +134,7 @@ async function requestPushPermission() {
     localStorage.setItem('mc_push_granted', '1');
     // Demo: send a test notification after 3s
     setTimeout(() => {
-      new Notification('Most Computers 🔥', {
+      new Notification('Мост Компютърс 🔥', {
         body: 'Добре дошъл! Следи за ексклузивни оферти.',
         icon: 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="115" fill="#bd1105"/><text x="256" y="340" font-size="280" text-anchor="middle" fill="white">🛒</text></svg>'),
         tag: 'mc-welcome'
@@ -147,7 +147,7 @@ async function requestPushPermission() {
 
 function sendPromoNotification(title, body, url) {
   if (Notification.permission !== 'granted') return;
-  const n = new Notification(title || 'Most Computers 🔥', {
+  const n = new Notification(title || 'Мост Компютърс 🔥', {
     body: body || 'Нова оферта те очаква!',
     icon: 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="115" fill="#bd1105"/><text x="256" y="340" font-size="280" text-anchor="middle" fill="white">🛒</text></svg>'),
     tag: 'mc-promo',

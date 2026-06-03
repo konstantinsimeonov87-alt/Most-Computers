@@ -147,7 +147,7 @@ function updateCart() {
   const body = document.getElementById('cartBody');
   if (!body) return;
   if (cart.length === 0) {
-    body.innerHTML = '<div class="cart-empty-msg"><div class="ce-icon"><svg width="44" height="44" class="svg-ic" aria-hidden="true" style="opacity:.25"><use href="#ic-cart"/></svg></div><p>Кошницата е празна.<br>Добави продукти!</p></div>';
+    body.innerHTML = '<div class="cart-empty-msg"><div class="ce-icon"><svg width="44" height="44" class="svg-ic" aria-hidden="true" style="opacity:.25"><use href="#ic-cart"/></svg></div><p>Кошницата е празна.</p><button type="button" class="ce-cta-btn" onclick="closeCart();filterCatScroll(\'all\')">Разгледай продуктите →</button></div>';
     // Return focus to cart icon button when cart becomes empty and panel is open
     const panel = document.getElementById('cartPanel');
     if (panel && panel.classList.contains('open')) { const cartBtn = document.querySelector('[onclick*="toggleCart"]') || document.querySelector('#cartIcon'); if (cartBtn) cartBtn.focus(); }
@@ -194,6 +194,9 @@ function updateCart() {
     }
   } catch (e) { }
   body.innerHTML = html;
+  // Update checkout button with total amount
+  const ckBtn = document.querySelector('.checkout-btn');
+  if (ckBtn) ckBtn.innerHTML = '🔒 Завърши поръчката · ' + fmtEur(total) + ' →';
   // Sync cart page if open
   if (typeof renderCartPageSummary === 'function' && document.getElementById('cartPage')?.style.display !== 'none') { renderCartPageSummary(); }
 }

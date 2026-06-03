@@ -3759,8 +3759,14 @@
  }
 
  .cart-empty-msg p {
-   font-size: 14px;
+   font-size: 14px; margin-bottom: 16px;
  }
+ .ce-cta-btn {
+   background: var(--primary); color: #fff; border: none; border-radius: 8px;
+   padding: 11px 22px; font-size: 13px; font-weight: 700; cursor: pointer;
+   font-family: inherit; transition: background .2s;
+ }
+ .ce-cta-btn:hover { background: var(--primary-dark); }
 
  .cart-item-row {
    display: flex;

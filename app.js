@@ -4025,9 +4025,11 @@ function buildCpSidebar(cat) {
   const sb = document.getElementById('cpSidebar');
   if (!sb) return;
 
-  const catProds = cat === 'all' ? products : products.filter(p =>
-    normalizeCat(p.cat) === cat || (cat === 'new' && p.badge === 'new') || (cat === 'sale' && p.badge === 'sale'));
-  const allBrands = [...new Set(products.map(p => p.brand))].sort();
+  const _promoProds = (typeof promoProducts !== 'undefined') ? promoProducts : [];
+  const catProds = cat === 'promo' ? _promoProds :
+    cat === 'all' ? products : products.filter(p =>
+      normalizeCat(p.cat) === cat || (cat === 'new' && p.badge === 'new') || (cat === 'sale' && p.badge === 'sale'));
+  const allBrands = [...new Set(catProds.map(p => p.brand).filter(Boolean))].sort();
   const brands = allBrands.filter(b => catProds.some(p => p.brand === b));
   const maxPrice = catProds.length ? Math.max(...catProds.map(p => toEur(p.price))) : 2000;
   const maxPriceRound = Math.ceil(maxPrice / 100) * 100;

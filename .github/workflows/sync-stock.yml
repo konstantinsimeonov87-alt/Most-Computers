@@ -31,9 +31,12 @@ jobs:
       - name: Sync prices and detect discounts
         run: node scripts/sync-prices.js
 
-      - name: Rebuild app.js if data changed
+      - name: Refresh promotions feed
+        run: node scripts/fetch-promotions.js
+
+      - name: Rebuild if any data changed
         run: |
-          if git diff --quiet js/data.js; then
+          if git diff --quiet js/data.js js/promotions-data.js; then
             echo "No changes — skipping rebuild."
             exit 0
           fi
@@ -47,6 +50,6 @@ jobs:
           fi
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add js/data.js app.js dist/app.js dist/sw.js price-history.json
-          git commit -m "chore(stock): auto-sync stock+prices $(date -u +'%Y-%m-%d %H:%M UTC') [skip ci]"
+          git add js/data.js js/promotions-data.js app.js dist/app.js dist/js/promotions-data.js dist/sw.js price-history.json
+          git commit -m "chore(stock): auto-sync stock+prices+promos $(date -u +'%Y-%m-%d %H:%M UTC') [skip ci]"
           git push

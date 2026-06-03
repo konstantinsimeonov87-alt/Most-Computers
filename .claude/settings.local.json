@@ -23,7 +23,9 @@
       "WebFetch(domain:www.techradar.com)",
       "WebFetch(domain:www.techinn.com)",
       "WebFetch(domain:smartshop-it.com)",
-      "WebFetch(domain:www.gsmchoice.com)"
+      "WebFetch(domain:www.gsmchoice.com)",
+      "WebFetch(domain:www.apple.com)",
+      "WebFetch(domain:www.sony.com)"
     ],
     "additionalDirectories": [
       "c:\\Users\\user\\.claude\\projects\\c--Users-user-Desktop-New-folder\\memory"

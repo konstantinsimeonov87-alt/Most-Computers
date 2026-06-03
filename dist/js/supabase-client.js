@@ -126,6 +126,59 @@ if (typeof window.supabase !== 'undefined') {
       } catch(e) { return null; }
     };
 
+    // ===== ABANDONED CART =====
+    window.saveAbandonedCart = async function(data) {
+      if (!data.email) return;
+      try {
+        await sb.from('abandoned_carts').upsert([{
+          email:      data.email,
+          name:       data.name || '',
+          items:      data.items,
+          total:      data.total,
+          updated_at: new Date().toISOString(),
+          status:     'abandoned'
+        }], { onConflict: 'email' });
+      } catch(e) {}
+    };
+
+    window.clearAbandonedCart = async function(email) {
+      if (!email) return;
+      try {
+        await sb.from('abandoned_carts')
+          .update({ status: 'completed', updated_at: new Date().toISOString() })
+          .eq('email', email).eq('status', 'abandoned');
+      } catch(e) {}
+    };
+
+    // ===== PRODUCT Q&A =====
+    window.saveProductQuestion = async function(productId, question, askerName, askerEmail) {
+      try {
+        const { error } = await sb.from('product_questions').insert([{
+          product_id:   productId,
+          question:     question,
+          asker_name:   askerName || 'Анонимен',
+          asker_email:  askerEmail || '',
+          created_at:   new Date().toISOString(),
+          answer:       null,
+          is_public:    false
+        }]);
+        return !error;
+      } catch(e) { return false; }
+    };
+
+    window.loadProductQuestions = async function(productId) {
+      try {
+        const { data } = await sb.from('product_questions')
+          .select('question, answer, asker_name, created_at')
+          .eq('product_id', productId)
+          .eq('is_public', true)
+          .not('answer', 'is', null)
+          .order('created_at', { ascending: false })
+          .limit(10);
+        return data || [];
+      } catch(e) { return []; }
+    };
+
   } catch(e) {
     console.warn('Supabase инициализация неуспешна:', e.message);
   }

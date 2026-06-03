@@ -580,6 +580,19 @@ function showCheckoutStep(n) {
 
 function ckNextStep(current) {
   if (!validateCkStep(current)) return;
+  if (current === 1 && typeof window.saveAbandonedCart === 'function') {
+    const email = document.getElementById('ckEmail')?.value.trim();
+    const first = document.getElementById('ckFirst')?.value.trim() || '';
+    const last  = document.getElementById('ckLast')?.value.trim()  || '';
+    if (email) {
+      window.saveAbandonedCart({
+        email,
+        name:  (first + ' ' + last).trim(),
+        items: cart.map(x => ({ id: x.id, name: x.name, qty: x.qty, price: x.price })),
+        total: cart.reduce((s, x) => s + x.price * x.qty, 0)
+      });
+    }
+  }
   showCheckoutStep(current + 1);
 }
 
@@ -821,6 +834,10 @@ function submitOrder() {
     // Записване в Supabase (реална база данни)
     if (typeof saveOrderToSupabase === 'function') {
       saveOrderToSupabase(orderData).catch(e => console.error('Supabase save failed:', e));
+    }
+    // Изчисти abandoned cart записа след успешна поръчка
+    if (typeof window.clearAbandonedCart === 'function') {
+      window.clearAbandonedCart(orderData.email);
     }
     // Save address for next order (only if user opted in)
     try {

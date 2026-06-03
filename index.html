@@ -4458,6 +4458,7 @@
             <button type="button" class="pdp-tab" data-action="pdpSwitchTab('video')">▶ Видео</button>
             <button type="button" class="pdp-tab" data-action="pdpSwitchTab('reviews')">⭐ Ревюта</button>
             <button type="button" class="pdp-tab" data-action="pdpSwitchTab('vendor')">🌐 Сайт на производител</button>
+            <button type="button" class="pdp-tab" data-action="pdpSwitchTab('qa')">❓ Въпроси</button>
           </div>
 
           <!-- Specs tab -->
@@ -4541,6 +4542,23 @@
           <div class="pdp-tab-content" id="pdp-tab-vendor">
             <div id="pdpVendorContent">
               <p style="color:var(--muted);font-size:13px;">Няма добавен линк към производителя.</p>
+            </div>
+          </div>
+
+          <!-- Q&A tab -->
+          <div class="pdp-tab-content" id="pdp-tab-qa">
+            <div class="pdp-qa-wrap">
+              <div class="pdp-qa-list" id="pdpQaList"></div>
+              <div class="pdp-qa-form">
+                <h4 class="pdp-qa-form-title">Задай въпрос за този продукт</h4>
+                <textarea id="pdpQaText" class="pdp-qa-textarea" rows="3" placeholder="Например: Съвместим ли е с Windows 11? Има ли USB-C порт?..." maxlength="500"></textarea>
+                <div class="pdp-qa-form-row">
+                  <input type="text" id="pdpQaName" class="pdp-qa-input" placeholder="Твоето име (по желание)" maxlength="60" autocomplete="name">
+                  <input type="email" id="pdpQaEmail" class="pdp-qa-input" placeholder="Имейл за отговор (по желание)" maxlength="120" autocomplete="email">
+                </div>
+                <button type="button" class="pdp-qa-submit" onclick="pdpSubmitQuestion()">Изпрати въпроса →</button>
+                <p class="pdp-qa-note">Отговаряме в рамките на 1 работен ден. Публичните въпроси помагат и на другите купувачи.</p>
+              </div>
             </div>
           </div>
 

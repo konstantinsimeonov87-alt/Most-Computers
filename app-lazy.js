@@ -367,6 +367,8 @@ if(slides.length){if(_heroSliderIv)clearInterval(_heroSliderIv);_heroSliderIv=se
     if(totalSecs===0){ localStorage.removeItem('mc_flash_end'); }
   }
   tick();
+  const _ftEl=document.getElementById('flashTimer');
+  if(_ftEl)_ftEl.style.visibility='visible';
   if(window._countdownIv)clearInterval(window._countdownIv);
   window._countdownIv=setInterval(tick,1000);
 })();
@@ -548,7 +550,7 @@ function updateCart() {
   const body = document.getElementById('cartBody');
   if (!body) return;
   if (cart.length === 0) {
-    body.innerHTML = '<div class="cart-empty-msg"><div class="ce-icon"><svg width="44" height="44" class="svg-ic" aria-hidden="true" style="opacity:.25"><use href="#ic-cart"/></svg></div><p>Кошницата е празна.<br>Добави продукти!</p></div>';
+    body.innerHTML = '<div class="cart-empty-msg"><div class="ce-icon"><svg width="44" height="44" class="svg-ic" aria-hidden="true" style="opacity:.25"><use href="#ic-cart"/></svg></div><p>Кошницата е празна.</p><button type="button" class="ce-cta-btn" onclick="closeCart();filterCatScroll(\'all\')">Разгледай продуктите →</button></div>';
     // Return focus to cart icon button when cart becomes empty and panel is open
     const panel = document.getElementById('cartPanel');
     if (panel && panel.classList.contains('open')) { const cartBtn = document.querySelector('[onclick*="toggleCart"]') || document.querySelector('#cartIcon'); if (cartBtn) cartBtn.focus(); }
@@ -595,6 +597,9 @@ function updateCart() {
     }
   } catch (e) { }
   body.innerHTML = html;
+  // Update checkout button with total amount
+  const ckBtn = document.querySelector('.checkout-btn');
+  if (ckBtn) ckBtn.innerHTML = '🔒 Завърши поръчката · ' + fmtEur(total) + ' →';
   // Sync cart page if open
   if (typeof renderCartPageSummary === 'function' && document.getElementById('cartPage')?.style.display !== 'none') { renderCartPageSummary(); }
 }
@@ -1868,9 +1873,39 @@ function renderDropdown(query) {
 
   if (results.length === 0) {
     let hint = '';
-    if (qtype === 'ean') hint = '<div class="sd-empty-sub">Търсенето по EAN не намери продукт с баркод <strong>' + escHtml(q) + '</strong></div>';
-    else if (qtype === 'sku') hint = '<div class="sd-empty-sub">Търсенето по SKU не намери продукт с код <strong>' + escHtml(q) + '</strong></div>';
-    else hint = '<div class="sd-empty-sub">Провери правописа или опитай с SKU / EAN баркод</div>';
+    if (qtype === 'ean') {
+      hint = '<div class="sd-empty-sub">Търсенето по EAN не намери продукт с баркод <strong>' + escHtml(q) + '</strong></div>';
+    } else if (qtype === 'sku') {
+      hint = '<div class="sd-empty-sub">Търсенето по SKU не намери продукт с код <strong>' + escHtml(q) + '</strong></div>';
+    } else {
+      // "Did you mean?" — намери близки марки/имена с Levenshtein
+      const ql = q.toLowerCase().trim();
+      const suggestions = [];
+      if (ql.length >= 3 && typeof products !== 'undefined') {
+        const seen = new Set();
+        const candidates = [];
+        products.forEach(p => {
+          [p.brand, ...(p.name||'').split(' ').slice(0,2)].forEach(w => {
+            const wl = (w||'').toLowerCase();
+            if (wl.length >= 3 && !seen.has(wl) && Math.abs(wl.length - ql.length) <= 3) {
+              seen.add(wl);
+              const dist = _levenshtein(ql, wl.substring(0, ql.length + 2));
+              if (dist > 0 && dist <= 2) candidates.push({w, dist});
+            }
+          });
+        });
+        candidates.sort((a,b) => a.dist - b.dist);
+        candidates.slice(0,3).forEach(c => suggestions.push(c.w));
+      }
+      if (suggestions.length) {
+        const chips = suggestions.map(s =>
+          `<span class="sd-suggestion-chip" onclick="document.getElementById('searchInput').value=${JSON.stringify(s)};showSearchResults(${JSON.stringify(s)})">${escHtml(s)}</span>`
+        ).join('');
+        hint = `<div class="sd-empty-sub">Може би търсиш: ${chips}</div>`;
+      } else {
+        hint = '<div class="sd-empty-sub">Провери правописа или опитай с SKU / EAN баркод</div>';
+      }
+    }
     searchDropdown.innerHTML = `
       <div class="sd-empty">
         <div class="sd-empty-icon">🔍</div>
@@ -4212,10 +4247,14 @@ const blogPosts = [
   {
     slug: 'palit-rtx-4070-super-jetstream-oc-review',
     emoji: '🎮', cat: 'Ревю', title: 'Palit RTX 4070 Super JetStream OC — Крал на средния клас',
-    date: '02 Юни 2026', dateISO: '2026-06-02', read: '6 мин', author: 'Most Computers',
+    date: '02 Юни 2026', dateISO: '2026-06-02', read: '6 мин', author: 'Мост Компютърс',
     summary: 'RTX 4070 Super JetStream OC от Palit е може би най-балансираната видеокарта за 2026. Тествахме я в игри, рендериране и DLSS 3.',
     metaDesc: 'Palit GeForce RTX 4070 Super JetStream OC ревю — тест при 1440p и 4K, DLSS 3, температури. Най-добрата GeForce за парите?',
     tags: ['Nvidia', 'Palit', 'GPU', 'гейминг', 'ревю'],
+    brand: 'palit', rating: '9.1',
+    model: 'RTX 4070 Super', modelSub: 'JetStream OC · 12 GB', brandLabel: 'PALIT · GPU',
+    verdict: 'Безспорен избор за 1440p гейминг с бюджет до 1200 €. JetStream охладителят е сред най-добрите в класа, а factory OC носи реален бонус.',
+    specs: {'GPU чип':'Ada Lovelace AD104','CUDA ядра':'7 168','Памет':'12 GB GDDR6X, 192-bit','Boost Clock':'2535 MHz (factory OC)','TDP':'220 W','Охладител':'JetStream 3×90 мм вентилатора'},
     body: `<h2>Паспорт на картата</h2>
 <p>Palit GeForce RTX 4070 Super JetStream OC разполага с 7168 CUDA ядра (Ada Lovelace), 12 GB GDDR6X памет на 192-битова шина и factory OC от 2535 MHz boost. Трисекционният охладител с 3 вентилатора × 90 мм осигурява ниски температури и почти безшумна работа при умерено натоварване.</p>
 <h2>Производителност при 1440p</h2>
@@ -4239,10 +4278,14 @@ const blogPosts = [
   {
     slug: 'amd-ryzen-9-9950x3d-review',
     emoji: '🔴', cat: 'Ревю', title: 'AMD Ryzen 9 9950X3D — Краят на компромисите',
-    date: '02 Юни 2026', dateISO: '2026-06-02', read: '7 мин', author: 'Most Computers',
+    date: '02 Юни 2026', dateISO: '2026-06-02', read: '7 мин', author: 'Мост Компютърс',
     summary: 'AMD комбинира Zen 5 архитектурата с 3D V-Cache технологията. Резултатът е процесорът, за който геймърите мечтаеха.',
     metaDesc: 'AMD Ryzen 9 9950X3D ревю — Zen 5 + 3D V-Cache. Тест в игри, рендериране и съдържателна работа. Лидерът за 2026.',
     tags: ['AMD', 'процесори', 'гейминг', 'ревю'],
+    brand: 'amd', rating: '9.5',
+    model: 'Ryzen 9 9950X3D', modelSub: 'Zen 5 · 3D V-Cache · AM5', brandLabel: 'AMD · CPU',
+    verdict: 'Първият процесор без компромис между гейминг и продуктивност. Скъп, но напълно оправдан за enthusiast системи.',
+    specs: {'Архитектура':'Zen 5 (TSMC 4nm)','Ядра / Нишки':'16C / 32T','Boost честота':'5.7 GHz','Кеш (L3)':'128 MB 3D V-Cache + 64 MB','TDP':'170 W','Сокет':'AM5 (LGA1718)'},
     body: `<h2>Zen 5 + 3D V-Cache: мощната комбинация</h2>
 <p>Ryzen 9 9950X3D носи 16 ядра / 32 нишки на Zen 5 архитектура с 5.7 GHz boost честота плюс 128 MB 3D V-Cache върху CCD-то. Общо: 192 MB кеш (L2 + L3). AMD е решила дилемата от предишните X3D модели — кешираното CCD вече не ограничава максималните честоти.</p>
 <h2>Производителност в игри</h2>
@@ -4265,10 +4308,14 @@ const blogPosts = [
   {
     slug: 'intel-core-ultra-300-arrow-lake-2026',
     emoji: '🔵', cat: 'Новини', title: 'Intel Core Ultra 300 (Arrow Lake-R) — Пресичане на пропастта',
-    date: '02 Юни 2026', dateISO: '2026-06-02', read: '5 мин', author: 'Most Computers',
+    date: '02 Юни 2026', dateISO: '2026-06-02', read: '5 мин', author: 'Мост Компютърс',
     summary: 'Intel Arrow Lake-R донесе значителни подобрения с BIOS оптимизации. Вече ли е достоен конкурент на AMD Ryzen 9000?',
     metaDesc: 'Intel Core Ultra 300 Arrow Lake-R ревю 2026 — IPC ръст, BIOS оптимизации, AI Boost. Сравнение с AMD Ryzen 9 9900X.',
     tags: ['Intel', 'процесори', 'Arrow Lake', 'новини'],
+    brand: 'intel', rating: '8.3',
+    model: 'Core Ultra 9 285K', modelSub: 'Arrow Lake-R · LGA1851', brandLabel: 'INTEL · CPU',
+    verdict: 'Arrow Lake-R затваря голяма част от пропастта с AMD. Добър избор за AI работни натоварвания и смесена употреба.',
+    specs: {'Архитектура':'Lion Cove + Skymont E-cores','Ядра':'8P + 16E = 24 ядра','Boost честота':'5.7 GHz','Кеш (L3)':'36 MB','TDP':'125 W (253 W PL2)','Сокет':'LGA1851 (Z890)','NPU':'48 TOPS'},
     body: `<h2>Какво се промени при Arrow Lake-R?</h2>
 <p>Серията Core Ultra 300 (Arrow Lake-R) е освежен вариант на Arrow Lake с нови BIOS микрокодове, оптимизации за Thread Director 2.0 и подобрени E-ядра (Skymont). Intel признава, че оригиналният Arrow Lake не постигна очакванията при гейминг — <strong>освежената версия коригира значителна част от проблемите</strong>.</p>
 <h2>Core Ultra 9 285K vs предшественика</h2>
@@ -4289,9 +4336,174 @@ const blogPosts = [
 <p>Intel се върна в играта с Arrow Lake-R. Не е перфектен, но е значително подобрен. Очакваме Panther Lake (края на 2026) да затвори окончателно пропастта с AMD. <strong>Оценка: 8.3 / 10</strong></p>`
   },
   {
+    slug: 'amd-ryzen-7-9800x3d-review-2026',
+    emoji: '🔴', cat: 'Ревю', title: 'AMD Ryzen 7 9800X3D — Най-добрият геймърски процесор за парите',
+    date: '26 Май 2026', dateISO: '2026-05-26', read: '6 мин', author: 'Мост Компютърс',
+    summary: 'Ryzen 7 9800X3D предлага 9950X3D гейминг производителност на половин цена. Тествахме го в 12 игри и при рендериране.',
+    metaDesc: 'AMD Ryzen 7 9800X3D ревю 2026 — тест в игри, Zen 5 + 3D V-Cache, сравнение с 9950X3D. Най-добрият геймърски CPU за цената.',
+    tags: ['AMD', 'процесори', 'гейминг', 'ревю'],
+    brand: 'amd', rating: '9.4',
+    model: 'Ryzen 7 9800X3D', modelSub: 'Zen 5 · 3D V-Cache · AM5', brandLabel: 'AMD · CPU',
+    verdict: 'Абсолютният крал на гейминг производителност за цената. Ако бюджетът не позволява 9950X3D — 9800X3D е правилният избор.',
+    specs: {'Архитектура':'Zen 5 (TSMC 4nm)','Ядра / Нишки':'8C / 16T','Boost честота':'5.7 GHz','Кеш (L3)':'96 MB 3D V-Cache','TDP':'120 W','Сокет':'AM5 (LGA1718)'},
+    body: `<h2>Защо 9800X3D е специален?</h2>
+<p>AMD Ryzen 7 9800X3D съчетава Zen 5 IPC с 96 MB 3D V-Cache — комбинация, която е почти недостижима в гейминг при CPU-limited сценарии. За разлика от 7800X3D, новото поколение не жертва честота за кеш — 5.7 GHz boost е реален и постижим при охлаждане с 240+ мм AIO.</p>
+<h2>Гейминг тестове при 1080p</h2>
+<p>При <strong>1080p CPU-limited</strong> тестове 9800X3D e:</p>
+<ul>
+<li>Cyberpunk 2077 — 275 fps средно</li>
+<li>CS2 — 620 fps средно</li>
+<li>Hogwarts Legacy — 198 fps средно</li>
+<li>Star Wars Outlaws — 165 fps средно</li>
+<li>Microsoft Flight Simulator 2024 — 108 fps средно</li>
+</ul>
+<p>Разликата спрямо Ryzen 9 9950X3D е под <strong>8% в повечето игри</strong> — незначителна за практически употреби при 1440p с RTX 4070+ GPU.</p>
+<h2>Продуктивност — слабата страна?</h2>
+<p>При 8 ядра срещу 16 при 9950X3D, разликата в рендериране е реална: Blender Classroom — 9800X3D е ~42% по-бавен. За чиста продуктивна работа 9950X3D или 9900X са по-добри. 9800X3D е оптимален за геймъри, които понякога стриймват или компилират.</p>
+<h2>Температура и платформа</h2>
+<p>TDP е 120W — по-лесен за охлаждане от 9950X3D. 240 мм AIO е достатъчен. Работи на всяка AM5 платка с актуален BIOS. Препоръчителна памет: DDR5-6000 CL30 в 2×16 GB конфигурация.</p>
+<h2>Заключение</h2>
+<p>9800X3D е процесорът, който повечето геймъри <em>действително</em> трябва да купят. Оферира 95% от гейминг производителността на 9950X3D на под 60% от цената. <strong>Оценка: 9.4 / 10</strong></p>`
+  },
+  {
+    slug: 'intel-vs-amd-cpu-2026',
+    emoji: '⚔️', cat: 'Сравнение', title: 'Intel vs AMD 2026 — Кой процесор да изберем?',
+    date: '19 Май 2026', dateISO: '2026-05-19', read: '7 мин', author: 'Мост Компютърс',
+    summary: 'Arrow Lake-R срещу Zen 5 — пълно сравнение по гейминг, продуктивност, AI и платформа. Кой побеждава в средата на 2026?',
+    metaDesc: 'Intel vs AMD 2026 — сравнение Core Ultra 300 Arrow Lake-R срещу Ryzen 9000 Zen 5. Кой CPU да купим за гейминг и работа?',
+    tags: ['Intel', 'AMD', 'процесори', 'сравнение'],
+    brand: 'general',
+    body: `<h2>Платформи — AM5 срещу LGA1851</h2>
+<p><strong>AMD AM5</strong> е по-зряла платформа — съществува от 2022 и поддържа Ryzen 7000, 8000 и 9000 серии. Съществуващите AM5 платки (X670E, B650E, B650) работят с нов BIOS. <strong>Intel LGA1851</strong> е по-нова — само Z890 и B860 дъни, DDR5 задължителна. AMD дава по-дълготрайна инвестиция в момента.</p>
+<h2>Гейминг — AMD доминира</h2>
+<p>При 1080p CPU-limited гейминг, Ryzen 7 9800X3D и 9950X3D са недостижими за Intel. Core Ultra 9 285K изостава с 15-25% в кешово-зависими игри. Без 3D V-Cache Intel губи директния дуел. При 1440p и 4K с мощна GPU разликата намалява до под 5% — практически незначителна.</p>
+<h2>Продуктивност — по-изравнена битка</h2>
+<p>В Cinebench 2025 Multi-Core: Core Ultra 9 285K е около 8% пред Ryzen 9 9900X, но 12% зад 9950X3D. При video export (DaVinci Resolve) Intel е по-бърз с ~6% спрямо 9900X. AMD печели при компилация и научни изчисления благодарение на по-голям кеш.</p>
+<h2>AI — Intel NPU срещу AMD XDNA 2</h2>
+<p>Intel Core Ultra 300 предлага <strong>48 TOPS NPU</strong>, AMD Ryzen 9000 — <strong>50 TOPS XDNA 2</strong>. Двете платформи са практически равни при локален AI инфер. Microsoft Copilot+ работи добре и на двете.</p>
+<h2>Препоръки по случай</h2>
+<ul>
+<li><strong>Чист гейминг</strong> → AMD Ryzen 7 9800X3D</li>
+<li><strong>Гейминг + продуктивност</strong> → AMD Ryzen 9 9950X3D</li>
+<li><strong>AI работни натоварвания + Thunderbolt 5</strong> → Intel Core Ultra 9 285K</li>
+<li><strong>Бюджет до 200 €</strong> → Intel Core i5-14600K или AMD Ryzen 5 9600X</li>
+</ul>
+<h2>Заключение</h2>
+<p>AMD печели 2026 при гейминг. Intel отговаря с по-добри AI инструменти и Thunderbolt 5. За повечето потребители — AMD е по-доброто решение в момента.</p>`
+  },
+  {
+    slug: 'palit-rtx-4080-super-jetstream-review',
+    emoji: '🎮', cat: 'Ревю', title: 'Palit RTX 4080 Super JetStream OC — За 4K без компромис',
+    date: '12 Май 2026', dateISO: '2026-05-12', read: '5 мин', author: 'Мост Компютърс',
+    summary: 'RTX 4080 Super с JetStream охладителя на Palit е отговорът за истинско 4K гейминг. Тествахме го при максимални настройки.',
+    metaDesc: 'Palit RTX 4080 Super JetStream OC ревю 2026 — 4K гейминг тест, температури, сравнение с RTX 4070 Ti Super. Worth it?',
+    tags: ['Nvidia', 'Palit', 'GPU', 'гейминг', 'ревю'],
+    brand: 'palit', rating: '8.9',
+    model: 'RTX 4080 Super', modelSub: 'JetStream OC · 16 GB', brandLabel: 'PALIT · GPU',
+    verdict: 'Оптималният избор за 4K гейминг с бюджет под 2000 €. JetStream охладителят го прави тих дори при максимално натоварване.',
+    specs: {'GPU чип':'Ada Lovelace AD102','CUDA ядра':'10 240','Памет':'16 GB GDDR6X, 256-bit','Boost Clock':'2595 MHz (factory OC)','TDP':'320 W','Охладител':'JetStream 3×100 мм'},
+    body: `<h2>RTX 4080 Super — позицията в линейката</h2>
+<p>RTX 4080 Super запълва пространството между RTX 4070 Ti Super и RTX 4090. С 10 240 CUDA ядра и 16 GB GDDR6X на 256-битова шина, картата предлага около <strong>15% повече производителност</strong> спрямо RTX 4070 Ti Super при ~20% по-висока цена. Palit JetStream OC версията идва с factory overclock до 2595 MHz boost.</p>
+<h2>4K гейминг производителност</h2>
+<p>При <strong>4K Ultra</strong> настройки без ray tracing:</p>
+<ul>
+<li>Cyberpunk 2077 — 82 fps средно</li>
+<li>Alan Wake 2 — 74 fps средно</li>
+<li>Red Dead Redemption 2 — 98 fps средно</li>
+<li>Microsoft Flight Simulator 2024 — 72 fps средно</li>
+</ul>
+<p>С DLSS 3 Quality (рендер при 1440p) числата скачат до 130-165 fps — 4K гейминг над 60 fps е постижимо без Frame Generation при повечето заглавия.</p>
+<h2>Ray Tracing и DLSS 3</h2>
+<p>RTX 4080 Super е <strong>значително по-добър от RTX 4070 Ti Super при RT</strong> — 18-22% разлика при Path Tracing в Cyberpunk 2077. Frame Generation удвоява fps при GPU-bound сценарии, а Reflex 2 запазва латентността под контрол.</p>
+<h2>Температури и шум</h2>
+<p>Palit JetStream охладителят с три 100 мм вентилатора държи GPU на 72°C при full load при стайна температура 22°C. Шумното ниво е 38 dBA — практически безшумен в затворен корпус. Вентилаторите спират напълно при 2D натоварване.</p>
+<h2>Заключение</h2>
+<p>Palit RTX 4080 Super JetStream OC е правилният избор за 4K геймъри, които не искат да плащат RTX 4090 цена. При 1440p — RTX 4070 Super е по-добрата стойност. <strong>Оценка: 8.9 / 10</strong></p>`
+  },
+  {
+    slug: 'ddr5-6000-gaming-guide-2026',
+    emoji: '🧠', cat: 'Съвети', title: 'DDR5 памет за гейминг 2026 — Колко и каква?',
+    date: '05 Май 2026', dateISO: '2026-05-05', read: '5 мин', author: 'Мост Компютърс',
+    summary: 'DDR5-6000 или DDR5-6400? 32 GB или 64 GB? Пълен наръчник за избор на памет за AMD AM5 и Intel LGA1851.',
+    metaDesc: 'DDR5 памет за гейминг 2026 — DDR5-6000 vs 6400, 32 GB vs 64 GB, AMD AM5 и Intel Z890. Как да изберем правилно.',
+    tags: ['памет', 'DDR5', 'AM5', 'съвети'],
+    brand: 'general',
+    body: `<h2>Колко GB памет е нужна за гейминг?</h2>
+<p><strong>32 GB (2×16 GB)</strong> е стандартът за 2026. Повечето съвременни игри използват 16-24 GB при максимални настройки. 64 GB има смисъл само ако правиш едновременно гейминг + стрийминг + видео монтаж. За чист гейминг 32 GB е оптималното.</p>
+<h2>DDR5-6000 vs DDR5-6400 — каква е разликата?</h2>
+<p>За <strong>AMD AM5</strong> — DDR5-6000 CL30 е оптималното: попада в EXPO профила и синхронизира Infinity Fabric към 2000 MHz (1:1 режим). DDR5-6400 CL32 е леко по-бързо, но цената е непропорционална. Над DDR5-6400 AM5 преминава в 1:2 режим и производителността пада.</p>
+<p>За <strong>Intel LGA1851</strong> — DDR5-6400 CL32 е препоръчителното. Intel XMP профилите са добре оптимизирани до тази честота. По-бързата памет носи минимални ползи при реална употреба.</p>
+<h2>Dual Channel — задължителен</h2>
+<p>Никога не купувай един модул. 2×16 GB dual channel е <strong>значително по-бърза</strong> от 1×32 GB single channel — до 20% разлика в гейминг производителност. Ако имаш бюджет за 64 GB — 2×32 GB вместо 4×16 GB (по-малко стрес върху контролера).</p>
+<h2>CL (CAS Latency) — важен ли е?</h2>
+<p>При равни честоти — по-нисък CL е по-добър. DDR5-6000 CL30 е по-бърза от DDR5-6000 CL36. Формулата е: <strong>латентност (ns) = (CL / честота) × 2000</strong>. При DDR5-6000 CL30: 10 ns — отлично.</p>
+<h2>Препоръки за платформа</h2>
+<ul>
+<li><strong>AMD AM5 (Ryzen 9000)</strong> → DDR5-6000 CL30, 2×16 GB</li>
+<li><strong>Intel LGA1851 (Core Ultra 300)</strong> → DDR5-6400 CL32, 2×16 GB</li>
+<li><strong>AMD AM4 (Ryzen 5000)</strong> → все още DDR4-3600 CL18</li>
+</ul>`
+  },
+  {
+    slug: 'byudzhetna-gaming-sistema-2026',
+    emoji: '🖥', cat: 'Съвети', title: 'Бюджетна гейминг система за 2026 — план за 800 €',
+    date: '28 Април 2026', dateISO: '2026-04-28', read: '6 мин', author: 'Мост Компютърс',
+    summary: 'Как да сглобим пълна гейминг система за около 800 € с компоненти, налични в Мост Компютърс. Съвети за всеки бюджет.',
+    metaDesc: 'Бюджетна гейминг система 2026 — AMD Ryzen 5 9600X, Palit RTX 4060, B650 дъна. Как да изберем правилните компоненти за 800 €.',
+    tags: ['гейминг', 'AMD', 'Palit', 'съвети', 'build'],
+    brand: 'general',
+    body: `<h2>Стратегия: CPU или GPU — кое е по-важно?</h2>
+<p>За гейминг <strong>GPU-то е по-важно</strong>. При ограничен бюджет — вложи повече в видеокартата. Ryzen 5 9600X за 220 € + RTX 4060 8GB за 310 € е по-добра гейминг система от Ryzen 9 9950X3D + GTX 1660 Super. Правилото: GPU = 40-50% от бюджета.</p>
+<h2>Примерна конфигурация за ~800 €</h2>
+<ul>
+<li><strong>CPU:</strong> AMD Ryzen 5 9600X — 220 € (6 ядра, Zen 5, 5.9 GHz boost)</li>
+<li><strong>GPU:</strong> Palit GeForce RTX 4060 8GB — 310 € (DLSS 3, Frame Gen, 1080p/1440p)</li>
+<li><strong>Дъна:</strong> ASRock B650M-HDV/M.2 AM5 — 110 € (B650, PCIe 4.0, 2× DDR5)</li>
+<li><strong>RAM:</strong> DDR5-6000 CL30 2×8 GB — 65 € (достатъчно за гейминг)</li>
+<li><strong>SSD:</strong> 1 TB NVMe Gen4 — 60 €</li>
+<li><strong>Захранване:</strong> 650W 80+ Bronze — 55 €</li>
+</ul>
+<p><strong>Общо: ~820 €</strong> — пълна система без корпус и охладяване.</p>
+<h2>RTX 4060 — добра ли е за парите?</h2>
+<p>При 1080p Ultra — RTX 4060 постига 85-120 fps в повечето AAA заглавия. С DLSS 3 Frame Generation резултатите при 1440p са изненадващо добри (65-90 fps). За геймъри с 1080p монитор е отличен избор. За 1440p — препоръчваме RTX 4070 Super.</p>
+<h2>Как да надградиш по-късно?</h2>
+<p>AM5 платформата поддържа до Ryzen 9000 серия — можеш да смениш CPU по-късно без смяна на дъното. Захранването от 650W поддържа до RTX 4080 Super надстройка. Инвестирай в добро захранване от самото начало.</p>
+<h2>Съвет за спестяване</h2>
+<p>Ако бюджетът е под 700 € — замени Ryzen 5 9600X с Ryzen 5 9600 (MPK версия, ~185 €) и RTX 4060 с RTX 3060 12GB (~250 €). Системата ще е около 100 € по-евтина при само ~10% по-ниска производителност.</p>`
+  },
+  {
+    slug: 'am5-motherboard-guide-2026',
+    emoji: '🔧', cat: 'Съвети', title: 'AM5 дъна платка 2026 — ASRock, ASUS, Gigabyte или MSI?',
+    date: '21 Април 2026', dateISO: '2026-04-21', read: '6 мин', author: 'Мост Компютърс',
+    summary: 'B650 или X670? Кой производител предлага най-добро качество за цената при AM5 платформата? Пълен наръчник.',
+    metaDesc: 'AM5 дъна платка 2026 — B650 vs X670E, ASRock vs ASUS vs Gigabyte vs MSI. Кое дъно да изберем за AMD Ryzen 9000?',
+    tags: ['дъни платки', 'AM5', 'AMD', 'съвети'],
+    brand: 'general',
+    body: `<h2>B650 или X670E — какво да изберем?</h2>
+<p><strong>B650</strong> е достатъчен за 95% от потребителите. Поддържа DDR5 ECC, PCIe 4.0 x4 за NVMe и USB 3.2 Gen 2. <strong>X670E</strong> добавя PCIe 5.0 x16 за GPU и PCIe 5.0 x4 за NVMe — полезно само ако имаш PCIe 5.0 SSD или RTX 4090 клас GPU. За Ryzen 5/7 — B650 е оптималното.</p>
+<h2>Кой производител?</h2>
+<h3>ASRock</h3>
+<p>Най-добра стойност за парите. <strong>ASRock B650M Pro RS</strong> и <strong>B650M HDV/M.2</strong> предлагат солидни VRM за Ryzen 9000 на конкурентна цена. Добра BIOS поддръжка с редовни обновявания. Минус: по-скромен дизайн.</p>
+<h3>ASUS</h3>
+<p>Отлична BIOS среда (UEFI), богата функционалност, добра VRM. <strong>ASUS Prime B650M-A</strong> е популярен избор за mid-range системи. По-скъпо от ASRock, но оправдано при Ryzen 7/9.</p>
+<h3>Gigabyte</h3>
+<p>Добро охлаждане на VRM зоната. <strong>Gigabyte B650M DS3H</strong> е евтина и надеждна. Pro серията предлага подобрена аудио секция и по-добри конектори. Стабилна опция.</p>
+<h3>MSI</h3>
+<p>Висококачествен дизайн и богата екосистема с EZ Debug LED. <strong>MSI B650M Gaming Plus WiFi</strong> е отличен избор ако искаш WiFi включен. По-добра геймърска естетика от ASRock.</p>
+<h2>Какво да проверим при избор</h2>
+<ul>
+<li><strong>VRM фазове</strong> — за Ryzen 9 9950X3D трябват минимум 12+2 фази с 60A+ дросели</li>
+<li><strong>M.2 слотове</strong> — минимум 2 за система + storage</li>
+<li><strong>WiFi</strong> — не всички B650 имат; проверявай спецификациите</li>
+<li><strong>USB портове</strong> — USB4 / Thunderbolt само при X670E</li>
+</ul>
+<h2>Препоръка</h2>
+<p>За <strong>Ryzen 5/7 9000</strong> → ASRock B650M Pro RS (~120 €). За <strong>Ryzen 9 9950X3D</strong> → ASUS Prime X670-P или MSI MEG X670E Ace за максимална стабилност.</p>`
+  },
+  {
     slug: 'macbook-pro-m4-pro-review',
     emoji: '💻', cat: 'Ревю', title: 'MacBook Pro M4 Pro — Worth It?',
-    date: '07 Март 2026', dateISO: '2026-03-07', read: '5 мин', author: 'Most Computers',
+    date: '07 Март 2026', dateISO: '2026-03-07', read: '5 мин', author: 'Мост Компютърс',
     summary: 'Тествахме новия MacBook Pro M4 Pro в реални условия — видео монтаж, код и gaming. Ето резултатите.',
     metaDesc: 'MacBook Pro M4 Pro ревю — производителност, батерия, дисплей. Струва ли си цената? Тест в реални условия от Most Computers.',
     tags: ['MacBook', 'лаптопи', 'ревю'],
@@ -4309,7 +4521,7 @@ const blogPosts = [
   {
     slug: 'iphone-16-pro-max-vs-s25-ultra',
     emoji: '📱', cat: 'Сравнение', title: 'iPhone 16 Pro Max vs Samsung S25 Ultra',
-    date: '03 Март 2026', dateISO: '2026-03-03', read: '7 мин', author: 'Most Computers',
+    date: '03 Март 2026', dateISO: '2026-03-03', read: '7 мин', author: 'Мост Компютърс',
     summary: 'Двата флагмана се срещат в директен дуел. Камера, дисплей, батерия — кой печели?',
     metaDesc: 'iPhone 16 Pro Max срещу Samsung Galaxy S25 Ultra — пълно сравнение на камера, дисплей, батерия и производителност.',
     tags: ['iPhone', 'Samsung', 'смартфони', 'сравнение'],
@@ -4329,7 +4541,7 @@ const blogPosts = [
   {
     slug: 'top-5-bejichni-slushalki-2026',
     emoji: '🎧', cat: 'Топ 5', title: 'Най-добри безжични слушалки за 2026',
-    date: '28 Февруари 2026', dateISO: '2026-02-28', read: '4 мин', author: 'Most Computers',
+    date: '28 Февруари 2026', dateISO: '2026-02-28', read: '4 мин', author: 'Мост Компютърс',
     summary: 'Sony, Bose, ANC технология — кои слушалки дават най-добро качество за парите си?',
     metaDesc: 'Топ 5 безжични слушалки за 2026 — Sony WH-1000XM6, Bose QC45, Jabra. Коя да избереш?',
     tags: ['слушалки', 'аудио', 'топ 5'],
@@ -4349,7 +4561,7 @@ const blogPosts = [
   {
     slug: 'kak-da-izberem-monitor-rabota-vkashti',
     emoji: '🖥', cat: 'Съвети', title: 'Как да изберем монитор за работа от вкъщи',
-    date: '22 Февруари 2026', dateISO: '2026-02-22', read: '6 мин', author: 'Most Computers',
+    date: '22 Февруари 2026', dateISO: '2026-02-22', read: '6 мин', author: 'Мост Компютърс',
     summary: '4K или 1440p? IPS или OLED? Пълен наръчник за правилния избор.',
     metaDesc: 'Как да изберем монитор за работа от вкъщи — 4K, 1440p, IPS, OLED. Пълен наръчник 2026.',
     tags: ['монитори', 'работа от вкъщи', 'съвети', '4K'],
@@ -4376,7 +4588,7 @@ const blogPosts = [
   {
     slug: '10-nachina-udalzhim-bateriya',
     emoji: '🔋', cat: 'Съвети', title: '10 начина да удължим живота на батерията',
-    date: '15 Февруари 2026', dateISO: '2026-02-15', read: '3 мин', author: 'Most Computers',
+    date: '15 Февруари 2026', dateISO: '2026-02-15', read: '3 мин', author: 'Мост Компютърс',
     summary: 'Простите навици, които могат да удвоят живота на батерията на твоя телефон или лаптоп.',
     metaDesc: '10 съвета за по-дълъг живот на батерията на смартфон и лаптоп. Практични навици от Most Computers.',
     tags: ['батерия', 'съвети', 'смартфон', 'лаптоп'],
@@ -4401,7 +4613,7 @@ const blogPosts = [
   {
     slug: 'umen-dom-pod-500-leva',
     emoji: '🏠', cat: 'Smart Home', title: 'Как да изградим умен дом за под 500 лв.',
-    date: '10 Февруари 2026', dateISO: '2026-02-10', read: '8 мин', author: 'Most Computers',
+    date: '10 Февруари 2026', dateISO: '2026-02-10', read: '8 мин', author: 'Мост Компютърс',
     summary: 'Philips Hue, смарт контакти, гласов асистент — пълна система без да се разоряваме.',
     metaDesc: 'Умен дом за под 500 лева — Philips Hue, Google Home, смарт контакти. Ръководство стъпка по стъпка.',
     tags: ['умен дом', 'Smart Home', 'Philips Hue', 'Google Home'],
@@ -4426,12 +4638,6 @@ const blogPosts = [
   },
 ];
 
-const reviewPosts = [
-  { emoji:'⭐', title:'Sony WH-1000XM6 — 9.4/10', sub:'Най-добрите ANC слушалки на пазара' },
-  { emoji:'⭐', title:'ASUS ROG Zephyrus G16 — 9.1/10', sub:'Мощ и стил в тънко тяло' },
-  { emoji:'⭐', title:'Samsung S95C OLED — 9.6/10', sub:'Безкомпромисен телевизор' },
-  { emoji:'⭐', title:'Lenovo LOQ 15 RTX 4050 — 8.7/10', sub:'Най-добрият геймърски лаптоп за парите' },
-];
 
 function openBlogPage() {
   const listView = document.getElementById('blogListView');
@@ -4450,29 +4656,34 @@ function openBlogPage() {
 }
 function _renderBlogGrid() {
   const grid = document.getElementById('blogGrid');
-  if (grid) grid.innerHTML = blogPosts.map(p => `
-    <div style="background:var(--white);border-radius:14px;border:1px solid var(--border);overflow:hidden;cursor:pointer;transition:all .22s;box-shadow:var(--shadow-card);"
-         onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='var(--shadow-hover)'"
-         onmouseout="this.style.transform='';this.style.boxShadow='var(--shadow-card)'"
-         onclick="openBlogPost('${p.slug}')">
-      <div style="background:linear-gradient(135deg,var(--primary-light),var(--bg2));height:120px;display:flex;align-items:center;justify-content:center;font-size:52px;">${p.emoji}</div>
-      <div style="padding:16px 18px;">
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
-          <span style="background:var(--primary-light);color:var(--primary);font-size:10px;font-weight:800;padding:2px 8px;border-radius:10px;letter-spacing:.05em;">${escHtml(p.cat)}</span>
-          <span class="text-11-muted">${escHtml(p.date)}</span>
-          <span style="font-size:11px;color:var(--muted);margin-left:auto;">📖 ${escHtml(p.read)}</span>
-        </div>
-        <div style="font-size:15px;font-weight:800;margin-bottom:8px;line-height:1.3;">${escHtml(p.title)}</div>
-        <div style="font-size:12px;color:var(--text2);line-height:1.6;">${escHtml(p.summary)}</div>
-        <div style="margin-top:12px;font-size:12px;color:var(--primary);font-weight:700;">Прочети повече →</div>
+  if (!grid) return;
+  grid.innerHTML = blogPosts.map(p => {
+    const brand = p.brand || 'general';
+    const hdContent = p.model
+      ? `${p.brandLabel ? `<div class="blog-mag-brand-lbl">${escHtml(p.brandLabel)}</div>` : ''}
+         <div class="blog-mag-model">${escHtml(p.model)}</div>
+         ${p.modelSub ? `<div class="blog-mag-submodel">${escHtml(p.modelSub)}</div>` : ''}`
+      : `<div class="blog-mag-emoji">${p.emoji}</div>`;
+    return `<div class="blog-mag-card" onclick="openBlogPost('${p.slug}')">
+      <div class="blog-mag-hd blog-brand-${brand}">
+        <span class="blog-mag-cat-pill">${escHtml(p.cat)}</span>
+        ${p.rating ? `<span class="blog-mag-rating-badge">${escHtml(p.rating)}</span>` : ''}
+        ${hdContent}
       </div>
-    </div>`).join('');
-  const rGrid = document.getElementById('reviewsGrid');
-  if (rGrid) rGrid.innerHTML = reviewPosts.map(r => `
-    <div class="megamenu-cat-card" style="flex-direction:row;text-align:left;gap:14px;cursor:default;">
-      <div style="font-size:28px;">${r.emoji}</div>
-      <div><div style="font-size:13px;font-weight:800;">${escHtml(r.title)}</div><div style="font-size:11px;color:var(--muted);margin-top:3px;">${escHtml(r.sub)}</div></div>
-    </div>`).join('');
+      <div class="blog-mag-body">
+        <div class="blog-mag-meta">
+          <span class="blog-mag-date">${escHtml(p.date)}</span>
+          <span class="blog-mag-read"><span class="blog-mag-dot"></span>${escHtml(p.read)} четене</span>
+        </div>
+        <div class="blog-mag-title">${escHtml(p.title)}</div>
+        <div class="blog-mag-summary">${escHtml(p.summary)}</div>
+        <div class="blog-mag-footer">
+          <span class="blog-mag-tag">${escHtml(p.tags[0]||'')}</span>
+          <span class="blog-mag-cta">Прочети →</span>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
 }
 function openBlogPost(slug) {
   const post = blogPosts.find(p => p.slug === slug);
@@ -4485,21 +4696,59 @@ function openBlogPost(slug) {
   postView.style.display = '';
   const titleEl = document.getElementById('blogPageTitle');
   if (titleEl) titleEl.textContent = post.title;
+  // Update breadcrumb: Начало > Блог > [Title]
+  const bcEl = document.getElementById('blogBc');
+  if (bcEl) {
+    const shortTitle = post.title.length > 40 ? post.title.slice(0, 40) + '…' : post.title;
+    bcEl.innerHTML = `<ol class="pg-bc-list" itemscope itemtype="https://schema.org/BreadcrumbList">
+    <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+      <a href="/" class="pg-bc-home" onclick="closeBlogPage();return false;">Начало</a>
+      <meta itemprop="position" content="1"/>
+    </li>
+    <li class="pg-bc-sep" aria-hidden="true">›</li>
+    <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+      <a class="pg-bc-home" onclick="closeBlogPost();return false;" style="cursor:pointer">Блог</a>
+      <meta itemprop="position" content="2"/>
+    </li>
+    <li class="pg-bc-sep" aria-hidden="true">›</li>
+    <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+      <strong class="pg-bc-current" itemprop="name">${shortTitle}</strong>
+      <meta itemprop="position" content="3"/>
+    </li>
+  </ol>`;
+  }
+  const brand = post.brand || 'general';
+  const specsHtml = post.specs
+    ? `<table class="blog-specs-table">${Object.entries(post.specs).map(([k,v]) =>
+        `<tr><td>${escHtml(k)}</td><td>${escHtml(v)}</td></tr>`).join('')}</table>`
+    : '';
+  const verdictHtml = post.rating
+    ? `<div class="blog-verdict">
+        <div class="blog-verdict-score">${escHtml(post.rating)}<span>/ 10</span></div>
+        <div class="blog-verdict-text">
+          <h3>Нашата присъда</h3>
+          <p>${escHtml(post.verdict||post.summary)}</p>
+        </div>
+       </div>`
+    : '';
   article.innerHTML = `
-    <header class="blog-article-header">
-      <div class="blog-article-meta">
-        <span class="blog-article-cat">${escHtml(post.cat)}</span>
-        <time datetime="${post.dateISO}" class="blog-article-date">${escHtml(post.date)}</time>
-        <span class="blog-article-read">📖 ${escHtml(post.read)}</span>
+    <div class="blog-reading-bar"><div class="blog-reading-fill" id="blogReadingFill"></div></div>
+    <header class="blog-article-hero blog-brand-${brand}">
+      ${post.brandLabel ? `<div class="blog-article-hero-brand">${escHtml(post.brandLabel)}</div>` : ''}
+      <h1>${escHtml(post.title)}</h1>
+      <div class="blog-article-hero-meta">
+        <span class="blog-article-hero-badge cat">${escHtml(post.cat)}</span>
+        <time datetime="${post.dateISO}" class="blog-article-hero-badge info">${escHtml(post.date)}</time>
+        <span class="blog-article-hero-badge info">📖 ${escHtml(post.read)}</span>
+        <span class="blog-article-hero-badge info">✍️ ${escHtml(post.author)}</span>
       </div>
-      <h1 class="blog-article-title">${escHtml(post.title)}</h1>
-      <p class="blog-article-summary">${escHtml(post.summary)}</p>
-      <div class="blog-article-author">✍️ ${escHtml(post.author)}</div>
     </header>
-    <div class="blog-article-body">${post.body}</div>
-    <footer class="blog-article-footer">
-      <div class="blog-article-tags">${post.tags.map(t => `<span class="blog-tag">${escHtml(t)}</span>`).join('')}</div>
-    </footer>`;
+    <div class="blog-article-body-wrap">
+      <p class="blog-article-lead">${escHtml(post.summary)}</p>
+      ${specsHtml}
+      <div class="blog-article-body">${post.body}</div>
+      ${verdictHtml}
+    </div>`;
   // SEO meta
   if (typeof setPageMeta === 'function') setPageMeta(post.title + ' — Most Computers', post.metaDesc);
   const canonical = document.querySelector('link[rel="canonical"]');
@@ -4527,6 +4776,13 @@ function openBlogPost(slug) {
   }
   try { history.pushState({ page: 'blog', post: slug }, '', '?page=blog&post=' + slug); } catch(e) {}
   postView.scrollTop = 0;
+  const fill = document.getElementById('blogReadingFill');
+  if (postView._blogScrollFn) postView.removeEventListener('scroll', postView._blogScrollFn);
+  postView._blogScrollFn = () => {
+    const total = postView.scrollHeight - postView.clientHeight;
+    if (fill && total > 0) fill.style.width = Math.min(100, (postView.scrollTop / total) * 100) + '%';
+  };
+  postView.addEventListener('scroll', postView._blogScrollFn);
 }
 function closeBlogPost() {
   const listView = document.getElementById('blogListView');
@@ -4542,6 +4798,7 @@ function closeBlogPost() {
   const ogType = document.querySelector('meta[property="og:type"]');
   if (ogType) ogType.setAttribute('content', 'website');
   try { history.replaceState({ page: 'blog' }, '', '?page=blog'); } catch(e) {}
+  _setPgBc('blogBc', 'Блог и новини', 'closeBlogPage');
 }
 function closeBlogPage() {
   // If a post is open, close post first and go back to list
@@ -4616,7 +4873,7 @@ function _svcMapInit() {
     });
     L.marker([42.679938, 23.359063], { icon: pinIcon })
       .addTo(_svcMap)
-      .bindPopup('<strong>Most Computers</strong><br>бул. Шипченски проход 240');
+      .bindPopup('<strong>Мост Компютърс</strong><br>бул. Шипченски проход 240');
     setTimeout(() => _svcMap.invalidateSize(), 200);
   });
 }
@@ -4678,7 +4935,7 @@ function _contactsMapInit() {
     });
     L.marker([42.679938, 23.359063], { icon: pinIcon })
       .addTo(_contactsMap)
-      .bindPopup('<strong>Most Computers</strong><br>бул. Шипченски проход 240');
+      .bindPopup('<strong>Мост Компютърс</strong><br>бул. Шипченски проход 240');
     setTimeout(() => _contactsMap.invalidateSize(), 200);
   });
 }
@@ -5024,8 +5281,8 @@ function closeAboutPage() {
   // 4. Install prompt logic
   let deferredPrompt = null;
   const banner = document.getElementById('pwaBanner');
-  const dismissed = localStorage.getItem('mc_pwa_dismissed');
-  const installed = localStorage.getItem('mc_pwa_installed');
+  let dismissed, installed;
+  try { dismissed = localStorage.getItem('mc_pwa_dismissed'); installed = localStorage.getItem('mc_pwa_installed'); } catch(e) {}
 
   if (installed || dismissed) return; // already handled
 
@@ -5061,8 +5318,8 @@ function pwaInstall() {
     prompt.prompt();
     prompt.userChoice.then(choice => {
       if (choice.outcome === 'accepted') {
-        localStorage.setItem('mc_pwa_installed', '1');
-        showToast('✓ Most Computers е инсталиран!');
+        try { localStorage.setItem('mc_pwa_installed', '1'); } catch(e) {}
+        showToast('✓ Мост Компютърс е инсталиран!');
       }
       document.getElementById('pwaBanner').classList.remove('show');
     });
@@ -5075,7 +5332,7 @@ function pwaInstall() {
 
 function pwaDismiss() {
   document.getElementById('pwaBanner').classList.remove('show');
-  localStorage.setItem('mc_pwa_dismissed', '1');
+  try { localStorage.setItem('mc_pwa_dismissed', '1'); } catch(e) {}
 }
 
 // helper called from data-action to scroll modal to top
@@ -5110,7 +5367,7 @@ async function requestPushPermission() {
     localStorage.setItem('mc_push_granted', '1');
     // Demo: send a test notification after 3s
     setTimeout(() => {
-      new Notification('Most Computers 🔥', {
+      new Notification('Мост Компютърс 🔥', {
         body: 'Добре дошъл! Следи за ексклузивни оферти.',
         icon: 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="115" fill="#bd1105"/><text x="256" y="340" font-size="280" text-anchor="middle" fill="white">🛒</text></svg>'),
         tag: 'mc-welcome'
@@ -5123,7 +5380,7 @@ async function requestPushPermission() {
 
 function sendPromoNotification(title, body, url) {
   if (Notification.permission !== 'granted') return;
-  const n = new Notification(title || 'Most Computers 🔥', {
+  const n = new Notification(title || 'Мост Компютърс 🔥', {
     body: body || 'Нова оферта те очаква!',
     icon: 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="115" fill="#bd1105"/><text x="256" y="340" font-size="280" text-anchor="middle" fill="white">🛒</text></svg>'),
     tag: 'mc-promo',

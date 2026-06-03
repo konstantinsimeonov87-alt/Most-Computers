@@ -8,7 +8,7 @@ const blogPosts = [
   {
     slug: 'palit-rtx-4070-super-jetstream-oc-review',
     emoji: '🎮', cat: 'Ревю', title: 'Palit RTX 4070 Super JetStream OC — Крал на средния клас',
-    date: '02 Юни 2026', dateISO: '2026-06-02', read: '6 мин', author: 'Most Computers',
+    date: '02 Юни 2026', dateISO: '2026-06-02', read: '6 мин', author: 'Мост Компютърс',
     summary: 'RTX 4070 Super JetStream OC от Palit е може би най-балансираната видеокарта за 2026. Тествахме я в игри, рендериране и DLSS 3.',
     metaDesc: 'Palit GeForce RTX 4070 Super JetStream OC ревю — тест при 1440p и 4K, DLSS 3, температури. Най-добрата GeForce за парите?',
     tags: ['Nvidia', 'Palit', 'GPU', 'гейминг', 'ревю'],
@@ -39,7 +39,7 @@ const blogPosts = [
   {
     slug: 'amd-ryzen-9-9950x3d-review',
     emoji: '🔴', cat: 'Ревю', title: 'AMD Ryzen 9 9950X3D — Краят на компромисите',
-    date: '02 Юни 2026', dateISO: '2026-06-02', read: '7 мин', author: 'Most Computers',
+    date: '02 Юни 2026', dateISO: '2026-06-02', read: '7 мин', author: 'Мост Компютърс',
     summary: 'AMD комбинира Zen 5 архитектурата с 3D V-Cache технологията. Резултатът е процесорът, за който геймърите мечтаеха.',
     metaDesc: 'AMD Ryzen 9 9950X3D ревю — Zen 5 + 3D V-Cache. Тест в игри, рендериране и съдържателна работа. Лидерът за 2026.',
     tags: ['AMD', 'процесори', 'гейминг', 'ревю'],
@@ -69,7 +69,7 @@ const blogPosts = [
   {
     slug: 'intel-core-ultra-300-arrow-lake-2026',
     emoji: '🔵', cat: 'Новини', title: 'Intel Core Ultra 300 (Arrow Lake-R) — Пресичане на пропастта',
-    date: '02 Юни 2026', dateISO: '2026-06-02', read: '5 мин', author: 'Most Computers',
+    date: '02 Юни 2026', dateISO: '2026-06-02', read: '5 мин', author: 'Мост Компютърс',
     summary: 'Intel Arrow Lake-R донесе значителни подобрения с BIOS оптимизации. Вече ли е достоен конкурент на AMD Ryzen 9000?',
     metaDesc: 'Intel Core Ultra 300 Arrow Lake-R ревю 2026 — IPC ръст, BIOS оптимизации, AI Boost. Сравнение с AMD Ryzen 9 9900X.',
     tags: ['Intel', 'процесори', 'Arrow Lake', 'новини'],
@@ -99,7 +99,7 @@ const blogPosts = [
   {
     slug: 'amd-ryzen-7-9800x3d-review-2026',
     emoji: '🔴', cat: 'Ревю', title: 'AMD Ryzen 7 9800X3D — Най-добрият геймърски процесор за парите',
-    date: '26 Май 2026', dateISO: '2026-05-26', read: '6 мин', author: 'Most Computers',
+    date: '26 Май 2026', dateISO: '2026-05-26', read: '6 мин', author: 'Мост Компютърс',
     summary: 'Ryzen 7 9800X3D предлага 9950X3D гейминг производителност на половин цена. Тествахме го в 12 игри и при рендериране.',
     metaDesc: 'AMD Ryzen 7 9800X3D ревю 2026 — тест в игри, Zen 5 + 3D V-Cache, сравнение с 9950X3D. Най-добрият геймърски CPU за цената.',
     tags: ['AMD', 'процесори', 'гейминг', 'ревю'],
@@ -129,7 +129,7 @@ const blogPosts = [
   {
     slug: 'intel-vs-amd-cpu-2026',
     emoji: '⚔️', cat: 'Сравнение', title: 'Intel vs AMD 2026 — Кой процесор да изберем?',
-    date: '19 Май 2026', dateISO: '2026-05-19', read: '7 мин', author: 'Most Computers',
+    date: '19 Май 2026', dateISO: '2026-05-19', read: '7 мин', author: 'Мост Компютърс',
     summary: 'Arrow Lake-R срещу Zen 5 — пълно сравнение по гейминг, продуктивност, AI и платформа. Кой побеждава в средата на 2026?',
     metaDesc: 'Intel vs AMD 2026 — сравнение Core Ultra 300 Arrow Lake-R срещу Ryzen 9000 Zen 5. Кой CPU да купим за гейминг и работа?',
     tags: ['Intel', 'AMD', 'процесори', 'сравнение'],
@@ -155,7 +155,7 @@ const blogPosts = [
   {
     slug: 'palit-rtx-4080-super-jetstream-review',
     emoji: '🎮', cat: 'Ревю', title: 'Palit RTX 4080 Super JetStream OC — За 4K без компромис',
-    date: '12 Май 2026', dateISO: '2026-05-12', read: '5 мин', author: 'Most Computers',
+    date: '12 Май 2026', dateISO: '2026-05-12', read: '5 мин', author: 'Мост Компютърс',
     summary: 'RTX 4080 Super с JetStream охладителя на Palit е отговорът за истинско 4K гейминг. Тествахме го при максимални настройки.',
     metaDesc: 'Palit RTX 4080 Super JetStream OC ревю 2026 — 4K гейминг тест, температури, сравнение с RTX 4070 Ti Super. Worth it?',
     tags: ['Nvidia', 'Palit', 'GPU', 'гейминг', 'ревю'],
@@ -184,7 +184,7 @@ const blogPosts = [
   {
     slug: 'ddr5-6000-gaming-guide-2026',
     emoji: '🧠', cat: 'Съвети', title: 'DDR5 памет за гейминг 2026 — Колко и каква?',
-    date: '05 Май 2026', dateISO: '2026-05-05', read: '5 мин', author: 'Most Computers',
+    date: '05 Май 2026', dateISO: '2026-05-05', read: '5 мин', author: 'Мост Компютърс',
     summary: 'DDR5-6000 или DDR5-6400? 32 GB или 64 GB? Пълен наръчник за избор на памет за AMD AM5 и Intel LGA1851.',
     metaDesc: 'DDR5 памет за гейминг 2026 — DDR5-6000 vs 6400, 32 GB vs 64 GB, AMD AM5 и Intel Z890. Как да изберем правилно.',
     tags: ['памет', 'DDR5', 'AM5', 'съвети'],
@@ -208,8 +208,8 @@ const blogPosts = [
   {
     slug: 'byudzhetna-gaming-sistema-2026',
     emoji: '🖥', cat: 'Съвети', title: 'Бюджетна гейминг система за 2026 — план за 800 €',
-    date: '28 Април 2026', dateISO: '2026-04-28', read: '6 мин', author: 'Most Computers',
-    summary: 'Как да сглобим пълна гейминг система за около 800 € с компоненти, налични в Most Computers. Съвети за всеки бюджет.',
+    date: '28 Април 2026', dateISO: '2026-04-28', read: '6 мин', author: 'Мост Компютърс',
+    summary: 'Как да сглобим пълна гейминг система за около 800 € с компоненти, налични в Мост Компютърс. Съвети за всеки бюджет.',
     metaDesc: 'Бюджетна гейминг система 2026 — AMD Ryzen 5 9600X, Palit RTX 4060, B650 дъна. Как да изберем правилните компоненти за 800 €.',
     tags: ['гейминг', 'AMD', 'Palit', 'съвети', 'build'],
     brand: 'general',
@@ -235,7 +235,7 @@ const blogPosts = [
   {
     slug: 'am5-motherboard-guide-2026',
     emoji: '🔧', cat: 'Съвети', title: 'AM5 дъна платка 2026 — ASRock, ASUS, Gigabyte или MSI?',
-    date: '21 Април 2026', dateISO: '2026-04-21', read: '6 мин', author: 'Most Computers',
+    date: '21 Април 2026', dateISO: '2026-04-21', read: '6 мин', author: 'Мост Компютърс',
     summary: 'B650 или X670? Кой производител предлага най-добро качество за цената при AM5 платформата? Пълен наръчник.',
     metaDesc: 'AM5 дъна платка 2026 — B650 vs X670E, ASRock vs ASUS vs Gigabyte vs MSI. Кое дъно да изберем за AMD Ryzen 9000?',
     tags: ['дъни платки', 'AM5', 'AMD', 'съвети'],
@@ -264,7 +264,7 @@ const blogPosts = [
   {
     slug: 'macbook-pro-m4-pro-review',
     emoji: '💻', cat: 'Ревю', title: 'MacBook Pro M4 Pro — Worth It?',
-    date: '07 Март 2026', dateISO: '2026-03-07', read: '5 мин', author: 'Most Computers',
+    date: '07 Март 2026', dateISO: '2026-03-07', read: '5 мин', author: 'Мост Компютърс',
     summary: 'Тествахме новия MacBook Pro M4 Pro в реални условия — видео монтаж, код и gaming. Ето резултатите.',
     metaDesc: 'MacBook Pro M4 Pro ревю — производителност, батерия, дисплей. Струва ли си цената? Тест в реални условия от Most Computers.',
     tags: ['MacBook', 'лаптопи', 'ревю'],
@@ -282,7 +282,7 @@ const blogPosts = [
   {
     slug: 'iphone-16-pro-max-vs-s25-ultra',
     emoji: '📱', cat: 'Сравнение', title: 'iPhone 16 Pro Max vs Samsung S25 Ultra',
-    date: '03 Март 2026', dateISO: '2026-03-03', read: '7 мин', author: 'Most Computers',
+    date: '03 Март 2026', dateISO: '2026-03-03', read: '7 мин', author: 'Мост Компютърс',
     summary: 'Двата флагмана се срещат в директен дуел. Камера, дисплей, батерия — кой печели?',
     metaDesc: 'iPhone 16 Pro Max срещу Samsung Galaxy S25 Ultra — пълно сравнение на камера, дисплей, батерия и производителност.',
     tags: ['iPhone', 'Samsung', 'смартфони', 'сравнение'],
@@ -302,7 +302,7 @@ const blogPosts = [
   {
     slug: 'top-5-bejichni-slushalki-2026',
     emoji: '🎧', cat: 'Топ 5', title: 'Най-добри безжични слушалки за 2026',
-    date: '28 Февруари 2026', dateISO: '2026-02-28', read: '4 мин', author: 'Most Computers',
+    date: '28 Февруари 2026', dateISO: '2026-02-28', read: '4 мин', author: 'Мост Компютърс',
     summary: 'Sony, Bose, ANC технология — кои слушалки дават най-добро качество за парите си?',
     metaDesc: 'Топ 5 безжични слушалки за 2026 — Sony WH-1000XM6, Bose QC45, Jabra. Коя да избереш?',
     tags: ['слушалки', 'аудио', 'топ 5'],
@@ -322,7 +322,7 @@ const blogPosts = [
   {
     slug: 'kak-da-izberem-monitor-rabota-vkashti',
     emoji: '🖥', cat: 'Съвети', title: 'Как да изберем монитор за работа от вкъщи',
-    date: '22 Февруари 2026', dateISO: '2026-02-22', read: '6 мин', author: 'Most Computers',
+    date: '22 Февруари 2026', dateISO: '2026-02-22', read: '6 мин', author: 'Мост Компютърс',
     summary: '4K или 1440p? IPS или OLED? Пълен наръчник за правилния избор.',
     metaDesc: 'Как да изберем монитор за работа от вкъщи — 4K, 1440p, IPS, OLED. Пълен наръчник 2026.',
     tags: ['монитори', 'работа от вкъщи', 'съвети', '4K'],
@@ -349,7 +349,7 @@ const blogPosts = [
   {
     slug: '10-nachina-udalzhim-bateriya',
     emoji: '🔋', cat: 'Съвети', title: '10 начина да удължим живота на батерията',
-    date: '15 Февруари 2026', dateISO: '2026-02-15', read: '3 мин', author: 'Most Computers',
+    date: '15 Февруари 2026', dateISO: '2026-02-15', read: '3 мин', author: 'Мост Компютърс',
     summary: 'Простите навици, които могат да удвоят живота на батерията на твоя телефон или лаптоп.',
     metaDesc: '10 съвета за по-дълъг живот на батерията на смартфон и лаптоп. Практични навици от Most Computers.',
     tags: ['батерия', 'съвети', 'смартфон', 'лаптоп'],
@@ -374,7 +374,7 @@ const blogPosts = [
   {
     slug: 'umen-dom-pod-500-leva',
     emoji: '🏠', cat: 'Smart Home', title: 'Как да изградим умен дом за под 500 лв.',
-    date: '10 Февруари 2026', dateISO: '2026-02-10', read: '8 мин', author: 'Most Computers',
+    date: '10 Февруари 2026', dateISO: '2026-02-10', read: '8 мин', author: 'Мост Компютърс',
     summary: 'Philips Hue, смарт контакти, гласов асистент — пълна система без да се разоряваме.',
     metaDesc: 'Умен дом за под 500 лева — Philips Hue, Google Home, смарт контакти. Ръководство стъпка по стъпка.',
     tags: ['умен дом', 'Smart Home', 'Philips Hue', 'Google Home'],
@@ -634,7 +634,7 @@ function _svcMapInit() {
     });
     L.marker([42.679938, 23.359063], { icon: pinIcon })
       .addTo(_svcMap)
-      .bindPopup('<strong>Most Computers</strong><br>бул. Шипченски проход 240');
+      .bindPopup('<strong>Мост Компютърс</strong><br>бул. Шипченски проход 240');
     setTimeout(() => _svcMap.invalidateSize(), 200);
   });
 }
@@ -696,7 +696,7 @@ function _contactsMapInit() {
     });
     L.marker([42.679938, 23.359063], { icon: pinIcon })
       .addTo(_contactsMap)
-      .bindPopup('<strong>Most Computers</strong><br>бул. Шипченски проход 240');
+      .bindPopup('<strong>Мост Компютърс</strong><br>бул. Шипченски проход 240');
     setTimeout(() => _contactsMap.invalidateSize(), 200);
   });
 }

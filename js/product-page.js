@@ -404,6 +404,7 @@ function openProductPage(id) {
   pdpRenderBundle(p);
   pdpRenderRelated(p);
   pdpRenderRvCarousel();
+  pdpLoadQA(p.id);
   if (typeof pdpRenderRecsWidget === 'function') pdpRenderRecsWidget(p);
   pdpInitZoom();
   pdpInitSwipe();
@@ -1241,4 +1242,51 @@ function pdpRenderBundle(p) {
 function pdpAddBundle(ids) {
   ids.forEach(id => { if (typeof addToCart === 'function') addToCart(id); });
   showToast('✅ Комплектът е добавен в кошницата!');
+}
+
+// ===== PRODUCT Q&A =====
+let _pdpQaProductId = null;
+
+function pdpLoadQA(productId) {
+  _pdpQaProductId = productId;
+  const list = document.getElementById('pdpQaList');
+  if (!list) return;
+  list.innerHTML = '';
+  if (typeof window.loadProductQuestions !== 'function') return;
+  window.loadProductQuestions(productId).then(items => {
+    if (!items || items.length === 0) {
+      list.innerHTML = '<p class="pdp-qa-empty">Все още няма публични въпроси за този продукт. Бъди първият!</p>';
+      return;
+    }
+    list.innerHTML = items.map(q => `
+      <div class="pdp-qa-item">
+        <div class="pdp-qa-q"><span class="pdp-qa-q-icon">❓</span><span>${escHtml(q.question)}</span></div>
+        <div class="pdp-qa-a"><span class="pdp-qa-a-icon">💬</span><span>${escHtml(q.answer)}</span></div>
+        <div class="pdp-qa-meta">${escHtml(q.asker_name || 'Анонимен')} · ${new Date(q.created_at).toLocaleDateString('bg-BG')}</div>
+      </div>`).join('');
+  });
+}
+
+async function pdpSubmitQuestion() {
+  const text  = (document.getElementById('pdpQaText')?.value  || '').trim();
+  const name  = (document.getElementById('pdpQaName')?.value  || '').trim();
+  const email = (document.getElementById('pdpQaEmail')?.value || '').trim();
+  if (!text) { showToast('⚠️ Моля въведи въпроса си.'); return; }
+  if (text.length < 10) { showToast('⚠️ Въпросът е твърде кратък.'); return; }
+  const btn = document.querySelector('.pdp-qa-submit');
+  if (btn) { btn.disabled = true; btn.textContent = 'Изпращане...'; }
+  if (typeof window.saveProductQuestion === 'function') {
+    const ok = await window.saveProductQuestion(_pdpQaProductId, text, name, email);
+    if (ok) {
+      showToast('✅ Въпросът е изпратен! Ще отговорим скоро.');
+      if (document.getElementById('pdpQaText'))  document.getElementById('pdpQaText').value  = '';
+      if (document.getElementById('pdpQaName'))  document.getElementById('pdpQaName').value  = '';
+      if (document.getElementById('pdpQaEmail')) document.getElementById('pdpQaEmail').value = '';
+    } else {
+      showToast('❌ Грешка при изпращане. Опитай отново.');
+    }
+  } else {
+    showToast('✅ Въпросът е записан!');
+  }
+  if (btn) { btn.disabled = false; btn.textContent = 'Изпрати въпроса →'; }
 }

@@ -1,10 +1,17 @@
 // ===== AUTH SYSTEM =====
 let currentUser = null;
 
-// Demo users — client-side only prototype auth (replace with server-side in production)
-const demoUsers = [
-  { email: 'test@test.bg', password: 'demo-only', firstName: 'Иван', lastName: 'Петров', phone: '0888123456' }
-];
+// ===== SUPABASE AUTH BRIDGE =====
+// supabase-client.js calls these when auth state changes.
+// Defined early so the session-restore callback in supabase-client.js can find them.
+window._onSupabaseSignIn = function(user) { loginSuccess(user); };
+window._onSupabaseSignOut = function() {
+  currentUser = null;
+  try { localStorage.removeItem('mc_session'); } catch(e) {}
+  closeDropdown();
+  updateAuthUI();
+  showToast('Излязохте успешно от профила.');
+};
 
 function openAuthModal(tab = 'login') {
   switchAuthTab(tab);
@@ -77,7 +84,7 @@ function _authErr(id, msg) {
 
 function handleLogin() {
   const email = document.getElementById('loginEmail').value.trim();
-  const pass = document.getElementById('loginPassword').value;
+  const pass  = document.getElementById('loginPassword').value;
   const errEl = document.getElementById('loginError');
   errEl.classList.remove('show');
   let valid = true;
@@ -98,30 +105,51 @@ function handleLogin() {
     _authErr('loginPassword', '');
   }
   if (!valid) return;
-  const user = demoUsers.find(u => u.email === email && u.password === pass);
-  if (!user) {
+
+  if (!window._sbAuth) {
+    errEl.textContent = '⚠ Auth service не е наличен. Опресни страницата.';
     errEl.classList.add('show');
-    document.getElementById('loginPassword').classList.add('error');
-    _authErr('loginPassword', 'Грешен имейл или парола.');
     return;
   }
-  loginSuccess(user);
+
+  const btn = document.querySelector('#formLogin button[type="submit"], #formLogin .auth-submit-btn');
+  if (btn) { btn.disabled = true; btn.textContent = 'Зарежда…'; }
+
+  window._sbAuth.signIn(email, pass)
+    .then(({ error }) => {
+      if (error) {
+        errEl.textContent = '⚠ Грешен имейл или парола.';
+        errEl.classList.add('show');
+        document.getElementById('loginPassword').classList.add('error');
+        _authErr('loginPassword', 'Грешен имейл или парола.');
+        return;
+      }
+      // loginSuccess is called automatically via window._onSupabaseSignIn
+    })
+    .catch(() => {
+      errEl.textContent = '⚠ Грешка при свързване. Опитай пак.';
+      errEl.classList.add('show');
+    })
+    .finally(() => {
+      if (btn) { btn.disabled = false; btn.textContent = 'Влез'; }
+    });
 }
 
 function handleRegister() {
-  const fn = document.getElementById('regFirstName').value.trim();
-  const ln = document.getElementById('regLastName').value.trim();
+  const fn    = document.getElementById('regFirstName').value.trim();
+  const ln    = document.getElementById('regLastName').value.trim();
   const email = document.getElementById('regEmail').value.trim();
-  const pw = document.getElementById('regPassword').value;
-  const pw2 = document.getElementById('regPassword2').value;
+  const ph    = (document.getElementById('regPhone') || {}).value || '';
+  const pw    = document.getElementById('regPassword').value;
+  const pw2   = document.getElementById('regPassword2').value;
   const errEl = document.getElementById('registerError');
   errEl.classList.remove('show');
   let valid = true;
   const fieldChecks = [
-    ['regFirstName', fn.length > 0, 'Името е задължително.'],
-    ['regLastName', ln.length > 0, 'Фамилията е задължителна.'],
-    ['regEmail', email.includes('@'), 'Въведи валиден имейл адрес.'],
-    ['regPassword', pw.length >= 6, 'Паролата трябва да е поне 6 символа.'],
+    ['regFirstName', fn.length > 0,      'Името е задължително.'],
+    ['regLastName',  ln.length > 0,      'Фамилията е задължителна.'],
+    ['regEmail',     email.includes('@'),'Въведи валиден имейл адрес.'],
+    ['regPassword',  pw.length >= 6,     'Паролата трябва да е поне 6 символа.'],
     ['regPassword2', pw === pw2 && pw.length >= 6, pw !== pw2 ? 'Паролите не съвпадат.' : 'Повтори паролата.'],
   ];
   fieldChecks.forEach(([id, ok, msg]) => {
@@ -129,16 +157,47 @@ function handleRegister() {
     _authErr(id, ok ? '' : msg);
     if (!ok) valid = false;
   });
-  if (!valid) { errEl.textContent = pw !== pw2 ? '⚠ Паролите не съвпадат!' : '⚠ Моля провери данните!'; errEl.classList.add('show'); return; }
-  if (demoUsers.find(u => u.email === email)) {
-    errEl.textContent = '⚠ Имейлът вече е регистриран!'; errEl.classList.add('show');
-    document.getElementById('regEmail').classList.add('error');
-    _authErr('regEmail', 'Този имейл вече е регистриран.');
+  if (!valid) {
+    errEl.textContent = pw !== pw2 ? '⚠ Паролите не съвпадат!' : '⚠ Моля провери данните!';
+    errEl.classList.add('show');
     return;
   }
-  const newUser = { email, password: pw, firstName: fn, lastName: ln, phone: document.getElementById('regPhone').value };
-  demoUsers.push(newUser);
-  registerSuccess(newUser);
+
+  if (!window._sbAuth) {
+    errEl.textContent = '⚠ Auth service не е наличен. Опресни страницата.';
+    errEl.classList.add('show');
+    return;
+  }
+
+  const btn = document.querySelector('#formRegister button[type="submit"], #formRegister .auth-submit-btn');
+  if (btn) { btn.disabled = true; btn.textContent = 'Регистрира…'; }
+
+  window._sbAuth.signUp(email, pw, { firstName: fn, lastName: ln, phone: ph })
+    .then(({ data, error }) => {
+      if (error) {
+        const msg = error.message?.includes('already registered')
+          ? '⚠ Имейлът вече е регистриран!'
+          : '⚠ ' + (error.message || 'Грешка при регистрация.');
+        errEl.textContent = msg;
+        errEl.classList.add('show');
+        return;
+      }
+      if (data?.session) {
+        // Email confirmation disabled — user is logged in immediately.
+        // loginSuccess will be called via window._onSupabaseSignIn.
+      } else {
+        // Email confirmation enabled — ask user to check inbox.
+        showAuthSuccess('📧', 'Провери имейла си!',
+          `Изпратихме потвърждение на ${email}. Кликни линка за активация.`);
+      }
+    })
+    .catch(() => {
+      errEl.textContent = '⚠ Грешка при регистрация. Опитай пак.';
+      errEl.classList.add('show');
+    })
+    .finally(() => {
+      if (btn) { btn.disabled = false; btn.textContent = 'Регистрирай се'; }
+    });
 }
 
 function handleForgot() {
@@ -150,12 +209,23 @@ function handleForgot() {
   }
   document.getElementById('forgotEmail').classList.remove('error');
   _authErr('forgotEmail', '');
-  showAuthSuccess('📧', 'Имейлът е изпратен!', `Провери ${email} за линк за нулиране на паролата.`);
+
+  if (!window._sbAuth) {
+    showAuthSuccess('📧', 'Имейлът е изпратен!', `Провери ${email} за линк за нулиране на паролата.`);
+    return;
+  }
+
+  window._sbAuth.resetPassword(email)
+    .then(() => {
+      showAuthSuccess('📧', 'Имейлът е изпратен!', `Провери ${email} за линк за нулиране на паролата.`);
+    })
+    .catch(() => {
+      showAuthSuccess('📧', 'Имейлът е изпратен!', `Провери ${email} за линк за нулиране на паролата.`);
+    });
 }
 
 function socialLogin(provider) {
-  const mockUser = { email: `user@${provider.toLowerCase()}.com`, firstName: 'Потребител', lastName: provider, phone: '' };
-  loginSuccess(mockUser);
+  showToast('🔜 Социален вход с ' + provider + ' — очаквайте скоро!');
 }
 
 function _saveSession(user) {
@@ -240,24 +310,19 @@ function closeDropdown() {
 }
 
 function handleLogout() {
-  currentUser = null;
-  try { localStorage.removeItem('mc_session'); } catch(e) {}
   closeDropdown();
-  updateAuthUI();
-  showToast('Излязохте успешно от профила.');
+  if (window._sbAuth) {
+    window._sbAuth.signOut(); // onAuthStateChange → _onSupabaseSignOut handles the rest
+  } else {
+    currentUser = null;
+    try { localStorage.removeItem('mc_session'); } catch(e) {}
+    updateAuthUI();
+    showToast('Излязохте успешно от профила.');
+  }
 }
 
-// Restore session from localStorage (30-day TTL)
-(function() {
-  try {
-    const s = JSON.parse(localStorage.getItem('mc_session') || 'null');
-    if (!s || !s.ts || (Date.now() - s.ts > 30 * 24 * 3600 * 1000)) return;
-    const u = demoUsers.find(x => x.email === s.email) || { email: s.email, firstName: s.firstName, lastName: s.lastName, phone: s.phone };
-    currentUser = u;
-    // Defer UI update until DOM is ready
-    document.addEventListener('DOMContentLoaded', () => updateAuthUI(), { once: true });
-  } catch(e) {}
-})();
+// Session is restored automatically by Supabase (persistSession: true).
+// supabase-client.js calls window._onSupabaseSignIn on load if a session exists.
 
 // Close dropdown on outside click
 document.addEventListener('click', e => {

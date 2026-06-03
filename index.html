@@ -4879,130 +4879,166 @@
 
     <div class="contacts-page-inner">
 
-      <!-- Map -->
-      <div class="contacts-map-wrap">
-        <div id="contactsLeafletMap" style="width:100%;height:100%;"></div>
+      <!-- Hero -->
+      <div class="contacts-hero">
+        <h1 class="contacts-hero-title">Контакти</h1>
+        <p class="contacts-hero-sub">бул. „Шипченски проход" бл.240 &mdash; ж.к. „Гео Милев", 1111 София</p>
       </div>
 
-      <!-- Navigation buttons -->
-      <div class="nav-buttons-row">
-        <a class="nav-btn nav-btn-google"
-          href="https://www.google.com/maps/dir/?api=1&destination=42.679938,23.359063&destination_place_id=Most+Computers+Sofia"
-          target="_blank" rel="noopener noreferrer">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-            <path
-              d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
-          </svg>
-          Google Maps навигация
-        </a>
-        <a class="nav-btn nav-btn-waze" href="https://waze.com/ul?ll=42.679938,23.359063&navigate=yes&zoom=17"
-          target="_blank" rel="noopener noreferrer">
-          🚗 Waze навигация
-        </a>
-        <a class="nav-btn nav-btn-apple" href="https://maps.apple.com/?daddr=42.679938,23.359063&dirflg=d"
-          target="_blank" rel="noopener noreferrer">
-          🍎 Apple Maps
-        </a>
-        <button type="button" class="nav-btn nav-btn-copy" data-action="copyAddress">
-          📋 Копирай адреса
-        </button>
-      </div>
+      <!-- Main 2-col layout: map + info panel -->
+      <div class="contacts-main-layout">
 
-      <!-- Contact info + hours grid -->
-      <div class="contacts-grid">
-        <!-- Address & contact -->
-        <div class="contact-info-card">
-          <h3><span class="icon">🏪</span> Мост Компютърс</h3>
+        <!-- Left: Map + navigation buttons -->
+        <div class="contacts-map-col">
+          <div class="contacts-map-wrap">
+            <div id="contactsLeafletMap" style="width:100%;height:100%;"></div>
+          </div>
+          <div class="nav-buttons-row">
+            <a class="nav-btn nav-btn-google"
+              href="https://www.google.com/maps/dir/?api=1&destination=42.679938,23.359063&destination_place_id=Most+Computers+Sofia"
+              target="_blank" rel="noopener noreferrer">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+              </svg>
+              Google Maps
+            </a>
+            <a class="nav-btn nav-btn-waze" href="https://waze.com/ul?ll=42.679938,23.359063&navigate=yes&zoom=17"
+              target="_blank" rel="noopener noreferrer">
+              <svg width="15" height="15" viewBox="0 0 36 36" fill="currentColor" aria-hidden="true">
+                <ellipse cx="18" cy="20" rx="13" ry="11"/><circle cx="13" cy="29" r="3" fill="#fff"/><circle cx="24" cy="29" r="3" fill="#fff"/><path d="M11 16 q2-4 6-3 q4-1 6 3" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/><circle cx="14" cy="14" r="1.5" fill="#fff"/><circle cx="22" cy="14" r="1.5" fill="#fff"/>
+              </svg>
+              Waze
+            </a>
+            <a class="nav-btn nav-btn-apple" href="https://maps.apple.com/?daddr=42.679938,23.359063&dirflg=d"
+              target="_blank" rel="noopener noreferrer">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+              </svg>
+              Apple Maps
+            </a>
+            <button type="button" class="nav-btn nav-btn-copy" data-action="copyAddress">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+                <rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+              </svg>
+              Копирай адреса
+            </button>
+          </div>
+        </div>
 
-          <div class="contact-info-row">
-            <div>
-              <span class="label">Адрес</span>
-              бул. „Шипченски проход" бл.240<br>
-              ж.к. „Гео Милев", 1111 София
+        <!-- Right: Contact info + Hours -->
+        <div class="contacts-info-col">
+
+          <!-- Store info card -->
+          <div class="contact-info-card">
+            <div class="ci-card-title">Мост Компютърс</div>
+
+            <div class="contact-info-row">
+              <svg class="ci-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+              </svg>
               <div>
-                <span class="plus-code-badge" data-action="copyPlusCode" title="Копирай Plus Code">
-                  📍 M9H5+XJ Sofia
-                </span>
+                <span class="label">Адрес</span>
+                бул. „Шипченски проход" бл.240<br>
+                ж.к. „Гео Милев", 1111 София
+                <div>
+                  <span class="plus-code-badge" data-action="copyPlusCode" title="Копирай Plus Code">
+                    M9H5+XJ Sofia
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="contact-info-row">
+              <svg class="ci-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.45 2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+              </svg>
+              <div>
+                <span class="label">Телефон (офис)</span>
+                <a href="tel:+35929191823">(+359 2) 91 823</a>
+              </div>
+            </div>
+
+            <div class="contact-info-row">
+              <svg class="ci-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+              </svg>
+              <div>
+                <span class="label">Сервизен център</span>
+                <a href="tel:+3590700144011">0700 144 11</a>
+              </div>
+            </div>
+
+            <div class="contact-info-row">
+              <svg class="ci-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+              </svg>
+              <div>
+                <span class="label">Имейл</span>
+                <a href="mailto:info@mostbg.com">info@mostbg.com</a>
+              </div>
+            </div>
+
+            <div class="contact-info-row">
+              <svg class="ci-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/>
+              </svg>
+              <div>
+                <span class="label">Сервиз имейл</span>
+                <a href="mailto:support@mostbg.com">support@mostbg.com</a>
               </div>
             </div>
           </div>
 
-          <div class="contact-info-row">
-            <div>
-              <span class="label">Телефон (офис)</span>
-              <a href="tel:+35929191823">(+359 2) 91 823</a>
-            </div>
+          <!-- Working hours card -->
+          <div class="contact-info-card">
+            <div class="ci-card-title">Работно време</div>
+            <table class="hours-table" id="hoursTable">
+              <tr>
+                <th scope="row">Понеделник</th>
+                <td class="hours-open">09:30 – 18:15</td>
+              </tr>
+              <tr>
+                <th scope="row">Вторник</th>
+                <td class="hours-open">09:30 – 18:15</td>
+              </tr>
+              <tr>
+                <th scope="row">Сряда</th>
+                <td class="hours-open">09:30 – 18:15</td>
+              </tr>
+              <tr>
+                <th scope="row">Четвъртък</th>
+                <td class="hours-open">09:30 – 18:15</td>
+              </tr>
+              <tr>
+                <th scope="row">Петък</th>
+                <td class="hours-open">09:30 – 18:15</td>
+              </tr>
+              <tr>
+                <th scope="row">Събота</th>
+                <td class="hours-closed">Почивен ден</td>
+              </tr>
+              <tr>
+                <th scope="row">Неделя</th>
+                <td class="hours-closed">Почивен ден</td>
+              </tr>
+            </table>
+            <div id="openNowBadge" style="margin-top:12px;"></div>
           </div>
 
-          <div class="contact-info-row">
-            <div>
-              <span class="label">Сервизен център</span>
-              <a href="tel:+3590700144011">0700 144 11</a>
-            </div>
-          </div>
+        </div><!-- /contacts-info-col -->
 
-          <div class="contact-info-row">
-            <div>
-              <span class="label">Имейл</span>
-              <a href="mailto:info@mostbg.com">info@mostbg.com</a>
-            </div>
-          </div>
-
-          <div class="contact-info-row">
-            <div>
-              <span class="label">Сервиз имейл</span>
-              <a href="mailto:support@mostbg.com">support@mostbg.com</a>
-            </div>
-          </div>
-        </div>
-
-        <!-- Working hours -->
-        <div class="contact-info-card">
-          <h3><span class="icon">🕐</span> Работно време</h3>
-          <table class="hours-table" id="hoursTable">
-            <tr>
-              <th scope="row">Понеделник</th>
-              <td class="hours-open">09:30 – 18:15</td>
-            </tr>
-            <tr>
-              <th scope="row">Вторник</th>
-              <td class="hours-open">09:30 – 18:15</td>
-            </tr>
-            <tr>
-              <th scope="row">Сряда</th>
-              <td class="hours-open">09:30 – 18:15</td>
-            </tr>
-            <tr>
-              <th scope="row">Четвъртък</th>
-              <td class="hours-open">09:30 – 18:15</td>
-            </tr>
-            <tr>
-              <th scope="row">Петък</th>
-              <td class="hours-open">09:30 – 18:15</td>
-            </tr>
-            <tr>
-              <th scope="row">Събота</th>
-              <td class="hours-closed" style="color:var(--muted);">Почивен ден</td>
-            </tr>
-            <tr>
-              <th scope="row">Неделя</th>
-              <td class="hours-closed">Почивен ден</td>
-            </tr>
-          </table>
-          <div id="openNowBadge" style="margin-top:12px;"></div>
-        </div>
-      </div>
+      </div><!-- /contacts-main-layout -->
 
       <!-- How to get there -->
       <div class="directions-section">
-        <h2 class="directions-title">🗺️ Как да стигнете до нас</h2>
+        <h2 class="directions-title">Как да стигнете до нас</h2>
 
         <div class="directions-tabs">
-          <button type="button" class="dir-tab active" data-action="switchDirTab('car', this)">🚗 С кола</button>
-          <button type="button" class="dir-tab" data-action="switchDirTab('tram', this)">🚃 С трамвай</button>
-          <button type="button" class="dir-tab" data-action="switchDirTab('bus', this)">🚌 С автобус</button>
-          <button type="button" class="dir-tab" data-action="switchDirTab('metro', this)">🚇 С метро</button>
-          <button type="button" class="dir-tab" data-action="switchDirTab('walk', this)">🚶 Пеша</button>
+          <button type="button" class="dir-tab active" data-action="switchDirTab('car', this)">С кола</button>
+          <button type="button" class="dir-tab" data-action="switchDirTab('tram', this)">С трамвай</button>
+          <button type="button" class="dir-tab" data-action="switchDirTab('bus', this)">С автобус</button>
+          <button type="button" class="dir-tab" data-action="switchDirTab('metro', this)">С метро</button>
+          <button type="button" class="dir-tab" data-action="switchDirTab('walk', this)">Пеша</button>
         </div>
 
         <!-- Car -->
@@ -5011,27 +5047,27 @@
             <div class="dir-step">
               <div class="dir-step-num">1</div>
               <div class="dir-step-text">
-                <strong>От центъра на София</strong> - поемете по бул. „Цариградско шосе" на изток
-                <div class="dir-step-sub">⏱ ~10 мин. при нормален трафик</div>
+                <strong>От центъра на София</strong> — поемете по бул. „Цариградско шосе" на изток
+                <div class="dir-step-sub">~10 мин. при нормален трафик</div>
               </div>
             </div>
             <div class="dir-step">
               <div class="dir-step-num">2</div>
               <div class="dir-step-text">
-                Завийте наляво по <strong>бул. „Шипченски проход"</strong> - минавате покрай Хотел Плиска
+                Завийте наляво по <strong>бул. „Шипченски проход"</strong> — минавате покрай Хотел Плиска
               </div>
             </div>
             <div class="dir-step">
               <div class="dir-step-num">3</div>
               <div class="dir-step-text">
-                Търсете <strong>блок 240</strong> вдясно - сградата е в ж.к. „Гео Милев"
-                <div class="dir-step-sub">🅿 Паркинг пред блока</div>
+                Търсете <strong>блок 240</strong> вдясно — сградата е в ж.к. „Гео Милев"
+                <div class="dir-step-sub">Паркинг пред блока</div>
               </div>
             </div>
-            <div class="dir-step">
+            <div class="dir-step dir-step-final">
               <div class="dir-step-num">✓</div>
               <div class="dir-step-text">
-                <strong>Most Computers</strong> - партерен етаж, бул. „Шипченски проход" бл.240
+                <strong>Most Computers</strong> — партерен етаж, бул. „Шипченски проход" бл.240
               </div>
             </div>
           </div>
@@ -5043,7 +5079,7 @@
             <div class="dir-step">
               <div class="dir-step-num">1</div>
               <div class="dir-step-text">
-                Хванете <strong>Трамвай № 20</strong> - минава по бул. „Шипченски проход" през целия квартал Гео Милев
+                Хванете <strong>Трамвай № 20</strong> — минава по бул. „Шипченски проход" през целия квартал Гео Милев
                 <div class="dir-step-sub">Тръгва от НДК / Хали</div>
               </div>
             </div>
@@ -5051,13 +5087,13 @@
               <div class="dir-step-num">2</div>
               <div class="dir-step-text">
                 Слезте на спирка <strong>„ул. Ал. Жендов"</strong>
-                <div class="dir-step-sub">🚶 4 мин. пеша до бл.240</div>
+                <div class="dir-step-sub">4 мин. пеша до бл.240</div>
               </div>
             </div>
-            <div class="dir-step">
-              <div class="dir-step-num">3</div>
+            <div class="dir-step dir-step-final">
+              <div class="dir-step-num">✓</div>
               <div class="dir-step-text">
-                Вървете по бул. „Шипченски проход" - <strong>блок 240</strong> е на 200м
+                Вървете по бул. „Шипченски проход" — <strong>блок 240</strong> е на 200м
               </div>
             </div>
           </div>
@@ -5076,11 +5112,11 @@
             <div class="dir-step">
               <div class="dir-step-num">2</div>
               <div class="dir-step-text">
-                <strong>Тролейбус № 11 и E73</strong> - спирка „ул. Александър Жендов"
-                <div class="dir-step-sub">🚶 7 мин. пеша</div>
+                <strong>Тролейбус № 11 и E73</strong> — спирка „ул. Александър Жендов"
+                <div class="dir-step-sub">7 мин. пеша</div>
               </div>
             </div>
-            <div class="dir-step">
+            <div class="dir-step dir-step-final">
               <div class="dir-step-num">✓</div>
               <div class="dir-step-text">
                 Следвайте бул. „Шипченски проход" до <strong>блок 240</strong>
@@ -5095,7 +5131,7 @@
             <div class="dir-step">
               <div class="dir-step-num">1</div>
               <div class="dir-step-text">
-                Метро <strong>Линия М1 или М4</strong> - слезте на станция <strong>„Хотел Плиска"</strong>
+                Метро <strong>Линия М1 или М4</strong> — слезте на станция <strong>„Хотел Плиска"</strong>
                 <div class="dir-step-sub">Най-близката метро станция до нас</div>
               </div>
             </div>
@@ -5105,10 +5141,10 @@
                 От станцията вземете <strong>трамвай № 20</strong> или вървете пеша ~12 мин. по бул. „Шипченски проход"
               </div>
             </div>
-            <div class="dir-step">
-              <div class="dir-step-num">3</div>
+            <div class="dir-step dir-step-final">
+              <div class="dir-step-num">✓</div>
               <div class="dir-step-text">
-                🚇 <strong>Линия М3 (в строеж)</strong> - предвидена спирка в кв. Гео Милев ще скъси пътя значително
+                <strong>Линия М3 (в строеж)</strong> — предвидена спирка в кв. Гео Милев ще скъси пътя значително
               </div>
             </div>
           </div>
@@ -5120,25 +5156,25 @@
             <div class="dir-step">
               <div class="dir-step-num">1</div>
               <div class="dir-step-text">
-                От <strong>спирка „Румънско посолство"</strong> - 2 мин. пеша (150м)
+                От <strong>спирка „Румънско посолство"</strong> — 2 мин. пеша (150м)
               </div>
             </div>
             <div class="dir-step">
               <div class="dir-step-num">2</div>
               <div class="dir-step-text">
-                От <strong>спирка „ул. Ал. Жендов"</strong> - 4 мин. пеша (300м)
+                От <strong>спирка „ул. Ал. Жендов"</strong> — 4 мин. пеша (300м)
               </div>
             </div>
             <div class="dir-step">
               <div class="dir-step-num">3</div>
               <div class="dir-step-text">
-                От <strong>Хотел Плиска</strong> - 12 мин. пеша (900м) по бул. „Шипченски проход"
+                От <strong>Хотел Плиска</strong> — 12 мин. пеша (900м) по бул. „Шипченски проход"
               </div>
             </div>
-            <div class="dir-step">
-              <div class="dir-step-num">📍</div>
+            <div class="dir-step dir-step-final">
+              <div class="dir-step-num">✓</div>
               <div class="dir-step-text">
-                Google Plus Code: <strong>M9H5+XJ Sofia</strong> - търсете директно в Google Maps
+                Google Plus Code: <strong>M9H5+XJ Sofia</strong> — търсете директно в Google Maps
               </div>
             </div>
           </div>

@@ -15188,7 +15188,7 @@
  }
 
  /* ══════════════════════════════════════════════
-   CONTACTS PAGE
+   CONTACTS PAGE — v2
 ══════════════════════════════════════════════ */
  .contacts-page {
    position: fixed;
@@ -15209,12 +15209,6 @@
    pointer-events: auto;
    visibility: visible;
    transition: opacity 150ms ease-out, transform 150ms ease-out, visibility 0s linear 0s;
- }
-
- .contacts-page-inner {
-   max-width: 1100px;
-   margin: 0 auto;
-   padding: 24px 20px 60px;
  }
 
  .contacts-topbar {
@@ -15255,68 +15249,171 @@
    background: var(--primary-light);
  }
 
- /* Map container */
+ .contacts-page-inner {
+   max-width: 1100px;
+   margin: 0 auto;
+   padding: 0 20px 60px;
+ }
+
+ /* ── Hero ── */
+ .contacts-hero {
+   padding: 36px 0 24px;
+   border-bottom: 1px solid var(--border);
+   margin-bottom: 28px;
+ }
+
+ .contacts-hero-title {
+   font-size: 26px;
+   font-weight: 800;
+   color: var(--text);
+   margin: 0 0 5px;
+   letter-spacing: -0.02em;
+ }
+
+ .contacts-hero-sub {
+   font-size: 14px;
+   color: var(--muted);
+   margin: 0;
+ }
+
+ /* ── Main 2-col layout ── */
+ .contacts-main-layout {
+   display: grid;
+   grid-template-columns: 1.5fr 1fr;
+   gap: 20px;
+   align-items: start;
+   margin-bottom: 32px;
+ }
+
+ @media (max-width: 768px) {
+   .contacts-main-layout {
+     grid-template-columns: 1fr;
+   }
+ }
+
+ /* ── Map column ── */
+ .contacts-map-col {}
+
  .contacts-map-wrap {
-   border-radius: 16px;
+   border-radius: 14px;
    overflow: hidden;
-   box-shadow: 0 4px 24px rgba(0, 0, 0, .10);
-   margin: 20px 0;
-   position: relative;
    background: var(--bg2);
+   margin-bottom: 10px;
  }
 
  .contacts-map-wrap > div,
  .contacts-map-wrap iframe {
    width: 100%;
-   height: 420px;
+   height: 360px;
    border: none;
    display: block;
  }
 
- /* Direction cards */
- .contacts-grid {
+ /* ── Nav buttons — outline style ── */
+ .nav-buttons-row {
    display: grid;
    grid-template-columns: 1fr 1fr;
-   gap: 16px;
-   margin: 20px 0;
+   gap: 8px;
  }
 
- @media (max-width: 640px) {
-   .contacts-grid {
-     grid-template-columns: 1fr;
-   }
+ .nav-btn {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   gap: 7px;
+   padding: 10px 12px;
+   border-radius: 10px;
+   font-size: 12px;
+   font-weight: 600;
+   cursor: pointer;
+   text-decoration: none;
+   font-family: 'Inter', sans-serif;
+   transition: background .18s, border-color .18s, color .18s;
+   background: var(--white);
+   border: 1px solid var(--border);
+   white-space: nowrap;
+ }
+
+ .nav-btn-google {
+   color: #1765d4;
+ }
+
+ .nav-btn-google:hover {
+   background: #eff4ff;
+   border-color: #1765d4;
+   color: #1254b3;
+ }
+
+ .nav-btn-waze {
+   color: #0395b8;
+ }
+
+ .nav-btn-waze:hover {
+   background: #f0fbff;
+   border-color: #0395b8;
+ }
+
+ .nav-btn-apple {
+   color: var(--text);
+ }
+
+ .nav-btn-apple:hover {
+   background: var(--bg2);
+   border-color: var(--text2);
+ }
+
+ .nav-btn-copy {
+   color: var(--text2);
+ }
+
+ .nav-btn-copy:hover {
+   background: var(--bg2);
+   border-color: var(--text2);
+   color: var(--text);
+ }
+
+ /* ── Info column ── */
+ .contacts-info-col {
+   display: flex;
+   flex-direction: column;
+   gap: 12px;
  }
 
  .contact-info-card {
    background: var(--white);
    border-radius: 14px;
    border: 1px solid var(--border);
-   padding: 20px;
+   padding: 20px 22px;
  }
 
- .contact-info-card h3 {
-   font-size: 13px;
-   font-weight: 800;
-   color: var(--text2);
+ .ci-card-title {
+   font-size: 11px;
+   font-weight: 700;
+   color: var(--muted);
    text-transform: uppercase;
-   letter-spacing: .06em;
-   margin: 0 0 14px;
-   display: flex;
-   align-items: center;
-   gap: 8px;
- }
-
- .contact-info-card h3 .icon {
-   font-size: 16px;
+   letter-spacing: 0.08em;
+   margin-bottom: 16px;
  }
 
  .contact-info-row {
    display: flex;
-   align-items: flex-start;
-   gap: 10px;
-   margin-bottom: 10px;
+   gap: 12px;
+   padding: 10px 0;
+   border-bottom: 1px solid var(--border-light);
    font-size: 13px;
    color: var(--text);
+   align-items: flex-start;
+ }
+
+ .contact-info-row:last-child {
+   border-bottom: none;
+   padding-bottom: 0;
+ }
+
+ .ci-icon {
+   flex-shrink: 0;
+   color: var(--muted);
+   margin-top: 14px;
  }
 
  .contact-info-row .label {
@@ -15324,62 +15421,125 @@
    color: var(--muted);
    font-weight: 600;
    display: block;
-   margin-bottom: 2px;
+   margin-bottom: 3px;
  }
 
  .contact-info-row a {
    color: var(--primary);
    font-weight: 700;
    text-decoration: none;
+   font-size: 14px;
  }
 
  .contact-info-row a:hover {
    text-decoration: underline;
  }
 
- /* How to get there section */
+ /* ── Working hours table ── */
+ .hours-table {
+   width: 100%;
+   border-collapse: collapse;
+ }
+
+ .hours-table tr th,
+ .hours-table tr td {
+   padding: 8px 0;
+   font-size: 13px;
+   border-bottom: 1px solid var(--border-light);
+   text-align: left;
+ }
+
+ .hours-table tr:last-child th,
+ .hours-table tr:last-child td {
+   border-bottom: none;
+ }
+
+ .hours-table th {
+   color: var(--text2);
+   font-weight: 500;
+ }
+
+ .hours-table td {
+   text-align: right;
+   font-weight: 600;
+ }
+
+ .hours-open {
+   color: var(--accent2) !important;
+ }
+
+ .hours-closed {
+   color: var(--muted) !important;
+   font-weight: 400 !important;
+ }
+
+ /* ── Plus code badge ── */
+ .plus-code-badge {
+   display: inline-flex;
+   align-items: center;
+   gap: 5px;
+   background: var(--bg2);
+   border: 1px solid var(--border);
+   border-radius: 6px;
+   padding: 4px 10px;
+   font-size: 11px;
+   font-family: 'JetBrains Mono', monospace;
+   font-weight: 600;
+   color: var(--text2);
+   cursor: pointer;
+   transition: all .2s;
+   margin-top: 7px;
+ }
+
+ .plus-code-badge:hover {
+   background: var(--primary-light);
+   color: var(--primary);
+   border-color: var(--primary);
+ }
+
+ /* ── Directions section ── */
  .directions-section {
-   margin: 24px 0;
+   margin: 0 0 32px;
  }
 
  .directions-title {
    font-size: 18px;
-   font-weight: 800;
+   font-weight: 700;
    color: var(--text);
-   margin: 0 0 16px;
-   display: flex;
-   align-items: center;
-   gap: 10px;
+   margin: 0 0 14px;
+   letter-spacing: -0.01em;
  }
 
  .directions-tabs {
    display: flex;
-   gap: 8px;
-   margin-bottom: 20px;
+   gap: 6px;
+   margin-bottom: 16px;
    flex-wrap: wrap;
  }
 
  .dir-tab {
-   display: flex;
-   align-items: center;
-   gap: 6px;
-   padding: 8px 16px;
-   border-radius: 20px;
+   padding: 7px 16px;
+   border-radius: 6px;
    font-size: 13px;
-   font-weight: 700;
+   font-weight: 600;
    cursor: pointer;
-   border: 2px solid var(--border);
+   border: 1px solid var(--border);
    background: var(--white);
    color: var(--text2);
-   transition: all .2s;
+   transition: background .15s, border-color .15s, color .15s;
    font-family: 'Inter', sans-serif;
  }
 
- .dir-tab.active,
- .dir-tab:hover {
+ .dir-tab.active {
+   background: var(--primary);
    border-color: var(--primary);
-   color: var(--primary);
-   background: var(--primary-light);
+   color: #fff;
+ }
+
+ .dir-tab:not(.active):hover {
+   background: var(--bg2);
+   border-color: var(--text2);
+   color: var(--text);
  }
 
  .dir-content {
@@ -15392,7 +15552,7 @@
 
  .dir-steps {
    background: var(--white);
-   border-radius: 14px;
+   border-radius: 12px;
    border: 1px solid var(--border);
    overflow: hidden;
  }
@@ -15401,7 +15561,7 @@
    display: flex;
    gap: 14px;
    padding: 14px 18px;
-   border-bottom: 1px solid var(--border);
+   border-bottom: 1px solid var(--border-light);
    align-items: flex-start;
  }
 
@@ -15410,18 +15570,25 @@
  }
 
  .dir-step-num {
-   width: 28px;
-   height: 28px;
+   width: 26px;
+   height: 26px;
    border-radius: 50%;
-   background: var(--primary);
-   color: #fff;
+   background: var(--bg2);
+   color: var(--text2);
+   border: 1px solid var(--border);
    display: flex;
    align-items: center;
    justify-content: center;
-   font-size: 12px;
-   font-weight: 800;
+   font-size: 11px;
+   font-weight: 700;
    flex-shrink: 0;
    margin-top: 1px;
+ }
+
+ .dir-step-final .dir-step-num {
+   background: var(--primary);
+   color: #fff;
+   border-color: var(--primary);
  }
 
  .dir-step-text {
@@ -15438,128 +15605,7 @@
  .dir-step-sub {
    font-size: 11px;
    color: var(--muted);
-   margin-top: 2px;
- }
-
- /* Nav buttons */
- .nav-buttons-row {
-   display: flex;
-   gap: 12px;
-   margin: 20px 0;
-   flex-wrap: wrap;
- }
-
- .nav-btn {
-   display: flex;
-   align-items: center;
-   gap: 8px;
-   padding: 12px 20px;
-   border-radius: 10px;
-   font-size: 13px;
-   font-weight: 700;
-   cursor: pointer;
-   text-decoration: none;
-   border: none;
-   font-family: 'Inter', sans-serif;
-   transition: all .2s;
- }
-
- .nav-btn-google {
-   background: #1765d4;
-   color: #fff;
- }
-
- .nav-btn-google:hover {
-   background: #1254b3;
-   color: #fff;
- }
-
- .nav-btn-waze {
-   background: #33CCFF;
-   color: #000;
- }
-
- .nav-btn-waze:hover {
-   background: #1aabdd;
- }
-
- .nav-btn-apple {
-   background: var(--text);
-   color: #fff;
- }
-
- .nav-btn-apple:hover {
-   background: #333;
-   color: #fff;
- }
-
- .nav-btn-copy {
-   background: var(--bg2);
-   color: var(--text);
-   border: 1px solid var(--border);
- }
-
- .nav-btn-copy:hover {
-   background: var(--border);
- }
-
- /* Working hours table */
- .hours-table {
-   width: 100%;
-   border-collapse: collapse;
- }
-
- .hours-table tr td {
-   padding: 7px 0;
-   font-size: 13px;
-   border-bottom: 1px solid var(--border);
- }
-
- .hours-table tr:last-child td {
-   border-bottom: none;
- }
-
- .hours-table td:first-child {
-   color: var(--text2);
-   font-weight: 600;
- }
-
- .hours-table td:last-child {
-   text-align: right;
-   font-weight: 700;
-   color: var(--text);
- }
-
- .hours-open {
-   color: var(--accent2) !important;
- }
-
- .hours-closed {
-   color: var(--muted) !important;
- }
-
- /* Plus code badge */
- .plus-code-badge {
-   display: inline-flex;
-   align-items: center;
-   gap: 6px;
-   background: var(--bg2);
-   border: 1px solid var(--border);
-   border-radius: 8px;
-   padding: 6px 12px;
-   font-size: 12px;
-   font-family: 'JetBrains Mono', monospace;
-   font-weight: 600;
-   color: var(--text2);
-   cursor: pointer;
-   transition: all .2s;
-   margin-top: 8px;
- }
-
- .plus-code-badge:hover {
-   background: var(--primary-light);
-   color: var(--primary);
-   border-color: var(--primary);
+   margin-top: 3px;
  }
 
  /* ── Map Navigation Links ── */

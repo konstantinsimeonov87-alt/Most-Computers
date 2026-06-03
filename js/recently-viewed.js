@@ -20,7 +20,7 @@ function renderRecentlyViewed() {
       wrap.style.display = '';
       wrap.innerHTML = `
         <div class="sb-rv-header">
-          <span class="sb-rv-title">🕐 Наскоро разгледани</span>
+          <span class="sb-rv-title"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true" style="display:inline-block;vertical-align:-1px;margin-right:5px"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Наскоро разгледани</span>
           <button type="button" class="sb-rv-clear" data-action="clearRecentlyViewed">Изчисти</button>
         </div>
         ${items.slice(0, 5).map(p => {

@@ -871,7 +871,7 @@ function renderRecentlyViewed() {
       wrap.style.display = '';
       wrap.innerHTML = `
         <div class="sb-rv-header">
-          <span class="sb-rv-title">🕐 Наскоро разгледани</span>
+          <span class="sb-rv-title"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true" style="display:inline-block;vertical-align:-1px;margin-right:5px"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Наскоро разгледани</span>
           <button type="button" class="sb-rv-clear" data-action="clearRecentlyViewed">Изчисти</button>
         </div>
         ${items.slice(0, 5).map(p => {
@@ -3148,8 +3148,8 @@ function renderSidebarTopProduct(forceNext) {
   const shortName = top.name.length > 46 ? top.name.slice(0, 46) + '…' : top.name;
   wrap.innerHTML = `
     <div class="sb-tp-header">
-      <span class="sb-tp-title">⭐ Топ продукт</span>
-      <span class="sb-tp-cat-pill">${_CAT_EMOJI_SB[cat]||''} ${_CAT_LABEL_SB[cat]||cat}</span>
+      <span class="sb-tp-title"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:inline-block;vertical-align:-1px;margin-right:5px"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Топ продукт</span>
+      <span class="sb-tp-cat-pill">${_CAT_LABEL_SB[cat]||cat}</span>
     </div>
     <div class="sb-tp-img-wrap">${imgHtml}</div>
     <div class="sb-tp-brand">${escHtml(top.brand||'')}</div>

@@ -1,9 +1,9 @@
-<<<<<<< Updated upstream
+// Most Computers — Service Worker d41771f
 // Most Computers — Service Worker 8be8908
-const CACHE = 'mc-8be8908';
+const CACHE = 'mc-d41771f';
 =======
 // Most Computers — Service Worker 30c29164
-const CACHE = 'mc-30c29164';
+const CACHE = 'mc-d41771f';
 const PRECACHE = [
   './',
   './index.html',

@@ -2338,7 +2338,8 @@ function hideCatSpecFilters() {
 function matchesSubcat(p, subcat) {
   if (subcat === 'all') return true;
   // Promo page subcats group by site category
-  if (currentFilter === 'promo') {
+  const _isPromo = currentFilter === 'promo' || (typeof cpCat !== 'undefined' && cpCat === 'promo');
+  if (_isPromo) {
     if (subcat === 'phones')     return p.cat === 'phones';
     if (subcat === 'laptops')    return p.cat === 'laptops';
     if (subcat === 'monitors')   return p.cat === 'monitors';
@@ -4486,6 +4487,7 @@ function cpGetFiltered() {
   // category filter
   if (cpCat === 'new') { list = list.slice().sort((a,b) => b.id - a.id); }
   else if (cpCat === 'sale') list = list.filter(p => p.badge === 'sale' || p.badge === 'Намаление' || !!p.old);
+  else if (cpCat === 'promo') list = (typeof promoProducts !== 'undefined' ? [...promoProducts] : []);
   else if (cpCat !== 'all') list = list.filter(p => normalizeCat(p.cat) === cpCat);
   // subcat filter
   if (cpSubcat && cpSubcat !== 'all' && typeof matchesSubcat === 'function')

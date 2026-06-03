@@ -1405,7 +1405,8 @@ function hideCatSpecFilters() {
 function matchesSubcat(p, subcat) {
   if (subcat === 'all') return true;
   // Promo page subcats group by site category
-  if (currentFilter === 'promo') {
+  const _isPromo = currentFilter === 'promo' || (typeof cpCat !== 'undefined' && cpCat === 'promo');
+  if (_isPromo) {
     if (subcat === 'phones')     return p.cat === 'phones';
     if (subcat === 'laptops')    return p.cat === 'laptops';
     if (subcat === 'monitors')   return p.cat === 'monitors';

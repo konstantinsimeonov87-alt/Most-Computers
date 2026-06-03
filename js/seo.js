@@ -1170,6 +1170,7 @@ function cpGetFiltered() {
   // category filter
   if (cpCat === 'new') { list = list.slice().sort((a,b) => b.id - a.id); }
   else if (cpCat === 'sale') list = list.filter(p => p.badge === 'sale' || p.badge === 'Намаление' || !!p.old);
+  else if (cpCat === 'promo') list = (typeof promoProducts !== 'undefined' ? [...promoProducts] : []);
   else if (cpCat !== 'all') list = list.filter(p => normalizeCat(p.cat) === cpCat);
   // subcat filter
   if (cpSubcat && cpSubcat !== 'all' && typeof matchesSubcat === 'function')

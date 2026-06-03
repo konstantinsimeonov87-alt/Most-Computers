@@ -125,6 +125,7 @@ function makeCard(p,small=false){
   return `<article class="product-card pos-rel${p.stock===false?' is-out-of-stock':''}" itemscope itemtype="https://schema.org/Product">
     <div class="product-badge-wrap">
       ${p.badge==='sale'?'<span class="badge badge-sale">Промо</span>':''}
+      ${p.badge==='promo'?'<span class="badge badge-promo">Промоция</span>':''}
       ${p.badge==='new'?'<span class="badge badge-new">Ново</span>':''}
       ${p.badge==='hot'?'<span class="badge badge-hot">Горещо</span>':''}
       ${p.pct>0?`<span class="badge badge-pct">-${p.pct}%</span>`:''}

@@ -2931,6 +2931,11 @@
    color: #fff;
  }
 
+ .badge-promo {
+   background: #7c3aed;
+   color: #fff;
+ }
+
  .badge-pct {
    background: #1a1a1a;
    color: #fff;

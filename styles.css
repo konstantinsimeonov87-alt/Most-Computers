@@ -15499,6 +15499,26 @@
    border-color: var(--primary);
  }
 
+ /* ── Bottom layout: directions (left) + hours (right) ── */
+ .contacts-bottom-layout {
+   display: grid;
+   grid-template-columns: 1.5fr 1fr;
+   gap: 20px;
+   align-items: start;
+   margin-bottom: 32px;
+ }
+
+ @media (max-width: 768px) {
+   .contacts-bottom-layout {
+     grid-template-columns: 1fr;
+   }
+ }
+
+ .contacts-hours-card {
+   position: sticky;
+   top: 70px;
+ }
+
  /* ── Section divider (between store and warehouse) ── */
  .contacts-section-divider {
    display: flex;
@@ -15522,7 +15542,7 @@
 
  /* ── Directions section ── */
  .directions-section {
-   margin: 0 0 32px;
+   margin: 0;
  }
 
  .directions-title {

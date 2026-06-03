@@ -4960,21 +4960,21 @@
 
             <div class="contact-info-row">
               <svg class="ci-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
-                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
-              </svg>
-              <div>
-                <span class="label">Сервизен център</span>
-                <a href="tel:+3590700144011">0700 144 11</a>
-              </div>
-            </div>
-
-            <div class="contact-info-row">
-              <svg class="ci-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
                 <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
               </svg>
               <div>
                 <span class="label">Имейл</span>
                 <a href="mailto:info@mostbg.com">info@mostbg.com</a>
+              </div>
+            </div>
+
+            <div class="contact-info-row">
+              <svg class="ci-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+              </svg>
+              <div>
+                <span class="label">Сервизен център</span>
+                <a href="tel:+3590700144011">0700 144 11</a>
               </div>
             </div>
 
@@ -4989,48 +4989,15 @@
             </div>
           </div>
 
-          <!-- Working hours card -->
-          <div class="contact-info-card">
-            <div class="ci-card-title">Работно време</div>
-            <table class="hours-table" id="hoursTable">
-              <tr>
-                <th scope="row">Понеделник</th>
-                <td class="hours-open">09:30 – 18:15</td>
-              </tr>
-              <tr>
-                <th scope="row">Вторник</th>
-                <td class="hours-open">09:30 – 18:15</td>
-              </tr>
-              <tr>
-                <th scope="row">Сряда</th>
-                <td class="hours-open">09:30 – 18:15</td>
-              </tr>
-              <tr>
-                <th scope="row">Четвъртък</th>
-                <td class="hours-open">09:30 – 18:15</td>
-              </tr>
-              <tr>
-                <th scope="row">Петък</th>
-                <td class="hours-open">09:30 – 18:15</td>
-              </tr>
-              <tr>
-                <th scope="row">Събота</th>
-                <td class="hours-closed">Почивен ден</td>
-              </tr>
-              <tr>
-                <th scope="row">Неделя</th>
-                <td class="hours-closed">Почивен ден</td>
-              </tr>
-            </table>
-            <div id="openNowBadge" style="margin-top:12px;"></div>
-          </div>
-
         </div><!-- /contacts-info-col -->
 
       </div><!-- /contacts-main-layout -->
 
-      <!-- How to get there -->
-      <div class="directions-section">
+      <!-- Bottom 2-col: directions + hours -->
+      <div class="contacts-bottom-layout">
+
+        <!-- Left: directions -->
+        <div class="directions-section">
         <h2 class="directions-title">Как да стигнете до нас</h2>
 
         <div class="directions-tabs">
@@ -5179,7 +5146,24 @@
             </div>
           </div>
         </div>
-      </div>
+      </div><!-- /directions-section -->
+
+        <!-- Right: hours card -->
+        <div class="contact-info-card contacts-hours-card">
+          <div class="ci-card-title">Работно време</div>
+          <table class="hours-table" id="hoursTable">
+            <tr><th scope="row">Понеделник</th><td class="hours-open">09:30 – 18:15</td></tr>
+            <tr><th scope="row">Вторник</th><td class="hours-open">09:30 – 18:15</td></tr>
+            <tr><th scope="row">Сряда</th><td class="hours-open">09:30 – 18:15</td></tr>
+            <tr><th scope="row">Четвъртък</th><td class="hours-open">09:30 – 18:15</td></tr>
+            <tr><th scope="row">Петък</th><td class="hours-open">09:30 – 18:15</td></tr>
+            <tr><th scope="row">Събота</th><td class="hours-closed">Почивен ден</td></tr>
+            <tr><th scope="row">Неделя</th><td class="hours-closed">Почивен ден</td></tr>
+          </table>
+          <div id="openNowBadge" style="margin-top:12px;"></div>
+        </div>
+
+      </div><!-- /contacts-bottom-layout -->
 
       <!-- ── Warehouse section ── -->
       <div class="contacts-section-divider">

@@ -107,7 +107,8 @@ const jsFiles = [
   { src: '_tmp_data_stripped.js', dst: 'data.js' },
   { src: 'app.js',        dst: 'app.js' },
   { src: 'app-lazy.js',   dst: 'app-lazy.js' },
-  { src: 'js/admin.js',   dst: 'js/admin.js' },
+  { src: 'js/admin.js',           dst: 'js/admin.js' },
+  { src: 'js/promotions-data.js', dst: 'js/promotions-data.js' },
 ];
 jsFiles.forEach(({ src, dst }) => {
   const srcPath = path.join(ROOT, src);

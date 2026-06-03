@@ -42,6 +42,7 @@ function getFilteredSorted(){
     currentFilter==='all'  ? [...products] :
     currentFilter==='new'  ? [...products].sort((a,b)=>b.id-a.id) :
     currentFilter==='sale' ? products.filter(p=>p.badge==='sale'||p.badge==='Намаление'||!!p.old) :
+    currentFilter==='promo'? (typeof promoProducts!=='undefined'?[...promoProducts]:[]) :
     products.filter(p=>normalizeCat(p.cat)===currentFilter)
   ).filter(p=>p.stock!==false);
   // Subcat filter
@@ -698,6 +699,15 @@ let catSpecActiveFilters = {}; // { specKey: Set(values) }
 
 // Subcategory definitions
 const SUBCATS = {
+  promo: [
+    { id: 'phones',      label: 'Смартфони' },
+    { id: 'laptops',     label: 'Лаптопи' },
+    { id: 'gpu',         label: 'Видео карти' },
+    { id: 'monitors',    label: 'Монитори' },
+    { id: 'components',  label: 'Компоненти' },
+    { id: 'printers',    label: 'Принтери' },
+    { id: 'network',     label: 'Мрежа' },
+  ],
   phones: [
     { id: 'smartphone',   label: '📱 Смартфони' },
     { id: 'tablet',       label: '📟 Таблети' },
@@ -1394,6 +1404,17 @@ function hideCatSpecFilters() {
 // Subcat filtering logic - maps subcat ID to product spec matching
 function matchesSubcat(p, subcat) {
   if (subcat === 'all') return true;
+  // Promo page subcats group by site category
+  if (currentFilter === 'promo') {
+    if (subcat === 'phones')     return p.cat === 'phones';
+    if (subcat === 'laptops')    return p.cat === 'laptops';
+    if (subcat === 'monitors')   return p.cat === 'monitors';
+    if (subcat === 'printers')   return p.cat === 'printers';
+    if (subcat === 'network')    return p.cat === 'network';
+    if (subcat === 'gpu')        return p.cat === 'components' && p.subcat === 'gpu';
+    if (subcat === 'components') return p.cat === 'components' && p.subcat !== 'gpu';
+    return false;
+  }
   if (p.subcat === subcat) return true;
 
   // Products with a known component subcat: block cross-subcat false positives.
@@ -1972,7 +1993,7 @@ function updateURL() {
 }
 
 // Allowed canonical categories + sort values - used to validate URL params before querySelector
-const _VALID_CATS = new Set(['all','laptops','desktops','gaming','components','monitors','peripherals','audio','cameras','phones','network','storage','software','accessories','printers','ups','consumables','new','sale']);
+const _VALID_CATS = new Set(['all','laptops','desktops','gaming','components','monitors','peripherals','audio','cameras','phones','network','storage','software','accessories','printers','ups','consumables','new','sale','promo']);
 const _VALID_SORTS = new Set(['bestseller','price-asc','price-desc','rating','discount','new']);
 
 function readURLParams() {

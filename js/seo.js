@@ -461,6 +461,7 @@ const CAT_META = {
   consumables:{ emoji:'🖨️', icon:'ic-printer',    label:'Консумативи',          sub:'Тонери, Мастила, Фото хартия', badge:null },
   new:        { emoji:'🆕', icon:'ic-star',       label:'Нови продукти',        sub:'Пресни пристигания', badge:'NEW' },
   sale:       { emoji:'%',  icon:'ic-tag',        label:'Намаления',            sub:'До -60% на избрани продукти', badge:'SALE' },
+  promo:      { emoji:'🏷', icon:'ic-tag',        label:'Промоции',             sub:'Специални оферти от партньорски марки', badge:'PROMO' },
 };
 const HP_CAT_ORDER = ['laptops','desktops','components','monitors','peripherals','audio','cameras','network','storage','accessories'];
 

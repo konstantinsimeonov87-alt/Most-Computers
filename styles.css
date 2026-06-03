@@ -1475,6 +1475,11 @@
    font-weight: 700;
  }
 
+ .nav-link.promo {
+   color: var(--primary);
+   font-weight: 700;
+ }
+
  .nav-link.sale-link {
    color: var(--sale);
    font-weight: 700;

@@ -11267,6 +11267,33 @@
    .admin-main {
      padding: 16px;
    }
+
+   .admin-table {
+     display: block;
+     overflow-x: auto;
+     -webkit-overflow-scrolling: touch;
+   }
+
+   .admin-table td,
+   .admin-table th {
+     padding: 8px 8px;
+     font-size: 11px;
+   }
+
+   .admin-stats-grid {
+     grid-template-columns: repeat(2, 1fr);
+   }
+
+   .admin-topbar {
+     flex-direction: column;
+     align-items: flex-start;
+     gap: 10px;
+   }
+
+   .admin-topbar > div:last-child {
+     width: 100%;
+     flex-wrap: wrap;
+   }
  }
 
  /* ===== 404 PAGE ===== */

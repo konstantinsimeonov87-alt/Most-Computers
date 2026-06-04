@@ -34,7 +34,7 @@ async function adminLoadFromSupabase() {
       addr:         row.delivery_address,
       deliveryType: row.delivery_type,
       payment:      row.payment_type,
-      items:        (row.items || []).map(x => x.name + ' ×' + x.qty).join(', '),
+      items:        (row.items || []).map(x => x.name + ' x' + x.qty).join(', '),
       itemsData:    row.items || [],
       subtotal:     row.subtotal,
       delivery:     row.delivery_cost,
@@ -47,7 +47,10 @@ async function adminLoadFromSupabase() {
     }));
     // Sync to localStorage for offline fallback
     try { localStorage.setItem('mc_orders', JSON.stringify(_sbOrders.slice(0, 200))); } catch(e) {}
-    adminShowTab('orders');
+    // Refresh current tab without forcing switch to orders
+    const activeTab = document.querySelector('.admin-nav-item.active');
+    const currentTab = activeTab?.dataset?.action?.match(/'(\w+)'/)?.[1] || 'orders';
+    adminShowTab(currentTab);
   } catch(e) { console.error('Admin load error:', e); }
 }
 
@@ -145,24 +148,34 @@ function adminOpenMailto(email, subject) {
   window.open(`mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`, '_blank');
 }
 
-function adminDeleteOrder(num) {
+async function adminDeleteOrder(num) {
   if (!confirm(`Изтрий поръчка ${num}?`)) return;
   let orders = getAdminOrders();
   orders = orders.filter(x => x.num !== num);
   adminSaveOrders(orders);
+  if (_sbOrders) _sbOrders = _sbOrders.filter(x => x.num !== num);
+  // Delete from Supabase
+  try {
+    if (window._sbInstance) {
+      await window._sbInstance.from('orders').delete().eq('order_num', num);
+    }
+  } catch(e) { console.error('Supabase delete error:', e); }
   adminShowTab('orders');
   showToast(`🗑 Поръчка ${num} изтрита`);
 }
 
 function adminExportCSV() {
   const orders = getAdminOrders();
-  const header = ['#','Клиент','Имейл','Телефон','Продукти','Сума (лв.)','Доставка','Плащане','Статус','Дата'];
+  const csvEsc = v => { const s = String(v==null?'':v); return (s.includes(',') || s.includes('"') || s.includes('\n')) ? '"' + s.replace(/"/g,'""') + '"' : s; };
+  const EUR_R = typeof EUR_RATE !== 'undefined' ? EUR_RATE : 1.95583;
+  const header = ['#','Клиент','Имейл','Телефон','Продукти','Сума (BGN)','Сума (EUR)','Доставка','Плащане','Статус','Дата'];
   const rows = orders.map(o => [
-    o.num, o.customer, o.email||'', o.phone||'',
-    '"' + (o.items||'').replace(/"/g,'""') + '"',
+    csvEsc(o.num), csvEsc(o.customer), csvEsc(o.email||''), csvEsc(o.phone||''),
+    csvEsc(o.items||''),
     (o.total||0).toFixed(2),
-    '"' + (o.deliveryType||'') + '"',
-    o.payment||'', o.status||'', o.date||''
+    ((o.total||0)/EUR_R).toFixed(2),
+    csvEsc(o.deliveryType||''),
+    csvEsc(o.payment||''), csvEsc(o.status||''), csvEsc(o.date||'')
   ]);
   const csv = [header, ...rows].map(r => r.join(',')).join('\r\n');
   const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
@@ -643,7 +656,7 @@ function adminShowTab(tab) {
         <div class="admin-stat-card"><div class="admin-stat-icon">💰</div><div class="admin-stat-val">${fmtEur(thisMoRev)}</div><div class="admin-stat-label">Приходи този месец</div><div class="admin-stat-delta ${revDelta>=0?'up':'down'}">${revDelta>=0?'↑ +':'↓ '}${Math.abs(revDelta)}% спрямо м.м.</div></div>
         <div class="admin-stat-card"><div class="admin-stat-icon">📦</div><div class="admin-stat-val">${thisMoCnt}</div><div class="admin-stat-label">Поръчки този месец</div><div class="admin-stat-delta ${cntDelta>=0?'up':'down'}">${cntDelta>=0?'↑ +':'↓ '}${Math.abs(cntDelta)} спрямо м.м.</div></div>
         <div class="admin-stat-card"><div class="admin-stat-icon">👥</div><div class="admin-stat-val">${allOrders.length}</div><div class="admin-stat-label">Общо поръчки</div><div class="admin-stat-delta up">↑ всички времена</div></div>
-        <div class="admin-stat-card"><div class="admin-stat-icon">⭐</div><div class="admin-stat-val">4.83</div><div class="admin-stat-label">Среден рейтинг</div><div class="admin-stat-delta up">↑ +0.1 спрямо м.м.</div></div>
+        <div class="admin-stat-card"><div class="admin-stat-icon">⭐</div><div class="admin-stat-val">${(()=>{const rs=products.filter(p=>p.rating&&p.rv>0);return rs.length>0?(rs.reduce((s,p)=>s+(p.rating||0),0)/rs.length).toFixed(2):'—';})()}</div><div class="admin-stat-label">Среден рейтинг</div><div class="admin-stat-delta up">↑ от ${products.filter(p=>p.rv>0).length} продукта</div></div>
         <div class="admin-stat-card"><div class="admin-stat-icon">🛒</div><div class="admin-stat-val">${fmtEur(avgOrder)}</div><div class="admin-stat-label">Средна стойност на поръчка</div><div class="admin-stat-delta up">↑ текущ месец</div></div>
         <div class="admin-stat-card"><div class="admin-stat-icon">↩</div><div class="admin-stat-val">${cancelledPct}%</div><div class="admin-stat-label">Отказани поръчки</div><div class="admin-stat-delta ${cancelledPct<=3?'up':'down'}">${cancelledPct<=3?'↓ Под нормата':'↑ Над нормата'}</div></div>
       </div>
@@ -657,10 +670,10 @@ function adminShowTab(tab) {
               const d = new Date(nowDate.getFullYear(), nowDate.getMonth()-i, 1);
               months.push({m:monthLabels[d.getMonth()], month:d.getMonth(), year:d.getFullYear()});
             }
-            const points = months.map((mo,i) => {
+            const points = months.map((mo) => {
               const key = mo.year + '-' + mo.month;
               const realV = realRevByMonth[key];
-              return {m: mo.m, v: realV !== undefined ? realV : (chartData[i]?.v||0)};
+              return {m: mo.m, v: realV !== undefined ? realV : 0};
             });
             const mx = Math.max(...points.map(p=>p.v), 1);
             return points.map(d=>`
@@ -793,8 +806,17 @@ function adminShowTab(tab) {
         </table>
         <div id="adminProdPagination"></div>
       </div>`;
-    _adminProd.q = ''; _adminProd.sort = 'cat'; _adminProd.dir = 1; _adminProd.cat = ''; _adminProd.status = ''; _adminProd.brand = ''; _adminProd.page = 1;
+    _adminProd.sort = 'cat'; _adminProd.dir = 1; _adminProd.cat = ''; _adminProd.status = ''; _adminProd.brand = ''; _adminProd.page = 1;
     renderAdminProductsTable();
+    setTimeout(() => {
+      document.addEventListener('click', function _closeExportMenu(e) {
+        if (!e.target.closest('#adminExportWrap')) {
+          const m = document.getElementById('adminExportMenu');
+          if (m) m.style.display = 'none';
+          document.removeEventListener('click', _closeExportMenu);
+        }
+      });
+    }, 0);
   } else if (tab === 'customers') {
     const allOrders = getAdminOrders();
     const customerMap = {};
@@ -816,13 +838,17 @@ function adminShowTab(tab) {
         ${customers.length === 0
           ? `<div style="text-align:center;padding:60px 20px;color:#4b5563;font-size:14px;">Все още няма клиенти.<br><span style="font-size:11px;">Клиентите ще се появят след като бъдат регистрирани поръчки.</span></div>`
           : `<table class="admin-table">
-              <thead><tr><th>Клиент</th><th>Имейл</th><th>Поръчки</th><th>Общо похарчено</th><th>Последна поръчка</th></tr></thead>
+              <thead><tr><th>Клиент</th><th>Имейл</th><th>Поръчки</th><th>Общо похарчено</th><th>Последна поръчка</th><th style="text-align:right;">Действия</th></tr></thead>
               <tbody>${customers.map(c=>`<tr>
                 <td class="text-white-semibold">${_esc(c.name)}</td>
                 <td style="color:#6b7280;font-size:12px;">${_esc(c.email)}</td>
                 <td style="color:#a5b4fc;font-weight:700;">${c.orders}</td>
                 <td class="text-success-strong">${fmtEur(c.total/EUR_RATE)}</td>
                 <td style="color:#6b7280;font-size:12px;">${_esc(c.lastDate)}</td>
+                <td style="text-align:right;white-space:nowrap;">
+                  <button type="button" onclick="adminShowCustomer(${JSON.stringify(c.email)})" style="background:rgba(99,102,241,0.1);color:#a5b4fc;border:1px solid rgba(99,102,241,0.2);border-radius:6px;padding:4px 8px;font-size:11px;cursor:pointer;font-family:'Outfit',sans-serif;margin-right:4px;">📋 История</button>
+                  <a href="mailto:${_esc(c.email)}" style="background:rgba(52,211,153,0.1);color:#34d399;border:1px solid rgba(52,211,153,0.2);border-radius:6px;padding:4px 8px;font-size:11px;cursor:pointer;font-family:'Outfit',sans-serif;text-decoration:none;">✉️ Имейл</a>
+                </td>
               </tr>`).join('')}
               </tbody>
             </table>`}
@@ -1155,6 +1181,20 @@ function adminShowTab(tab) {
         </div>
       </div>
       <div class="admin-table-card">
+        <div class="admin-chart-title" style="margin-bottom:14px;">📢 Изпрати кампания</div>
+        <div style="display:grid;gap:10px;margin-bottom:16px;">
+          <div><label style="font-size:11px;color:#6b7280;display:block;margin-bottom:4px;">Тема на имейла</label>
+            <input id="nlSubject" class="aef-input" placeholder="Специална оферта от Most Computers!" style="width:100%;max-width:500px;">
+          </div>
+          <div><label style="font-size:11px;color:#6b7280;display:block;margin-bottom:4px;">Съобщение</label>
+            <textarea id="nlBody" class="aef-input" rows="4" placeholder="Текст на съобщението..." style="width:100%;max-width:500px;resize:vertical;"></textarea>
+          </div>
+          <div>
+            <button type="button" class="admin-table-action" style="background:var(--primary);color:#fff;border-color:var(--primary);" onclick="adminNLSend()">✉️ Изпрати до ${subs.length} абонати</button>
+          </div>
+        </div>
+      </div>
+      <div class="admin-table-card">
         <div class="admin-table-header">
           <div class="admin-table-title">Абонирани имейли</div>
           <div style="font-size:12px;color:#6b7280;">Събрани от newsletter формата на сайта</div>
@@ -1166,7 +1206,7 @@ function adminShowTab(tab) {
               <tbody id="nlTable">${subs.map((email, i) => `
                 <tr id="nl-row-${i}">
                   <td class="mono-11-gray">${i + 1}</td>
-                  <td style="color:#e5e7eb;font-size:13px;">${email}</td>
+                  <td style="color:#e5e7eb;font-size:13px;">${_esc(email)}</td>
                   <td style="text-align:right;"><button type="button" onclick="adminDeleteNL(${i})" style="background:rgba(248,113,113,0.1);color:#f87171;border:1px solid rgba(248,113,113,0.2);border-radius:6px;padding:4px 8px;font-size:11px;cursor:pointer;font-family:'Outfit',sans-serif;">🗑</button></td>
                 </tr>`).join('')}
               </tbody>
@@ -1200,8 +1240,8 @@ function adminShowTab(tab) {
                 <tr>
                   <td class="mono-11-gray">${i+1}</td>
                   <td><span style="font-size:18px;">${row.emoji}</span> <span style="font-size:12px;color:#e5e7eb;">${row.pname.substring(0,30)}</span></td>
-                  <td style="color:#e5e7eb;font-size:13px;">${row.email}</td>
-                  <td style="text-align:right;"><button type="button" onclick="adminDeleteBIS(${row.pid},'${row.email}')" style="background:rgba(248,113,113,0.1);color:#f87171;border:1px solid rgba(248,113,113,0.2);border-radius:6px;padding:4px 8px;font-size:11px;cursor:pointer;font-family:'Outfit',sans-serif;">🗑</button></td>
+                  <td style="color:#e5e7eb;font-size:13px;">${_esc(row.email)}</td>
+                  <td style="text-align:right;"><button type="button" onclick="adminDeleteBIS(${row.pid},${JSON.stringify(row.email)})" style="background:rgba(248,113,113,0.1);color:#f87171;border:1px solid rgba(248,113,113,0.2);border-radius:6px;padding:4px 8px;font-size:11px;cursor:pointer;font-family:'Outfit',sans-serif;">🗑</button></td>
                 </tr>`).join('')}
               </tbody>
             </table>`}
@@ -1232,9 +1272,9 @@ function adminShowTab(tab) {
               <tbody>${allRevs.map(r => `
                 <tr>
                   <td style="white-space:nowrap;"><span style="font-size:18px;">${r._emoji}</span> <span style="font-size:11px;color:#9ca3af;max-width:120px;overflow:hidden;text-overflow:ellipsis;display:inline-block;vertical-align:middle;">${r._pname.substring(0,20)}</span></td>
-                  <td style="color:#e5e7eb;font-weight:600;">${r.name}</td>
+                  <td style="color:#e5e7eb;font-weight:600;">${_esc(r.name)}</td>
                   <td style="color:#fbbf24;white-space:nowrap;">${'★'.repeat(r.stars)}${'☆'.repeat(5-r.stars)}</td>
-                  <td style="max-width:240px;color:#9ca3af;font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${r.text}</td>
+                  <td style="max-width:240px;color:#9ca3af;font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${_esc(r.text)}</td>
                   <td style="color:#6b7280;font-size:11px;white-space:nowrap;">${r.date}</td>
                   <td>${r.pending ? '<span style="background:rgba(251,191,36,0.15);color:#fbbf24;padding:2px 10px;border-radius:10px;font-size:11px;font-weight:700;">Чака</span>' : '<span style="background:rgba(52,211,153,0.15);color:#34d399;padding:2px 10px;border-radius:10px;font-size:11px;font-weight:700;">Одобрено</span>'}</td>
                   <td style="text-align:right;white-space:nowrap;">
@@ -1469,7 +1509,7 @@ function adminShowTab(tab) {
             <td><span style="background:rgba(99,102,241,0.15);color:#a5b4fc;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:700;">${p.cat || '-'}</span></td>
             <td style="color:#6b7280;font-size:12px;">${p.date || '-'}</td>
             <td style="text-align:right;">
-              ${i < customPosts.length ? `<button type="button" onclick="adminBlogDelete(${i})" style="background:rgba(248,113,113,0.1);color:#f87171;border:1px solid rgba(248,113,113,0.2);border-radius:6px;padding:5px 9px;font-size:11px;cursor:pointer;font-family:'Outfit',sans-serif;">🗑 Изтрий</button>` : '<span style="font-size:11px;color:#4b5563;">Вграден</span>'}
+              ${i < customPosts.length ? `<div style="display:flex;gap:6px;justify-content:flex-end;"><button type="button" onclick="adminBlogNew(${i})" style="background:rgba(99,102,241,0.1);color:#a5b4fc;border:1px solid rgba(99,102,241,0.2);border-radius:6px;padding:5px 9px;font-size:11px;cursor:pointer;font-family:'Outfit',sans-serif;">✏️ Редактирай</button><button type="button" onclick="adminBlogDelete(${i})" style="background:rgba(248,113,113,0.1);color:#f87171;border:1px solid rgba(248,113,113,0.2);border-radius:6px;padding:5px 9px;font-size:11px;cursor:pointer;font-family:'Outfit',sans-serif;">🗑</button></div>` : '<span style="font-size:11px;color:#4b5563;">Вграден</span>'}
             </td>
           </tr>`).join('')}
           </tbody>
@@ -1503,6 +1543,9 @@ function adminShowTab(tab) {
           <div><label style="font-size:11px;color:#6b7280;display:block;margin-bottom:4px;">Отстъпка %</label>
             <input id="pcDiscount" type="number" class="aef-input" placeholder="10" min="1" max="80" style="width:100px;">
           </div>
+          <div><label style="font-size:11px;color:#6b7280;display:block;margin-bottom:4px;">Валиден до <span style="color:#4b5563;">(незадължително)</span></label>
+            <input id="pcExpiry" type="date" class="aef-input" style="width:160px;">
+          </div>
           <button type="button" class="admin-table-action" style="background:var(--primary);color:#fff;border-color:var(--primary);margin-bottom:1px;" onclick="adminPromoAdd()">+ Добави</button>
         </div>
       </div>
@@ -1510,17 +1553,18 @@ function adminShowTab(tab) {
       <div class="admin-table-card">
         <div class="admin-table-header"><div class="admin-table-title">Всички промо кодове</div></div>
         <table class="admin-table">
-          <thead><tr><th>Код</th><th>Отстъпка</th><th>Използвания</th><th>Статус</th><th style="text-align:right;">Действия</th></tr></thead>
-          <tbody id="adminPromoTbody">${codes.map((c, i) => `<tr>
-            <td style="font-family:'JetBrains Mono',monospace;font-weight:700;color:#a5b4fc;font-size:13px;">${c.code}</td>
+          <thead><tr><th>Код</th><th>Отстъпка</th><th>Използвания</th><th>Валиден до</th><th>Статус</th><th style="text-align:right;">Действия</th></tr></thead>
+          <tbody id="adminPromoTbody">${codes.map((c, i) => { const expired = c.expiresAt && Date.now() > c.expiresAt; return `<tr>
+            <td style="font-family:'JetBrains Mono',monospace;font-weight:700;color:#a5b4fc;font-size:13px;">${_esc(c.code)}</td>
             <td style="color:#34d399;font-weight:700;">${c.discount}%</td>
             <td style="color:#9ca3af;">${c.uses || 0} пъти</td>
-            <td><span style="background:${c.active ? 'rgba(52,211,153,0.15)' : 'rgba(107,114,128,0.15)'};color:${c.active ? '#34d399' : '#9ca3af'};padding:2px 10px;border-radius:10px;font-size:11px;font-weight:700;">${c.active ? '✅ Активен' : '⏸ Неактивен'}</span></td>
+            <td style="color:${expired ? '#f87171' : '#6b7280'};font-size:12px;">${c.expiresAt ? new Date(c.expiresAt).toLocaleDateString('bg-BG') + (expired ? ' ⚠️ изтекъл' : '') : '-'}</td>
+            <td><span style="background:${c.active && !expired ? 'rgba(52,211,153,0.15)' : 'rgba(107,114,128,0.15)'};color:${c.active && !expired ? '#34d399' : '#9ca3af'};padding:2px 10px;border-radius:10px;font-size:11px;font-weight:700;">${c.active && !expired ? '✅ Активен' : expired ? '⌛ Изтекъл' : '⏸ Неактивен'}</span></td>
             <td style="text-align:right;display:flex;gap:6px;justify-content:flex-end;">
               <button type="button" onclick="adminPromoToggle(${i})" style="background:rgba(251,191,36,0.1);color:#fbbf24;border:1px solid rgba(251,191,36,0.2);border-radius:6px;padding:5px 9px;font-size:11px;cursor:pointer;font-family:'Outfit',sans-serif;">${c.active ? '⏸ Деактивирай' : '▶ Активирай'}</button>
               <button type="button" onclick="adminPromoDelete(${i})" style="background:rgba(248,113,113,0.1);color:#f87171;border:1px solid rgba(248,113,113,0.2);border-radius:6px;padding:5px 9px;font-size:11px;cursor:pointer;font-family:'Outfit',sans-serif;">🗑</button>
             </td>
-          </tr>`).join('')}
+          </tr>`; }).join('')}
           </tbody>
         </table>
       </div>
@@ -1747,7 +1791,7 @@ function saveProductEditor() {
 
   if (aefEditingId === null) {
     // New product - generate new ID
-    const newId = Math.max(...products.map(p=>p.id)) + 1;
+    const newId = products.length > 0 ? products.reduce((m, p) => Math.max(m, p.id||0), 0) + 1 : 1;
     updatedData.id = newId;
     updatedData.reviews = [];
     products.push(updatedData);
@@ -2013,6 +2057,18 @@ function adminExportNewsletter() {
   showToast(`✅ Изтеглени ${subs.length} имейла`);
 }
 
+function adminNLSend() {
+  let subs = [];
+  try { subs = JSON.parse(localStorage.getItem('mc_newsletter') || '[]'); } catch(e) {}
+  if (!subs.length) { showToast('Няма абонирани имейли'); return; }
+  const subject = document.getElementById('nlSubject')?.value.trim();
+  const body = document.getElementById('nlBody')?.value.trim();
+  if (!subject) { showToast('⚠️ Въведи тема на имейла'); return; }
+  const bcc = subs.join(',');
+  window.open(`mailto:?bcc=${encodeURIComponent(bcc)}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body||'')}`, '_blank');
+  showToast(`✅ Отваря се имейл клиент с ${subs.length} получателя`);
+}
+
 function adminDeleteNL(idx) {
   try {
     const subs = JSON.parse(localStorage.getItem('mc_newsletter') || '[]');
@@ -2045,6 +2101,7 @@ function adminFilterInventory(q) {
 function adminBulkDelete() {
   const selected = [...document.querySelectorAll('.admin-prod-cb:checked')];
   if (!selected.length) return;
+  if (!confirm(`Изтрий ${selected.length} избрани продукта? Действието е необратимо.`)) return;
   const ids = selected.map(cb => Number(cb.dataset.id));
   ids.forEach(id => {
     const idx = products.findIndex(p => p.id === id);
@@ -2060,7 +2117,7 @@ function adminFilterOrders() {
   const q = (document.getElementById('adminOrderSearch')?.value || '').toLowerCase().trim();
   const st = document.getElementById('adminOrderStatusFilter')?.value || '';
   let list = getAdminOrders();
-  if (q) list = list.filter(o => (o.num||'').toLowerCase().includes(q) || (o.customer||'').toLowerCase().includes(q) || (o.email||'').toLowerCase().includes(q));
+  if (q) list = list.filter(o => (o.num||'').toLowerCase().includes(q) || (o.customer||'').toLowerCase().includes(q) || (o.email||'').toLowerCase().includes(q) || (o.phone||'').toLowerCase().includes(q) || (o.items||'').toLowerCase().includes(q));
   if (st) list = list.filter(o => o.status === st);
   const tbody = document.getElementById('adminOrdersTbody');
   const cntEl = document.getElementById('adminOrderCount');
@@ -2075,8 +2132,82 @@ function adminFilterOrders() {
       ${['pending','paid','shipped','cancelled'].map(s=>`<option value="${s}"${o.status===s?' selected':''}>${adminStatuses[s]}</option>`).join('')}
     </select></td>
     <td style="color:#6b7280;">${_esc(o.date)}</td>
-    <td style="text-align:right;"><button type="button" style="background:rgba(248,113,113,0.1);color:#f87171;border:1px solid rgba(248,113,113,0.2);border-radius:6px;padding:4px 8px;font-size:11px;cursor:pointer;font-family:'Outfit',sans-serif;" onclick="adminDeleteOrder('${_esc(o.num)}')">🗑</button></td>
+    <td style="text-align:right;white-space:nowrap;gap:4px;display:flex;justify-content:flex-end;"><button type="button" style="background:rgba(99,102,241,0.1);color:#a5b4fc;border:1px solid rgba(99,102,241,0.2);border-radius:6px;padding:4px 8px;font-size:11px;cursor:pointer;font-family:'Outfit',sans-serif;margin-right:4px;" onclick="adminShowOrderDetail(${JSON.stringify(o.num)})">🔍 Детайли</button><button type="button" style="background:rgba(248,113,113,0.1);color:#f87171;border:1px solid rgba(248,113,113,0.2);border-radius:6px;padding:4px 8px;font-size:11px;cursor:pointer;font-family:'Outfit',sans-serif;" onclick="adminDeleteOrder(${JSON.stringify(o.num)})">🗑</button></td>
   </tr>`).join('');
+}
+
+function adminShowOrderDetail(num) {
+  const o = getAdminOrders().find(x => x.num === num);
+  if (!o) return;
+  let bd = document.getElementById('adminOrderDetailModal');
+  if (!bd) {
+    bd = document.createElement('div');
+    bd.id = 'adminOrderDetailModal';
+    bd.style.cssText = 'position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;padding:16px;';
+    bd.onclick = e => { if (e.target === bd) bd.remove(); };
+    document.getElementById('adminPage').appendChild(bd);
+  }
+  const deliveryLabels = {'store':'Вземи от магазин','econt':'Еконт','speedy':'Спиди','address':'Адрес на клиента'};
+  const paymentLabels = {'cod':'Наложен платеж','bank':'Банков превод','card':'Карта онлайн','cash':'В брой'};
+  const itemsHtml = (o.itemsData && o.itemsData.length > 0)
+    ? `<table style="width:100%;border-collapse:collapse;font-size:12px;">
+        <thead><tr style="border-bottom:1px solid #2d3148;"><th style="text-align:left;padding:6px 8px;color:#6b7280;font-weight:600;">Продукт</th><th style="text-align:center;padding:6px 8px;color:#6b7280;font-weight:600;">Бр.</th><th style="text-align:right;padding:6px 8px;color:#6b7280;font-weight:600;">Цена</th></tr></thead>
+        <tbody>${o.itemsData.map(it=>`<tr style="border-bottom:1px solid #1e2236;"><td style="padding:6px 8px;color:#e5e7eb;">${_esc(it.name||'')}</td><td style="padding:6px 8px;text-align:center;color:#9ca3af;">${it.qty||1}</td><td style="padding:6px 8px;text-align:right;color:#34d399;">${it.price ? fmtEur(it.price/1.95583) : '-'}</td></tr>`).join('')}</tbody>
+      </table>`
+    : `<div style="color:#9ca3af;font-size:12px;padding:8px;">${_esc(o.items||'-')}</div>`;
+  bd.innerHTML = `<div style="background:#1a1d35;border:1px solid #2d3148;border-radius:16px;width:100%;max-width:560px;max-height:90vh;overflow-y:auto;">
+    <div style="padding:20px 24px;border-bottom:1px solid #2d3148;display:flex;justify-content:space-between;align-items:center;">
+      <div><div style="font-size:15px;font-weight:700;color:#fff;">Поръчка ${_esc(o.num)}</div><div style="font-size:11px;color:#6b7280;margin-top:2px;">${_esc(o.date)}</div></div>
+      <button onclick="document.getElementById('adminOrderDetailModal').remove()" style="background:none;border:none;color:#6b7280;font-size:20px;cursor:pointer;line-height:1;">✕</button>
+    </div>
+    <div style="padding:20px 24px;display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+      <div><div style="font-size:10px;font-weight:700;color:#4b5563;text-transform:uppercase;margin-bottom:6px;">Клиент</div><div style="color:#e5e7eb;font-size:13px;font-weight:600;">${_esc(o.customer||'-')}</div><div style="color:#6b7280;font-size:12px;">${_esc(o.email||'-')}</div><div style="color:#6b7280;font-size:12px;">${_esc(o.phone||'-')}</div></div>
+      <div><div style="font-size:10px;font-weight:700;color:#4b5563;text-transform:uppercase;margin-bottom:6px;">Доставка</div><div style="color:#e5e7eb;font-size:13px;">${_esc(deliveryLabels[o.deliveryType]||o.deliveryType||'-')}</div><div style="color:#6b7280;font-size:12px;">${_esc(o.addr||'-')}</div></div>
+      <div><div style="font-size:10px;font-weight:700;color:#4b5563;text-transform:uppercase;margin-bottom:6px;">Плащане</div><div style="color:#e5e7eb;font-size:13px;">${_esc(paymentLabels[o.payment]||o.payment||'-')}</div></div>
+      <div><div style="font-size:10px;font-weight:700;color:#4b5563;text-transform:uppercase;margin-bottom:6px;">Статус</div><span class="admin-status ${_esc(o.status)}">${_esc(adminStatuses[o.status]||o.status)}</span></div>
+    </div>
+    ${o.note ? `<div style="padding:0 24px 16px;"><div style="font-size:10px;font-weight:700;color:#4b5563;text-transform:uppercase;margin-bottom:6px;">Бележка</div><div style="color:#9ca3af;font-size:12px;background:#252840;border-radius:8px;padding:10px 12px;">${_esc(o.note)}</div></div>` : ''}
+    <div style="padding:0 24px 20px;"><div style="font-size:10px;font-weight:700;color:#4b5563;text-transform:uppercase;margin-bottom:8px;">Продукти</div>${itemsHtml}</div>
+    <div style="padding:16px 24px;border-top:1px solid #2d3148;display:flex;justify-content:flex-end;gap:8px;align-items:center;">
+      <span style="color:#6b7280;font-size:12px;">Общо:</span><span style="color:#34d399;font-size:16px;font-weight:700;">${fmtEur(o.total)}</span>
+    </div>
+  </div>`;
+}
+
+function adminShowCustomer(email) {
+  const orders = getAdminOrders().filter(o => (o.email||'').toLowerCase() === email.toLowerCase());
+  let bd = document.getElementById('adminCustomerModal');
+  if (!bd) {
+    bd = document.createElement('div');
+    bd.id = 'adminCustomerModal';
+    bd.style.cssText = 'position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;padding:16px;';
+    bd.onclick = e => { if (e.target === bd) bd.remove(); };
+    document.getElementById('adminPage').appendChild(bd);
+  }
+  const customer = orders[0]?.customer || email;
+  const total = orders.reduce((s, o) => s + (o.total||0), 0);
+  bd.innerHTML = `<div style="background:#1a1d35;border:1px solid #2d3148;border-radius:16px;width:100%;max-width:560px;max-height:90vh;overflow-y:auto;">
+    <div style="padding:20px 24px;border-bottom:1px solid #2d3148;display:flex;justify-content:space-between;align-items:center;">
+      <div><div style="font-size:15px;font-weight:700;color:#fff;">${_esc(customer)}</div><div style="font-size:12px;color:#6b7280;margin-top:2px;">${_esc(email)} - ${orders.length} поръчки - ${fmtEur(total/EUR_RATE)} общо</div></div>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <a href="mailto:${_esc(email)}" style="background:rgba(52,211,153,0.1);color:#34d399;border:1px solid rgba(52,211,153,0.2);border-radius:8px;padding:6px 12px;font-size:12px;font-family:'Outfit',sans-serif;text-decoration:none;">✉️ Имейл</a>
+        <button onclick="document.getElementById('adminCustomerModal').remove()" style="background:none;border:none;color:#6b7280;font-size:20px;cursor:pointer;line-height:1;">✕</button>
+      </div>
+    </div>
+    <div style="padding:16px 24px;">
+      ${orders.length === 0 ? '<div style="color:#6b7280;text-align:center;padding:24px;">Няма поръчки</div>' :
+        `<table style="width:100%;border-collapse:collapse;font-size:12px;">
+          <thead><tr style="border-bottom:1px solid #2d3148;"><th style="text-align:left;padding:6px 8px;color:#6b7280;">#</th><th style="text-align:left;padding:6px 8px;color:#6b7280;">Продукти</th><th style="text-align:right;padding:6px 8px;color:#6b7280;">Сума</th><th style="text-align:center;padding:6px 8px;color:#6b7280;">Статус</th><th style="padding:6px 8px;color:#6b7280;">Дата</th></tr></thead>
+          <tbody>${orders.map(o=>`<tr style="border-bottom:1px solid #1e2236;cursor:pointer;" onclick="document.getElementById('adminCustomerModal').remove();adminShowOrderDetail(${JSON.stringify(o.num)})">
+            <td style="padding:6px 8px;color:#a5b4fc;font-family:monospace;">${_esc(o.num)}</td>
+            <td style="padding:6px 8px;color:#9ca3af;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${_esc(o.items)}</td>
+            <td style="padding:6px 8px;text-align:right;color:#34d399;font-weight:700;">${fmtEur(o.total)}</td>
+            <td style="padding:6px 8px;text-align:center;"><span class="admin-status ${_esc(o.status)}">${_esc(adminStatuses[o.status]||o.status)}</span></td>
+            <td style="padding:6px 8px;color:#6b7280;">${_esc(o.date)}</td>
+          </tr>`).join('')}</tbody>
+        </table>`}
+    </div>
+  </div>`;
 }
 
 function adminFilterProducts(q) {
@@ -2144,7 +2275,7 @@ function xmlReadFile(file) {
     xmlParseAndPreview(txt);
     // Update drop zone to show file name
     const dz = document.getElementById('xmlDropZone');
-    if (dz) dz.innerHTML = `<div class="xml-drop-icon">✅</div><div class="xml-drop-title" style="color:#34d399;">Зареден: ${file.name}</div><div class="xml-drop-sub">${(file.size/1024).toFixed(1)} KB · ${txt.split('<product>').length - 1} продукта намерени</div>`;
+    if (dz) dz.innerHTML = `<div class="xml-drop-icon">✅</div><div class="xml-drop-title" style="color:#34d399;">Зареден: ${_esc(file.name)}</div><div class="xml-drop-sub">${(file.size/1024).toFixed(1)} KB · ${txt.split('<product>').length - 1} продукта намерени</div>`;
   };
   reader.readAsText(file, 'UTF-8');
 }
@@ -2306,7 +2437,7 @@ function xmlDoImport() {
   if (!toImport?.length) { showToast('⚠️ Няма валидни продукти за импорт!'); return; }
 
   let added = 0, updated = 0;
-  const maxId = Math.max(...products.map(p=>p.id), 0);
+  const maxId = products.reduce((m, p) => Math.max(m, p.id||0), 0);
   const forceSubcat = window._xmlForceSubcat || '';
 
   toImport.forEach((p, i) => {
@@ -2644,6 +2775,7 @@ async function xmlRunAutoUpdate(manual) {
     let added = 0, updated = 0, skipped = 0;
 
     if (mode === 'replace' && feeds.indexOf(feed) === 0) products.length = 0;
+    const baseMaxId = products.reduce((m, p) => Math.max(m, p.id||0), 0);
 
     const maxId = () => Math.max(...products.map(p => p.id), 0);
 
@@ -2717,7 +2849,7 @@ async function xmlRunAutoUpdate(manual) {
         products[existsIdx] = merged;
         updated++;
       } else {
-        data.id = id || (maxId() + added + updated + 1);
+        data.id = id || (baseMaxId + added + updated + 1);
         products.push(data);
         added++;
       }
@@ -2904,12 +3036,26 @@ async function testFeedUrl(i) {
 
 
 // ── Blog admin helpers ─────────────────────────────────
-function adminBlogNew() {
+function adminBlogNew(editIdx) {
   const form = document.getElementById('adminBlogForm');
   if (!form) return;
-  document.getElementById('adminBlogFormTitle').textContent = '📝 Нова статия';
-  form.dataset.editIdx = '';
-  ['bfTitle','bfSummary','bfBody'].forEach(id => { const el = document.getElementById(id); if(el) el.value = ''; });
+  if (editIdx !== undefined) {
+    let posts = [];
+    try { posts = JSON.parse(localStorage.getItem('mc_blog_posts') || '[]'); } catch(e) {}
+    const p = posts[editIdx];
+    if (!p) return;
+    document.getElementById('adminBlogFormTitle').textContent = '✏️ Редактирай статия';
+    form.dataset.editIdx = String(editIdx);
+    const set = (id, val) => { const el = document.getElementById(id); if(el) el.value = val || ''; };
+    set('bfTitle', p.title); set('bfSummary', p.summary); set('bfBody', p.body);
+    set('bfEmoji', p.emoji || '📰'); set('bfRead', p.read || '5 мин');
+    const catEl = document.getElementById('bfCat');
+    if (catEl && p.cat) catEl.value = p.cat;
+  } else {
+    document.getElementById('adminBlogFormTitle').textContent = '📝 Нова статия';
+    form.dataset.editIdx = '';
+    ['bfTitle','bfSummary','bfBody'].forEach(id => { const el = document.getElementById(id); if(el) el.value = ''; });
+  }
   form.style.display = '';
   form.scrollIntoView({ behavior: 'smooth' });
 }
@@ -2924,11 +3070,18 @@ function adminBlogSave() {
   if (!title) { showToast('⚠️ Въведи заглавие'); return; }
   let posts = [];
   try { posts = JSON.parse(localStorage.getItem('mc_blog_posts') || '[]'); } catch(e) {}
+  const form = document.getElementById('adminBlogForm');
+  const editIdx = form?.dataset?.editIdx !== '' ? parseInt(form?.dataset?.editIdx) : NaN;
   const now = new Date();
   const dateStr = now.toLocaleDateString('bg-BG', { day:'2-digit', month:'long', year:'numeric' });
-  posts.unshift({ title, cat, emoji, read, summary, body, date: dateStr, ts: now.getTime() });
+  if (!isNaN(editIdx) && posts[editIdx]) {
+    posts[editIdx] = { ...posts[editIdx], title, cat, emoji, read, summary, body };
+    showToast('✅ Статията е обновена!');
+  } else {
+    posts.unshift({ title, cat, emoji, read, summary, body, date: dateStr, ts: now.getTime() });
+    showToast('✅ Статията е запазена!');
+  }
   try { localStorage.setItem('mc_blog_posts', JSON.stringify(posts)); } catch(e) {}
-  showToast('✅ Статията е запазена!');
   adminShowTab('blog');
 }
 
@@ -2950,7 +3103,9 @@ function adminPromoAdd() {
   let codes = [];
   try { codes = JSON.parse(localStorage.getItem('mc_promo_codes') || '[]'); } catch(e) {}
   if (codes.find(c => c.code === code)) { showToast('⚠️ Кодът вече съществува'); return; }
-  codes.push({ code, discount, uses: 0, active: true });
+  const expiryVal = document.getElementById('pcExpiry')?.value;
+  const expiresAt = expiryVal ? new Date(expiryVal).getTime() : null;
+  codes.push({ code, discount, uses: 0, active: true, ...(expiresAt ? { expiresAt } : {}) });
   try { localStorage.setItem('mc_promo_codes', JSON.stringify(codes)); } catch(e) {}
   showToast('✅ Промо код добавен!');
   adminShowTab('promo');

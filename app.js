@@ -12,7 +12,7 @@ function fmtPrice(bgn, saleCls='') {
 // Inline dual: "2.30 € / 4.49 лв."
 function fmtDual(bgn) { return `${fmtEur(bgn)} / ${fmtBgn(bgn)}`; }
 
-// Единен речник на категориите — canonical + legacy ключове
+// Единен речник на категориите - canonical + legacy ключове
 const CAT_LABELS = {
   all:'Всички продукти',
   laptops:'Лаптопи', desktops:'Настолни компютри', components:'Компоненти',
@@ -26,7 +26,7 @@ const CAT_LABELS = {
   print:'Принтери', acc:'Аксесоари', monitor:'Монитори',
 };
 
-// HTML escape — използвай навсякъде преди вмъкване на user input в innerHTML
+// HTML escape - използвай навсякъде преди вмъкване на user input в innerHTML
 function escHtml(str) {
   return String(str)
     .replace(/&/g, '&amp;')
@@ -521,7 +521,7 @@ function closeComparePage() {
   document.body.style.overflow = '';
 }
 
-// IDEA-16: Hero Right Panel — personalized widget
+// IDEA-16: Hero Right Panel - personalized widget
 function renderHeroRightPanel() {
   var panel = document.getElementById('heroRightPanel');
   if (!panel) return;
@@ -3317,7 +3317,7 @@ function renderNewGrid(days, page) {
 }
 
 // ===== BREADCRUMBS =====
-// State: array of {label, action}  — action is a function or null for current
+// State: array of {label, action}  - action is a function or null for current
 let _bcTrail = []; // [{label, fn}]
 
 // BC_CAT_LABELS → вж. глобалния CAT_LABELS в currency.js
@@ -3465,11 +3465,11 @@ function toggleSidebarCat(el, cat) {
     if (existing && existing.classList.contains('cat-subcat-list')) existing.remove();
   });
 
-  if (isOpen) return; // беше отворен — затвори само
+  if (isOpen) return; // беше отворен - затвори само
 
   const subs = (typeof SUBCATS !== 'undefined' && SUBCATS[cat]) ? SUBCATS[cat] : [];
   if (!subs.length) {
-    // Няма подкатегории — навигирай директно
+    // Няма подкатегории - навигирай директно
     openCatPage(cat);
     return;
   }
@@ -3528,7 +3528,7 @@ function injectCategoryItemList(cat) {
   const schema = {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    "name": (typeof CAT_LABELS !== 'undefined' && CAT_LABELS[cat]) ? CAT_LABELS[cat] + ' — Most Computers' : cat,
+    "name": (typeof CAT_LABELS !== 'undefined' && CAT_LABELS[cat]) ? CAT_LABELS[cat] + ' - Most Computers' : cat,
     "url": `https://mostcomputers.bg/?cat=${cat}`,
     "numberOfItems": list.length,
     "itemListElement": list.map((p, i) => ({
@@ -3596,7 +3596,7 @@ document.addEventListener('mc:productopen', e => {
   if (metaDesc) {
     const descText = p.desc
       ? p.desc.substring(0, 155) + (p.desc.length > 155 ? '…' : '')
-      : `${p.name} — ${p.brand} | Цена: ${(p.price/EUR_RATE).toFixed(2)} €. Купи онлайн от Most Computers.`;
+      : `${p.name} - ${p.brand} | Цена: ${(p.price/EUR_RATE).toFixed(2)} €. Купи онлайн от Most Computers.`;
     metaDesc.setAttribute('content', descText);
   }
   // Update Open Graph meta tags for social sharing
@@ -3606,7 +3606,7 @@ document.addEventListener('mc:productopen', e => {
   if (ogDesc) {
     const descText = p.desc
       ? p.desc.substring(0, 200) + (p.desc.length > 200 ? '…' : '')
-      : `${p.name} — ${p.brand}. Цена: ${(p.price/EUR_RATE).toFixed(2)} €. Купи онлайн от Most Computers.`;
+      : `${p.name} - ${p.brand}. Цена: ${(p.price/EUR_RATE).toFixed(2)} €. Купи онлайн от Most Computers.`;
     ogDesc.setAttribute('content', descText);
   }
   const ogImg = document.querySelector('meta[property="og:image"]');
@@ -3626,7 +3626,7 @@ document.addEventListener('mc:productopen', e => {
   if (ogType) ogType.setAttribute('content', 'product');
   // og:image:alt
   const ogImgAlt = document.querySelector('meta[property="og:image:alt"]');
-  if (ogImgAlt) ogImgAlt.setAttribute('content', p.name + ' — Most Computers');
+  if (ogImgAlt) ogImgAlt.setAttribute('content', p.name + ' - Most Computers');
   // Twitter title + description
   const twTitle = document.querySelector('meta[name="twitter:title"]');
   if (twTitle) twTitle.setAttribute('content', p.name + ' | Most Computers');
@@ -3634,7 +3634,7 @@ document.addEventListener('mc:productopen', e => {
   if (twDesc) {
     const d = p.desc
       ? p.desc.substring(0, 155) + (p.desc.length > 155 ? '…' : '')
-      : `${p.name} — ${p.brand}. Цена: ${(p.price/EUR_RATE).toFixed(2)} €.`;
+      : `${p.name} - ${p.brand}. Цена: ${(p.price/EUR_RATE).toFixed(2)} €.`;
     twDesc.setAttribute('content', d);
   }
   // Canonical URL
@@ -3710,12 +3710,12 @@ function shareProduct() {
   const p = products.find(x => x.id === modalProductId);
   if (!p) return;
   const url = location.origin + location.pathname + '?product=' + p.id;
-  const title = p.name + ' — Most Computers';
-  const text = p.name + ' от ' + p.brand + ' — ' + (p.price / EUR_RATE).toFixed(2) + ' €';
+  const title = p.name + ' - Most Computers';
+  const text = p.name + ' от ' + p.brand + ' - ' + (p.price / EUR_RATE).toFixed(2) + ' €';
 
   if (navigator.share) {
     navigator.share({ title, text, url })
-      .catch(() => {}); // user cancelled — silent
+      .catch(() => {}); // user cancelled - silent
   } else {
     // Fallback: показваме popup с линка
     document.getElementById('shareUrl').textContent = url;
@@ -3922,7 +3922,7 @@ function openCatPage(cat, preSubcat, fromURL = false) {
   }
 
   // Update SEO
-  const _catDesc = m.label + ' — ' + m.sub + '. Купи онлайн от Most Computers.';
+  const _catDesc = m.label + ' - ' + m.sub + '. Купи онлайн от Most Computers.';
   setPageMeta(m.label + ' | Most Computers', _catDesc);
   const _subSuffix = (preSubcat && preSubcat !== 'all') ? '&sub=' + encodeURIComponent(preSubcat) : '';
   const ogUrl = document.querySelector('meta[property="og:url"]');
@@ -3958,13 +3958,13 @@ function closeCatPage() {
   restorePageMeta();
   // Restore Open Graph extras
   const ogTitle = document.querySelector('meta[property="og:title"]');
-  if (ogTitle) ogTitle.setAttribute('content', 'Most Computers | Лаптопи, Телефони, Телевизори — От 1990 г.');
+  if (ogTitle) ogTitle.setAttribute('content', 'Most Computers | Лаптопи, Телефони, Телевизори - От 1990 г.');
   const ogDesc = document.querySelector('meta[property="og:description"]');
-  if (ogDesc) ogDesc.setAttribute('content', 'Most Computers — специализиран магазин за електроника от 1990 г. Смартфони, лаптопи, телевизори от Apple, Samsung, Sony. Безплатна доставка над 100 €.');
+  if (ogDesc) ogDesc.setAttribute('content', 'Most Computers - специализиран магазин за електроника от 1990 г. Смартфони, лаптопи, телевизори от Apple, Samsung, Sony. Безплатна доставка над 100 €.');
   const ogImg = document.querySelector('meta[property="og:image"]');
   if (ogImg) ogImg.setAttribute('content', 'https://mostcomputers.bg/og-default.jpg');
   const ogImgAlt = document.querySelector('meta[property="og:image:alt"]');
-  if (ogImgAlt) ogImgAlt.setAttribute('content', 'Most Computers — магазин за електроника от 1990 г.');
+  if (ogImgAlt) ogImgAlt.setAttribute('content', 'Most Computers - магазин за електроника от 1990 г.');
   const ogUrl = document.querySelector('meta[property="og:url"]');
   if (ogUrl) ogUrl.setAttribute('content', 'https://mostcomputers.bg/');
   const ogType = document.querySelector('meta[property="og:type"]');
@@ -4002,7 +4002,7 @@ window.addEventListener('popstate', e => {
       }
     }
   } else {
-    // Navigated back to homepage — close all overlays and clear breadcrumb
+    // Navigated back to homepage - close all overlays and clear breadcrumb
     const pg = document.getElementById('catPage');
     if (pg) pg.classList.remove('open');
     const blogPg = document.getElementById('blogPage');
@@ -4045,7 +4045,7 @@ function buildCpSidebar(cat) {
       <div class="sidebar-price-slider">
         <div class="price-slider-header">
           <span style="font-size:11px;color:var(--muted);font-weight:600;">Диапазон (€):</span>
-          <span class="price-slider-vals" id="cpPriceVals">0 € — ${maxPriceRound} €</span>
+          <span class="price-slider-vals" id="cpPriceVals">0 € - ${maxPriceRound} €</span>
         </div>
         <div class="sb-slider-wrap">
           <div class="sb-slider-track"><div class="sb-slider-range" id="cpSliderRange"></div></div>
@@ -4150,7 +4150,7 @@ function cpUpdateSlider(skipRender) {
   cpPriceMin = lo; cpPriceMax = hi;
   const max = parseFloat(maxEl.max);
   if (range) { range.style.left = (lo/max*100)+'%'; range.style.right = ((1-hi/max)*100)+'%'; }
-  if (vals) vals.textContent = lo + ' € — ' + hi + ' €';
+  if (vals) vals.textContent = lo + ' € - ' + hi + ' €';
   if (!skipRender) cpRenderGrid();
 }
 
@@ -4280,7 +4280,7 @@ function cpUpdateCatBreadcrumb(cat, subcat) {
   html += '<span class="bc-sep" aria-hidden="true">›</span>';
 
   if (hasSubcat) {
-    // Ниво 2: Категория — кликаема, изчиства подкатегорията
+    // Ниво 2: Категория - кликаема, изчиства подкатегорията
     html += `<li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
       <a href="/?cat=${cat}" class="bc-cat-link" itemprop="item" onclick="event.preventDefault();cpApplySubcat('all',null)">
         <span itemprop="name">${m.label.replace(/</g,'&lt;')}</span>
@@ -4288,13 +4288,13 @@ function cpUpdateCatBreadcrumb(cat, subcat) {
       <meta itemprop="position" content="2">
     </li>`;
     html += '<span class="bc-sep" aria-hidden="true">›</span>';
-    // Ниво 3: Подкатегория — текущата страница, не е линк
+    // Ниво 3: Подкатегория - текущата страница, не е линк
     html += `<li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
       <span class="bc-current" itemprop="name">${subcatLabel}</span>
       <meta itemprop="position" content="3">
     </li>`;
   } else {
-    // Ниво 2: Категория — текущата страница, не е линк
+    // Ниво 2: Категория - текущата страница, не е линк
     html += `<li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
       <span class="bc-current" itemprop="name">${m.label.replace(/</g,'&lt;')}</span>
       <meta itemprop="position" content="2">
@@ -4311,7 +4311,7 @@ function cpApplySubcat(id, btn) {
   if (btn) {
     btn.classList.add('active');
   } else if (id === 'all') {
-    // Called programmatically (e.g. from breadcrumb) — activate the "Всички" pill
+    // Called programmatically (e.g. from breadcrumb) - activate the "Всички" pill
     const allPill = document.querySelector('#cpSubcatBar .subcat-pill:first-child');
     if (allPill) allPill.classList.add('active');
   }
@@ -4388,7 +4388,7 @@ function cpApplySubcat(id, btn) {
       brandTitle.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:inline-block;vertical-align:-2px;margin-right:5px;flex-shrink:0"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>Производител';
       if (brandSearch) brandSearch.style.display = '';
       if (brandBody) brandBody.style.display = 'none';
-      // Restore full list — rebuild from cpCat products
+      // Restore full list - rebuild from cpCat products
       const catProds = products.filter(p => normalizeCat(p.cat) === cpCat);
       const allBrands = [...new Set(catProds.map(p => p.brand))].sort();
       brandList.innerHTML = allBrands.map(b => {
@@ -5074,7 +5074,7 @@ function cpGetFiltered() {
   else if (cpSort === 'rating') list.sort((a,b) => b.rating - a.rating);
   else if (cpSort === 'discount') list.sort((a,b) => (b.old ? (b.old-b.price)/b.old : 0) - (a.old ? (a.old-a.price)/a.old : 0));
   else {
-    // M-2: bestseller default — in-stock first, then by reviews
+    // M-2: bestseller default - in-stock first, then by reviews
     list.sort((a,b) => {
       const stockA = a.stock !== false ? 0 : 1;
       const stockB = b.stock !== false ? 0 : 1;
@@ -5147,7 +5147,7 @@ function cpCloseSidebar() {
 // ═══════════════════════════════════════
 // DYNAMIC META TAGS
 // Updates <title> and <meta description> when a category / page opens.
-// Call setPageMeta(title, description) — pass null to restore defaults.
+// Call setPageMeta(title, description) - pass null to restore defaults.
 // ═══════════════════════════════════════
 const _defaultTitle = document.title;
 const _defaultDesc  = (document.querySelector('meta[name="description"]') || {}).content || '';
@@ -5175,7 +5175,7 @@ function migrateInlineClickHandlers() {
   document.querySelectorAll('[onclick]').forEach(el => {
     const code = el.getAttribute('onclick');
     if (!code) return;
-    if (code.includes('this.')) return; // skip — requires DOM context
+    if (code.includes('this.')) return; // skip - requires DOM context
     // remove return false and trim
     let action = code.replace(/return\s+false;?/g, '').trim();
     // strip trailing parentheses for simple calls
@@ -5462,10 +5462,10 @@ function handleRegister() {
         return;
       }
       if (data?.session) {
-        // Email confirmation disabled — user is logged in immediately.
+        // Email confirmation disabled - user is logged in immediately.
         // loginSuccess will be called via window._onSupabaseSignIn.
       } else {
-        // Email confirmation enabled — ask user to check inbox.
+        // Email confirmation enabled - ask user to check inbox.
         showAuthSuccess('📧', 'Провери имейла си!',
           `Изпратихме потвърждение на ${email}. Кликни линка за активация.`);
       }
@@ -5504,7 +5504,7 @@ function handleForgot() {
 }
 
 function socialLogin(provider) {
-  showToast('🔜 Социален вход с ' + provider + ' — очаквайте скоро!');
+  showToast('🔜 Социален вход с ' + provider + ' - очаквайте скоро!');
 }
 
 function _saveSession(user) {
@@ -5572,7 +5572,7 @@ function updateAuthUI() {
     if (profileBtn) profileBtn.style.display = 'none';
     const pdAvatar = document.getElementById('pdAvatar'); if (pdAvatar) pdAvatar.textContent = '?';
     const pdName = document.getElementById('pdName'); if (pdName) pdName.textContent = 'Гост';
-    const pdEmail = document.getElementById('pdEmail'); if (pdEmail) pdEmail.textContent = '—';
+    const pdEmail = document.getElementById('pdEmail'); if (pdEmail) pdEmail.textContent = '-';
   }
 }
 
@@ -5679,7 +5679,7 @@ function updateWishlistUI() {
   if (hdrBadge) { hdrBadge.textContent = count; hdrBadge.style.display = count > 0 ? 'flex' : 'none'; }
   const hdrIcon = document.getElementById('wlHdrIcon');
   if (hdrIcon) hdrIcon.textContent = count > 0 ? '❤' : '♡';
-  // Bottom nav badges (two nav bars exist — update all)
+  // Bottom nav badges (two nav bars exist - update all)
   document.querySelectorAll('#bnWishBadge, #bnWishBadge2').forEach(bnBadge => {
     bnBadge.textContent = count; bnBadge.classList.toggle('show', count > 0);
   });
@@ -5787,13 +5787,13 @@ function openProfilePage() {
   const email  = document.getElementById('profEmail');
   if (avatar) avatar.textContent = u ? (u.firstName[0] + (u.lastName ? u.lastName[0] : '')).toUpperCase() : '?';
   if (name)   name.textContent   = u ? (u.firstName + ' ' + (u.lastName || '')).trim() : 'Гост';
-  if (email)  email.textContent  = u ? u.email : '—';
+  if (email)  email.textContent  = u ? u.email : '-';
   // Settings tab values
   const se = document.getElementById('profSettingsEmail');
   const sp = document.getElementById('profSettingsPhone');
   const so = document.getElementById('profOosCount');
-  if (se) se.textContent = u ? u.email : '—';
-  if (sp) sp.textContent = u ? (u.phone || '—') : '—';
+  if (se) se.textContent = u ? u.email : '-';
+  if (sp) sp.textContent = u ? (u.phone || '-') : '-';
   if (so) {
     try { so.textContent = JSON.parse(localStorage.getItem('mc_oos_notify') || '[]').length + ' продукта'; } catch(e) { so.textContent = '0 продукта'; }
   }
@@ -5870,7 +5870,7 @@ function renderMyOrders() {
   grid.innerHTML = orders.map(o => {
     const _oNum = escHtml(o.num || '');
     const _oDate = escHtml(o.date || '');
-    const _oDel = escHtml(o.deliveryType || '—');
+    const _oDel = escHtml(o.deliveryType || '-');
     const _oStatus = escHtml(statusLabels[o.status] || o.status || '');
     const _oStatusCls = statusClass[o.status] || 'mo-st-pending';
     const items = (o.itemsData || []).map(x =>
@@ -5974,7 +5974,7 @@ function _openInvoiceWindow(o, co) {
         const lineEx = unitEx * qty;
         return `<tr><td style="text-align:center;">${i+1}</td><td>${_h(x.name||'')}</td><td style="text-align:center;">бр.</td><td style="text-align:center;">${qty}</td><td style="text-align:right;">${unitEx.toFixed(2)}</td><td style="text-align:right;font-weight:700;">${lineEx.toFixed(2)}</td></tr>`;
       }).join('')
-    : `<tr><td colspan="6" style="text-align:center;color:#888;padding:12px;">${_h(o.items||'—')}</td></tr>`;
+    : `<tr><td colspan="6" style="text-align:center;color:#888;padding:12px;">${_h(o.items||'-')}</td></tr>`;
   const win = window.open('', '_blank', 'width=800,height=920');
   if (!win) { showToast('⚠️ Попъп прозорецът е блокиран. Разреши попъпи за този сайт.'); return; }
   win.document.write(`<!DOCTYPE html><html lang="bg"><head><meta charset="utf-8"><title>Фактура ${_h(o.num)}</title>
@@ -6013,7 +6013,7 @@ tbody td{border:1px solid #bbb;padding:5px 8px;vertical-align:top}
   </div>
   <div class="party">
     <div class="party-title">Получател</div>
-    <div class="pr"><strong>${_h(o.customer||'—')}</strong><br>ЕИК/ЕГН: &nbsp;<br>ДДС №: &nbsp;<br>Адрес: ${_h(o.city||'')}${o.addr ? ', ' + _h(o.addr) : ''}<br>Тел: ${_h(o.phone||'')}<br>Имейл: ${_h(o.email||'')}</div>
+    <div class="pr"><strong>${_h(o.customer||'-')}</strong><br>ЕИК/ЕГН: &nbsp;<br>ДДС №: &nbsp;<br>Адрес: ${_h(o.city||'')}${o.addr ? ', ' + _h(o.addr) : ''}<br>Тел: ${_h(o.phone||'')}<br>Имейл: ${_h(o.email||'')}</div>
   </div>
 </div>
 <div class="basis">Основание за плащане: Покупка на стоки</div>
@@ -6059,7 +6059,7 @@ function printOrder(num) {
   if (mostItems.length && smmItems.length) {
     _openInvoiceWindow(splitOrder(mostItems), _INVOICE_COMPANIES[0]);
     setTimeout(() => _openInvoiceWindow(splitOrder(smmItems), _INVOICE_COMPANIES[1]), 400);
-    showToast('🧾 Отварят се 2 фактури — Мост Компютърс и СММ 97');
+    showToast('🧾 Отварят се 2 фактури - Мост Компютърс и СММ 97');
   } else if (mostItems.length) {
     _openInvoiceWindow(o, _INVOICE_COMPANIES[0]);
   } else {
@@ -6351,7 +6351,7 @@ const _CAT_MIGRATE = {
 };
 products.forEach(p => { if (_CAT_MIGRATE[p.cat]) p.cat = _CAT_MIGRATE[p.cat]; });
 
-// Gaming laptops → laptops (not desktops) — safety for mislabeled imports
+// Gaming laptops → laptops (not desktops) - safety for mislabeled imports
 products.forEach(p => {
   if (p.cat === 'desktops') {
     const n = (p.name + ' ' + (p.desc || '')).toLowerCase();
@@ -6386,7 +6386,7 @@ products.forEach(p => {
   }
 });
 
-// All scripts are deferred — DOM is ready, call directly
+// All scripts are deferred - DOM is ready, call directly
 initDataActions();
 initSidebarFilters();
 renderGrids();
@@ -6408,7 +6408,7 @@ renderSidebarBrandSpot();
 // Quick cart badge from localStorage (full loadCart runs after lazy bundle loads)
 (function(){try{var c=JSON.parse(localStorage.getItem('mc_cart')||'[]'),t=c.reduce(function(s,i){return s+(i.qty||1);},0),b=document.getElementById('cartBadge');if(b){b.textContent=t;b.style.display=t>0?'':'none';}}catch(e){}})();
 // renderHpCats already called inside renderGrids()
-// renderRecentlyDiscounted is in product-page.js (lazy) — runs in lazy-init.js
+// renderRecentlyDiscounted is in product-page.js (lazy) - runs in lazy-init.js
 renderRecentlyViewed();
 renderHeroRightPanel();
 initSectionAnimations();
@@ -6436,7 +6436,7 @@ initScrollAnimations();
 
 // ===== LAZY BUNDLE LOADER =====
 // app-lazy.js is preloaded in <head> (downloads to cache) but executes only on first
-// user interaction — Lighthouse never sees it, real users get instant response from cache.
+// user interaction - Lighthouse never sees it, real users get instant response from cache.
 (function () {
   var _ll = false;
   function _loadLazy() {

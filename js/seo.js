@@ -1,5 +1,5 @@
 // ===== BREADCRUMBS =====
-// State: array of {label, action}  — action is a function or null for current
+// State: array of {label, action}  - action is a function or null for current
 let _bcTrail = []; // [{label, fn}]
 
 // BC_CAT_LABELS → вж. глобалния CAT_LABELS в currency.js
@@ -147,11 +147,11 @@ function toggleSidebarCat(el, cat) {
     if (existing && existing.classList.contains('cat-subcat-list')) existing.remove();
   });
 
-  if (isOpen) return; // беше отворен — затвори само
+  if (isOpen) return; // беше отворен - затвори само
 
   const subs = (typeof SUBCATS !== 'undefined' && SUBCATS[cat]) ? SUBCATS[cat] : [];
   if (!subs.length) {
-    // Няма подкатегории — навигирай директно
+    // Няма подкатегории - навигирай директно
     openCatPage(cat);
     return;
   }
@@ -210,7 +210,7 @@ function injectCategoryItemList(cat) {
   const schema = {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    "name": (typeof CAT_LABELS !== 'undefined' && CAT_LABELS[cat]) ? CAT_LABELS[cat] + ' — Most Computers' : cat,
+    "name": (typeof CAT_LABELS !== 'undefined' && CAT_LABELS[cat]) ? CAT_LABELS[cat] + ' - Most Computers' : cat,
     "url": `https://mostcomputers.bg/?cat=${cat}`,
     "numberOfItems": list.length,
     "itemListElement": list.map((p, i) => ({
@@ -278,7 +278,7 @@ document.addEventListener('mc:productopen', e => {
   if (metaDesc) {
     const descText = p.desc
       ? p.desc.substring(0, 155) + (p.desc.length > 155 ? '…' : '')
-      : `${p.name} — ${p.brand} | Цена: ${(p.price/EUR_RATE).toFixed(2)} €. Купи онлайн от Most Computers.`;
+      : `${p.name} - ${p.brand} | Цена: ${(p.price/EUR_RATE).toFixed(2)} €. Купи онлайн от Most Computers.`;
     metaDesc.setAttribute('content', descText);
   }
   // Update Open Graph meta tags for social sharing
@@ -288,7 +288,7 @@ document.addEventListener('mc:productopen', e => {
   if (ogDesc) {
     const descText = p.desc
       ? p.desc.substring(0, 200) + (p.desc.length > 200 ? '…' : '')
-      : `${p.name} — ${p.brand}. Цена: ${(p.price/EUR_RATE).toFixed(2)} €. Купи онлайн от Most Computers.`;
+      : `${p.name} - ${p.brand}. Цена: ${(p.price/EUR_RATE).toFixed(2)} €. Купи онлайн от Most Computers.`;
     ogDesc.setAttribute('content', descText);
   }
   const ogImg = document.querySelector('meta[property="og:image"]');
@@ -308,7 +308,7 @@ document.addEventListener('mc:productopen', e => {
   if (ogType) ogType.setAttribute('content', 'product');
   // og:image:alt
   const ogImgAlt = document.querySelector('meta[property="og:image:alt"]');
-  if (ogImgAlt) ogImgAlt.setAttribute('content', p.name + ' — Most Computers');
+  if (ogImgAlt) ogImgAlt.setAttribute('content', p.name + ' - Most Computers');
   // Twitter title + description
   const twTitle = document.querySelector('meta[name="twitter:title"]');
   if (twTitle) twTitle.setAttribute('content', p.name + ' | Most Computers');
@@ -316,7 +316,7 @@ document.addEventListener('mc:productopen', e => {
   if (twDesc) {
     const d = p.desc
       ? p.desc.substring(0, 155) + (p.desc.length > 155 ? '…' : '')
-      : `${p.name} — ${p.brand}. Цена: ${(p.price/EUR_RATE).toFixed(2)} €.`;
+      : `${p.name} - ${p.brand}. Цена: ${(p.price/EUR_RATE).toFixed(2)} €.`;
     twDesc.setAttribute('content', d);
   }
   // Canonical URL
@@ -392,12 +392,12 @@ function shareProduct() {
   const p = products.find(x => x.id === modalProductId);
   if (!p) return;
   const url = location.origin + location.pathname + '?product=' + p.id;
-  const title = p.name + ' — Most Computers';
-  const text = p.name + ' от ' + p.brand + ' — ' + (p.price / EUR_RATE).toFixed(2) + ' €';
+  const title = p.name + ' - Most Computers';
+  const text = p.name + ' от ' + p.brand + ' - ' + (p.price / EUR_RATE).toFixed(2) + ' €';
 
   if (navigator.share) {
     navigator.share({ title, text, url })
-      .catch(() => {}); // user cancelled — silent
+      .catch(() => {}); // user cancelled - silent
   } else {
     // Fallback: показваме popup с линка
     document.getElementById('shareUrl').textContent = url;
@@ -604,7 +604,7 @@ function openCatPage(cat, preSubcat, fromURL = false) {
   }
 
   // Update SEO
-  const _catDesc = m.label + ' — ' + m.sub + '. Купи онлайн от Most Computers.';
+  const _catDesc = m.label + ' - ' + m.sub + '. Купи онлайн от Most Computers.';
   setPageMeta(m.label + ' | Most Computers', _catDesc);
   const _subSuffix = (preSubcat && preSubcat !== 'all') ? '&sub=' + encodeURIComponent(preSubcat) : '';
   const ogUrl = document.querySelector('meta[property="og:url"]');
@@ -640,13 +640,13 @@ function closeCatPage() {
   restorePageMeta();
   // Restore Open Graph extras
   const ogTitle = document.querySelector('meta[property="og:title"]');
-  if (ogTitle) ogTitle.setAttribute('content', 'Most Computers | Лаптопи, Телефони, Телевизори — От 1990 г.');
+  if (ogTitle) ogTitle.setAttribute('content', 'Most Computers | Лаптопи, Телефони, Телевизори - От 1990 г.');
   const ogDesc = document.querySelector('meta[property="og:description"]');
-  if (ogDesc) ogDesc.setAttribute('content', 'Most Computers — специализиран магазин за електроника от 1990 г. Смартфони, лаптопи, телевизори от Apple, Samsung, Sony. Безплатна доставка над 100 €.');
+  if (ogDesc) ogDesc.setAttribute('content', 'Most Computers - специализиран магазин за електроника от 1990 г. Смартфони, лаптопи, телевизори от Apple, Samsung, Sony. Безплатна доставка над 100 €.');
   const ogImg = document.querySelector('meta[property="og:image"]');
   if (ogImg) ogImg.setAttribute('content', 'https://mostcomputers.bg/og-default.jpg');
   const ogImgAlt = document.querySelector('meta[property="og:image:alt"]');
-  if (ogImgAlt) ogImgAlt.setAttribute('content', 'Most Computers — магазин за електроника от 1990 г.');
+  if (ogImgAlt) ogImgAlt.setAttribute('content', 'Most Computers - магазин за електроника от 1990 г.');
   const ogUrl = document.querySelector('meta[property="og:url"]');
   if (ogUrl) ogUrl.setAttribute('content', 'https://mostcomputers.bg/');
   const ogType = document.querySelector('meta[property="og:type"]');
@@ -684,7 +684,7 @@ window.addEventListener('popstate', e => {
       }
     }
   } else {
-    // Navigated back to homepage — close all overlays and clear breadcrumb
+    // Navigated back to homepage - close all overlays and clear breadcrumb
     const pg = document.getElementById('catPage');
     if (pg) pg.classList.remove('open');
     const blogPg = document.getElementById('blogPage');
@@ -727,7 +727,7 @@ function buildCpSidebar(cat) {
       <div class="sidebar-price-slider">
         <div class="price-slider-header">
           <span style="font-size:11px;color:var(--muted);font-weight:600;">Диапазон (€):</span>
-          <span class="price-slider-vals" id="cpPriceVals">0 € — ${maxPriceRound} €</span>
+          <span class="price-slider-vals" id="cpPriceVals">0 € - ${maxPriceRound} €</span>
         </div>
         <div class="sb-slider-wrap">
           <div class="sb-slider-track"><div class="sb-slider-range" id="cpSliderRange"></div></div>
@@ -832,7 +832,7 @@ function cpUpdateSlider(skipRender) {
   cpPriceMin = lo; cpPriceMax = hi;
   const max = parseFloat(maxEl.max);
   if (range) { range.style.left = (lo/max*100)+'%'; range.style.right = ((1-hi/max)*100)+'%'; }
-  if (vals) vals.textContent = lo + ' € — ' + hi + ' €';
+  if (vals) vals.textContent = lo + ' € - ' + hi + ' €';
   if (!skipRender) cpRenderGrid();
 }
 
@@ -962,7 +962,7 @@ function cpUpdateCatBreadcrumb(cat, subcat) {
   html += '<span class="bc-sep" aria-hidden="true">›</span>';
 
   if (hasSubcat) {
-    // Ниво 2: Категория — кликаема, изчиства подкатегорията
+    // Ниво 2: Категория - кликаема, изчиства подкатегорията
     html += `<li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
       <a href="/?cat=${cat}" class="bc-cat-link" itemprop="item" onclick="event.preventDefault();cpApplySubcat('all',null)">
         <span itemprop="name">${m.label.replace(/</g,'&lt;')}</span>
@@ -970,13 +970,13 @@ function cpUpdateCatBreadcrumb(cat, subcat) {
       <meta itemprop="position" content="2">
     </li>`;
     html += '<span class="bc-sep" aria-hidden="true">›</span>';
-    // Ниво 3: Подкатегория — текущата страница, не е линк
+    // Ниво 3: Подкатегория - текущата страница, не е линк
     html += `<li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
       <span class="bc-current" itemprop="name">${subcatLabel}</span>
       <meta itemprop="position" content="3">
     </li>`;
   } else {
-    // Ниво 2: Категория — текущата страница, не е линк
+    // Ниво 2: Категория - текущата страница, не е линк
     html += `<li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
       <span class="bc-current" itemprop="name">${m.label.replace(/</g,'&lt;')}</span>
       <meta itemprop="position" content="2">
@@ -993,7 +993,7 @@ function cpApplySubcat(id, btn) {
   if (btn) {
     btn.classList.add('active');
   } else if (id === 'all') {
-    // Called programmatically (e.g. from breadcrumb) — activate the "Всички" pill
+    // Called programmatically (e.g. from breadcrumb) - activate the "Всички" pill
     const allPill = document.querySelector('#cpSubcatBar .subcat-pill:first-child');
     if (allPill) allPill.classList.add('active');
   }
@@ -1070,7 +1070,7 @@ function cpApplySubcat(id, btn) {
       brandTitle.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:inline-block;vertical-align:-2px;margin-right:5px;flex-shrink:0"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>Производител';
       if (brandSearch) brandSearch.style.display = '';
       if (brandBody) brandBody.style.display = 'none';
-      // Restore full list — rebuild from cpCat products
+      // Restore full list - rebuild from cpCat products
       const catProds = products.filter(p => normalizeCat(p.cat) === cpCat);
       const allBrands = [...new Set(catProds.map(p => p.brand))].sort();
       brandList.innerHTML = allBrands.map(b => {
@@ -1756,7 +1756,7 @@ function cpGetFiltered() {
   else if (cpSort === 'rating') list.sort((a,b) => b.rating - a.rating);
   else if (cpSort === 'discount') list.sort((a,b) => (b.old ? (b.old-b.price)/b.old : 0) - (a.old ? (a.old-a.price)/a.old : 0));
   else {
-    // M-2: bestseller default — in-stock first, then by reviews
+    // M-2: bestseller default - in-stock first, then by reviews
     list.sort((a,b) => {
       const stockA = a.stock !== false ? 0 : 1;
       const stockB = b.stock !== false ? 0 : 1;
@@ -1829,7 +1829,7 @@ function cpCloseSidebar() {
 // ═══════════════════════════════════════
 // DYNAMIC META TAGS
 // Updates <title> and <meta description> when a category / page opens.
-// Call setPageMeta(title, description) — pass null to restore defaults.
+// Call setPageMeta(title, description) - pass null to restore defaults.
 // ═══════════════════════════════════════
 const _defaultTitle = document.title;
 const _defaultDesc  = (document.querySelector('meta[name="description"]') || {}).content || '';

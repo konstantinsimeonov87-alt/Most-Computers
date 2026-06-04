@@ -99,7 +99,7 @@ function pdpInitDeliveryTimer() {
       el.innerHTML = 'Поръчай до <strong>16:30 ч.</strong> и получи <strong>утре</strong>';
       if (cd) cd.textContent = '(остават ' + hh + ':' + mm + ':' + ss + ')';
     } else {
-      el.innerHTML = 'Поръчай сега — изпращаме <strong>утре</strong>';
+      el.innerHTML = 'Поръчай сега - изпращаме <strong>утре</strong>';
       if (cd) cd.textContent = '';
     }
   }
@@ -248,7 +248,7 @@ function pdpRenderRelated(p) {
   if (related.length < 2) { section.style.display = 'none'; return; }
   if (title) {
     var catLabel = (typeof CAT_LABELS !== 'undefined' && CAT_LABELS[p.cat]) ? CAT_LABELS[p.cat] : '';
-    title.textContent = catLabel ? ('Подобни — ' + catLabel) : 'Подобни продукти';
+    title.textContent = catLabel ? ('Подобни - ' + catLabel) : 'Подобни продукти';
   }
   scroll.innerHTML = related.map(_pdpCarCard).join('');
   section.style.display = '';
@@ -331,7 +331,7 @@ var _CROSS_SELL = {
   // Офис / работно място
   chair:       ['monitor','monitors','accessories'],
 
-  // Широка периферия / аксесоари — без cross-sell
+  // Широка периферия / аксесоари - без cross-sell
   accessories: [],
   peripherals: [],
   multimedia:  [],
@@ -492,7 +492,7 @@ function pdpPrintSpecs() {
   var win = window.open('', '_blank', 'width=800,height=700');
   if (!win) { showToast('⚠️ Попъп прозорецът е блокиран. Разреши попъпи за този сайт.'); return; }
   win.document.write(
-    '<!DOCTYPE html><html><head><title>' + _ep(p.name) + ' — Характеристики</title>' +
+    '<!DOCTYPE html><html><head><title>' + _ep(p.name) + ' - Характеристики</title>' +
     '<style>body{font-family:Arial,sans-serif;padding:32px;color:#1a1a1a;}h1{font-size:20px;margin-bottom:4px;}' +
     '.sub{color:#888;font-size:13px;margin-bottom:24px;}table{width:100%;border-collapse:collapse;}' +
     'tr:nth-child(even){background:#f9f9f9;}' +
@@ -682,7 +682,7 @@ function openProdPreview(id) {
   if (backdrop) backdrop.classList.add('open');
   document.body.style.overflow = 'hidden';
 
-  // Swipe down to close — use named handlers so old ones are replaced on re-open
+  // Swipe down to close - use named handlers so old ones are replaced on re-open
   if (sheet._swipeStart) sheet.removeEventListener('touchstart', sheet._swipeStart);
   if (sheet._swipeEnd)   sheet.removeEventListener('touchend',   sheet._swipeEnd);
   var startY = 0;

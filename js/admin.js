@@ -1,6 +1,6 @@
 // ===== ADMIN PANEL =====
 function _esc(s) { return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-const _demoOrders = []; // Demo поръчките са премахнати — виждат се само реални от Supabase
+const _demoOrders = []; // Demo поръчките са премахнати - виждат се само реални от Supabase
 
 // ── Supabase cache ────────────────────────────────────────────────────────────
 let _sbOrders = null; // null = not loaded yet
@@ -84,6 +84,7 @@ function adminSaveOrders(orders) {
 }
 
 function adminChangeOrderStatus(num, newStatus) {
+  if (!confirm(`Промени статус на поръчка ${num} на "${adminStatuses[newStatus]}"?`)) return;
   const orders = getAdminOrders();
   const o = orders.find(x => x.num === num);
   if (o) {
@@ -97,7 +98,7 @@ function adminChangeOrderStatus(num, newStatus) {
 }
 
 function adminShowEmailDraft(o) {
-  const subject = `Вашата поръчка ${o.num} е изпратена — Most Computers`;
+  const subject = `Вашата поръчка ${o.num} е изпратена - Most Computers`;
   const body = `Здравейте ${(o.customer||'').split(' ')[0]},\n\nПоръчка ${o.num} е изпратена с Еконт!\n\nПродукти: ${o.items}\nОбщо: ${fmtEur(o.total)}\nДата: ${o.date}\n\nБлагодарим за доверието!\n\nЕкипът на Most Computers\nmostcomputers.bg`;
   let modal = document.getElementById('adminEmailModal');
   if (!modal) {
@@ -113,7 +114,7 @@ function adminShowEmailDraft(o) {
         <button type="button" onclick="document.getElementById('adminEmailModal').remove()" style="background:none;border:none;color:#9ca3af;font-size:22px;cursor:pointer;line-height:1;">×</button>
       </div>
       <div style="font-size:11px;color:#9ca3af;margin-bottom:5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;">До:</div>
-      <div style="background:#252840;border:1px solid #2d3148;border-radius:8px;padding:9px 14px;color:#e5e7eb;font-size:13px;margin-bottom:12px;">${_esc(o.email||'—')}</div>
+      <div style="background:#252840;border:1px solid #2d3148;border-radius:8px;padding:9px 14px;color:#e5e7eb;font-size:13px;margin-bottom:12px;">${_esc(o.email||'-')}</div>
       <div style="font-size:11px;color:#9ca3af;margin-bottom:5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;">Относно:</div>
       <div style="background:#252840;border:1px solid #2d3148;border-radius:8px;padding:9px 14px;color:#e5e7eb;font-size:13px;margin-bottom:12px;">${_esc(subject)}</div>
       <div style="font-size:11px;color:#9ca3af;margin-bottom:5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;">Съдържание:</div>
@@ -239,9 +240,9 @@ function adminUpdateOrdersBadge() {
   }
 }
 
-// PIN is stored as a djb2 hash — change _ADMIN_H to match your chosen PIN
+// PIN is stored as a djb2 hash - change _ADMIN_H to match your chosen PIN
 // To generate: paste in console → (s=>{let h=5381;for(let i=0;i<s.length;i++)h=((h<<5)+h)^s.charCodeAt(i);return h>>>0})('yourPIN')
-const _ADMIN_H = 3533399686; // djb2 hash of admin PIN — change to match your chosen PIN
+const _ADMIN_H = 3533399686; // djb2 hash of admin PIN - change to match your chosen PIN
 function _djb2(s){let h=5381;for(let i=0;i<s.length;i++)h=((h<<5)+h)^s.charCodeAt(i);return h>>>0;}
 
 let _adminUnlocked = false;
@@ -262,7 +263,7 @@ function openAdminPage() {
   document.getElementById('adminPage').classList.add('open');
   document.body.style.overflow='hidden';
   adminUpdateOrdersBadge();
-  // Reviews badge — count pending reviews
+  // Reviews badge - count pending reviews
   try {
     const saved = JSON.parse(localStorage.getItem('mc_reviews') || '{}');
     const pending = Object.values(saved).flat().filter(r => r.pending).length;
@@ -276,6 +277,27 @@ function openAdminPage() {
 function closeAdminPage() {
   document.getElementById('adminPage').classList.remove('open');
   document.body.style.overflow='';
+  const sidebar = document.querySelector('.admin-sidebar');
+  if (sidebar) sidebar.classList.remove('open');
+}
+
+function adminToggleSidebar() {
+  const sidebar = document.querySelector('.admin-sidebar');
+  if (!sidebar) return;
+  const isOpen = sidebar.classList.toggle('open');
+  let bd = document.getElementById('adminSidebarBackdrop');
+  if (isOpen) {
+    if (!bd) {
+      bd = document.createElement('div');
+      bd.id = 'adminSidebarBackdrop';
+      bd.style.cssText = 'position:fixed;inset:0;z-index:49;background:rgba(0,0,0,0.5);';
+      bd.onclick = adminToggleSidebar;
+      document.getElementById('adminPage').appendChild(bd);
+    }
+    bd.style.display = '';
+  } else if (bd) {
+    bd.style.display = 'none';
+  }
 }
 
 // ── Admin products table state ────────────────────────────────────────────────
@@ -293,7 +315,7 @@ const _adminCatNamesMap = {
 };
 
 // categoryId от URL (categoryId=21) → canonical cat
-// Приоритет 1 при XML импорт — deterministic, имунен срещу смяна на текст от доставчика
+// Приоритет 1 при XML импорт - deterministic, имунен срещу смяна на текст от доставчика
 const XML_FEED_CAT_MAP = {
   '21': 'laptops',
   '22': 'phones',
@@ -306,12 +328,12 @@ const XML_FEED_CAT_MAP = {
 
 // Category text → canonical cat (fallback за произволни XML без categoryId)
 const CAT_MAP_GENERIC = [
-  // Phones & Tablets — check BEFORE generic accessories
+  // Phones & Tablets - check BEFORE generic accessories
   [['IPHONE','SAMSUNG GALAXY S','SAMSUNG GALAXY A','PIXEL','XIAOMI','СМАРТФОН','SMARTPHONE'], 'phones'],
   [['IPAD','GALAXY TAB','ТАБЛЕТ','TABLET PC'], 'phones'],
 [['PHONE','MOBILE','ТЕЛЕФОН','МОБИЛЕН'], 'phones'],
   [['TABLET','ТАБЛЕТ'], 'phones'],
-  // Gaming — check BEFORE laptops/desktops
+  // Gaming - check BEFORE laptops/desktops
   [['GAMING LAPTOP','GAMING NOTEBOOK','GAMING НОТ','ГЕЙМЪРСКИ ЛАПТОП'], 'gaming'],
   [['GAMING PC','GAMING DESKTOP','GAME PC','ГЕЙМЪРСКИ КОМПЮТЪР'], 'gaming'],
   [['GAMING MOUSE','GAMING МИШК','ГЕЙМЪРСКА МИШК'], 'gaming'],
@@ -360,7 +382,7 @@ function mapCatGeneric(raw) {
 }
 
 // Автоматично инферира subcat от продуктовото название и canonical cat
-// Извиква се при XML импорт — замества keyword matching в matchesSubcat()
+// Извиква се при XML импорт - замества keyword matching в matchesSubcat()
 function inferSubcat(name, cat) {
   const n = (name || '').toLowerCase();
   if (cat === 'laptops') {
@@ -439,7 +461,7 @@ function renderAdminProductsTable() {
     const ql = _adminProd.q.toLowerCase();
     list = list.filter(p => (p.name + ' ' + (p.sku||'') + ' ' + (p.brand||'')).toLowerCase().includes(ql));
   }
-  // category filter — normalize both sides so old/new cat values both match
+  // category filter - normalize both sides so old/new cat values both match
   if (_adminProd.cat) list = list.filter(p => normalizeCat(p.cat) === _adminProd.cat);
   // brand filter
   if (_adminProd.brand) list = list.filter(p => p.brand === _adminProd.brand);
@@ -451,7 +473,7 @@ function renderAdminProductsTable() {
   else if (_adminProd.status === 'new')  list = list.filter(p => p.badge === 'new');
   else if (_adminProd.status === 'hot')  list = list.filter(p => p.badge === 'hot');
 
-  // sort — default: category A-Z then name A-Z
+  // sort - default: category A-Z then name A-Z
   list.sort((a, b) => {
     let va, vb;
     if (_adminProd.sort === 'name')        { va = (a.name||'').toLowerCase();  vb = (b.name||'').toLowerCase(); }
@@ -532,24 +554,24 @@ function renderAdminProductsTable() {
       lastCat = normCat;
     }
     const stockHtml = p.stock===false||p.stock===0
-      ? '<span style="color:#f87171;font-size:11px;">Изчерпан</span>'
+      ? '<span style="color:#f87171;font-size:11px;">Изчерпан <span style="opacity:.5;font-size:9px;">✏</span></span>'
       : p.stock!=null&&p.stock<=5
-        ? '<span style="color:#fbbf24;font-size:11px;">' + p.stock + ' бр.</span>'
-        : '<span style="color:#34d399;font-size:11px;">✓</span>';
+        ? '<span style="color:#fbbf24;font-size:11px;">' + p.stock + ' бр. <span style="opacity:.5;font-size:9px;">✏</span></span>'
+        : '<span style="color:#34d399;font-size:11px;">✓ <span style="opacity:.5;font-size:9px;">✏</span></span>';
     const badgeHtml = p.badge==='sale'
       ? '<span style="background:rgba(239,68,68,.15);color:#f87171;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;">ПРОМО</span>'
       : p.badge==='new'
         ? '<span style="background:rgba(52,211,153,.15);color:#34d399;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;">НОВО</span>'
         : p.badge==='hot'
           ? '<span style="background:rgba(251,191,36,.15);color:#fbbf24;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;">ГОРЕЩО</span>'
-          : '<span style="color:#4b5563;font-size:11px;">—</span>';
+          : '<span style="color:#4b5563;font-size:11px;">-</span>';
     tbodyHtml += '<tr id="admin-prod-row-' + p.id + '">'
       + '<td><input type="checkbox" class="admin-prod-cb" data-id="' + p.id + '" onchange="adminUpdateSelection()" style="cursor:pointer;accent-color:#f87171;width:15px;height:15px;"></td>'
       + '<td><div class="admin-product-thumb">' + _esc(p.emoji) + '</div></td>'
       + '<td style="color:#fff;font-weight:600;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + _esc(p.name) + '</td>'
-      + '<td style="font-family:\'JetBrains Mono\',monospace;font-size:10px;color:#6b7280;">' + _esc(p.sku||'—') + '</td>'
+      + '<td style="font-family:\'JetBrains Mono\',monospace;font-size:10px;color:#6b7280;">' + _esc(p.sku||'-') + '</td>'
       + '<td id="aie-price-' + p.id + '" style="color:#34d399;font-weight:700;cursor:pointer;" onclick="adminInlineEdit(' + p.id + ',\'price\')" title="Клик за редактиране на цена">'
-      + (p.price/EUR_RATE).toFixed(2) + ' €<div style="font-size:10px;color:#6b7280;">' + p.price + ' лв.</div></td>'
+      + (p.price/EUR_RATE).toFixed(2) + ' € <span style="opacity:.4;font-size:9px;">✏</span><div style="font-size:10px;color:#6b7280;">' + p.price + ' лв.</div></td>'
       + '<td style="color:#9ca3af;">' + (_adminCatNamesMap[normalizeCat(p.cat)]||p.cat) + (p.subcat ? '<div style="margin-top:3px;"><span style="background:rgba(99,102,241,0.15);color:#a5b4fc;padding:1px 7px;border-radius:8px;font-size:10px;font-weight:600;">' + p.subcat + '</span></div>' : '') + '</td>'
       + '<td>' + badgeHtml + '</td>'
       + '<td id="aie-stock-' + p.id + '" style="cursor:pointer;" onclick="adminInlineEdit(' + p.id + ',\'stock\')" title="Клик за редактиране на наличност">' + stockHtml + '</td>'
@@ -585,7 +607,7 @@ function renderAdminProductsTable() {
 }
 function adminShowTab(tab) {
   document.querySelectorAll('.admin-nav-item').forEach(b=>b.classList.remove('active'));
-  const active = document.querySelector(`.admin-nav-item[onclick*="'${tab}'"]`);
+  const active = document.querySelector(`.admin-nav-item[data-action*="'${tab}'"]`);
   if(active) active.classList.add('active');
   const main = document.getElementById('adminMain');
   if (!main) return;
@@ -607,11 +629,9 @@ function adminShowTab(tab) {
       if (o.status === 'cancelled') cancelledCnt++;
       if (o.ts) { const key = y + '-' + m; realRevByMonth[key] = (realRevByMonth[key]||0) + (o.total||0); }
     });
-    thisMoRev = thisMoRev || 47300; lastMoRev = lastMoRev || 61700;
-    thisMoCnt = thisMoCnt || 143;   lastMoCnt = lastMoCnt || 119;
-    const avgOrder = thisMoRev / thisMoCnt;
-    const cancelledPct = allOrders.length > 0 ? (cancelledCnt / allOrders.length * 100).toFixed(1) : 2.1;
-    const revDelta = lastMoRev > 0 ? ((thisMoRev - lastMoRev) / lastMoRev * 100).toFixed(0) : 18;
+    const avgOrder = thisMoCnt > 0 ? thisMoRev / thisMoCnt : 0;
+    const cancelledPct = allOrders.length > 0 ? (cancelledCnt / allOrders.length * 100).toFixed(1) : 0;
+    const revDelta = lastMoRev > 0 ? ((thisMoRev - lastMoRev) / lastMoRev * 100).toFixed(0) : 0;
     const cntDelta = thisMoCnt - lastMoCnt;
 
     main.innerHTML = `
@@ -670,8 +690,8 @@ function adminShowTab(tab) {
       <div class="admin-table-card">
         <div class="admin-table-header"><div class="admin-table-title">🏆 Топ продукти</div></div>
         <table class="admin-table">
-          <thead><tr><th></th><th>Продукт</th><th>Продадени</th><th>Приход</th><th>Рейтинг</th></tr></thead>
-          <tbody>${products.slice(0,6).map(p=>`<tr><td><div class="admin-product-thumb">${p.emoji}</div></td><td class="text-white-semibold">${p.name.substring(0,28)}...</td><td>${Math.floor(Math.random()*80+20)}</td><td class="text-success-strong">${(p.price*(Math.floor(Math.random()*80+20))).toLocaleString()} лв.</td><td>⭐ ${p.rating}</td></tr>`).join('')}</tbody>
+          <thead><tr><th></th><th>Продукт</th><th>Ревюта</th><th>Цена</th><th>Рейтинг</th></tr></thead>
+          <tbody>${[...products].sort((a,b)=>(b.rv||0)-(a.rv||0)).slice(0,6).map(p=>`<tr><td><div class="admin-product-thumb">${p.emoji}</div></td><td class="text-white-semibold">${p.name.substring(0,28)}...</td><td>${p.rv||0}</td><td class="text-success-strong">${fmtEur(p.price/EUR_RATE)}</td><td>⭐ ${p.rating}</td></tr>`).join('')}</tbody>
         </table>
       </div>`;
   } else if (tab === 'orders') {
@@ -680,26 +700,28 @@ function adminShowTab(tab) {
     adminUpdateOrdersBadge();
     main.innerHTML = `
       <div class="admin-topbar">
-        <div><div class="admin-page-title">📦 Поръчки</div><div class="admin-page-sub">Всички поръчки — ${getAdminOrders().length} намерени</div></div>
+        <div><div class="admin-page-title">📦 Поръчки</div><div class="admin-page-sub">Всички поръчки - ${getAdminOrders().length} намерени</div></div>
         <button type="button" class="admin-close-btn" onclick="closeAdminPage()">✕ Затвори</button>
       </div>
       <div class="admin-table-card">
-        <div class="admin-table-header"><div class="admin-table-title">Последни поръчки</div><div style="display:flex;gap:8px;"><button type="button" class="admin-table-action" onclick="adminLoadFromSupabase()" style="background:rgba(99,102,241,0.15);color:#818cf8;border-color:rgba(99,102,241,0.3);">↻ Опресни</button><button type="button" class="admin-table-action" onclick="adminExportCSV()">⬇ CSV</button></div></div>
+        <div class="admin-table-header"><div class="admin-table-title">Поръчки</div><div style="display:flex;gap:8px;"><button type="button" class="admin-table-action" onclick="adminLoadFromSupabase()" style="background:rgba(99,102,241,0.15);color:#818cf8;border-color:rgba(99,102,241,0.3);">↻ Опресни</button><button type="button" class="admin-table-action" onclick="adminExportCSV()">⬇ CSV</button></div></div>
+        <div style="padding:10px 16px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;border-bottom:1px solid #1e2236;">
+          <input id="adminOrderSearch" style="background:#252840;border:1px solid #2d3148;border-radius:8px;padding:7px 12px;color:#e5e7eb;font-family:'Outfit',sans-serif;font-size:12px;outline:none;width:220px;" placeholder="🔍 Търси клиент, #поръчка…" oninput="adminFilterOrders()">
+          <select id="adminOrderStatusFilter" onchange="adminFilterOrders()" style="background:#252840;border:1px solid #2d3148;border-radius:8px;padding:7px 10px;color:#e5e7eb;font-family:'Outfit',sans-serif;font-size:12px;cursor:pointer;outline:none;">
+            <option value="">Всички статуси</option>
+            <option value="pending">⏳ Изчакваща</option>
+            <option value="paid">✅ Платена</option>
+            <option value="shipped">🚚 Изпратена</option>
+            <option value="cancelled">❌ Отказана</option>
+          </select>
+          <span id="adminOrderCount" style="margin-left:auto;font-size:11px;color:#6b7280;"></span>
+        </div>
         <table class="admin-table">
           <thead><tr><th>#</th><th>Клиент</th><th>Продукти</th><th>Сума</th><th>Статус</th><th>Дата</th><th></th></tr></thead>
-          <tbody>${getAdminOrders().map(o=>`<tr>
-            <td class="mono-11-gray">${o.num}</td>
-            <td class="text-white-semibold">${o.customer}<div style="font-size:10px;color:#6b7280;">${o.email||''}</div></td>
-            <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#9ca3af;">${o.items}</td>
-            <td class="text-success-strong">${fmtEur(o.total)}</td>
-            <td><select onchange="adminChangeOrderStatus('${o.num}',this.value)" style="background:#252840;border:1px solid #2d3148;border-radius:6px;padding:3px 6px;color:#e5e7eb;font-size:11px;font-family:'Outfit',sans-serif;cursor:pointer;">
-              ${['pending','paid','shipped','cancelled'].map(s=>`<option value="${s}"${o.status===s?' selected':''}>${adminStatuses[s]}</option>`).join('')}
-            </select></td>
-            <td style="color:#6b7280;">${o.date}</td>
-            <td style="text-align:right;"><button type="button" style="background:rgba(248,113,113,0.1);color:#f87171;border:1px solid rgba(248,113,113,0.2);border-radius:6px;padding:4px 8px;font-size:11px;cursor:pointer;font-family:'Outfit',sans-serif;" onclick="adminDeleteOrder('${o.num}')">🗑</button></td>
-          </tr>`).join('')}</tbody>
+          <tbody id="adminOrdersTbody"></tbody>
         </table>
       </div>`;
+    adminFilterOrders();
   } else if (tab === 'products') {
     const catCounts = {};
     products.forEach(p => { const nc = normalizeCat(p.cat); catCounts[nc] = (catCounts[nc]||0) + 1; });
@@ -710,8 +732,13 @@ function adminShowTab(tab) {
         <div style="display:flex;gap:10px;align-items:center;">
           <button type="button" class="admin-table-action" onclick="openProductEditor(null)">+ Добави продукт</button>
           <button type="button" class="admin-table-action" onclick="adminNormalizeCats()" title="Нормализирай cat стойностите на всички продукти към стандартните категории" style="background:rgba(251,191,36,0.1);color:#fbbf24;border-color:rgba(251,191,36,0.3);">🔧 Нормализирай категориите</button>
-          <button type="button" class="admin-table-action" onclick="adminExportProductsJSON()" title="Изтегли всички продукти като JSON">⬇ JSON</button>
-          <button type="button" class="admin-table-action" onclick="adminExportProductsCSV()" title="Изтегли всички продукти като CSV">⬇ CSV</button>
+          <div style="position:relative;" id="adminExportWrap">
+            <button type="button" class="admin-table-action" onclick="(function(){var m=document.getElementById('adminExportMenu');m.style.display=m.style.display==='block'?'none':'block';})()">⬇ Експорт ▾</button>
+            <div id="adminExportMenu" style="display:none;position:absolute;top:calc(100% + 4px);right:0;z-index:200;background:#1a1d35;border:1px solid #2d3148;border-radius:10px;padding:6px;min-width:130px;box-shadow:0 8px 24px rgba(0,0,0,0.4);">
+              <div onclick="adminExportProductsJSON();document.getElementById('adminExportMenu').style.display='none'" style="padding:8px 12px;cursor:pointer;color:#e5e7eb;font-size:12px;font-family:'Outfit',sans-serif;border-radius:6px;">📄 JSON</div>
+              <div onclick="adminExportProductsCSV();document.getElementById('adminExportMenu').style.display='none'" style="padding:8px 12px;cursor:pointer;color:#e5e7eb;font-size:12px;font-family:'Outfit',sans-serif;border-radius:6px;">📊 CSV</div>
+            </div>
+          </div>
           <button type="button" id="adminBulkDeleteBtn" class="admin-table-action" onclick="adminBulkDelete()" style="display:none;background:rgba(248,113,113,0.15);color:#f87171;border-color:rgba(248,113,113,0.3);">🗑 Изтрий избраните (<span id="adminSelCount">0</span>)</button>
           <div id="adminBulkBadgeWrap" style="display:none;position:relative;">
             <button type="button" class="admin-table-action" onclick="adminToggleBadgeMenu()" style="gap:4px;">🏷 Бадж (<span id="adminBulkBadgeCount">0</span>) ▾</button>
@@ -769,17 +796,36 @@ function adminShowTab(tab) {
     _adminProd.q = ''; _adminProd.sort = 'cat'; _adminProd.dir = 1; _adminProd.cat = ''; _adminProd.status = ''; _adminProd.brand = ''; _adminProd.page = 1;
     renderAdminProductsTable();
   } else if (tab === 'customers') {
-    const customers = ['Георги Тодоров','Мария Иванова','Петър Стоянов','Анна Петрова','Тодор Николов','Ивана Христова','Симон Борисов','Елена Димитрова'];
+    const allOrders = getAdminOrders();
+    const customerMap = {};
+    allOrders.forEach(o => {
+      const key = (o.email || o.customer || '').toLowerCase().trim();
+      if (!key) return;
+      if (!customerMap[key]) customerMap[key] = { name: o.customer||'-', email: o.email||'-', orders: 0, total: 0, lastDate: o.date||'-' };
+      customerMap[key].orders++;
+      customerMap[key].total += o.total || 0;
+      if (o.date) customerMap[key].lastDate = o.date;
+    });
+    const customers = Object.values(customerMap).sort((a,b) => b.total - a.total);
     main.innerHTML = `
       <div class="admin-topbar">
-        <div><div class="admin-page-title">👥 Клиенти</div><div class="admin-page-sub">891 регистрирани клиента</div></div>
+        <div><div class="admin-page-title">👥 Клиенти</div><div class="admin-page-sub">${customers.length} клиента (от поръчки)</div></div>
         <button type="button" class="admin-close-btn" onclick="closeAdminPage()">✕ Затвори</button>
       </div>
       <div class="admin-table-card">
-        <table class="admin-table">
-          <thead><tr><th>Клиент</th><th>Имейл</th><th>Поръчки</th><th>Общо похарчено</th><th>Регистриран</th></tr></thead>
-          <tbody>${customers.map((c)=>`<tr><td class="text-white-semibold">${c}</td><td class="text-gray-600">${c.split(' ')[0].toLowerCase()}@gmail.com</td><td>${Math.floor(Math.random()*10+1)}</td><td class="text-success-strong">${(Math.floor(Math.random()*5000+500)).toLocaleString()} лв.</td><td class="text-gray-600">0${Math.floor(Math.random()*9+1)}.0${Math.floor(Math.random()*9+1)}.202${Math.floor(Math.random()*4+2)}</td></tr>`).join('')}</tbody>
-        </table>
+        ${customers.length === 0
+          ? `<div style="text-align:center;padding:60px 20px;color:#4b5563;font-size:14px;">Все още няма клиенти.<br><span style="font-size:11px;">Клиентите ще се появят след като бъдат регистрирани поръчки.</span></div>`
+          : `<table class="admin-table">
+              <thead><tr><th>Клиент</th><th>Имейл</th><th>Поръчки</th><th>Общо похарчено</th><th>Последна поръчка</th></tr></thead>
+              <tbody>${customers.map(c=>`<tr>
+                <td class="text-white-semibold">${_esc(c.name)}</td>
+                <td style="color:#6b7280;font-size:12px;">${_esc(c.email)}</td>
+                <td style="color:#a5b4fc;font-weight:700;">${c.orders}</td>
+                <td class="text-success-strong">${fmtEur(c.total/EUR_RATE)}</td>
+                <td style="color:#6b7280;font-size:12px;">${_esc(c.lastDate)}</td>
+              </tr>`).join('')}
+              </tbody>
+            </table>`}
       </div>`;
   } else if (tab === 'import') {
     main.innerHTML = `
@@ -924,12 +970,12 @@ function adminShowTab(tab) {
                     <circle class="autoupd-cd-fill" id="autoupdCdCircle" cx="28" cy="28" r="24"
                       stroke-dasharray="150.8" stroke-dashoffset="0"/>
                   </svg>
-                  <div class="autoupd-cd-text"><span id="autoupdCdMin">—</span><small>мин.</small></div>
+                  <div class="autoupd-cd-text"><span id="autoupdCdMin">-</span><small>мин.</small></div>
                 </div>
                 <div class="autoupd-cd-info">
                   <div class="autoupd-cd-title">Следващо обновяване</div>
                   <div class="autoupd-cd-sub">
-                    <span id="autoupdNextTime">—</span><br>
+                    <span id="autoupdNextTime">-</span><br>
                     Последно: <span id="autoupdLastTime">никога</span>
                   </div>
                 </div>
@@ -1081,7 +1127,7 @@ function adminShowTab(tab) {
         <div>
           <div style="font-size:13px;font-weight:800;color:#f87171;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid rgba(248,113,113,0.2);">⚠️ Опасна зона</div>
           <div style="display:flex;gap:10px;flex-wrap:wrap;">
-            <button type="button" onclick="if(confirm('Нулирай продуктите до source файла?\\nXML-импортираните продукти ще бъдат изгубени — ще останат само базовите от кода.')){localStorage.removeItem('mc_products');location.reload();}"
+            <button type="button" onclick="if(confirm('Нулирай продуктите до source файла?\\nXML-импортираните продукти ще бъдат изгубени - ще останат само базовите от кода.')){localStorage.removeItem('mc_products');location.reload();}"
               style="background:rgba(251,191,36,0.1);color:#fbbf24;border:1px solid rgba(251,191,36,0.2);border-radius:8px;padding:10px 16px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Outfit',sans-serif;">
               🔄 Нулирай продуктите към source
             </button>
@@ -1097,23 +1143,6 @@ function adminShowTab(tab) {
         </div>
       </div>
     `;
-  } else if (tab === 'settings') {
-    main.innerHTML = `<div class="admin-topbar"><div><div class="admin-page-title">⚙ Настройки</div><div class="admin-page-sub">SEO инструменти и системни настройки</div></div><button type="button" class="admin-close-btn" onclick="closeAdminPage()">✕ Затвори</button></div>
-    <div class="admin-table-card" style="padding:24px;">
-      <div class="admin-chart-title">🗺 SEO инструменти</div>
-      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px;">
-        <button type="button" class="admin-table-action" style="padding:12px 20px;font-size:13px;" onclick="closeAdminPage();generateSitemap()">🗺 Генерирай sitemap.xml</button>
-        <button type="button" class="admin-table-action" style="padding:12px 20px;font-size:13px;background:rgba(96,165,250,0.1);color:#60a5fa;border-color:rgba(96,165,250,0.2);" onclick="showToast('robots.txt: User-agent: * / Allow: /')">🤖 Преглед robots.txt</button>
-        <button type="button" class="admin-table-action" style="padding:12px 20px;font-size:13px;background:rgba(52,211,153,0.1);color:#34d399;border-color:rgba(52,211,153,0.2);" onclick="showToast('Schema.org JSON-LD е активен за всички продукти')">📊 Schema.org статус</button>
-      </div>
-      <div style="margin-top:20px;padding:16px;background:#252840;border-radius:8px;font-size:12px;color:#6b7280;font-family:'JetBrains Mono',monospace;line-height:1.8;">
-        <div style="color:#34d399;">✓ JSON-LD Product schema — активен</div>
-        <div style="color:#34d399;">✓ OG / Twitter Card meta — активен</div>
-        <div style="color:#34d399;">✓ foundingDate: 1990 — активен</div>
-        <div style="color:#fbbf24;">⚠ sitemap.xml — генерирай ръчно</div>
-        <div style="color:#fbbf24;">⚠ robots.txt — нужен при хостинг</div>
-      </div>
-    </div>`;
   } else if (tab === 'newsletter') {
     let subs = [];
     try { subs = JSON.parse(localStorage.getItem('mc_newsletter') || '[]'); } catch(e) {}
@@ -1238,7 +1267,7 @@ function adminShowTab(tab) {
           <tbody>${lowStock.map(p=>`<tr>
             <td><div class="admin-product-thumb">${p.emoji}</div></td>
             <td style="color:#fff;font-weight:600;">${p.name.substring(0,40)}</td>
-            <td class="mono-11-gray">${p.sku||'—'}</td>
+            <td class="mono-11-gray">${p.sku||'-'}</td>
             <td><span style="background:rgba(251,191,36,0.15);color:#fbbf24;padding:2px 10px;border-radius:10px;font-size:12px;font-weight:700;">${p.stock} бр.</span></td>
             <td style="text-align:right;"><button type="button" onclick="openProductEditor(${p.id})" style="background:rgba(251,191,36,0.1);color:#fbbf24;border:1px solid rgba(251,191,36,0.2);border-radius:6px;padding:5px 9px;font-size:11px;cursor:pointer;font-family:'Outfit',sans-serif;">✏️ Редактирай</button></td>
           </tr>`).join('')}</tbody>
@@ -1252,7 +1281,7 @@ function adminShowTab(tab) {
           <tbody>${outOfStock.map(p=>`<tr>
             <td><div class="admin-product-thumb">${p.emoji}</div></td>
             <td style="color:#fff;font-weight:600;">${p.name.substring(0,40)}</td>
-            <td class="mono-11-gray">${p.sku||'—'}</td>
+            <td class="mono-11-gray">${p.sku||'-'}</td>
             <td><span style="background:rgba(248,113,113,0.15);color:#f87171;padding:2px 10px;border-radius:10px;font-size:12px;font-weight:700;">Изчерпан</span></td>
             <td style="text-align:right;"><button type="button" onclick="openProductEditor(${p.id})" style="background:rgba(251,191,36,0.1);color:#fbbf24;border:1px solid rgba(251,191,36,0.2);border-radius:6px;padding:5px 9px;font-size:11px;cursor:pointer;font-family:'Outfit',sans-serif;">✏️ Редактирай</button></td>
           </tr>`).join('')}</tbody>
@@ -1268,7 +1297,7 @@ function adminShowTab(tab) {
           <tbody id="inventoryTbody">${products.map(p=>`<tr>
             <td><div class="admin-product-thumb">${p.emoji}</div></td>
             <td style="color:#fff;font-weight:600;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${p.name}</td>
-            <td class="mono-11-gray">${p.sku||'—'}</td>
+            <td class="mono-11-gray">${p.sku||'-'}</td>
             <td style="color:#34d399;font-weight:700;">${p.price} лв.</td>
             <td>${p.stock===false||p.stock===0?'<span style="background:rgba(248,113,113,0.15);color:#f87171;padding:2px 10px;border-radius:10px;font-size:12px;font-weight:700;">Изчерпан</span>':p.stock!=null&&p.stock<=5?`<span style="background:rgba(251,191,36,0.15);color:#fbbf24;padding:2px 10px;border-radius:10px;font-size:12px;font-weight:700;">${p.stock} бр.</span>`:'<span style="background:rgba(52,211,153,0.15);color:#34d399;padding:2px 10px;border-radius:10px;font-size:12px;font-weight:700;">В наличност</span>'}</td>
             <td style="text-align:right;"><button type="button" onclick="openProductEditor(${p.id})" style="background:rgba(251,191,36,0.1);color:#fbbf24;border:1px solid rgba(251,191,36,0.2);border-radius:6px;padding:5px 9px;font-size:11px;cursor:pointer;font-family:'Outfit',sans-serif;">✏️</button></td>
@@ -1278,7 +1307,16 @@ function adminShowTab(tab) {
       </div>`;
   } else if (tab === 'analytics') {
     let log = [];
-    try { log = JSON.parse(localStorage.getItem('mc_analytics_log') || '[]'); } catch(e) {}
+    try {
+      const session = JSON.parse(localStorage.getItem('mc_analytics_log') || '[]');
+      const persistent = JSON.parse(localStorage.getItem('mc_analytics_persistent') || '[]');
+      // Deduplicate by combining - persistent may overlap with session at start
+      const seen = new Set();
+      [...persistent, ...session].forEach(e => {
+        const key = (e.event||'') + '|' + ((e.data&&e.data.timestamp)||'') + '|' + JSON.stringify(e.data||{}).substring(0,60);
+        if (!seen.has(key)) { seen.add(key); log.push(e); }
+      });
+    } catch(e) {}
 
     // Aggregate events
     const counts = {};
@@ -1309,24 +1347,24 @@ function adminShowTab(tab) {
     const topSearches = topN(searches, 5);
     const topCarts = topN(addToCarts, 5);
 
-    const fmtDate = ts => ts ? new Date(ts).toLocaleString('bg-BG') : '—';
+    const fmtDate = ts => ts ? new Date(ts).toLocaleString('bg-BG') : '-';
     const recentEvents = log.slice(0, 30);
 
     main.innerHTML = `
       <div class="admin-topbar">
-        <div><div class="admin-page-title">📊 Analytics</div><div class="admin-page-sub">${log.length} записани събития от тази сесия</div></div>
+        <div><div class="admin-page-title">📊 Analytics</div><div class="admin-page-sub">${log.length} записани събития</div></div>
         <div style="display:flex;gap:8px;">
           <button type="button" class="admin-table-action" onclick="if(confirm('Изтрий analytics лога?')){localStorage.removeItem('mc_analytics_log');adminShowTab('analytics');}">🗑 Изчисти лог</button>
           <button type="button" class="admin-close-btn" onclick="closeAdminPage()">✕ Затвори</button>
         </div>
       </div>
 
-      <div class="admin-stats-grid" style="grid-template-columns:repeat(5,1fr);">
+      <div class="admin-stats-grid">
         <div class="admin-stat-card"><div class="admin-stat-icon">👁</div><div class="admin-stat-val">${counts['view_product']||0}</div><div class="admin-stat-label">Разгледани продукти</div></div>
         <div class="admin-stat-card"><div class="admin-stat-icon">🛒</div><div class="admin-stat-val">${counts['add_to_cart']||0}</div><div class="admin-stat-label">Добавени в кошница</div></div>
         <div class="admin-stat-card"><div class="admin-stat-icon">🔍</div><div class="admin-stat-val">${counts['search']||0}</div><div class="admin-stat-label">Търсения</div></div>
         <div class="admin-stat-card"><div class="admin-stat-icon">✅</div><div class="admin-stat-val">${purchases}</div><div class="admin-stat-label">Поръчки</div></div>
-        <div class="admin-stat-card"><div class="admin-stat-icon">💰</div><div class="admin-stat-val">${purchaseRevenue.toFixed(2)} лв.</div><div class="admin-stat-label">Приходи (сесия)</div></div>
+        <div class="admin-stat-card"><div class="admin-stat-icon">💰</div><div class="admin-stat-val">${fmtEur(purchaseRevenue/EUR_RATE)}</div><div class="admin-stat-label">Приходи (общо)</div></div>
       </div>
 
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;">
@@ -1360,7 +1398,7 @@ function adminShowTab(tab) {
             let detail = '';
             if (d.product_name) detail = d.product_name.substring(0,40);
             else if (d.search_term) detail = '🔍 ' + d.search_term;
-            else if (d.transaction_id) detail = d.transaction_id + ' · ' + (d.value||0).toFixed(2) + ' лв.';
+            else if (d.transaction_id) detail = d.transaction_id + ' · ' + fmtEur((d.value||0)/EUR_RATE);
             else if (d.page_location) detail = d.page_location.replace(/.*\?/,'?') || '(home)';
             else detail = JSON.stringify(d).substring(0,50);
             const evColors = {view_product:'#a78bfa',add_to_cart:'#fb923c',purchase:'#34d399',search:'#60a5fa',begin_checkout:'#fbbf24',page_view:'#6b7280',remove_from_cart:'#f87171'};
@@ -1412,6 +1450,9 @@ function adminShowTab(tab) {
         <div style="margin-top:12px;"><label style="font-size:11px;color:#6b7280;display:block;margin-bottom:4px;">Резюме</label>
           <textarea id="bfSummary" class="aef-input" rows="3" placeholder="Кратко описание…" style="width:100%;resize:vertical;"></textarea>
         </div>
+        <div style="margin-top:12px;"><label style="font-size:11px;color:#6b7280;display:block;margin-bottom:4px;">Съдържание <span style="color:#4b5563;">(HTML или текст)</span></label>
+          <textarea id="bfBody" class="aef-input" rows="8" placeholder="Основен текст на статията…" style="width:100%;resize:vertical;font-family:'JetBrains Mono',monospace;font-size:12px;"></textarea>
+        </div>
         <div style="display:flex;gap:10px;margin-top:14px;">
           <button type="button" class="admin-table-action" style="background:var(--primary);color:#fff;border-color:var(--primary);" onclick="adminBlogSave()">💾 Запази</button>
           <button type="button" class="admin-table-action" onclick="document.getElementById('adminBlogForm').style.display='none'">Отказ</button>
@@ -1424,9 +1465,9 @@ function adminShowTab(tab) {
           <thead><tr><th></th><th>Заглавие</th><th>Категория</th><th>Дата</th><th style="text-align:right;">Действия</th></tr></thead>
           <tbody id="adminBlogTbody">${allPosts.map((p, i) => `<tr>
             <td style="font-size:22px;">${p.emoji || '📰'}</td>
-            <td style="color:#e5e7eb;font-weight:600;max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${p.title || '—'}</td>
-            <td><span style="background:rgba(99,102,241,0.15);color:#a5b4fc;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:700;">${p.cat || '—'}</span></td>
-            <td style="color:#6b7280;font-size:12px;">${p.date || '—'}</td>
+            <td style="color:#e5e7eb;font-weight:600;max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${p.title || '-'}</td>
+            <td><span style="background:rgba(99,102,241,0.15);color:#a5b4fc;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:700;">${p.cat || '-'}</span></td>
+            <td style="color:#6b7280;font-size:12px;">${p.date || '-'}</td>
             <td style="text-align:right;">
               ${i < customPosts.length ? `<button type="button" onclick="adminBlogDelete(${i})" style="background:rgba(248,113,113,0.1);color:#f87171;border:1px solid rgba(248,113,113,0.2);border-radius:6px;padding:5px 9px;font-size:11px;cursor:pointer;font-family:'Outfit',sans-serif;">🗑 Изтрий</button>` : '<span style="font-size:11px;color:#4b5563;">Вграден</span>'}
             </td>
@@ -1490,7 +1531,7 @@ function adminShowTab(tab) {
   }
 }
 
-// Init admin-only settings — runs when admin.js loads (lazily or eagerly)
+// Init admin-only settings - runs when admin.js loads (lazily or eagerly)
 (function _adminInit() {
   // Pre-configure Most Computers XML feed URL if not already set
   if (!localStorage.getItem('mc_autoupd_url')) {
@@ -1527,6 +1568,7 @@ if (typeof module !== 'undefined' && module.exports) {
 // ===== ADMIN PRODUCT EDITOR =====
 let aefEditingId = null; // null = new product
 let aefSelectedBadge = 'none';
+let _aefDirty = false;
 
 function openProductEditor(id) {
   aefEditingId = id;
@@ -1576,10 +1618,19 @@ function openProductEditor(id) {
   // Badge UI
   selectBadge(aefSelectedBadge);
 
+  _aefDirty = false;
   document.getElementById('adminEditorBackdrop').classList.add('open');
+  setTimeout(() => {
+    _aefDirty = false;
+    document.querySelectorAll('#adminEditorModal .aef-input, #adminEditorModal .aef-select, #adminEditorModal .aef-textarea').forEach(el => {
+      el.addEventListener('input', () => { _aefDirty = true; }, { once: true });
+    });
+  }, 150);
 }
 
 function closeProductEditor() {
+  if (_aefDirty && !confirm('Имаш незапазени промени. Затвори без запис?')) return;
+  _aefDirty = false;
   document.getElementById('adminEditorBackdrop').classList.remove('open');
 }
 
@@ -1599,7 +1650,7 @@ function aefUpdateSubcats(selectedId = '') {
   const subs = (typeof SUBCATS !== 'undefined' && SUBCATS[cat]) ? SUBCATS[cat] : [];
   if (!subs.length) { group.style.display = 'none'; select.value = ''; return; }
   group.style.display = '';
-  select.innerHTML = `<option value="">— без подкатегория —</option>` +
+  select.innerHTML = `<option value="">- без подкатегория -</option>` +
     subs.map(s => `<option value="${s.id}" ${s.id === selectedId ? 'selected' : ''}>${s.label}</option>`).join('');
 }
 
@@ -1695,7 +1746,7 @@ function saveProductEditor() {
   };
 
   if (aefEditingId === null) {
-    // New product — generate new ID
+    // New product - generate new ID
     const newId = Math.max(...products.map(p=>p.id)) + 1;
     updatedData.id = newId;
     updatedData.reviews = [];
@@ -1799,7 +1850,7 @@ function adminOpenSubcatModal() {
     ? `<div style="margin-bottom:14px;">
         <div style="font-size:10px;font-weight:800;color:#6b7280;text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px;">Избери категория:</div>
         <select id="adminSubcatModalCat" onchange="adminSubcatModalRefreshPills(this.value)" style="background:#252840;border:1px solid #2d3148;border-radius:8px;padding:7px 10px;color:#e5e7eb;font-family:'Outfit',sans-serif;font-size:12px;width:100%;outline:none;">
-          <option value="">— избери —</option>
+          <option value="">- избери -</option>
           ${Object.keys(CAT_LABELS).map(c => `<option value="${c}">${CAT_LABELS[c]}</option>`).join('')}
         </select>
       </div>`
@@ -1810,7 +1861,7 @@ function adminOpenSubcatModal() {
     <div style="display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid #1e2236;">
       <span style="font-size:18px;">${p.emoji||'📦'}</span>
       <span style="flex:1;font-size:12px;color:#e5e7eb;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${p.name}</span>
-      <span id="adminSubcatChip-${p.id}" style="font-size:10px;padding:2px 7px;border-radius:8px;background:${p.subcat ? 'rgba(99,102,241,0.2)' : 'rgba(255,255,255,0.05)'};color:${p.subcat ? '#a5b4fc' : '#4b5563'};">${p.subcat || '—'}</span>
+      <span id="adminSubcatChip-${p.id}" style="font-size:10px;padding:2px 7px;border-radius:8px;background:${p.subcat ? 'rgba(99,102,241,0.2)' : 'rgba(255,255,255,0.05)'};color:${p.subcat ? '#a5b4fc' : '#4b5563'};">${p.subcat || '-'}</span>
     </div>`).join('');
 
   // Build subcat pills for detected cat
@@ -1841,7 +1892,7 @@ function adminOpenSubcatModal() {
 
       <!-- Subcat pills -->
       <div style="font-size:10px;font-weight:800;color:#6b7280;text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px;">
-        ${detectedCat ? CAT_LABELS[detectedCat] + ' — избери подкатегория:' : 'Подкатегории:'}
+        ${detectedCat ? CAT_LABELS[detectedCat] + ' - избери подкатегория:' : 'Подкатегории:'}
       </div>
       <div id="adminSubcatModalPills" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;">
         ${pillsHtml}
@@ -1899,7 +1950,7 @@ function adminBulkSetSubcat(subcat, fromModal) {
     ids.forEach(id => {
       const chip = document.getElementById('adminSubcatChip-' + id);
       if (chip) {
-        chip.textContent = subcat || '—';
+        chip.textContent = subcat || '-';
         chip.style.background = subcat ? 'rgba(99,102,241,0.2)' : 'rgba(255,255,255,0.05)';
         chip.style.color = subcat ? '#a5b4fc' : '#4b5563';
       }
@@ -2005,6 +2056,29 @@ function adminBulkDelete() {
   renderAdminProductsTable();
 }
 
+function adminFilterOrders() {
+  const q = (document.getElementById('adminOrderSearch')?.value || '').toLowerCase().trim();
+  const st = document.getElementById('adminOrderStatusFilter')?.value || '';
+  let list = getAdminOrders();
+  if (q) list = list.filter(o => (o.num||'').toLowerCase().includes(q) || (o.customer||'').toLowerCase().includes(q) || (o.email||'').toLowerCase().includes(q));
+  if (st) list = list.filter(o => o.status === st);
+  const tbody = document.getElementById('adminOrdersTbody');
+  const cntEl = document.getElementById('adminOrderCount');
+  if (!tbody) return;
+  if (cntEl) cntEl.textContent = list.length + ' поръчки';
+  tbody.innerHTML = list.map(o=>`<tr>
+    <td class="mono-11-gray">${o.num}</td>
+    <td class="text-white-semibold">${_esc(o.customer)}<div style="font-size:10px;color:#6b7280;">${_esc(o.email||'')}</div></td>
+    <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#9ca3af;">${_esc(o.items)}</td>
+    <td class="text-success-strong">${fmtEur(o.total)}</td>
+    <td><select onchange="adminChangeOrderStatus('${_esc(o.num)}',this.value)" style="background:#252840;border:1px solid #2d3148;border-radius:6px;padding:3px 6px;color:#e5e7eb;font-size:11px;font-family:'Outfit',sans-serif;cursor:pointer;">
+      ${['pending','paid','shipped','cancelled'].map(s=>`<option value="${s}"${o.status===s?' selected':''}>${adminStatuses[s]}</option>`).join('')}
+    </select></td>
+    <td style="color:#6b7280;">${_esc(o.date)}</td>
+    <td style="text-align:right;"><button type="button" style="background:rgba(248,113,113,0.1);color:#f87171;border:1px solid rgba(248,113,113,0.2);border-radius:6px;padding:4px 8px;font-size:11px;cursor:pointer;font-family:'Outfit',sans-serif;" onclick="adminDeleteOrder('${_esc(o.num)}')">🗑</button></td>
+  </tr>`).join('');
+}
+
 function adminFilterProducts(q) {
   _adminProd.q = q;
   renderAdminProductsTable();
@@ -2097,7 +2171,7 @@ function xmlParseAndPreview(xmlStr) {
     return;
   }
 
-  // Parse each product — flexible tag aliases
+  // Parse each product - flexible tag aliases
   const getT   = (el, tag) => el.querySelector(tag)?.textContent?.trim() || '';
   const getAny = (el, ...tags) => { for(const t of tags){ const v=getT(el,t); if(v) return v; } return ''; };
 
@@ -2120,7 +2194,7 @@ function xmlParseAndPreview(xmlStr) {
       if (k) specs[k] = s.textContent.trim();
     });
 
-    // Images — collect ALL from common tags (multiple <image> children, url attrs, numbered tags)
+    // Images - collect ALL from common tags (multiple <image> children, url attrs, numbered tags)
     const allImgs = [];
     el.querySelectorAll('image,img,picture,photo,pic').forEach(n => {
       const src = (n.getAttribute('url') || n.getAttribute('src') || n.textContent || '').trim();
@@ -2171,13 +2245,13 @@ function xmlParseAndPreview(xmlStr) {
   let rows = parsed_products.map(p => `
     <tr>
       <td>${p.emoji || '📦'}</td>
-      <td style="color:#fff;font-weight:600;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${p.name || '<span style="color:#f87171">— липсва —</span>'}</td>
-      <td>${p.brand || '—'}</td>
+      <td style="color:#fff;font-weight:600;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${p.name || '<span style="color:#f87171">- липсва -</span>'}</td>
+      <td>${p.brand || '-'}</td>
       <td style="color:#34d399;font-weight:700;">${p.price ? p.price+' лв.' : '<span style="color:#f87171">липсва</span>'}</td>
-      <td>${p.cat || '—'}</td>
+      <td>${p.cat || '-'}</td>
       <td style="color:#a78bfa;font-size:11px;">${p.subcat || '<span style="color:#4b5563">авто</span>'}</td>
-      <td>${p.sku || '—'}</td>
-      <td>${p.gallery?.length ? `<span style="color:#34d399">🖼 ${p.gallery.length}</span>` : '<span style="color:#6b7280">—</span>'}</td>
+      <td>${p.sku || '-'}</td>
+      <td>${p.gallery?.length ? `<span style="color:#34d399">🖼 ${p.gallery.length}</span>` : '<span style="color:#6b7280">-</span>'}</td>
       <td>${p.ok
         ? (p.isUpdate
             ? '<span class="xml-status-update">🔄 Обновяване</span>'
@@ -2200,7 +2274,7 @@ function xmlParseAndPreview(xmlStr) {
   preview.innerHTML = `
     <div class="admin-table-card" style="margin-top:0;">
       <div class="admin-table-header">
-        <div class="admin-table-title">🔍 Преглед — ${parsed_products.length} продукта от XML</div>
+        <div class="admin-table-title">🔍 Преглед - ${parsed_products.length} продукта от XML</div>
       </div>
       <table class="xml-preview-table">
         <thead><tr><th></th><th>Наименование</th><th>Марка</th><th>Цена</th><th>Категория</th><th>Подкат.</th><th>SKU</th><th>Снимки</th><th>Статус</th></tr></thead>
@@ -2237,7 +2311,7 @@ function xmlDoImport() {
 
   toImport.forEach((p, i) => {
     if (forceSubcat) p.subcat = forceSubcat;
-    // Match by EAN or SKU only — never by XML's id (vendor IDs conflict with our IDs)
+    // Match by EAN or SKU only - never by XML's id (vendor IDs conflict with our IDs)
     const existsIdx = (p.ean ? products.findIndex(x => x.ean && x.ean === p.ean) : -1) !== -1
       ? products.findIndex(x => x.ean && x.ean === p.ean)
       : (p.sku ? products.findIndex(x => x.sku && x.sku === p.sku) : -1);
@@ -2246,7 +2320,7 @@ function xmlDoImport() {
       products[existsIdx] = { ...products[existsIdx], ...p, id: products[existsIdx].id };
       updated++;
     } else {
-      // Always generate new ID — ignore XML's id field to avoid conflicts
+      // Always generate new ID - ignore XML's id field to avoid conflicts
       p.id = maxId + i + 1;
       products.push(p);
       added++;
@@ -2366,7 +2440,7 @@ async function xmlFetchFromUI() {
       text = await res.text();
       method = 'директна връзка';
     } catch(e) {
-      // Direct fetch failed (CORS) — try proxies in sequence
+      // Direct fetch failed (CORS) - try proxies in sequence
       for (let i = 0; i < _proxies.length; i++) {
         try {
           const proxyUrl = _proxies[i](url);
@@ -2488,7 +2562,7 @@ function xmlStartAutoUpdate(runNow) {
   _autoupdCountdown = setInterval(xmlTickCountdown, 1000);
   if (runNow) xmlRunAutoUpdate(true);
   xmlUpdateBadgeUI();
-  xmlLog('info', `Auto-update включен — интервал ${Math.round(interval/60000)} мин., URL: ${AU_STORE.url}`);
+  xmlLog('info', `Auto-update включен - интервал ${Math.round(interval/60000)} мин., URL: ${AU_STORE.url}`);
 }
 
 function xmlStopAutoUpdate() {
@@ -2575,7 +2649,7 @@ async function xmlRunAutoUpdate(manual) {
 
     nodes.forEach(el => {
       const name  = getAny(el,'name','n','title','productName','product_name');
-      // Price: Most Computers sends EUR — convert to BGN
+      // Price: Most Computers sends EUR - convert to BGN
       const rawPrice = parseFloat(getT(el,'price'));
       const currency = getT(el,'currency');
       const price = (currency === 'EUR' && rawPrice) ? Math.round(rawPrice * EUR_RATE * 100) / 100 : rawPrice;
@@ -2636,7 +2710,7 @@ async function xmlRunAutoUpdate(manual) {
       if (existsIdx !== -1) {
         const prev = products[existsIdx];
         const merged = { ...prev, ...data, id: prev.id };
-        // Preserve manually-set old/pct/badge — XML feed doesn't supply them
+        // Preserve manually-set old/pct/badge - XML feed doesn't supply them
         if (!data.old  && prev.old)        merged.old   = prev.old;
         if (!(data.pct > 0) && prev.pct > 0) merged.pct = prev.pct;
         if (!data.badge && prev.badge)     merged.badge = prev.badge;
@@ -2835,7 +2909,7 @@ function adminBlogNew() {
   if (!form) return;
   document.getElementById('adminBlogFormTitle').textContent = '📝 Нова статия';
   form.dataset.editIdx = '';
-  ['bfTitle','bfSummary'].forEach(id => { const el = document.getElementById(id); if(el) el.value = ''; });
+  ['bfTitle','bfSummary','bfBody'].forEach(id => { const el = document.getElementById(id); if(el) el.value = ''; });
   form.style.display = '';
   form.scrollIntoView({ behavior: 'smooth' });
 }
@@ -2846,12 +2920,13 @@ function adminBlogSave() {
   const emoji   = document.getElementById('bfEmoji')?.value.trim() || '📰';
   const read    = document.getElementById('bfRead')?.value.trim() || '5 мин';
   const summary = document.getElementById('bfSummary')?.value.trim();
+  const body    = document.getElementById('bfBody')?.value.trim() || '';
   if (!title) { showToast('⚠️ Въведи заглавие'); return; }
   let posts = [];
   try { posts = JSON.parse(localStorage.getItem('mc_blog_posts') || '[]'); } catch(e) {}
   const now = new Date();
   const dateStr = now.toLocaleDateString('bg-BG', { day:'2-digit', month:'long', year:'numeric' });
-  posts.unshift({ title, cat, emoji, read, summary, date: dateStr, ts: now.getTime() });
+  posts.unshift({ title, cat, emoji, read, summary, body, date: dateStr, ts: now.getTime() });
   try { localStorage.setItem('mc_blog_posts', JSON.stringify(posts)); } catch(e) {}
   showToast('✅ Статията е запазена!');
   adminShowTab('blog');

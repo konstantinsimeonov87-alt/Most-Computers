@@ -20,7 +20,7 @@ function openProductPage(id) {
   pdpQtyVal = 1;
   addToRecentlyViewed(id);
 
-  // Breadcrumb (inline — no wrapper needed)
+  // Breadcrumb (inline - no wrapper needed)
   const _bcCatLabel = (typeof CAT_LABELS !== 'undefined' ? CAT_LABELS[p.cat] : null) || p.cat;
   if (typeof bcSet === 'function') {
     const _bcCatFn = () => { closeProductPage(); filterCat(p.cat); bcSet([{ label: _bcCatLabel, fn: _bcCatFn }]); };
@@ -49,12 +49,12 @@ function openProductPage(id) {
   }
   document.title = p.name + ' | Most Computers';
 
-  // SEO — Dynamic meta description
+  // SEO - Dynamic meta description
   const metaDesc = document.querySelector('meta[name="description"]');
   if (metaDesc) {
     const descText = p.desc
       ? p.desc.substring(0, 155) + (p.desc.length > 155 ? '…' : '')
-      : `${p.name} — ${p.brand} | Цена: ${(p.price/EUR_RATE).toFixed(2)} € / ${p.price} лв. Купи онлайн от Most Computers.`;
+      : `${p.name} - ${p.brand} | Цена: ${(p.price/EUR_RATE).toFixed(2)} € / ${p.price} лв. Купи онлайн от Most Computers.`;
     metaDesc.setAttribute('content', descText);
   }
 
@@ -79,7 +79,7 @@ function openProductPage(id) {
   setOG('product:price:currency', 'EUR');
   setOGName('twitter:card',        'summary_large_image');
   setOGName('twitter:title',       p.name + ' | Most Computers');
-  setOGName('twitter:description', p.desc ? p.desc.substring(0,200) : `${p.brand} — ${p.name}`);
+  setOGName('twitter:description', p.desc ? p.desc.substring(0,200) : `${p.brand} - ${p.name}`);
   setOGName('twitter:image',       p.img || '');
   const _canonical = document.querySelector('link[rel="canonical"]');
   if (_canonical) _canonical.setAttribute('href', `https://mostcomputers.bg/?product=${p.id}`);
@@ -109,7 +109,7 @@ function openProductPage(id) {
     _rvEl.style.cssText = 'font-size:11.5px;cursor:pointer;';
   }
 
-  // E: Spec badges — universal across all categories
+  // E: Spec badges - universal across all categories
   (function renderSpecBadges(prod) {
     const wrap = document.getElementById('pdpSpecBadges');
     if (!wrap) return;
@@ -118,7 +118,7 @@ function openProductPage(id) {
     const badges = [];
     const b = (text, color) => `<span style="display:inline-flex;align-items:center;padding:3px 8px;border-radius:5px;font-size:10.5px;font-weight:700;border:1.5px solid ${color};color:${color};background:${color}18;white-space:nowrap;">${text}</span>`;
 
-    // Storage — speed class
+    // Storage - speed class
     if (prod.subcat === 'microsd' || prod.subcat === 'sd_card' || prod.subcat === 'cf_card') {
       if (name.includes('U3') || (sp['Интерфейс']||'').includes('U3')) badges.push(b('U3 ⚡','#3b82f6'));
       else if (name.includes('U1')) badges.push(b('U1','#64748b'));
@@ -293,8 +293,8 @@ function openProductPage(id) {
   if (wishBtn) wishBtn.innerHTML = wishlist.includes(id) ? '❤ В любими' : '♡ Добави в желания';
 
   // Meta
-  document.getElementById('pdpSku').textContent     = p.sku  || '—';
-  document.getElementById('pdpEan').textContent     = p.ean  || p.sku || '—';
+  document.getElementById('pdpSku').textContent     = p.sku  || '-';
+  document.getElementById('pdpEan').textContent     = p.ean  || p.sku || '-';
   document.getElementById('pdpWarranty').textContent = specs['Warranty'] || specs['Гаранция'] || specs['warrantyInMonths'] || '24 месеца';
 
   // ── Gallery ──
@@ -320,7 +320,7 @@ function openProductPage(id) {
   // ── Full specs table ──
   const tbody = document.getElementById('pdpSpecsTbody');
   if (tbody) {
-    let specRows = `<tr><th scope="row">SKU / Part Number</th><td style="font-family:'JetBrains Mono',monospace;font-size:12px;">${p.sku||'—'}</td></tr>`;
+    let specRows = `<tr><th scope="row">SKU / Part Number</th><td style="font-family:'JetBrains Mono',monospace;font-size:12px;">${p.sku||'-'}</td></tr>`;
     if (p.ean) specRows += `<tr><th scope="row">EAN / Баркод</th><td style="font-family:'JetBrains Mono',monospace;font-size:12px;">${p.ean}</td></tr>`;
     const _se = s => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
     specRows += Object.entries(specs).map(([k,v]) => `<tr><th scope="row">${_se(k)}</th><td>${_se(v)}</td></tr>`).join('');
@@ -331,10 +331,10 @@ function openProductPage(id) {
   const htmlContent = document.getElementById('pdpHtmlContent');
   if (htmlContent) {
     if (p.htmlDesc) {
-      // htmlDesc is admin-authored HTML — kept as-is (trusted source)
+      // htmlDesc is admin-authored HTML - kept as-is (trusted source)
       htmlContent.innerHTML = p.htmlDesc;
     } else if (p.desc) {
-      // p.desc may come from XML — render as plain text to prevent XSS
+      // p.desc may come from XML - render as plain text to prevent XSS
       htmlContent.innerHTML = '';
       const para = document.createElement('p');
       para.style.cssText = 'font-size:14px;line-height:1.8;color:var(--text2);';
@@ -386,7 +386,7 @@ function openProductPage(id) {
       vendorDiv.innerHTML = `
         <p style="font-size:13px;color:var(--text2);margin-bottom:12px;">Посетете официалния сайт на производителя за повече информация.</p>
         <a class="pdp-vendor-link" href="${p.vendorUrl}" target="_blank" rel="noopener">
-          🌐 <span>Официален сайт — ${p.brand || 'Производител'}</span>
+          🌐 <span>Официален сайт - ${p.brand || 'Производител'}</span>
           <span style="margin-left:auto;font-size:11px;color:var(--muted);">↗</span>
         </a>`;
     } else {
@@ -399,7 +399,7 @@ function openProductPage(id) {
     || (() => { try { return (JSON.parse(localStorage.getItem('mc_reviews') || '{}')[p.id] || []).length > 0; } catch(e) { return false; } })();
   pdpSwitchTab(_hasPublicRevs ? 'reviews' : 'specs');
   pdpUpdateStickyBar(p);
-  // pdpShowViewers и pdpRenderSparkline премахнати — генерираха фалшиви данни
+  // pdpShowViewers и pdpRenderSparkline премахнати - генерираха фалшиви данни
   pdpInitDeliveryTimer();
   pdpRenderBundle(p);
   pdpRenderRelated(p);
@@ -410,7 +410,7 @@ function openProductPage(id) {
   pdpInitSwipe();
   pdpInitTabsScroll();
   if (typeof pdpInitDeliveryTimer === 'function') pdpInitDeliveryTimer();
-  // Sidebar disabled — specs already shown in main tab
+  // Sidebar disabled - specs already shown in main tab
   if (typeof pdpInitPinch === 'function') pdpInitPinch();
   if (typeof _pdpCompareReset === 'function') _pdpCompareReset();
   const _pdpEl = document.getElementById('pdpBackdrop');
@@ -508,7 +508,7 @@ function closeProductPage() {
     const iframe = videoWrap.querySelector('iframe');
     if (iframe) iframe.src = iframe.src;
   }
-  // Breadcrumb — pop back to category if present
+  // Breadcrumb - pop back to category if present
   document.title = 'Most Computers | Онлайн магазин за компютри и компоненти';
   // Reset meta description
   const metaDesc = document.querySelector('meta[name="description"]');
@@ -704,7 +704,7 @@ function pdpShareFacebook() {
 function pdpShareViber() {
   const p = products.find(x => x.id === pdpProductId);
   const url = location.origin + location.pathname + '?product=' + pdpProductId;
-  const text = encodeURIComponent((p ? p.name + ' — ' : '') + url);
+  const text = encodeURIComponent((p ? p.name + ' - ' : '') + url);
   window.open('viber://forward?text=' + text, '_blank');
 }
 
@@ -957,7 +957,7 @@ function pdpUpdateStickyBar(p) {
   if (priceEl) priceEl.textContent = fmtEur(p.price) + ' / ' + fmtBgn(p.price);
 }
 
-// QW-02: Viewers counter — seeded by product id for consistency per session
+// QW-02: Viewers counter - seeded by product id for consistency per session
 function pdpShowViewers(p) {
   let el = document.getElementById('pdpViewers');
   if (!el) return;
@@ -970,7 +970,7 @@ function pdpShowViewers(p) {
 function pdpShare(p) {
   const url = location.origin + location.pathname + '?product=' + p.id;
   if (navigator.share) {
-    navigator.share({ title: p.name, text: p.brand + ' ' + p.name + ' — ' + fmtEur(p.price), url }).catch(() => {});
+    navigator.share({ title: p.name, text: p.brand + ' ' + p.name + ' - ' + fmtEur(p.price), url }).catch(() => {});
   } else {
     try { navigator.clipboard.writeText(url); showToast('🔗 Линкът е копиран!'); } catch(e) { showToast('🔗 ' + url); }
   }

@@ -183,5 +183,5 @@ if (typeof window.supabase !== 'undefined') {
     console.warn('Supabase инициализация неуспешна:', e.message);
   }
 } else {
-  console.warn('Supabase CDN библиотеката не е заредена — поръчките се записват само в localStorage');
+  console.warn('Supabase CDN библиотеката не е заредена - поръчките се записват само в localStorage');
 }

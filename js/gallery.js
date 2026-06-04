@@ -150,7 +150,7 @@ function closeProductModalDirect(){
   document.body.style.overflow='';
   // Restore title if no category page is open
   if (!document.getElementById('catPage')?.classList.contains('open') && !document.getElementById('pdpBackdrop')?.classList.contains('open')) {
-    document.title = 'Most Computers — Техника и Електроника';
+    document.title = 'Most Computers - Техника и Електроника';
   }
 }
 function switchTab(tab){
@@ -224,7 +224,7 @@ function openComparePage(){
   html+=`</tr>`;
   allKeys.forEach(k=>{
     html+=`<tr><th scope="row" style="text-align:left;padding:10px 12px;background:var(--bg);border-top:1px solid var(--border);color:var(--muted);font-weight:600;">${k}</th>`;
-    prods.forEach(p=>html+=`<td style="padding:10px 12px;text-align:center;border-top:1px solid var(--border);border-left:1px solid var(--border);">${(p.specs||{})[k]||'—'}</td>`);
+    prods.forEach(p=>html+=`<td style="padding:10px 12px;text-align:center;border-top:1px solid var(--border);border-left:1px solid var(--border);">${(p.specs||{})[k]||'-'}</td>`);
     html+=`</tr>`;
   });
   html+=`</tbody></table></div>`;
@@ -253,7 +253,7 @@ function openCompareModal(){
   let html=`<thead><tr><th scope="col">Продукт</th>`;
   prods.forEach(p=>html+=`<th scope="col" class="cmp-product-header"><span class="cmp-emoji">${_cmpThumb(p,60)}</span><div class="cmp-name">${_esc(p.name)}</div><div class="cmp-price">${fmtEur(p.price)}<span class="text-11-muted-block">${fmtBgn(p.price)}</span></div><button type="button" class="cmp-add-btn" onclick="addToCart(${p.id})">🛒 Добави</button></th>`);
   html+=`</tr></thead><tbody>`;
-  // Price row — lowest is best
+  // Price row - lowest is best
   const priceDiff=_isDiff(prods.map(p=>p.price));
   html+=`<tr class="${priceDiff?'cmp-diff-row':''}"><th scope="row">Цена${priceDiff?'<span class="cmp-diff-badge">!</span>':''}</th>`;
   prods.forEach(p=>html+=`<td class="${p.price===minP?'cmp-best':''}">${fmtEur(p.price)}<span class="text-11-muted-block">${fmtBgn(p.price)}</span></td>`);
@@ -266,7 +266,7 @@ function openCompareModal(){
   // Spec rows
   let diffCount=0;
   const specRows=allKeys.map(k=>{
-    const vals=prods.map(p=>String((p.specs||{})[k]||'—'));
+    const vals=prods.map(p=>String((p.specs||{})[k]||'-'));
     const diff=_isDiff(vals);
     if(diff)diffCount++;
     const bestIdx=diff?_bestNumIdx(vals):-1;
@@ -334,7 +334,7 @@ function goSlide(n){if(!slides.length||!slides[n])return;slides[currentSlide].cl
 let _heroSliderIv=null;
 if(slides.length){if(_heroSliderIv)clearInterval(_heroSliderIv);_heroSliderIv=setInterval(()=>goSlide((currentSlide+1)%slides.length),5000);}
 
-// SALE SLIDE COUNTDOWN — counts down to end of day
+// SALE SLIDE COUNTDOWN - counts down to end of day
 (function(){
   const el = document.getElementById('saleCountdown');
   if(!el) return;
@@ -351,7 +351,7 @@ if(slides.length){if(_heroSliderIv)clearInterval(_heroSliderIv);_heroSliderIv=se
   setInterval(update, 1000);
 })();
 
-// COUNTDOWN — persistent across page reloads via localStorage
+// COUNTDOWN - persistent across page reloads via localStorage
 (function(){
   const DURATION = 4*3600; // 4 hours flash sale window
   let endTs = 0;

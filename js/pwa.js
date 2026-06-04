@@ -37,8 +37,8 @@
     if (manifestLink) manifestLink.href = manifestUrl;
   } catch(e) {}
 
-  // 3. Service Worker — registers when hosted on HTTPS
-  // (Blob URLs not supported for SW — browser security restriction)
+  // 3. Service Worker - registers when hosted on HTTPS
+  // (Blob URLs not supported for SW - browser security restriction)
   if ('serviceWorker' in navigator && location.protocol === 'https:') {
     navigator.serviceWorker.register('/sw.js', { scope: '/' })
       .then(reg => { console.log('MC SW ✓', reg.scope); window._mcSwReg = reg; })

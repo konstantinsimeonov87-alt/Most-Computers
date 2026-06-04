@@ -105,7 +105,7 @@ const _CAT_MIGRATE = {
 };
 products.forEach(p => { if (_CAT_MIGRATE[p.cat]) p.cat = _CAT_MIGRATE[p.cat]; });
 
-// Gaming laptops → laptops (not desktops) — safety for mislabeled imports
+// Gaming laptops → laptops (not desktops) - safety for mislabeled imports
 products.forEach(p => {
   if (p.cat === 'desktops') {
     const n = (p.name + ' ' + (p.desc || '')).toLowerCase();
@@ -140,7 +140,7 @@ products.forEach(p => {
   }
 });
 
-// All scripts are deferred — DOM is ready, call directly
+// All scripts are deferred - DOM is ready, call directly
 initDataActions();
 initSidebarFilters();
 renderGrids();
@@ -162,7 +162,7 @@ renderSidebarBrandSpot();
 // Quick cart badge from localStorage (full loadCart runs after lazy bundle loads)
 (function(){try{var c=JSON.parse(localStorage.getItem('mc_cart')||'[]'),t=c.reduce(function(s,i){return s+(i.qty||1);},0),b=document.getElementById('cartBadge');if(b){b.textContent=t;b.style.display=t>0?'':'none';}}catch(e){}})();
 // renderHpCats already called inside renderGrids()
-// renderRecentlyDiscounted is in product-page.js (lazy) — runs in lazy-init.js
+// renderRecentlyDiscounted is in product-page.js (lazy) - runs in lazy-init.js
 renderRecentlyViewed();
 renderHeroRightPanel();
 initSectionAnimations();
@@ -190,7 +190,7 @@ initScrollAnimations();
 
 // ===== LAZY BUNDLE LOADER =====
 // app-lazy.js is preloaded in <head> (downloads to cache) but executes only on first
-// user interaction — Lighthouse never sees it, real users get instant response from cache.
+// user interaction - Lighthouse never sees it, real users get instant response from cache.
 (function () {
   var _ll = false;
   function _loadLazy() {

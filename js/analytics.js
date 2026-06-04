@@ -1,4 +1,4 @@
-// ===== ANALYTICS — Most Computers =====
+// ===== ANALYTICS - Most Computers =====
 // GA4 + Meta Pixel + dev console
 // Load order: after main.js (last) so all functions are defined
 // ======================================
@@ -30,7 +30,7 @@
       console.log('%c[Analytics]%c ' + eventName, 'color:#bd1105;font-weight:700', 'color:inherit', payload);
     }
 
-    // LocalStorage event log (capped at 200 entries — for debugging & simple analytics)
+    // LocalStorage event log (capped at 200 entries - for debugging & simple analytics)
     try {
       const log = JSON.parse(localStorage.getItem('mc_analytics_log') || '[]');
       log.unshift({ event: eventName, data: payload });
@@ -291,7 +291,7 @@
         const q = (document.getElementById('searchInput') || {}).value || '';
         const result = _origFull.apply(this, arguments);
         if (q.trim()) {
-          // Results count available after render — approximate with DOM query
+          // Results count available after render - approximate with DOM query
           setTimeout(function () {
             const count = document.querySelectorAll('.srp-card').length;
             trackEvent('search', {
@@ -342,7 +342,7 @@
     trackPageView();
 
     if (IS_DEV) {
-      console.log('%c[Analytics] Initialized — hooks active', 'color:#34c759;font-weight:700');
+      console.log('%c[Analytics] Initialized - hooks active', 'color:#34c759;font-weight:700');
     }
   }
 
@@ -350,7 +350,7 @@
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
   } else {
-    // DOMContentLoaded already fired — defer one tick so app.js globals are set
+    // DOMContentLoaded already fired - defer one tick so app.js globals are set
     setTimeout(init, 0);
   }
 

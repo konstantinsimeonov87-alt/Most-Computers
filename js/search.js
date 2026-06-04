@@ -3,7 +3,7 @@ let recentSearches = [];
 try { recentSearches = JSON.parse(localStorage.getItem('mc_recent') || '[]'); } catch(e) { localStorage.removeItem('mc_recent'); }
 let searchFocusIdx = -1;
 let searchDebounce = null;
-let _srpQuery = ''; // current SRP query — never embed user input in HTML attributes
+let _srpQuery = ''; // current SRP query - never embed user input in HTML attributes
 
 const searchInput = document.getElementById('searchInput');
 const searchDropdown = document.getElementById('searchDropdown');
@@ -139,7 +139,7 @@ function renderDropdown(query) {
     } else if (qtype === 'sku') {
       hint = '<div class="sd-empty-sub">Търсенето по SKU не намери продукт с код <strong>' + escHtml(q) + '</strong></div>';
     } else {
-      // "Did you mean?" — намери близки марки/имена с Levenshtein
+      // "Did you mean?" - намери близки марки/имена с Levenshtein
       const ql = q.toLowerCase().trim();
       const suggestions = [];
       if (ql.length >= 3 && typeof products !== 'undefined') {
@@ -321,7 +321,7 @@ function showSearchResultsPage(query) {
   const rng = document.getElementById('sliderRange');
   if (rng) { rng.style.left=pct(srpPriceMinVal)+'%'; rng.style.width=(pct(srpPriceMaxVal)-pct(srpPriceMinVal))+'%'; }
   const pv = document.getElementById('srpPriceVals');
-  if (pv) pv.textContent = fmtEur(srpPriceMinVal) + ' — ' + fmtEur(srpPriceMaxVal);
+  if (pv) pv.textContent = fmtEur(srpPriceMinVal) + ' - ' + fmtEur(srpPriceMaxVal);
   const pf = document.getElementById('srpPriceFilter');
   if (pf) pf.style.display = '';
 
@@ -385,7 +385,7 @@ function srpResetFilters() {
   const rng = document.getElementById('sliderRange');
   if (rng) { rng.style.left='0%'; rng.style.width='100%'; }
   const pv = document.getElementById('srpPriceVals');
-  if (pv) pv.textContent = fmtEur(0) + ' — ' + fmtEur(srpPriceAbsMax);
+  if (pv) pv.textContent = fmtEur(0) + ' - ' + fmtEur(srpPriceAbsMax);
   document.querySelectorAll('.srp-filter-pill').forEach(b => b.classList.remove('active'));
   const allPill = document.querySelector('.srp-filter-pill[data-cat=""]');
   if (allPill) allPill.classList.add('active');

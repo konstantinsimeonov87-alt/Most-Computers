@@ -12,7 +12,7 @@ function fmtPrice(bgn, saleCls='') {
 // Inline dual: "2.30 € / 4.49 лв."
 function fmtDual(bgn) { return `${fmtEur(bgn)} / ${fmtBgn(bgn)}`; }
 
-// Единен речник на категориите — canonical + legacy ключове
+// Единен речник на категориите - canonical + legacy ключове
 const CAT_LABELS = {
   all:'Всички продукти',
   laptops:'Лаптопи', desktops:'Настолни компютри', components:'Компоненти',
@@ -26,7 +26,7 @@ const CAT_LABELS = {
   print:'Принтери', acc:'Аксесоари', monitor:'Монитори',
 };
 
-// HTML escape — използвай навсякъде преди вмъкване на user input в innerHTML
+// HTML escape - използвай навсякъде преди вмъкване на user input в innerHTML
 function escHtml(str) {
   return String(str)
     .replace(/&/g, '&amp;')

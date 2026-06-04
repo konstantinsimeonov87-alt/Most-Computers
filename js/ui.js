@@ -355,7 +355,7 @@ function closeComparePage() {
   document.body.style.overflow = '';
 }
 
-// IDEA-16: Hero Right Panel — personalized widget
+// IDEA-16: Hero Right Panel - personalized widget
 function renderHeroRightPanel() {
   var panel = document.getElementById('heroRightPanel');
   if (!panel) return;

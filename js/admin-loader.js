@@ -25,14 +25,14 @@ function _loadAdminScript(cb) {
   document.head.appendChild(s);
 }
 
-// Stub — заменя се от реалната функция в admin.js след зареждане
+// Stub - заменя се от реалната функция в admin.js след зареждане
 function openAdminPage() {
   _loadAdminScript(() => {
     if (typeof openAdminPage === 'function') openAdminPage();
   });
 }
 
-// Stub — нужен на ui.js преди admin.js да се зареди
+// Stub - нужен на ui.js преди admin.js да се зареди
 function closeAdminPage() {
   const page = document.getElementById('adminPage');
   if (page) page.style.display = 'none';

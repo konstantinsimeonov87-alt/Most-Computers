@@ -3,7 +3,7 @@ function migrateInlineClickHandlers() {
   document.querySelectorAll('[onclick]').forEach(el => {
     const code = el.getAttribute('onclick');
     if (!code) return;
-    if (code.includes('this.')) return; // skip — requires DOM context
+    if (code.includes('this.')) return; // skip - requires DOM context
     // remove return false and trim
     let action = code.replace(/return\s+false;?/g, '').trim();
     // strip trailing parentheses for simple calls

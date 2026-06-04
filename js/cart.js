@@ -9,7 +9,7 @@ function saveCart() { try { localStorage.setItem('mc_cart', JSON.stringify(cart.
 function oosNotify(id) {
   const p = products.find(x => x.id === id);
   if (!p) return;
-  const email = prompt('Въведи имейл — ще те уведомим когато "' + p.name.substring(0, 40) + '" е на склад:');
+  const email = prompt('Въведи имейл - ще те уведомим когато "' + p.name.substring(0, 40) + '" е на склад:');
   if (!email || !email.includes('@')) return;
   try {
     const notifs = JSON.parse(localStorage.getItem('mc_oos_notify') || '[]');
@@ -92,7 +92,7 @@ function showRecommended(p) {
 function addToCartById(id) { addToCart(id); }
 const FREE_SHIP_BGN = Math.round(100 * EUR_RATE * 100) / 100; // 100 EUR в лева
 
-// Social proof — shown only when real order count exists
+// Social proof - shown only when real order count exists
 (function initCartSocialProof() {
   const sp = document.getElementById('cartSocialProof');
   const txt = document.getElementById('cartSpText');
@@ -127,7 +127,7 @@ function updateCart() {
   // sync PDP mini-header cart badge
   const pdpB = document.getElementById('pdpMhdrCartBadge');
   if (pdpB) { pdpB.textContent = count; pdpB.style.display = count > 0 ? '' : 'none'; }
-  // sync bottom nav badges (two nav bars exist — update all)
+  // sync bottom nav badges (two nav bars exist - update all)
   document.querySelectorAll('#bnCartBadge, #bnCartBadge2').forEach(bnB => {
     const bnPrev = parseInt(bnB.textContent, 10) || 0;
     bnB.textContent = count; bnB.classList.toggle('show', count > 0);
@@ -461,20 +461,20 @@ function osChangeQty(id, d) {
 }
 
 var _allEcontOffices = [
-  'Еконт — кв. Лозенец, ул. Свети Наум 52',
-  'Еконт — ул. Г. С. Раковски 147, София',
-  'Еконт — бул. Витоша 100, София',
-  'Еконт — ж.к. Люлин 6, бл. 606, София',
-  'Еконт — ж.к. Младост 1, бл. 52Б, София',
-  'Еконт — ж.к. Надежда 4, бл. 421, София',
-  'Еконт — ул. Дойран 3, Пловдив',
-  'Еконт — бул. Цар Освободител 5, Варна',
-  'Еконт — ул. Ал. Стамболийски 6, Бургас',
-  'Еконт — ул. Цар Освободител 10, Стара Загора',
-  'Еконт — ул. Дунав 5, Русе',
-  'Еконт — бул. България 23, Плевен',
-  'Еконт — ул. Юрий Гагарин 1, Благоевград',
-  'Еконт — ул. Климент Охридски 9, Велико Търново'
+  'Еконт - кв. Лозенец, ул. Свети Наум 52',
+  'Еконт - ул. Г. С. Раковски 147, София',
+  'Еконт - бул. Витоша 100, София',
+  'Еконт - ж.к. Люлин 6, бл. 606, София',
+  'Еконт - ж.к. Младост 1, бл. 52Б, София',
+  'Еконт - ж.к. Надежда 4, бл. 421, София',
+  'Еконт - ул. Дойран 3, Пловдив',
+  'Еконт - бул. Цар Освободител 5, Варна',
+  'Еконт - ул. Ал. Стамболийски 6, Бургас',
+  'Еконт - ул. Цар Освободител 10, Стара Загора',
+  'Еконт - ул. Дунав 5, Русе',
+  'Еконт - бул. България 23, Плевен',
+  'Еконт - ул. Юрий Гагарин 1, Благоевград',
+  'Еконт - ул. Климент Охридски 9, Велико Търново'
 ];
 
 function filterEcontOffices(city) {
@@ -553,7 +553,7 @@ function applyPromo(codeArg) {
     if (inputEl) { document.getElementById('promoOk').classList.add('show'); inputEl.disabled = true; }
     const hint = document.getElementById('ckPromoHint'); if (hint) hint.style.display = 'none';
     renderOrderSummary();
-    showToast(`✓ Промо код приложен — -${promoDiscountPct}%!`);
+    showToast(`✓ Промо код приложен - -${promoDiscountPct}%!`);
   } else {
     showToast('Невалиден промо код!');
     if (inputEl) { inputEl.classList.add('error'); setTimeout(() => inputEl.classList.remove('error'), 1500); }
@@ -615,7 +615,7 @@ function validateCkStep(step) {
   }
   if (step === 2) {
     let valid = true;
-    if (ckDeliveryIdx === 2) return true; // pickup — no address needed
+    if (ckDeliveryIdx === 2) return true; // pickup - no address needed
     // Validate Econt office if Econt selected (check row visibility, not a non-existent CSS class)
     const officeEl = document.getElementById('ckEcontOffice');
     const officeRow = document.getElementById('ckEcontOfficeRow');
@@ -657,7 +657,7 @@ function ckValidateEmail(el) {
   _ckSetError(el, ok ? '' : 'Въведи валиден имейл адрес.');
 }
 
-// BG phone: 08xx, 09xx, +359 8xx, 00359 8xx — at least 10 digits
+// BG phone: 08xx, 09xx, +359 8xx, 00359 8xx - at least 10 digits
 function ckValidatePhone(el) {
   const raw = el.value.replace(/[\s\-().]/g, '');
   const ok = /^(\+359|00359|0)[89]\d{8}$/.test(raw) || /^[1-9]\d{9,}$/.test(raw);
@@ -702,7 +702,7 @@ function updateCheckoutSteps(active) {
 }
 
 function submitOrder() {
-  // Validate required fields — skip city/address for pickup (ckDeliveryIdx === 2)
+  // Validate required fields - skip city/address for pickup (ckDeliveryIdx === 2)
   const isPickup = ckDeliveryIdx === 2;
   const required = [
     ['ckFirst', 'Ime'], ['ckLast', 'Familiya'], ['ckEmail', 'Email'], ['ckPhone', 'Telefon'],
@@ -753,7 +753,7 @@ function submitOrder() {
   updateCheckoutSteps(2);
   setTimeout(() => updateCheckoutSteps(3), 400);
   setTimeout(() => {
-    // Build order data — sequential number based on existing order count
+    // Build order data - sequential number based on existing order count
     let _prevOrders = [];
     try { _prevOrders = JSON.parse(localStorage.getItem('mc_orders') || '[]'); } catch (e) { }
     const orderNum = 'MC-' + String(_prevOrders.length + 1).padStart(6, '0');
@@ -783,7 +783,7 @@ function submitOrder() {
     _set('tyCity', _isPickup ? 'София (магазин)' : document.getElementById('ckCity').value);
     _set('tyAddr', _isPickup ? 'бул. „Шипченски проход" бл.240' : (_econtOffice ? 'Офис: ' + _econtOffice + ', ' : '') + document.getElementById('ckAddr').value + (document.getElementById('ckZip').value ? ', ' + document.getElementById('ckZip').value : ''));
     _set('tyCourier', ckDeliveryNames[ckDeliveryIdx]);
-    _set('tyNote', document.getElementById('ckNote').value || '—');
+    _set('tyNote', document.getElementById('ckNote').value || '-');
     _set('tyTimestamp', now.toLocaleString('bg-BG'));
     _set('tyDeliveryDateLine', ckDeliveryIdx === 2 ? 'Готова за вземане' : 'Очаквана: ' + fmt(delivDate));
     _set('tySubtotal', fmtEur(subtotal) + ' / ' + fmtBgn(subtotal));
@@ -872,7 +872,7 @@ function closeThankyouPage() {
 }
 
 function printInvoice(num) {
-  // Delegates to printOrder() — correct company data + brand-based auto-detection
+  // Delegates to printOrder() - correct company data + brand-based auto-detection
   let orders = [];
   try { orders = JSON.parse(localStorage.getItem('mc_orders') || '[]'); } catch (e) { }
   const o = num ? orders.find(x => x.num === num) : orders[0];
@@ -900,7 +900,7 @@ function printInvoice(num) {
 <html lang="bg">
 <head>
 <meta charset="UTF-8">
-<title>Фактура ${invNum} — Most Computers</title>
+<title>Фактура ${invNum} - Most Computers</title>
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
   body{font-family:Arial,Helvetica,sans-serif;font-size:12px;color:#1a1a1a;padding:40px;max-width:820px;margin:auto}
@@ -966,10 +966,10 @@ function printInvoice(num) {
   <div class="party">
     <div class="party-lbl">${o.b2b ? 'Купувач (фирма)' : 'Клиент / Получател'}</div>
     <div class="party-val">
-      ${o.b2b ? `<strong>${escHtml(o.b2b.firma || '—')}</strong><br>ЕИК: ${escHtml(o.b2b.eik || '—')}<br>${o.b2b.vat ? 'ДДС №: ' + escHtml(o.b2b.vat) + '<br>' : ''}${o.b2b.mol ? 'МОЛ: ' + escHtml(o.b2b.mol) + '<br>' : ''}` : `<strong>${escHtml(o.customer || '—')}</strong><br>`}
+      ${o.b2b ? `<strong>${escHtml(o.b2b.firma || '-')}</strong><br>ЕИК: ${escHtml(o.b2b.eik || '-')}<br>${o.b2b.vat ? 'ДДС №: ' + escHtml(o.b2b.vat) + '<br>' : ''}${o.b2b.mol ? 'МОЛ: ' + escHtml(o.b2b.mol) + '<br>' : ''}` : `<strong>${escHtml(o.customer || '-')}</strong><br>`}
       ${o.addr ? escHtml(o.addr) + '<br>' : ''}
       ${escHtml(o.city || '')}<br>
-      тел.: ${escHtml(o.phone || '—')}
+      тел.: ${escHtml(o.phone || '-')}
     </div>
   </div>
 </div>
@@ -1010,7 +1010,7 @@ function printInvoice(num) {
 </div>
 
 <div class="legal">
-  Фактурата е издадена на ${date} от Most Computers ЕООД — регистрирано по ЗДДС лице.<br>
+  Фактурата е издадена на ${date} от Most Computers ЕООД - регистрирано по ЗДДС лице.<br>
   Валидна е без подпис и печат по чл. 6, ал. 1 от Наредба № Н-18 / 13.12.2006 г.
 </div>
 

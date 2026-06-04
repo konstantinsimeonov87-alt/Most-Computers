@@ -183,10 +183,10 @@ function handleRegister() {
         return;
       }
       if (data?.session) {
-        // Email confirmation disabled — user is logged in immediately.
+        // Email confirmation disabled - user is logged in immediately.
         // loginSuccess will be called via window._onSupabaseSignIn.
       } else {
-        // Email confirmation enabled — ask user to check inbox.
+        // Email confirmation enabled - ask user to check inbox.
         showAuthSuccess('📧', 'Провери имейла си!',
           `Изпратихме потвърждение на ${email}. Кликни линка за активация.`);
       }
@@ -225,7 +225,7 @@ function handleForgot() {
 }
 
 function socialLogin(provider) {
-  showToast('🔜 Социален вход с ' + provider + ' — очаквайте скоро!');
+  showToast('🔜 Социален вход с ' + provider + ' - очаквайте скоро!');
 }
 
 function _saveSession(user) {
@@ -293,7 +293,7 @@ function updateAuthUI() {
     if (profileBtn) profileBtn.style.display = 'none';
     const pdAvatar = document.getElementById('pdAvatar'); if (pdAvatar) pdAvatar.textContent = '?';
     const pdName = document.getElementById('pdName'); if (pdName) pdName.textContent = 'Гост';
-    const pdEmail = document.getElementById('pdEmail'); if (pdEmail) pdEmail.textContent = '—';
+    const pdEmail = document.getElementById('pdEmail'); if (pdEmail) pdEmail.textContent = '-';
   }
 }
 
@@ -400,7 +400,7 @@ function updateWishlistUI() {
   if (hdrBadge) { hdrBadge.textContent = count; hdrBadge.style.display = count > 0 ? 'flex' : 'none'; }
   const hdrIcon = document.getElementById('wlHdrIcon');
   if (hdrIcon) hdrIcon.textContent = count > 0 ? '❤' : '♡';
-  // Bottom nav badges (two nav bars exist — update all)
+  // Bottom nav badges (two nav bars exist - update all)
   document.querySelectorAll('#bnWishBadge, #bnWishBadge2').forEach(bnBadge => {
     bnBadge.textContent = count; bnBadge.classList.toggle('show', count > 0);
   });
@@ -508,13 +508,13 @@ function openProfilePage() {
   const email  = document.getElementById('profEmail');
   if (avatar) avatar.textContent = u ? (u.firstName[0] + (u.lastName ? u.lastName[0] : '')).toUpperCase() : '?';
   if (name)   name.textContent   = u ? (u.firstName + ' ' + (u.lastName || '')).trim() : 'Гост';
-  if (email)  email.textContent  = u ? u.email : '—';
+  if (email)  email.textContent  = u ? u.email : '-';
   // Settings tab values
   const se = document.getElementById('profSettingsEmail');
   const sp = document.getElementById('profSettingsPhone');
   const so = document.getElementById('profOosCount');
-  if (se) se.textContent = u ? u.email : '—';
-  if (sp) sp.textContent = u ? (u.phone || '—') : '—';
+  if (se) se.textContent = u ? u.email : '-';
+  if (sp) sp.textContent = u ? (u.phone || '-') : '-';
   if (so) {
     try { so.textContent = JSON.parse(localStorage.getItem('mc_oos_notify') || '[]').length + ' продукта'; } catch(e) { so.textContent = '0 продукта'; }
   }
@@ -591,7 +591,7 @@ function renderMyOrders() {
   grid.innerHTML = orders.map(o => {
     const _oNum = escHtml(o.num || '');
     const _oDate = escHtml(o.date || '');
-    const _oDel = escHtml(o.deliveryType || '—');
+    const _oDel = escHtml(o.deliveryType || '-');
     const _oStatus = escHtml(statusLabels[o.status] || o.status || '');
     const _oStatusCls = statusClass[o.status] || 'mo-st-pending';
     const items = (o.itemsData || []).map(x =>
@@ -695,7 +695,7 @@ function _openInvoiceWindow(o, co) {
         const lineEx = unitEx * qty;
         return `<tr><td style="text-align:center;">${i+1}</td><td>${_h(x.name||'')}</td><td style="text-align:center;">бр.</td><td style="text-align:center;">${qty}</td><td style="text-align:right;">${unitEx.toFixed(2)}</td><td style="text-align:right;font-weight:700;">${lineEx.toFixed(2)}</td></tr>`;
       }).join('')
-    : `<tr><td colspan="6" style="text-align:center;color:#888;padding:12px;">${_h(o.items||'—')}</td></tr>`;
+    : `<tr><td colspan="6" style="text-align:center;color:#888;padding:12px;">${_h(o.items||'-')}</td></tr>`;
   const win = window.open('', '_blank', 'width=800,height=920');
   if (!win) { showToast('⚠️ Попъп прозорецът е блокиран. Разреши попъпи за този сайт.'); return; }
   win.document.write(`<!DOCTYPE html><html lang="bg"><head><meta charset="utf-8"><title>Фактура ${_h(o.num)}</title>
@@ -734,7 +734,7 @@ tbody td{border:1px solid #bbb;padding:5px 8px;vertical-align:top}
   </div>
   <div class="party">
     <div class="party-title">Получател</div>
-    <div class="pr"><strong>${_h(o.customer||'—')}</strong><br>ЕИК/ЕГН: &nbsp;<br>ДДС №: &nbsp;<br>Адрес: ${_h(o.city||'')}${o.addr ? ', ' + _h(o.addr) : ''}<br>Тел: ${_h(o.phone||'')}<br>Имейл: ${_h(o.email||'')}</div>
+    <div class="pr"><strong>${_h(o.customer||'-')}</strong><br>ЕИК/ЕГН: &nbsp;<br>ДДС №: &nbsp;<br>Адрес: ${_h(o.city||'')}${o.addr ? ', ' + _h(o.addr) : ''}<br>Тел: ${_h(o.phone||'')}<br>Имейл: ${_h(o.email||'')}</div>
   </div>
 </div>
 <div class="basis">Основание за плащане: Покупка на стоки</div>
@@ -780,7 +780,7 @@ function printOrder(num) {
   if (mostItems.length && smmItems.length) {
     _openInvoiceWindow(splitOrder(mostItems), _INVOICE_COMPANIES[0]);
     setTimeout(() => _openInvoiceWindow(splitOrder(smmItems), _INVOICE_COMPANIES[1]), 400);
-    showToast('🧾 Отварят се 2 фактури — Мост Компютърс и СММ 97');
+    showToast('🧾 Отварят се 2 фактури - Мост Компютърс и СММ 97');
   } else if (mostItems.length) {
     _openInvoiceWindow(o, _INVOICE_COMPANIES[0]);
   } else {

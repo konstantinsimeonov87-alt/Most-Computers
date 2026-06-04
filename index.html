@@ -97,6 +97,17 @@
     .slide-badge{display:inline-block;background:rgba(255,255,255,.2);color:#fff;padding:4px 14px;border-radius:20px;font-size:11px;font-weight:700;text-transform:uppercase;margin-bottom:14px;border:1px solid rgba(255,255,255,.3)}
     .slide-sub{font-size:14px;opacity:.85;margin-bottom:24px}
     .slide-emoji{position:absolute;right:40px;bottom:20px;font-size:100px;opacity:.18;line-height:1}
+    .slide-1.active{align-items:center;text-align:center;padding:22px 32px}
+    .s1-over{font-size:10px;font-weight:600;letter-spacing:3px;color:#f9a09b;text-transform:uppercase;margin-bottom:8px}
+    .s1-hdg{font-size:24px;font-weight:900;color:#fff;margin:0 0 14px;letter-spacing:-0.5px;line-height:1.2}
+    .s1-cards{display:flex;gap:12px;margin-bottom:14px;width:100%}
+    .s1-card{flex:1;background:rgba(0,0,0,.22);border:1px solid rgba(240,90,82,.5);border-radius:10px;padding:14px 10px 12px;color:#fff;cursor:pointer;transition:background .2s,transform .15s;text-align:center;min-width:0}
+    .s1-card:hover{background:rgba(0,0,0,.35);transform:translateY(-2px)}
+    .s1-icon{width:36px;height:36px;display:block;margin:0 auto 8px;color:#fff;stroke:#fff}
+    .s1-card-name{font-size:13px;font-weight:700;margin-bottom:3px}
+    .s1-card-sub{font-size:10px;color:#f9a09b;line-height:1.3}
+    .s1-cta{background:#fff;color:#ad0f03;border:none;padding:9px 28px;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;transition:transform .15s,box-shadow .15s}
+    .s1-cta:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.2)}
     /* Skeleton - hardcoded values, no CSS vars to avoid cascade recalc when styles.css loads */
     @keyframes skeleton-shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
     .skeleton{background:linear-gradient(90deg,#e5e7eb 25%,#f3f4f6 50%,#e5e7eb 75%);background-size:200% 100%;animation:skeleton-shimmer 1.4s ease infinite;border-radius:6px}
@@ -1769,7 +1780,7 @@
       <span class="promo-strip-sep">✦</span>
       <span class="promo-strip-item"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true" style="display:inline-block;vertical-align:-1px;margin-right:4px"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>Сертифициран сервизен партньор от 1990 г.</span>
       <span class="promo-strip-sep">✦</span>
-      <span class="promo-strip-item"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true" style="display:inline-block;vertical-align:-1px;margin-right:4px"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Поръчай до 17:00 — изпращане същия ден</span>
+      <span class="promo-strip-item"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true" style="display:inline-block;vertical-align:-1px;margin-right:4px"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Поръчай до 17:00 - изпращане същия ден</span>
       <span class="promo-strip-sep">✦</span>
       <span class="promo-strip-item"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:inline-block;vertical-align:-1px;margin-right:4px"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Нови продукти всяка седмица</span>
       <span class="promo-strip-sep">✦</span>
@@ -1779,7 +1790,7 @@
       <span class="promo-strip-sep">✦</span>
       <span class="promo-strip-item"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true" style="display:inline-block;vertical-align:-1px;margin-right:4px"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>Сертифициран сервизен партньор от 1990 г.</span>
       <span class="promo-strip-sep">✦</span>
-      <span class="promo-strip-item"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true" style="display:inline-block;vertical-align:-1px;margin-right:4px"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Поръчай до 17:00 — изпращане същия ден</span>
+      <span class="promo-strip-item"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true" style="display:inline-block;vertical-align:-1px;margin-right:4px"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Поръчай до 17:00 - изпращане същия ден</span>
       <span class="promo-strip-sep">✦</span>
       <span class="promo-strip-item"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:inline-block;vertical-align:-1px;margin-right:4px"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Нови продукти всяка седмица</span>
       <span class="promo-strip-sep">✦</span>
@@ -1789,7 +1800,7 @@
       <span class="promo-strip-sep">✦</span>
       <span class="promo-strip-item"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true" style="display:inline-block;vertical-align:-1px;margin-right:4px"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>Сертифициран сервизен партньор от 1990 г.</span>
       <span class="promo-strip-sep">✦</span>
-      <span class="promo-strip-item"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true" style="display:inline-block;vertical-align:-1px;margin-right:4px"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Поръчай до 17:00 — изпращане същия ден</span>
+      <span class="promo-strip-item"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true" style="display:inline-block;vertical-align:-1px;margin-right:4px"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Поръчай до 17:00 - изпращане същия ден</span>
       <span class="promo-strip-sep">✦</span>
       <span class="promo-strip-item"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:inline-block;vertical-align:-1px;margin-right:4px"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Нови продукти всяка седмица</span>
       <span class="promo-strip-sep">✦</span>
@@ -1799,7 +1810,7 @@
       <span class="promo-strip-sep">✦</span>
       <span class="promo-strip-item"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true" style="display:inline-block;vertical-align:-1px;margin-right:4px"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>Сертифициран сервизен партньор от 1990 г.</span>
       <span class="promo-strip-sep">✦</span>
-      <span class="promo-strip-item"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true" style="display:inline-block;vertical-align:-1px;margin-right:4px"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Поръчай до 17:00 — изпращане същия ден</span>
+      <span class="promo-strip-item"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true" style="display:inline-block;vertical-align:-1px;margin-right:4px"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Поръчай до 17:00 - изпращане същия ден</span>
       <span class="promo-strip-sep">✦</span>
       <span class="promo-strip-item"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:inline-block;vertical-align:-1px;margin-right:4px"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Нови продукти всяка седмица</span>
       <span class="promo-strip-sep">✦</span>
@@ -2034,14 +2045,26 @@
       <div class="hero-section">
         <div class="hero-slider">
           <div class="slide slide-1 active">
-            <div class="slide-badge">🔥 Горещи оферти</div>
-            <h2 class="slide-title">Вземи ТОП продукти с голямо намаление</h2>
-            <div class="slide-sub">Подбрани оферти на най-ниски цени само тази седмица.</div>
-            <div class="slide-price" id="slide1Price">от <b>101.75 €</b> / 199 лв. <small>вместо 178.44 € / 349
-                лв.</small></div>
-            <button type="button" class="slide-btn"
-              data-action="openMegamenu">Пазарувай сега →</button>
-            <div class="slide-emoji">💻</div>
+            <div class="s1-over">ТЕХНИЧЕСКИ РЕШЕНИЯ ЗА ВСЕКИ РАБОТЕН ДЯЛ</div>
+            <h2 class="s1-hdg">Обзаведи офиса си с най-доброто</h2>
+            <div class="s1-cards">
+              <button type="button" class="s1-card" data-action="openCatPage('promo')">
+                <svg class="s1-icon" aria-hidden="true"><use href="#ic-laptop"/></svg>
+                <div class="s1-card-name">Лаптопи</div>
+                <div class="s1-card-sub">Мощност. Мобилност.</div>
+              </button>
+              <button type="button" class="s1-card" data-action="openCatPage('promo')">
+                <svg class="s1-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1" y="8" width="13" height="9" rx="2"/><circle cx="7.5" cy="12.5" r="2.5"/><circle cx="7.5" cy="12.5" r="1"/><path d="M14 10l7-4M14 15l7 4"/></svg>
+                <div class="s1-card-name">Проектори</div>
+                <div class="s1-card-sub">Големи идеи. Голям екран.</div>
+              </button>
+              <button type="button" class="s1-card" data-action="openCatPage('promo')">
+                <svg class="s1-icon" aria-hidden="true"><use href="#ic-tv"/></svg>
+                <div class="s1-card-name">Монитори</div>
+                <div class="s1-card-sub">Яркост. Цвят. Контрол.</div>
+              </button>
+            </div>
+            <button type="button" class="s1-cta" data-action="openCatPage('promo')">Разгледай промоциите →</button>
           </div>
           <div class="slide slide-2">
             <div class="slide-text">
@@ -3927,6 +3950,7 @@
 
   <!-- ADMIN PANEL -->
   <div class="admin-page" id="adminPage">
+    <button type="button" class="admin-mob-menu-btn" onclick="adminToggleSidebar()" aria-label="Меню">☰</button>
     <div class="admin-layout">
       <div class="admin-sidebar">
         <div class="admin-logo">
@@ -3960,7 +3984,7 @@
               class="nav-icon">📝</span> Ревюта <span class="nav-badge" id="adminReviewsBadge"
               style="display:none;"></span></button>
           <button type="button" class="admin-nav-item" data-action="adminShowTab('inventory')"><span
-              class="nav-icon">📦</span> Инвентар</button>
+              class="nav-icon">📋</span> Инвентар</button>
           <div class="admin-nav-section">Съдържание</div>
           <button type="button" class="admin-nav-item" data-action="adminShowTab('blog')"><span
               class="nav-icon">📰</span> Блог</button>
@@ -5013,27 +5037,27 @@
             <div class="dir-step">
               <div class="dir-step-num">1</div>
               <div class="dir-step-text">
-                <strong>От центъра на София</strong> — поемете по бул. „Цариградско шосе" на изток
+                <strong>От центъра на София</strong> - поемете по бул. „Цариградско шосе" на изток
                 <div class="dir-step-sub">~10 мин. при нормален трафик</div>
               </div>
             </div>
             <div class="dir-step">
               <div class="dir-step-num">2</div>
               <div class="dir-step-text">
-                Завийте наляво по <strong>бул. „Шипченски проход"</strong> — минавате покрай Хотел Плиска
+                Завийте наляво по <strong>бул. „Шипченски проход"</strong> - минавате покрай Хотел Плиска
               </div>
             </div>
             <div class="dir-step">
               <div class="dir-step-num">3</div>
               <div class="dir-step-text">
-                Търсете <strong>блок 240</strong> вдясно — сградата е в ж.к. „Гео Милев"
+                Търсете <strong>блок 240</strong> вдясно - сградата е в ж.к. „Гео Милев"
                 <div class="dir-step-sub">Паркинг пред блока</div>
               </div>
             </div>
             <div class="dir-step dir-step-final">
               <div class="dir-step-num">✓</div>
               <div class="dir-step-text">
-                <strong>Most Computers</strong> — партерен етаж, бул. „Шипченски проход" бл.240
+                <strong>Most Computers</strong> - партерен етаж, бул. „Шипченски проход" бл.240
               </div>
             </div>
           </div>
@@ -5045,7 +5069,7 @@
             <div class="dir-step">
               <div class="dir-step-num">1</div>
               <div class="dir-step-text">
-                Хванете <strong>Трамвай № 20</strong> — минава по бул. „Шипченски проход" през целия квартал Гео Милев
+                Хванете <strong>Трамвай № 20</strong> - минава по бул. „Шипченски проход" през целия квартал Гео Милев
                 <div class="dir-step-sub">Тръгва от НДК / Хали</div>
               </div>
             </div>
@@ -5059,7 +5083,7 @@
             <div class="dir-step dir-step-final">
               <div class="dir-step-num">✓</div>
               <div class="dir-step-text">
-                Вървете по бул. „Шипченски проход" — <strong>блок 240</strong> е на 200м
+                Вървете по бул. „Шипченски проход" - <strong>блок 240</strong> е на 200м
               </div>
             </div>
           </div>
@@ -5078,7 +5102,7 @@
             <div class="dir-step">
               <div class="dir-step-num">2</div>
               <div class="dir-step-text">
-                <strong>Тролейбус № 11 и E73</strong> — спирка „ул. Александър Жендов"
+                <strong>Тролейбус № 11 и E73</strong> - спирка „ул. Александър Жендов"
                 <div class="dir-step-sub">7 мин. пеша</div>
               </div>
             </div>
@@ -5097,7 +5121,7 @@
             <div class="dir-step">
               <div class="dir-step-num">1</div>
               <div class="dir-step-text">
-                Метро <strong>Линия М1 или М4</strong> — слезте на станция <strong>„Хотел Плиска"</strong>
+                Метро <strong>Линия М1 или М4</strong> - слезте на станция <strong>„Хотел Плиска"</strong>
                 <div class="dir-step-sub">Най-близката метро станция до нас</div>
               </div>
             </div>
@@ -5110,7 +5134,7 @@
             <div class="dir-step dir-step-final">
               <div class="dir-step-num">✓</div>
               <div class="dir-step-text">
-                <strong>Линия М3 (в строеж)</strong> — предвидена спирка в кв. Гео Милев ще скъси пътя значително
+                <strong>Линия М3 (в строеж)</strong> - предвидена спирка в кв. Гео Милев ще скъси пътя значително
               </div>
             </div>
           </div>
@@ -5122,25 +5146,25 @@
             <div class="dir-step">
               <div class="dir-step-num">1</div>
               <div class="dir-step-text">
-                От <strong>спирка „Румънско посолство"</strong> — 2 мин. пеша (150м)
+                От <strong>спирка „Румънско посолство"</strong> - 2 мин. пеша (150м)
               </div>
             </div>
             <div class="dir-step">
               <div class="dir-step-num">2</div>
               <div class="dir-step-text">
-                От <strong>спирка „ул. Ал. Жендов"</strong> — 4 мин. пеша (300м)
+                От <strong>спирка „ул. Ал. Жендов"</strong> - 4 мин. пеша (300м)
               </div>
             </div>
             <div class="dir-step">
               <div class="dir-step-num">3</div>
               <div class="dir-step-text">
-                От <strong>Хотел Плиска</strong> — 12 мин. пеша (900м) по бул. „Шипченски проход"
+                От <strong>Хотел Плиска</strong> - 12 мин. пеша (900м) по бул. „Шипченски проход"
               </div>
             </div>
             <div class="dir-step dir-step-final">
               <div class="dir-step-num">✓</div>
               <div class="dir-step-text">
-                Google Plus Code: <strong>M9H5+XJ Sofia</strong> — търсете директно в Google Maps
+                Google Plus Code: <strong>M9H5+XJ Sofia</strong> - търсете директно в Google Maps
               </div>
             </div>
           </div>
@@ -5212,7 +5236,7 @@
         <div class="contacts-info-col">
 
           <div class="contact-info-card">
-            <div class="ci-card-title">Централен склад — ЗИТ</div>
+            <div class="ci-card-title">Централен склад - ЗИТ</div>
 
             <div class="contact-info-row">
               <svg class="ci-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">

@@ -4320,6 +4320,7 @@ const blogPosts = [
     tags: ['Nvidia', 'Palit', 'GPU', 'гейминг', 'ревю'],
     brand: 'palit', rating: '9.1',
     model: 'RTX 4070 Super', modelSub: 'JetStream OC · 12 GB', brandLabel: 'PALIT · GPU',
+    productImage: './images/products/38228.webp',
     verdict: 'Безспорен избор за 1440p гейминг с бюджет до 1200 €. JetStream охладителят е сред най-добрите в класа, а factory OC носи реален бонус.',
     specs: {'GPU чип':'Ada Lovelace AD104','CUDA ядра':'7 168','Памет':'12 GB GDDR6X, 192-bit','Boost Clock':'2535 MHz (factory OC)','TDP':'220 W','Охладител':'JetStream 3×90 мм вентилатора'},
     body: `<h2>Паспорт на картата</h2>
@@ -4351,6 +4352,7 @@ const blogPosts = [
     tags: ['AMD', 'процесори', 'гейминг', 'ревю'],
     brand: 'amd', rating: '9.5',
     model: 'Ryzen 9 9950X3D', modelSub: 'Zen 5 · 3D V-Cache · AM5', brandLabel: 'AMD · CPU',
+    productImage: './images/products/44782.webp',
     verdict: 'Първият процесор без компромис между гейминг и продуктивност. Скъп, но напълно оправдан за enthusiast системи.',
     specs: {'Архитектура':'Zen 5 (TSMC 4nm)','Ядра / Нишки':'16C / 32T','Boost честота':'5.7 GHz','Кеш (L3)':'128 MB 3D V-Cache + 64 MB','TDP':'170 W','Сокет':'AM5 (LGA1718)'},
     body: `<h2>Zen 5 + 3D V-Cache: мощната комбинация</h2>
@@ -4381,6 +4383,7 @@ const blogPosts = [
     tags: ['Intel', 'процесори', 'Arrow Lake', 'новини'],
     brand: 'intel', rating: '8.3',
     model: 'Core Ultra 9 285K', modelSub: 'Arrow Lake-R · LGA1851', brandLabel: 'INTEL · CPU',
+    productImage: './images/products/43688.webp',
     verdict: 'Arrow Lake-R затваря голяма част от пропастта с AMD. Добър избор за AI работни натоварвания и смесена употреба.',
     specs: {'Архитектура':'Lion Cove + Skymont E-cores','Ядра':'8P + 16E = 24 ядра','Boost честота':'5.7 GHz','Кеш (L3)':'36 MB','TDP':'125 W (253 W PL2)','Сокет':'LGA1851 (Z890)','NPU':'48 TOPS'},
     body: `<h2>Какво се промени при Arrow Lake-R?</h2>
@@ -4411,6 +4414,7 @@ const blogPosts = [
     tags: ['AMD', 'процесори', 'гейминг', 'ревю'],
     brand: 'amd', rating: '9.4',
     model: 'Ryzen 7 9800X3D', modelSub: 'Zen 5 · 3D V-Cache · AM5', brandLabel: 'AMD · CPU',
+    productImage: './images/products/44485.webp',
     verdict: 'Абсолютният крал на гейминг производителност за цената. Ако бюджетът не позволява 9950X3D — 9800X3D е правилният избор.',
     specs: {'Архитектура':'Zen 5 (TSMC 4nm)','Ядра / Нишки':'8C / 16T','Boost честота':'5.7 GHz','Кеш (L3)':'96 MB 3D V-Cache','TDP':'120 W','Сокет':'AM5 (LGA1718)'},
     body: `<h2>Защо 9800X3D е специален?</h2>
@@ -4467,6 +4471,7 @@ const blogPosts = [
     tags: ['Nvidia', 'Palit', 'GPU', 'гейминг', 'ревю'],
     brand: 'palit', rating: '8.9',
     model: 'RTX 4080 Super', modelSub: 'JetStream OC · 16 GB', brandLabel: 'PALIT · GPU',
+    productImage: './images/products/38666.webp',
     verdict: 'Оптималният избор за 4K гейминг с бюджет под 2000 €. JetStream охладителят го прави тих дори при максимално натоварване.',
     specs: {'GPU чип':'Ada Lovelace AD102','CUDA ядра':'10 240','Памет':'16 GB GDDR6X, 256-bit','Boost Clock':'2595 MHz (factory OC)','TDP':'320 W','Охладител':'JetStream 3×100 мм'},
     body: `<h2>RTX 4080 Super — позицията в линейката</h2>
@@ -4495,6 +4500,7 @@ const blogPosts = [
     metaDesc: 'DDR5 памет за гейминг 2026 — DDR5-6000 vs 6400, 32 GB vs 64 GB, AMD AM5 и Intel Z890. Как да изберем правилно.',
     tags: ['памет', 'DDR5', 'AM5', 'съвети'],
     brand: 'general',
+    productImage: './images/products/37086.webp',
     body: `<h2>Колко GB памет е нужна за гейминг?</h2>
 <p><strong>32 GB (2×16 GB)</strong> е стандартът за 2026. Повечето съвременни игри използват 16-24 GB при максимални настройки. 64 GB има смисъл само ако правиш едновременно гейминг + стрийминг + видео монтаж. За чист гейминг 32 GB е оптималното.</p>
 <h2>DDR5-6000 vs DDR5-6400 — каква е разликата?</h2>
@@ -4519,6 +4525,7 @@ const blogPosts = [
     metaDesc: 'Бюджетна гейминг система 2026 — AMD Ryzen 5 9600X, Palit RTX 4060, B650 дъна. Как да изберем правилните компоненти за 800 €.',
     tags: ['гейминг', 'AMD', 'Palit', 'съвети', 'build'],
     brand: 'general',
+    productImage: './images/products/35948.webp',
     body: `<h2>Стратегия: CPU или GPU — кое е по-важно?</h2>
 <p>За гейминг <strong>GPU-то е по-важно</strong>. При ограничен бюджет — вложи повече в видеокартата. Ryzen 5 9600X за 220 € + RTX 4060 8GB за 310 € е по-добра гейминг система от Ryzen 9 9950X3D + GTX 1660 Super. Правилото: GPU = 40-50% от бюджета.</p>
 <h2>Примерна конфигурация за ~800 €</h2>
@@ -4546,6 +4553,7 @@ const blogPosts = [
     metaDesc: 'AM5 дъна платка 2026 — B650 vs X670E, ASRock vs ASUS vs Gigabyte vs MSI. Кое дъно да изберем за AMD Ryzen 9000?',
     tags: ['дъни платки', 'AM5', 'AMD', 'съвети'],
     brand: 'general',
+    productImage: './images/products/32593.webp',
     body: `<h2>B650 или X670E — какво да изберем?</h2>
 <p><strong>B650</strong> е достатъчен за 95% от потребителите. Поддържа DDR5 ECC, PCIe 4.0 x4 за NVMe и USB 3.2 Gen 2. <strong>X670E</strong> добавя PCIe 5.0 x16 за GPU и PCIe 5.0 x4 за NVMe — полезно само ако имаш PCIe 5.0 SSD или RTX 4090 клас GPU. За Ryzen 5/7 — B650 е оптималното.</p>
 <h2>Кой производител?</h2>
@@ -4632,6 +4640,7 @@ const blogPosts = [
     summary: '4K или 1440p? IPS или OLED? Пълен наръчник за правилния избор.',
     metaDesc: 'Как да изберем монитор за работа от вкъщи — 4K, 1440p, IPS, OLED. Пълен наръчник 2026.',
     tags: ['монитори', 'работа от вкъщи', 'съвети', '4K'],
+    productImage: './images/products/46737.webp',
     body: `<h2>Резолюция: 1080p, 1440p или 4K?</h2>
 <p>При 24-27" монитор <strong>1440p (2K)</strong> е оптималният баланс — достатъчно остра картина без прекомерно натоварване на GPU. 4K има смисъл при 32"+ или ако работиш с видео/снимки и имаш мощна графична карта.</p>
 <h2>Матрица: IPS, VA или OLED?</h2>
@@ -4732,10 +4741,11 @@ function _renderBlogGrid() {
          ${p.modelSub ? `<div class="blog-mag-submodel">${escHtml(p.modelSub)}</div>` : ''}`
       : `<div class="blog-mag-emoji">${p.emoji}</div>`;
     return `<div class="blog-mag-card" onclick="openBlogPost('${p.slug}')">
-      <div class="blog-mag-hd blog-brand-${brand}">
+      <div class="blog-mag-hd blog-brand-${brand}${p.productImage ? ' has-product-img' : ''}">
         <span class="blog-mag-cat-pill">${escHtml(p.cat)}</span>
         ${p.rating ? `<span class="blog-mag-rating-badge">${escHtml(p.rating)}</span>` : ''}
-        ${hdContent}
+        <div class="blog-mag-hd-inner">${hdContent}</div>
+        ${p.productImage ? `<img class="blog-mag-product-img" src="${p.productImage}" alt="${escHtml(p.model||p.title)}" loading="lazy">` : ''}
       </div>
       <div class="blog-mag-body">
         <div class="blog-mag-meta">
@@ -4809,6 +4819,7 @@ function openBlogPost(slug) {
         <span class="blog-article-hero-badge info">📖 ${escHtml(post.read)}</span>
         <span class="blog-article-hero-badge info">✍️ ${escHtml(post.author)}</span>
       </div>
+      ${post.productImage ? `<div class="blog-article-hero-product"><img src="${post.productImage}" alt="${escHtml(post.model||post.title)}" loading="lazy"></div>` : ''}
     </header>
     <div class="blog-article-body-wrap">
       <p class="blog-article-lead">${escHtml(post.summary)}</p>

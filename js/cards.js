@@ -104,7 +104,7 @@ function makeCard(p,small=false){
         ${p.old?`<div class="price-old">${fmtEur(p.old)}</div><div class="price-save">-${save}%</div>`:''}
       </div>
       <div class="product-footer">
-        ${p.stock!==false?`<div class="card-delivery-hint">${p.badge==='sale'?'⚡ Бърза доставка — поръчай до 17:00':'📦 Доставка до 2 работни дни'}</div>`:''}
+        ${p.stock!==false?`<div class="card-delivery-hint">${p.badge==='sale'?'⚡ Бърза доставка - поръчай до 17:00':'📦 Доставка до 2 работни дни'}</div>`:''}
         ${p.stock!==false?`<div class="card-warranty">🛡 2г. гаранция</div>`:''}
         ${p.stock===false
           ? `<button type="button" class="add-cart-btn oos-notify-btn" onclick="oosNotify(${p.id})">🔔 Уведоми ме при наличност</button>

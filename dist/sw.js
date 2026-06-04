@@ -1,5 +1,5 @@
-// Most Computers — Service Worker c08f7ca5
-const CACHE = 'mc-c08f7ca5';
+// Most Computers — Service Worker 48fea050
+const CACHE = 'mc-48fea050';
 const PRECACHE = [
   './',
   './index.html',
@@ -9,14 +9,14 @@ const PRECACHE = [
   './data.js',
 ];
 
-// Install — precache shell
+// Install - precache shell
 self.addEventListener('install', e => {
   e.waitUntil(
     caches.open(CACHE).then(c => c.addAll(PRECACHE)).then(() => self.skipWaiting())
   );
 });
 
-// Activate — delete old caches
+// Activate - delete old caches
 self.addEventListener('activate', e => {
   e.waitUntil(
     caches.keys().then(keys =>
@@ -25,7 +25,7 @@ self.addEventListener('activate', e => {
   );
 });
 
-// Fetch — cache-first for images (same-origin + portal.mostbg.com), network-first for rest
+// Fetch - cache-first for images (same-origin + portal.mostbg.com), network-first for rest
 self.addEventListener('fetch', e => {
   const { request } = e;
   const url = new URL(request.url);
@@ -64,7 +64,7 @@ self.addEventListener('fetch', e => {
         }
         return res;
       })
-      .catch(() => caches.match(request).then(cached => cached || new Response('Офлайн режим — страницата не е налична.', {
+      .catch(() => caches.match(request).then(cached => cached || new Response('Офлайн режим - страницата не е налична.', {
         status: 503,
         headers: { 'Content-Type': 'text/plain; charset=utf-8' }
       })))

@@ -4439,6 +4439,7 @@ const blogPosts = [
   {
     slug: 'intel-vs-amd-cpu-2026',
     emoji: '⚔️', cat: 'Сравнение', title: 'Intel vs AMD 2026 - Кой процесор да изберем?',
+    productImage: './images/products/43688.webp',
     date: '19 Май 2026', dateISO: '2026-05-19', read: '7 мин', author: 'Мост Компютърс',
     summary: 'Arrow Lake-R срещу Zen 5 - пълно сравнение по гейминг, продуктивност, AI и платформа. Кой побеждава в средата на 2026?',
     metaDesc: 'Intel vs AMD 2026 - сравнение Core Ultra 300 Arrow Lake-R срещу Ryzen 9000 Zen 5. Кой CPU да купим за гейминг и работа?',
@@ -4578,6 +4579,7 @@ const blogPosts = [
   {
     slug: 'macbook-pro-m4-pro-review',
     emoji: '💻', cat: 'Ревю', title: 'MacBook Pro M4 Pro - Worth It?',
+    productImage: './images/products/46747.webp',
     date: '07 Март 2026', dateISO: '2026-03-07', read: '5 мин', author: 'Мост Компютърс',
     summary: 'Тествахме новия MacBook Pro M4 Pro в реални условия - видео монтаж, код и gaming. Ето резултатите.',
     metaDesc: 'MacBook Pro M4 Pro ревю - производителност, батерия, дисплей. Струва ли си цената? Тест в реални условия от Most Computers.',
@@ -4596,6 +4598,7 @@ const blogPosts = [
   {
     slug: 'iphone-16-pro-max-vs-s25-ultra',
     emoji: '📱', cat: 'Сравнение', title: 'iPhone 16 Pro Max vs Samsung S25 Ultra',
+    productImage: './images/products/42081.webp',
     date: '03 Март 2026', dateISO: '2026-03-03', read: '7 мин', author: 'Мост Компютърс',
     summary: 'Двата флагмана се срещат в директен дуел. Камера, дисплей, батерия - кой печели?',
     metaDesc: 'iPhone 16 Pro Max срещу Samsung Galaxy S25 Ultra - пълно сравнение на камера, дисплей, батерия и производителност.',
@@ -4616,6 +4619,7 @@ const blogPosts = [
   {
     slug: 'top-5-bejichni-slushalki-2026',
     emoji: '🎧', cat: 'Топ 5', title: 'Най-добри безжични слушалки за 2026',
+    productImage: './images/products/47243.webp',
     date: '28 Февруари 2026', dateISO: '2026-02-28', read: '4 мин', author: 'Мост Компютърс',
     summary: 'Sony, Bose, ANC технология - кои слушалки дават най-добро качество за парите си?',
     metaDesc: 'Топ 5 безжични слушалки за 2026 - Sony WH-1000XM6, Bose QC45, Jabra. Коя да избереш?',
@@ -4664,6 +4668,7 @@ const blogPosts = [
   {
     slug: '10-nachina-udalzhim-bateriya',
     emoji: '🔋', cat: 'Съвети', title: '10 начина да удължим живота на батерията',
+    productImage: './images/products/52804.webp',
     date: '15 Февруари 2026', dateISO: '2026-02-15', read: '3 мин', author: 'Мост Компютърс',
     summary: 'Простите навици, които могат да удвоят живота на батерията на твоя телефон или лаптоп.',
     metaDesc: '10 съвета за по-дълъг живот на батерията на смартфон и лаптоп. Практични навици от Most Computers.',
@@ -4689,6 +4694,7 @@ const blogPosts = [
   {
     slug: 'umen-dom-pod-500-leva',
     emoji: '🏠', cat: 'Smart Home', title: 'Как да изградим умен дом за под 500 лв.',
+    productImage: './images/products/42961.webp',
     date: '10 Февруари 2026', dateISO: '2026-02-10', read: '8 мин', author: 'Мост Компютърс',
     summary: 'Philips Hue, смарт контакти, гласов асистент - пълна система без да се разоряваме.',
     metaDesc: 'Умен дом за под 500 лева - Philips Hue, Google Home, смарт контакти. Ръководство стъпка по стъпка.',
@@ -4739,9 +4745,10 @@ function _renderBlogGrid() {
       ? `${p.brandLabel ? `<div class="blog-mag-brand-lbl">${escHtml(p.brandLabel)}</div>` : ''}
          <div class="blog-mag-model">${escHtml(p.model)}</div>
          ${p.modelSub ? `<div class="blog-mag-submodel">${escHtml(p.modelSub)}</div>` : ''}`
-      : `<div class="blog-mag-emoji">${p.emoji}</div>`;
+      : (p.productImage ? '' : `<div class="blog-mag-emoji">${p.emoji}</div>`);
+    const hdClass = p.productImage ? (p.model ? ' has-product-img' : ' img-only') : '';
     return `<div class="blog-mag-card" onclick="openBlogPost('${p.slug}')">
-      <div class="blog-mag-hd blog-brand-${brand}${p.productImage ? ' has-product-img' : ''}">
+      <div class="blog-mag-hd blog-brand-${brand}${hdClass}">
         <span class="blog-mag-cat-pill">${escHtml(p.cat)}</span>
         ${p.rating ? `<span class="blog-mag-rating-badge">${escHtml(p.rating)}</span>` : ''}
         <div class="blog-mag-hd-inner">${hdContent}</div>
@@ -5119,6 +5126,21 @@ function checkOpenNow() {
   badge.innerHTML = isOpen
     ? '<span style="display:inline-flex;align-items:center;gap:6px;background:#e8f9ed;color:#1a7f37;border-radius:8px;padding:7px 14px;font-size:13px;font-weight:800;"><span style="width:8px;height:8px;border-radius:50%;background:#34c759;display:inline-block;"></span> Отворено сега</span>'
     : '<span style="display:inline-flex;align-items:center;gap:6px;background:#fef2f2;color:#dc2626;border-radius:8px;padding:7px 14px;font-size:13px;font-weight:800;"><span style="width:8px;height:8px;border-radius:50%;background:#ef4444;display:inline-block;"></span> Затворено</span>';
+
+  // Warehouse badge - Mon-Fri 09:00-17:00 (540-1020)
+  const warehouseBadge = document.getElementById('warehouseOpenNowBadge');
+  if (warehouseBadge) {
+    const whOpen = day >= 1 && day <= 5 && time >= 540 && time < 1020;
+    warehouseBadge.innerHTML = whOpen
+      ? '<span style="display:inline-flex;align-items:center;gap:6px;background:#e8f9ed;color:#1a7f37;border-radius:8px;padding:7px 14px;font-size:13px;font-weight:800;"><span style="width:8px;height:8px;border-radius:50%;background:#34c759;display:inline-block;"></span> Отворено сега</span>'
+      : '<span style="display:inline-flex;align-items:center;gap:6px;background:#fef2f2;color:#dc2626;border-radius:8px;padding:7px 14px;font-size:13px;font-weight:800;"><span style="width:8px;height:8px;border-radius:50%;background:#ef4444;display:inline-block;"></span> Затворено</span>';
+    const whRows = document.querySelectorAll('#warehouseHoursTable tr');
+    whRows.forEach(r => { r.style.background = ''; });
+    if (whRows[dayMap[day]]) {
+      whRows[dayMap[day]].style.background = 'var(--primary-light)';
+      whRows[dayMap[day]].style.borderRadius = '6px';
+    }
+  }
 }
 
 
@@ -5948,6 +5970,11 @@ function closeAdminPage() {
       document.dispatchEvent(new CustomEvent('mc:productopen', {detail: id}));
     };
     openProductModal._lazyPatched = true;
+  }
+
+  // Open admin panel directly via ?admin=1 (no login required)
+  if (new URLSearchParams(location.search).get('admin') === '1') {
+    if (typeof openAdminPage === 'function') openAdminPage();
   }
 
   if (typeof closeProductModalDirect === 'function' && !closeProductModalDirect._lazyPatched) {

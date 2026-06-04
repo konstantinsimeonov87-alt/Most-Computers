@@ -27,6 +27,11 @@
     openProductModal._lazyPatched = true;
   }
 
+  // Open admin panel directly via ?admin=1 (no login required)
+  if (new URLSearchParams(location.search).get('admin') === '1') {
+    if (typeof openAdminPage === 'function') openAdminPage();
+  }
+
   if (typeof closeProductModalDirect === 'function' && !closeProductModalDirect._lazyPatched) {
     var _baseCloseProductModalDirect = closeProductModalDirect;
     closeProductModalDirect = function() {

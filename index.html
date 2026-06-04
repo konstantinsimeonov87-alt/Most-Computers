@@ -4880,12 +4880,6 @@
 
     <div class="contacts-page-inner">
 
-      <!-- Hero -->
-      <div class="contacts-hero">
-        <h1 class="contacts-hero-title">Контакти</h1>
-        <p class="contacts-hero-sub">бул. „Шипченски проход" бл.240 &mdash; ж.к. „Гео Милев", 1111 София</p>
-      </div>
-
       <!-- Main 2-col layout: map + info panel -->
       <div class="contacts-section-divider">
         <span>Централен офис</span>
@@ -5244,7 +5238,7 @@
 
           <div class="contact-info-card">
             <div class="ci-card-title">Работно време на склада</div>
-            <table class="hours-table">
+            <table class="hours-table" id="warehouseHoursTable">
               <tr><th scope="row">Понеделник</th><td class="hours-open">09:00 – 17:00</td></tr>
               <tr><th scope="row">Вторник</th><td class="hours-open">09:00 – 17:00</td></tr>
               <tr><th scope="row">Сряда</th><td class="hours-open">09:00 – 17:00</td></tr>
@@ -5253,6 +5247,7 @@
               <tr><th scope="row">Събота</th><td class="hours-closed">Почивен ден</td></tr>
               <tr><th scope="row">Неделя</th><td class="hours-closed">Почивен ден</td></tr>
             </table>
+            <div id="warehouseOpenNowBadge" style="margin-top:12px;"></div>
           </div>
 
         </div><!-- /contacts-info-col -->

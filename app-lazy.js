@@ -31,6 +31,7 @@ function renderGallery(p, idx=0) {
   const imgEl = document.getElementById('modalImg');
   const emojiEl = document.getElementById('modalEmoji');
   const thumbsEl = document.getElementById('modalThumbs');
+  if (!imgEl || !emojiEl) return;
   const cur = galleryImages[galleryIdx];
 
   // Show/hide nav arrows
@@ -73,6 +74,7 @@ function renderThumbs(p) {
 function switchGalleryImg(idx) {
   const p = products.find(x=>x.id===modalProductId); if(!p) return;
   const imgEl = document.getElementById('modalImg');
+  if (!imgEl) return;
   imgEl.classList.add('fading');
   setTimeout(() => {
     galleryIdx = idx;
@@ -5203,7 +5205,7 @@ function _svcTrkSearch(order, warranty) {
       const demo = { found:true, status:'В ремонт', updatedAt:'20.11.2025',
         step:'Изчаква резервни части', location:'Сервизен център — София', searchType, searchValue };
       _svcTrkShowResult(demo, false);
-      localStorage.setItem(_SVCTRK_LAST, JSON.stringify(demo));
+      try { localStorage.setItem(_SVCTRK_LAST, JSON.stringify(demo)); } catch(e) {}
       _svcTrkSaveHistory(demo);
       _svcTrkUpdateHistory();
     }

@@ -37,6 +37,13 @@
       if (log.length > 200) log.length = 200;
       localStorage.setItem('mc_analytics_log', JSON.stringify(log));
     } catch (_) {}
+    // Persistent log (survives page reload, capped at 1000 entries)
+    try {
+      const persistent = JSON.parse(localStorage.getItem('mc_analytics_persistent') || '[]');
+      persistent.unshift({ event: eventName, data: payload });
+      if (persistent.length > 1000) persistent.length = 1000;
+      localStorage.setItem('mc_analytics_persistent', JSON.stringify(persistent));
+    } catch (_) {}
   }
 
   // ── page_view ────────────────────────────────────────────────────────────────

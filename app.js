@@ -6118,8 +6118,8 @@ function closeOrderTracker() {
   document.body.style.overflow = '';
 }
 
-const _otStatusMap   = { pending:1, processing:2, shipped:3, delivered:4, cancelled:1 };
-const _otStatusLabel = { pending:'Изчаква потвърждение', processing:'Обработва се', shipped:'В доставка', delivered:'Доставена', cancelled:'Отказана' };
+const _otStatusMap   = { pending:1, processing:2, paid:2, shipped:3, ready_pickup:3, delivered:4, returned:1, cancelled:1 };
+const _otStatusLabel = { pending:'Изчаква потвърждение', processing:'В обработка', paid:'Платена - в обработка', shipped:'В доставка', ready_pickup:'Готова за вземане от магазин', delivered:'Доставена', returned:'Върната', cancelled:'Отказана' };
 const _otStepTitles  = [
   { title:'Поръчката е получена', sub:'Потвърдена успешно' },
   { title:'Обработва се',         sub:'Очаквано завършване: до 2 часа' },
@@ -6158,8 +6158,8 @@ function trackOrder() {
           name: real.items || real.customer,
           date: real.date,
           dest: (real.city ? real.city + ', ' : '') + (real.addr || ''),
-          courier: 'Еконт',
-          courierNum: 'EKT-' + real.num.replace('MC-','').slice(0,6) + '-BG',
+          courier: real.deliveryType === 'speedy' ? 'Спиди' : 'Еконт',
+          courierNum: real.trackingNum || '',
           status: _otStatusLabel[real.status] || real.status,
           steps: _otBuildSteps(activeStep, real.date)
         };
@@ -6173,7 +6173,7 @@ function trackOrder() {
     order = {
       num, name: 'Most Computers поръчка',
       date: now, dest: 'Адрес на доставка',
-      courier: 'Еконт', courierNum: 'EKT-' + Math.random().toString().slice(2,8) + '-BG',
+      courier: 'Еконт', courierNum: '',
       status: 'Обработва се',
       steps: _otBuildSteps(1, now)
     };
@@ -6187,7 +6187,7 @@ function trackOrder() {
   document.getElementById('otStatusBadge').textContent = order.status;
   document.getElementById('otDestVal').textContent = order.dest;
   document.getElementById('otCourierName').textContent = order.courier;
-  document.getElementById('otCourierNum').textContent = 'Товарителница: ' + order.courierNum;
+  document.getElementById('otCourierNum').textContent = order.courierNum ? 'Товарителница: ' + order.courierNum : 'Товарителница: очаква се';
   document.getElementById('otCourierIcon').textContent = order.courier === 'Еконт' ? 'EKT' : 'SPD';
 
   var _el_otTimeline=document.getElementById('otTimeline'); if(_el_otTimeline) _el_otTimeline.innerHTML = order.steps.map(s => `

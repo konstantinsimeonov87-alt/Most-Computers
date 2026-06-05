@@ -3007,6 +3007,8 @@ function readURLParams() {
     setTimeout(() => { if (typeof openDeliveryPage === 'function') openDeliveryPage(); }, 350);
   } else if (_urlPage === 'contacts') {
     setTimeout(() => { if (typeof openContactsPage === 'function') openContactsPage(); }, 350);
+  } else if (_urlPage === 'careers') {
+    setTimeout(() => { if (typeof openCareersPage === 'function') openCareersPage(); }, 350);
   }
 }
 
@@ -4000,6 +4002,8 @@ window.addEventListener('popstate', e => {
         if (!pdpOpen && typeof openBlogPage === 'function') openBlogPage();
       }
     }
+  } else if (e.state?.page === 'careers') {
+    if (typeof openCareersPage === 'function') openCareersPage();
   } else {
     // Navigated back to homepage - close all overlays and clear breadcrumb
     const pg = document.getElementById('catPage');

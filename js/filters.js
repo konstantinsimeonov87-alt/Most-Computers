@@ -2074,6 +2074,8 @@ function readURLParams() {
     setTimeout(() => { if (typeof openDeliveryPage === 'function') openDeliveryPage(); }, 350);
   } else if (_urlPage === 'contacts') {
     setTimeout(() => { if (typeof openContactsPage === 'function') openContactsPage(); }, 350);
+  } else if (_urlPage === 'careers') {
+    setTimeout(() => { if (typeof openCareersPage === 'function') openCareersPage(); }, 350);
   }
 }
 

@@ -683,6 +683,8 @@ window.addEventListener('popstate', e => {
         if (!pdpOpen && typeof openBlogPage === 'function') openBlogPage();
       }
     }
+  } else if (e.state?.page === 'careers') {
+    if (typeof openCareersPage === 'function') openCareersPage();
   } else {
     // Navigated back to homepage - close all overlays and clear breadcrumb
     const pg = document.getElementById('catPage');

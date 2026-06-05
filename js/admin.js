@@ -1155,6 +1155,37 @@ function adminShowTab(tab) {
       </div>
     `;
 
+  } else if (tab === 'careers') {
+    const jobs = (window.careersData || []);
+    main.innerHTML = `
+      <div class="admin-topbar">
+        <div>
+          <div class="admin-page-title">👥 Кариери</div>
+          <div class="admin-page-sub">${jobs.length} активн${jobs.length === 1 ? 'а' : 'и'} обяв${jobs.length === 1 ? 'а' : 'и'}</div>
+        </div>
+        <button type="button" class="admin-table-action" onclick="adminCareersOpenEditor(null)">+ Добави позиция</button>
+      </div>
+      <div class="admin-table-card">
+        ${jobs.length === 0 ? `<div style="padding:32px;text-align:center;color:var(--muted);">Няма активни обяви. Добави позиция от бутона горе вдясно.</div>` : `
+        <table class="admin-table">
+          <thead><tr><th>Позиция</th><th>Отдел</th><th>Тип</th><th>Краен срок</th><th></th></tr></thead>
+          <tbody>${jobs.map((j, i) => `<tr>
+            <td class="text-white-semibold">${j.title || '-'}${j.badge ? ` <span style="font-size:10px;padding:1px 6px;border-radius:10px;background:rgba(99,102,241,.15);color:#818cf8;">${j.badge}</span>` : ''}</td>
+            <td>${j.department || '-'}</td>
+            <td>${j.type === 'full-time' ? 'Пълен' : j.type === 'part-time' ? 'Непълен' : j.type === 'contract' ? 'Договор' : (j.type || '-')}</td>
+            <td>${j.deadline || '-'}</td>
+            <td style="text-align:right;white-space:nowrap;">
+              <button type="button" class="admin-table-action" onclick="adminCareersOpenEditor(${i})" style="margin-right:4px;">✏ Редактирай</button>
+              <button type="button" class="admin-table-action" onclick="adminCareersDelete(${i})" style="background:rgba(248,113,113,.12);color:#f87171;border-color:rgba(248,113,113,.3);">🗑</button>
+            </td>
+          </tr>`).join('')}
+          </tbody>
+        </table>`}
+      </div>
+    `;
+    const badge = document.getElementById('adminCareersBadge');
+    if (badge) { badge.textContent = jobs.length; badge.style.display = jobs.length ? '' : 'none'; }
+
   } else if (tab === 'settings') {
     main.innerHTML = `
       <div class="admin-topbar">
@@ -3335,3 +3366,128 @@ function adminSaveStoreConfig() {
 }
 
 
+
+// ===== ADMIN CAREERS =====
+function adminCareersOpenEditor(idx) {
+  const jobs = window.careersData || [];
+  const job = idx !== null ? { ...jobs[idx] } : {
+    id: 'job-' + Date.now(),
+    title: '', department: '', location: 'София', type: 'full-time',
+    badge: '', salary: '', experience: '', posted: new Date().toISOString().slice(0,10),
+    deadline: '', description: '', requirements: [], benefits: [], hiringEmail: 'hr@mostbg.com',
+  };
+  const reqStr = Array.isArray(job.requirements) ? job.requirements.join('\n') : (job.requirements || '');
+  const benStr = Array.isArray(job.benefits) ? job.benefits.join('\n') : (job.benefits || '');
+  const main = document.getElementById('adminMain');
+  main.innerHTML = `
+    <div class="admin-topbar">
+      <div><div class="admin-page-title">${idx === null ? '+ Нова позиция' : '✏ Редактирай позиция'}</div></div>
+      <div style="display:flex;gap:8px;">
+        <button type="button" class="admin-table-action" onclick="adminCareersShowTab()">← Назад</button>
+        <button type="button" class="admin-table-action" onclick="adminCareersSave(${idx})" style="background:rgba(74,222,128,.12);color:#4ade80;border-color:rgba(74,222,128,.3);">💾 Запази</button>
+      </div>
+    </div>
+    <div class="admin-table-card" style="padding:20px;display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+      <div>
+        <label style="display:block;font-size:12px;font-weight:700;margin-bottom:4px;">Позиция *</label>
+        <input id="cjTitle" class="admin-input" value="${job.title || ''}" placeholder="напр. Продавач-консултант">
+      </div>
+      <div>
+        <label style="display:block;font-size:12px;font-weight:700;margin-bottom:4px;">Отдел</label>
+        <input id="cjDept" class="admin-input" value="${job.department || ''}" placeholder="напр. Магазин">
+      </div>
+      <div>
+        <label style="display:block;font-size:12px;font-weight:700;margin-bottom:4px;">Локация</label>
+        <input id="cjLoc" class="admin-input" value="${job.location || 'София'}">
+      </div>
+      <div>
+        <label style="display:block;font-size:12px;font-weight:700;margin-bottom:4px;">Тип</label>
+        <select id="cjType" class="admin-input">
+          <option value="full-time" ${job.type==='full-time'?'selected':''}>Пълен работен ден</option>
+          <option value="part-time" ${job.type==='part-time'?'selected':''}>Непълен работен ден</option>
+          <option value="contract" ${job.type==='contract'?'selected':''}>Граждански договор</option>
+        </select>
+      </div>
+      <div>
+        <label style="display:block;font-size:12px;font-weight:700;margin-bottom:4px;">Заплата (диапазон)</label>
+        <input id="cjSalary" class="admin-input" value="${job.salary || ''}" placeholder="напр. 1 800 - 2 200 EUR">
+      </div>
+      <div>
+        <label style="display:block;font-size:12px;font-weight:700;margin-bottom:4px;">Опит</label>
+        <input id="cjExp" class="admin-input" value="${job.experience || ''}" placeholder="напр. 1+ год.">
+      </div>
+      <div>
+        <label style="display:block;font-size:12px;font-weight:700;margin-bottom:4px;">Публикувана на</label>
+        <input id="cjPosted" type="date" class="admin-input" value="${job.posted || ''}">
+      </div>
+      <div>
+        <label style="display:block;font-size:12px;font-weight:700;margin-bottom:4px;">Краен срок</label>
+        <input id="cjDeadline" type="date" class="admin-input" value="${job.deadline || ''}">
+      </div>
+      <div>
+        <label style="display:block;font-size:12px;font-weight:700;margin-bottom:4px;">Бадж</label>
+        <select id="cjBadge" class="admin-input">
+          <option value="" ${!job.badge?'selected':''}>Без бадж</option>
+          <option value="new" ${job.badge==='new'?'selected':''}>new</option>
+          <option value="hot" ${job.badge==='hot'?'selected':''}>hot</option>
+        </select>
+      </div>
+      <div>
+        <label style="display:block;font-size:12px;font-weight:700;margin-bottom:4px;">HR имейл</label>
+        <input id="cjEmail" class="admin-input" value="${job.hiringEmail || 'hr@mostbg.com'}">
+      </div>
+      <div style="grid-column:1/-1;">
+        <label style="display:block;font-size:12px;font-weight:700;margin-bottom:4px;">Описание</label>
+        <textarea id="cjDesc" class="admin-input" rows="4" style="resize:vertical;">${job.description || ''}</textarea>
+      </div>
+      <div style="grid-column:1/-1;">
+        <label style="display:block;font-size:12px;font-weight:700;margin-bottom:4px;">Изисквания (по едно на ред)</label>
+        <textarea id="cjReq" class="admin-input" rows="4" style="resize:vertical;">${reqStr}</textarea>
+      </div>
+      <div style="grid-column:1/-1;">
+        <label style="display:block;font-size:12px;font-weight:700;margin-bottom:4px;">Предимства / Бонуси (по едно на ред)</label>
+        <textarea id="cjBen" class="admin-input" rows="3" style="resize:vertical;">${benStr}</textarea>
+      </div>
+    </div>
+  `;
+  main._editingCareersIdx = idx;
+}
+
+function adminCareersSave(idx) {
+  const title = document.getElementById('cjTitle')?.value.trim();
+  if (!title) { showToast('Въведи заглавие на позицията!'); return; }
+  const jobs = window.careersData || [];
+  const entry = {
+    id: idx !== null ? (jobs[idx]?.id || 'job-' + Date.now()) : 'job-' + Date.now(),
+    title,
+    department: document.getElementById('cjDept')?.value.trim() || '',
+    location: document.getElementById('cjLoc')?.value.trim() || 'София',
+    type: document.getElementById('cjType')?.value || 'full-time',
+    badge: document.getElementById('cjBadge')?.value || '',
+    salary: document.getElementById('cjSalary')?.value.trim() || '',
+    experience: document.getElementById('cjExp')?.value.trim() || '',
+    posted: document.getElementById('cjPosted')?.value || new Date().toISOString().slice(0,10),
+    deadline: document.getElementById('cjDeadline')?.value || '',
+    description: document.getElementById('cjDesc')?.value.trim() || '',
+    requirements: (document.getElementById('cjReq')?.value || '').split('\n').map(s => s.trim()).filter(Boolean),
+    benefits: (document.getElementById('cjBen')?.value || '').split('\n').map(s => s.trim()).filter(Boolean),
+    hiringEmail: document.getElementById('cjEmail')?.value.trim() || 'hr@mostbg.com',
+  };
+  if (idx !== null) { jobs[idx] = entry; } else { jobs.push(entry); }
+  window.careersData = jobs;
+  showToast('✅ Позицията е запазена! Обнови careers-data.js за да стане постоянна.');
+  adminCareersShowTab();
+}
+
+function adminCareersDelete(idx) {
+  if (!confirm('Изтрий тази позиция?')) return;
+  const jobs = window.careersData || [];
+  jobs.splice(idx, 1);
+  window.careersData = jobs;
+  showToast('Позицията е изтрита.');
+  adminCareersShowTab();
+}
+
+function adminCareersShowTab() {
+  adminShowTab('careers');
+}

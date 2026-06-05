@@ -5012,6 +5012,33 @@ function closeDeliveryPage() {
   if (typeof bcSet === 'function') bcSet([]);
   try { history.pushState(null, '', window.location.pathname); } catch(e) {}
 }
+// TODO: add dedicated pages for Terms and Privacy
+function openTermsPage() { openDeliveryPage(); }
+function openPrivacyPage() { openDeliveryPage(); }
+function openReturnsSection() {
+  openDeliveryPage();
+  setTimeout(() => {
+    const el = document.getElementById('dlv-faq-returns');
+    if (!el) return;
+    el.open = true;
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }, 320);
+}
+function openWarrantyPage() {
+  _setPgBc('warrantyBc', 'Гаранционни условия', 'closeWarrantyPage');
+  document.getElementById('warrantyPage').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  if (typeof setPageMeta === 'function') setPageMeta('Гаранционни условия (ОГУ) - Most Computers', 'Общи гаранционни условия на Мост Компютърс ООД. Гаранционен срок, приемане на рекламации и сервизна мрежа в 34 города в България.');
+  if (typeof bcOnPage === 'function') bcOnPage('Гаранционни условия');
+  try { history.pushState({ page: 'warranty' }, '', '?page=warranty'); } catch(e) {}
+}
+function closeWarrantyPage() {
+  document.getElementById('warrantyPage').classList.remove('open');
+  document.body.style.overflow = '';
+  if (typeof restorePageMeta === 'function') restorePageMeta();
+  if (typeof bcSet === 'function') bcSet([]);
+  try { history.pushState(null, '', window.location.pathname); } catch(e) {}
+}
 function filterCatScroll(type) {
   if (typeof openCatPage === 'function') { openCatPage(type); return; }
   const featured = document.getElementById('featured');
@@ -5362,6 +5389,31 @@ function _svcTrkRepeat(type, value) {
   else                  { inputOrder.value = ''; inputWarranty.value = value; _svcTrkSearch('', value); }
 }
 
+// ===== CAREERS PAGE =====
+function openCareersPage() {
+  const page = document.getElementById('careersPage');
+  if (!page) return;
+  _setPgBc('careersBc', 'Кариери', 'closeCareersPage');
+  page.style.display = 'flex';
+  page.style.flexDirection = 'column';
+  requestAnimationFrame(() => page.classList.add('open'));
+  document.body.style.overflow = 'hidden';
+  if (typeof setPageMeta === 'function') setPageMeta('Кариери - Most Computers', 'Работи с нас. Most Computers търси мотивирани хора за своя екип.');
+  if (typeof bcOnPage === 'function') bcOnPage('Кариери');
+  if (typeof renderCareersPage === 'function') renderCareersPage();
+  try { history.pushState({ page: 'careers' }, '', '?page=careers'); } catch(e) {}
+}
+function closeCareersPage() {
+  const page = document.getElementById('careersPage');
+  if (!page) return;
+  page.classList.remove('open');
+  setTimeout(() => { page.style.display = 'none'; }, 300);
+  document.body.style.overflow = '';
+  if (typeof restorePageMeta === 'function') restorePageMeta();
+  if (typeof bcSet === 'function') bcSet([]);
+  try { history.pushState(null, '', window.location.pathname); } catch(e) {}
+}
+
 // ===== ABOUT PAGE =====
 function openAboutPage() {
   const page = document.getElementById('aboutPage');
@@ -5390,6 +5442,14 @@ function closeAboutPage() {
 // directly in main.js - no DOMContentLoaded wrapper needed here
 // (deferred scripts run before DOMContentLoaded, so the handler
 //  would cause a redundant second render on every page load).
+
+if (typeof module !== 'undefined') module.exports = {
+  openWarrantyPage, closeWarrantyPage,
+  openDeliveryPage, closeDeliveryPage,
+  openServicePage,  closeServicePage,
+  openContactsPage, closeContactsPage,
+  openBlogPage,     closeBlogPage,
+};
 
 // ===== PWA =====
 (function() {

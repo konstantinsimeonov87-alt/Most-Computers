@@ -27,7 +27,7 @@ console.log(`\n${BOLD}🚀 Most Computers — Production Build${RESET}\n`);
 
 // 1. Clean dist/
 if (fs.existsSync(DIST)) {
-  fs.rmSync(DIST, { recursive: true });
+  try { fs.rmSync(DIST, { recursive: true }); } catch(e) { warn('Could not fully clean dist/ (locked by OS) — overwriting in place'); }
 }
 fs.mkdirSync(DIST, { recursive: true });
 fs.mkdirSync(path.join(DIST, 'js'), { recursive: true });
@@ -211,7 +211,7 @@ if (fs.existsSync(swPath)) {
   log(`sw.js cache version bumped → mc-${newVer}`);
 }
 
-['manifest.json', 'sw.js', 'robots.txt', 'og-default.jpg', '404.html'].forEach(f => {
+['manifest.json', 'sw.js', 'robots.txt', 'og-default.jpg', '404.html', 'ogu-most-computers.html'].forEach(f => {
   const src = path.join(ROOT, f);
   if (fs.existsSync(src)) {
     fs.copyFileSync(src, path.join(DIST, f));
@@ -277,6 +277,15 @@ if (fs.existsSync(sbClientSrc)) {
   fs.copyFileSync(sbClientSrc, path.join(DIST, 'js/supabase-client.js'));
   log('Copied js/supabase-client.js');
 }
+
+// Copy careers scripts (loaded separately, not in app bundle)
+['js/careers-data.js', 'js/careers-page.js'].forEach(f => {
+  const src = path.join(ROOT, f);
+  if (fs.existsSync(src)) {
+    fs.copyFileSync(src, path.join(DIST, f));
+    log(`Copied ${f}`);
+  }
+});
 
 // Copy images directory if exists
 const imgDir = path.join(ROOT, 'images');

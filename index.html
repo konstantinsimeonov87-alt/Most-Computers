@@ -702,7 +702,7 @@
       <button type="button" class="mob-nav-item" data-action="toggleMobMenu;openServicePage"><span
           class="mi-icon">🔧</span>Сервизен център<span class="mi-arr">›</span></button>
       <button type="button" class="mob-nav-item" data-action="toggleMobMenu;openB2BPage"><span
-          class="mi-icon">🏢</span>B2B<span class="mi-arr">›</span></button>
+          class="mi-icon">🏢</span>B2B портал<span class="mi-arr">›</span></button>
       <button type="button" class="mob-nav-item" data-action="toggleMobMenu;openCareersPage"><span
           class="mi-icon">👥</span>Кариери<span class="mi-arr">›</span></button>
     </div>
@@ -1697,7 +1697,7 @@
         <div class="nav-divider"></div>
         <a href="#" class="nav-link promo" data-action="openCatPage('promo');"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:inline-block;vertical-align:-2px;margin-right:4px"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>Промоции</a>
         <div class="nav-divider"></div>
-        <a href="#" class="nav-link nav-b2b-cta" data-action="openB2BPage">B2B</a>
+        <a href="#" class="nav-link nav-b2b-cta" data-action="openB2BPage">B2B портал</a>
       </div>
     </div>
   </nav>
@@ -3265,8 +3265,13 @@
         <a href="#" data-action="scrollToSale">Намаления</a>
         <a href="#" data-action="document.getElementById('newGrid').closest('.section-wrap').scrollIntoView({behavior:'smooth'})">Нови продукти</a>
         <a href="#" data-action="document.getElementById('bestsellersSection').scrollIntoView({behavior:'smooth'})">Топ продавани</a>
+      </div>
+      <div class="footer-col">
+        <h3 class="footer-col-title">За нас</h3>
+        <a href="#" data-action="openAboutPage">За компанията</a>
         <a href="#" data-action="openBlogPage">Блог</a>
         <a href="#" data-action="openCareersPage">Кариери</a>
+        <a href="#" data-action="openB2BPage">B2B клиенти</a>
       </div>
       <div class="footer-col">
         <h3 class="footer-col-title">Акаунт</h3>
@@ -3284,7 +3289,7 @@
         <a href="#" data-action="openPrivacyPage">Поверителност</a>
       </div>
       <div class="footer-col">
-        <h3 class="footer-col-title">За контакти</h3>
+        <h3 class="footer-col-title">Контакти</h3>
         <div class="footer-contact-item" itemprop="address" itemscope itemtype="https://schema.org/PostalAddress"
           data-action="openContactsPage" style="cursor:pointer;" title="Виж на картата">
           <span class="footer-contact-icon">📍</span>
@@ -3297,31 +3302,23 @@
         </div>
         <div class="footer-contact-item">
           <span class="footer-contact-icon">📞</span>
-          <span><span style="font-size:11px;color:rgba(255,255,255,0.55);display:block;">Офис</span><a href="tel:+35929191823"
-              itemprop="telephone">(+359 2) 91 823</a></span>
+          <span><span style="font-size:11px;color:rgba(255,255,255,0.55);display:block;">Офис</span><a href="tel:+35929191823" itemprop="telephone">(+359 2) 91 823</a></span>
         </div>
-        <div class="footer-contact-item">
-          <span class="footer-contact-icon">✉</span>
-          <span><span style="font-size:11px;color:rgba(255,255,255,0.55);display:block;">Имейл</span><span class="ep"
-              data-u="info" data-d="mostbg.com" itemprop="email"></span></span>
-        </div>
-      </div>
-      <div class="footer-col">
-        <h3 class="footer-col-title">🔧 Сервизен център</h3>
         <div class="footer-contact-item">
           <span class="footer-contact-icon">📞</span>
-          <span><span style="font-size:11px;color:rgba(255,255,255,0.55);display:block;">Телефон</span><a
-              href="tel:+35970014411">0700 144 11</a></span>
+          <span><span style="font-size:11px;color:rgba(255,255,255,0.55);display:block;">Сервизен център</span><a href="tel:+35970014411">0700 144 11</a></span>
         </div>
         <div class="footer-contact-item">
           <span class="footer-contact-icon">✉</span>
-          <span><span style="font-size:11px;color:rgba(255,255,255,0.55);display:block;">Имейл</span><span class="ep"
-              data-u="support" data-d="mostbg.com"></span></span>
+          <span><span style="font-size:11px;color:rgba(255,255,255,0.55);display:block;">Офис имейл</span><span class="ep" data-u="info" data-d="mostbg.com" itemprop="email"></span></span>
+        </div>
+        <div class="footer-contact-item">
+          <span class="footer-contact-icon">✉</span>
+          <span><span style="font-size:11px;color:rgba(255,255,255,0.55);display:block;">Сервизен имейл</span><span class="ep" data-u="support" data-d="mostbg.com"></span></span>
         </div>
         <div class="footer-contact-item">
           <span class="footer-contact-icon">🕐</span>
-          <span><span style="font-size:11px;color:rgba(255,255,255,0.55);display:block;">Работно време</span>Пон–Пет:
-            09:30–18:15</span>
+          <span><span style="font-size:11px;color:rgba(255,255,255,0.55);display:block;">Работно време</span>Пон–Пет: 09:30–18:15</span>
         </div>
       </div>
     </div>
@@ -3371,11 +3368,13 @@
           <use href="#ic-package" />
         </svg> Категории продукти</div>
       <div class="megamenu-grid" id="megamenuCats"></div>
-      <div class="megamenu-section-title"><svg width="14" height="14" class="svg-ic" aria-hidden="true">
-          <use href="#ic-tag" />
-        </svg> Марки</div>
-      <div class="megamenu-brands-grid" id="megamenuBrands"></div>
-      <div class="megamenu-section-title"><svg width="14" height="14" class="svg-ic" aria-hidden="true">
+      <div class="megamenu-brands-section">
+        <div class="megamenu-section-title"><svg width="14" height="14" class="svg-ic" aria-hidden="true">
+            <use href="#ic-tag" />
+          </svg> Марки</div>
+        <div class="megamenu-brands-grid" id="megamenuBrands"></div>
+      </div>
+      <div class="megamenu-section-title megamenu-section-title--top"><svg width="14" height="14" class="svg-ic" aria-hidden="true">
           <use href="#ic-star" />
         </svg> Топ продукти</div>
       <div class="megamenu-featured" id="megamenuFeatured"></div>

@@ -803,10 +803,9 @@ function checkOpenNow() {
   const m    = now.getMinutes();
   const time = h * 60 + m;
 
+  const _scWH = (()=>{ try{return JSON.parse(localStorage.getItem('mc_store_config')||'{}');}catch(e){return {};} })();
   let isOpen = false;
-  // Mon-Fri 09:30-18:15
-  if (day >= 1 && day <= 5 && time >= 570 && time < 1095) isOpen = true;
-  // Sat-Sun: closed
+  if (day >= 1 && day <= 5 && time >= (_scWH.storeOpenMin||570) && time < (_scWH.storeCloseMin||1095)) isOpen = true;
 
   // Highlight today in table
   const rows = document.querySelectorAll('#hoursTable tr');
@@ -824,7 +823,7 @@ function checkOpenNow() {
   // Warehouse badge - Mon-Fri 09:00-17:00 (540-1020)
   const warehouseBadge = document.getElementById('warehouseOpenNowBadge');
   if (warehouseBadge) {
-    const whOpen = day >= 1 && day <= 5 && time >= 540 && time < 1020;
+    const whOpen = day >= 1 && day <= 5 && time >= (_scWH.warehouseOpenMin||540) && time < (_scWH.warehouseCloseMin||1020);
     warehouseBadge.innerHTML = whOpen
       ? '<span style="display:inline-flex;align-items:center;gap:6px;background:#e8f9ed;color:#1a7f37;border-radius:8px;padding:7px 14px;font-size:13px;font-weight:800;"><span style="width:8px;height:8px;border-radius:50%;background:#34c759;display:inline-block;"></span> Отворено сега</span>'
       : '<span style="display:inline-flex;align-items:center;gap:6px;background:#fef2f2;color:#dc2626;border-radius:8px;padding:7px 14px;font-size:13px;font-weight:800;"><span style="width:8px;height:8px;border-radius:50%;background:#ef4444;display:inline-block;"></span> Затворено</span>';

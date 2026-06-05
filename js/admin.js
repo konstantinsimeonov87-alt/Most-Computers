@@ -41,6 +41,7 @@ async function adminLoadFromSupabase() {
       total:        row.total,
       status:       row.status || 'pending',
       note:         row.note || '',
+      trackingNum:  row.tracking_num || '',
       date:         row.created_at ? new Date(row.created_at).toLocaleDateString('bg-BG') : '',
       ts:           row.created_at ? new Date(row.created_at).getTime() : 0,
       _sbId:        row.id,
@@ -96,7 +97,7 @@ function adminChangeOrderStatus(num, newStatus) {
     adminUpdateStatusInSupabase(num, newStatus);
     adminShowTab('orders');
     showToast(`✅ Статус на ${num} → ${adminStatuses[newStatus]}`);
-    if (newStatus === 'shipped') adminShowEmailDraft(o);
+    if (newStatus === 'shipped' || newStatus === 'ready_pickup') adminShowEmailDraft(o);
   }
 }
 
@@ -231,7 +232,7 @@ function adminImportJSON(jsonText) {
   }
 }
 
-const adminStatuses = { paid:'Платена', pending:'Изчаква', shipped:'Изпратена', cancelled:'Отказана' };
+const adminStatuses = { pending:'Изчаква', processing:'В обработка', paid:'Платена', shipped:'Изпратена', ready_pickup:'За вземане', delivered:'Доставена', returned:'Върната', cancelled:'Отказана' };
 const chartData = [
   {m:'Окт',v:42800},{m:'Ное',v:55100},{m:'Дек',v:98400},{m:'Яну',v:38200},
   {m:'Фев',v:61700},{m:'Мар',v:47300},
@@ -660,6 +661,24 @@ function adminShowTab(tab) {
         <div class="admin-stat-card"><div class="admin-stat-icon">🛒</div><div class="admin-stat-val">${fmtEur(avgOrder)}</div><div class="admin-stat-label">Средна стойност на поръчка</div><div class="admin-stat-delta up">↑ текущ месец</div></div>
         <div class="admin-stat-card"><div class="admin-stat-icon">↩</div><div class="admin-stat-val">${cancelledPct}%</div><div class="admin-stat-label">Отказани поръчки</div><div class="admin-stat-delta ${cancelledPct<=3?'up':'down'}">${cancelledPct<=3?'↓ Под нормата':'↑ Над нормата'}</div></div>
       </div>
+      ${(()=>{
+        const pendingCnt = allOrders.filter(o => o.status === 'pending').length;
+        const processingCnt = allOrders.filter(o => o.status === 'processing').length;
+        const total = pendingCnt + processingCnt;
+        if (!total) return '';
+        return `<div class="admin-table-card" style="border-color:rgba(251,191,36,0.4);background:rgba(251,191,36,0.05);">
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+            <div style="display:flex;align-items:center;gap:12px;">
+              <span style="font-size:28px;">⚠️</span>
+              <div>
+                <div style="font-size:14px;font-weight:700;color:#fbbf24;">${total} поръчки изискват действие</div>
+                <div style="font-size:12px;color:#6b7280;">${pendingCnt > 0 ? pendingCnt + ' изчакват потвърждение' : ''}${pendingCnt > 0 && processingCnt > 0 ? ' · ' : ''}${processingCnt > 0 ? processingCnt + ' в обработка' : ''}</div>
+              </div>
+            </div>
+            <button type="button" onclick="adminShowTab('orders');setTimeout(()=>{const sf=document.getElementById('adminOrderStatusFilter');if(sf){sf.value='pending';adminFilterOrders();}},100)" style="background:rgba(251,191,36,0.15);color:#fbbf24;border:1px solid rgba(251,191,36,0.3);border-radius:8px;padding:8px 16px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Outfit',sans-serif;white-space:nowrap;">Виж поръчките →</button>
+          </div>
+        </div>`;
+      })()}
       <div class="admin-chart-card">
         <div class="admin-chart-title">📈 Приходи по месеци (€)</div>
         <div class="admin-chart-bars">
@@ -700,13 +719,30 @@ function adminShowTab(tab) {
           <table class="admin-table"><thead><tr><th>Продукт</th><th>Наличност</th></tr></thead><tbody>${[...oos,...low].slice(0,5).map(p=>`<tr><td class="text-white-semibold">${p.name.substring(0,32)}</td><td>${p.stock===false||p.stock===0?'<span style="color:#f87171;font-weight:700;">Изчерпан</span>':`<span style="color:#fbbf24;font-weight:700;">${p.stock} бр.</span>`}</td></tr>`).join('')}</tbody></table>
         </div>`;
       })()}
-      <div class="admin-table-card">
-        <div class="admin-table-header"><div class="admin-table-title">🏆 Топ продукти</div></div>
-        <table class="admin-table">
-          <thead><tr><th></th><th>Продукт</th><th>Ревюта</th><th>Цена</th><th>Рейтинг</th></tr></thead>
-          <tbody>${[...products].sort((a,b)=>(b.rv||0)-(a.rv||0)).slice(0,6).map(p=>`<tr><td><div class="admin-product-thumb">${p.emoji}</div></td><td class="text-white-semibold">${p.name.substring(0,28)}...</td><td>${p.rv||0}</td><td class="text-success-strong">${fmtEur(p.price/EUR_RATE)}</td><td>⭐ ${p.rating}</td></tr>`).join('')}</tbody>
-        </table>
-      </div>`;
+      ${(()=>{
+        const salesMap = {};
+        allOrders.filter(o => o.status !== 'cancelled' && o.status !== 'returned').forEach(o => {
+          (o.itemsData || []).forEach(it => {
+            if (it.name) salesMap[it.name] = (salesMap[it.name]||0) + (it.price||0) * (it.qty||1);
+          });
+        });
+        const topBySales = Object.entries(salesMap).sort((a,b)=>b[1]-a[1]).slice(0,6);
+        if (topBySales.length > 0) return `
+          <div class="admin-table-card">
+            <div class="admin-table-header"><div class="admin-table-title">🏆 Топ продукти по приходи</div></div>
+            <table class="admin-table">
+              <thead><tr><th>Продукт</th><th style="text-align:right;">Приходи</th></tr></thead>
+              <tbody>${topBySales.map(([name,rev])=>`<tr><td class="text-white-semibold" style="max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${_esc(name)}</td><td class="text-success-strong" style="text-align:right;">${fmtEur(rev/EUR_RATE)}</td></tr>`).join('')}</tbody>
+            </table>
+          </div>`;
+        return `<div class="admin-table-card">
+          <div class="admin-table-header"><div class="admin-table-title">🏆 Топ продукти (по ревюта)</div></div>
+          <table class="admin-table">
+            <thead><tr><th></th><th>Продукт</th><th>Ревюта</th><th>Цена</th><th>Рейтинг</th></tr></thead>
+            <tbody>${[...products].sort((a,b)=>(b.rv||0)-(a.rv||0)).slice(0,6).map(p=>`<tr><td><div class="admin-product-thumb">${p.emoji}</div></td><td class="text-white-semibold">${_esc(p.name.substring(0,28))}...</td><td>${p.rv||0}</td><td class="text-success-strong">${fmtEur(p.price/EUR_RATE)}</td><td>⭐ ${p.rating}</td></tr>`).join('')}</tbody>
+          </table>
+        </div>`;
+      })()}`;
   } else if (tab === 'orders') {
     // Mark orders as seen
     try { localStorage.setItem('mc_orders_seen_ts', Date.now()); } catch(e) {}
@@ -722,11 +758,17 @@ function adminShowTab(tab) {
           <input id="adminOrderSearch" style="background:#252840;border:1px solid #2d3148;border-radius:8px;padding:7px 12px;color:#e5e7eb;font-family:'Outfit',sans-serif;font-size:12px;outline:none;width:220px;" placeholder="🔍 Търси клиент, #поръчка…" oninput="adminFilterOrders()">
           <select id="adminOrderStatusFilter" onchange="adminFilterOrders()" style="background:#252840;border:1px solid #2d3148;border-radius:8px;padding:7px 10px;color:#e5e7eb;font-family:'Outfit',sans-serif;font-size:12px;cursor:pointer;outline:none;">
             <option value="">Всички статуси</option>
-            <option value="pending">⏳ Изчакваща</option>
+            <option value="pending">⏳ Изчаква</option>
+            <option value="processing">🔧 В обработка</option>
             <option value="paid">✅ Платена</option>
             <option value="shipped">🚚 Изпратена</option>
+            <option value="ready_pickup">🏪 За вземане</option>
+            <option value="delivered">📬 Доставена</option>
+            <option value="returned">↩️ Върната</option>
             <option value="cancelled">❌ Отказана</option>
           </select>
+          <input id="adminOrderDateFrom" type="date" onchange="adminFilterOrders()" style="background:#252840;border:1px solid #2d3148;border-radius:8px;padding:7px 10px;color:#e5e7eb;font-family:'Outfit',sans-serif;font-size:12px;cursor:pointer;outline:none;" title="От дата">
+          <input id="adminOrderDateTo" type="date" onchange="adminFilterOrders()" style="background:#252840;border:1px solid #2d3148;border-radius:8px;padding:7px 10px;color:#e5e7eb;font-family:'Outfit',sans-serif;font-size:12px;cursor:pointer;outline:none;" title="До дата">
           <span id="adminOrderCount" style="margin-left:auto;font-size:11px;color:#6b7280;"></span>
         </div>
         <table class="admin-table">
@@ -763,6 +805,7 @@ function adminShowTab(tab) {
             </div>
           </div>
           <button type="button" id="adminBulkSubcatWrap" style="display:none;background:rgba(99,102,241,0.15);color:#a5b4fc;border:1px solid rgba(99,102,241,0.3);border-radius:8px;padding:6px 12px;font-size:12px;font-family:'Outfit',sans-serif;cursor:pointer;" onclick="adminOpenSubcatModal()">🗂 Подкатегория (<span id="adminBulkSubcatCount">0</span>)</button>
+          <button type="button" id="adminBulkPriceWrap" style="display:none;background:rgba(52,211,153,0.1);color:#34d399;border:1px solid rgba(52,211,153,0.3);border-radius:8px;padding:6px 12px;font-size:12px;font-family:'Outfit',sans-serif;cursor:pointer;" onclick="adminOpenBulkPrice()">💰 Промени цена (<span id="adminBulkPriceCount">0</span>)</button>
           <button type="button" class="admin-close-btn" onclick="closeAdminPage()">✕ Затвори</button>
         </div>
       </div>
@@ -838,12 +881,13 @@ function adminShowTab(tab) {
         ${customers.length === 0
           ? `<div style="text-align:center;padding:60px 20px;color:#4b5563;font-size:14px;">Все още няма клиенти.<br><span style="font-size:11px;">Клиентите ще се появят след като бъдат регистрирани поръчки.</span></div>`
           : `<table class="admin-table">
-              <thead><tr><th>Клиент</th><th>Имейл</th><th>Поръчки</th><th>Общо похарчено</th><th>Последна поръчка</th><th style="text-align:right;">Действия</th></tr></thead>
+              <thead><tr><th>Клиент</th><th>Имейл</th><th>Поръчки</th><th>Общо похарчено</th><th>Сегмент</th><th>Последна поръчка</th><th style="text-align:right;">Действия</th></tr></thead>
               <tbody>${customers.map(c=>`<tr>
                 <td class="text-white-semibold">${_esc(c.name)}</td>
                 <td style="color:#6b7280;font-size:12px;">${_esc(c.email)}</td>
                 <td style="color:#a5b4fc;font-weight:700;">${c.orders}</td>
                 <td class="text-success-strong">${fmtEur(c.total/EUR_RATE)}</td>
+                <td>${(()=>{ const eur=c.total/EUR_RATE; if(eur>500||c.orders>=3) return '<span style="background:rgba(251,191,36,0.15);color:#fbbf24;padding:2px 8px;border-radius:8px;font-size:11px;font-weight:700;">⭐ VIP</span>'; if(c.orders>=2) return '<span style="background:rgba(99,102,241,0.15);color:#a5b4fc;padding:2px 8px;border-radius:8px;font-size:11px;font-weight:700;">🔄 Редовен</span>'; return '<span style="background:rgba(52,211,153,0.1);color:#34d399;padding:2px 8px;border-radius:8px;font-size:11px;font-weight:700;">🆕 Нов</span>'; })()}</td>
                 <td style="color:#6b7280;font-size:12px;">${_esc(c.lastDate)}</td>
                 <td style="text-align:right;white-space:nowrap;">
                   <button type="button" onclick="adminShowCustomer(${JSON.stringify(c.email)})" style="background:rgba(99,102,241,0.1);color:#a5b4fc;border:1px solid rgba(99,102,241,0.2);border-radius:6px;padding:4px 8px;font-size:11px;cursor:pointer;font-family:'Outfit',sans-serif;margin-right:4px;">📋 История</button>
@@ -1148,6 +1192,35 @@ function adminShowTab(tab) {
             </button>
           </div>
         </div>
+
+        <!-- Store Config -->
+        ${(()=>{
+          const sc = JSON.parse(localStorage.getItem('mc_store_config') || '{}');
+          const dc = sc.deliveryCosts || [5.99, 4.99, 0];
+          const toHHMM = m => `${String(Math.floor((m||0)/60)).padStart(2,'0')}:${String((m||0)%60).padStart(2,'0')}`;
+          return `<div>
+          <div style="font-size:13px;font-weight:800;color:#fff;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid #2d3148;">🏪 Настройки на магазина</div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;margin-bottom:16px;">
+            <div><label style="font-size:11px;color:#6b7280;display:block;margin-bottom:4px;">Доставка Еконт до адрес (лв.)</label>
+              <input id="sc_dc0" type="number" step="0.01" value="${dc[0]||5.99}" class="aef-input" style="width:100%;"></div>
+            <div><label style="font-size:11px;color:#6b7280;display:block;margin-bottom:4px;">Доставка Еконт до офис (лв.)</label>
+              <input id="sc_dc1" type="number" step="0.01" value="${dc[1]||4.99}" class="aef-input" style="width:100%;"></div>
+            <div><label style="font-size:11px;color:#6b7280;display:block;margin-bottom:4px;">Безплатна доставка от (€)</label>
+              <input id="sc_freeShip" type="number" step="1" value="${sc.freeShipEur||100}" class="aef-input" style="width:100%;"></div>
+            <div><label style="font-size:11px;color:#6b7280;display:block;margin-bottom:4px;">Такса наложен платеж (лв.)</label>
+              <input id="sc_codFee" type="number" step="0.01" value="${sc.codFee||1.50}" class="aef-input" style="width:100%;"></div>
+            <div><label style="font-size:11px;color:#6b7280;display:block;margin-bottom:4px;">Магазин отваря (часове)</label>
+              <input id="sc_storeOpen" type="time" value="${toHHMM(sc.storeOpenMin||570)}" class="aef-input" style="width:100%;"></div>
+            <div><label style="font-size:11px;color:#6b7280;display:block;margin-bottom:4px;">Магазин затваря (часове)</label>
+              <input id="sc_storeClose" type="time" value="${toHHMM(sc.storeCloseMin||1095)}" class="aef-input" style="width:100%;"></div>
+            <div><label style="font-size:11px;color:#6b7280;display:block;margin-bottom:4px;">Склад отваря (часове)</label>
+              <input id="sc_whOpen" type="time" value="${toHHMM(sc.warehouseOpenMin||540)}" class="aef-input" style="width:100%;"></div>
+            <div><label style="font-size:11px;color:#6b7280;display:block;margin-bottom:4px;">Склад затваря (часове)</label>
+              <input id="sc_whClose" type="time" value="${toHHMM(sc.warehouseCloseMin||1020)}" class="aef-input" style="width:100%;"></div>
+          </div>
+          <button type="button" class="admin-table-action" style="background:var(--primary);color:#fff;border-color:var(--primary);" onclick="adminSaveStoreConfig()">💾 Запази настройките</button>
+        </div>`;
+        })()}
 
         <!-- Danger zone -->
         <div>
@@ -1546,6 +1619,12 @@ function adminShowTab(tab) {
           <div><label style="font-size:11px;color:#6b7280;display:block;margin-bottom:4px;">Валиден до <span style="color:#4b5563;">(незадължително)</span></label>
             <input id="pcExpiry" type="date" class="aef-input" style="width:160px;">
           </div>
+          <div><label style="font-size:11px;color:#6b7280;display:block;margin-bottom:4px;">Мин. сума (€) <span style="color:#4b5563;">(незадължително)</span></label>
+            <input id="pcMinOrder" type="number" class="aef-input" placeholder="0" min="0" style="width:120px;">
+          </div>
+          <div><label style="font-size:11px;color:#6b7280;display:block;margin-bottom:4px;">Макс. употреби <span style="color:#4b5563;">(0 = без лимит)</span></label>
+            <input id="pcMaxUses" type="number" class="aef-input" placeholder="0" min="0" style="width:120px;">
+          </div>
           <button type="button" class="admin-table-action" style="background:var(--primary);color:#fff;border-color:var(--primary);margin-bottom:1px;" onclick="adminPromoAdd()">+ Добави</button>
         </div>
       </div>
@@ -1553,11 +1632,13 @@ function adminShowTab(tab) {
       <div class="admin-table-card">
         <div class="admin-table-header"><div class="admin-table-title">Всички промо кодове</div></div>
         <table class="admin-table">
-          <thead><tr><th>Код</th><th>Отстъпка</th><th>Използвания</th><th>Валиден до</th><th>Статус</th><th style="text-align:right;">Действия</th></tr></thead>
+          <thead><tr><th>Код</th><th>Отстъпка</th><th>Използвания</th><th>Мин. €</th><th>Лимит</th><th>Валиден до</th><th>Статус</th><th style="text-align:right;">Действия</th></tr></thead>
           <tbody id="adminPromoTbody">${codes.map((c, i) => { const expired = c.expiresAt && Date.now() > c.expiresAt; return `<tr>
             <td style="font-family:'JetBrains Mono',monospace;font-weight:700;color:#a5b4fc;font-size:13px;">${_esc(c.code)}</td>
             <td style="color:#34d399;font-weight:700;">${c.discount}%</td>
             <td style="color:#9ca3af;">${c.uses || 0} пъти</td>
+            <td style="color:#6b7280;font-size:12px;">${c.minOrderEur ? c.minOrderEur + ' €' : '-'}</td>
+            <td style="color:#6b7280;font-size:12px;">${c.maxUses ? c.uses + '/' + c.maxUses : '-'}</td>
             <td style="color:${expired ? '#f87171' : '#6b7280'};font-size:12px;">${c.expiresAt ? new Date(c.expiresAt).toLocaleDateString('bg-BG') + (expired ? ' ⚠️ изтекъл' : '') : '-'}</td>
             <td><span style="background:${c.active && !expired ? 'rgba(52,211,153,0.15)' : 'rgba(107,114,128,0.15)'};color:${c.active && !expired ? '#34d399' : '#9ca3af'};padding:2px 10px;border-radius:10px;font-size:11px;font-weight:700;">${c.active && !expired ? '✅ Активен' : expired ? '⌛ Изтекъл' : '⏸ Неактивен'}</span></td>
             <td style="text-align:right;display:flex;gap:6px;justify-content:flex-end;">
@@ -1800,7 +1881,12 @@ function saveProductEditor() {
     // Edit existing
     const idx = products.findIndex(p => p.id === aefEditingId);
     if (idx !== -1) {
+      const prevStock = products[idx].stock;
       products[idx] = { ...products[idx], ...updatedData };
+      // BIS автоматика - ако наличността е сменена от 0/false на положително
+      if ((prevStock === false || prevStock === 0) && updatedData.stock > 0) {
+        adminTriggerBISNotify(aefEditingId, updatedData.name || name);
+      }
       showToast(`✅ "${name.substring(0,24)}…" е обновен!`);
     }
   }
@@ -1856,18 +1942,22 @@ function adminUpdateSelection() {
   const btn = document.getElementById('adminBulkDeleteBtn');
   const badgeWrap = document.getElementById('adminBulkBadgeWrap');
   const subcatWrap = document.getElementById('adminBulkSubcatWrap');
+  const priceWrap  = document.getElementById('adminBulkPriceWrap');
   const cnt = document.getElementById('adminSelCount');
   const badgeCnt = document.getElementById('adminBulkBadgeCount');
   const subcatCnt = document.getElementById('adminBulkSubcatCount');
+  const priceCnt  = document.getElementById('adminBulkPriceCount');
   if (!btn) return;
   const show = selected.length > 0;
   btn.style.display = show ? '' : 'none';
   if (badgeWrap) badgeWrap.style.display = show ? '' : 'none';
   if (subcatWrap) subcatWrap.style.display = show ? '' : 'none';
+  if (priceWrap) priceWrap.style.display = show ? '' : 'none';
   if (show) {
     if (cnt) cnt.textContent = selected.length;
     if (badgeCnt) badgeCnt.textContent = selected.length;
     if (subcatCnt) subcatCnt.textContent = selected.length;
+    if (priceCnt) priceCnt.textContent = selected.length;
   }
   const all = document.querySelectorAll('.admin-prod-cb');
   const selAll = document.getElementById('adminSelectAll');
@@ -2057,6 +2147,57 @@ function adminExportNewsletter() {
   showToast(`✅ Изтеглени ${subs.length} имейла`);
 }
 
+function adminOpenBulkPrice() {
+  const selected = [...document.querySelectorAll('.admin-prod-cb:checked')];
+  if (!selected.length) return;
+  let bd = document.getElementById('adminBulkPriceModal');
+  if (!bd) {
+    bd = document.createElement('div');
+    bd.id = 'adminBulkPriceModal';
+    bd.style.cssText = 'position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;padding:16px;';
+    bd.onclick = e => { if (e.target === bd) bd.remove(); };
+    document.getElementById('adminPage').appendChild(bd);
+  }
+  bd.innerHTML = `<div style="background:#1a1d35;border:1px solid #2d3148;border-radius:16px;padding:28px;width:100%;max-width:360px;">
+    <div style="font-size:15px;font-weight:700;color:#fff;margin-bottom:6px;">💰 Промени цена</div>
+    <div style="font-size:12px;color:#6b7280;margin-bottom:20px;">На ${selected.length} избрани продукта</div>
+    <label style="font-size:11px;color:#6b7280;display:block;margin-bottom:6px;">Промяна %  (напр. +10 или -5)</label>
+    <input id="bulkPricePct" type="number" step="0.1" placeholder="+10 или -5" style="width:100%;background:#252840;border:1px solid #2d3148;border-radius:8px;padding:10px 12px;color:#e5e7eb;font-size:14px;font-family:'Outfit',sans-serif;outline:none;margin-bottom:16px;">
+    <div style="display:flex;gap:10px;">
+      <button type="button" style="flex:1;background:rgba(52,211,153,0.15);color:#34d399;border:1px solid rgba(52,211,153,0.3);border-radius:8px;padding:10px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Outfit',sans-serif;" onclick="adminBulkPriceUpdate()">✓ Приложи</button>
+      <button type="button" style="background:#252840;border:1px solid #2d3148;border-radius:8px;padding:10px 16px;color:#9ca3af;font-size:13px;cursor:pointer;font-family:'Outfit',sans-serif;" onclick="document.getElementById('adminBulkPriceModal').remove()">Отказ</button>
+    </div>
+  </div>`;
+}
+
+function adminBulkPriceUpdate() {
+  const pct = parseFloat(document.getElementById('bulkPricePct')?.value);
+  if (isNaN(pct) || pct === 0) { showToast('⚠️ Въведи процент'); return; }
+  const selected = [...document.querySelectorAll('.admin-prod-cb:checked')];
+  const ids = selected.map(cb => Number(cb.dataset.id));
+  let changed = 0;
+  ids.forEach(id => {
+    const p = products.find(x => x.id === id);
+    if (p && p.price > 0) { p.price = Math.round(p.price * (1 + pct/100)); changed++; }
+  });
+  persistProducts();
+  renderGrids();
+  renderAdminProductsTable();
+  document.getElementById('adminBulkPriceModal')?.remove();
+  showToast(`✅ Цените на ${changed} продукта са обновени с ${pct > 0 ? '+' : ''}${pct}%`);
+}
+
+function adminTriggerBISNotify(pid, productName) {
+  try {
+    const bisEmails = JSON.parse(localStorage.getItem('mc_bis_' + pid) || '[]');
+    if (!bisEmails.length) return;
+    const subject = `${productName} вече е наличен - Most Computers`;
+    const body = `Здравейте,\n\nПродуктът "${productName}", за който се абонирахте, вече е наличен.\n\nПоръчайте от: https://mostcomputers.bg/?product=${pid}\n\nЕкипът на Most Computers`;
+    window.open(`mailto:?bcc=${encodeURIComponent(bisEmails.join(','))}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`, '_blank');
+    showToast(`📧 Отваря се имейл до ${bisEmails.length} клиента от BIS списъка`);
+  } catch(e) {}
+}
+
 function adminNLSend() {
   let subs = [];
   try { subs = JSON.parse(localStorage.getItem('mc_newsletter') || '[]'); } catch(e) {}
@@ -2119,6 +2260,10 @@ function adminFilterOrders() {
   let list = getAdminOrders();
   if (q) list = list.filter(o => (o.num||'').toLowerCase().includes(q) || (o.customer||'').toLowerCase().includes(q) || (o.email||'').toLowerCase().includes(q) || (o.phone||'').toLowerCase().includes(q) || (o.items||'').toLowerCase().includes(q));
   if (st) list = list.filter(o => o.status === st);
+  const fromVal = document.getElementById('adminOrderDateFrom')?.value;
+  const toVal   = document.getElementById('adminOrderDateTo')?.value;
+  if (fromVal) { const ts = new Date(fromVal).getTime(); list = list.filter(o => (o.ts||0) >= ts); }
+  if (toVal)   { const ts = new Date(toVal).getTime() + 86399999; list = list.filter(o => (o.ts||0) <= ts); }
   const tbody = document.getElementById('adminOrdersTbody');
   const cntEl = document.getElementById('adminOrderCount');
   if (!tbody) return;
@@ -2167,11 +2312,35 @@ function adminShowOrderDetail(num) {
       <div><div style="font-size:10px;font-weight:700;color:#4b5563;text-transform:uppercase;margin-bottom:6px;">Статус</div><span class="admin-status ${_esc(o.status)}">${_esc(adminStatuses[o.status]||o.status)}</span></div>
     </div>
     ${o.note ? `<div style="padding:0 24px 16px;"><div style="font-size:10px;font-weight:700;color:#4b5563;text-transform:uppercase;margin-bottom:6px;">Бележка</div><div style="color:#9ca3af;font-size:12px;background:#252840;border-radius:8px;padding:10px 12px;">${_esc(o.note)}</div></div>` : ''}
+    <div style="padding:0 24px 16px;">
+      <div style="font-size:10px;font-weight:700;color:#4b5563;text-transform:uppercase;margin-bottom:6px;">Товарителница (AWB)</div>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <input id="adminTrackingInput_${_esc(o.num)}" type="text" value="${_esc(o.trackingNum||'')}" placeholder="Напр. 123456789" style="background:#252840;border:1px solid #2d3148;border-radius:8px;padding:8px 12px;color:#e5e7eb;font-family:'JetBrains Mono',monospace;font-size:13px;flex:1;outline:none;">
+        <button type="button" onclick="adminSaveTracking(${JSON.stringify(o.num)},document.getElementById('adminTrackingInput_${_esc(o.num)}').value)" style="background:rgba(52,211,153,0.15);color:#34d399;border:1px solid rgba(52,211,153,0.3);border-radius:8px;padding:8px 14px;font-size:12px;font-family:'Outfit',sans-serif;font-weight:700;cursor:pointer;white-space:nowrap;">💾 Запази</button>
+      </div>
+    </div>
     <div style="padding:0 24px 20px;"><div style="font-size:10px;font-weight:700;color:#4b5563;text-transform:uppercase;margin-bottom:8px;">Продукти</div>${itemsHtml}</div>
     <div style="padding:16px 24px;border-top:1px solid #2d3148;display:flex;justify-content:flex-end;gap:8px;align-items:center;">
       <span style="color:#6b7280;font-size:12px;">Общо:</span><span style="color:#34d399;font-size:16px;font-weight:700;">${fmtEur(o.total)}</span>
     </div>
   </div>`;
+}
+
+async function adminSaveTracking(num, trackingNum) {
+  trackingNum = (trackingNum || '').trim();
+  const orders = getAdminOrders();
+  const o = orders.find(x => x.num === num);
+  if (o) {
+    o.trackingNum = trackingNum;
+    adminSaveOrders(orders);
+    if (_sbOrders) { const sb = _sbOrders.find(x => x.num === num); if (sb) sb.trackingNum = trackingNum; }
+  }
+  try {
+    if (window._sbInstance) {
+      await window._sbInstance.from('orders').update({ tracking_num: trackingNum }).eq('order_num', num);
+    }
+  } catch(e) { console.error('Tracking save error:', e); }
+  showToast(trackingNum ? `✅ Товарителница ${trackingNum} запазена` : '✅ Товарителница изчистена');
 }
 
 function adminShowCustomer(email) {
@@ -3103,9 +3272,15 @@ function adminPromoAdd() {
   let codes = [];
   try { codes = JSON.parse(localStorage.getItem('mc_promo_codes') || '[]'); } catch(e) {}
   if (codes.find(c => c.code === code)) { showToast('⚠️ Кодът вече съществува'); return; }
-  const expiryVal = document.getElementById('pcExpiry')?.value;
-  const expiresAt = expiryVal ? new Date(expiryVal).getTime() : null;
-  codes.push({ code, discount, uses: 0, active: true, ...(expiresAt ? { expiresAt } : {}) });
+  const expiryVal   = document.getElementById('pcExpiry')?.value;
+  const expiresAt   = expiryVal ? new Date(expiryVal).getTime() : null;
+  const minOrderEur = parseFloat(document.getElementById('pcMinOrder')?.value) || 0;
+  const maxUses     = parseInt(document.getElementById('pcMaxUses')?.value)    || 0;
+  codes.push({ code, discount, uses: 0, active: true,
+    ...(expiresAt   ? { expiresAt }   : {}),
+    ...(minOrderEur ? { minOrderEur } : {}),
+    ...(maxUses     ? { maxUses }     : {}),
+  });
   try { localStorage.setItem('mc_promo_codes', JSON.stringify(codes)); } catch(e) {}
   showToast('✅ Промо код добавен!');
   adminShowTab('promo');
@@ -3136,6 +3311,25 @@ function saveEurRate() {
   localStorage.setItem('eurRate', val);
   if (typeof renderGrids === 'function') renderGrids();
   showToast(`✅ Курс запазен: 1 EUR = ${val} BGN`);
+}
+
+function adminSaveStoreConfig() {
+  const toMin = t => { if (!t) return null; const [h,m] = t.split(':').map(Number); return h*60+m; };
+  const sc = {
+    deliveryCosts: [
+      parseFloat(document.getElementById('sc_dc0')?.value) || 5.99,
+      parseFloat(document.getElementById('sc_dc1')?.value) || 4.99,
+      0,
+    ],
+    freeShipEur:      parseFloat(document.getElementById('sc_freeShip')?.value)  || 100,
+    codFee:           parseFloat(document.getElementById('sc_codFee')?.value)    || 1.50,
+    storeOpenMin:     toMin(document.getElementById('sc_storeOpen')?.value)      ?? 570,
+    storeCloseMin:    toMin(document.getElementById('sc_storeClose')?.value)     ?? 1095,
+    warehouseOpenMin: toMin(document.getElementById('sc_whOpen')?.value)         ?? 540,
+    warehouseCloseMin:toMin(document.getElementById('sc_whClose')?.value)        ?? 1020,
+  };
+  try { localStorage.setItem('mc_store_config', JSON.stringify(sc)); } catch(e) {}
+  showToast('✅ Настройките са запазени! Рестартирай страницата за пълен ефект.');
 }
 
 

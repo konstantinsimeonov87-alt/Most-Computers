@@ -495,7 +495,8 @@ function showRecommended(p) {
   panel._t = setTimeout(() => { panel.style.opacity = '0'; setTimeout(() => panel.remove(), 280); }, 8000);
 }
 function addToCartById(id) { addToCart(id); }
-const FREE_SHIP_BGN = Math.round(100 * EUR_RATE * 100) / 100; // 100 EUR в лева
+const _sc_fs = (()=>{ try{return JSON.parse(localStorage.getItem('mc_store_config')||'{}');}catch(e){return {};} })();
+const FREE_SHIP_BGN = Math.round((_sc_fs.freeShipEur||100) * EUR_RATE * 100) / 100;
 
 // Social proof - shown only when real order count exists
 (function initCartSocialProof() {
@@ -642,7 +643,7 @@ function undoRemoveCart() {
 function toggleCart() { const co=document.getElementById('cartOverlay'),cp=document.getElementById('cartPanel'); if(co)co.classList.toggle('open'); if(cp)cp.classList.toggle('open'); }
 // ===== CHECKOUT & THANK YOU =====
 let ckDeliveryIdx = 0;
-let ckDeliveryCosts = [5.99, 4.99, 0];
+let ckDeliveryCosts = (()=>{ try{const sc=JSON.parse(localStorage.getItem('mc_store_config')||'{}');return sc.deliveryCosts||[5.99,4.99,0];}catch(e){return [5.99,4.99,0];} })();
 let ckDeliveryNames = ['Еконт', 'Speedy', 'Вземи от магазин'];
 let ckPaymentType = 'card';
 let promoApplied = false;
@@ -801,7 +802,7 @@ function renderOrderSummary() {
   const subtotal = cart.reduce((s, x) => s + x.price * x.qty, 0);
   const savings = cart.reduce((s, x) => s + (x.old ? (x.old - x.price) * x.qty : 0), 0);
   const delivery = ckDeliveryCosts[ckDeliveryIdx];
-  const codFee = ckPaymentType === 'cod' ? 1.50 : 0;
+  const codFee = ckPaymentType === 'cod' ? ((()=>{ try{return JSON.parse(localStorage.getItem('mc_store_config')||'{}').codFee||1.50;}catch(e){return 1.50;} })()) : 0;
   const promoDisc = promoApplied ? subtotal * ((promoDiscountPct || 10) / 100) : 0;
   const total = subtotal + delivery + codFee - promoDisc;
 
@@ -947,6 +948,24 @@ function applyPromo(codeArg) {
 
   const match = codes.find(c => c.code === code && c.active !== false);
   if (match) {
+    if (match.expiresAt && Date.now() > match.expiresAt) {
+      showToast('Промо кодът е изтекъл!');
+      if (inputEl) { inputEl.classList.add('error'); setTimeout(() => inputEl.classList.remove('error'), 1500); }
+      return;
+    }
+    if (match.maxUses && (match.uses || 0) >= match.maxUses) {
+      showToast('Промо кодът е изчерпан!');
+      if (inputEl) { inputEl.classList.add('error'); setTimeout(() => inputEl.classList.remove('error'), 1500); }
+      return;
+    }
+    if (match.minOrderEur) {
+      const curSubtotalEur = (() => { try { let s=0; cart.forEach(ci=>{const p=products.find(x=>x.id===ci.id); if(p) s+=((p.price||0)/EUR_RATE)*ci.qty;}); return s; } catch(e){return 0;} })();
+      if (curSubtotalEur < match.minOrderEur) {
+        showToast(`Минимална поръчка ${match.minOrderEur} € за този код!`);
+        if (inputEl) { inputEl.classList.add('error'); setTimeout(() => inputEl.classList.remove('error'), 1500); }
+        return;
+      }
+    }
     promoApplied = true;
     promoDiscountPct = match.discount || 10;
     // Increment use counter
@@ -1164,7 +1183,7 @@ function submitOrder() {
     const orderNum = 'MC-' + String(_prevOrders.length + 1).padStart(6, '0');
     const subtotal = cart.reduce((s, x) => s + x.price * x.qty, 0);
     const delivery = ckDeliveryCosts[ckDeliveryIdx];
-    const codFee = ckPaymentType === 'cod' ? 1.50 : 0;
+    const codFee = ckPaymentType === 'cod' ? ((()=>{ try{return JSON.parse(localStorage.getItem('mc_store_config')||'{}').codFee||1.50;}catch(e){return 1.50;} })()) : 0;
     const promoDisc = promoApplied ? subtotal * ((promoDiscountPct || 10) / 100) : 0;
     const total = subtotal + delivery + codFee - promoDisc;
     const payNames = { card: 'Карта', cod: 'Наложен платеж', bank: 'Банков превод' };
@@ -1284,6 +1303,16 @@ function printInvoice(num) {
   if (!o) { showToast('⚠️ Няма данни за поръчката'); return; }
   if (typeof printOrder === 'function') { printOrder(o.num); return; }
 
+  const _sc = JSON.parse(localStorage.getItem('mc_store_config') || '{}');
+  const _co = (window._INVOICE_COMPANIES && window._INVOICE_COMPANIES[0]) || {
+    name: _sc.companyName || 'Most Computers ЕООД',
+    eik:  _sc.companyEik  || '',
+    dds:  _sc.companyDds  || '',
+    addr: _sc.companyAddr || 'бул. Шипченски проход бл.240, 1111 София',
+    tel:  _sc.companyTel  || '+359 2 919 1823',
+    bank: _sc.companyBank || '', iban: _sc.companyIban || '', bic: _sc.companyBic  || '',
+  };
+
   const subtotalNoVat = o.subtotal / 1.2;
   const vatAmt = (o.subtotal - subtotalNoVat).toFixed(2);
   const invNum = 'ФК-' + o.num.replace('MC-', '');
@@ -1341,10 +1370,10 @@ function printInvoice(num) {
   <div>
     <div class="hdr-logo">Most <span>Computers</span></div>
     <div class="hdr-company">
-      Most Computers ЕООД &nbsp;|&nbsp; ЕИК: 203000000<br>
-      ДДС №: BG203000000<br>
-      бул. „Шипченски проход" бл.240, 1111 София<br>
-      тел.: +359 2 919 1823 &nbsp;|&nbsp; office@mostcomputers.bg
+      ${_co.name} &nbsp;|&nbsp; ЕИК: ${_co.eik || '-'}<br>
+      ${_co.dds ? 'ДДС №: ' + _co.dds + '<br>' : ''}
+      ${_co.addr}<br>
+      тел.: ${_co.tel} &nbsp;|&nbsp; office@mostcomputers.bg
     </div>
   </div>
   <div class="hdr-right">
@@ -1361,11 +1390,10 @@ function printInvoice(num) {
   <div class="party">
     <div class="party-lbl">Продавач</div>
     <div class="party-val">
-      <strong>Most Computers ЕООД</strong><br>
-      ЕИК: 203000000<br>
-      ДДС №: BG203000000<br>
-      бул. „Шипченски проход" бл.240<br>
-      1111 София, България
+      <strong>${_co.name}</strong><br>
+      ${_co.eik ? 'ЕИК: ' + _co.eik + '<br>' : ''}
+      ${_co.dds ? 'ДДС №: ' + _co.dds + '<br>' : ''}
+      ${_co.addr}
     </div>
   </div>
   <div class="party">
@@ -1410,12 +1438,12 @@ function printInvoice(num) {
 
 <div class="payment-info">
   ✅ Начин на плащане: <strong>${payLabel}</strong>
-  ${o.payment === 'bank' ? ' &nbsp;|&nbsp; IBAN: BG…  BIC: …  Most Computers ЕООД' : ''}
+  ${o.payment === 'bank' && _co.iban ? ` &nbsp;|&nbsp; IBAN: ${_co.iban}  BIC: ${_co.bic}  ${_co.bank}` : ''}
   &nbsp;|&nbsp; Плащането е извършено.
 </div>
 
 <div class="legal">
-  Фактурата е издадена на ${date} от Most Computers ЕООД - регистрирано по ЗДДС лице.<br>
+  Фактурата е издадена на ${date} от ${_co.name} - регистрирано по ЗДДС лице.<br>
   Валидна е без подпис и печат по чл. 6, ал. 1 от Наредба № Н-18 / 13.12.2006 г.
 </div>
 
@@ -5109,10 +5137,9 @@ function checkOpenNow() {
   const m    = now.getMinutes();
   const time = h * 60 + m;
 
+  const _scWH = (()=>{ try{return JSON.parse(localStorage.getItem('mc_store_config')||'{}');}catch(e){return {};} })();
   let isOpen = false;
-  // Mon-Fri 09:30-18:15
-  if (day >= 1 && day <= 5 && time >= 570 && time < 1095) isOpen = true;
-  // Sat-Sun: closed
+  if (day >= 1 && day <= 5 && time >= (_scWH.storeOpenMin||570) && time < (_scWH.storeCloseMin||1095)) isOpen = true;
 
   // Highlight today in table
   const rows = document.querySelectorAll('#hoursTable tr');
@@ -5130,7 +5157,7 @@ function checkOpenNow() {
   // Warehouse badge - Mon-Fri 09:00-17:00 (540-1020)
   const warehouseBadge = document.getElementById('warehouseOpenNowBadge');
   if (warehouseBadge) {
-    const whOpen = day >= 1 && day <= 5 && time >= 540 && time < 1020;
+    const whOpen = day >= 1 && day <= 5 && time >= (_scWH.warehouseOpenMin||540) && time < (_scWH.warehouseCloseMin||1020);
     warehouseBadge.innerHTML = whOpen
       ? '<span style="display:inline-flex;align-items:center;gap:6px;background:#e8f9ed;color:#1a7f37;border-radius:8px;padding:7px 14px;font-size:13px;font-weight:800;"><span style="width:8px;height:8px;border-radius:50%;background:#34c759;display:inline-block;"></span> Отворено сега</span>'
       : '<span style="display:inline-flex;align-items:center;gap:6px;background:#fef2f2;color:#dc2626;border-radius:8px;padding:7px 14px;font-size:13px;font-weight:800;"><span style="width:8px;height:8px;border-radius:50%;background:#ef4444;display:inline-block;"></span> Затворено</span>';
@@ -5618,6 +5645,13 @@ function closeAdminPage() {
       log.unshift({ event: eventName, data: payload });
       if (log.length > 200) log.length = 200;
       localStorage.setItem('mc_analytics_log', JSON.stringify(log));
+    } catch (_) {}
+    // Persistent log (survives page reload, capped at 1000 entries)
+    try {
+      const persistent = JSON.parse(localStorage.getItem('mc_analytics_persistent') || '[]');
+      persistent.unshift({ event: eventName, data: payload });
+      if (persistent.length > 1000) persistent.length = 1000;
+      localStorage.setItem('mc_analytics_persistent', JSON.stringify(persistent));
     } catch (_) {}
   }
 

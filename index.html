@@ -41,9 +41,9 @@
     content="лаптопи, смартфони, телевизори, таблети, аудио, гейминг, Most Computers, онлайн магазин електроника, компютри, аксесоари, Samsung, ASUS, Sony, Lenovo, MSI">
   <link rel="alternate" hreflang="bg" href="https://mostcomputers.bg/">
   <link rel="preload" href="styles.css" as="style">
-  <link rel="preload" href="data.js?v=20260603" as="script">
-  <link rel="preload" href="app.js?v=20260603" as="script">
-  <link rel="preload" href="app-lazy.js?v=20260603" as="script">
+  <link rel="preload" href="data.js?v=20260605" as="script">
+  <link rel="preload" href="app.js?v=20260605" as="script">
+  <link rel="preload" href="app-lazy.js?v=20260605" as="script">
   <link rel="alternate" hreflang="x-default" href="https://mostcomputers.bg/">
   <link rel="canonical" href="https://mostcomputers.bg/">
   <link rel="sitemap" type="application/xml" href="/sitemap.xml">
@@ -703,6 +703,8 @@
           class="mi-icon">🔧</span>Сервизен център<span class="mi-arr">›</span></button>
       <button type="button" class="mob-nav-item" data-action="toggleMobMenu;openB2BPage"><span
           class="mi-icon">🏢</span>B2B<span class="mi-arr">›</span></button>
+      <button type="button" class="mob-nav-item" data-action="toggleMobMenu;openCareersPage"><span
+          class="mi-icon">👥</span>Кариери<span class="mi-arr">›</span></button>
     </div>
 
     <!-- Categories - Quick Grid -->
@@ -3264,6 +3266,7 @@
         <a href="#" data-action="document.getElementById('newGrid').closest('.section-wrap').scrollIntoView({behavior:'smooth'})">Нови продукти</a>
         <a href="#" data-action="document.getElementById('bestsellersSection').scrollIntoView({behavior:'smooth'})">Топ продавани</a>
         <a href="#" data-action="openBlogPage">Блог</a>
+        <a href="#" data-action="openCareersPage">Кариери</a>
       </div>
       <div class="footer-col">
         <h3 class="footer-col-title">Акаунт</h3>
@@ -3275,10 +3278,10 @@
       <div class="footer-col">
         <h3 class="footer-col-title">Информация</h3>
         <a href="#" data-action="openDeliveryPage">Доставка</a>
-        <a href="#" data-action="openDeliveryPage">Връщане</a>
-        <a href="#" data-action="openServicePage">Гаранция</a>
-        <a href="#" data-action="openDeliveryPage">Условия за ползване</a>
-        <a href="#" data-action="openDeliveryPage">Поверителност</a>
+        <a href="#" data-action="openReturnsSection">Връщане на стока</a>
+        <a href="#" data-action="openWarrantyPage">Гаранция</a>
+        <a href="#" data-action="openTermsPage">Условия за ползване</a>
+        <a href="#" data-action="openPrivacyPage">Поверителност</a>
       </div>
       <div class="footer-col">
         <h3 class="footer-col-title">За контакти</h3>
@@ -3320,11 +3323,6 @@
           <span><span style="font-size:11px;color:rgba(255,255,255,0.55);display:block;">Работно време</span>Пон–Пет:
             09:30–18:15</span>
         </div>
-        <div class="footer-contact-item" style="margin-top:8px;">
-          <span class="footer-contact-icon">📍</span>
-          <span><span style="font-size:11px;color:rgba(255,255,255,0.55);display:block;">Адрес</span>бул. „Шипченски проход"
-            бл.240, София</span>
-        </div>
       </div>
     </div>
     <div class="footer-bottom">
@@ -3349,10 +3347,12 @@
   </footer>
 
   <!-- Leaflet loaded on-demand: see _loadLeaflet() in pages.js -->
-  <script src="data.js?v=20260603" defer></script>
-  <script src="js/promotions-data.js?v=20260603" defer></script>
-  <script src="app.js?v=20260603" defer></script>
+  <script src="data.js?v=20260605" defer></script>
+  <script src="js/promotions-data.js?v=20260605" defer></script>
+  <script src="app.js?v=20260605" defer></script>
   <script src="js/b2b.js?v=20260602" defer></script>
+  <script src="js/careers-data.js?v=20260605" defer></script>
+  <script src="js/careers-page.js?v=20260605" defer></script>
   <!-- Supabase loaded lazily on first checkout attempt (~50 KiB saved on initial load) -->
 
   <!-- Dark toggle moved to header -->
@@ -3893,7 +3893,7 @@
             <summary class="dlv-faq-q">Как да проследя доставката?</summary>
             <p class="dlv-faq-a">След изпращане получаваш имейл с номер за проследяване от куриера (Speedy или Econt). Можеш да следиш статуса директно в сайта на куриера.</p>
           </details>
-          <details class="dlv-faq-item">
+          <details class="dlv-faq-item" id="dlv-faq-returns">
             <summary class="dlv-faq-q">Мога ли да върна продукта?</summary>
             <p class="dlv-faq-a">Да - имаш право на 14-дневен период за отказ без посочване на причина. Продуктът трябва да е в оригинална опаковка и без следи от употреба. Свържи се с нас и ще организираме вземане от куриер.</p>
           </details>
@@ -3992,6 +3992,9 @@
               class="nav-icon">🎁</span> Промоции</button>
           <button type="button" class="admin-nav-item" data-action="adminShowTab('analytics')"><span
               class="nav-icon">📈</span> Analytics</button>
+          <div class="admin-nav-section">HR</div>
+          <button type="button" class="admin-nav-item" data-action="adminShowTab('careers')"><span
+              class="nav-icon">👥</span> Кариери <span class="nav-badge" id="adminCareersBadge" style="display:none;"></span></button>
           <div class="admin-nav-section">Система</div>
           <button type="button" class="admin-nav-item" data-action="adminShowTab('import')"><span
               class="nav-icon">📥</span> XML Импорт</button>
@@ -5570,6 +5573,337 @@
 
   <!-- Scroll progress bar -->
   <div id="scrollProgress" aria-hidden="true"></div>
+
+  <!-- CAREERS PAGE -->
+  <div class="careers-page" id="careersPage" style="display:none;">
+    <div class="careers-topbar">
+      <nav class="page-breadcrumb" id="careersBc"></nav>
+    </div>
+    <div class="careers-body">
+
+      <!-- Hero -->
+      <div class="careers-hero">
+        <div class="careers-hero-eyebrow">Присъедини се към екипа</div>
+        <h2 class="careers-hero-title">Работи с нас</h2>
+        <p class="careers-hero-sub">Мост Компютърс е семейна компания с над 36 години история. Търсим хора, за които технологиите са страст, а клиентът е на първо място.</p>
+      </div>
+
+      <!-- Job listings -->
+      <div class="careers-section">
+        <div id="careersGrid" class="careers-grid">
+          <!-- Rendered by careers-page.js -->
+        </div>
+        <div id="careersEmpty" class="careers-empty" style="display:none;">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+          <p>В момента нямаме отворени позиции.</p>
+          <p style="font-size:13px;opacity:.65;">Провери отново скоро или ни изпрати CV на <span class="ep" data-u="hr" data-d="mostbg.com"></span></p>
+        </div>
+      </div>
+
+      <!-- Job detail panel (shown when a listing is expanded) -->
+      <div id="careersDetail" class="careers-detail" style="display:none;">
+        <button type="button" class="careers-back-btn" onclick="closeCareersDetail()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5"/><path d="m12 5-7 7 7 7"/></svg>
+          Назад към обявите
+        </button>
+        <div id="careersDetailContent"></div>
+
+        <!-- Application form -->
+        <div class="careers-apply-box" id="careersApplyBox">
+          <h3 class="careers-apply-title">Кандидатствай</h3>
+          <form id="careersApplyForm" onsubmit="submitCareerApplication(event)" novalidate>
+            <input type="hidden" id="caJobId" value="">
+            <input type="hidden" id="caJobTitle" value="">
+
+            <div class="careers-form-row">
+              <label class="careers-form-label">Имена <span class="req">*</span></label>
+              <input type="text" id="caName" class="careers-form-input" placeholder="Три имена" required>
+            </div>
+            <div class="careers-form-row">
+              <label class="careers-form-label">Имейл <span class="req">*</span></label>
+              <input type="email" id="caEmail" class="careers-form-input" placeholder="your@email.com" required>
+            </div>
+            <div class="careers-form-row">
+              <label class="careers-form-label">Телефон</label>
+              <input type="tel" id="caPhone" class="careers-form-input" placeholder="+359 8X XXX XXX">
+            </div>
+            <div class="careers-form-row">
+              <label class="careers-form-label">Мотивационно писмо</label>
+              <textarea id="caLetter" class="careers-form-input careers-form-textarea" rows="4" placeholder="Разкажи ни защо искаш да работиш с нас..."></textarea>
+            </div>
+            <div class="careers-form-row">
+              <label class="careers-form-label">CV файл <span class="req">*</span></label>
+              <label class="careers-file-label" id="caFileLabel">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                <span id="caFileName">Избери файл (PDF, DOC, DOCX - до 5 MB)</span>
+                <input type="file" id="caFile" accept=".pdf,.doc,.docx" style="display:none;" onchange="handleCvFileChange(this)">
+              </label>
+            </div>
+            <div id="careersApplyError" class="careers-apply-error" style="display:none;"></div>
+            <button type="submit" class="careers-submit-btn" id="careersSubmitBtn">
+              <span id="careersSubmitLabel">Изпрати кандидатура</span>
+              <span id="careersSubmitSpinner" style="display:none;">Изпращане...</span>
+            </button>
+          </form>
+          <div id="careersApplySuccess" class="careers-apply-success" style="display:none;">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            <p>Кандидатурата ти беше изпратена!</p>
+            <p style="font-size:13px;opacity:.7;">Ще се свържем с теб в рамките на 5 работни дни.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===== WARRANTY / OGU PAGE ===== -->
+  <div class="megamenu-page" id="warrantyPage">
+    <div class="megamenu-topbar">
+      <button type="button" class="megamenu-back" onclick="closeWarrantyPage()" aria-label="Назад към начало">&#8592;</button>
+      <nav class="page-breadcrumb" id="warrantyBc"></nav>
+    </div>
+
+    <!-- HERO -->
+    <div style="border-bottom:3px solid #bd1105;">
+      <div style="display:grid;grid-template-columns:200px 1fr;max-width:900px;margin:0 auto;min-height:180px;overflow:hidden;">
+      <!-- Left: red panel -->
+      <div style="background:#bd1105;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;">
+        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.92)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        </svg>
+        <div style="font-size:11px;font-weight:800;color:#fff;letter-spacing:.08em;text-transform:uppercase;line-height:1.55;">Официална<br>гаранция</div>
+        <div style="font-size:10.5px;color:rgba(255,255,255,0.6);font-weight:600;">Мост Компютърс ООД</div>
+      </div>
+      <!-- Right: content panel -->
+      <div style="background:var(--surface,#fff);display:flex;flex-direction:column;justify-content:center;padding:28px 32px;gap:10px;">
+        <h2 style="font-size:22px;font-weight:800;color:var(--text,#111827);line-height:1.25;margin:0;">Общи гаранционни условия <span style="font-size:16px;font-weight:600;color:#bd1105;">(ОГУ)</span></h2>
+        <p style="font-size:13.5px;color:var(--muted,#6b7280);line-height:1.65;margin:0;max-width:560px;">Вашият продукт е защитен срещу всички производствени дефекти с безплатно гаранционно обслужване за срока, посочен в Гаранционната Ви карта.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:4px;">
+          <span style="display:inline-flex;align-items:center;gap:5px;background:rgba(189,17,5,0.08);color:#bd1105;border:1px solid rgba(189,17,5,0.2);border-radius:20px;padding:4px 12px;font-size:12px;font-weight:700;">&#10003; Безплатен ремонт</span>
+          <span style="display:inline-flex;align-items:center;gap:5px;background:rgba(189,17,5,0.08);color:#bd1105;border:1px solid rgba(189,17,5,0.2);border-radius:20px;padding:4px 12px;font-size:12px;font-weight:700;">&#10003; 34 сервизни центъра</span>
+          <span style="display:inline-flex;align-items:center;gap:5px;background:rgba(189,17,5,0.08);color:#bd1105;border:1px solid rgba(189,17,5,0.2);border-radius:20px;padding:4px 12px;font-size:12px;font-weight:700;">&#10003; Защита по ЗЗП</span>
+        </div>
+      </div>
+      </div><!-- /inner centered grid -->
+    </div><!-- /hero outer wrapper -->
+
+    <div class="dlv-body">
+
+      <!-- DOWNLOAD BUTTON -->
+      <div style="display:flex;justify-content:flex-end;margin-bottom:20px;">
+        <a href="/ogu-most-computers.html" target="_blank" download="OGU_Most_Computers.html"
+           style="display:inline-flex;align-items:center;gap:8px;background:var(--primary);color:#fff;border-radius:9px;padding:10px 20px;font-size:13px;font-weight:700;text-decoration:none;transition:opacity .15s;"
+           onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Свали / Принтирай ОГУ
+        </a>
+      </div>
+
+      <!-- SECTION 1: ГАРАНЦИОНЕН СРОК -->
+      <div class="dlv-section">
+        <div class="dlv-eyebrow">ГАРАНЦИЯ &middot; ЧЛ. 1</div>
+        <h2 class="dlv-section-title">Гаранционен срок</h2>
+        <div class="wrt-card">
+          <p>Гаранционният срок на стоката <strong>започва да тече от датата на продажба</strong> и важи на територията на Република България. За други държави - съгласно предписанията на производителя.</p>
+          <p>Определени компоненти (акумулаторни батерии, адаптери, дистанционни, слушалки и др.) са без или с ограничен гаранционен срок (до 3, 6 или 12 месеца). Стоки-компоненти (не краен продукт) - 12 месеца или определен от производителя.</p>
+          <div class="wrt-table-wrap" style="margin-top:16px;">
+            <table class="wrt-table">
+              <thead><tr><th>Продукт / Компонент</th><th>Гаранционен срок</th></tr></thead>
+              <tbody>
+                <tr><td>Мишки</td><td>3 месеца</td></tr>
+                <tr><td>Клавиатури</td><td>6 месеца</td></tr>
+                <tr><td>Лампи на мултимедийни прожектори</td><td>12 месеца или 1 000 часа</td></tr>
+                <tr><td>Батерии на лаптопи ASUS</td><td>12 месеца</td></tr>
+                <tr><td>Батерии на лаптопи ACER</td><td>6 месеца</td></tr>
+                <tr><td>Батерии на мобилни телефони</td><td>6 месеца</td></tr>
+                <tr><td>UPS устройства (батерия)</td><td>12 месеца</td></tr>
+                <tr><td>Консумативи</td><td>Без гаранция</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border);">Независимо от търговската гаранция, продавачът отговаря за липсата на съответствие на потребителската стока с договора съгласно <strong>Закона за защита на потребителите (ЗЗП)</strong>.</p>
+        </div>
+      </div>
+
+      <!-- SECTION 2: РЕКЛАМАЦИИ -->
+      <div class="dlv-section">
+        <div class="dlv-eyebrow">ГАРАНЦИЯ &middot; ЧЛ. 2</div>
+        <h2 class="dlv-section-title">Приемане на рекламации</h2>
+        <div class="wrt-card">
+          <p>Рекламации за <strong>фабричен дефект</strong> в гаранционен срок се приемат в посочените сервизи в страната. Транспортът до сервиза и рискът от повреди при транспортиране са <strong>за сметка на Купувача</strong>, освен ако не е договорено друго.</p>
+          <div style="margin-top:14px;display:flex;flex-direction:column;gap:8px;">
+            <div class="wrt-req-item">
+              <span class="wrt-req-icon">&#9679;</span>
+              <span>Стоката се доставя в <strong>пълна окомплектация</strong> и оригинална опаковка, гарантираща безопасно транспортиране</span>
+            </div>
+            <div class="wrt-req-item">
+              <span class="wrt-req-icon">&#9679;</span>
+              <span>Задължително се представя <strong>четливо и изцяло попълнена, подписана и подпечатана гаранционна карта</strong></span>
+            </div>
+            <div class="wrt-req-item">
+              <span class="wrt-req-icon">&#9679;</span>
+              <span>Задължително се представя <strong>документ за покупката</strong> (фискален бон или фактура)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION 3: ОТКАЗИ -->
+      <div class="dlv-section">
+        <div class="dlv-eyebrow">ГАРАНЦИЯ &middot; ЧЛ. 3</div>
+        <h2 class="dlv-section-title">Случаи, в които гаранцията не важи</h2>
+        <div class="wrt-refuse-grid">
+
+          <div class="wrt-refuse-card">
+            <div class="wrt-refuse-hd">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              Документи и стикери
+            </div>
+            <p>Несъответствие между данните на документите и стоката; липса на сериен номер; нарушени гаранционни стикери; неспазване на гаранционните условия.</p>
+          </div>
+
+          <div class="wrt-refuse-card">
+            <div class="wrt-refuse-hd">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              Механични и физически повреди
+            </div>
+            <p>Лош транспорт, лошо съхранение, неправилен монтаж, небрежност, механично увреждане, изпускане, удар, заливане с течности, токови удари, лошо заземяване, пряка слънчева светлина, висока влажност, вибрации, природни въздействия, проникнали насекоми.</p>
+          </div>
+
+          <div class="wrt-refuse-card">
+            <div class="wrt-refuse-hd">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              Неоторизирана намеса
+            </div>
+            <p>Опити за промяна на конфигурацията; стоката е отваряна, разглобявана или е правен неоторизиран ремонт; използвани са некачествени/неоригинални консумативи; некачествени CD носители, счупени в оптичното устройство.</p>
+          </div>
+
+          <div class="wrt-refuse-card">
+            <div class="wrt-refuse-hd">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              Софтуер и настройки
+            </div>
+            <p>Нелицензиран софтуер; неоторизирани модификации на вградения софтуер (вкл. BIOS); наличие на вируси. Гаранцията не се отнася до инсталирани драйвери, настройки и информацията на клиента.</p>
+          </div>
+
+          <div class="wrt-refuse-card">
+            <div class="wrt-refuse-hd">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              Неправилна употреба
+            </div>
+            <p>Стоката е експлоатирана не по предназначение; битови стоки, използвани за търговски/професионални цели, в заведения, отдавани под наем и др.</p>
+          </div>
+
+          <div class="wrt-refuse-card">
+            <div class="wrt-refuse-hd">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              Дефекти на LCD матрица (по ISO 13406-02)
+            </div>
+            <p>Дефектни пиксели/субпиксели под лимита на производителя: до 2 постоянно светещи пиксела; до 2 тъмни пиксела; до 5 дефектни субпиксела; съседни пиксели в квадрат 5&#215;5 - не се допускат; до 2 групи съседни дефектни субпиксела. Петна, причинени от докосване с ръка/твърд предмет - не се покриват.</p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- SECTION 4: РЕМОНТ -->
+      <div class="dlv-section">
+        <div class="dlv-eyebrow">ГАРАНЦИЯ &middot; ЧЛ. 4</div>
+        <h2 class="dlv-section-title">Извършване на гаранционния ремонт</h2>
+        <div class="wrt-card">
+          <p>При основателна рекламация Сервизът е длъжен по своя преценка да:</p>
+          <div style="margin-top:14px;display:flex;flex-direction:column;gap:10px;">
+            <div class="wrt-step">
+              <div class="wrt-step-num">1</div>
+              <div><strong>Отремонтира стоката</strong> в законовия срок. Срокът на ремонта се прибавя към гаранционния срок. При невъзможност - я замени с друга от същия модел при запазване на първоначалните гаранционни условия.</div>
+            </div>
+            <div class="wrt-step">
+              <div class="wrt-step-num">2</div>
+              <div>Ако <strong>няма същия модел</strong> - предложи закупуване на друг модел с доплащане. При изкупуване без пълна окомплектация и оригинална опаковка - приспада се стойността на липсите.</div>
+            </div>
+            <div class="wrt-step">
+              <div class="wrt-step-num">3</div>
+              <div>Ако стоката не бъде поправена или заменена <strong>в рамките на един месец</strong>, потребителят може да иска разваляне на договора или намаляване на цената.</div>
+            </div>
+          </div>
+          <p style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border);font-size:13px;color:var(--muted);">Производителят, Вносителят и Сервизът не отговарят за пропуснати ползи или престой вследствие на дефекта. По време на престоя Сервизът не е длъжен да осигурява оборотна стока.</p>
+        </div>
+      </div>
+
+      <!-- SECTION 5: ПОЛУЧАВАНЕ -->
+      <div class="dlv-section">
+        <div class="dlv-eyebrow">ГАРАНЦИЯ &middot; ЧЛ. 5</div>
+        <h2 class="dlv-section-title">Получаване на отремонтираната стока</h2>
+        <div class="wrt-card">
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <div class="wrt-req-item"><span class="wrt-req-icon">&#10003;</span><span>Потребителят се убеждава в качеството на ремонта <strong>преди</strong> да получи стоката обратно</span></div>
+            <div class="wrt-req-item"><span class="wrt-req-icon">&#10003;</span><span>Рекламации по окомплектацията се приемат само в <strong>момента на получаване</strong></span></div>
+            <div class="wrt-req-item"><span class="wrt-req-icon">&#10003;</span><span>Заменените части <strong>остават в сервиза</strong> за по-нататъшно отчитане</span></div>
+            <div class="wrt-req-item"><span class="wrt-req-icon">&#10003;</span><span>Ако при диагностиката стоката е изправна или дефектът е извънгаранционен, Сервизът може да таксува Клиента <strong>по ценоразпис</strong> (съгласувано предварително)</span></div>
+            <div class="wrt-req-item"><span class="wrt-req-icon">&#10003;</span><span>При несъгласие се попълва <strong>констативен протокол</strong></span></div>
+            <div class="wrt-req-item"><span class="wrt-req-icon" style="color:var(--primary);">!</span><span>Сервизът не носи отговорност за стоки, <strong>непотърсени повече от 30 дни</strong> след уговорения срок</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION 6: СЕРВИЗИ -->
+      <div class="dlv-section">
+        <div class="dlv-eyebrow">ГАРАНЦИЯ &middot; ЧЛ. 6</div>
+        <h2 class="dlv-section-title">Сервизна мрежа в България</h2>
+        <div class="wrt-svc-grid">
+          <div class="wrt-svc-card"><div class="wrt-svc-city">София</div><div class="wrt-svc-addr">Шипченски проход 37, бл.240</div><div class="wrt-svc-phone">0700 144 11</div></div>
+          <div class="wrt-svc-card"><div class="wrt-svc-city">Бургас</div><div class="wrt-svc-addr">ул. Цар Самуил 7</div><div class="wrt-svc-phone">056/800 376</div></div>
+          <div class="wrt-svc-card"><div class="wrt-svc-city">Бургас</div><div class="wrt-svc-addr">Комплекс Лазур, бл.114</div><div class="wrt-svc-phone">056 844 698</div></div>
+          <div class="wrt-svc-card"><div class="wrt-svc-city">Благоевград</div><div class="wrt-svc-addr">ул. Марица 18</div><div class="wrt-svc-phone">073 88 59 20</div></div>
+          <div class="wrt-svc-card"><div class="wrt-svc-city">Варна</div><div class="wrt-svc-addr">ул. Каймакчалан 10</div><div class="wrt-svc-phone">052 321 321</div></div>
+          <div class="wrt-svc-card"><div class="wrt-svc-city">Велико Търново</div><div class="wrt-svc-addr">ул. Васил Левски 19</div><div class="wrt-svc-phone">062 630 019</div></div>
+          <div class="wrt-svc-card"><div class="wrt-svc-city">Велико Търново</div><div class="wrt-svc-addr">ул. Никола Габровски 24, ет.1</div><div class="wrt-svc-phone">062 627 497</div></div>
+          <div class="wrt-svc-card"><div class="wrt-svc-city">Видин</div><div class="wrt-svc-addr">ул. Цар Иван Асен Втори 7</div><div class="wrt-svc-phone">094 607 570</div></div>
+          <div class="wrt-svc-card"><div class="wrt-svc-city">Враца</div><div class="wrt-svc-addr">ул. Река Лева 54</div><div class="wrt-svc-phone">092 660 460</div></div>
+          <div class="wrt-svc-card"><div class="wrt-svc-city">Габрово</div><div class="wrt-svc-addr">ул. Епископ Софроний 14</div><div class="wrt-svc-phone">066 800 166</div></div>
+          <div class="wrt-svc-card"><div class="wrt-svc-city">Добрич</div><div class="wrt-svc-addr">ул. Независимост 2, ет.2</div><div class="wrt-svc-phone">058 601 602</div></div>
+          <div class="wrt-svc-card"><div class="wrt-svc-city">Казанлък</div><div class="wrt-svc-addr">ул. Св. Климент Охридски 5</div><div class="wrt-svc-phone">0431 6 20 95</div></div>
+          <div class="wrt-svc-card"><div class="wrt-svc-city">Казанлък</div><div class="wrt-svc-addr">ул. Шипченска епопея 28</div><div class="wrt-svc-phone">0431 58 4 58</div></div>
+          <div class="wrt-svc-card"><div class="wrt-svc-city">Козлодуй</div><div class="wrt-svc-addr">ул. Васил Коларов 4</div><div class="wrt-svc-phone">0973 80 110</div></div>
+          <div class="wrt-svc-card"><div class="wrt-svc-city">Кюстендил</div><div class="wrt-svc-addr">ул. Любен Каравелов 3, Шалом ет.2</div><div class="wrt-svc-phone">078/972 498</div></div>
+          <div class="wrt-svc-card"><div class="wrt-svc-city">Кърджали</div><div class="wrt-svc-addr">ул. Тутракан 2</div><div class="wrt-svc-phone">0361 65 520</div></div>
+          <div class="wrt-svc-card"><div class="wrt-svc-city">Ловеч</div><div class="wrt-svc-addr">ул. Търговска 12</div><div class="wrt-svc-phone">068 601 706</div></div>
+          <div class="wrt-svc-card"><div class="wrt-svc-city">Монтана</div><div class="wrt-svc-addr">ул. Александър Батенберг 8</div><div class="wrt-svc-phone">096 303 344</div></div>
+          <div class="wrt-svc-card"><div class="wrt-svc-city">Пазарджик</div><div class="wrt-svc-addr">ул. Александър Батенберг 36</div><div class="wrt-svc-phone">034 443 570</div></div>
+          <div class="wrt-svc-card"><div class="wrt-svc-city">Перник</div><div class="wrt-svc-addr">ул. Кракра 68</div><div class="wrt-svc-phone">076 640 350</div></div>
+          <div class="wrt-svc-card"><div class="wrt-svc-city">Плевен</div><div class="wrt-svc-addr">ул. Полтава 12-А</div><div class="wrt-svc-phone">064 806 155</div></div>
+          <div class="wrt-svc-card"><div class="wrt-svc-city">Пловдив</div><div class="wrt-svc-addr">ул. Авксентий Велешки 56</div><div class="wrt-svc-phone">032 663 085</div></div>
+          <div class="wrt-svc-card"><div class="wrt-svc-city">Пловдив</div><div class="wrt-svc-addr">ул. Богомил 91</div><div class="wrt-svc-phone">032 636 925</div></div>
+          <div class="wrt-svc-card"><div class="wrt-svc-city">Разград</div><div class="wrt-svc-addr">ул. Марица 5</div><div class="wrt-svc-phone">084 660 877</div></div>
+          <div class="wrt-svc-card"><div class="wrt-svc-city">Русе</div><div class="wrt-svc-addr">ул. Хан Крум 6, Еликом</div><div class="wrt-svc-phone">082 828 585</div></div>
+          <div class="wrt-svc-card"><div class="wrt-svc-city">Самоков</div><div class="wrt-svc-addr">ул. Баба Фота 3</div><div class="wrt-svc-phone">0888 560 095</div></div>
+          <div class="wrt-svc-card"><div class="wrt-svc-city">Силистра</div><div class="wrt-svc-addr">ул. Добруджа 14</div><div class="wrt-svc-phone">086 588 922</div></div>
+          <div class="wrt-svc-card"><div class="wrt-svc-city">Сливен</div><div class="wrt-svc-addr">ул. Братя Миладинови 18</div><div class="wrt-svc-phone">044 625 526</div></div>
+          <div class="wrt-svc-card"><div class="wrt-svc-city">Смолян</div><div class="wrt-svc-addr">ул. Баба Тонка 5</div><div class="wrt-svc-phone">0301 65 970</div></div>
+          <div class="wrt-svc-card"><div class="wrt-svc-city">Стара Загора</div><div class="wrt-svc-addr">ул. Христо Ботев 82</div><div class="wrt-svc-phone">042 600 893</div></div>
+          <div class="wrt-svc-card"><div class="wrt-svc-city">Търговище</div><div class="wrt-svc-addr">ул. Сава Катрафилов 17</div><div class="wrt-svc-phone">0877 177 851</div></div>
+          <div class="wrt-svc-card"><div class="wrt-svc-city">Хасково</div><div class="wrt-svc-addr">ул. Атон 5</div><div class="wrt-svc-phone">038 661 515</div></div>
+          <div class="wrt-svc-card"><div class="wrt-svc-city">Шумен</div><div class="wrt-svc-addr">бул. Плиска 28</div><div class="wrt-svc-phone">054 830 108</div></div>
+          <div class="wrt-svc-card"><div class="wrt-svc-city">Ямбол</div><div class="wrt-svc-addr">ул. Цар Самуил, бл.9, вх.А, ет.1</div><div class="wrt-svc-phone">046 663 141</div></div>
+        </div>
+      </div>
+
+      <!-- WARNING BOX -->
+      <div class="wrt-warning-box">
+        <div class="wrt-warning-hd">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          ВНИМАНИЕ
+        </div>
+        <ol class="wrt-warning-list">
+          <li>Рекламации за <strong>неокомплектовност и външни видими дефекти</strong> се признават само по време на покупката.</li>
+          <li><strong>Повредата в гаранционния срок не е основание за подмяна с нова стока.</strong></li>
+          <li>Срокът за ремонт зависи от сложността и доставката на части; <strong>максималният срок е 30 дни.</strong></li>
+          <li>Няма законово предписание за максимален брой ремонти, водещи до задължителна замяна.</li>
+          <li>Периодичното поддържане (почистване, консумативи, настройки) <strong>не е гаранционен ремонт</strong> и се заплаща от клиента.</li>
+        </ol>
+      </div>
+
+    </div><!-- /dlv-body -->
+  </div><!-- /warrantyPage -->
 
 </body>
 

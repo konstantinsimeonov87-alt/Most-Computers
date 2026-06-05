@@ -675,7 +675,7 @@ function adminShowTab(tab) {
                 <div style="font-size:12px;color:#6b7280;">${pendingCnt > 0 ? pendingCnt + ' изчакват потвърждение' : ''}${pendingCnt > 0 && processingCnt > 0 ? ' · ' : ''}${processingCnt > 0 ? processingCnt + ' в обработка' : ''}</div>
               </div>
             </div>
-            <button type="button" onclick="adminShowTab('orders');setTimeout(()=>{const sf=document.getElementById('adminOrderStatusFilter');if(sf){sf.value='pending';adminFilterOrders();}},100)" style="background:rgba(251,191,36,0.15);color:#fbbf24;border:1px solid rgba(251,191,36,0.3);border-radius:8px;padding:8px 16px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Outfit',sans-serif;white-space:nowrap;">Виж поръчките →</button>
+            <button type="button" onclick="adminShowTab('orders');setTimeout(()=>{const sf=document.getElementById('adminOrderStatusFilter');if(sf){sf.value=document.getElementById('adminOrderStatusFilter')&&${pendingCnt}>0?'pending':'processing';adminFilterOrders();}},100)" style="background:rgba(251,191,36,0.15);color:#fbbf24;border:1px solid rgba(251,191,36,0.3);border-radius:8px;padding:8px 16px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Outfit',sans-serif;white-space:nowrap;">Виж поръчките →</button>
           </div>
         </div>`;
       })()}
@@ -2178,7 +2178,7 @@ function adminBulkPriceUpdate() {
   let changed = 0;
   ids.forEach(id => {
     const p = products.find(x => x.id === id);
-    if (p && p.price > 0) { p.price = Math.round(p.price * (1 + pct/100)); changed++; }
+    if (p && p.price > 0) { p.price = Math.round(p.price * (1 + pct/100) * 100) / 100; changed++; }
   });
   persistProducts();
   renderGrids();
@@ -2274,7 +2274,7 @@ function adminFilterOrders() {
     <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#9ca3af;">${_esc(o.items)}</td>
     <td class="text-success-strong">${fmtEur(o.total)}</td>
     <td><select onchange="adminChangeOrderStatus('${_esc(o.num)}',this.value)" style="background:#252840;border:1px solid #2d3148;border-radius:6px;padding:3px 6px;color:#e5e7eb;font-size:11px;font-family:'Outfit',sans-serif;cursor:pointer;">
-      ${['pending','paid','shipped','cancelled'].map(s=>`<option value="${s}"${o.status===s?' selected':''}>${adminStatuses[s]}</option>`).join('')}
+      ${Object.keys(adminStatuses).map(s=>`<option value="${s}"${o.status===s?' selected':''}>${adminStatuses[s]}</option>`).join('')}
     </select></td>
     <td style="color:#6b7280;">${_esc(o.date)}</td>
     <td style="text-align:right;white-space:nowrap;gap:4px;display:flex;justify-content:flex-end;"><button type="button" style="background:rgba(99,102,241,0.1);color:#a5b4fc;border:1px solid rgba(99,102,241,0.2);border-radius:6px;padding:4px 8px;font-size:11px;cursor:pointer;font-family:'Outfit',sans-serif;margin-right:4px;" onclick="adminShowOrderDetail(${JSON.stringify(o.num)})">🔍 Детайли</button><button type="button" style="background:rgba(248,113,113,0.1);color:#f87171;border:1px solid rgba(248,113,113,0.2);border-radius:6px;padding:4px 8px;font-size:11px;cursor:pointer;font-family:'Outfit',sans-serif;" onclick="adminDeleteOrder(${JSON.stringify(o.num)})">🗑</button></td>
@@ -3224,6 +3224,8 @@ function adminBlogNew(editIdx) {
     document.getElementById('adminBlogFormTitle').textContent = '📝 Нова статия';
     form.dataset.editIdx = '';
     ['bfTitle','bfSummary','bfBody'].forEach(id => { const el = document.getElementById(id); if(el) el.value = ''; });
+    const emojiEl = document.getElementById('bfEmoji'); if(emojiEl) emojiEl.value = '📰';
+    const readEl = document.getElementById('bfRead'); if(readEl) readEl.value = '5 мин';
   }
   form.style.display = '';
   form.scrollIntoView({ behavior: 'smooth' });

@@ -193,7 +193,7 @@ function renderGrids(){
   const _inStock = p => p.stock !== false;
   const _flashAll=[...products].filter(p=>_inStock(p)&&p.old&&p.pct>0);
   for(let i=_flashAll.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[_flashAll[i],_flashAll[j]]=[_flashAll[j],_flashAll[i]];}
-  const _flashProds=_flashAll.slice(0,4);
+  const _flashProds=_flashAll.slice(0,window.innerWidth<640?2:4);
   const flashSection=document.getElementById('sale');
   if(flashSection) flashSection.style.display=_flashProds.length?'':'none';
   const fg=document.getElementById('flashGrid');

@@ -3414,6 +3414,7 @@
    justify-content: start;
    padding: 16px 20px 20px;
    margin-bottom: 0;
+   min-height: 280px;
  }
 
  .flash-header {
@@ -8989,6 +8990,9 @@
 
    .flash-sale-section {
      padding: 14px;
+   }
+   #flashGrid {
+     min-height: 750px;
    }
 
    .footer-inner {

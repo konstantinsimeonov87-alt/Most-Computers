@@ -368,7 +368,7 @@ var products = [
    img:'./images/products/37790.webp',stock:false},
 
   {id:53,name:'ASROCK A620AM-HVS',brand:'ASRock',cat:'components',subcat:'motherboard',
-   price:127.7,old:134,pct:5,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'A620AM-HVS',ean:'4711581490819',
+   price:127.89,old:134,pct:5,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'A620AM-HVS',ean:'4711581490819',
    specs:{'Памет':'2× DDR5','SATA3':'4×SATA3','RAID':'Да','M.2':'1xM2','PCIe x16':'1×PCIEx16','PCIe x1':'1xPCIEx1','Изходи':'HDMI / VGA','Форм фактор':'ATX','Сокет':'AM5'},
    rating:4.4,rv:0,reviews:[],
    desc:'ASRock дънна платка ASROCK A620AM-HVS.',
@@ -529,7 +529,7 @@ var products = [
    img:'./images/products/48791.webp',stock:true},
 
   {id:76,name:'ASROCK B850 PRO RS /AM5',brand:'ASRock',cat:'components',subcat:'motherboard',
-   price:257.9,old:273,pct:6,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'B850 PRO RS',ean:'4711581490161',
+   price:257.47,old:273,pct:6,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'B850 PRO RS',ean:'4711581490161',
    specs:{'Чипсет':'AMD/Intel B850','Памет':'4× DDR5','SATA3':'4×SATA3','RAID':'Да','M.2':'4xM2','PCIe x16':'1×PCIEx16','Изходи':'HDMI','Форм фактор':'ATX','Сокет':'AM5'},
    rating:4.4,rv:0,reviews:[],
    desc:'ASRock дънна платка ASROCK B850 PRO RS /AM5.',
@@ -543,7 +543,7 @@ var products = [
    img:'./images/products/47015.webp',stock:false},
 
   {id:78,name:'ASROCK B850 PRO RS WIFI /AM5',brand:'ASRock',cat:'components',subcat:'motherboard',
-   price:281.44,old:302,pct:7,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'B850 PRO RS WIFI',ean:'4711581490178',
+   price:280.97,old:302,pct:7,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'B850 PRO RS WIFI',ean:'4711581490178',
    specs:{'Чипсет':'AMD/Intel B850','Памет':'4× DDR5','SATA3':'4×SATA3','RAID':'Да','M.2':'4xM2','PCIe x16':'1×PCIEx16','Изходи':'HDMI','Форм фактор':'ATX','Сокет':'AM5'},
    rating:4.4,rv:0,reviews:[],
    desc:'ASRock дънна платка ASROCK B850 PRO RS WIFI /AM5.',
@@ -746,7 +746,7 @@ var products = [
    img:'./images/products/37854.webp',stock:true},
 
   {id:107,name:'ASROCK H810M-H',brand:'ASRock',cat:'components',subcat:'motherboard',
-   price:126.74,old:142,pct:11,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'H810M-H',ean:'4711581490833',
+   price:126.52,old:142,pct:11,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'H810M-H',ean:'4711581490833',
    specs:{'Чипсет':'AMD/Intel H610','Памет':'2× DDR5','SATA3':'4×SATA3','M.2':'1xM2','PCIe x16':'1×PCIEx16','PCIe x1':'1xPCIEx1','Изходи':'HDMI','Форм фактор':'ATX','Сокет':'LGA1700'},
    rating:4.4,rv:0,reviews:[],
    desc:'ASRock дънна платка ASROCK H810M-H.',
@@ -767,14 +767,14 @@ var products = [
    img:'./images/products/44603.webp',stock:false},
 
   {id:110,name:'ASROCK B860M-H2',brand:'ASRock',cat:'components',subcat:'motherboard',
-   price:165.37,old:181,pct:9,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'B860M-H2',ean:'4711581490437',
+   price:165.09,old:181,pct:9,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'B860M-H2',ean:'4711581490437',
    specs:{'Форм фактор':'ATX','Сокет':'LGA1700'},
    rating:4.4,rv:0,reviews:[],
    desc:'ASRock дънна платка ASROCK B860M-H2.',
    img:'./images/products/49879.webp',stock:true},
 
   {id:111,name:'ASROCK B860M PRO RS',brand:'ASRock',cat:'components',subcat:'motherboard',
-   price:223.71,old:235,pct:5,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'B860M PRO RS',ean:'4711581490277',
+   price:223.34,old:235,pct:5,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'B860M PRO RS',ean:'4711581490277',
    specs:{'Чипсет':'AMD/Intel B860','Памет':'4× DDR5','SATA3':'4×SATA3','RAID':'Да','M.2':'3xM2','PCIe x16':'1×PCIEx16','Изходи':'HDMI / DP','Форм фактор':'ATX','Сокет':'LGA1700'},
    rating:4.4,rv:0,reviews:[],
    desc:'ASRock дънна платка ASROCK B860M PRO RS.',
@@ -788,7 +788,7 @@ var products = [
    img:'./images/products/48799.webp',stock:false},
 
   {id:113,name:'ASROCK B860M PRO-A',brand:'ASRock',cat:'components',subcat:'motherboard',
-   price:205.52,old:224,pct:8,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'B860M PRO-A',ean:'4711581490291',
+   price:205.17,old:224,pct:8,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'B860M PRO-A',ean:'4711581490291',
    specs:{'Чипсет':'AMD/Intel B860','Памет':'4× DDR5','SATA3':'4×SATA3','RAID':'Да','M.2':'3xM2','PCIe x16':'1×PCIEx16','Изходи':'HDMI / DP','Форм фактор':'ATX','Сокет':'LGA1700'},
    rating:4.4,rv:0,reviews:[],
    desc:'ASRock дънна платка ASROCK B860M PRO-A.',
@@ -851,7 +851,7 @@ var products = [
    img:'./images/products/44619.webp',stock:true},
 
   {id:122,name:'ASROCK B860 PRO-A WIFI/LGA1851',brand:'ASRock',cat:'components',subcat:'motherboard',
-   price:234.78,old:256,pct:8,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'B860 PRO-A WIFI',ean:'4711581490253',
+   price:234.39,old:256,pct:8,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'B860 PRO-A WIFI',ean:'4711581490253',
    specs:{'Чипсет':'AMD/Intel B860','Памет':'4× DDR5','SATA3':'4×SATA3','RAID':'Да','M.2':'3xM2','PCIe x16':'2×PCIEx16','Изходи':'HDMI / DP','Форм фактор':'ATX','Сокет':'LGA1851'},
    rating:4.4,rv:0,reviews:[],
    desc:'ASRock дънна платка ASROCK B860 PRO-A WIFI/LGA1851.',
@@ -2209,7 +2209,7 @@ var products = [
    img:'./images/products/27094.webp',stock:false},
 
   {id:316,name:'ASUS TUF GAMING B550M-PLUS/AM4',brand:'Asus',cat:'components',subcat:'motherboard',
-   price:180.33,old:251,pct:28,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'90MB14A0-M0EAY0',ean:'4718017623544',
+   price:180.03,old:251,pct:28,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'90MB14A0-M0EAY0',ean:'4718017623544',
    specs:{'Чипсет':'AMD/Intel B550','Памет':'4× DDR4','SATA3':'4×SATA3','RAID':'Да','M.2':'2xM2','PCIe x16':'2×PCIEx16','PCIe x1':'1xPCIEx1','Изходи':'HDMI / DP','Форм фактор':'ATX','Сокет':'AM4'},
    rating:4.4,rv:0,reviews:[],
    desc:'ASUS дънна платка ASUS TUF GAMING B550M-PLUS/AM4.',
@@ -2223,7 +2223,7 @@ var products = [
    img:'./images/products/37075.webp',stock:false},
 
   {id:318,name:'ASUS PRIME B550-PLUS /AM4',brand:'Asus',cat:'components',subcat:'motherboard',
-   price:173.52,old:257,pct:32,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'90MB14U0-M0EAY0',ean:'4718017782340',
+   price:173.23,old:257,pct:33,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'90MB14U0-M0EAY0',ean:'4718017782340',
    specs:{'Чипсет':'AMD/Intel B550','Памет':'4× DDR4','SATA3':'6×SATA3','RAID':'Да','M.2':'2xM2','PCIe x16':'2×PCIEx16','PCIe x1':'3xPCIEx1','Изходи':'HDMI / DP','Форм фактор':'ATX','Сокет':'AM4'},
    rating:4.4,rv:0,reviews:[],
    desc:'ASUS дънна платка ASUS PRIME B550-PLUS /AM4.',
@@ -2370,7 +2370,7 @@ var products = [
    img:'./images/products/48195.webp',stock:true},
 
   {id:339,name:'ASUS TUF GAMING B850-PLUS WIFI',brand:'Asus',cat:'components',subcat:'motherboard',
-   price:348.76,old:447,pct:22,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'90MB1J30-M0EAY0',ean:'4711387781609',
+   price:348.18,old:447,pct:22,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'90MB1J30-M0EAY0',ean:'4711387781609',
    specs:{'Форм фактор':'ATX','Сокет':'AM5'},
    rating:4.4,rv:0,reviews:[],
    desc:'ASUS дънна платка ASUS TUF GAMING B850-PLUS WIFI.',
@@ -2573,7 +2573,7 @@ var products = [
    img:'./images/products/48252.webp',stock:false},
 
   {id:368,name:'ASUS PRIME B760M-A-CSM/LGA1700',brand:'Asus',cat:'components',subcat:'motherboard',
-   price:190.54,old:215,pct:11,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'90MB1EK0-M1EAYC',ean:'4711387140710',
+   price:190.22,old:215,pct:12,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'90MB1EK0-M1EAYC',ean:'4711387140710',
    specs:{'Чипсет':'AMD/Intel B760','Памет':'4× DDR5','SATA3':'4×SATA3','RAID':'Да','M.2':'2xM2','PCIe x16':'3×PCIEx16','Изходи':'DP','Форм фактор':'ATX','Сокет':'LGA1700'},
    rating:4.4,rv:0,reviews:[],
    desc:'ASUS дънна платка ASUS PRIME B760M-A-CSM/LGA1700.',
@@ -2734,7 +2734,7 @@ var products = [
    img:'./images/products/48264.webp',stock:true},
 
   {id:391,name:'ASUS ROG STRIX Z890-F GAM WIFI',brand:'Asus',cat:'components',subcat:'motherboard',
-   price:762.17,old:802,pct:5,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'90MB1I40-M0EAY0',ean:'4711387755921',
+   price:760.88,old:802,pct:5,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'90MB1I40-M0EAY0',ean:'4711387755921',
    specs:{'Форм фактор':'ATX','Сокет':'LGA1700'},
    rating:4.4,rv:0,reviews:[],
    desc:'ASUS дънна платка ASUS ROG STRIX Z890-F GAM WIFI.',
@@ -3037,14 +3037,14 @@ var products = [
    img:'./images/products/32560.webp',stock:false},
 
   {id:434,name:'INTEL I3-14100 3.5GHZ 12MB BOX 1700',brand:'Intel',cat:'components',subcat:'cpu',
-   price:246.69,old:302,pct:18,badge:'sale',added:'2026-04-20',emoji:'🔵',sku:'INB71514100SRMX1',ean:'5032037279079',
+   price:246.28,old:302,pct:18,badge:'sale',added:'2026-04-20',emoji:'🔵',sku:'INB71514100SRMX1',ean:'5032037279079',
    specs:{'Сокет':'FCLGA1700','Ядра':'4','Нишки':'8','Честота':'Max Turbo Frequency: 4.7 GHz; Performance-core Max Turbo Frequency: 4.7 GHz; Performance-core Base F','Кеш':'12 MB Smart Cache','Памет':'Макс: 192 GB; Memory Types Up to DDR5 4800 MT/s; Up to DDR4 3200 MT/s | Канали: 2 | 76.8 GB/s','Интегрирана графика':'UHD Graphics 730','TDP':'60 W'},
    rating:4.5,rv:0,reviews:[],
    desc:'Intel I3-14100 3.5GHZ 12MB BOX 1700 - сокет FCLGA1700, 4 ядра, TDP 60 W.',
    img:'./images/products/38366.webp',stock:false},
 
   {id:435,name:'INTEL I3-14100 3.5GHZ 12M TRAY 1700',brand:'Intel',cat:'components',subcat:'cpu',
-   price:242.43,old:272,pct:11,badge:'sale',added:'2026-04-20',emoji:'🔵',sku:'CM8071505092206',ean:'4251538816816',
+   price:242.01,old:272,pct:11,badge:'sale',added:'2026-04-20',emoji:'🔵',sku:'CM8071505092206',ean:'4251538816816',
    specs:{'Manufacturer':'Intel','Сокет':'FCLGA1700','Ядра':'4','Нишки':'8','Честота':'Max Turbo Frequency: 4.7 GHz;Performance-core Max Turbo Frequency: 4.7 GHz;Performance-core Base Fre','Кеш':'12 MB Smart Cache;Total L2 Cache: 5 MB','Памет':'Max Memory Size: 192 GB | Тип: Up to DDR5 4800 MT/s, Up to DDR4 3200 MT/s | Канали: 2 | 76.8 GB/s','Tray':'Yes','Интегрирана графика':'UHD Graphics 730, 1.5 GHz,'},
    rating:4.5,rv:0,reviews:[],
    desc:'Intel I3-14100 3.5GHZ 12M TRAY 1700 - сокет FCLGA1700, 4 ядра.',
@@ -3226,7 +3226,7 @@ var products = [
    img:'./images/products/51085.webp',stock:false},
 
   {id:461,name:'INTEL CORE ULTRA 5 245KF BOX',brand:'Intel',cat:'components',subcat:'cpu',
-   price:321.54,old:360.58,pct:11,badge:'sale',added:'2026-04-20',emoji:'🔵',sku:'BX80768245KF',ean:'5032037282109',
+   price:320.99,old:360.58,pct:11,badge:'sale',added:'2026-04-20',emoji:'🔵',sku:'BX80768245KF',ean:'5032037282109',
    specs:{'Manufacturer':'Intel','Сокет':'FCLGA1851','Ядра':'Total Cores: 14;# of Performance-cores: 6;# of Efficient-cores: 8','Нишки':'14','Честота':'Max Turbo Frequency: 5.2 GHz;Performance-core Max Turbo Frequency: 5.2 GHz;Efficient-core Max Turbo ','Кеш':'Cache: 24 MB Smart Cache;Total L2 Cache: 26 MB','Памет':'Макс: 256 GB | Тип: Up to DDR5 6400 MT/s;Maximum Memory Speed: 6400 MHz | Канали: 2','Интегрирана графика':'None'},
    rating:4.5,rv:0,reviews:[],
    desc:'Intel INTEL CORE ULTRA 5 245KF BOX - сокет FCLGA1851, Total ядра.',
@@ -3240,7 +3240,7 @@ var products = [
    img:'./images/products/51086.webp',stock:false},
 
   {id:463,name:'INTEL CORE ULTRA 7 265KF BOX',brand:'Intel',cat:'components',subcat:'cpu',
-   price:503.57,old:532,pct:5,badge:'sale',added:'2026-04-20',emoji:'🔵',sku:'BX80768265KF',ean:'5032037281980',
+   price:502.73,old:532,pct:6,badge:'sale',added:'2026-04-20',emoji:'🔵',sku:'BX80768265KF',ean:'5032037281980',
    specs:{'Сокет':'FCLGA1851','Ядра':'Total Cores 20;# of Performance-cores 8;# of Efficient-cores 12','Нишки':'20','Честота':'Max Turbo Frequency 5.5 GHz;Turbo Boost Max Technology 3.0 Frequency 5.5GHz;Performance-core Max Tur','Кеш':'Cache 30 MB Smart Cache;Total L2 Cache 36 MB','Памет':'Max Memory Size (dependent on memory type) 192 GB;Memory Types Up to DDR5 6400 MT/s;Maximum Memory S'},
    rating:4.5,rv:0,reviews:[],
    desc:'Intel INTEL CORE ULTRA 7 265KF BOX - сокет FCLGA1851, Total ядра.',
@@ -3639,7 +3639,7 @@ var products = [
    img:'./images/products/35197.webp',stock:false},
 
   {id:520,name:'AMD RYZEN 5 7600X 4.7G 38M BOX',brand:'AMD',cat:'components',subcat:'cpu',
-   price:324.08,old:345,pct:6,badge:'sale',added:'2026-04-20',emoji:'🔴',sku:'100-100000593WOF',ean:'0730143314442',
+   price:323.55,old:345,pct:6,badge:'sale',added:'2026-04-20',emoji:'🔴',sku:'100-100000593WOF',ean:'0730143314442',
    specs:{'Сокет':'AM5','Ядра':'6','Нишки':'12','Честота':'Max. Boost Clock:Up to 5.3GHz; Base Clock:4.7GHz','Кеш':'L1 Cache:384KB; L2 Cache:6MB; L3 Cache:32MB','Памет':'System Memory Type:DDR5; Memory Channels:2; Max Memory Speed: 2x1R-DDR5-5200','Интегрирана графика':'AMD Radeon™ Graphics','TDP':'105W'},
    rating:4.5,rv:0,reviews:[],
    desc:'AMD AMD RYZEN 5 7600X 4.7G 38M BOX - сокет AM5, 6 ядра, TDP 105W.',
@@ -3702,7 +3702,7 @@ var products = [
    img:'./images/products/45880.webp',stock:false},
 
   {id:529,name:'AMD RYZEN 7 7800X3D BOX',brand:'AMD',cat:'components',subcat:'cpu',
-   price:670.3,old:738,pct:9,badge:'sale',added:'2026-04-20',emoji:'🔴',sku:'100-100000910WOF',ean:'0730143314930',
+   price:669.17,old:738,pct:9,badge:'sale',added:'2026-04-20',emoji:'🔴',sku:'100-100000910WOF',ean:'0730143314930',
    specs:{'Сокет':'AM5','Ядра':'8','Нишки':'16','Честота':'Max. Boost Clock:Up to 5.0GHz; Base Clock:4.2GHz','Кеш':'L1 Cache:512KB; L2 Cache:8MB; L3 Cache:96MB','Памет':'PCI Express® Version:PCIe® 5.0; System Memory Type:DDR5; Memory Channels:2; Max Memory Speed: 2x1R; ','Интегрирана графика':'Graphics Model:AMD Radeon™ Graphics; Graphics Core Count:2; Graphics Frequency:2200 MHz','TDP':'120W'},
    rating:4.5,rv:0,reviews:[],
    desc:'AMD AMD RYZEN 7 7800X3D BOX - сокет AM5, 8 ядра, TDP 120W.',
@@ -3716,7 +3716,7 @@ var products = [
    img:'./images/products/46354.webp',stock:true},
 
   {id:531,name:'AMD RYZEN 9 7900X 4.7G 76M BOX',brand:'AMD',cat:'components',subcat:'cpu',
-   price:580.14,old:615,pct:6,badge:'sale',added:'2026-04-20',emoji:'🔴',sku:'AW100100000589WOF',ean:'0730143314558',
+   price:579.16,old:615,pct:6,badge:'sale',added:'2026-04-20',emoji:'🔴',sku:'AW100100000589WOF',ean:'0730143314558',
    specs:{'Ядра':'12','Нишки':'24','Честота':'Max. Boost Clock:Up to 5.6GHz; Base Clock:4.7GHz','Кеш':'L1 Cache:768KB; L2 Cache:12MB; L3 Cache:64MB','Памет':'System Memory Type:DDR5; Memory Channels:2; Max Memory Speed: 2x1R-DDR5-5200; 2x2R-DDR5-5200; 4x1R-D','Интегрирана графика':'AMD Radeon™ Graphics','TDP':'170W'},
    rating:4.5,rv:0,reviews:[],
    desc:'AMD AMD RYZEN 9 7900X 4.7G 76M BOX, 12 ядра, TDP 170W.',
@@ -3807,7 +3807,7 @@ var products = [
    img:'./images/products/40311.webp',stock:false},
 
   {id:544,name:'AMD RYZEN 5 PRO 8500G TRAY',brand:'AMD',cat:'components',subcat:'cpu',
-   price:323.92,old:340,pct:5,badge:'sale',added:'2026-04-20',emoji:'🔴',sku:'100-000001183',ean:'5054444595115',
+   price:324.39,old:340,pct:5,badge:'sale',added:'2026-04-20',emoji:'🔴',sku:'100-000001183',ean:'5054444595115',
    specs:{'Manufacturer':'AMD','Сокет':'AM5','Ядра':'6','Нишки':'12','Честота':'Max. Boost Clock: Up to 5 GHz;Base Clock: Up to 3.7 GHz','Кеш':'L2 Cache: 6 MB;L3 Cache: 16 MB','Max. PCI Express Lanes':'Total 14/Usable 10','Памет':'System Memory Type: DDR5;Memory Channels: 2;Max. Memory: 256 GB;System Memory Subtype: UDIMM;Max Mem','Tray':'Yes','Интегрирана графика':'AMD Radeon™ 740M 4 2800 MHz','TDP':'65W'},
    rating:4.5,rv:0,reviews:[],
    desc:'AMD AMD RYZEN 5 PRO 8500G TRAY - сокет AM5, 6 ядра, TDP 65W.',
@@ -4017,14 +4017,14 @@ var products = [
    img:'./images/products/51094.webp',stock:true},
 
   {id:574,name:'AMD RYZEN 9 9900X 4.4G 64M BOX',brand:'AMD',cat:'components',subcat:'cpu',
-   price:648.18,old:708,pct:8,badge:'sale',added:'2026-04-20',emoji:'🔴',sku:'100-100000662WOF',ean:'0730143315296',
+   price:647.09,old:708,pct:9,badge:'sale',added:'2026-04-20',emoji:'🔴',sku:'100-100000662WOF',ean:'0730143315296',
    specs:{'Model':'AMD Ryzen™ 9 9900X','Сокет':'AM5','Ядра':'12','Нишки':'24','Честота':'Up to 5.6 GHz; Base Clock ; 4.4 GHz;','Кеш':'L1 Cache; 960 KB; L2 Cache; 12 MB; L3 Cache; 64 MB;','Памет':'System Memory Type DDR5; Memory Channels 2; Max. Memory 192 GB; System Memory Subtype UDIMM; Max Mem','Package':'3','Интегрирана графика':'AMD Radeon™ Graphics','TDP':'120W'},
    rating:4.5,rv:0,reviews:[],
    desc:'AMD AMD RYZEN 9 9900X 4.4G 64M BOX - сокет AM5, 12 ядра, TDP 120W.',
    img:'./images/products/41781.webp',stock:true},
 
   {id:575,name:'AMD RYZEN 9 9900X3D BOX',brand:'AMD',cat:'components',subcat:'cpu',
-   price:971.42,old:1038,pct:6,badge:'sale',added:'2026-04-20',emoji:'🔴',sku:'100-100001368WOF',ean:'0730143315579',
+   price:969.78,old:1038,pct:7,badge:'sale',added:'2026-04-20',emoji:'🔴',sku:'100-100001368WOF',ean:'0730143315579',
    specs:{'Manufacturer':'AMD','Сокет':'AM5','Ядра':'12','Нишки':'24','Честота':'Max. Boost Clock: Up to 5.5 GHz;Base Clock: 4.4 GHz','Кеш':'L1 Cache: 960 KB;L2 Cache: 12 MB;L3 Cache: 128 MB','Max. PCI Express Lanes':'Total 28/ Usable 24','Памет':'System Memory Type: DDR5;Memory Channels: 2;Max. Memory: 192 GB;System Memory Subtype: UDIMM;Max Mem','Fan':'Not included','Интегрирана графика':'AMD Radeon™ Graphics 2 2200 MHz','TDP':'120W'},
    rating:4.5,rv:0,reviews:[],
    desc:'AMD AMD RYZEN 9 9900X3D BOX - сокет AM5, 12 ядра, TDP 120W.',
@@ -4059,7 +4059,7 @@ var products = [
    img:'./images/products/45215.webp',stock:false},
 
   {id:580,name:'AMD RYZEN 9 9950X3D BOX',brand:'AMD',cat:'components',subcat:'cpu',
-   price:1161.96,old:1228,pct:5,badge:'sale',added:'2026-04-20',emoji:'🔴',sku:'100-100000719WOF',ean:'730143315555',
+   price:1160,old:1228,pct:6,badge:'sale',added:'2026-04-20',emoji:'🔴',sku:'100-100000719WOF',ean:'730143315555',
    specs:{'Manufacturer':'AMD','Сокет':'AM5','Ядра':'16','Нишки':'32','Честота':'Max. Boost Clock: Up to 5.7 GHz;Base Clock: 4.3 GHz','Кеш':'L1 Cache: 1280 KB;L2 Cache: 16 MB;L3 Cache: 128 MB','Max. PCI Express Lanes':'28 , 24 (Total/Usable)','Памет':'System Memory Type: DDR5;Memory Channels: 2;Max. Memory: 192 GB;System Memory Subtype: UDIMM;Max Mem','Fan':'Not Included','Интегрирана графика':'Graphics Model: AMD Radeon™ Graphics;Graphics Core Count: 2;Graphics Frequency: 2200 MHz;USB Type-C®','TDP':'170W'},
    rating:4.5,rv:0,reviews:[],
    desc:'AMD AMD RYZEN 9 9950X3D BOX - сокет AM5, 16 ядра, TDP 170W.',
@@ -4160,7 +4160,7 @@ var products = [
    img:'./images/products/28799.webp',stock:true},
 
   {id:594,name:'8G DDR4 3200 TEAM ELITE',brand:'TeamGroup',cat:'components',subcat:'ram',
-   price:105.81,old:118.78,pct:11,badge:'sale',added:'2026-04-20',emoji:'🟢',sku:'TED48G3200C2201',ean:'0765441647787',
+   price:105.63,old:118.78,pct:11,badge:'sale',added:'2026-04-20',emoji:'🟢',sku:'TED48G3200C2201',ean:'0765441647787',
    specs:{'Тип':'DDR4','Капацитет':'8 GB','Честота':'3200 MHz','Латентност':'CL22-22-22-52','Форм фактор':'DIMM','Напрежение':'1.2V'},
    rating:4.4,rv:0,reviews:[],
    desc:'TeamGroup 8G DDR4 3200 TEAM ELITE - DDR4 DIMM 3200 MHz, 8 GB, CL22-22-22-52.',
@@ -4398,7 +4398,7 @@ var products = [
    img:'./images/products/33605.webp',stock:false},
 
   {id:628,name:'16G DDR4 2666 TEAM ELITE',brand:'TeamGroup',cat:'components',subcat:'ram',
-   price:201.1,old:215,pct:6,badge:'sale',added:'2026-04-20',emoji:'🟢',sku:'TED416G2666C1901',ean:'0765441637016',
+   price:200.75,old:215,pct:7,badge:'sale',added:'2026-04-20',emoji:'🟢',sku:'TED416G2666C1901',ean:'0765441637016',
    specs:{'Тип':'DDR4','Капацитет':'16 GB','Честота':'2666 MHz','Форм фактор':'DIMM','Напрежение':'1.2V'},
    rating:4.4,rv:0,reviews:[],
    desc:'TeamGroup 16G DDR4 2666 TEAM ELITE - DDR4 DIMM 2666 MHz, 16 GB.',
@@ -5070,7 +5070,7 @@ var products = [
    img:'./images/products/33472.webp',stock:true},
 
   {id:724,name:'32G DDR5 6000 KING FURY BEAST',brand:'Kingston',cat:'components',subcat:'ram',
-   price:833.61,old:968,pct:14,badge:'sale',added:'2026-04-20',emoji:'🟢',sku:'KF560C36BBE2-32',ean:null,
+   price:832.23,old:968,pct:14,badge:'sale',added:'2026-04-20',emoji:'🟢',sku:'KF560C36BBE2-32',ean:null,
    specs:{'Тип':'DDR4','Форм фактор':'DIMM'},
    rating:4.4,rv:0,reviews:[],
    desc:'Kingston 32G DDR5 6000 KING FURY BEAST - DDR4 DIMM.',
@@ -5238,7 +5238,7 @@ var products = [
    img:'./images/products/45511.webp',stock:true},
 
   {id:748,name:'8GB DDR4 3200 TEAM ELITE SODIM',brand:'TeamGroup',cat:'components',subcat:'ram',
-   price:96.97,old:104,pct:7,badge:'sale',added:'2026-04-20',emoji:'💻',sku:'TED48G3200C22-S01',ean:'0765441651722',
+   price:96.81,old:104,pct:7,badge:'sale',added:'2026-04-20',emoji:'💻',sku:'TED48G3200C22-S01',ean:'0765441651722',
    specs:{'Тип':'DDR4','Капацитет':'8 GB','Честота':'3200 MHz','Форм фактор':'SO-DIMM','Напрежение':'1.2V'},
    rating:4.4,rv:0,reviews:[],
    desc:'TeamGroup 8GB DDR4 3200 TEAM ELITE SODIM - DDR4 SO-DIMM 3200 MHz, 8 GB.',
@@ -6178,21 +6178,21 @@ var products = [
    img:'./images/products/100159.webp',stock:true},
 
   {id:882,name:'TEAM SSD GX1 480G 2.5INCH',brand:'TeamGroup',cat:'components',subcat:'ssd',
-   price:134.56,old:145,pct:7,badge:'sale',added:'2026-04-21',emoji:'💾',sku:'T253X1480G0C101',ean:'0765441645264',
+   price:134.35,old:145,pct:7,badge:'sale',added:'2026-04-21',emoji:'💾',sku:'T253X1480G0C101',ean:'0765441645264',
    specs:{'Капацитет':'480 GB','Интерфейс':'SATA III','Форм фактор':'2.5\''},
    rating:4.3,rv:0,reviews:[],
    desc:'TeamGroup TEAM SSD GX1 480G 2.5INCH - SSD 480 GB, SATA III, 2.5".',
    img:'./images/products/100160.webp',stock:true},
 
   {id:883,name:'TEAM SSD GX2 256G 2.5INCH',brand:'TeamGroup',cat:'components',subcat:'ssd',
-   price:86.94,old:98,pct:11,badge:'sale',added:'2026-04-21',emoji:'💾',sku:'T253X2256G0C101',ean:'0765441645189',
+   price:86.78,old:98,pct:11,badge:'sale',added:'2026-04-21',emoji:'💾',sku:'T253X2256G0C101',ean:'0765441645189',
    specs:{'Капацитет':'256 GB','Интерфейс':'SATA III','Форм фактор':'2.5\''},
    rating:4.3,rv:0,reviews:[],
    desc:'TeamGroup TEAM SSD GX2 256G 2.5INCH - SSD 256 GB, SATA III, 2.5".',
    img:'./images/products/31109.webp',stock:true},
 
   {id:884,name:'TEAM SSD GX2 512G 2.5INCH',brand:'TeamGroup',cat:'components',subcat:'ssd',
-   price:145.46,old:158,pct:8,badge:'sale',added:'2026-04-21',emoji:'💾',sku:'T253X2512G0C101',ean:'0765441645196',
+   price:145.22,old:158,pct:8,badge:'sale',added:'2026-04-21',emoji:'💾',sku:'T253X2512G0C101',ean:'0765441645196',
    specs:{'Капацитет':'512 GB','Интерфейс':'SATA III','Форм фактор':'2.5\''},
    rating:4.3,rv:0,reviews:[],
    desc:'TeamGroup TEAM SSD GX2 512G 2.5INCH - SSD 512 GB, SATA III, 2.5".',
@@ -6710,7 +6710,7 @@ var products = [
    img:'./images/products/45200.webp',stock:true},
 
   {id:958,name:'EMTEC SSD X150 480G 2.5INCH',brand:'Emtec',cat:'components',subcat:'ssd',
-   price:133.21,old:152,pct:12,badge:'sale',added:'2026-04-21',emoji:'💾',sku:'ECSSD480GX150',ean:'3126170136411',
+   price:132.82,old:152,pct:13,badge:'sale',added:'2026-04-21',emoji:'💾',sku:'ECSSD480GX150',ean:'3126170136411',
    specs:{'Капацитет':'480 GB','Интерфейс':'SATA III','Форм фактор':'2.5\''},
    rating:4.3,rv:0,reviews:[],
    desc:'Emtec EMTEC SSD X150 480G 2.5INCH - SSD 480 GB, SATA III, 2.5".',
@@ -8517,7 +8517,7 @@ var products = [
    img:'./images/products/50826.webp',stock:false},
 
   {id:1216,name:'KOORUI 24 E2412F FHD',brand:'Koorui',cat:'monitors',subcat:'monitor',
-   price:128.62,old:135.13,pct:5,badge:'sale',added:'2026-04-21',emoji:'🖥',sku:'E2412F',ean:'6977295256105',
+   price:128.4,old:135.13,pct:5,badge:'sale',added:'2026-04-21',emoji:'🖥',sku:'E2412F',ean:'6977295256105',
    specs:{'Ratio':'16:9','HDMI':'Да','Размер':'24\'','Панел':'VA','Резолюция':'1920×1080 (FHD)','Честота':'100 Hz','Отклик':'5ms'},
    rating:4.3,rv:0,reviews:[],
    desc:'Koorui KOORUI 24 E2412F FHD - 24" монитор, VA, 1920×1080 (FHD), 100 Hz.',
@@ -8594,7 +8594,7 @@ var products = [
    img:'./images/products/50857.webp',stock:false},
 
   {id:1227,name:'KOORUI 27 S2721XO QHD QD-OLED',brand:'Koorui',cat:'monitors',subcat:'monitor',
-   price:875.8,old:917.26,pct:5,badge:'sale',added:'2026-04-21',emoji:'✨',sku:'S2721XO',ean:'6977295255900',
+   price:874.33,old:917.26,pct:5,badge:'sale',added:'2026-04-21',emoji:'✨',sku:'S2721XO',ean:'6977295255900',
    specs:{'Ratio':'16:9','DP':'Да','HDMI':'Да','Swivel':'Да','Pivot':'Да','HDR':'Да','Размер':'27\'','Панел':'OLED','Резолюция':'2560×1440 (QHD)','Честота':'240 Hz','Отклик':'0.03ms'},
    rating:4.3,rv:0,reviews:[],
    desc:'Koorui KOORUI 27 S2721XO QHD QD-OLED - 27" монитор, OLED, 2560×1440 (QHD), 240 Hz.',
@@ -12640,12 +12640,12 @@ products.push(
   {id:3148,name:'CANON PIXMA G2430 AIO',brand:'CANON',cat:'printers',subcat:'megatank',price:272.84,old:null,pct:null,badge:null,added:'2026-04-23',emoji:'🖨',sku:'5991C009AA',ean:'4549292213515',specs:{'Vendor_url':'https://www.canon-europe.com/printers/pixma-g2430/','Manufacturer':'Canon','Interface':'Hi-Speed USB (USB B Port)','Print speed':'Mono Print Speed: approx. 11 ipm;Colour Print Speed: approx. 6.0 ipm;Photo Print Speed: Borderless 1','Scan speed':'Colour: 3.5 ms/line(300dpi);Greyscale: 1.5 ms/line(300dpi)','Copy speed':'sFCOT: Approx. 23 sec;sESAT: Approx. 2.7 ipm','Print resolution':'Up to 4800 x 1200 dpi','Scanner resolution':'600 x 1200 dpi'},rating:4.4,rv:12,reviews:[],desc:'CANON PIXMA G2430 AIO - мастиленоструен принтер. CANON качество и надеждност.',img:'./images/products/44933.webp',stock:true},
   {id:3149,name:'CANON PIXMA G3430 AIO',brand:'CANON',cat:'printers',subcat:'megatank',price:260.79,old:307.69,pct:15,badge:'sale',added:'2026-04-23',emoji:'🖨',sku:'5989C009AC',ean:'4549292213287',specs:{'Vendor_url':'https://www.canon-europe.com/printers/pixma-g3430/specifications/','Interface':'Hi-Speed USB (USB B Port); Wi-Fi: IEEE802.11 b/g/n; Wi-Fi Security: WPA-PSK, WPA2-PSK, WEP, Administ','Print speed':'Mono Print Speed:approx. 11 ipm; Colour Print Speed:approx. 6.0 ipm; Photo Print Speed:Borderless 10','Scan speed':'Colour: 3.5 ms/line (300dpi); Greyscale: 1.5 ms/line (300dpi)','Copy speed':'sFCOT: Approx. 23 sec; sESAT: Approx. 2.7 ipm','Print resolution':'Up to 4800 x 1200 dpi','Scanner resolution':'600 x 1200 dpi','Paper size':'A4, A5, A6, B5, LTR, LGL, Executive (184.2 mm x 266.7 mm), Legal (215 mm x 345 mm), 4" x 6", 5" x 7"'},rating:4.4,rv:24,reviews:[],desc:'CANON PIXMA G3430 AIO - мастиленоструен принтер. CANON качество и надеждност.',img:'./images/products/37445.webp',stock:true},
   {id:3150,name:'CANON PIXMA G3470 AIO BLACK',brand:'CANON',cat:'printers',subcat:'megatank',price:139.6,old:null,pct:null,badge:null,added:'2026-04-23',emoji:'🖨',sku:'5805C009AA',ean:'4549292205398',specs:{'Vendor_url':'https://www.canon-europe.com/printers/pixma-g3470-series/','Interface':'1.35 " / 3.4 cm Square LCD (Monochrome);Hi-Speed USB (USB B Port); Wi-Fi: IEEE802.11 b/g/n/15; Wi-Fi','Print speed':'Mono Print Speed:approx. 11 ipm2; Colour Print Speed:approx. 6.0 ipm3; Photo Print Speed:Borderless ','Scan speed':'Colour: 3.5 ms/line(300dpi)11; Greyscale: 1.5 ms/line(300dpi)12','Copy speed':'sFCOT: Approx. 23 sec13; sESAT: Approx. 3.2 ipm14','Print resolution':'Up to 4800 x 1200 dpi1','Scanner resolution':'600 x 1200 dpi10','Paper size':'A4, A5, A6, B5, LTR, LGL, Executive (184.2 mm x 266.7 mm), Legal(215 mm x 345 mm), 4" x 6", 5" x 7",'},rating:4.2,rv:16,reviews:[],desc:'CANON PIXMA G3470 AIO BLACK - мастиленоструен принтер. CANON качество и надеждност.',img:'./images/products/34159.webp',stock:true},
-  {id:3151,name:'CANON PIXMA G3470 AIO WHITE',brand:'CANON',cat:'printers',subcat:'megatank',price:139.6,old:null,pct:null,badge:null,added:'2026-04-23',emoji:'🖨',sku:'5805C029AD',ean:'4549292205534',specs:{'Vendor_url':'https://www.canon-europe.com/printers/pixma-g3470-series/specifications/#','Interface':'Display Type &amp; Size:1.35 " / 3.4 cm Square LCD (Monochrome); Hi-Speed USB (USB B Port)','Print speed':'Mono Print Speed:approx. 11 ipm2; Colour Print Speed:approx. 6.0 ipm3; Photo Print Speed:Borderless ','Scan speed':'Colour: 3.5 ms/line(300dpi)11; Greyscale: 1.5 ms/line(300dpi)12','Copy speed':'sFCOT: Approx. 23 sec13; sESAT: Approx. 3.2 ipm14','Print resolution':'Up to 4800 x 1200 dpi1','Scanner resolution':'600 x 1200 dpi10','Paper size':'A4, A5, A6, B5, LTR, LGL, Executive (184.2 mm x 266.7 mm), Legal(215 mm x 345 mm), 4" x 6", 5" x 7",'},rating:4.7,rv:20,reviews:[],desc:'CANON PIXMA G3470 AIO WHITE - мастиленоструен принтер. CANON качество и надеждност.',img:'./images/products/35970.webp',stock:false},
+  {id:3151,name:'CANON PIXMA G3470 AIO WHITE',brand:'CANON',cat:'printers',subcat:'megatank',price:139.6,old:null,pct:null,badge:null,added:'2026-04-23',emoji:'🖨',sku:'5805C029AD',ean:'4549292205534',specs:{'Vendor_url':'https://www.canon-europe.com/printers/pixma-g3470-series/specifications/#','Interface':'Display Type &amp; Size:1.35 " / 3.4 cm Square LCD (Monochrome); Hi-Speed USB (USB B Port)','Print speed':'Mono Print Speed:approx. 11 ipm2; Colour Print Speed:approx. 6.0 ipm3; Photo Print Speed:Borderless ','Scan speed':'Colour: 3.5 ms/line(300dpi)11; Greyscale: 1.5 ms/line(300dpi)12','Copy speed':'sFCOT: Approx. 23 sec13; sESAT: Approx. 3.2 ipm14','Print resolution':'Up to 4800 x 1200 dpi1','Scanner resolution':'600 x 1200 dpi10','Paper size':'A4, A5, A6, B5, LTR, LGL, Executive (184.2 mm x 266.7 mm), Legal(215 mm x 345 mm), 4" x 6", 5" x 7",'},rating:4.7,rv:20,reviews:[],desc:'CANON PIXMA G3470 AIO WHITE - мастиленоструен принтер. CANON качество и надеждност.',img:'./images/products/35970.webp',stock:true},
   {id:3152,name:'CANON PIXMA G3480 AIO',brand:'CANON',cat:'printers',subcat:'megatank',price:188.1,old:null,pct:null,badge:null,added:'2026-04-23',emoji:'🖨',sku:'6708C009AC',ean:'4549292235753',specs:{'Vendor_url':'https://www.canon-europe.com/printers/pixma-g3480/','Manufacturer':'Canon','Interface':'1.35 " / 3.4 cm Square LCD (Monochrome); Hi-Speed USB (USB B Port)','Print speed':'Mono Print Speed: approx. 11 ipm;Colour Print Speed: approx. 6.0 ipm;Photo Print Speed: Borderless 1','Scan speed':'Colour: 3.5 ms/line(300dpi);Greyscale: 1.5 ms/line(300dpi)','Copy speed':'sFCOT: Approx. 23 sec;sESAT: Approx. 3.2 ipm','Print resolution':'Up to 4800 x 1200 dpi','Scanner resolution':'600 x 1200 dpi'},rating:4.2,rv:18,reviews:[],desc:'CANON PIXMA G3480 AIO - мастиленоструен принтер. CANON качество и надеждност.',img:'./images/products/46662.webp',stock:true},
   {id:3153,name:'CANON PIXMA TR4755I AIO BLACK',brand:'CANON',cat:'printers',subcat:'inkjet_aio',price:62.02,old:null,pct:null,badge:null,added:'2026-04-23',emoji:'🖨',sku:'5074C036AC',ean:'4549292237368',specs:{'Vendor_url':'https://www.canon-europe.com/printers/pixma-tr4755i-series/','Manufacturer':'Canon','Interface':'Hi-Speed USB (B Port)','Print speed':'Mono Print Speed:  Approx. 8.8 ipm;Colour Print Speed: Approx. 4.4 ipm;Photo Print Speed: Borderless','Scan speed':'Colour: 3.5 ms/line (300 dpi);Greyscale: 1.5 ms/line (300 dpi)','Copy speed':'ESAT/Simplex ADF (colour): Approx. 2.7 ipm;ESAT/Simplex ADF (black): Approx. 6.4 ipm','Print resolution':'Up to 4800 x 1200 dpi','Scanner resolution':'600 x 1,200 dpi'},rating:4.2,rv:16,reviews:[],desc:'CANON PIXMA TR4755I AIO BLACK - мастиленоструен принтер. CANON качество и надеждност.',img:'./images/products/49429.webp',stock:true},
   {id:3154,name:'CANON PIXMA TR4756I AIO WHITE',brand:'CANON',cat:'printers',subcat:'inkjet_aio',price:62.15,old:null,pct:null,badge:null,added:'2026-04-23',emoji:'🖨',sku:'5074C046AC',ean:'4549292237382',specs:{'Vendor_url':'https://www.canon-europe.com/','Manufacturer':'Canon','Interface':'Hi-Speed USB (B Port)','Print speed':'Mono Print Speed: Approx. 8.8 ipm;Colour Print Speed: Approx. 4.4 ipm;Photo Print Speed: Borderless ','Scan speed':'Colour: 3.5 ms/line (300 dpi);Greyscale: 1.5 ms/line (300 dpi)','Copy speed':'ESAT/Simplex ADF (colour): Approx. 2.7 ipm;ESAT/Simplex ADF (black): Approx. 6.4 ipm','Print resolution':'Up to 4800 x 1200 dpi','Scanner resolution':'600 x 1,200 dpi'},rating:4.6,rv:17,reviews:[],desc:'CANON PIXMA TR4756I AIO WHITE - мастиленоструен принтер. CANON качество и надеждност.',img:'./images/products/51060.webp',stock:true},
-  {id:3155,name:'CANON PIXMA TS4150I',brand:'CANON',cat:'printers',subcat:'inkjet_aio',price:63.27,old:null,pct:null,badge:null,added:'2026-04-23',emoji:'🖨',sku:'7181C006AA',ean:'4549292248067',specs:{'Vendor_url':'https://www.canon-europe.com/printers/pixma-ts4150i/','Manufacturer':'Canon','Model':'PIXMA TS4150i','Interface':'Hi-Speed USB B Port','Print speed':'Mono Print Speed: Approx. 14.0 ipm;Colour Print Speed: Approx. 9.0 ipm;Photo Print Speed: Borderless','Scan speed':'Line Scanning Speed: Greyscale: Approx. 6.05 sec(A4), Approx. 5.69 sec(LTR), (Approx. 1.8 ms/line) (','Copy speed':'sFCOT/Simplex: Approx. 18 sec.;sESAT/Simplex: Approx. 2.0 ipm','Print resolution':'Up to 1200 x 1200 dpi'},rating:4.8,rv:5,reviews:[],desc:'CANON PIXMA TS4150I - мастиленоструен принтер. CANON качество и надеждност.',img:'./images/products/49268.webp',stock:false},
-  {id:3156,name:'CANON PIXMA TS3750I BLACK',brand:'CANON',cat:'printers',subcat:'inkjet_aio',price:48.23,old:null,pct:null,badge:null,added:'2026-04-23',emoji:'🖨',sku:'6671C006BA',ean:'4549292234107',specs:{'Vendor_url':'https://www.canon-europe.com/','Manufacturer':'Canon','Interface':'Interface Type - PC / Mac: Hi-Speed USB (B Port) Wi-Fi: IEEE802.11 b/g/n Wi-Fi Security: WPA-PSK(AES','Print speed':'Mono Print Speed: Approx. 7.7 ipm;Colour Print Speed: Approx. 4.0 ipm;Photo Print Speed Borderless 1','Copy speed':'sFCOT: Approx. 27 sec.;sESAT: Approx. 3.0 ipm','Print resolution':'Up to 4800 x 1200 dpi','Scanner resolution':'600 x 1200 dp','Paper size':'Plain paper: A4, A5, B5, Letter, Legal;Photo paper: 13x18cm, 10x15cm, 13x13cm'},rating:4.5,rv:7,reviews:[],desc:'CANON PIXMA TS3750I BLACK - мастиленоструен принтер. CANON качество и надеждност.',img:'./images/products/50566.webp',stock:false},
+  {id:3155,name:'CANON PIXMA TS4150I',brand:'CANON',cat:'printers',subcat:'inkjet_aio',price:117.49,old:123.75,pct:5,badge:'sale',added:'2026-04-23',emoji:'🖨',sku:'7181C006AA',ean:'4549292248067',specs:{'Vendor_url':'https://www.canon-europe.com/printers/pixma-ts4150i/','Manufacturer':'Canon','Model':'PIXMA TS4150i','Interface':'Hi-Speed USB B Port','Print speed':'Mono Print Speed: Approx. 14.0 ipm;Colour Print Speed: Approx. 9.0 ipm;Photo Print Speed: Borderless','Scan speed':'Line Scanning Speed: Greyscale: Approx. 6.05 sec(A4), Approx. 5.69 sec(LTR), (Approx. 1.8 ms/line) (','Copy speed':'sFCOT/Simplex: Approx. 18 sec.;sESAT/Simplex: Approx. 2.0 ipm','Print resolution':'Up to 1200 x 1200 dpi'},rating:4.8,rv:5,reviews:[],desc:'CANON PIXMA TS4150I - мастиленоструен принтер. CANON качество и надеждност.',img:'./images/products/49268.webp',stock:true},
+  {id:3156,name:'CANON PIXMA TS3750I BLACK',brand:'CANON',cat:'printers',subcat:'inkjet_aio',price:48.23,old:null,pct:null,badge:null,added:'2026-04-23',emoji:'🖨',sku:'6671C006BA',ean:'4549292234107',specs:{'Vendor_url':'https://www.canon-europe.com/','Manufacturer':'Canon','Interface':'Interface Type - PC / Mac: Hi-Speed USB (B Port) Wi-Fi: IEEE802.11 b/g/n Wi-Fi Security: WPA-PSK(AES','Print speed':'Mono Print Speed: Approx. 7.7 ipm;Colour Print Speed: Approx. 4.0 ipm;Photo Print Speed Borderless 1','Copy speed':'sFCOT: Approx. 27 sec.;sESAT: Approx. 3.0 ipm','Print resolution':'Up to 4800 x 1200 dpi','Scanner resolution':'600 x 1200 dp','Paper size':'Plain paper: A4, A5, B5, Letter, Legal;Photo paper: 13x18cm, 10x15cm, 13x13cm'},rating:4.5,rv:7,reviews:[],desc:'CANON PIXMA TS3750I BLACK - мастиленоструен принтер. CANON качество и надеждност.',img:'./images/products/50566.webp',stock:true},
   {id:3157,name:'CANON MF664CDW COLOR LASER',brand:'CANON',cat:'printers',subcat:'laser',price:318.03,old:null,pct:null,badge:null,added:'2026-04-23',emoji:'🖨',sku:'6928C008AA',ean:'4549292242140',specs:{'Vendor_url':'https://www.canon-europe.com/business/products/office-printers/multifunction/colour/i-sensys-mf660-s','Manufacturer':'Canon','Interface':'USB 2.0 Hi-Speed, 10BASE-T/100BASE-TX/1000Base-T, Wireless 802.11b/g/n, Wireless Direct Connection','Print speed':'Single sided: Up to 25 ppm (A4), Up to 45.3 ppm (A5-Landscape);Double sided: Up to 15 ipm (A4)','Scan speed':'Single sided mono: 50ipm (300x300dpi);Single sided colour: 40ipm (300x300dpi);Single sided mono: 40i','Copy speed':'Single sided (A4): Up to 25 ppm;Double sided (A4): Up to 15 ipm','Print resolution':'Up to 1200 x 1200 dpi','Scanner resolution':'Optical: Up to 600 x 600 dpi;Enhanced: Up to 9600 x 9600 dpi'},rating:4.5,rv:9,reviews:[],desc:'CANON MF664CDW COLOR LASER - лазерен принтер. CANON качество и надеждност.',img:'./images/products/50637.webp',stock:true},
   {id:3158,name:'CANON PIXMA TS9551CA AIO WHITE',brand:'CANON',cat:'printers',subcat:'inkjet_aio',price:272.06,old:null,pct:null,badge:null,added:'2026-04-23',emoji:'🖨',sku:'2988C056AD',ean:'4549292236286',specs:{'Interface':'Hi-Speed USB (B Port), Memory Card Slot','Print speed':'Printer speed black, ppm: Approx. 15 ipm (~ 33 ppm);Printer speed color, pages/min: Approx. 10 ipm (','Copy speed':'Approx. 6.5 ipm; sFCOT: Approx. 19 sec;Approx. 6.5 ipm; sFCOT: Approx. 19 sec','Print resolution':'Up to 4800 x 1200 dpi','Scanner resolution':'Up to 1200 x 2400 dpi (optical)','Paper size':'Rear Tray: A3/ A4/ A5/ B5/ LTR/ LGL/ 20x25cm/ 13x18cm/ 10x15cm/ 13x13cm/ 8.9x8.9cm/ 10x10cm/ 17.5x25','Functions':'Print, Copy, Scan, Cloud Link','Cartridge type':'5 individual ink tanks: PGI-580PGBK (Pigment Black), CLI-581BK (Black), CLI-581C (Cyan), CLI-581M (M'},rating:5,rv:14,reviews:[],desc:'CANON PIXMA TS9551CA AIO WHITE - мастиленоструен принтер. CANON качество и надеждност.',img:'./images/products/45770.webp',stock:true},
   {id:3159,name:'CANON MAXIFY GX1040 AIO',brand:'CANON',cat:'printers',subcat:'megatank',price:550.72,old:null,pct:null,badge:null,added:'2026-04-23',emoji:'🖨',sku:'6169C007AA',ean:'4549292219623',specs:{'Vendor_url':'https://www.canon-europe.com/printers/maxify-gx1040/','Interface':'Hi-Speed USB (B Port);Ethernet: 10/100Mbps (auto switchable);Wi-Fi: IEEE802.11 b/g/n/a/ac;Wi-Fi Secu','Print speed':'Mono Print Speed: approx. 15.0 ipm;Colour Print Speed: approx.10.0 ipm','Scan speed':'Colour: 3.5 ms/line (300 dpi);Greyscale: 1.5 ms/line (300 dpi)','Copy speed':'sFCOT (colour): 17 sec;sESAT (colour): 9.1 ipm','Print resolution':'Up to 600 x 1200 dpi','Scanner resolution':'1,200 x 2,400 dpi','Duty cycle':'up to 27,000 pages'},rating:4.8,rv:20,reviews:[],desc:'CANON MAXIFY GX1040 AIO - мастиленоструен принтер. CANON качество и надеждност.',img:'./images/products/45335.webp',stock:false},
@@ -12654,7 +12654,7 @@ products.push(
   {id:3162,name:'CANON LBP-6030B LASER',brand:'CANON',cat:'printers',subcat:'laser',price:116.6,old:null,pct:null,badge:null,added:'2026-04-23',emoji:'🖨',sku:'8468B006AA',ean:'4660999996615',specs:{'Vendor_url':'http://www.canon.com/','Model':'LBP-6030B LASER','Interface':'USB 2.0 Hi-Speed','Print speed':'18ppm mono (A4)?','Print resolution':'600x600 dpi','Duty cycle':'Max 5,000 pages per month','Cartridge type':'Cartridge 725 (1,600 pages)','Color':'Black'},rating:4.5,rv:21,reviews:[],desc:'CANON LBP-6030B LASER - лазерен принтер. CANON качество и надеждност.',img:'./images/products/1129.webp',stock:false},
   {id:3163,name:'CANON MF667CDW COLOR LASER',brand:'CANON',cat:'printers',subcat:'laser',price:368,old:null,pct:null,badge:null,added:'2026-04-23',emoji:'🖨',sku:'6928C001AA',ean:'4549292241969',specs:{'Vendor_url':'https://www.canon-europe.com/business/products/office-printers/multifunction/colour/i-sensys-mf660-s','Manufacturer':'Canon','Interface':'USB 2.0 Hi-Speed, 10BASE-T/100BASE-TX/1000Base-T, Wireless 802.11b/g/n, Wireless Direct Connection','Print speed':'Single sided: Up to 25 ppm (A4), Up to 45.3 ppm (A5-Landscape);Double sided: Up to 15 ipm (A4)','Scan speed':'Single sided mono: 50ipm (300x300dpi);Single sided colour: 40ipm (300x300dpi);Double sided mono: 100','Copy speed':'Single sided (A4): Up to 25 ppm;Double sided (A4): Up to 15 ipm','Print resolution':'Up to 1200 x 1200 dpi','Scanner resolution':'Optical: Up to 600 x 600 dpi;Enhanced: Up to 9600 x 9600 dpi'},rating:4.6,rv:15,reviews:[],desc:'CANON MF667CDW COLOR LASER - лазерен принтер. CANON качество и надеждност.',img:'./images/products/50647.webp',stock:true},
   {id:3164,name:'CANON MF-3010 + 2 X CRG-725',brand:'CANON',cat:'printers',subcat:'laser',price:221,old:null,pct:null,badge:null,added:'2026-04-23',emoji:'🖨',sku:'5252B004AA',ean:'4960999783574',specs:{'Vendor_url':'https://www.canon-europe.com/for_home/product_finder/multifunctionals/laser/i-sensys_mf3010/specific','Interface':'USB 2.0 Hi-speed;Memory:64 MB; Control Panel:1 digit LED','Print speed':'Up to 18 ppm (A4)','Copy speed':'Up to 18 ppm (A4)','Print resolution':'600 x 400 dpi','Scanner resolution':'Optical: Up to 600 x 600 dpi; Enhanced: Up to 9600 x 9600 dpi','Duty cycle':'Max. 8,000 pages per month?','Paper size':'A4, B5, A5, Executive, Envelope (COM10, Monarch, DL, B5, C5), LTR, LGL, Statement, Custom sizes: Wid'},rating:4.6,rv:16,reviews:[],desc:'CANON MF-3010 + 2 X CRG-725 - лазерен принтер. CANON качество и надеждност.',img:'./images/products/19932.webp',stock:true},
-  {id:3165,name:'CANON MF-461DW II AIO LASER',brand:'CANON',cat:'printers',subcat:'laser',price:275.31,old:null,pct:null,badge:null,added:'2026-04-23',emoji:'🖨',sku:'7188C019AA',ean:'4549292248852',specs:{'Vendor_url':'https://www.canon-europe.com/business/products/office-printers/multifunction/black-and-white/i-sensy','Manufacturer':'Canon','Interface':'USB 2.0 Hi-Speed, 10BASE-T/100BASE-TX/1000Base-T, Wireless 802.11b/g/n, Wireless Direct Connection','Print speed':'Single sided : Up to 36 ppm (A4); Up to 58.8 ppm(A5-Landscape)','Scan speed':'Single sided mono: 50ipm (300x300dpi);Single sided colour: 40ipm (300x300dpi);Single sided mono: 40i','Copy speed':'Single sided (A4): Up to 36 ppm','Print resolution':'Up to 1200 x 1200 dpi','Scanner resolution':'Optical: Up to 600 x 600 dpi;Enhanced: Up to 9600 x 9600 dpi'},rating:4,rv:21,reviews:[],desc:'CANON MF-461DW II AIO LASER - лазерен принтер. CANON качество и надеждност.',img:'./images/products/51056.webp',stock:false},
+  {id:3165,name:'CANON MF-461DW II AIO LASER',brand:'CANON',cat:'printers',subcat:'laser',price:275.31,old:null,pct:null,badge:null,added:'2026-04-23',emoji:'🖨',sku:'7188C019AA',ean:'4549292248852',specs:{'Vendor_url':'https://www.canon-europe.com/business/products/office-printers/multifunction/black-and-white/i-sensy','Manufacturer':'Canon','Interface':'USB 2.0 Hi-Speed, 10BASE-T/100BASE-TX/1000Base-T, Wireless 802.11b/g/n, Wireless Direct Connection','Print speed':'Single sided : Up to 36 ppm (A4); Up to 58.8 ppm(A5-Landscape)','Scan speed':'Single sided mono: 50ipm (300x300dpi);Single sided colour: 40ipm (300x300dpi);Single sided mono: 40i','Copy speed':'Single sided (A4): Up to 36 ppm','Print resolution':'Up to 1200 x 1200 dpi','Scanner resolution':'Optical: Up to 600 x 600 dpi;Enhanced: Up to 9600 x 9600 dpi'},rating:4,rv:21,reviews:[],desc:'CANON MF-461DW II AIO LASER - лазерен принтер. CANON качество и надеждност.',img:'./images/products/51056.webp',stock:true},
   {id:3166,name:'CANON LBP246DW LASER',brand:'CANON',cat:'printers',subcat:'laser',price:210.56,old:null,pct:null,badge:null,added:'2026-04-23',emoji:'🖨',sku:'5952C006AA',ean:'4549292215038',specs:{'Vendor_url':'https://www.canon-europe.com/business/products/office-printers/single-function/black-and-white/i-sen','Interface':'USB 2.0 Hi-Speed, 10BASE-T/100BASE-TX/1000Base-T, Wireless 802.11b/g/n, Wireless Direct Connection;P','Print speed':'Single sided: Up to 40 ppm (A4); Up to 65.4 ppm (A5-Landscape); Double sided: Up to 33.6 ipm (A4)','Print resolution':'Up to 1200 x 1200 dpi','Duty cycle':'80,000 pages','Paper size':'A4, A5, A5 (Landscape), A6, B5, Legal, Letter, Executive, Statement, OFFICIO, B-OFFICIO, M-OFFICIO, ','Functions':'Print','Cartridge yield':'Cartridge 070 (3,000 pages8 ) 9; Cartridge 070H (10,200 pages10 ) 11'},rating:4.5,rv:5,reviews:[],desc:'CANON LBP246DW LASER - лазерен принтер. CANON качество и надеждност.',img:'./images/products/37390.webp',stock:false},
   {id:3167,name:'CANON LBP246DW II LASER',brand:'CANON',cat:'printers',subcat:'laser',price:209.05,old:null,pct:null,badge:null,added:'2026-04-23',emoji:'🖨',sku:'7187C006AA',ean:'4549292248609',specs:{'Vendor_url':'https://www.canon.bg/business/products/office-printers/single-function/black-and-white/i-sensys-lbp2','Manufacturer':'Canon','Interface':'USB 2.0 Hi-Speed, 10BASE-T/100BASE-TX/1000Base-T, Wireless 802.11b/g/n, Wireless Direct','Print speed':'Single sided: Up to 40 ppm (A4) Up to 65.4 ppm Double sided: Up to 33.6 ipm (A4)','Print resolution':'Up to 1200 x 1200 dpi','Duty cycle':'80,000 pages','Paper size':'A4, A5, A5 (Landscape), A6, B5, Legal, Letter, Executive, Statement, OFFICIO, B-OFFICIO, M-OFFICIO, ','Functions':'Print'},rating:4.5,rv:24,reviews:[],desc:'CANON LBP246DW II LASER - лазерен принтер. CANON качество и надеждност.',img:'./images/products/100195.webp',stock:true},
   {id:3168,name:'CANON LBP243DW II LASER',brand:'CANON',cat:'printers',subcat:'laser',price:185.73,old:null,pct:null,badge:null,added:'2026-04-23',emoji:'🖨',sku:'7187C013AA',ean:'4549292248678',specs:{'Vendor_url':'https://www.canon.bg/business/products/office-printers/single-function/black-and-white/i-sensys-lbp2','Manufacturer':'Canon','Interface':'USB 2.0 Hi-Speed, 10BASE-T/100BASE-TX/1000Base-T, Wireless 802.11b/g/n, Wireless Direct','Print speed':'Simplex: Up to 36 ppm (A4);Up to 58.8 ppm (A5 landscape orientation);Duplex: Up to 30.2 ipm (A4)','Print resolution':'Up to 1200 x 1200 dpi','Duty cycle':'80,000 pages','Paper size':'A4, A5, A5 (Landscape), A6, B5, Legal, Letter, Executive, Statement, OFFICIO, B-OFFICIO, M-OFFICIO, ','Cartridge yield':'Cartridge 070 (3000 pages);Cartridge 070H (10,200 pages)'},rating:4.1,rv:20,reviews:[],desc:'CANON LBP243DW II LASER - лазерен принтер. CANON качество и надеждност.',img:'./images/products/51541.webp',stock:false},

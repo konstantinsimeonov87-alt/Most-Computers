@@ -514,7 +514,7 @@ function selectPayment(el, type) {
   document.querySelectorAll('.payment-opt').forEach(o => o.classList.remove('selected'));
   el.classList.add('selected');
   ckPaymentType = type;
-  document.getElementById('cardFields').classList.toggle('show', type === 'card');
+  document.getElementById('cardFields')?.classList.toggle('show', type === 'card');
   renderOrderSummary();
 }
 

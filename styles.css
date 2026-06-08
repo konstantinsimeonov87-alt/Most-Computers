@@ -4010,7 +4010,7 @@
    border-radius: 8px;
    font-size: 14px;
    font-weight: 600;
-   z-index: 20000;
+   z-index: 20001;
    opacity: 0;
    transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
    display: flex;
@@ -9409,6 +9409,11 @@
    flex-direction: column;
    align-items: center;
    gap: 10px;
+   min-height: 130px;
+   justify-content: center;
+ }
+ .megamenu-cat-card.has-subcats {
+   grid-column: span 2;
  }
 
  .megamenu-cat-card:hover {
@@ -9433,8 +9438,15 @@
    font-weight: 500;
  }
 
- .megamenu-cat-card.has-subcats { align-items: flex-start; }
- .mega-comp-subcats { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
+ .megamenu-cat-card.has-subcats { align-items: flex-start; justify-content: flex-start; }
+ .mega-comp-subcats {
+   display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px;
+   max-height: 0; overflow: hidden; opacity: 0;
+   transition: max-height 0.25s ease, opacity 0.2s ease;
+ }
+ .megamenu-cat-card:hover .mega-comp-subcats {
+   max-height: 200px; opacity: 1;
+ }
  .mega-comp-sub {
    font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 20px;
    background: var(--bg2); border: 1px solid var(--border); cursor: pointer;
@@ -9454,12 +9466,32 @@
    border-bottom: 2px solid var(--primary);
    width: fit-content;
  }
+ .megamenu-section-title--top {
+   font-size: 22px;
+   margin-top: 8px;
+ }
+
+ .megamenu-brands-section {
+   background: var(--bg2);
+   border-radius: 16px;
+   padding: 24px;
+   margin-bottom: 48px;
+   border: 1px solid var(--border);
+ }
+ .megamenu-brands-section .megamenu-section-title {
+   margin-bottom: 16px;
+ }
 
  .megamenu-brands-grid {
    display: grid;
    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
    gap: 10px;
-   margin-bottom: 40px;
+   margin-bottom: 0;
+ }
+
+ .megamenu-brand-card.brand-featured {
+   grid-column: span 2;
+   font-size: 14px;
  }
 
  .megamenu-brand-card {
@@ -9498,6 +9530,10 @@
  body.dark .megamenu-cat-card,
  body.dark .megamenu-brand-card {
    background: #1e2130;
+ }
+ body.dark .megamenu-brands-section {
+   background: #161926;
+   border-color: #2a2d3e;
  }
 
  /* ===== BLOG MAGAZINE GRID ===== */

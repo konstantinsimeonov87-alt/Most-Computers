@@ -160,7 +160,7 @@ function renderDropdown(query) {
       }
       if (suggestions.length) {
         const chips = suggestions.map(s =>
-          `<span class="sd-suggestion-chip" onclick="document.getElementById('searchInput').value=${JSON.stringify(s)};showSearchResults(${JSON.stringify(s)})">${escHtml(s)}</span>`
+          `<span class="sd-suggestion-chip" data-suggestion="${escHtml(s)}">${escHtml(s)}</span>`
         ).join('');
         hint = `<div class="sd-empty-sub">Може би търсиш: ${chips}</div>`;
       } else {
@@ -421,7 +421,7 @@ function renderSRPGrid(results, query) {
         <p>Опитай с различна дума или разгледай популярните търсения:</p>
         <div class="srp-suggestions">
           ${['лаптоп','слушалки','телефон','таблет','камера'].map(s =>
-            `<button type="button" class="srp-suggestion" onclick="document.getElementById('searchInput').value='${s}';showSearchResultsPage('${s}')">${s}</button>`
+            `<button type="button" class="srp-suggestion" data-suggestion="${escHtml(s)}">${escHtml(s)}</button>`
           ).join('')}
         </div>
       </div>
@@ -508,6 +508,18 @@ document.addEventListener('click', e => {
   const chip = e.target.closest('[data-recent-search]');
   if (chip && !e.target.closest('.sd-recent-remove')) {
     applyRecentSearch(chip.dataset.recentSearch);
+    return;
+  }
+  // Safe delegation for suggestion chips (dropdown + SRP)
+  const suggChip = e.target.closest('[data-suggestion]');
+  if (suggChip) {
+    const q = suggChip.dataset.suggestion;
+    if (searchInput) searchInput.value = q;
+    if (suggChip.classList.contains('srp-suggestion')) {
+      showSearchResultsPage(q);
+    } else {
+      showSearchResults(q);
+    }
     return;
   }
   if (!e.target.closest('.search-wrap')) closeSearchDropdown();

@@ -716,7 +716,7 @@ function filterCatScroll(type) {
 let _contactsMap = null;
 let _warehouseMap = null;
 function openContactsPage() {
-  _setPgBc('contactsBc', 'Контакти & Как да ни намерите', 'closeContactsPage');
+  _setPgBc('contactsBc', 'Контакти', 'closeContactsPage');
   document.getElementById('contactsPage').classList.add('open');
   document.body.style.overflow = 'hidden';
   checkOpenNow();

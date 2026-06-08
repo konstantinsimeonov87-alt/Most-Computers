@@ -3335,7 +3335,8 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <p>© 1990–2026 Мост Компютърс. Всички права запазени · Работим за теб от 36 години.</p>
+      <p>© 1990–<span id="footer-year"></span> Мост Компютърс. Всички права запазени · Твоят доверен партньор в технологиите от <span id="footer-years"></span> години.</p>
+      <script>document.getElementById('footer-year').textContent=new Date().getFullYear();document.getElementById('footer-years').textContent=new Date().getFullYear()-1990;</script>
       <div class="footer-trust-row">
         <div class="payment-icons">
           <span class="pay-icon pay-icon-visa" title="Visa">

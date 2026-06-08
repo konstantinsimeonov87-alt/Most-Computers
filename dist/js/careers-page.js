@@ -5,7 +5,7 @@ function renderCareersPage() {
   const grid = document.getElementById('careersGrid');
   const empty = document.getElementById('careersEmpty');
   const detail = document.getElementById('careersDetail');
-  if (!grid) return;
+  if (!grid || !empty || !detail) return;
 
   // Reset to list view
   detail.style.display = 'none';
@@ -173,7 +173,7 @@ async function submitCareerApplication(e) {
     // Upload CV to Supabase Storage
     const sb = window._sb_client;
     if (sb) {
-      const ext = file.name.split('.').pop();
+      const ext = file.name.split('.').pop().toLowerCase().replace(/[^a-z0-9]/g, '');
       const path = `cvs/${jobId}/${Date.now()}_${name.replace(/\s+/g,'-')}.${ext}`;
       const { data: upData, error: upErr } = await sb.storage
         .from('careers-cvs')

@@ -184,7 +184,6 @@ async function _b2bShowDashboard(profile, user) {
   if (el('quoteCompany')) el('quoteCompany').value = profile.company_name;
 
   switchB2BTab('orders', document.querySelector('#b2bDashView .b2b-tab'));
-  await _b2bLoadOrders(user.email);
 }
 
 function switchB2BTab(tab, btn) {
@@ -347,7 +346,7 @@ async function _b2bLoadInvoices() {
           <div class="b2b-order-num">Фактура - ${escHtml(o.order_num || '')}</div>
           <div class="b2b-order-date">${o.created_at ? new Date(o.created_at).toLocaleDateString('bg-BG') : ''}</div>
         </div>
-        <button type="button" class="b2b-print-btn" onclick="printOrder(${JSON.stringify(o.order_num || '')})">🖨 Принтирай</button>
+        <button type="button" class="b2b-print-btn" onclick="printOrder(${escHtml(JSON.stringify(o.order_num || ''))})">🖨 Принтирай</button>
       </div>
       <div class="b2b-order-total">Сума: <strong>${typeof fmtEur === 'function' ? fmtEur(o.total) : o.total + ' €'}</strong></div>
     </div>`).join('');

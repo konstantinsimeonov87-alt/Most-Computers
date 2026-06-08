@@ -291,7 +291,7 @@
 <body>
 
   <!-- Skip to main content (accessibility) -->
-  <a href="#mainContent" class="skip-link" id="skipLink">Прескочи към съдържанието</a>
+  <a href="#main-content" class="skip-link" id="skipLink">Прескочи към съдържанието</a>
 
   <!-- SVG Icon Sprite -->
   <svg xmlns="http://www.w3.org/2000/svg" style="display:none;" id="svgSprite">
@@ -1846,20 +1846,20 @@
     <!-- SIDEBAR -->
     <aside class="sidebar">
       <div class="sidebar-categories">
-        <div class="cat-item" role="button" tabindex="0" onclick="toggleSidebarCat(this,'laptops')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleSidebarCat(this,'laptops')}"><span class="cat-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-laptop"/></svg></span> Лаптопи <span class="cat-arrow">›</span></div>
-        <div class="cat-item" role="button" tabindex="0" onclick="toggleSidebarCat(this,'desktops')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleSidebarCat(this,'desktops')}"><span class="cat-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-desktop"/></svg></span> Настолни компютри <span class="cat-arrow">›</span></div>
-        <div class="cat-item" role="button" tabindex="0" onclick="toggleSidebarCat(this,'components')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleSidebarCat(this,'components')}"><span class="cat-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-cpu"/></svg></span> Компоненти <span class="cat-arrow">›</span></div>
-        <div class="cat-item" role="button" tabindex="0" onclick="toggleSidebarCat(this,'monitors')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleSidebarCat(this,'monitors')}"><span class="cat-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-monitor"/></svg></span> Монитори <span class="cat-arrow">›</span></div>
-        <div class="cat-item" role="button" tabindex="0" onclick="toggleSidebarCat(this,'peripherals')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleSidebarCat(this,'peripherals')}"><span class="cat-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-mouse"/></svg></span> Периферия <span class="cat-arrow">›</span></div>
-        <div class="cat-item" role="button" tabindex="0" onclick="toggleSidebarCat(this,'audio')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleSidebarCat(this,'audio')}"><span class="cat-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-headphones"/></svg></span> Аудио и слушалки <span class="cat-arrow">›</span></div>
-        <div class="cat-item" role="button" tabindex="0" onclick="toggleSidebarCat(this,'cameras')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleSidebarCat(this,'cameras')}"><span class="cat-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-camera"/></svg></span> Камери <span class="cat-arrow">›</span></div>
-        <div class="cat-item" role="button" tabindex="0" onclick="toggleSidebarCat(this,'storage')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleSidebarCat(this,'storage')}"><span class="cat-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-storage"/></svg></span> Памет и съхранение <span class="cat-arrow">›</span></div>
-        <div class="cat-item" role="button" tabindex="0" onclick="toggleSidebarCat(this,'network')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleSidebarCat(this,'network')}"><span class="cat-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-wifi"/></svg></span> Мрежово оборудване <span class="cat-arrow">›</span></div>
-        <div class="cat-item" role="button" tabindex="0" onclick="toggleSidebarCat(this,'phones')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleSidebarCat(this,'phones')}"><span class="cat-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-phone"/></svg></span> Телефони и таблети <span class="cat-arrow">›</span></div>
-        <div class="cat-item" role="button" tabindex="0" onclick="toggleSidebarCat(this,'printers')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleSidebarCat(this,'printers')}"><span class="cat-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-printer"/></svg></span> Принтери <span class="cat-arrow">›</span></div>
-        <div class="cat-item" role="button" tabindex="0" onclick="toggleSidebarCat(this,'consumables')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleSidebarCat(this,'consumables')}"><span class="cat-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-printer"/></svg></span> Консумативи <span class="cat-arrow">›</span></div>
-        <div class="cat-item" role="button" tabindex="0" onclick="toggleSidebarCat(this,'ups')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleSidebarCat(this,'ups')}"><span class="cat-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-bolt"/></svg></span> UPS устройства <span class="cat-arrow">›</span></div>
-        <div class="cat-item" role="button" tabindex="0" onclick="toggleSidebarCat(this,'accessories')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleSidebarCat(this,'accessories')}"><span class="cat-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-mouse"/></svg></span> Аксесоари <span class="cat-arrow">›</span></div>
+        <div class="cat-item" role="button" tabindex="0" aria-expanded="false" onclick="toggleSidebarCat(this,'laptops')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleSidebarCat(this,'laptops')}"><span class="cat-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-laptop"/></svg></span> Лаптопи <span class="cat-arrow">›</span></div>
+        <div class="cat-item" role="button" tabindex="0" aria-expanded="false" onclick="toggleSidebarCat(this,'desktops')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleSidebarCat(this,'desktops')}"><span class="cat-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-desktop"/></svg></span> Настолни компютри <span class="cat-arrow">›</span></div>
+        <div class="cat-item" role="button" tabindex="0" aria-expanded="false" onclick="toggleSidebarCat(this,'components')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleSidebarCat(this,'components')}"><span class="cat-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-cpu"/></svg></span> Компоненти <span class="cat-arrow">›</span></div>
+        <div class="cat-item" role="button" tabindex="0" aria-expanded="false" onclick="toggleSidebarCat(this,'monitors')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleSidebarCat(this,'monitors')}"><span class="cat-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-monitor"/></svg></span> Монитори <span class="cat-arrow">›</span></div>
+        <div class="cat-item" role="button" tabindex="0" aria-expanded="false" onclick="toggleSidebarCat(this,'peripherals')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleSidebarCat(this,'peripherals')}"><span class="cat-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-mouse"/></svg></span> Периферия <span class="cat-arrow">›</span></div>
+        <div class="cat-item" role="button" tabindex="0" aria-expanded="false" onclick="toggleSidebarCat(this,'audio')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleSidebarCat(this,'audio')}"><span class="cat-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-headphones"/></svg></span> Аудио и слушалки <span class="cat-arrow">›</span></div>
+        <div class="cat-item" role="button" tabindex="0" aria-expanded="false" onclick="toggleSidebarCat(this,'cameras')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleSidebarCat(this,'cameras')}"><span class="cat-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-camera"/></svg></span> Камери <span class="cat-arrow">›</span></div>
+        <div class="cat-item" role="button" tabindex="0" aria-expanded="false" onclick="toggleSidebarCat(this,'storage')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleSidebarCat(this,'storage')}"><span class="cat-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-storage"/></svg></span> Памет и съхранение <span class="cat-arrow">›</span></div>
+        <div class="cat-item" role="button" tabindex="0" aria-expanded="false" onclick="toggleSidebarCat(this,'network')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleSidebarCat(this,'network')}"><span class="cat-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-wifi"/></svg></span> Мрежово оборудване <span class="cat-arrow">›</span></div>
+        <div class="cat-item" role="button" tabindex="0" aria-expanded="false" onclick="toggleSidebarCat(this,'phones')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleSidebarCat(this,'phones')}"><span class="cat-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-phone"/></svg></span> Телефони и таблети <span class="cat-arrow">›</span></div>
+        <div class="cat-item" role="button" tabindex="0" aria-expanded="false" onclick="toggleSidebarCat(this,'printers')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleSidebarCat(this,'printers')}"><span class="cat-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-printer"/></svg></span> Принтери <span class="cat-arrow">›</span></div>
+        <div class="cat-item" role="button" tabindex="0" aria-expanded="false" onclick="toggleSidebarCat(this,'consumables')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleSidebarCat(this,'consumables')}"><span class="cat-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-printer"/></svg></span> Консумативи <span class="cat-arrow">›</span></div>
+        <div class="cat-item" role="button" tabindex="0" aria-expanded="false" onclick="toggleSidebarCat(this,'ups')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleSidebarCat(this,'ups')}"><span class="cat-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-bolt"/></svg></span> UPS устройства <span class="cat-arrow">›</span></div>
+        <div class="cat-item" role="button" tabindex="0" aria-expanded="false" onclick="toggleSidebarCat(this,'accessories')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleSidebarCat(this,'accessories')}"><span class="cat-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-mouse"/></svg></span> Аксесоари <span class="cat-arrow">›</span></div>
       </div>
 
       <!-- FILTERS (hidden on home page, shown when category selected) -->
@@ -5306,8 +5306,22 @@
 
       <!-- Hero -->
       <div class="b2b-hero">
-        <div class="b2b-hero-badge">🏢 Бизнес портал</div>
+        <div class="b2b-hero-badge">Бизнес портал</div>
         <h1 class="b2b-hero-title">Фирмен акаунт в Мост Компютърс</h1>
+        <div class="b2b-hero-perks">
+          <span class="b2b-hero-perk">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Специални цени
+          </span>
+          <span class="b2b-hero-perk">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Оферти при запитване
+          </span>
+          <span class="b2b-hero-perk">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Акаунт мениджър
+          </span>
+        </div>
       </div>
 
       <!-- Registration form -->
@@ -5324,7 +5338,7 @@
             <label class="b2b-label" for="b2bPassword">Парола</label>
             <input type="password" id="b2bPassword" class="b2b-input" placeholder="Минимум 6 символа" autocomplete="new-password">
           </div>
-          <div class="b2b-form-divider">- Данни за фирмата -</div>
+          <div class="b2b-form-divider">Данни за фирмата</div>
         </div>
 
         <div class="b2b-form-row">
@@ -5451,82 +5465,6 @@
     </div><!-- /b2bDashView -->
   </div><!-- /b2bPage -->
 
-  <!-- ===== B2B STYLES ===== -->
-  <style>
-    /* Layout */
-    .b2b-hero { padding: 28px 20px 12px; text-align: center; }
-    .b2b-hero-badge { display: inline-block; background: var(--primary); color: #fff; padding: 4px 14px; border-radius: 20px; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 12px; }
-    .b2b-hero-title { font-size: clamp(20px, 4vw, 28px); font-weight: 900; color: var(--text); margin: 0 0 10px; line-height: 1.15; }
-    .b2b-hero-sub { font-size: 14px; color: var(--muted); margin: 0 auto; max-width: 520px; }
-
-    /* Value props */
-    .b2b-props { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; padding: 20px; max-width: 700px; margin: 0 auto; }
-    .b2b-prop { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 14px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 4px; }
-    .b2b-prop-icon { font-size: 22px; }
-    .b2b-prop strong { font-size: 13px; color: var(--text); }
-    .b2b-prop span { font-size: 11px; color: var(--muted); }
-
-    /* Form card */
-    .b2b-form-card { background: var(--white); border: 1px solid var(--border); border-radius: 16px; padding: 24px; max-width: 560px; margin: 8px auto 0; box-shadow: 0 2px 12px rgba(0,0,0,.06); }
-    .b2b-form-title { font-size: 17px; font-weight: 800; margin: 0 0 18px; color: var(--text); }
-    .b2b-form-divider { text-align: center; font-size: 11px; color: var(--muted); margin: 6px 0 14px; }
-    .b2b-form-row { margin-bottom: 12px; }
-    .b2b-form-row-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    .b2b-label { display: block; font-size: 12px; font-weight: 700; color: var(--muted); margin-bottom: 4px; }
-    .b2b-req { color: var(--primary); }
-    .b2b-input { width: 100%; padding: 9px 12px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 14px; color: var(--text); background: var(--surface); outline: none; box-sizing: border-box; font-family: inherit; }
-    .b2b-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(189,17,5,.1); }
-    .b2b-textarea { resize: vertical; min-height: 72px; }
-    .b2b-error { background: #fef2f2; color: #dc2626; border: 1px solid #fca5a5; border-radius: 8px; padding: 9px 12px; font-size: 13px; margin-bottom: 10px; }
-    .b2b-submit-btn { width: 100%; padding: 12px; background: var(--primary); color: #fff; border: none; border-radius: 10px; font-size: 15px; font-weight: 800; cursor: pointer; margin-top: 6px; transition: background .15s; }
-    .b2b-submit-btn:hover { background: #9a0e04; }
-    .b2b-submit-btn:disabled { opacity: .65; cursor: not-allowed; }
-    .b2b-form-note { font-size: 12px; color: var(--muted); text-align: center; margin: 12px 0 0; }
-    .b2b-login-hint { text-align: center; font-size: 13px; color: var(--muted); padding: 16px; }
-    .b2b-login-hint a { color: var(--primary); font-weight: 700; text-decoration: none; }
-
-    /* Status cards */
-    .b2b-status-card { max-width: 480px; margin: 40px auto; background: var(--white); border: 1px solid var(--border); border-radius: 16px; padding: 36px 28px; text-align: center; box-shadow: 0 2px 12px rgba(0,0,0,.06); }
-    .b2b-pending .b2b-status-icon { font-size: 48px; margin-bottom: 12px; }
-    .b2b-status-card h2 { font-size: 20px; font-weight: 900; margin: 0 0 10px; }
-    .b2b-status-card p { color: var(--muted); font-size: 14px; margin: 6px 0; }
-    .b2b-pending-company { font-weight: 700; color: var(--text) !important; font-size: 16px !important; }
-    .b2b-contact-block { margin-top: 20px; display: flex; flex-direction: column; gap: 6px; align-items: center; }
-    .b2b-contact-link { color: var(--primary); font-weight: 800; font-size: 16px; text-decoration: none; }
-    .b2b-contact-hours { font-size: 12px; color: var(--muted); }
-
-    /* Dashboard */
-    .b2b-dash-header { background: var(--white); border: 1px solid var(--border); border-radius: 14px; padding: 18px 20px; margin-bottom: 16px; }
-    .b2b-dash-company { font-size: 18px; font-weight: 900; color: var(--text); margin-bottom: 6px; }
-    .b2b-dash-meta { display: flex; flex-wrap: wrap; gap: 12px; font-size: 12px; color: var(--muted); }
-    .b2b-dash-email { font-size: 12px; color: var(--muted); margin-top: 6px; }
-    .b2b-tabs { display: flex; gap: 4px; margin-bottom: 16px; border-bottom: 2px solid var(--border); }
-    .b2b-tab { padding: 9px 16px; border: none; background: transparent; font-size: 13px; font-weight: 700; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; transition: color .15s; }
-    .b2b-tab.active { color: var(--primary); border-bottom-color: var(--primary); }
-
-    /* Order & quote cards */
-    .b2b-order-card { background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; margin-bottom: 10px; }
-    .b2b-order-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; }
-    .b2b-order-num { font-weight: 700; font-size: 14px; }
-    .b2b-order-date { font-size: 12px; color: var(--muted); }
-    .b2b-order-status { font-size: 12px; font-weight: 700; background: var(--surface); border-radius: 6px; padding: 3px 8px; }
-    .b2b-order-total { font-size: 13px; color: var(--muted); }
-    .b2b-admin-reply { font-size: 13px; color: var(--text); background: #f0fdf4; border-radius: 6px; padding: 6px 10px; margin-top: 6px; }
-    .b2b-print-btn { font-size: 12px; font-weight: 700; background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 4px 10px; cursor: pointer; color: var(--text); }
-    .b2b-loading { color: var(--muted); font-size: 13px; padding: 20px; text-align: center; }
-    .b2b-empty { text-align: center; padding: 40px 20px; color: var(--muted); }
-    .b2b-empty-icon { font-size: 36px; margin-bottom: 8px; }
-    .b2b-section-title { font-size: 15px; font-weight: 800; margin: 0 0 12px; color: var(--text); }
-    .b2b-quote-form { background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin-bottom: 8px; }
-    .b2b-profile-card { background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 16px; }
-    .b2b-profile-row { display: flex; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 14px; }
-    .b2b-profile-row:last-child { border-bottom: none; }
-    .b2b-profile-label { font-weight: 700; min-width: 100px; color: var(--muted); }
-    .nav-b2b-cta { color: var(--primary)!important; font-weight: 800!important; }
-    .nav-b2b-cta:hover { color: var(--primary)!important; }
-    @media(max-width:768px){ .b2b-form-row-2col{grid-template-columns:1fr;} }
-  </style>
-
   <!-- MEGA MENU FLYOUT - at body level to escape stacking contexts -->
   <div id="megaMenu" class="mega-menu" onmouseenter="megaMenuKeepOpen()" onmouseleave="megaMenuClose()"></div>
 
@@ -5600,15 +5538,56 @@
         <p class="careers-hero-sub">Ние сме един от най-утвърдените специалисти по електроника в България.<br>Вярваме, че технологиите са страст, а клиентът - на първо място.<br>Ако мислиш като нас, присъедини се към екипа ни.</p>
       </div>
 
+      <!-- Why join us -->
+      <div class="careers-why">
+        <div class="careers-why-title">Защо да работиш с нас</div>
+        <div class="careers-perks">
+          <div class="careers-perk">
+            <div class="careers-perk-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+            </div>
+            <h4>Страст към технологиите</h4>
+            <p>Работиш с най-новата техника и се развиваш заедно с индустрията всеки ден.</p>
+          </div>
+          <div class="careers-perk">
+            <div class="careers-perk-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <h4>Сплотен екип</h4>
+            <p>Хора, за които отличното обслужване не е задължение, а лична ценност.</p>
+          </div>
+          <div class="careers-perk">
+            <div class="careers-perk-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+            </div>
+            <h4>Реален растеж</h4>
+            <p>Обучения, сертификати и възможности за развитие в компания с дългогодишна история.</p>
+          </div>
+          <div class="careers-perk">
+            <div class="careers-perk-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+            </div>
+            <h4>Стабилност</h4>
+            <p>Постоянен договор, коректно заплащане и приятна среда в центъра на София.</p>
+          </div>
+        </div>
+      </div>
+
       <!-- Job listings -->
       <div class="careers-section">
         <div id="careersGrid" class="careers-grid">
           <!-- Rendered by careers-page.js -->
         </div>
         <div id="careersEmpty" class="careers-empty" style="display:none;">
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
-          <p>В момента нямаме отворени позиции.</p>
-          <p style="font-size:13px;opacity:.65;">Провери отново скоро или ни изпрати CV на <span class="ep" data-u="hr" data-d="mostbg.com"></span></p>
+          <div class="careers-empty-icon-wrap" aria-hidden="true">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+          </div>
+          <p class="careers-empty-title">В момента нямаме отворени позиции</p>
+          <p class="careers-empty-text">Проверявай отново или ни изпрати своето CV - ще те имаме предвид за бъдещи позиции.</p>
+          <button type="button" class="careers-spontaneous-btn" data-u="hr" data-d="mostbg.com" onclick="location.href='mailto:'+this.dataset.u+'@'+this.dataset.d">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            Изпрати своето CV
+          </button>
         </div>
       </div>
 

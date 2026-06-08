@@ -3462,6 +3462,7 @@ function toggleSidebarCat(el, cat) {
   // Затвори всички отворени
   document.querySelectorAll('.sidebar-categories .cat-item.open').forEach(item => {
     item.classList.remove('open');
+    item.setAttribute('aria-expanded', 'false');
     const existing = item.nextElementSibling;
     if (existing && existing.classList.contains('cat-subcat-list')) existing.remove();
   });
@@ -3476,6 +3477,7 @@ function toggleSidebarCat(el, cat) {
   }
 
   el.classList.add('open');
+  el.setAttribute('aria-expanded', 'true');
 
   // Strip emojis from label
   const cleanLabel = s => s.label.replace(/[\p{Emoji_Presentation}\p{Extended_Pictographic}]/gu, '').trim();

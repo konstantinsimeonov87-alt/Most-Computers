@@ -9,6 +9,9 @@ let _pdpScrollY = 0;
 function openProductPage(id) {
   const p = products.find(x => x.id === id);
   if (!p) return;
+  if (document.getElementById('pdpBackdrop')?.classList.contains('open')) {
+    document.getElementById('pdpStickyBar')?.classList.remove('visible');
+  }
   // Save scroll position only when not inside catPage (catPage has its own scroll)
   if (!document.getElementById('catPage')?.classList.contains('open')) {
     _pdpScrollY = window.scrollY || document.documentElement.scrollTop;

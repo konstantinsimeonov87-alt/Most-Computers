@@ -252,6 +252,8 @@ try {
     { loc: BASE + '/?page=blog', priority: '0.6', freq: 'weekly' },
     { loc: BASE + '/?page=service', priority: '0.7', freq: 'monthly' },
     { loc: BASE + '/?page=delivery', priority: '0.7', freq: 'monthly' },
+    { loc: BASE + '/?page=b2b', priority: '0.6', freq: 'monthly' },
+    { loc: BASE + '/?page=careers', priority: '0.5', freq: 'monthly' },
   ];
   const catUrls = cats.map(c => ({ loc: BASE + `/?cat=${c}`, priority: '0.9', freq: 'daily' }));
   const subcatUrls = cats.flatMap(c =>

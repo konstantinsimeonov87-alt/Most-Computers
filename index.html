@@ -85,7 +85,7 @@
     ['click','scroll','keydown','touchstart'].forEach(function(e){
       document.addEventListener(e,_loadGTM,{once:true,passive:true});
     });
-    setTimeout(_loadGTM,4000);
+    setTimeout(_loadGTM,10000);
   </script>
   <!-- Critical CSS: hero visibility before styles.css loads (no CSS vars - avoids cascade reflow) -->
   <style>
@@ -3015,8 +3015,8 @@
                 </div>
               </div>
 
-              <iframe class="map-frame" src="https://www.openstreetmap.org/export/embed.html?bbox=23.355,42.677,23.363,42.683&layer=mapnik&marker=42.679938,23.359063"
-                allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+              <iframe class="map-frame" data-src="https://www.openstreetmap.org/export/embed.html?bbox=23.355,42.677,23.363,42.683&layer=mapnik&marker=42.679938,23.359063"
+                allowfullscreen="" referrerpolicy="no-referrer-when-downgrade"
                 title="Мост Компютърс, бул. Шипченски проход бл.240, ж.к. Гео Милев, 1111 София" style="height:380px;">
               </iframe>
 

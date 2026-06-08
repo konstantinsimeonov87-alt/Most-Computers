@@ -721,6 +721,8 @@ function openContactsPage() {
   document.body.style.overflow = 'hidden';
   checkOpenNow();
   try{history.pushState({page:'contacts'}, '', '?page=contacts');}catch(e){}
+  const mf = document.querySelector('.map-frame[data-src]');
+  if (mf) { mf.src = mf.dataset.src; mf.removeAttribute('data-src'); }
   _contactsMapInit();
   _warehouseMapInit();
 }

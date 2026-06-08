@@ -109,6 +109,9 @@ const jsFiles = [
   { src: 'app-lazy.js',   dst: 'app-lazy.js' },
   { src: 'js/admin.js',           dst: 'js/admin.js' },
   { src: 'js/promotions-data.js', dst: 'js/promotions-data.js' },
+  { src: 'js/b2b.js',             dst: 'js/b2b.js' },
+  { src: 'js/careers-data.js',    dst: 'js/careers-data.js' },
+  { src: 'js/careers-page.js',    dst: 'js/careers-page.js' },
 ];
 jsFiles.forEach(({ src, dst }) => {
   const srcPath = path.join(ROOT, src);

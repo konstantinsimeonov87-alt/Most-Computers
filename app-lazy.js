@@ -1,4 +1,4 @@
-﻿// ===== XSS ESCAPE HELPER =====
+// ===== XSS ESCAPE HELPER =====
 function _esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
 // ===== GALLERY STATE =====
@@ -16,12 +16,12 @@ function getProductImages(p) {
   sources.forEach((src, i) => {
     if (src && !seen.has(src)) {
       seen.add(src);
-      imgs.push({ src, label: i === 0 ? 'РћСЃРЅРѕРІРЅР°' : `РР·РіР»РµРґ ${i + 1}` });
+      imgs.push({ src, label: i === 0 ? 'Основна' : `Изглед ${i + 1}` });
     }
   });
 
   // Always add emoji fallback as last "image"
-  imgs.push({ src: null, emoji: p.emoji, label: 'РРєРѕРЅР°' });
+  imgs.push({ src: null, emoji: p.emoji, label: 'Икона' });
   return imgs;
 }
 
@@ -49,7 +49,7 @@ function renderGallery(p, idx=0) {
       imgEl.style.display='none'; emojiEl.style.display='block';
       emojiEl.textContent = p.emoji;
       // Remove this thumb from gallery
-      galleryImages[galleryIdx] = { src:null, emoji:p.emoji, label:'РРєРѕРЅР°' };
+      galleryImages[galleryIdx] = { src:null, emoji:p.emoji, label:'Икона' };
       renderThumbs(p);
     };
   } else {
@@ -102,7 +102,7 @@ function openProductModal(id){
   const _mb=document.getElementById('modalBrand'); if(_mb){_mb.textContent=p.brand;_mb.dataset.brandSearch=p.brand;_mb.style.cursor='pointer';}
   document.getElementById('modalName').textContent=p.name;
   document.getElementById('modalStars').textContent=starsHTML(p.rating);
-  document.getElementById('modalRv').textContent=`${p.rating} (${p.rv} СЂРµРІСЋС‚Р°)`;
+  document.getElementById('modalRv').textContent=`${p.rating} (${p.rv} ревюта)`;
   const pe=document.getElementById('modalPrice');
   pe.innerHTML=fmtPrice(p.price, p.badge==='sale'?'sale':'');
   pe.className='modal-price'+(p.badge==='sale'?' sale':'');
@@ -111,7 +111,7 @@ function openProductModal(id){
   document.getElementById('modalMonthly').innerHTML='';
   document.getElementById('modalQty').textContent='1';
   document.getElementById('modalSpecs').innerHTML=Object.keys(p.specs||{}).slice(0,4).map(k=>`<div class="spec-chip"><div class="spec-chip-key">${_esc(k)}</div><div class="spec-chip-val">${_esc(p.specs[k])}</div></div>`).join('');
-  let b='';if(p.badge==='sale')b+='<span class="badge badge-sale">РџСЂРѕРјРѕ</span>';if(p.badge==='new')b+='<span class="badge badge-new">РќРѕРІРѕ</span>';if(p.badge==='hot')b+='<span class="badge badge-hot">Р“РѕСЂРµС‰Рѕ</span>';
+  let b='';if(p.badge==='sale')b+='<span class="badge badge-sale">Промо</span>';if(p.badge==='new')b+='<span class="badge badge-new">Ново</span>';if(p.badge==='hot')b+='<span class="badge badge-hot">Горещо</span>';
   document.getElementById('modalBadges').innerHTML=b;
   document.getElementById('modalDesc').textContent=p.desc;
   var _el_modalSpecsFull=document.getElementById('modalSpecsFull'); if(_el_modalSpecsFull) _el_modalSpecsFull.innerHTML =
@@ -150,7 +150,7 @@ function closeProductModalDirect(){
   document.body.style.overflow='';
   // Restore title if no category page is open
   if (!document.getElementById('catPage')?.classList.contains('open') && !document.getElementById('pdpBackdrop')?.classList.contains('open')) {
-    document.title = 'Most Computers - РўРµС…РЅРёРєР° Рё Р•Р»РµРєС‚СЂРѕРЅРёРєР°';
+    document.title = 'Most Computers - Техника и Електроника';
   }
 }
 function switchTab(tab){
@@ -163,9 +163,9 @@ function addFromModal(){
   if(!modalProductId)return;const p=products.find(x=>x.id===modalProductId);if(!p)return;
   const ex=cart.find(x=>x.id===modalProductId);if(ex){ex.qty+=modalQtyVal;}else{cart.push({...p,qty:modalQtyVal});}
   updateCart();saveCart();const btn=document.getElementById('modalAddBtn');
-  btn.innerHTML='вњ“ Р”РѕР±Р°РІРµРЅ!';btn.style.background='var(--new)';
-  setTimeout(()=>{btn.innerHTML='рџ›’ Р”РѕР±Р°РІРё РІ РєРѕС€РЅРёС†Р°';btn.style.background='';},2000);
-  showToast(`вњ“ ${p.name.substring(0,32)}... РґРѕР±Р°РІРµРЅ!`);
+  btn.innerHTML='✓ Добавен!';btn.style.background='var(--new)';
+  setTimeout(()=>{btn.innerHTML='🛒 Добави в кошница';btn.style.background='';},2000);
+  showToast(`✓ ${p.name.substring(0,32)}... добавен!`);
 }
 
 // COMPARE
@@ -174,9 +174,9 @@ function toggleCompare(id,checked){
     const p = products.find(x=>x.id===id);
     if(compareList.length>0){
       const firstCat = products.find(x=>x.id===compareList[0])?.cat;
-      if(p.cat !== firstCat){ showToast('вљ пёЏ РњРѕР¶РµС€ РґР° СЃСЂР°РІРЅСЏРІР°С€ СЃР°РјРѕ РїСЂРѕРґСѓРєС‚Рё РѕС‚ РµРґРЅР° Рё СЃСЉС‰Р° РєР°С‚РµРіРѕСЂРёСЏ!'); return; }
+      if(p.cat !== firstCat){ showToast('⚠️ Можеш да сравняваш само продукти от една и съща категория!'); return; }
     }
-    if(compareList.length>=3){showToast('РњР°РєСЃРёРјСѓРј 3 РїСЂРѕРґСѓРєС‚Р° Р·Р° СЃСЂР°РІРЅРµРЅРёРµ!');return;}
+    if(compareList.length>=3){showToast('Максимум 3 продукта за сравнение!');return;}
     if(!compareList.includes(id))compareList.push(id);
   }
   else{compareList=compareList.filter(x=>x!==id);}
@@ -195,8 +195,8 @@ function updateCompareBar(){
   if(cnt) cnt.textContent=compareList.length;
   let html='';
   for(let i=0;i<3;i++){
-    if(i<compareList.length){const p=products.find(x=>x.id===compareList[i]);if(!p){compareList.splice(i,1);updateCompareBar();return;}html+=`<div class="compare-slot filled"><span class="compare-slot-emoji">${p.emoji}</span><span class="compare-slot-name">${p.name.length>22?p.name.slice(0,22)+'вЂ¦':p.name}</span><button type="button" class="compare-slot-remove" onclick="removeCompare(${p.id})">Г—</button></div>`;}
-    else html+=`<div class="compare-slot"><span style="color:rgba(255,255,255,0.4);font-size:11px;">+ Р”РѕР±Р°РІРё РїСЂРѕРґСѓРєС‚</span></div>`;
+    if(i<compareList.length){const p=products.find(x=>x.id===compareList[i]);if(!p){compareList.splice(i,1);updateCompareBar();return;}html+=`<div class="compare-slot filled"><span class="compare-slot-emoji">${p.emoji}</span><span class="compare-slot-name">${p.name.length>22?p.name.slice(0,22)+'…':p.name}</span><button type="button" class="compare-slot-remove" onclick="removeCompare(${p.id})">×</button></div>`;}
+    else html+=`<div class="compare-slot"><span style="color:rgba(255,255,255,0.4);font-size:11px;">+ Добави продукт</span></div>`;
   }
   if(preview) preview.innerHTML=html;
 }
@@ -208,18 +208,18 @@ function _cmpThumb(p, size) {
 }
 
 function openComparePage(){
-  if(compareList.length<2){showToast('РР·Р±РµСЂРё РїРѕРЅРµ 2 РїСЂРѕРґСѓРєС‚Р° Р·Р° СЃСЂР°РІРЅРµРЅРёРµ!');return;}
+  if(compareList.length<2){showToast('Избери поне 2 продукта за сравнение!');return;}
   const prods=compareList.map(id=>products.find(x=>x.id===id)).filter(Boolean);
-  if(prods.length<2){showToast('РР·Р±РµСЂРё РїРѕРЅРµ 2 РЅР°Р»РёС‡РЅРё РїСЂРѕРґСѓРєС‚Р°!');return;}
+  if(prods.length<2){showToast('Избери поне 2 налични продукта!');return;}
   const allKeys=[...new Set(prods.flatMap(p=>Object.keys(p.specs||{})))];
   const minP=Math.min(...prods.map(p=>p.price)),maxR=Math.max(...prods.map(p=>p.rating));
   let html=`<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;font-size:13px;">`;
-  html+=`<thead><tr><th scope="col" style="text-align:left;padding:12px;background:var(--bg2);border-radius:8px 0 0 0;">РџСЂРѕРґСѓРєС‚</th>`;
-  prods.forEach(p=>html+=`<th scope="col" style="padding:16px;text-align:center;background:var(--bg2);border-left:1px solid var(--border);">${_cmpThumb(p,64)}<div style="font-weight:800;font-size:14px;margin-bottom:4px;">${p.name}</div><div style="font-size:18px;font-weight:900;color:var(--primary);">${fmtEur(p.price)}</div><div style="font-size:11px;color:var(--muted);">${fmtBgn(p.price)}</div><button type="button" onclick="addToCart(${p.id})" style="margin-top:10px;background:var(--primary);color:#fff;border:none;border-radius:8px;padding:8px 16px;font-size:12px;font-weight:700;cursor:pointer;">рџ›’ Р”РѕР±Р°РІРё</button></th>`);
+  html+=`<thead><tr><th scope="col" style="text-align:left;padding:12px;background:var(--bg2);border-radius:8px 0 0 0;">Продукт</th>`;
+  prods.forEach(p=>html+=`<th scope="col" style="padding:16px;text-align:center;background:var(--bg2);border-left:1px solid var(--border);">${_cmpThumb(p,64)}<div style="font-weight:800;font-size:14px;margin-bottom:4px;">${p.name}</div><div style="font-size:18px;font-weight:900;color:var(--primary);">${fmtEur(p.price)}</div><div style="font-size:11px;color:var(--muted);">${fmtBgn(p.price)}</div><button type="button" onclick="addToCart(${p.id})" style="margin-top:10px;background:var(--primary);color:#fff;border:none;border-radius:8px;padding:8px 16px;font-size:12px;font-weight:700;cursor:pointer;">🛒 Добави</button></th>`);
   html+=`</tr></thead><tbody>`;
-  html+=`<tr><th scope="row" style="text-align:left;padding:10px 12px;background:var(--bg);border-top:1px solid var(--border);">Р¦РµРЅР°</th>`;
+  html+=`<tr><th scope="row" style="text-align:left;padding:10px 12px;background:var(--bg);border-top:1px solid var(--border);">Цена</th>`;
   prods.forEach(p=>html+=`<td style="padding:10px 12px;text-align:center;border-top:1px solid var(--border);border-left:1px solid var(--border);${p.price===minP?'background:var(--primary-light);font-weight:800;color:var(--primary);':''}">${fmtEur(p.price)}</td>`);
-  html+=`</tr><tr><th scope="row" style="text-align:left;padding:10px 12px;background:var(--bg);border-top:1px solid var(--border);">Р РµР№С‚РёРЅРі</th>`;
+  html+=`</tr><tr><th scope="row" style="text-align:left;padding:10px 12px;background:var(--bg);border-top:1px solid var(--border);">Рейтинг</th>`;
   prods.forEach(p=>html+=`<td style="padding:10px 12px;text-align:center;border-top:1px solid var(--border);border-left:1px solid var(--border);${p.rating===maxR?'background:var(--primary-light);font-weight:800;':''}">${starsHTML(p.rating)} ${p.rating}</td>`);
   html+=`</tr>`;
   allKeys.forEach(k=>{
@@ -235,9 +235,9 @@ function openComparePage(){
 function removeCompare(id){compareList=compareList.filter(x=>x!==id);const btn=document.getElementById('cmp-btn-'+id);if(btn)btn.style.background='var(--bg)';updateCompareBar();}
 function clearCompare(){compareList.forEach(id=>{const btn=document.getElementById('cmp-btn-'+id);if(btn)btn.style.background='var(--bg)';});compareList=[];updateCompareBar();}
 function openCompareModal(){
-  if(compareList.length<2){showToast('РР·Р±РµСЂРё РїРѕРЅРµ 2 РїСЂРѕРґСѓРєС‚Р°!');return;}
+  if(compareList.length<2){showToast('Избери поне 2 продукта!');return;}
   const prods=compareList.map(id=>products.find(x=>x.id===id)).filter(Boolean);
-  if(prods.length<2){showToast('РР·Р±РµСЂРё РїРѕРЅРµ 2 РЅР°Р»РёС‡РЅРё РїСЂРѕРґСѓРєС‚Р°!');return;}
+  if(prods.length<2){showToast('Избери поне 2 налични продукта!');return;}
   const allKeys=[...new Set(prods.flatMap(p=>Object.keys(p.specs||{})))];
   const minP=Math.min(...prods.map(p=>p.price)),maxR=Math.max(...prods.map(p=>p.rating));
 
@@ -250,16 +250,16 @@ function openCompareModal(){
     return nums.findIndex(n=>n===mx);
   }
 
-  let html=`<thead><tr><th scope="col">РџСЂРѕРґСѓРєС‚</th>`;
-  prods.forEach(p=>html+=`<th scope="col" class="cmp-product-header"><span class="cmp-emoji">${_cmpThumb(p,60)}</span><div class="cmp-name">${_esc(p.name)}</div><div class="cmp-price">${fmtEur(p.price)}<span class="text-11-muted-block">${fmtBgn(p.price)}</span></div><button type="button" class="cmp-add-btn" onclick="addToCart(${p.id})">рџ›’ Р”РѕР±Р°РІРё</button></th>`);
+  let html=`<thead><tr><th scope="col">Продукт</th>`;
+  prods.forEach(p=>html+=`<th scope="col" class="cmp-product-header"><span class="cmp-emoji">${_cmpThumb(p,60)}</span><div class="cmp-name">${_esc(p.name)}</div><div class="cmp-price">${fmtEur(p.price)}<span class="text-11-muted-block">${fmtBgn(p.price)}</span></div><button type="button" class="cmp-add-btn" onclick="addToCart(${p.id})">🛒 Добави</button></th>`);
   html+=`</tr></thead><tbody>`;
   // Price row - lowest is best
   const priceDiff=_isDiff(prods.map(p=>p.price));
-  html+=`<tr class="${priceDiff?'cmp-diff-row':''}"><th scope="row">Р¦РµРЅР°${priceDiff?'<span class="cmp-diff-badge">!</span>':''}</th>`;
+  html+=`<tr class="${priceDiff?'cmp-diff-row':''}"><th scope="row">Цена${priceDiff?'<span class="cmp-diff-badge">!</span>':''}</th>`;
   prods.forEach(p=>html+=`<td class="${p.price===minP?'cmp-best':''}">${fmtEur(p.price)}<span class="text-11-muted-block">${fmtBgn(p.price)}</span></td>`);
   // Rating row
   const ratingDiff=_isDiff(prods.map(p=>p.rating));
-  html+=`</tr><tr class="${ratingDiff?'cmp-diff-row':''}"><th scope="row">Р РµР№С‚РёРЅРі${ratingDiff?'<span class="cmp-diff-badge">!</span>':''}</th>`;
+  html+=`</tr><tr class="${ratingDiff?'cmp-diff-row':''}"><th scope="row">Рейтинг${ratingDiff?'<span class="cmp-diff-badge">!</span>':''}</th>`;
   prods.forEach(p=>html+=`<td class="${p.rating===maxR?'cmp-best':''}">${starsHTML(p.rating)} ${p.rating}</td>`);
   html+=`</tr>`;
 
@@ -286,7 +286,7 @@ function openCompareModal(){
   if(tableEl && !tableEl.previousElementSibling?.classList?.contains('cmp-diff-only-toggle')){
     const tog=document.createElement('label');
     tog.className='cmp-diff-only-toggle';
-    tog.innerHTML=`<input type="checkbox" id="cmpDiffOnly" onchange="cmpToggleDiffOnly(this.checked)"><span>РџРѕРєР°Р¶Рё СЃР°РјРѕ СЂР°Р·Р»РёРєРёС‚Рµ</span><span class="cmp-diff-count">(${diffCount} СЂР°Р·Р»РёРєРё)</span>`;
+    tog.innerHTML=`<input type="checkbox" id="cmpDiffOnly" onchange="cmpToggleDiffOnly(this.checked)"><span>Покажи само разликите</span><span class="cmp-diff-count">(${diffCount} разлики)</span>`;
     tableEl.parentNode.insertBefore(tog, tableEl);
   }
 
@@ -320,10 +320,10 @@ function selectDelivery(el){document.querySelectorAll('.qo-delivery-opt').forEac
 function submitQuickOrder(){
   let ok=true;
   ['qoName2','qoPhone','qoCity','qoAddr'].forEach(fid=>{const el=document.getElementById(fid);if(!el.value.trim()){el.classList.add('error');ok=false;}else el.classList.remove('error');});
-  if(!ok){showToast('РџРѕРїСЉР»РЅРё РІСЃРёС‡РєРё Р·Р°РґСЉР»Р¶РёС‚РµР»РЅРё РїРѕР»РµС‚Р°!');return;}
+  if(!ok){showToast('Попълни всички задължителни полета!');return;}
   document.getElementById('qoFormWrap').style.display='none';
   document.getElementById('qoSuccess').classList.add('show');
-  showToast('РџРѕСЂСЉС‡РєР°С‚Р° Рµ РёР·РїСЂР°С‚РµРЅР° СѓСЃРїРµС€РЅРѕ!');
+  showToast('Поръчката е изпратена успешно!');
   setTimeout(closeQuickOrderDirect,4000);
 }
 
@@ -345,7 +345,7 @@ if(slides.length){if(_heroSliderIv)clearInterval(_heroSliderIv);_heroSliderIv=se
     const h = String(Math.floor(diff / 3600)).padStart(2,'0');
     const m = String(Math.floor((diff % 3600) / 60)).padStart(2,'0');
     const s = String(diff % 60).padStart(2,'0');
-    el.innerHTML = `вЏ± РћС„РµСЂС‚Р°С‚Р° РёР·С‚РёС‡Р° СЃР»РµРґ <b>${h}:${m}:${s}</b>`;
+    el.innerHTML = `⏱ Офертата изтича след <b>${h}:${m}:${s}</b>`;
   }
   update();
   setInterval(update, 1000);
@@ -414,7 +414,7 @@ function saveCart() { try { localStorage.setItem('mc_cart', JSON.stringify(cart.
 function oosNotify(id) {
   const p = products.find(x => x.id === id);
   if (!p) return;
-  const email = prompt('Р’СЉРІРµРґРё РёРјРµР№Р» - С‰Рµ С‚Рµ СѓРІРµРґРѕРјРёРј РєРѕРіР°С‚Рѕ "' + p.name.substring(0, 40) + '" Рµ РЅР° СЃРєР»Р°Рґ:');
+  const email = prompt('Въведи имейл - ще те уведомим когато "' + p.name.substring(0, 40) + '" е на склад:');
   if (!email || !email.includes('@')) return;
   try {
     const notifs = JSON.parse(localStorage.getItem('mc_oos_notify') || '[]');
@@ -423,7 +423,7 @@ function oosNotify(id) {
       localStorage.setItem('mc_oos_notify', JSON.stringify(notifs));
     }
   } catch(e) {}
-  showToast('рџ”” Р©Рµ С‚Рµ СѓРІРµРґРѕРјРёРј РЅР° ' + email + ' РїСЂРё РЅР°Р»РёС‡РЅРѕСЃС‚!');
+  showToast('🔔 Ще те уведомим на ' + email + ' при наличност!');
 }
 function loadCart() {
   try {
@@ -438,12 +438,12 @@ function addToCart(id) {
   updateCart(); saveCart();
   if (navigator.vibrate) navigator.vibrate(50);
   const btn = document.getElementById('cb-' + id);
-  if (btn) { btn.classList.add('added'); btn.innerHTML = 'вњ“ Р”РѕР±Р°РІРµРЅ'; btn.disabled = true; setTimeout(() => { btn.classList.remove('added'); btn.innerHTML = '<svg width="15" height="15" class="svg-ic" aria-hidden="true"><use href="#ic-cart"/></svg> Р”РѕР±Р°РІРё РІ РєРѕС€РЅРёС†Р°'; btn.disabled = false; }, 1200); }
+  if (btn) { btn.classList.add('added'); btn.innerHTML = '✓ Добавен'; btn.disabled = true; setTimeout(() => { btn.classList.remove('added'); btn.innerHTML = '<svg width="15" height="15" class="svg-ic" aria-hidden="true"><use href="#ic-cart"/></svg> Добави в кошница'; btn.disabled = false; }, 1200); }
   (function showCartToast(prod) {
     var ct = document.getElementById('cartToast');
-    if (!ct) { showToast('вњ“ ' + prod.name.substring(0, 32) + 'вЂ¦ РґРѕР±Р°РІРµРЅ!'); return; }
-    document.getElementById('cartToastEmoji').textContent = prod.emoji || 'рџ›’';
-    document.getElementById('cartToastMsg').textContent = prod.name.substring(0, 36) + (prod.name.length > 36 ? 'вЂ¦' : '') + ' РґРѕР±Р°РІРµРЅ!';
+    if (!ct) { showToast('✓ ' + prod.name.substring(0, 32) + '… добавен!'); return; }
+    document.getElementById('cartToastEmoji').textContent = prod.emoji || '🛒';
+    document.getElementById('cartToastMsg').textContent = prod.name.substring(0, 36) + (prod.name.length > 36 ? '…' : '') + ' добавен!';
     var total = cart.reduce(function(s,x){return s+x.price*x.qty;},0);
     var fill = document.getElementById('cartToastShipFill');
     var label = document.getElementById('cartToastShipLabel');
@@ -451,13 +451,13 @@ function addToCart(id) {
     if (fill && label && wrap) {
       if (total >= FREE_SHIP_BGN) {
         fill.style.width = '100%';
-        label.textContent = 'рџЋ‰ Р‘РµР·РїР»Р°С‚РЅР° РґРѕСЃС‚Р°РІРєР°!';
+        label.textContent = '🎉 Безплатна доставка!';
         wrap.style.display = 'block';
       } else {
         var pct = Math.min(100, Math.round(total / FREE_SHIP_BGN * 100));
         var remaining = (FREE_SHIP_BGN - total).toFixed(2).replace('.',',');
         fill.style.width = pct + '%';
-        label.textContent = 'РћС‰Рµ ' + remaining + ' Р»РІ. РґРѕ Р±РµР·РїР»Р°С‚РЅР° РґРѕСЃС‚Р°РІРєР°';
+        label.textContent = 'Още ' + remaining + ' лв. до безплатна доставка';
         wrap.style.display = 'block';
       }
     }
@@ -479,17 +479,17 @@ function showRecommended(p) {
   panel.id = 'recPanel';
   panel.style.cssText = 'position:fixed;bottom:80px;right:20px;z-index:2000;background:var(--white);border:1px solid var(--border);border-radius:14px;padding:14px 16px;max-width:300px;width:calc(100vw - 40px);box-shadow:0 8px 32px rgba(0,0,0,0.18);opacity:0;transform:translateY(10px);transition:opacity 0.25s,transform 0.25s;';
   panel.innerHTML = `
-    <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:10px;">РљР»РёРµРЅС‚РёС‚Рµ РєСѓРїСѓРІР°С‚ РёвЂ¦</div>
+    <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:10px;">Клиентите купуват и…</div>
     ${recs.map(r => `
       <div onclick="openProductPage(${r.id})" style="display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--border);cursor:pointer;">
         <div style="min-width:34px;text-align:center;">${_prodThumb(r, 34)}</div>
         <div style="flex:1;min-width:0;">
-          <div style="font-size:12px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${r.name.length > 32 ? r.name.substring(0, 32) + 'вЂ¦' : r.name}</div>
+          <div style="font-size:12px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${r.name.length > 32 ? r.name.substring(0, 32) + '…' : r.name}</div>
           <div style="font-size:12px;color:var(--primary);font-weight:700;">${fmtEur(r.price)}</div>
         </div>
         <button type="button" onclick="event.stopPropagation();addToCart(${r.id})" style="background:var(--primary);color:#fff;border:none;border-radius:8px;padding:5px 10px;font-size:11px;cursor:pointer;white-space:nowrap;font-family:'Outfit',sans-serif;font-weight:700;">+</button>
       </div>`).join('')}
-    <button type="button" onclick="document.getElementById('recPanel').remove()" style="width:100%;margin-top:8px;background:none;border:none;color:var(--muted);font-size:11px;cursor:pointer;font-family:'Outfit',sans-serif;padding:4px;">Р—Р°С‚РІРѕСЂРё Г—</button>`;
+    <button type="button" onclick="document.getElementById('recPanel').remove()" style="width:100%;margin-top:8px;background:none;border:none;color:var(--muted);font-size:11px;cursor:pointer;font-family:'Outfit',sans-serif;padding:4px;">Затвори ×</button>`;
   document.body.appendChild(panel);
   requestAnimationFrame(() => { panel.style.opacity = '1'; panel.style.transform = 'translateY(0)'; });
   panel._t = setTimeout(() => { panel.style.opacity = '0'; setTimeout(() => panel.remove(), 280); }, 8000);
@@ -506,7 +506,7 @@ const FREE_SHIP_BGN = Math.round((_sc_fs.freeShipEur||100) * EUR_RATE * 100) / 1
   let orders = [];
   try { orders = JSON.parse(localStorage.getItem('mc_orders') || '[]'); } catch (e) {}
   if (orders.length > 0) {
-    txt.textContent = `Р’РёРµ РёРјР°С‚Рµ ${orders.length} ${orders.length === 1 ? 'РїРѕСЂСЉС‡РєР°' : 'РїРѕСЂСЉС‡РєРё'} РїСЂРё РЅР°СЃ`;
+    txt.textContent = `Вие имате ${orders.length} ${orders.length === 1 ? 'поръчка' : 'поръчки'} при нас`;
     sp.style.display = '';
   }
 })();
@@ -553,7 +553,7 @@ function updateCart() {
   const body = document.getElementById('cartBody');
   if (!body) return;
   if (cart.length === 0) {
-    body.innerHTML = '<div class="cart-empty-msg"><div class="ce-icon"><svg width="44" height="44" class="svg-ic" aria-hidden="true" style="opacity:.25"><use href="#ic-cart"/></svg></div><p>РљРѕС€РЅРёС†Р°С‚Р° Рµ РїСЂР°Р·РЅР°.</p><button type="button" class="ce-cta-btn" onclick="closeCart();filterCatScroll(\'all\')">Р Р°Р·РіР»РµРґР°Р№ РїСЂРѕРґСѓРєС‚РёС‚Рµ в†’</button></div>';
+    body.innerHTML = '<div class="cart-empty-msg"><div class="ce-icon"><svg width="44" height="44" class="svg-ic" aria-hidden="true" style="opacity:.25"><use href="#ic-cart"/></svg></div><p>Кошницата е празна.</p><button type="button" class="ce-cta-btn" onclick="closeCart();filterCatScroll(\'all\')">Разгледай продуктите →</button></div>';
     // Return focus to cart icon button when cart becomes empty and panel is open
     const panel = document.getElementById('cartPanel');
     if (panel && panel.classList.contains('open')) { const cartBtn = document.querySelector('[onclick*="toggleCart"]') || document.querySelector('#cartIcon'); if (cartBtn) cartBtn.focus(); }
@@ -561,17 +561,17 @@ function updateCart() {
   }
   let html = cart.map(x => {
     const name = escHtml(x.name || '');
-    const shortName = x.name && x.name.length > 38 ? escHtml(x.name.substring(0, 38)) + 'вЂ¦' : name;
-    const unitPrice = x.qty > 1 ? `<span class="ci-unit">${fmtEur(x.price)} / Р±СЂ.</span>` : '';
+    const shortName = x.name && x.name.length > 38 ? escHtml(x.name.substring(0, 38)) + '…' : name;
+    const unitPrice = x.qty > 1 ? `<span class="ci-unit">${fmtEur(x.price)} / бр.</span>` : '';
     return `<div class="cart-item-row">
-      <button type="button" class="ci-emoji-btn" onclick="openProductPage(${x.id})" title="Р’РёР¶ РїСЂРѕРґСѓРєС‚Р°">${_prodThumb(x, 44)}</button>
+      <button type="button" class="ci-emoji-btn" onclick="openProductPage(${x.id})" title="Виж продукта">${_prodThumb(x, 44)}</button>
       <div class="ci-details">
         <div class="ci-top-row">
-          <button type="button" class="ci-name-btn" onclick="openProductPage(${x.id})" title="Р’РёР¶ РїСЂРѕРґСѓРєС‚Р°">${shortName}</button>
-          <button type="button" class="ci-remove" onclick="removeFromCart(${x.id})" aria-label="РџСЂРµРјР°С…РЅРё">Г—</button>
+          <button type="button" class="ci-name-btn" onclick="openProductPage(${x.id})" title="Виж продукта">${shortName}</button>
+          <button type="button" class="ci-remove" onclick="removeFromCart(${x.id})" aria-label="Премахни">×</button>
         </div>
         <div class="ci-bottom-row">
-          <div class="ci-qty"><button type="button" class="qty-btn" onclick="changeQty(${x.id},-1)">в€’</button><span class="qty-num">${x.qty}</span><button type="button" class="qty-btn" onclick="changeQty(${x.id},1)">+</button></div>
+          <div class="ci-qty"><button type="button" class="qty-btn" onclick="changeQty(${x.id},-1)">−</button><span class="qty-num">${x.qty}</span><button type="button" class="qty-btn" onclick="changeQty(${x.id},1)">+</button></div>
           <div class="ci-price-wrap">${unitPrice}<span class="ci-price">${fmtEur(x.price * x.qty)}</span></div>
         </div>
       </div>
@@ -582,13 +582,13 @@ function updateCart() {
   const deliveryRow = document.getElementById('cartDeliveryRow');
   const deliveryVal = document.getElementById('cartDeliveryVal');
   if (total >= FREE_SHIP_BGN) {
-    html += `<div class="cart-ship-bar"><div class="cart-ship-msg ship-free">рџЋ‰ РРјР°С€ Р±РµР·РїР»Р°С‚РЅР° РґРѕСЃС‚Р°РІРєР°!</div><div class="cart-ship-progress"><div class="cart-ship-fill" style="transform:scaleX(1)"></div></div></div>`;
+    html += `<div class="cart-ship-bar"><div class="cart-ship-msg ship-free">🎉 Имаш безплатна доставка!</div><div class="cart-ship-progress"><div class="cart-ship-fill" style="transform:scaleX(1)"></div></div></div>`;
     if (deliveryRow) deliveryRow.style.display = 'none';
   } else {
     const remEur = ((FREE_SHIP_BGN - total) / EUR_RATE).toFixed(2);
-    html += `<div class="cart-ship-bar"><div class="cart-ship-msg">Р”РѕР±Р°РІРё РѕС‰Рµ <strong>${remEur} в‚¬</strong> Р·Р° Р±РµР·РїР»Р°С‚РЅР° РґРѕСЃС‚Р°РІРєР°!</div><div class="cart-ship-progress"><div class="cart-ship-fill" style="transform:scaleX(${(pct / 100).toFixed(3)})"></div></div></div>`;
+    html += `<div class="cart-ship-bar"><div class="cart-ship-msg">Добави още <strong>${remEur} €</strong> за безплатна доставка!</div><div class="cart-ship-progress"><div class="cart-ship-fill" style="transform:scaleX(${(pct / 100).toFixed(3)})"></div></div></div>`;
     if (deliveryRow) deliveryRow.style.display = 'flex';
-    if (deliveryVal) deliveryVal.textContent = (5.99 / EUR_RATE).toFixed(2) + ' в‚¬';
+    if (deliveryVal) deliveryVal.textContent = (5.99 / EUR_RATE).toFixed(2) + ' €';
   }
   // Recently viewed not in cart
   try {
@@ -596,13 +596,13 @@ function updateCart() {
     const inCart = new Set(cart.map(x => x.id));
     const rvItems = rvIds.map(id => products.find(p => p.id === id)).filter(p => p && !inCart.has(p.id)).slice(0, 3);
     if (rvItems.length) {
-      html += `<div class="cart-rv-section"><div class="cart-rv-title">Р—Р°Р±СЂР°РІРё Р»Рё РЅРµС‰Рѕ?</div><div class="cart-rv-list">${rvItems.map(p => `<div class="cart-rv-item"><button type="button" class="cart-rv-link" onclick="openProductPage(${p.id})" title="Р’РёР¶ РїСЂРѕРґСѓРєС‚Р°"><div class="cart-rv-emoji">${_prodThumb(p, 36)}</div><div class="cart-rv-info"><div class="cart-rv-name">${escHtml(p.name.length > 28 ? p.name.substring(0, 28) + 'вЂ¦' : p.name)}</div><div class="cart-rv-price">${fmtEur(p.price)}</div></div></button><button type="button" class="cart-rv-add" onclick="addToCart(${p.id})" title="Р”РѕР±Р°РІРё">+</button></div>`).join('')}</div></div>`;
+      html += `<div class="cart-rv-section"><div class="cart-rv-title">Забрави ли нещо?</div><div class="cart-rv-list">${rvItems.map(p => `<div class="cart-rv-item"><button type="button" class="cart-rv-link" onclick="openProductPage(${p.id})" title="Виж продукта"><div class="cart-rv-emoji">${_prodThumb(p, 36)}</div><div class="cart-rv-info"><div class="cart-rv-name">${escHtml(p.name.length > 28 ? p.name.substring(0, 28) + '…' : p.name)}</div><div class="cart-rv-price">${fmtEur(p.price)}</div></div></button><button type="button" class="cart-rv-add" onclick="addToCart(${p.id})" title="Добави">+</button></div>`).join('')}</div></div>`;
     }
   } catch (e) { }
   body.innerHTML = html;
   // Update checkout button with total amount
   const ckBtn = document.querySelector('.checkout-btn');
-  if (ckBtn) ckBtn.innerHTML = 'рџ”’ Р—Р°РІСЉСЂС€Рё РїРѕСЂСЉС‡РєР°С‚Р° В· ' + fmtEur(total) + ' в†’';
+  if (ckBtn) ckBtn.innerHTML = '🔒 Завърши поръчката · ' + fmtEur(total) + ' →';
   // Sync cart page if open
   if (typeof renderCartPageSummary === 'function' && document.getElementById('cartPage')?.style.display !== 'none') { renderCartPageSummary(); }
 }
@@ -618,11 +618,11 @@ function removeFromCart(id) {
   clearTimeout(t._timer);
   t.innerHTML = '';
   const _rSpan = document.createElement('span');
-  _rSpan.textContent = removed.name.substring(0, 28) + 'вЂ¦ РїСЂРµРјР°С…РЅР°С‚. ';
+  _rSpan.textContent = removed.name.substring(0, 28) + '… премахнат. ';
   const _rBtn = document.createElement('button');
   _rBtn.type = 'button'; _rBtn.onclick = undoRemoveCart;
   _rBtn.style.cssText = 'margin-left:8px;background:rgba(255,255,255,0.25);border:none;border-radius:5px;padding:2px 8px;cursor:pointer;font-family:inherit;font-size:12px;font-weight:700;color:#fff;';
-  _rBtn.textContent = 'РћС‚РјСЏРЅР°';
+  _rBtn.textContent = 'Отмяна';
   t.appendChild(_rSpan); t.appendChild(_rBtn);
   t.classList.add('show');
   t._undoItem = removed;
@@ -638,13 +638,13 @@ function undoRemoveCart() {
   const ex = cart.find(x => x.id === item.id);
   if (ex) { ex.qty += item.qty; } else { cart.push(item); }
   updateCart(); saveCart();
-  showToast('вњ“ ' + item.name.substring(0, 28) + 'вЂ¦ РІСЉСЂРЅР°С‚ РІ РєРѕС€РЅРёС†Р°С‚Р°');
+  showToast('✓ ' + item.name.substring(0, 28) + '… върнат в кошницата');
 }
 function toggleCart() { const co=document.getElementById('cartOverlay'),cp=document.getElementById('cartPanel'); if(co)co.classList.toggle('open'); if(cp)cp.classList.toggle('open'); }
 // ===== CHECKOUT & THANK YOU =====
 let ckDeliveryIdx = 0;
 let ckDeliveryCosts = (()=>{ try{const sc=JSON.parse(localStorage.getItem('mc_store_config')||'{}');return sc.deliveryCosts||[5.99,4.99,0];}catch(e){return [5.99,4.99,0];} })();
-let ckDeliveryNames = ['Р•РєРѕРЅС‚', 'Speedy', 'Р’Р·РµРјРё РѕС‚ РјР°РіР°Р·РёРЅ'];
+let ckDeliveryNames = ['Еконт', 'Speedy', 'Вземи от магазин'];
 let ckPaymentType = 'card';
 let promoApplied = false;
 
@@ -662,7 +662,7 @@ function _loadSupabase() {
 }
 
 function handleCheckout() {
-  if (cart.length === 0) { showToast('Р”РѕР±Р°РІРё РїСЂРѕРґСѓРєС‚Рё РІ РєРѕС€РЅРёС†Р°С‚Р°!'); return; }
+  if (cart.length === 0) { showToast('Добави продукти в кошницата!'); return; }
   _loadSupabase();
   // Pre-fill from logged-in user
   if (currentUser) {
@@ -699,9 +699,9 @@ function handleCheckout() {
   const fmt = d => d.toLocaleDateString('bg-BG', { weekday: 'long', day: 'numeric', month: 'long' });
   const now = new Date();
   const workDay = (d, n) => { let c = new Date(d); let added = 0; while (added < n) { c.setDate(c.getDate() + 1); if (c.getDay() !== 0 && c.getDay() !== 6) added++; } return c; };
-  const d0 = document.getElementById('delivDate0'); if (d0) d0.textContent = 'В· РґРѕ ' + fmt(workDay(now, 2));
-  const d1 = document.getElementById('delivDate1'); if (d1) d1.textContent = 'В· РґРѕ ' + fmt(workDay(now, 3));
-  const d2 = document.getElementById('delivDate2'); if (d2) d2.textContent = 'В· РіРѕС‚РѕРІРѕ РґРЅРµСЃ';
+  const d0 = document.getElementById('delivDate0'); if (d0) d0.textContent = '· до ' + fmt(workDay(now, 2));
+  const d1 = document.getElementById('delivDate1'); if (d1) d1.textContent = '· до ' + fmt(workDay(now, 3));
+  const d2 = document.getElementById('delivDate2'); if (d2) d2.textContent = '· готово днес';
 }
 
 let _ckUpsellTimer = null;
@@ -711,13 +711,13 @@ function _cuItemHtml(p) {
   const inCart = cart.find(x => x.id === p.id);
   const qty = inCart ? inCart.qty : 0;
   const qtyCtrl = qty > 0
-    ? `<div class="cu-qty"><button type="button" class="cu-qty-btn" onclick="cuChangeQty(${p.id},-1)">в€’</button><span class="cu-qty-num">${qty}</span><button type="button" class="cu-qty-btn" onclick="cuChangeQty(${p.id},1)">+</button></div>`
-    : `<button type="button" class="cu-add" onclick="cuChangeQty(${p.id},1)" title="Р”РѕР±Р°РІРё РІ РєРѕС€РЅРёС†Р°С‚Р°">+</button>`;
+    ? `<div class="cu-qty"><button type="button" class="cu-qty-btn" onclick="cuChangeQty(${p.id},-1)">−</button><span class="cu-qty-num">${qty}</span><button type="button" class="cu-qty-btn" onclick="cuChangeQty(${p.id},1)">+</button></div>`
+    : `<button type="button" class="cu-add" onclick="cuChangeQty(${p.id},1)" title="Добави в кошницата">+</button>`;
   return `<div class="cu-item" id="cu-item-${p.id}">
-    <button type="button" class="cu-link" onclick="openProductPage(${p.id})" title="Р’РёР¶ РїСЂРѕРґСѓРєС‚Р°">
+    <button type="button" class="cu-link" onclick="openProductPage(${p.id})" title="Виж продукта">
       <div class="cu-emoji">${escHtml(p.emoji || '')}</div>
       <div class="cu-info">
-        <div class="cu-name">${escHtml(p.name.length > 32 ? p.name.substring(0, 32) + 'вЂ¦' : p.name)}</div>
+        <div class="cu-name">${escHtml(p.name.length > 32 ? p.name.substring(0, 32) + '…' : p.name)}</div>
         <div class="cu-price">${fmtEur(p.price)}</div>
       </div>
     </button>
@@ -744,8 +744,8 @@ function cuChangeQty(id, delta) {
   const oldCtrl = el.querySelector('.cu-qty, .cu-add');
   if (!oldCtrl) return;
   const newHtml = qty > 0
-    ? `<div class="cu-qty"><button type="button" class="cu-qty-btn" onclick="cuChangeQty(${id},-1)">в€’</button><span class="cu-qty-num">${qty}</span><button type="button" class="cu-qty-btn" onclick="cuChangeQty(${id},1)">+</button></div>`
-    : `<button type="button" class="cu-add" onclick="cuChangeQty(${id},1)" title="Р”РѕР±Р°РІРё РІ РєРѕС€РЅРёС†Р°С‚Р°">+</button>`;
+    ? `<div class="cu-qty"><button type="button" class="cu-qty-btn" onclick="cuChangeQty(${id},-1)">−</button><span class="cu-qty-num">${qty}</span><button type="button" class="cu-qty-btn" onclick="cuChangeQty(${id},1)">+</button></div>`
+    : `<button type="button" class="cu-add" onclick="cuChangeQty(${id},1)" title="Добави в кошницата">+</button>`;
   oldCtrl.outerHTML = newHtml;
 }
 window.cuChangeQty = cuChangeQty;
@@ -772,7 +772,7 @@ function _startCkUpsell() {
         items.style.opacity = '1';
       }, 300);
     } else {
-      el.innerHTML = `<div class="cart-upsell-title">вљЎ РњРѕР¶Рµ РґР° С‚Рµ Р·Р°РёРЅС‚РµСЂРµСЃСѓРІР°</div><div class="cart-upsell-items" style="transition:opacity .3s">${pair.map(p => _cuItemHtml(p)).join('')}</div>`;
+      el.innerHTML = `<div class="cart-upsell-title">⚡ Може да те заинтересува</div><div class="cart-upsell-items" style="transition:opacity .3s">${pair.map(p => _cuItemHtml(p)).join('')}</div>`;
     }
     idx = (idx + 2) % pool.length;
   };
@@ -812,7 +812,7 @@ function renderOrderSummary() {
       <div class="os-item-info">
         <div class="os-item-name">${escHtml(x.name || '')}</div>
         <div class="os-qty-ctrl">
-          <button type="button" class="os-qty-btn" onclick="osChangeQty(${x.id},-1)">в€’</button>
+          <button type="button" class="os-qty-btn" onclick="osChangeQty(${x.id},-1)">−</button>
           <span class="os-qty-num">${x.qty}</span>
           <button type="button" class="os-qty-btn" onclick="osChangeQty(${x.id},1)">+</button>
         </div>
@@ -821,7 +821,7 @@ function renderOrderSummary() {
     </div>`).join('');
 
   document.getElementById('osSubtotal').textContent = fmtEur(subtotal) + ' / ' + fmtBgn(subtotal);
-  document.getElementById('osDelivery').textContent = delivery === 0 ? 'Р‘РµР·РїР»Р°С‚РЅРѕ' : fmtEur(delivery) + ' / ' + fmtBgn(delivery);
+  document.getElementById('osDelivery').textContent = delivery === 0 ? 'Безплатно' : fmtEur(delivery) + ' / ' + fmtBgn(delivery);
   document.getElementById('osTotal').textContent = fmtEur(total) + ' / ' + fmtBgn(total);
 
   const saveRow = document.getElementById('osSaveRow');
@@ -867,20 +867,20 @@ function osChangeQty(id, d) {
 }
 
 var _allEcontOffices = [
-  'Р•РєРѕРЅС‚ - РєРІ. Р›РѕР·РµРЅРµС†, СѓР». РЎРІРµС‚Рё РќР°СѓРј 52',
-  'Р•РєРѕРЅС‚ - СѓР». Р“. РЎ. Р Р°РєРѕРІСЃРєРё 147, РЎРѕС„РёСЏ',
-  'Р•РєРѕРЅС‚ - Р±СѓР». Р’РёС‚РѕС€Р° 100, РЎРѕС„РёСЏ',
-  'Р•РєРѕРЅС‚ - Р¶.Рє. Р›СЋР»РёРЅ 6, Р±Р». 606, РЎРѕС„РёСЏ',
-  'Р•РєРѕРЅС‚ - Р¶.Рє. РњР»Р°РґРѕСЃС‚ 1, Р±Р». 52Р‘, РЎРѕС„РёСЏ',
-  'Р•РєРѕРЅС‚ - Р¶.Рє. РќР°РґРµР¶РґР° 4, Р±Р». 421, РЎРѕС„РёСЏ',
-  'Р•РєРѕРЅС‚ - СѓР». Р”РѕР№СЂР°РЅ 3, РџР»РѕРІРґРёРІ',
-  'Р•РєРѕРЅС‚ - Р±СѓР». Р¦Р°СЂ РћСЃРІРѕР±РѕРґРёС‚РµР» 5, Р’Р°СЂРЅР°',
-  'Р•РєРѕРЅС‚ - СѓР». РђР». РЎС‚Р°РјР±РѕР»РёР№СЃРєРё 6, Р‘СѓСЂРіР°СЃ',
-  'Р•РєРѕРЅС‚ - СѓР». Р¦Р°СЂ РћСЃРІРѕР±РѕРґРёС‚РµР» 10, РЎС‚Р°СЂР° Р—Р°РіРѕСЂР°',
-  'Р•РєРѕРЅС‚ - СѓР». Р”СѓРЅР°РІ 5, Р СѓСЃРµ',
-  'Р•РєРѕРЅС‚ - Р±СѓР». Р‘СЉР»РіР°СЂРёСЏ 23, РџР»РµРІРµРЅ',
-  'Р•РєРѕРЅС‚ - СѓР». Р®СЂРёР№ Р“Р°РіР°СЂРёРЅ 1, Р‘Р»Р°РіРѕРµРІРіСЂР°Рґ',
-  'Р•РєРѕРЅС‚ - СѓР». РљР»РёРјРµРЅС‚ РћС…СЂРёРґСЃРєРё 9, Р’РµР»РёРєРѕ РўСЉСЂРЅРѕРІРѕ'
+  'Еконт - кв. Лозенец, ул. Свети Наум 52',
+  'Еконт - ул. Г. С. Раковски 147, София',
+  'Еконт - бул. Витоша 100, София',
+  'Еконт - ж.к. Люлин 6, бл. 606, София',
+  'Еконт - ж.к. Младост 1, бл. 52Б, София',
+  'Еконт - ж.к. Надежда 4, бл. 421, София',
+  'Еконт - ул. Дойран 3, Пловдив',
+  'Еконт - бул. Цар Освободител 5, Варна',
+  'Еконт - ул. Ал. Стамболийски 6, Бургас',
+  'Еконт - ул. Цар Освободител 10, Стара Загора',
+  'Еконт - ул. Дунав 5, Русе',
+  'Еконт - бул. България 23, Плевен',
+  'Еконт - ул. Юрий Гагарин 1, Благоевград',
+  'Еконт - ул. Климент Охридски 9, Велико Търново'
 ];
 
 function filterEcontOffices(city) {
@@ -949,19 +949,19 @@ function applyPromo(codeArg) {
   const match = codes.find(c => c.code === code && c.active !== false);
   if (match) {
     if (match.expiresAt && Date.now() > match.expiresAt) {
-      showToast('РџСЂРѕРјРѕ РєРѕРґСЉС‚ Рµ РёР·С‚РµРєСЉР»!');
+      showToast('Промо кодът е изтекъл!');
       if (inputEl) { inputEl.classList.add('error'); setTimeout(() => inputEl.classList.remove('error'), 1500); }
       return;
     }
     if (match.maxUses && (match.uses || 0) >= match.maxUses) {
-      showToast('РџСЂРѕРјРѕ РєРѕРґСЉС‚ Рµ РёР·С‡РµСЂРїР°РЅ!');
+      showToast('Промо кодът е изчерпан!');
       if (inputEl) { inputEl.classList.add('error'); setTimeout(() => inputEl.classList.remove('error'), 1500); }
       return;
     }
     if (match.minOrderEur) {
       const curSubtotalEur = (() => { try { let s=0; cart.forEach(ci=>{const p=products.find(x=>x.id===ci.id); if(p) s+=((p.price||0)/EUR_RATE)*ci.qty;}); return s; } catch(e){return 0;} })();
       if (curSubtotalEur < match.minOrderEur) {
-        showToast(`РњРёРЅРёРјР°Р»РЅР° РїРѕСЂСЉС‡РєР° ${match.minOrderEur} в‚¬ Р·Р° С‚РѕР·Рё РєРѕРґ!`);
+        showToast(`Минимална поръчка ${match.minOrderEur} € за този код!`);
         if (inputEl) { inputEl.classList.add('error'); setTimeout(() => inputEl.classList.remove('error'), 1500); }
         return;
       }
@@ -977,9 +977,9 @@ function applyPromo(codeArg) {
     if (inputEl) { document.getElementById('promoOk').classList.add('show'); inputEl.disabled = true; }
     const hint = document.getElementById('ckPromoHint'); if (hint) hint.style.display = 'none';
     renderOrderSummary();
-    showToast(`вњ“ РџСЂРѕРјРѕ РєРѕРґ РїСЂРёР»РѕР¶РµРЅ - -${promoDiscountPct}%!`);
+    showToast(`✓ Промо код приложен - -${promoDiscountPct}%!`);
   } else {
-    showToast('РќРµРІР°Р»РёРґРµРЅ РїСЂРѕРјРѕ РєРѕРґ!');
+    showToast('Невалиден промо код!');
     if (inputEl) { inputEl.classList.add('error'); setTimeout(() => inputEl.classList.remove('error'), 1500); }
   }
 }
@@ -1034,7 +1034,7 @@ function validateCkStep(step) {
     } else if (email) { email.setAttribute('aria-invalid', 'false'); }
     const phone = document.getElementById('ckPhone');
     if (phone) { ckValidatePhone(phone); if (phone.classList.contains('error')) valid = false; }
-    if (!valid) showToast('вљ пёЏ РџРѕРїСЉР»РЅРё РІСЃРёС‡РєРё Р·Р°РґСЉР»Р¶РёС‚РµР»РЅРё РїРѕР»РµС‚Р°!');
+    if (!valid) showToast('⚠️ Попълни всички задължителни полета!');
     return valid;
   }
   if (step === 2) {
@@ -1052,7 +1052,7 @@ function validateCkStep(step) {
       if (el && !el.value.trim()) { el.classList.add('error'); el.classList.remove('valid'); el.setAttribute('aria-invalid', 'true'); valid = false; }
       else if (el) { el.classList.remove('error'); el.setAttribute('aria-invalid', 'false'); }
     });
-    if (!valid) showToast('вљ пёЏ РџРѕРїСЉР»РЅРё Р°РґСЂРµСЃР° Р·Р° РґРѕСЃС‚Р°РІРєР°!');
+    if (!valid) showToast('⚠️ Попълни адреса за доставка!');
     return valid;
   }
   return true;
@@ -1066,7 +1066,7 @@ function _ckSetError(el, msg) {
 function ckValidateField(el) {
   if (!el.value.trim()) {
     el.classList.add('error'); el.classList.remove('valid'); el.setAttribute('aria-invalid', 'true');
-    _ckSetError(el, 'РџРѕР»РµС‚Рѕ Рµ Р·Р°РґСЉР»Р¶РёС‚РµР»РЅРѕ.');
+    _ckSetError(el, 'Полето е задължително.');
   } else {
     el.classList.remove('error'); el.classList.add('valid'); el.setAttribute('aria-invalid', 'false');
     _ckSetError(el, '');
@@ -1078,7 +1078,7 @@ function ckValidateEmail(el) {
   el.classList.toggle('error', !ok);
   el.classList.toggle('valid', !!ok);
   el.setAttribute('aria-invalid', ok ? 'false' : 'true');
-  _ckSetError(el, ok ? '' : 'Р’СЉРІРµРґРё РІР°Р»РёРґРµРЅ РёРјРµР№Р» Р°РґСЂРµСЃ.');
+  _ckSetError(el, ok ? '' : 'Въведи валиден имейл адрес.');
 }
 
 // BG phone: 08xx, 09xx, +359 8xx, 00359 8xx - at least 10 digits
@@ -1088,7 +1088,7 @@ function ckValidatePhone(el) {
   el.classList.toggle('error', !ok);
   el.classList.toggle('valid', ok);
   el.setAttribute('aria-invalid', ok ? 'false' : 'true');
-  _ckSetError(el, ok ? '' : 'Р’СЉРІРµРґРё РІР°Р»РёРґРµРЅ С‚РµР»РµС„РѕРЅ (РЅР°РїСЂ. 0888 123 456).');
+  _ckSetError(el, ok ? '' : 'Въведи валиден телефон (напр. 0888 123 456).');
 }
 
 // Auto-format phone as user types: 0888 123 456
@@ -1110,7 +1110,7 @@ function updateCheckoutSteps(active) {
     step.classList.remove('active', 'done');
     if (n < active) {
       step.classList.add('done');
-      if (num) num.textContent = 'вњ“';
+      if (num) num.textContent = '✓';
       step.style.cursor = 'pointer';
       step.onclick = () => showCheckoutStep(n);
     } else if (n === active) {
@@ -1167,11 +1167,11 @@ function submitOrder() {
     // CVV: 3 or 4 digits
     if (cardCvv) _cardErr(cardCvv, !/^\d{3,4}$/.test(cardCvv.value.trim()));
   }
-  if (!valid) { showToast('РњРѕР»СЏ РїРѕРїСЉР»РЅРё РІСЃРёС‡РєРё Р·Р°РґСЉР»Р¶РёС‚РµР»РЅРё РїРѕР»РµС‚Р°!'); return; }
+  if (!valid) { showToast('Моля попълни всички задължителни полета!'); return; }
 
   // Loading state
   const submitBtn = document.querySelector('.os-submit');
-  if (submitBtn) { submitBtn.disabled = true; submitBtn.innerHTML = '<span class="ck-spinner"></span> РћР±СЂР°Р±РѕС‚РІР° СЃРµвЂ¦'; }
+  if (submitBtn) { submitBtn.disabled = true; submitBtn.innerHTML = '<span class="ck-spinner"></span> Обработва се…'; }
 
   // Animate steps
   updateCheckoutSteps(2);
@@ -1186,7 +1186,7 @@ function submitOrder() {
     const codFee = ckPaymentType === 'cod' ? ((()=>{ try{return JSON.parse(localStorage.getItem('mc_store_config')||'{}').codFee||1.50;}catch(e){return 1.50;} })()) : 0;
     const promoDisc = promoApplied ? subtotal * ((promoDiscountPct || 10) / 100) : 0;
     const total = subtotal + delivery + codFee - promoDisc;
-    const payNames = { card: 'РљР°СЂС‚Р°', cod: 'РќР°Р»РѕР¶РµРЅ РїР»Р°С‚РµР¶', bank: 'Р‘Р°РЅРєРѕРІ РїСЂРµРІРѕРґ' };
+    const payNames = { card: 'Карта', cod: 'Наложен платеж', bank: 'Банков превод' };
     const now = new Date();
     const delivDays = ckDeliveryIdx === 2 ? 0 : ckDeliveryIdx === 1 ? 3 : 2;
     const _addWorkDays = (d, n) => { let c = new Date(d); let added = 0; while (added < n) { c.setDate(c.getDate() + 1); if (c.getDay() !== 0 && c.getDay() !== 6) added++; } return c; };
@@ -1198,20 +1198,20 @@ function submitOrder() {
     const _setHTML = (id, val) => { const el = document.getElementById(id); if (el) el.innerHTML = val; };
     _set('tyOrderNum', orderNum);
     _set('tyEmail', document.getElementById('ckEmail').value);
-    _set('tyDeliveryDate', ckDeliveryIdx === 2 ? 'РџСЂРё РІР·РµРјР°РЅРµ РѕС‚ РјР°РіР°Р·РёРЅ' : fmt(delivDate));
+    _set('tyDeliveryDate', ckDeliveryIdx === 2 ? 'При вземане от магазин' : fmt(delivDate));
     _set('tyPayment', payNames[ckPaymentType]);
     _set('tyName', document.getElementById('ckFirst').value + ' ' + document.getElementById('ckLast').value);
     _set('tyPhone', document.getElementById('ckPhone').value);
     const _isPickup = ckDeliveryIdx === 2;
     const _econtOffice = (document.getElementById('ckEcontOffice') || {}).value || '';
-    _set('tyCity', _isPickup ? 'РЎРѕС„РёСЏ (РјР°РіР°Р·РёРЅ)' : document.getElementById('ckCity').value);
-    _set('tyAddr', _isPickup ? 'Р±СѓР». вЂћРЁРёРїС‡РµРЅСЃРєРё РїСЂРѕС…РѕРґ" Р±Р».240' : (_econtOffice ? 'РћС„РёСЃ: ' + _econtOffice + ', ' : '') + document.getElementById('ckAddr').value + (document.getElementById('ckZip').value ? ', ' + document.getElementById('ckZip').value : ''));
+    _set('tyCity', _isPickup ? 'София (магазин)' : document.getElementById('ckCity').value);
+    _set('tyAddr', _isPickup ? 'бул. „Шипченски проход" бл.240' : (_econtOffice ? 'Офис: ' + _econtOffice + ', ' : '') + document.getElementById('ckAddr').value + (document.getElementById('ckZip').value ? ', ' + document.getElementById('ckZip').value : ''));
     _set('tyCourier', ckDeliveryNames[ckDeliveryIdx]);
     _set('tyNote', document.getElementById('ckNote').value || '-');
     _set('tyTimestamp', now.toLocaleString('bg-BG'));
-    _set('tyDeliveryDateLine', ckDeliveryIdx === 2 ? 'Р“РѕС‚РѕРІР° Р·Р° РІР·РµРјР°РЅРµ' : 'РћС‡Р°РєРІР°РЅР°: ' + fmt(delivDate));
+    _set('tyDeliveryDateLine', ckDeliveryIdx === 2 ? 'Готова за вземане' : 'Очаквана: ' + fmt(delivDate));
     _set('tySubtotal', fmtEur(subtotal) + ' / ' + fmtBgn(subtotal));
-    _set('tyDeliveryCost', delivery === 0 ? 'Р‘РµР·РїР»Р°С‚РЅРѕ' : fmtEur(delivery) + ' / ' + fmtBgn(delivery));
+    _set('tyDeliveryCost', delivery === 0 ? 'Безплатно' : fmtEur(delivery) + ' / ' + fmtBgn(delivery));
     _set('tyTotal', fmtEur(total) + ' / ' + fmtBgn(total));
     if (promoApplied) {
       const tyPromoRow = document.getElementById('tyPromoRow'); if (tyPromoRow) tyPromoRow.style.display = '';
@@ -1222,7 +1222,7 @@ function submitOrder() {
         <div class="ty-item-emoji">${escHtml(x.emoji || '')}</div>
         <div class="ty-item-info">
           <div class="ty-item-name">${escHtml(x.name || '')}</div>
-          <div class="ty-item-meta">${escHtml(x.brand || '')} В· РљРѕР»РёС‡РµСЃС‚РІРѕ: ${Number(x.qty) || 0}</div>
+          <div class="ty-item-meta">${escHtml(x.brand || '')} · Количество: ${Number(x.qty) || 0}</div>
         </div>
         <div class="ty-item-price">${fmtEur(x.price * x.qty)}<span class="text-11-muted-block">${fmtBgn(x.price * x.qty)}</span></div>
       </div>`).join(''));
@@ -1233,10 +1233,10 @@ function submitOrder() {
       customer: document.getElementById('ckFirst').value + ' ' + document.getElementById('ckLast').value,
       email: document.getElementById('ckEmail').value,
       phone: document.getElementById('ckPhone').value,
-      city: _isPickup ? 'РЎРѕС„РёСЏ (РјР°РіР°Р·РёРЅ)' : document.getElementById('ckCity').value,
-      addr: _isPickup ? 'Р±СѓР». вЂћРЁРёРїС‡РµРЅСЃРєРё РїСЂРѕС…РѕРґ" Р±Р».240' : (_econtOffice ? 'РћС„РёСЃ: ' + _econtOffice + ', ' : '') + document.getElementById('ckAddr').value + (document.getElementById('ckZip').value ? ', ' + document.getElementById('ckZip').value : ''),
+      city: _isPickup ? 'София (магазин)' : document.getElementById('ckCity').value,
+      addr: _isPickup ? 'бул. „Шипченски проход" бл.240' : (_econtOffice ? 'Офис: ' + _econtOffice + ', ' : '') + document.getElementById('ckAddr').value + (document.getElementById('ckZip').value ? ', ' + document.getElementById('ckZip').value : ''),
       note: document.getElementById('ckNote').value || '',
-      items: cart.map(x => x.name + ' Г—' + x.qty).join(', '),
+      items: cart.map(x => x.name + ' ×' + x.qty).join(', '),
       itemsData: cart.map(x => ({ id: x.id, name: x.name, brand: x.brand, emoji: x.emoji, price: x.price, qty: x.qty })),
       subtotal, delivery, total,
       payment: ckPaymentType,
@@ -1255,11 +1255,11 @@ function submitOrder() {
       _prevOrders.unshift(orderData);
       localStorage.setItem('mc_orders', JSON.stringify(_prevOrders.slice(0, 200)));
     } catch (e) { }
-    // Р—Р°РїРёСЃРІР°РЅРµ РІ Supabase (СЂРµР°Р»РЅР° Р±Р°Р·Р° РґР°РЅРЅРё)
+    // Записване в Supabase (реална база данни)
     if (typeof saveOrderToSupabase === 'function') {
       saveOrderToSupabase(orderData).catch(e => console.error('Supabase save failed:', e));
     }
-    // РР·С‡РёСЃС‚Рё abandoned cart Р·Р°РїРёСЃР° СЃР»РµРґ СѓСЃРїРµС€РЅР° РїРѕСЂСЉС‡РєР°
+    // Изчисти abandoned cart записа след успешна поръчка
     if (typeof window.clearAbandonedCart === 'function') {
       window.clearAbandonedCart(orderData.email);
     }
@@ -1300,41 +1300,41 @@ function printInvoice(num) {
   let orders = [];
   try { orders = JSON.parse(localStorage.getItem('mc_orders') || '[]'); } catch (e) { }
   const o = num ? orders.find(x => x.num === num) : orders[0];
-  if (!o) { showToast('вљ пёЏ РќСЏРјР° РґР°РЅРЅРё Р·Р° РїРѕСЂСЉС‡РєР°С‚Р°'); return; }
+  if (!o) { showToast('⚠️ Няма данни за поръчката'); return; }
   if (typeof printOrder === 'function') { printOrder(o.num); return; }
 
   const _sc = JSON.parse(localStorage.getItem('mc_store_config') || '{}');
   const _co = (window._INVOICE_COMPANIES && window._INVOICE_COMPANIES[0]) || {
-    name: _sc.companyName || 'Most Computers Р•РћРћР”',
+    name: _sc.companyName || 'Most Computers ЕООД',
     eik:  _sc.companyEik  || '',
     dds:  _sc.companyDds  || '',
-    addr: _sc.companyAddr || 'Р±СѓР». РЁРёРїС‡РµРЅСЃРєРё РїСЂРѕС…РѕРґ Р±Р».240, 1111 РЎРѕС„РёСЏ',
+    addr: _sc.companyAddr || 'бул. Шипченски проход бл.240, 1111 София',
     tel:  _sc.companyTel  || '+359 2 919 1823',
     bank: _sc.companyBank || '', iban: _sc.companyIban || '', bic: _sc.companyBic  || '',
   };
 
   const subtotalNoVat = o.subtotal / 1.2;
   const vatAmt = (o.subtotal - subtotalNoVat).toFixed(2);
-  const invNum = 'Р¤Рљ-' + o.num.replace('MC-', '');
+  const invNum = 'ФК-' + o.num.replace('MC-', '');
   const date = new Date(o.ts || Date.now()).toLocaleDateString('bg-BG', { day: '2-digit', month: '2-digit', year: 'numeric' });
-  const payLabel = o.payment === 'card' ? 'Р‘Р°РЅРєРѕРІР° РєР°СЂС‚Р°' : o.payment === 'cod' ? 'РќР°Р»РѕР¶РµРЅ РїР»Р°С‚РµР¶' : 'Р‘Р°РЅРєРѕРІ РїСЂРµРІРѕРґ';
-  const delivLabel = o.delivery === 0 ? 'Р‘РµР·РїР»Р°С‚РЅР°' : (Number(o.delivery) / EUR_RATE).toFixed(2) + ' в‚¬';
+  const payLabel = o.payment === 'card' ? 'Банкова карта' : o.payment === 'cod' ? 'Наложен платеж' : 'Банков превод';
+  const delivLabel = o.delivery === 0 ? 'Безплатна' : (Number(o.delivery) / EUR_RATE).toFixed(2) + ' €';
 
   const rows = (o.itemsData || []).map((x, i) => `
     <tr>
       <td>${i + 1}</td>
       <td>${escHtml(x.name||'')}</td>
       <td style="text-align:center">${x.qty}</td>
-      <td style="text-align:right">${toEur(x.price / 1.2).toFixed(2)} в‚¬</td>
+      <td style="text-align:right">${toEur(x.price / 1.2).toFixed(2)} €</td>
       <td style="text-align:right">20%</td>
-      <td style="text-align:right">${toEur(x.price * x.qty).toFixed(2)} в‚¬</td>
+      <td style="text-align:right">${toEur(x.price * x.qty).toFixed(2)} €</td>
     </tr>`).join('');
 
   const html = `<!DOCTYPE html>
 <html lang="bg">
 <head>
 <meta charset="UTF-8">
-<title>Р¤Р°РєС‚СѓСЂР° ${invNum} - Most Computers</title>
+<title>Фактура ${invNum} - Most Computers</title>
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
   body{font-family:Arial,Helvetica,sans-serif;font-size:12px;color:#1a1a1a;padding:40px;max-width:820px;margin:auto}
@@ -1370,39 +1370,39 @@ function printInvoice(num) {
   <div>
     <div class="hdr-logo">Most <span>Computers</span></div>
     <div class="hdr-company">
-      ${_co.name} &nbsp;|&nbsp; Р•РРљ: ${_co.eik || '-'}<br>
-      ${_co.dds ? 'Р”Р”РЎ в„–: ' + _co.dds + '<br>' : ''}
+      ${_co.name} &nbsp;|&nbsp; ЕИК: ${_co.eik || '-'}<br>
+      ${_co.dds ? 'ДДС №: ' + _co.dds + '<br>' : ''}
       ${_co.addr}<br>
-      С‚РµР».: ${_co.tel} &nbsp;|&nbsp; office@mostcomputers.bg
+      тел.: ${_co.tel} &nbsp;|&nbsp; office@mostcomputers.bg
     </div>
   </div>
   <div class="hdr-right">
-    <h1>Р¤РђРљРўРЈР Рђ</h1>
+    <h1>ФАКТУРА</h1>
     <div class="meta">
-      в„– ${invNum}<br>
-      Р”Р°С‚Р°: ${date}<br>
-      РџРѕСЂСЉС‡РєР°: ${o.num}
+      № ${invNum}<br>
+      Дата: ${date}<br>
+      Поръчка: ${o.num}
     </div>
   </div>
 </div>
 
 <div class="parties">
   <div class="party">
-    <div class="party-lbl">РџСЂРѕРґР°РІР°С‡</div>
+    <div class="party-lbl">Продавач</div>
     <div class="party-val">
       <strong>${_co.name}</strong><br>
-      ${_co.eik ? 'Р•РРљ: ' + _co.eik + '<br>' : ''}
-      ${_co.dds ? 'Р”Р”РЎ в„–: ' + _co.dds + '<br>' : ''}
+      ${_co.eik ? 'ЕИК: ' + _co.eik + '<br>' : ''}
+      ${_co.dds ? 'ДДС №: ' + _co.dds + '<br>' : ''}
       ${_co.addr}
     </div>
   </div>
   <div class="party">
-    <div class="party-lbl">${o.b2b ? 'РљСѓРїСѓРІР°С‡ (С„РёСЂРјР°)' : 'РљР»РёРµРЅС‚ / РџРѕР»СѓС‡Р°С‚РµР»'}</div>
+    <div class="party-lbl">${o.b2b ? 'Купувач (фирма)' : 'Клиент / Получател'}</div>
     <div class="party-val">
-      ${o.b2b ? `<strong>${escHtml(o.b2b.firma || '-')}</strong><br>Р•РРљ: ${escHtml(o.b2b.eik || '-')}<br>${o.b2b.vat ? 'Р”Р”РЎ в„–: ' + escHtml(o.b2b.vat) + '<br>' : ''}${o.b2b.mol ? 'РњРћР›: ' + escHtml(o.b2b.mol) + '<br>' : ''}` : `<strong>${escHtml(o.customer || '-')}</strong><br>`}
+      ${o.b2b ? `<strong>${escHtml(o.b2b.firma || '-')}</strong><br>ЕИК: ${escHtml(o.b2b.eik || '-')}<br>${o.b2b.vat ? 'ДДС №: ' + escHtml(o.b2b.vat) + '<br>' : ''}${o.b2b.mol ? 'МОЛ: ' + escHtml(o.b2b.mol) + '<br>' : ''}` : `<strong>${escHtml(o.customer || '-')}</strong><br>`}
       ${o.addr ? escHtml(o.addr) + '<br>' : ''}
       ${escHtml(o.city || '')}<br>
-      С‚РµР».: ${escHtml(o.phone || '-')}
+      тел.: ${escHtml(o.phone || '-')}
     </div>
   </div>
 </div>
@@ -1410,18 +1410,18 @@ function printInvoice(num) {
 <table>
   <thead>
     <tr>
-      <th style="width:28px">в„–</th>
-      <th>РћРїРёСЃР°РЅРёРµ РЅР° СЃС‚РѕРєР°С‚Р° / СѓСЃР»СѓРіР°С‚Р°</th>
-      <th style="width:42px;text-align:center">Р‘СЂ.</th>
-      <th style="width:110px;text-align:right">Р•Рґ.С†РµРЅР° Р±РµР· Р”Р”РЎ</th>
-      <th style="width:60px;text-align:right">Р”Р”РЎ %</th>
-      <th style="width:110px;text-align:right">РЎСѓРјР° СЃ Р”Р”РЎ</th>
+      <th style="width:28px">№</th>
+      <th>Описание на стоката / услугата</th>
+      <th style="width:42px;text-align:center">Бр.</th>
+      <th style="width:110px;text-align:right">Ед.цена без ДДС</th>
+      <th style="width:60px;text-align:right">ДДС %</th>
+      <th style="width:110px;text-align:right">Сума с ДДС</th>
     </tr>
   </thead>
   <tbody>
     ${rows}
     <tr>
-      <td colspan="5" style="text-align:right;font-size:11px;color:#555">Р”РѕСЃС‚Р°РІРєР° (${o.deliveryType || 'РљСѓСЂРёРµСЂ'})</td>
+      <td colspan="5" style="text-align:right;font-size:11px;color:#555">Доставка (${o.deliveryType || 'Куриер'})</td>
       <td style="text-align:right">${delivLabel}</td>
     </tr>
   </tbody>
@@ -1429,29 +1429,29 @@ function printInvoice(num) {
 
 <div class="totals-wrap">
   <div class="totals">
-    <div class="tot-row"><span>Р”Р°РЅСЉС‡РЅР° РѕСЃРЅРѕРІР° (Р±РµР· Р”Р”РЎ):</span><span>${(Number(subtotalNoVat)/EUR_RATE).toFixed(2)} в‚¬</span></div>
-    <div class="tot-row vat"><span>Р”Р”РЎ 20%:</span><span>${(Number(vatAmt)/EUR_RATE).toFixed(2)} в‚¬</span></div>
-    <div class="tot-row"><span>Р”РѕСЃС‚Р°РІРєР°:</span><span>${delivLabel}</span></div>
-    <div class="tot-row final"><span>РћР‘Р©Рћ Р”РЄР›Р–РРњРћ:</span><span>${(Number(o.total)/EUR_RATE).toFixed(2)} в‚¬</span></div>
+    <div class="tot-row"><span>Данъчна основа (без ДДС):</span><span>${(Number(subtotalNoVat)/EUR_RATE).toFixed(2)} €</span></div>
+    <div class="tot-row vat"><span>ДДС 20%:</span><span>${(Number(vatAmt)/EUR_RATE).toFixed(2)} €</span></div>
+    <div class="tot-row"><span>Доставка:</span><span>${delivLabel}</span></div>
+    <div class="tot-row final"><span>ОБЩО ДЪЛЖИМО:</span><span>${(Number(o.total)/EUR_RATE).toFixed(2)} €</span></div>
   </div>
 </div>
 
 <div class="payment-info">
-  вњ… РќР°С‡РёРЅ РЅР° РїР»Р°С‰Р°РЅРµ: <strong>${payLabel}</strong>
+  ✅ Начин на плащане: <strong>${payLabel}</strong>
   ${o.payment === 'bank' && _co.iban ? ` &nbsp;|&nbsp; IBAN: ${_co.iban}  BIC: ${_co.bic}  ${_co.bank}` : ''}
-  &nbsp;|&nbsp; РџР»Р°С‰Р°РЅРµС‚Рѕ Рµ РёР·РІСЉСЂС€РµРЅРѕ.
+  &nbsp;|&nbsp; Плащането е извършено.
 </div>
 
 <div class="legal">
-  Р¤Р°РєС‚СѓСЂР°С‚Р° Рµ РёР·РґР°РґРµРЅР° РЅР° ${date} РѕС‚ ${_co.name} - СЂРµРіРёСЃС‚СЂРёСЂР°РЅРѕ РїРѕ Р—Р”Р”РЎ Р»РёС†Рµ.<br>
-  Р’Р°Р»РёРґРЅР° Рµ Р±РµР· РїРѕРґРїРёСЃ Рё РїРµС‡Р°С‚ РїРѕ С‡Р». 6, Р°Р». 1 РѕС‚ РќР°СЂРµРґР±Р° в„– Рќ-18 / 13.12.2006 Рі.
+  Фактурата е издадена на ${date} от ${_co.name} - регистрирано по ЗДДС лице.<br>
+  Валидна е без подпис и печат по чл. 6, ал. 1 от Наредба № Н-18 / 13.12.2006 г.
 </div>
 
 </body>
 </html>`;
 
   const w = window.open('', '_blank', 'width=860,height=950,scrollbars=yes');
-  if (!w) { showToast('вљ пёЏ Р Р°Р·СЂРµС€Рё pop-up РїСЂРѕР·РѕСЂС†РёС‚Рµ РІ Р±СЂР°СѓР·СЉСЂР°'); return; }
+  if (!w) { showToast('⚠️ Разреши pop-up прозорците в браузъра'); return; }
   w.document.write(html);
   w.document.close();
   w.focus();
@@ -1524,7 +1524,7 @@ function closeCartPage() {
 function renderCartPage() {
   const count = cart.reduce((s, x) => s + x.qty, 0);
   const countEl = document.getElementById('cpItemCount');
-  if (countEl) countEl.textContent = count + ' Р±СЂ.';
+  if (countEl) countEl.textContent = count + ' бр.';
 
   const itemsEl = document.getElementById('cpItems');
   const emptyEl = document.getElementById('cpEmpty');
@@ -1547,9 +1547,9 @@ function renderCartPage() {
   itemsEl.innerHTML = cart.map(x => {
     const save = x.old ? Math.round(((x.old - x.price) / x.old) * 100) : 0;
     const badgeHtml = x.badge === 'sale'
-      ? `<span class="cp-badge cp-badge-sale">РџСЂРѕРјРѕ -${save}%</span>`
-      : x.badge === 'new' ? `<span class="cp-badge cp-badge-new">РќРѕРІРѕ</span>`
-        : x.badge === 'hot' ? `<span class="cp-badge cp-badge-hot">Р“РѕСЂРµС‰Рѕ</span>` : '';
+      ? `<span class="cp-badge cp-badge-sale">Промо -${save}%</span>`
+      : x.badge === 'new' ? `<span class="cp-badge cp-badge-new">Ново</span>`
+        : x.badge === 'hot' ? `<span class="cp-badge cp-badge-hot">Горещо</span>` : '';
 
     const _xName = escHtml(x.name||''); const _xBrand = escHtml(x.brand||''); const _xSku = escHtml(x.sku||'');
     const imgHtml = x.img
@@ -1571,11 +1571,11 @@ function renderCartPage() {
           <div class="cp-item-bgn">${fmtBgn(x.price * x.qty)}</div>
         </div>
         <div class="cp-qty-wrap">
-          <button type="button" class="cp-qty-btn" onclick="cpChangeQty(${x.id},-1)">в€’</button>
+          <button type="button" class="cp-qty-btn" onclick="cpChangeQty(${x.id},-1)">−</button>
           <span class="cp-qty-val">${x.qty}</span>
           <button type="button" class="cp-qty-btn" onclick="cpChangeQty(${x.id},1)">+</button>
         </div>
-        <button type="button" class="cp-remove-btn" onclick="cpRemoveItem(${x.id})" title="РџСЂРµРјР°С…РЅРё">Г—</button>
+        <button type="button" class="cp-remove-btn" onclick="cpRemoveItem(${x.id})" title="Премахни">×</button>
       </div>
     </div>`;
   }).join('');
@@ -1593,18 +1593,18 @@ function renderCartPageSummary() {
   const total = subtotal + delivery;
 
   if (cart.length === 0) {
-    el.innerHTML = '<div style="text-align:center;color:var(--muted);padding:24px 0;font-size:13px;">Р”РѕР±Р°РІРё РїСЂРѕРґСѓРєС‚Рё РІ РєРѕС€РЅРёС†Р°С‚Р°</div>';
+    el.innerHTML = '<div style="text-align:center;color:var(--muted);padding:24px 0;font-size:13px;">Добави продукти в кошницата</div>';
     return;
   }
 
   el.innerHTML = `
-    <div class="cp-sum-row"><span>РџСЂРѕРґСѓРєС‚Рё (${cart.reduce((s, x) => s + x.qty, 0)} Р±СЂ.)</span><span>${fmtEur(subtotal)}<small>${fmtBgn(subtotal)}</small></span></div>
-    ${savings > 0 ? `<div class="cp-sum-row cp-sum-save"><span>вњ“ РЎРїРµСЃС‚СЏРІР°С€</span><span>в€’${fmtEur(savings)}</span></div>` : ''}
-    <div class="cp-sum-row"><span>Р”РѕСЃС‚Р°РІРєР°</span><span>${delivery === 0 ? '<b style="color:var(--accent2)">Р‘РµР·РїР»Р°С‚РЅР°</b>' : fmtEur(delivery)}</span></div>
-    <div class="cp-sum-row"><span>Р”Р”РЎ (РІРєР».)</span><span>${fmtEur(total * 0.2)}</span></div>
+    <div class="cp-sum-row"><span>Продукти (${cart.reduce((s, x) => s + x.qty, 0)} бр.)</span><span>${fmtEur(subtotal)}<small>${fmtBgn(subtotal)}</small></span></div>
+    ${savings > 0 ? `<div class="cp-sum-row cp-sum-save"><span>✓ Спестяваш</span><span>−${fmtEur(savings)}</span></div>` : ''}
+    <div class="cp-sum-row"><span>Доставка</span><span>${delivery === 0 ? '<b style="color:var(--accent2)">Безплатна</b>' : fmtEur(delivery)}</span></div>
+    <div class="cp-sum-row"><span>ДДС (вкл.)</span><span>${fmtEur(total * 0.2)}</span></div>
     <hr class="cp-sum-divider">
-    <div class="cp-sum-row cp-sum-total"><span>РћР±С‰Рѕ</span><span>${fmtEur(total)}<small>${fmtBgn(total)}</small></span></div>
-    ${subtotal < FREE_SHIP_BGN ? `<div class="cp-ship-hint">Р”РѕР±Р°РІРё РѕС‰Рµ <b>${fmtEur(FREE_SHIP_BGN - subtotal)}</b> Р·Р° Р±РµР·РїР»Р°С‚РЅР° РґРѕСЃС‚Р°РІРєР°</div>` : ''}`;
+    <div class="cp-sum-row cp-sum-total"><span>Общо</span><span>${fmtEur(total)}<small>${fmtBgn(total)}</small></span></div>
+    ${subtotal < FREE_SHIP_BGN ? `<div class="cp-ship-hint">Добави още <b>${fmtEur(FREE_SHIP_BGN - subtotal)}</b> за безплатна доставка</div>` : ''}`;
 }
 
 function renderCartPageUpsell() {
@@ -1617,15 +1617,15 @@ function renderCartPageUpsell() {
   if (!recs.length) { el.innerHTML = ''; return; }
 
   el.innerHTML = `
-    <div class="cp-upsell-header">вљЎ РњРѕР¶Рµ РґР° С‚Рµ Р·Р°РёРЅС‚РµСЂРµСЃСѓРІР°</div>
+    <div class="cp-upsell-header">⚡ Може да те заинтересува</div>
     ${recs.map(p => `
       <div class="cp-upsell-item" onclick="openProductPage(${p.id});closeCartPage()">
         <div class="cp-upsell-emoji">${p.emoji}</div>
         <div class="cp-upsell-info">
-          <div class="cp-upsell-name">${p.name.length > 40 ? p.name.substring(0, 40) + 'вЂ¦' : p.name}</div>
+          <div class="cp-upsell-name">${p.name.length > 40 ? p.name.substring(0, 40) + '…' : p.name}</div>
           <div class="cp-upsell-price">${fmtEur(p.price)} / ${fmtBgn(p.price)}</div>
         </div>
-        <button type="button" class="cp-upsell-add" onclick="event.stopPropagation();cpAddUpsell(${p.id})">+ Р”РѕР±Р°РІРё</button>
+        <button type="button" class="cp-upsell-add" onclick="event.stopPropagation();cpAddUpsell(${p.id})">+ Добави</button>
       </div>`).join('')}`;
 }
 
@@ -1646,7 +1646,7 @@ function cpAddUpsell(id) {
 
 function cpClearCart() {
   if (!cart.length) return;
-  if (!confirm('РР·С‡РёСЃС‚Рё С†СЏР»Р°С‚Р° РєРѕС€РЅРёС†Р°?')) return;
+  if (!confirm('Изчисти цялата кошница?')) return;
   cart = [];
   updateCart(); saveCart();
   renderCartPage();
@@ -1677,17 +1677,17 @@ function cpGoCheckout() {
 
     var total = cart.reduce(function(s, x) { return s + x.price * x.qty; }, 0);
     var count = cart.reduce(function(s, x) { return s + x.qty; }, 0);
-    var totalStr = typeof fmtEur === 'function' ? fmtEur(total) : total.toFixed(2) + ' в‚¬';
+    var totalStr = typeof fmtEur === 'function' ? fmtEur(total) : total.toFixed(2) + ' €';
 
     var el = document.createElement('div');
     el.id = 'cartAbandonToast';
     el.setAttribute('role', 'alert');
     el.innerHTML =
       '<div class="cat-toast-inner">' +
-        '<span class="cat-toast-icon">рџ›’</span>' +
-        '<span class="cat-toast-text">РРјР°С€ ' + count + ' ' + (count === 1 ? 'РїСЂРѕРґСѓРєС‚' : 'РїСЂРѕРґСѓРєС‚Р°') + ' (' + totalStr + ') РІ РєРѕР»РёС‡РєР°С‚Р°</span>' +
-        '<button type="button" class="cat-toast-cta" onclick="document.getElementById(\'cartAbandonToast\').remove();handleCheckout()">Р—Р°РІСЉСЂС€Рё в†’</button>' +
-        '<button type="button" class="cat-toast-close" aria-label="Р—Р°С‚РІРѕСЂРё" onclick="document.getElementById(\'cartAbandonToast\').remove()">Г—</button>' +
+        '<span class="cat-toast-icon">🛒</span>' +
+        '<span class="cat-toast-text">Имаш ' + count + ' ' + (count === 1 ? 'продукт' : 'продукта') + ' (' + totalStr + ') в количката</span>' +
+        '<button type="button" class="cat-toast-cta" onclick="document.getElementById(\'cartAbandonToast\').remove();handleCheckout()">Завърши →</button>' +
+        '<button type="button" class="cat-toast-close" aria-label="Затвори" onclick="document.getElementById(\'cartAbandonToast\').remove()">×</button>' +
       '</div>';
     document.body.appendChild(el);
     // Auto-remove after 8s
@@ -1743,12 +1743,12 @@ function submitPhoneOrder() {
   var phone = phoneEl ? phoneEl.value.trim() : '';
   var valid = /^[0-9+\s\-]{7,}$/.test(phone);
   if (!valid) {
-    if (errEl) { errEl.textContent = 'Р’СЉРІРµРґРµС‚Рµ РІР°Р»РёРґРµРЅ С‚РµР»РµС„РѕРЅРµРЅ РЅРѕРјРµСЂ'; errEl.style.display = 'block'; }
+    if (errEl) { errEl.textContent = 'Въведете валиден телефонен номер'; errEl.style.display = 'block'; }
     if (phoneEl) phoneEl.focus();
     return;
   }
   var submitBtn = document.getElementById('poSubmitBtn');
-  if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'РР·РїСЂР°С‰Р°РЅРµ...'; }
+  if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Изпращане...'; }
   var p = (typeof products !== 'undefined' && _phoneOrderProductId != null)
     ? products.find(function(x) { return x.id === _phoneOrderProductId; }) : null;
   var orderData = {
@@ -1771,7 +1771,7 @@ function submitPhoneOrder() {
   } catch(e) {}
   // Show success
   var modal = document.querySelector('.phone-order-modal');
-  if (modal) modal.innerHTML = '<div style="text-align:center;padding:32px 16px"><div style="font-size:48px;margin-bottom:12px">вњ…</div><div style="font-size:18px;font-weight:700;margin-bottom:8px">Р—Р°СЏРІРєР°С‚Р° Рµ РёР·РїСЂР°С‚РµРЅР°!</div><p style="color:var(--text2);font-size:14px">Р©Рµ СЃРµ СЃРІСЉСЂР¶РµРј СЃ РІР°СЃ РЅР° <strong>' + phone + '</strong> РІ СЂР°РјРєРёС‚Рµ РЅР° СЂР°Р±РѕС‚РЅРёСЏ РґРµРЅ.</p><button type="button" onclick="closePhoneOrder()" style="margin-top:20px;background:var(--primary);color:#fff;border:none;border-radius:8px;padding:12px 24px;font-size:14px;font-weight:700;cursor:pointer;">Р—Р°С‚РІРѕСЂРё</button></div>';
+  if (modal) modal.innerHTML = '<div style="text-align:center;padding:32px 16px"><div style="font-size:48px;margin-bottom:12px">✅</div><div style="font-size:18px;font-weight:700;margin-bottom:8px">Заявката е изпратена!</div><p style="color:var(--text2);font-size:14px">Ще се свържем с вас на <strong>' + phone + '</strong> в рамките на работния ден.</p><button type="button" onclick="closePhoneOrder()" style="margin-top:20px;background:var(--primary);color:#fff;border:none;border-radius:8px;padding:12px 24px;font-size:14px;font-weight:700;cursor:pointer;">Затвори</button></div>';
 }
 
 if (typeof module !== 'undefined' && module.exports) {
@@ -1805,8 +1805,8 @@ function highlightMatch(text, query) {
 
 function normStr(s) {
   return String(s).toLowerCase()
-    .replace(/[Г ГЎГўГЈГ¤ГҐ]/g,'a').replace(/[ГЁГ©ГЄГ«]/g,'e').replace(/[Г¬Г­Г®ГЇ]/g,'i')
-    .replace(/[ГІГіГґГµГ¶]/g,'o').replace(/[Г№ГєГ»Гј]/g,'u').replace(/[Г±]/g,'n');
+    .replace(/[àáâãäå]/g,'a').replace(/[èéêë]/g,'e').replace(/[ìíîï]/g,'i')
+    .replace(/[òóôõö]/g,'o').replace(/[ùúûü]/g,'u').replace(/[ñ]/g,'n');
 }
 
 // Levenshtein distance for fuzzy matching
@@ -1893,24 +1893,24 @@ function renderDropdown(query) {
   if (!q) {
     // Show recent searches + hint chips
     const hints = recentSearches.length === 0
-      ? `<div class="sd-section-title">рџ’Ў РњРѕР¶РµС€ РґР° С‚СЉСЂСЃРёС€ РїРѕ</div>
+      ? `<div class="sd-section-title">💡 Можеш да търсиш по</div>
          <div class="sd-recent">
-           <div class="sd-recent-chip" onclick="void(0)">рџ“ќ РРјРµ / РјР°СЂРєР°</div>
-           <div class="sd-recent-chip" onclick="void(0)">рџ”– SKU (РЅР°РїСЂ. MC-SONY-WH1000XM6)</div>
-           <div class="sd-recent-chip" onclick="void(0)">рџ“¦ EAN Р±Р°СЂРєРѕРґ (13 С†РёС„СЂРё)</div>
+           <div class="sd-recent-chip" onclick="void(0)">📝 Име / марка</div>
+           <div class="sd-recent-chip" onclick="void(0)">🔖 SKU (напр. MC-SONY-WH1000XM6)</div>
+           <div class="sd-recent-chip" onclick="void(0)">📦 EAN баркод (13 цифри)</div>
          </div>`
-      : `<div class="sd-section-title">рџ•ђ РџРѕСЃР»РµРґРЅРё С‚СЉСЂСЃРµРЅРёСЏ</div>
+      : `<div class="sd-section-title">🕐 Последни търсения</div>
          <div class="sd-recent">
            ${recentSearches.map((s,i) => `
              <div class="sd-recent-chip" data-recent-search="${escHtml(s)}">
-               рџ”Ќ ${escHtml(s)}
-               <button type="button" class="sd-recent-remove" onclick="removeRecent(event,${i})">Г—</button>
+               🔍 ${escHtml(s)}
+               <button type="button" class="sd-recent-remove" onclick="removeRecent(event,${i})">×</button>
              </div>`).join('')}
          </div>
-         <div class="sd-section-title">рџ’Ў РўСЉСЂСЃРё Рё РїРѕ</div>
+         <div class="sd-section-title">💡 Търси и по</div>
          <div class="sd-recent">
-           <div class="sd-recent-chip cursor-default">рџ”– SKU РєРѕРґ</div>
-           <div class="sd-recent-chip cursor-default">рџ“¦ EAN Р±Р°СЂРєРѕРґ</div>
+           <div class="sd-recent-chip cursor-default">🔖 SKU код</div>
+           <div class="sd-recent-chip cursor-default">📦 EAN баркод</div>
          </div>`;
     searchDropdown.innerHTML = hints;
     searchDropdown.classList.add('open');
@@ -1921,11 +1921,11 @@ function renderDropdown(query) {
   if (results.length === 0) {
     let hint = '';
     if (qtype === 'ean') {
-      hint = '<div class="sd-empty-sub">РўСЉСЂСЃРµРЅРµС‚Рѕ РїРѕ EAN РЅРµ РЅР°РјРµСЂРё РїСЂРѕРґСѓРєС‚ СЃ Р±Р°СЂРєРѕРґ <strong>' + escHtml(q) + '</strong></div>';
+      hint = '<div class="sd-empty-sub">Търсенето по EAN не намери продукт с баркод <strong>' + escHtml(q) + '</strong></div>';
     } else if (qtype === 'sku') {
-      hint = '<div class="sd-empty-sub">РўСЉСЂСЃРµРЅРµС‚Рѕ РїРѕ SKU РЅРµ РЅР°РјРµСЂРё РїСЂРѕРґСѓРєС‚ СЃ РєРѕРґ <strong>' + escHtml(q) + '</strong></div>';
+      hint = '<div class="sd-empty-sub">Търсенето по SKU не намери продукт с код <strong>' + escHtml(q) + '</strong></div>';
     } else {
-      // "Did you mean?" - РЅР°РјРµСЂРё Р±Р»РёР·РєРё РјР°СЂРєРё/РёРјРµРЅР° СЃ Levenshtein
+      // "Did you mean?" - намери близки марки/имена с Levenshtein
       const ql = q.toLowerCase().trim();
       const suggestions = [];
       if (ql.length >= 3 && typeof products !== 'undefined') {
@@ -1948,15 +1948,15 @@ function renderDropdown(query) {
         const chips = suggestions.map(s =>
           `<span class="sd-suggestion-chip" onclick="document.getElementById('searchInput').value=${JSON.stringify(s)};showSearchResults(${JSON.stringify(s)})">${escHtml(s)}</span>`
         ).join('');
-        hint = `<div class="sd-empty-sub">РњРѕР¶Рµ Р±Рё С‚СЉСЂСЃРёС€: ${chips}</div>`;
+        hint = `<div class="sd-empty-sub">Може би търсиш: ${chips}</div>`;
       } else {
-        hint = '<div class="sd-empty-sub">РџСЂРѕРІРµСЂРё РїСЂР°РІРѕРїРёСЃР° РёР»Рё РѕРїРёС‚Р°Р№ СЃ SKU / EAN Р±Р°СЂРєРѕРґ</div>';
+        hint = '<div class="sd-empty-sub">Провери правописа или опитай с SKU / EAN баркод</div>';
       }
     }
     searchDropdown.innerHTML = `
       <div class="sd-empty">
-        <div class="sd-empty-icon">рџ”Ќ</div>
-        <div class="sd-empty-text">РќСЏРјР° СЂРµР·СѓР»С‚Р°С‚Рё Р·Р° "<strong>${escHtml(q)}</strong>"</div>
+        <div class="sd-empty-icon">🔍</div>
+        <div class="sd-empty-text">Няма резултати за "<strong>${escHtml(q)}</strong>"</div>
         ${hint}
       </div>`;
     searchDropdown.classList.add('open');
@@ -1967,10 +1967,10 @@ function renderDropdown(query) {
   const shown = results.slice(0, 6);
   // Section title differs by query type
   const sectionTitle = qtype === 'ean'
-    ? `рџ“¦ EAN СЂРµР·СѓР»С‚Р°С‚ (${results.length})`
+    ? `📦 EAN резултат (${results.length})`
     : qtype === 'sku'
-    ? `рџ”– SKU СЂРµР·СѓР»С‚Р°С‚ (${results.length})`
-    : `рџ›Ќ РџСЂРѕРґСѓРєС‚Рё (${results.length})`;
+    ? `🔖 SKU резултат (${results.length})`
+    : `🛍 Продукти (${results.length})`;
 
   searchDropdown.innerHTML = `
     <div class="sd-section-title">${sectionTitle}</div>
@@ -1978,15 +1978,15 @@ function renderDropdown(query) {
       const save = p.old ? Math.round(((p.old - p.price) / p.old) * 100) : 0;
       let badgeHtml = '';
       if (p.badge === 'sale') badgeHtml = `<span class="sd-badge-small sd-badge-sale">-${save}%</span>`;
-      else if (p.badge === 'new') badgeHtml = `<span class="sd-badge-small sd-badge-new">РќРѕРІРѕ</span>`;
-      else if (p.badge === 'hot') badgeHtml = `<span class="sd-badge-small sd-badge-hot">Р“РѕСЂРµС‰Рѕ</span>`;
+      else if (p.badge === 'new') badgeHtml = `<span class="sd-badge-small sd-badge-new">Ново</span>`;
+      else if (p.badge === 'hot') badgeHtml = `<span class="sd-badge-small sd-badge-hot">Горещо</span>`;
       // Highlight SKU/EAN if that's what matched
       const skuMatch = p.sku && p.sku.toLowerCase().includes(q.toLowerCase());
       const eanMatch = p.ean && p.ean.includes(q);
       const extraMeta = skuMatch
-        ? `<span class="text-primary-strong">рџ”– ${highlightMatch(p.sku, q)}</span>`
+        ? `<span class="text-primary-strong">🔖 ${highlightMatch(p.sku, q)}</span>`
         : eanMatch
-        ? `<span class="text-primary-strong">рџ“¦ EAN: ${highlightMatch(p.ean, q)}</span>`
+        ? `<span class="text-primary-strong">📦 EAN: ${highlightMatch(p.ean, q)}</span>`
         : `<span>SKU: ${p.sku}</span>`;
       return `
         <div class="sd-result" data-idx="${i}" onclick="selectSearchResult(${p.id})">
@@ -2005,8 +2005,8 @@ function renderDropdown(query) {
     }).join('')}
     ${results.length > 6 ? `
       <div class="sd-footer">
-        <span class="sd-footer-count">РџРѕРєР°Р·Р°РЅРё ${shown.length} РѕС‚ ${results.length}</span>
-        <button type="button" class="sd-footer-btn" onclick="doFullSearch()">Р’РёР¶ РІСЃРёС‡РєРё СЂРµР·СѓР»С‚Р°С‚Рё в†’</button>
+        <span class="sd-footer-count">Показани ${shown.length} от ${results.length}</span>
+        <button type="button" class="sd-footer-btn" onclick="doFullSearch()">Виж всички резултати →</button>
       </div>` : ''}`;
   searchDropdown.classList.add('open');
   searchBar.classList.add('active');
@@ -2018,12 +2018,12 @@ function _sdCtrlHtml(id) {
   var qty = inCart ? inCart.qty : 0;
   if (qty > 0) {
     return '<div class="sd-qty">' +
-      '<button type="button" aria-label="РќР°РјР°Р»Рё" onclick="event.stopPropagation();changeQty('+id+',-1);_sdRefresh('+id+')">в€’</button>' +
+      '<button type="button" aria-label="Намали" onclick="event.stopPropagation();changeQty('+id+',-1);_sdRefresh('+id+')">−</button>' +
       '<span>'+qty+'</span>' +
-      '<button type="button" aria-label="РЈРІРµР»РёС‡Рё" onclick="event.stopPropagation();addToCart('+id+');_sdRefresh('+id+')">+</button>' +
+      '<button type="button" aria-label="Увеличи" onclick="event.stopPropagation();addToCart('+id+');_sdRefresh('+id+')">+</button>' +
       '</div>';
   }
-  return '<button type="button" class="sd-add-btn" onclick="event.stopPropagation();addToCart('+id+');_sdRefresh('+id+')" aria-label="Р”РѕР±Р°РІРё РІ РєРѕС€РЅРёС†Р°">+</button>';
+  return '<button type="button" class="sd-add-btn" onclick="event.stopPropagation();addToCart('+id+');_sdRefresh('+id+')" aria-label="Добави в кошница">+</button>';
 }
 
 function _sdRefresh(id) {
@@ -2082,17 +2082,17 @@ function showSearchResultsPage(query) {
 
   // Category pills with data-label for dynamic count updates
   const cats = [...new Set(allResults.map(p => normalizeCat(p.cat)))];
-  const catLabels = {phones:'РўРµР»РµС„РѕРЅРё Рё С‚Р°Р±Р»РµС‚Рё',laptops:'Р›Р°РїС‚РѕРїРё',desktops:'РќР°СЃС‚РѕР»РЅРё РєРѕРјРїСЋС‚СЂРё',gaming:'Р“РµР№РјРёРЅРі',monitors:'РњРѕРЅРёС‚РѕСЂРё',components:'РљРѕРјРїРѕРЅРµРЅС‚Рё',peripherals:'РџРµСЂРёС„РµСЂРёСЏ',network:'РњСЂРµР¶Р°',storage:'РџР°РјРµС‚ Рё СЃСЉС…СЂР°РЅРµРЅРёРµ',accessories:'РђРєСЃРµСЃРѕР°СЂРё',software:'РЎРѕС„С‚СѓРµСЂ'};
+  const catLabels = {phones:'Телефони и таблети',laptops:'Лаптопи',desktops:'Настолни компютри',gaming:'Гейминг',monitors:'Монитори',components:'Компоненти',peripherals:'Периферия',network:'Мрежа',storage:'Памет и съхранение',accessories:'Аксесоари',software:'Софтуер'};
   const el_srpFilters = document.getElementById('srpFilters');
   if (el_srpFilters) {
     el_srpFilters.innerHTML =
-      `<button type="button" class="srp-filter-pill${srpCurrentCatFilter===''?' active':''}" data-cat="" data-label="Р’СЃРёС‡РєРё" onclick="srpFilter(this,'')">Р’СЃРёС‡РєРё <span class="pill-cnt">(${allResults.length})</span></button>` +
+      `<button type="button" class="srp-filter-pill${srpCurrentCatFilter===''?' active':''}" data-cat="" data-label="Всички" onclick="srpFilter(this,'')">Всички <span class="pill-cnt">(${allResults.length})</span></button>` +
       cats.map(c => {
         const n = allResults.filter(p => normalizeCat(p.cat) === c).length;
         const label = catLabels[c] || c;
         return `<button type="button" class="srp-filter-pill${srpCurrentCatFilter===c?' active':''}" data-cat="${escHtml(c)}" data-label="${escHtml(label)}" onclick="srpFilter(this,'${escHtml(c)}')">${escHtml(label)} <span class="pill-cnt">(${n})</span></button>`;
       }).join('') +
-      `<button type="button" class="srp-filter-pill srp-reset-btn" id="srpResetBtn" onclick="srpResetFilters()" style="display:none" aria-label="РќСѓР»РёСЂР°Р№ С„РёР»С‚СЂРёС‚Рµ">вњ• РќСѓР»РёСЂР°Р№</button>`;
+      `<button type="button" class="srp-filter-pill srp-reset-btn" id="srpResetBtn" onclick="srpResetFilters()" style="display:none" aria-label="Нулирай филтрите">✕ Нулирай</button>`;
   }
 
   // Price slider: set dynamic range
@@ -2115,7 +2115,7 @@ function showSearchResultsPage(query) {
   const filtered = allResults
     .filter(p => !srpCurrentCatFilter || normalizeCat(p.cat) === srpCurrentCatFilter)
     .filter(p => p.price >= srpPriceMinVal && p.price <= srpPriceMaxVal);
-  document.getElementById('srpCount').textContent = `${filtered.length} СЂРµР·СѓР»С‚Р°С‚Р°`;
+  document.getElementById('srpCount').textContent = `${filtered.length} резултата`;
   renderSRPGrid(filtered, query);
   _srpUpdatePillCounts();
   _srpToggleResetBtn();
@@ -2131,7 +2131,7 @@ function _srpRender() {
   const res = searchProducts(srpCurrentQuery, srpCurrentCatFilter)
     .filter(p => p.price >= srpPriceMinVal && p.price <= srpPriceMaxVal);
   const cnt = document.getElementById('srpCount');
-  if (cnt) cnt.textContent = res.length + ' СЂРµР·СѓР»С‚Р°С‚Р°';
+  if (cnt) cnt.textContent = res.length + ' резултата';
   renderSRPGrid(res, srpCurrentQuery);
   _srpUpdatePillCounts();
   _srpToggleResetBtn();
@@ -2202,17 +2202,17 @@ function renderSRPGrid(results, query) {
     const popular = products.slice(0, 4);
     grid.innerHTML = `
       <div class="srp-no-results">
-        <div class="nri">рџ”Ќ</div>
-        <h3>РќСЏРјР° РЅР°РјРµСЂРµРЅРё РїСЂРѕРґСѓРєС‚Рё</h3>
-        <p>РћРїРёС‚Р°Р№ СЃ СЂР°Р·Р»РёС‡РЅР° РґСѓРјР° РёР»Рё СЂР°Р·РіР»РµРґР°Р№ РїРѕРїСѓР»СЏСЂРЅРёС‚Рµ С‚СЉСЂСЃРµРЅРёСЏ:</p>
+        <div class="nri">🔍</div>
+        <h3>Няма намерени продукти</h3>
+        <p>Опитай с различна дума или разгледай популярните търсения:</p>
         <div class="srp-suggestions">
-          ${['Р»Р°РїС‚РѕРї','СЃР»СѓС€Р°Р»РєРё','С‚РµР»РµС„РѕРЅ','С‚Р°Р±Р»РµС‚','РєР°РјРµСЂР°'].map(s =>
+          ${['лаптоп','слушалки','телефон','таблет','камера'].map(s =>
             `<button type="button" class="srp-suggestion" onclick="document.getElementById('searchInput').value='${s}';showSearchResultsPage('${s}')">${s}</button>`
           ).join('')}
         </div>
       </div>
       <div style="margin-top:32px;">
-        <div style="font-size:16px;font-weight:800;margin-bottom:16px;">РџРѕРїСѓР»СЏСЂРЅРё РїСЂРѕРґСѓРєС‚Рё</div>
+        <div style="font-size:16px;font-weight:800;margin-bottom:16px;">Популярни продукти</div>
         <div class="srp-grid">${popular.map(p => makeCard(p)).join('')}</div>
       </div>`;
   } else {
@@ -2313,13 +2313,13 @@ function handleSearch() { doFullSearch(); }
 function subscribeNL() {
   const input = document.getElementById('nlEmail') || document.getElementById('tyNlEmail');
   const v = input?.value?.trim() || '';
-  if (!v || !v.includes('@') || !v.includes('.')) { showToast('Р’СЉРІРµРґРё РІР°Р»РёРґРµРЅ РёРјРµР№Р»!'); return; }
+  if (!v || !v.includes('@') || !v.includes('.')) { showToast('Въведи валиден имейл!'); return; }
   // Save to localStorage
   try {
     const subs = JSON.parse(localStorage.getItem('mc_newsletter') || '[]');
     if (!subs.includes(v)) { subs.push(v); localStorage.setItem('mc_newsletter', JSON.stringify(subs)); }
   } catch(e) {}
-  showToast('вњ“ РђР±РѕРЅРёСЂР°РЅ СѓСЃРїРµС€РЅРѕ! Р©Рµ РїРѕР»СѓС‡Р°РІР°С€ РЅР°Р№-РґРѕР±СЂРёС‚Рµ РѕС„РµСЂС‚Рё.');
+  showToast('✓ Абониран успешно! Ще получаваш най-добрите оферти.');
   if (input) input.value = '';
   // Save to Supabase if available
   if (typeof window.supabase !== 'undefined' && typeof window._sb_client !== 'undefined') {
@@ -2392,8 +2392,8 @@ function openProductPage(id) {
   const metaDesc = document.querySelector('meta[name="description"]');
   if (metaDesc) {
     const descText = p.desc
-      ? p.desc.substring(0, 155) + (p.desc.length > 155 ? 'вЂ¦' : '')
-      : `${p.name} - ${p.brand} | Р¦РµРЅР°: ${(p.price/EUR_RATE).toFixed(2)} в‚¬ / ${p.price} Р»РІ. РљСѓРїРё РѕРЅР»Р°Р№РЅ РѕС‚ Most Computers.`;
+      ? p.desc.substring(0, 155) + (p.desc.length > 155 ? '…' : '')
+      : `${p.name} - ${p.brand} | Цена: ${(p.price/EUR_RATE).toFixed(2)} € / ${p.price} лв. Купи онлайн от Most Computers.`;
     metaDesc.setAttribute('content', descText);
   }
 
@@ -2409,7 +2409,7 @@ function openProductPage(id) {
     tag.setAttribute('content', val);
   }
   setOG('og:title',       p.name + ' | Most Computers');
-  setOG('og:description', p.desc ? p.desc.substring(0,200) : `${p.name} РѕС‚ ${p.brand}. Р¦РµРЅР°: ${(p.price/EUR_RATE).toFixed(2)} в‚¬`);
+  setOG('og:description', p.desc ? p.desc.substring(0,200) : `${p.name} от ${p.brand}. Цена: ${(p.price/EUR_RATE).toFixed(2)} €`);
   setOG('og:image',       p.img || 'https://mostcomputers.bg/og-default.jpg');
   setOG('og:url',         window.location.href);
   setOG('og:type',        'product');
@@ -2425,9 +2425,9 @@ function openProductPage(id) {
 
   // Badges
   let b = '';
-  if (p.badge==='sale') b += '<span class="badge badge-sale">РџСЂРѕРјРѕ</span>';
-  if (p.badge==='new')  b += '<span class="badge badge-new">РќРѕРІРѕ</span>';
-  if (p.badge==='hot')  b += '<span class="badge badge-hot">Р“РѕСЂРµС‰Рѕ</span>';
+  if (p.badge==='sale') b += '<span class="badge badge-sale">Промо</span>';
+  if (p.badge==='new')  b += '<span class="badge badge-new">Ново</span>';
+  if (p.badge==='hot')  b += '<span class="badge badge-hot">Горещо</span>';
   var _el_pdpBadges=document.getElementById('pdpBadges'); if(_el_pdpBadges) _el_pdpBadges.innerHTML = b;
 
   // Brand / Name / Rating
@@ -2439,12 +2439,12 @@ function openProductPage(id) {
   if (_hasRv) {
     _starsEl.innerHTML = starsHTML(p.rating);
     _starsEl.style.display = '';
-    _rvEl.textContent = `${p.rating} (${p.rv} СЂРµРІСЋС‚Р°)`;
+    _rvEl.textContent = `${p.rating} (${p.rv} ревюта)`;
     _rvEl.style.cssText = 'font-size:12px;color:var(--muted);cursor:pointer;';
   } else {
     _starsEl.innerHTML = '';
     _starsEl.style.display = 'none';
-    _rvEl.innerHTML = 'в­ђ <span style="color:var(--primary);font-weight:600;">Р‘СЉРґРё РїСЉСЂРІРё РґР° РЅР°РїРёС€РµС€ СЂРµРІСЋ</span>';
+    _rvEl.innerHTML = '⭐ <span style="color:var(--primary);font-weight:600;">Бъди първи да напишеш ревю</span>';
     _rvEl.style.cssText = 'font-size:11.5px;cursor:pointer;';
   }
 
@@ -2459,75 +2459,75 @@ function openProductPage(id) {
 
     // Storage - speed class
     if (prod.subcat === 'microsd' || prod.subcat === 'sd_card' || prod.subcat === 'cf_card') {
-      if (name.includes('U3') || (sp['РРЅС‚РµСЂС„РµР№СЃ']||'').includes('U3')) badges.push(b('U3 вљЎ','#3b82f6'));
+      if (name.includes('U3') || (sp['Интерфейс']||'').includes('U3')) badges.push(b('U3 ⚡','#3b82f6'));
       else if (name.includes('U1')) badges.push(b('U1','#64748b'));
-      if (name.includes('V30') || (sp['РРЅС‚РµСЂС„РµР№СЃ']||'').includes('V30')) badges.push(b('V30 рџЋҐ','#8b5cf6'));
+      if (name.includes('V30') || (sp['Интерфейс']||'').includes('V30')) badges.push(b('V30 🎥','#8b5cf6'));
       else if (name.includes('V10')) badges.push(b('V10','#64748b'));
-      if (name.includes('A2')) badges.push(b('A2 рџ“±','#10b981'));
-      else if (name.includes('A1')) badges.push(b('A1 рџ“±','#10b981'));
-      if (sp['РЎРєРѕСЂРѕСЃС‚ С‡РµС‚РµРЅРµ']) badges.push(b('в†“ ' + sp['РЎРєРѕСЂРѕСЃС‚ С‡РµС‚РµРЅРµ'],'#f59e0b'));
-      if (sp['РЎРєРѕСЂРѕСЃС‚ Р·Р°РїРёСЃ'])  badges.push(b('в†‘ ' + sp['РЎРєРѕСЂРѕСЃС‚ Р·Р°РїРёСЃ'], '#f59e0b'));
+      if (name.includes('A2')) badges.push(b('A2 📱','#10b981'));
+      else if (name.includes('A1')) badges.push(b('A1 📱','#10b981'));
+      if (sp['Скорост четене']) badges.push(b('↓ ' + sp['Скорост четене'],'#f59e0b'));
+      if (sp['Скорост запис'])  badges.push(b('↑ ' + sp['Скорост запис'], '#f59e0b'));
     }
     // USB flash
     if (prod.subcat === 'usb_flash') {
-      if (name.includes('USB3.2') || (sp['РРЅС‚РµСЂС„РµР№СЃ']||'').includes('3.2')) badges.push(b('USB 3.2 вљЎ','#3b82f6'));
-      else if (name.includes('USB3') || (sp['РРЅС‚РµСЂС„РµР№СЃ']||'').includes('3.0') || (sp['РРЅС‚РµСЂС„РµР№СЃ']||'').includes('3.1')) badges.push(b('USB 3.0 вљЎ','#3b82f6'));
+      if (name.includes('USB3.2') || (sp['Интерфейс']||'').includes('3.2')) badges.push(b('USB 3.2 ⚡','#3b82f6'));
+      else if (name.includes('USB3') || (sp['Интерфейс']||'').includes('3.0') || (sp['Интерфейс']||'').includes('3.1')) badges.push(b('USB 3.0 ⚡','#3b82f6'));
       else badges.push(b('USB 2.0','#64748b'));
-      if (name.includes('TYPE-C') || name.includes('USB-C') || name.includes('/DT70') || (sp['РРЅС‚РµСЂС„РµР№СЃ']||'').toLowerCase().includes('type-c')) badges.push(b('USB-C','#6d28d9'));
+      if (name.includes('TYPE-C') || name.includes('USB-C') || name.includes('/DT70') || (sp['Интерфейс']||'').toLowerCase().includes('type-c')) badges.push(b('USB-C','#6d28d9'));
       if (name.includes('DUAL') || name.includes('OTG')) badges.push(b('Dual OTG','#0ea5e9'));
-      if (sp['РЎРєРѕСЂРѕСЃС‚ С‡РµС‚РµРЅРµ']) badges.push(b('в†“ ' + sp['РЎРєРѕСЂРѕСЃС‚ С‡РµС‚РµРЅРµ'],'#f59e0b'));
+      if (sp['Скорост четене']) badges.push(b('↓ ' + sp['Скорост четене'],'#f59e0b'));
     }
     // RAM
     if (prod.subcat === 'ram') {
-      const iface = (sp['РРЅС‚РµСЂС„РµР№СЃ'] || sp['Type'] || '').toUpperCase();
+      const iface = (sp['Интерфейс'] || sp['Type'] || '').toUpperCase();
       if (iface.includes('DDR5')) badges.push(b('DDR5','#8b5cf6'));
       else if (iface.includes('DDR4')) badges.push(b('DDR4','#3b82f6'));
       else if (iface.includes('DDR3')) badges.push(b('DDR3','#64748b'));
-      const freq = sp['Р§РµСЃС‚РѕС‚Р°'] || sp['Speed'] || sp['Frequency'] || '';
+      const freq = sp['Честота'] || sp['Speed'] || sp['Frequency'] || '';
       if (freq) badges.push(b(freq,'#f59e0b'));
-      const cap = sp['РљР°РїР°С†РёС‚РµС‚'] || sp['Capacity'] || '';
+      const cap = sp['Капацитет'] || sp['Capacity'] || '';
       if (cap) badges.push(b(cap,'#10b981'));
     }
     // SSD/HDD
     if (prod.subcat === 'ssd' || prod.subcat === 'hdd') {
-      const iface = (sp['РРЅС‚РµСЂС„РµР№СЃ'] || sp['Interface'] || '').toUpperCase();
+      const iface = (sp['Интерфейс'] || sp['Interface'] || '').toUpperCase();
       if (iface.includes('NVME') || iface.includes('M.2')) badges.push(b('NVMe M.2','#8b5cf6'));
       else if (iface.includes('SATA')) badges.push(b('SATA','#3b82f6'));
-      const cap = sp['РљР°РїР°С†РёС‚РµС‚'] || sp['Capacity'] || '';
+      const cap = sp['Капацитет'] || sp['Capacity'] || '';
       if (cap) badges.push(b(cap,'#10b981'));
-      if (sp['РЎРєРѕСЂРѕСЃС‚ С‡РµС‚РµРЅРµ']) badges.push(b('в†“ ' + sp['РЎРєРѕСЂРѕСЃС‚ С‡РµС‚РµРЅРµ'],'#f59e0b'));
+      if (sp['Скорост четене']) badges.push(b('↓ ' + sp['Скорост четене'],'#f59e0b'));
     }
     // GPU
     if (prod.subcat === 'gpu') {
-      const vram = sp['VRAM'] || sp['Р’РёРґРµРѕРїР°РјРµС‚'] || sp['Memory'] || '';
+      const vram = sp['VRAM'] || sp['Видеопамет'] || sp['Memory'] || '';
       if (vram) badges.push(b(vram + ' VRAM','#8b5cf6'));
-      const conn = sp['РљРѕРЅРµРєС‚РѕСЂ'] || sp['Interface'] || '';
+      const conn = sp['Конектор'] || sp['Interface'] || '';
       if (conn.toUpperCase().includes('PCIE 5')) badges.push(b('PCIe 5.0','#f59e0b'));
       else if (conn.toUpperCase().includes('PCIE 4')) badges.push(b('PCIe 4.0','#f59e0b'));
     }
     // CPU
     if (prod.subcat === 'cpu') {
-      const cores = sp['РЇРґСЂР°'] || sp['Cores'] || '';
-      if (cores) badges.push(b(cores + ' СЏРґСЂР°','#3b82f6'));
-      const socket = sp['РЎРѕРєРµС‚'] || sp['Socket'] || '';
+      const cores = sp['Ядра'] || sp['Cores'] || '';
+      if (cores) badges.push(b(cores + ' ядра','#3b82f6'));
+      const socket = sp['Сокет'] || sp['Socket'] || '';
       if (socket) badges.push(b(socket,'#6d28d9'));
       const tdp = sp['TDP'] || '';
       if (tdp) badges.push(b(tdp + ' TDP','#f59e0b'));
     }
     // Monitors
     if (prod.cat === 'monitors' || prod.subcat === 'gaming_mon' || prod.subcat === 'mon_4k') {
-      const hz = sp['Р§РµСЃС‚РѕС‚Р°'] || sp['Refresh rate'] || '';
+      const hz = sp['Честота'] || sp['Refresh rate'] || '';
       if (hz) badges.push(b(hz,'#8b5cf6'));
-      const panel = sp['РўРёРї РїР°РЅРµР»'] || sp['Panel'] || '';
+      const panel = sp['Тип панел'] || sp['Panel'] || '';
       if (panel) badges.push(b(panel,'#3b82f6'));
-      const res = sp['Р РµР·РѕР»СЋС†РёСЏ'] || sp['Resolution'] || '';
+      const res = sp['Резолюция'] || sp['Resolution'] || '';
       if (res) badges.push(b(res,'#10b981'));
     }
     // Network
     if (prod.cat === 'network') {
-      const wifi = sp['WiFi'] || sp['РЎС‚Р°РЅРґР°СЂС‚'] || '';
+      const wifi = sp['WiFi'] || sp['Стандарт'] || '';
       if (wifi) badges.push(b(wifi,'#3b82f6'));
-      const ports = sp['РџРѕСЂС‚РѕРІРµ'] || sp['Ports'] || '';
+      const ports = sp['Портове'] || sp['Ports'] || '';
       if (ports) badges.push(b(ports,'#10b981'));
     }
 
@@ -2560,7 +2560,7 @@ function openProductPage(id) {
     const _eurPrice = p.price / EUR_RATE;
     if(_eurPrice >= 60){
       const mo24 = (_eurPrice / 24).toFixed(2);
-      _el_pdpMonthly.innerHTML=`<span>РёР»Рё РѕС‚ <strong>${mo24} в‚¬/РјРµСЃ.</strong> Г— 24 РІРЅРѕСЃРєРё</span>`;
+      _el_pdpMonthly.innerHTML=`<span>или от <strong>${mo24} €/мес.</strong> × 24 вноски</span>`;
       _el_pdpMonthly.style.display='';
     } else {
       _el_pdpMonthly.innerHTML='';
@@ -2573,9 +2573,9 @@ function openProductPage(id) {
   const stockEl = document.getElementById('pdpStock');
   stockEl.className = 'pdp-stock ' + (inStock ? 'in' : 'out');
   const stockNum = typeof p.stock === 'number' && p.stock > 0 ? p.stock : null;
-  let stockTxt = 'РР·С‡РµСЂРїР°РЅ';
+  let stockTxt = 'Изчерпан';
   if (inStock) {
-    stockTxt = (stockNum !== null && stockNum <= 5) ? `вљ пёЏ РЎР°РјРѕ ${stockNum} Р±СЂ. РІ РЅР°Р»РёС‡РЅРѕСЃС‚` : 'вњ“ Р’ РЅР°Р»РёС‡РЅРѕСЃС‚';
+    stockTxt = (stockNum !== null && stockNum <= 5) ? `⚠️ Само ${stockNum} бр. в наличност` : '✓ В наличност';
   }
   document.getElementById('pdpStockTxt').textContent = stockTxt;
   // Show/hide back-in-stock notify button
@@ -2592,7 +2592,7 @@ function openProductPage(id) {
     if (savedBisEmail && notifyForm && notifySuccess) {
       notifyForm.style.display = 'none';
       notifySuccess.style.display = 'block';
-      notifySuccess.textContent = `вњ“ Р©Рµ С‚Рµ СѓРІРµРґРѕРјРёРј РЅР° ${savedBisEmail} РІРµРґРЅР°РіР° С‰РѕРј РїСЂРѕРґСѓРєС‚СЉС‚ Рµ РЅР°Р»РёС‡РµРЅ!`;
+      notifySuccess.textContent = `✓ Ще те уведомим на ${savedBisEmail} веднага щом продуктът е наличен!`;
     } else if (notifyForm && notifySuccess) {
       notifyForm.style.display = '';
       notifySuccess.style.display = 'none';
@@ -2609,14 +2609,14 @@ function openProductPage(id) {
     try { alerts = JSON.parse(localStorage.getItem('mc_price_alerts') || '{}'); } catch(e) {}
     const isSet = !!alerts[prod.id];
     btn.classList.toggle('active', isSet);
-    lbl.textContent = isSet ? 'РЎР»РµРґРёС€ С†РµРЅР°С‚Р° вњ“' : 'РџСЂРё РЅР°РјР°Р»РµРЅРёРµ';
+    lbl.textContent = isSet ? 'Следиш цената ✓' : 'При намаление';
     // Check if price dropped since alert was set
     if (isSet && prod.price < alerts[prod.id].price) {
-      showToast('рџЋ‰ Р¦РµРЅР°С‚Р° РЅР° "' + prod.name.substring(0, 30) + '..." Рµ РїР°РґРЅР°Р»Р°!');
+      showToast('🎉 Цената на "' + prod.name.substring(0, 30) + '..." е паднала!');
       delete alerts[prod.id];
       try { localStorage.setItem('mc_price_alerts', JSON.stringify(alerts)); } catch(e) {}
       btn.classList.remove('active');
-      lbl.textContent = 'РџСЂРё РЅР°РјР°Р»РµРЅРёРµ';
+      lbl.textContent = 'При намаление';
     }
   })(p);
 
@@ -2629,14 +2629,14 @@ function openProductPage(id) {
 
   // Wishlist btn
   const wishBtn = document.getElementById('pdpWishBtn');
-  if (wishBtn) wishBtn.innerHTML = wishlist.includes(id) ? 'вќ¤ Р’ Р»СЋР±РёРјРё' : 'в™Ў Р”РѕР±Р°РІРё РІ Р¶РµР»Р°РЅРёСЏ';
+  if (wishBtn) wishBtn.innerHTML = wishlist.includes(id) ? '❤ В любими' : '♡ Добави в желания';
 
   // Meta
   document.getElementById('pdpSku').textContent     = p.sku  || '-';
   document.getElementById('pdpEan').textContent     = p.ean  || p.sku || '-';
-  document.getElementById('pdpWarranty').textContent = specs['Warranty'] || specs['Р“Р°СЂР°РЅС†РёСЏ'] || specs['warrantyInMonths'] || '24 РјРµСЃРµС†Р°';
+  document.getElementById('pdpWarranty').textContent = specs['Warranty'] || specs['Гаранция'] || specs['warrantyInMonths'] || '24 месеца';
 
-  // в”Ђв”Ђ Gallery в”Ђв”Ђ
+  // ── Gallery ──
   pdpGallery = [];
   if (p.gallery && p.gallery.length) {
     pdpGallery = p.gallery;
@@ -2656,17 +2656,17 @@ function openProductPage(id) {
     if (_mainImg.complete) _removeLoading();
   }
 
-  // в”Ђв”Ђ Full specs table в”Ђв”Ђ
+  // ── Full specs table ──
   const tbody = document.getElementById('pdpSpecsTbody');
   if (tbody) {
     let specRows = `<tr><th scope="row">SKU / Part Number</th><td style="font-family:'JetBrains Mono',monospace;font-size:12px;">${p.sku||'-'}</td></tr>`;
-    if (p.ean) specRows += `<tr><th scope="row">EAN / Р‘Р°СЂРєРѕРґ</th><td style="font-family:'JetBrains Mono',monospace;font-size:12px;">${p.ean}</td></tr>`;
+    if (p.ean) specRows += `<tr><th scope="row">EAN / Баркод</th><td style="font-family:'JetBrains Mono',monospace;font-size:12px;">${p.ean}</td></tr>`;
     const _se = s => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
     specRows += Object.entries(specs).map(([k,v]) => `<tr><th scope="row">${_se(k)}</th><td>${_se(v)}</td></tr>`).join('');
-    tbody.innerHTML = specRows || '<tr><td colspan="2" style="color:var(--muted);text-align:center;padding:24px;">РќСЏРјР° РґР°РЅРЅРё Р·Р° СЃРїРµС†РёС„РёРєР°С†РёРё.</td></tr>';
+    tbody.innerHTML = specRows || '<tr><td colspan="2" style="color:var(--muted);text-align:center;padding:24px;">Няма данни за спецификации.</td></tr>';
   }
 
-  // в”Ђв”Ђ Description (HTML) в”Ђв”Ђ
+  // ── Description (HTML) ──
   const htmlContent = document.getElementById('pdpHtmlContent');
   if (htmlContent) {
     if (p.htmlDesc) {
@@ -2680,19 +2680,19 @@ function openProductPage(id) {
       para.textContent = p.desc;
       htmlContent.appendChild(para);
     } else {
-      htmlContent.innerHTML = '<p style="color:var(--muted);font-size:13px;">РќСЏРјР° РґРѕР±Р°РІРµРЅРѕ РѕРїРёСЃР°РЅРёРµ Р·Р° С‚РѕР·Рё РїСЂРѕРґСѓРєС‚.</p>';
+      htmlContent.innerHTML = '<p style="color:var(--muted);font-size:13px;">Няма добавено описание за този продукт.</p>';
     }
   }
 
-  // в”Ђв”Ђ Video в”Ђв”Ђ
+  // ── Video ──
   const videoWrap = document.getElementById('pdpVideoWrap');
   if (p.videoUrl) {
     pdpRenderVideo(p.videoUrl, videoWrap);
   } else {
-    videoWrap.innerHTML = `<div class="pdp-video-placeholder"><span>в–¶</span><div style="font-size:13px;color:var(--muted);">РќСЏРјР° РґРѕР±Р°РІРµРЅРѕ РІРёРґРµРѕ Р·Р° С‚РѕР·Рё РїСЂРѕРґСѓРєС‚.</div></div>`;
+    videoWrap.innerHTML = `<div class="pdp-video-placeholder"><span>▶</span><div style="font-size:13px;color:var(--muted);">Няма добавено видео за този продукт.</div></div>`;
   }
 
-  // в”Ђв”Ђ Reviews в”Ђв”Ђ
+  // ── Reviews ──
   const revEl = document.getElementById('pdpReviews');
   // Build merged review list without mutating the shared product object
   let displayRevs = p.reviews ? [...p.reviews] : [];
@@ -2715,21 +2715,21 @@ function openProductPage(id) {
       `<div class="review-item"><div class="review-header"><span class="review-name">${_esc(r.name)}</span><span class="review-stars">${starsHTML(r.stars)}</span><span class="review-date">${_esc(r.date)}</span></div><div class="review-text">${_esc(r.text)}</div></div>`
     ).join('');
   } else {
-    revEl.innerHTML = '<p style="color:var(--muted);font-size:13px;">Р’СЃРµ РѕС‰Рµ РЅСЏРјР° СЂРµРІСЋС‚Р° Р·Р° С‚РѕР·Рё РїСЂРѕРґСѓРєС‚.</p>';
+    revEl.innerHTML = '<p style="color:var(--muted);font-size:13px;">Все още няма ревюта за този продукт.</p>';
   }
 
-  // в”Ђв”Ђ Vendor в”Ђв”Ђ
+  // ── Vendor ──
   const vendorDiv = document.getElementById('pdpVendorContent');
   if (vendorDiv) {
     if (p.vendorUrl) {
       vendorDiv.innerHTML = `
-        <p style="font-size:13px;color:var(--text2);margin-bottom:12px;">РџРѕСЃРµС‚РµС‚Рµ РѕС„РёС†РёР°Р»РЅРёСЏ СЃР°Р№С‚ РЅР° РїСЂРѕРёР·РІРѕРґРёС‚РµР»СЏ Р·Р° РїРѕРІРµС‡Рµ РёРЅС„РѕСЂРјР°С†РёСЏ.</p>
+        <p style="font-size:13px;color:var(--text2);margin-bottom:12px;">Посетете официалния сайт на производителя за повече информация.</p>
         <a class="pdp-vendor-link" href="${p.vendorUrl}" target="_blank" rel="noopener">
-          рџЊђ <span>РћС„РёС†РёР°Р»РµРЅ СЃР°Р№С‚ - ${p.brand || 'РџСЂРѕРёР·РІРѕРґРёС‚РµР»'}</span>
-          <span style="margin-left:auto;font-size:11px;color:var(--muted);">в†—</span>
+          🌐 <span>Официален сайт - ${p.brand || 'Производител'}</span>
+          <span style="margin-left:auto;font-size:11px;color:var(--muted);">↗</span>
         </a>`;
     } else {
-      vendorDiv.innerHTML = '<p style="color:var(--muted);font-size:13px;">РќСЏРјР° РґРѕР±Р°РІРµРЅ Р»РёРЅРє РєСЉРј РїСЂРѕРёР·РІРѕРґРёС‚РµР»СЏ.</p>';
+      vendorDiv.innerHTML = '<p style="color:var(--muted);font-size:13px;">Няма добавен линк към производителя.</p>';
     }
   }
 
@@ -2738,7 +2738,7 @@ function openProductPage(id) {
     || (() => { try { return (JSON.parse(localStorage.getItem('mc_reviews') || '{}')[p.id] || []).length > 0; } catch(e) { return false; } })();
   pdpSwitchTab(_hasPublicRevs ? 'reviews' : 'specs');
   pdpUpdateStickyBar(p);
-  // pdpShowViewers Рё pdpRenderSparkline РїСЂРµРјР°С…РЅР°С‚Рё - РіРµРЅРµСЂРёСЂР°С…Р° С„Р°Р»С€РёРІРё РґР°РЅРЅРё
+  // pdpShowViewers и pdpRenderSparkline премахнати - генерираха фалшиви данни
   pdpInitDeliveryTimer();
   pdpRenderBundle(p);
   pdpRenderRelated(p);
@@ -2758,7 +2758,7 @@ function openProductPage(id) {
   document.documentElement.style.overflow = 'hidden';
   document.body.style.overflow = 'hidden';
 
-  // в”Ђв”Ђ Structured Data (Product + BreadcrumbList) в”Ђв”Ђ
+  // ── Structured Data (Product + BreadcrumbList) ──
   const _avgRating = p.rating || 0;
   const _rvCount   = p.rv    || 0;
   const _schemaId  = 'pdpJsonLd';
@@ -2816,7 +2816,7 @@ function openProductPage(id) {
       "@context": "https://schema.org",
       "@type": "BreadcrumbList",
       "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "РќР°С‡Р°Р»Рѕ", "item": window.location.origin + "/" },
+        { "@type": "ListItem", "position": 1, "name": "Начало", "item": window.location.origin + "/" },
         { "@type": "ListItem", "position": 2, "name": _catLabel, "item": window.location.origin + "/?cat=" + p.cat },
         { "@type": "ListItem", "position": 3, "name": p.name }
       ]
@@ -2848,13 +2848,13 @@ function closeProductPage() {
     if (iframe) iframe.src = iframe.src;
   }
   // Breadcrumb - pop back to category if present
-  document.title = 'Most Computers | РћРЅР»Р°Р№РЅ РјР°РіР°Р·РёРЅ Р·Р° РєРѕРјРїСЋС‚СЂРё Рё РєРѕРјРїРѕРЅРµРЅС‚Рё';
+  document.title = 'Most Computers | Онлайн магазин за компютри и компоненти';
   // Reset meta description
   const metaDesc = document.querySelector('meta[name="description"]');
-  if (metaDesc) metaDesc.setAttribute('content', 'Most Computers вЂ“ РѕРЅР»Р°Р№РЅ РјР°РіР°Р·РёРЅ Р·Р° РєРѕРјРїСЋС‚СЂРё, РєРѕРјРїРѕРЅРµРЅС‚Рё, РјРѕРЅРёС‚РѕСЂРё, РїРµСЂРёС„РµСЂРёСЏ Рё РјСЂРµР¶РѕРІРѕ РѕР±РѕСЂСѓРґРІР°РЅРµ.');
+  if (metaDesc) metaDesc.setAttribute('content', 'Most Computers – онлайн магазин за компютри, компоненти, монитори, периферия и мрежово оборудване.');
   // Reset OG
   const ogTitle = document.querySelector('meta[property="og:title"]');
-  if (ogTitle) ogTitle.setAttribute('content', 'Most Computers | РћРЅР»Р°Р№РЅ РјР°РіР°Р·РёРЅ Р·Р° РєРѕРјРїСЋС‚СЂРё Рё РєРѕРјРїРѕРЅРµРЅС‚Рё');
+  if (ogTitle) ogTitle.setAttribute('content', 'Most Computers | Онлайн магазин за компютри и компоненти');
   const ogImg = document.querySelector('meta[property="og:image"]');
   if (ogImg) ogImg.setAttribute('content', 'https://mostcomputers.bg/og-default.jpg');
   const ogType = document.querySelector('meta[property="og:type"]');
@@ -2895,7 +2895,7 @@ function pdpSwitchTab(tab) {
     const _escR = s => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
     revEl.innerHTML = publicRevs.length
       ? publicRevs.map(r => `<div class="review-item"><div class="review-header"><span class="review-name">${_escR(r.name)}</span><span class="review-stars">${starsHTML(r.stars)}</span><span class="review-date">${_escR(r.date)}</span></div><div class="review-text">${_escR(r.text)}</div></div>`).join('')
-      : '<p style="color:var(--muted);font-size:13px;">Р’СЃРµ РѕС‰Рµ РЅСЏРјР° СЂРµРІСЋС‚Р° Р·Р° С‚РѕР·Рё РїСЂРѕРґСѓРєС‚.</p>';
+      : '<p style="color:var(--muted);font-size:13px;">Все още няма ревюта за този продукт.</p>';
   }
 }
 
@@ -2914,13 +2914,13 @@ function pdpRenderGallery() {
     mainImg.onerror = function() {
       this.style.display = 'none';
       mainEmoji.style.display = '';
-      mainEmoji.textContent = p.emoji || 'рџ–Ґ';
+      mainEmoji.textContent = p.emoji || '🖥';
       this.onerror = null;
     };
   } else {
     mainImg.style.display = 'none';
     mainEmoji.style.display = '';
-    mainEmoji.textContent = p.emoji || 'рџ–Ґ';
+    mainEmoji.textContent = p.emoji || '🖥';
   }
 
   if (pdpGallery.length > 1) {
@@ -2962,7 +2962,7 @@ function pdpRenderVideo(url, wrap) {
       wrap.innerHTML = `<iframe src="${embedUrl}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
     }
   } else {
-    wrap.innerHTML = `<div class="pdp-video-placeholder"><span>в–¶</span><div style="font-size:13px;color:var(--muted);">РќРµРІР°Р»РёРґРµРЅ РІРёРґРµРѕ Р»РёРЅРє.</div></div>`;
+    wrap.innerHTML = `<div class="pdp-video-placeholder"><span>▶</span><div style="font-size:13px;color:var(--muted);">Невалиден видео линк.</div></div>`;
   }
 }
 
@@ -2992,11 +2992,11 @@ function pdpAddToCart() {
   addBtns.forEach(btn => {
     if (!btn) return;
     const orig = btn.innerHTML;
-    btn.innerHTML = 'вњ“ Р”РѕР±Р°РІРµРЅ!';
+    btn.innerHTML = '✓ Добавен!';
     btn.style.background = 'var(--accent2)';
     setTimeout(() => { btn.innerHTML = orig; btn.style.background = ''; }, 2000);
   });
-  showToast(`вњ“ ${p.name.substring(0,32)}вЂ¦ РґРѕР±Р°РІРµРЅ РІ РєРѕС€РЅРёС†Р°С‚Р°!`);
+  showToast(`✓ ${p.name.substring(0,32)}… добавен в кошницата!`);
   // Reveal checkout shortcut buttons
   const ckBtn = document.getElementById('pdpCheckoutBtn');
   if (ckBtn) ckBtn.style.display = '';
@@ -3006,11 +3006,11 @@ function pdpAddToCart() {
 
 function pdpCopyProductLink() {
   const url = location.origin + location.pathname + '?product=' + pdpProductId;
-  navigator.clipboard.writeText(url).then(() => showToast('рџ”— Р›РёРЅРєСЉС‚ Рµ РєРѕРїРёСЂР°РЅ!')).catch(() => {
+  navigator.clipboard.writeText(url).then(() => showToast('🔗 Линкът е копиран!')).catch(() => {
     const ta = document.createElement('textarea');
     ta.value = url; ta.style.position = 'fixed'; ta.style.opacity = '0';
     document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove();
-    showToast('рџ”— Р›РёРЅРєСЉС‚ Рµ РєРѕРїРёСЂР°РЅ!');
+    showToast('🔗 Линкът е копиран!');
   });
 }
 
@@ -3024,13 +3024,13 @@ function pdpTogglePriceAlert() {
   if (alerts[p.id]) {
     delete alerts[p.id];
     if (btn) btn.classList.remove('active');
-    if (lbl) lbl.textContent = 'РџСЂРё РЅР°РјР°Р»РµРЅРёРµ';
-    showToast('рџ”• РЎРїСЂСЏРЅ price alert Р·Р° ' + p.name.substring(0, 25) + '...');
+    if (lbl) lbl.textContent = 'При намаление';
+    showToast('🔕 Спрян price alert за ' + p.name.substring(0, 25) + '...');
   } else {
     alerts[p.id] = { price: p.price, name: p.name, set: Date.now() };
     if (btn) btn.classList.add('active');
-    if (lbl) lbl.textContent = 'РЎР»РµРґРёС€ С†РµРЅР°С‚Р° вњ“';
-    showToast('рџ”” Р©Рµ С‚Рµ СѓРІРµРґРѕРјРёРј Р°РєРѕ С†РµРЅР°С‚Р° РїР°РґРЅРµ!');
+    if (lbl) lbl.textContent = 'Следиш цената ✓';
+    showToast('🔔 Ще те уведомим ако цената падне!');
   }
   try { localStorage.setItem('mc_price_alerts', JSON.stringify(alerts)); } catch(e) {}
 }
@@ -3051,7 +3051,7 @@ function pdpToggleWish() {
   if (!pdpProductId) return;
   toggleWishlist(pdpProductId, null);
   const wishBtn = document.getElementById('pdpWishBtn');
-  if (wishBtn) wishBtn.innerHTML = wishlist.includes(pdpProductId) ? 'вќ¤ Р’ Р»СЋР±РёРјРё' : 'в™Ў Р”РѕР±Р°РІРё РІ Р¶РµР»Р°РЅРёСЏ';
+  if (wishBtn) wishBtn.innerHTML = wishlist.includes(pdpProductId) ? '❤ В любими' : '♡ Добави в желания';
 }
 
 
@@ -3123,11 +3123,11 @@ function updatePdpShipBar() {
   const pct = Math.min(100, Math.round(cartEur / FREE_SHIP_EUR * 100));
   fill.style.width = pct + '%';
   if (cartEur >= FREE_SHIP_EUR) {
-    txt.innerHTML = 'вњ… РРјР°С€ Р±РµР·РїР»Р°С‚РЅР° РґРѕСЃС‚Р°РІРєР°!';
+    txt.innerHTML = '✅ Имаш безплатна доставка!';
     fill.style.background = 'var(--success, #22c55e)';
   } else {
     const need = (FREE_SHIP_EUR - cartEur).toFixed(2);
-    txt.innerHTML = `рџљљ Р”РѕР±Р°РІРё РѕС‰Рµ <b>${need} в‚¬</b> Р·Р° Р±РµР·РїР»Р°С‚РЅР° РґРѕСЃС‚Р°РІРєР°`;
+    txt.innerHTML = `🚚 Добави още <b>${need} €</b> за безплатна доставка`;
     fill.style.background = 'var(--primary)';
   }
   bar.style.display = '';
@@ -3169,7 +3169,7 @@ let relatedOffset = 0;
 function renderRelated(currentId) {
   const p = products.find(x => x.id === currentId);
   if (!p) return;
-  // Same subcat, similar price (В±35%); fallback to same cat; fallback to all
+  // Same subcat, similar price (±35%); fallback to same cat; fallback to all
   let related = products.filter(x => x.id !== currentId && x.subcat && x.subcat === p.subcat
     && Math.abs(x.price - p.price) / p.price <= 0.35);
   if (related.length < 3) related = products.filter(x => x.id !== currentId && x.cat === p.cat);
@@ -3213,7 +3213,7 @@ function updateRelatedNav(total) {
 }
 
 
-// ===== рџ–ј IMAGE ZOOM =====
+// ===== 🖼 IMAGE ZOOM =====
 (function initImageZoom() {
   document.addEventListener('mousemove', e => {
     const wrap = e.target.closest('.modal-gallery-zoom');
@@ -3245,13 +3245,13 @@ function updateRelatedNav(total) {
 // ===== BACK IN STOCK =====
 function submitNotifyStock() {
   const email = document.getElementById('pdpNotifyEmail')?.value.trim();
-  if (!email || !email.includes('@')) { showToast('вљ пёЏ Р’СЉРІРµРґРё РІР°Р»РёРґРµРЅ РёРјРµР№Р»'); return; }
+  if (!email || !email.includes('@')) { showToast('⚠️ Въведи валиден имейл'); return; }
   // Save to localStorage
   const key = 'mc_bis_' + pdpProductId;
   localStorage.setItem(key, email);
   document.getElementById('pdpNotifyForm').style.display = 'none';
   document.getElementById('pdpNotifySuccess').style.display = 'block';
-  showToast('рџ“¬ Р©Рµ С‚Рµ СѓРІРµРґРѕРјРёРј РїСЂРё РЅР°Р»РёС‡РЅРѕСЃС‚!');
+  showToast('📬 Ще те уведомим при наличност!');
 }
 
 // ===== STICKY ADD-TO-CART =====
@@ -3301,7 +3301,7 @@ function pdpShowViewers(p) {
   let el = document.getElementById('pdpViewers');
   if (!el) return;
   const n = 3 + ((p.id * 7 + Math.floor(Date.now() / 600000)) % 10);
-  el.textContent = `рџ‘Ђ ${n} С‡РѕРІРµРєР° СЂР°Р·РіР»РµР¶РґР°С‚ РІ РјРѕРјРµРЅС‚Р°`;
+  el.textContent = `👀 ${n} човека разглеждат в момента`;
   el.style.display = '';
 }
 
@@ -3311,7 +3311,7 @@ function pdpShare(p) {
   if (navigator.share) {
     navigator.share({ title: p.name, text: p.brand + ' ' + p.name + ' - ' + fmtEur(p.price), url }).catch(() => {});
   } else {
-    try { navigator.clipboard.writeText(url); showToast('рџ”— Р›РёРЅРєСЉС‚ Рµ РєРѕРїРёСЂР°РЅ!'); } catch(e) { showToast('рџ”— ' + url); }
+    try { navigator.clipboard.writeText(url); showToast('🔗 Линкът е копиран!'); } catch(e) { showToast('🔗 ' + url); }
   }
 }
 
@@ -3326,7 +3326,7 @@ function pdpRenderSparkline(p) {
   let cur = p.price;
   for (let i = 5; i >= 0; i--) {
     const seed = (p.id * 31 + i * 17) % 100;
-    const delta = (seed - 50) / 50 * 0.08; // В±8%
+    const delta = (seed - 50) / 50 * 0.08; // ±8%
     points.push(Math.round(cur * (1 + delta)));
   }
   points.push(p.price);
@@ -3369,7 +3369,7 @@ let rfStarVal = 0;
 
 function rfSetStar(n) {
   rfStarVal = n;
-  const labels = ['РЈР¶Р°СЃРЅРѕ', 'Р›РѕС€Рѕ', 'РЎСЂРµРґРЅРѕ', 'Р”РѕР±СЂРѕ', 'РћС‚Р»РёС‡РЅРѕ'];
+  const labels = ['Ужасно', 'Лошо', 'Средно', 'Добро', 'Отлично'];
   const lbl = document.getElementById('rfStarLabel');
   if (lbl) lbl.textContent = labels[n - 1] || '';
   document.querySelectorAll('.rf-star').forEach(s => {
@@ -3380,9 +3380,9 @@ function rfSetStar(n) {
 function submitPdpReview() {
   const name = document.getElementById('rfName')?.value.trim();
   const text = document.getElementById('rfText')?.value.trim();
-  if (!name) { showToast('вљ пёЏ Р’СЉРІРµРґРё С‚РІРѕРµС‚Рѕ РёРјРµ'); return; }
-  if (!rfStarVal) { showToast('вљ пёЏ РР·Р±РµСЂРё СЂРµР№С‚РёРЅРі'); return; }
-  if (!text || text.length < 10) { showToast('вљ пёЏ Р РµРІСЋС‚Рѕ С‚СЂСЏР±РІР° РґР° Рµ РїРѕРЅРµ 10 СЃРёРјРІРѕР»Р°'); return; }
+  if (!name) { showToast('⚠️ Въведи твоето име'); return; }
+  if (!rfStarVal) { showToast('⚠️ Избери рейтинг'); return; }
+  if (!text || text.length < 10) { showToast('⚠️ Ревюто трябва да е поне 10 символа'); return; }
 
   const review = {
     name,
@@ -3406,9 +3406,9 @@ function submitPdpReview() {
   rfStarVal = 0;
   document.querySelectorAll('.rf-star').forEach(s => s.style.color = '');
   const lbl = document.getElementById('rfStarLabel');
-  if (lbl) lbl.textContent = 'РР·Р±РµСЂРё СЂРµР№С‚РёРЅРі';
+  if (lbl) lbl.textContent = 'Избери рейтинг';
 
-  showToast('вњ… Р РµРІСЋС‚Рѕ Рµ РёР·РїСЂР°С‚РµРЅРѕ Рё С‰Рµ Р±СЉРґРµ РїСѓР±Р»РёРєСѓРІР°РЅРѕ СЃР»РµРґ РїСЂРµРіР»РµРґ!');
+  showToast('✅ Ревюто е изпратено и ще бъде публикувано след преглед!');
 }
 
 
@@ -3435,16 +3435,16 @@ function _pdpSrchRender(q) {
   _pdpSrchIdx = -1;
 
   if (!_pdpSrchResults.length) {
-    drop.innerHTML = `<div class="pdp-drop-empty">РќСЏРјР° РЅР°РјРµСЂРµРЅРё РїСЂРѕРґСѓРєС‚Рё Р·Р° <strong>${escHtml(q)}</strong></div>`;
+    drop.innerHTML = `<div class="pdp-drop-empty">Няма намерени продукти за <strong>${escHtml(q)}</strong></div>`;
     drop.style.display = '';
     return;
   }
 
   drop.innerHTML = _pdpSrchResults.map((p, i) => {
-    const price = typeof formatPrice === 'function' ? formatPrice(p.price) : p.price + ' Р»РІ.';
+    const price = typeof formatPrice === 'function' ? formatPrice(p.price) : p.price + ' лв.';
     const img = p.img
       ? `<img src="${escHtml(p.img)}" alt="" class="pdp-drop-img" loading="lazy">`
-      : `<span class="pdp-drop-emoji">${escHtml(p.emoji || 'рџ“¦')}</span>`;
+      : `<span class="pdp-drop-emoji">${escHtml(p.emoji || '📦')}</span>`;
     return `<div class="pdp-drop-item" role="option" data-idx="${i}" onmousedown="pdpSearchPick(${i})">
       <div class="pdp-drop-thumb">${img}</div>
       <div class="pdp-drop-info">
@@ -3454,7 +3454,7 @@ function _pdpSrchRender(q) {
     </div>`;
   }).join('') +
   `<div class="pdp-drop-all" onmousedown="pdpSearchGo(document.getElementById('pdpSearchInput').value)">
-    Р’РёР¶ РІСЃРёС‡РєРё СЂРµР·СѓР»С‚Р°С‚Рё Р·Р° вЂћ${escHtml(q)}" в†’
+    Виж всички резултати за „${escHtml(q)}" →
   </div>`;
 
   drop.style.display = '';
@@ -3550,7 +3550,7 @@ function pdpRenderBundle(p) {
     <div class="bundle-item" onclick="openProductPage(${x.id})">
       <div class="bundle-emoji">${x.emoji}</div>
       <div class="bundle-info">
-        <div class="bundle-item-name">${_esc(x.name.length > 40 ? x.name.slice(0,40)+'вЂ¦' : x.name)}</div>
+        <div class="bundle-item-name">${_esc(x.name.length > 40 ? x.name.slice(0,40)+'…' : x.name)}</div>
         <div class="bundle-item-price">${fmtEur(x.price)}</div>
       </div>
     </div>
@@ -3560,18 +3560,18 @@ function pdpRenderBundle(p) {
   wrap.innerHTML = `
     <div class="bundle-section">
       <div class="bundle-header">
-        <span class="bundle-tag">рџЋЃ РљСѓРїРё Р·Р°РµРґРЅРѕ</span>
-        <span class="bundle-save-badge">РЎРїРµСЃС‚Рё ${fmtEur(saving)}</span>
+        <span class="bundle-tag">🎁 Купи заедно</span>
+        <span class="bundle-save-badge">Спести ${fmtEur(saving)}</span>
       </div>
       <div class="bundle-items">${itemsHtml}</div>
       <div class="bundle-footer">
         <div class="bundle-totals">
           <span class="bundle-old-total">${fmtEur(totalFull)}</span>
           <span class="bundle-new-total">${fmtEur(totalDisc)}</span>
-          <span class="bundle-disc-label">-${disc}% РїСЂРё РєРѕРјРїР»РµРєС‚</span>
+          <span class="bundle-disc-label">-${disc}% при комплект</span>
         </div>
         <button type="button" class="bundle-add-btn" onclick="pdpAddBundle(${JSON.stringify(allProds.map(x=>x.id))})">
-          рџ›’ Р”РѕР±Р°РІРё РІСЃРёС‡РєРё РІ РєРѕС€РЅРёС†Р°С‚Р°
+          🛒 Добави всички в кошницата
         </button>
       </div>
     </div>`;
@@ -3580,7 +3580,7 @@ function pdpRenderBundle(p) {
 
 function pdpAddBundle(ids) {
   ids.forEach(id => { if (typeof addToCart === 'function') addToCart(id); });
-  showToast('вњ… РљРѕРјРїР»РµРєС‚СЉС‚ Рµ РґРѕР±Р°РІРµРЅ РІ РєРѕС€РЅРёС†Р°С‚Р°!');
+  showToast('✅ Комплектът е добавен в кошницата!');
 }
 
 // ===== PRODUCT Q&A =====
@@ -3594,14 +3594,14 @@ function pdpLoadQA(productId) {
   if (typeof window.loadProductQuestions !== 'function') return;
   window.loadProductQuestions(productId).then(items => {
     if (!items || items.length === 0) {
-      list.innerHTML = '<p class="pdp-qa-empty">Р’СЃРµ РѕС‰Рµ РЅСЏРјР° РїСѓР±Р»РёС‡РЅРё РІСЉРїСЂРѕСЃРё Р·Р° С‚РѕР·Рё РїСЂРѕРґСѓРєС‚. Р‘СЉРґРё РїСЉСЂРІРёСЏС‚!</p>';
+      list.innerHTML = '<p class="pdp-qa-empty">Все още няма публични въпроси за този продукт. Бъди първият!</p>';
       return;
     }
     list.innerHTML = items.map(q => `
       <div class="pdp-qa-item">
-        <div class="pdp-qa-q"><span class="pdp-qa-q-icon">вќ“</span><span>${escHtml(q.question)}</span></div>
-        <div class="pdp-qa-a"><span class="pdp-qa-a-icon">рџ’¬</span><span>${escHtml(q.answer)}</span></div>
-        <div class="pdp-qa-meta">${escHtml(q.asker_name || 'РђРЅРѕРЅРёРјРµРЅ')} В· ${new Date(q.created_at).toLocaleDateString('bg-BG')}</div>
+        <div class="pdp-qa-q"><span class="pdp-qa-q-icon">❓</span><span>${escHtml(q.question)}</span></div>
+        <div class="pdp-qa-a"><span class="pdp-qa-a-icon">💬</span><span>${escHtml(q.answer)}</span></div>
+        <div class="pdp-qa-meta">${escHtml(q.asker_name || 'Анонимен')} · ${new Date(q.created_at).toLocaleDateString('bg-BG')}</div>
       </div>`).join('');
   });
 }
@@ -3610,29 +3610,29 @@ async function pdpSubmitQuestion() {
   const text  = (document.getElementById('pdpQaText')?.value  || '').trim();
   const name  = (document.getElementById('pdpQaName')?.value  || '').trim();
   const email = (document.getElementById('pdpQaEmail')?.value || '').trim();
-  if (!text) { showToast('вљ пёЏ РњРѕР»СЏ РІСЉРІРµРґРё РІСЉРїСЂРѕСЃР° СЃРё.'); return; }
-  if (text.length < 10) { showToast('вљ пёЏ Р’СЉРїСЂРѕСЃСЉС‚ Рµ С‚РІСЉСЂРґРµ РєСЂР°С‚СЉРє.'); return; }
+  if (!text) { showToast('⚠️ Моля въведи въпроса си.'); return; }
+  if (text.length < 10) { showToast('⚠️ Въпросът е твърде кратък.'); return; }
   const btn = document.querySelector('.pdp-qa-submit');
-  if (btn) { btn.disabled = true; btn.textContent = 'РР·РїСЂР°С‰Р°РЅРµ...'; }
+  if (btn) { btn.disabled = true; btn.textContent = 'Изпращане...'; }
   if (typeof window.saveProductQuestion === 'function') {
     const ok = await window.saveProductQuestion(_pdpQaProductId, text, name, email);
     if (ok) {
-      showToast('вњ… Р’СЉРїСЂРѕСЃСЉС‚ Рµ РёР·РїСЂР°С‚РµРЅ! Р©Рµ РѕС‚РіРѕРІРѕСЂРёРј СЃРєРѕСЂРѕ.');
+      showToast('✅ Въпросът е изпратен! Ще отговорим скоро.');
       if (document.getElementById('pdpQaText'))  document.getElementById('pdpQaText').value  = '';
       if (document.getElementById('pdpQaName'))  document.getElementById('pdpQaName').value  = '';
       if (document.getElementById('pdpQaEmail')) document.getElementById('pdpQaEmail').value = '';
     } else {
-      showToast('вќЊ Р“СЂРµС€РєР° РїСЂРё РёР·РїСЂР°С‰Р°РЅРµ. РћРїРёС‚Р°Р№ РѕС‚РЅРѕРІРѕ.');
+      showToast('❌ Грешка при изпращане. Опитай отново.');
     }
   } else {
-    showToast('вњ… Р’СЉРїСЂРѕСЃСЉС‚ Рµ Р·Р°РїРёСЃР°РЅ!');
+    showToast('✅ Въпросът е записан!');
   }
-  if (btn) { btn.disabled = false; btn.textContent = 'РР·РїСЂР°С‚Рё РІСЉРїСЂРѕСЃР° в†’'; }
+  if (btn) { btn.disabled = false; btn.textContent = 'Изпрати въпроса →'; }
 }
 
 // ===== PDP UX ENHANCEMENTS =====
 
-// в”Ђв”Ђ LIGHTBOX в”Ђв”Ђ
+// ── LIGHTBOX ──
 function pdpLbOpen() {
   var img = document.getElementById('pdpMainImg');
   if (!img || !img.src || img.style.display === 'none') return;
@@ -3716,7 +3716,7 @@ function pdpInitDeliveryTimer() {
     const day = now.getDay();
     const isWeekend = day === 0 || day === 6;
     if (isWeekend) {
-      el.innerHTML = 'РџРѕСЂСЉС‡Р°Р№ СЃРµРіР° Рё РїРѕР»СѓС‡Рё РІ <strong>РїРѕРЅРµРґРµР»РЅРёРє</strong>';
+      el.innerHTML = 'Поръчай сега и получи в <strong>понеделник</strong>';
       if (cd) cd.textContent = '';
       return;
     }
@@ -3728,10 +3728,10 @@ function pdpInitDeliveryTimer() {
       const hh = Math.floor(secLeft / 3600);
       const mm = String(Math.floor((secLeft % 3600) / 60)).padStart(2, '0');
       const ss = String(secLeft % 60).padStart(2, '0');
-      el.innerHTML = 'РџРѕСЂСЉС‡Р°Р№ РґРѕ <strong>16:30 С‡.</strong> Рё РїРѕР»СѓС‡Рё <strong>СѓС‚СЂРµ</strong>';
-      if (cd) cd.textContent = '(РѕСЃС‚Р°РІР°С‚ ' + hh + ':' + mm + ':' + ss + ')';
+      el.innerHTML = 'Поръчай до <strong>16:30 ч.</strong> и получи <strong>утре</strong>';
+      if (cd) cd.textContent = '(остават ' + hh + ':' + mm + ':' + ss + ')';
     } else {
-      el.innerHTML = 'РџРѕСЂСЉС‡Р°Р№ СЃРµРіР° - РёР·РїСЂР°С‰Р°РјРµ <strong>СѓС‚СЂРµ</strong>';
+      el.innerHTML = 'Поръчай сега - изпращаме <strong>утре</strong>';
       if (cd) cd.textContent = '';
     }
   }
@@ -3756,7 +3756,7 @@ function pdpRenderRatingBreakdown(revs) {
     var c = counts[s-1];
     var pct = total ? Math.round(c / total * 100) : 0;
     barsHtml += '<div class="pdp-rvb-row">' +
-      '<span class="pdp-rvb-lbl">' + s + ' в…</span>' +
+      '<span class="pdp-rvb-lbl">' + s + ' ★</span>' +
       '<div class="pdp-rvb-bar"><div class="pdp-rvb-fill" style="width:' + pct + '%"></div></div>' +
       '<span class="pdp-rvb-num">' + c + '</span>' +
       '</div>';
@@ -3765,7 +3765,7 @@ function pdpRenderRatingBreakdown(revs) {
     '<div class="pdp-rvb-avg">' +
       '<div class="pdp-rvb-big">' + avg + '</div>' +
       '<div class="pdp-rvb-stars">' + starsHTML(parseFloat(avg)) + '</div>' +
-      '<div class="pdp-rvb-count">' + total + ' СЂРµРІСЋС‚' + (total === 1 ? 'Рѕ' : 'Р°') + '</div>' +
+      '<div class="pdp-rvb-count">' + total + ' ревют' + (total === 1 ? 'о' : 'а') + '</div>' +
     '</div>' +
     '<div class="pdp-rvb-bars">' + barsHtml + '</div>' +
   '</div>';
@@ -3880,7 +3880,7 @@ function pdpRenderRelated(p) {
   if (related.length < 2) { section.style.display = 'none'; return; }
   if (title) {
     var catLabel = (typeof CAT_LABELS !== 'undefined' && CAT_LABELS[p.cat]) ? CAT_LABELS[p.cat] : '';
-    title.textContent = catLabel ? ('РџРѕРґРѕР±РЅРё - ' + catLabel) : 'РџРѕРґРѕР±РЅРё РїСЂРѕРґСѓРєС‚Рё';
+    title.textContent = catLabel ? ('Подобни - ' + catLabel) : 'Подобни продукти';
   }
   scroll.innerHTML = related.map(_pdpCarCard).join('');
   section.style.display = '';
@@ -3888,32 +3888,32 @@ function pdpRenderRelated(p) {
 
 // 8. CROSS-SELL WIDGET (right column, below CTA)
 var _CROSS_SELL = {
-  // Р›Р°РїС‚РѕРїРё в†’ РјРёС€РєРё, РєР»Р°РІРёР°С‚СѓСЂРё, СЃР»СѓС€Р°Р»РєРё
+  // Лаптопи → мишки, клавиатури, слушалки
   laptops:     ['mouse','keyboard','headphones','accessories'],
   gaming_l:    ['mouse','keyboard','headphones','accessories'],
   convertible: ['mouse','keyboard','accessories'],
 
-  // РќР°СЃС‚РѕР»РЅРё РєРѕРјРїСЋС‚СЂРё в†’ РјРѕРЅРёС‚РѕСЂРё, РєР»Р°РІРёР°С‚СѓСЂРё, РјРёС€РєРё
+  // Настолни компютри → монитори, клавиатури, мишки
   desktops:    ['monitor','monitors','keyboard','mouse'],
   office_pc:   ['monitor','monitors','keyboard','mouse'],
   aio:         ['keyboard','mouse','accessories'],
 
-  // РњРѕРЅРёС‚РѕСЂРё в†’ РєР°Р±РµР»Рё/Р°РєСЃРµСЃРѕР°СЂРё, РєР»Р°РІРёР°С‚СѓСЂРё, РјРёС€РєРё
+  // Монитори → кабели/аксесоари, клавиатури, мишки
   monitor:     ['keyboard','mouse','accessories'],
   monitors:    ['keyboard','mouse','accessories'],
 
-  // РўРµР»РµС„РѕРЅРё / СЃРјР°СЂС‚С„РѕРЅРё в†’ Р°РєСЃРµСЃРѕР°СЂРё, РїР°РјРµС‚, СЃР»СѓС€Р°Р»РєРё
+  // Телефони / смартфони → аксесоари, памет, слушалки
   phones:      ['accessories','microsd','headphones'],
   smartphone:  ['accessories','microsd','headphones'],
 
-  // РџСЂРёРЅС‚РµСЂРё в†’ РєРѕРЅСЃСѓРјР°С‚РёРІРё, С…Р°СЂС‚РёСЏ
+  // Принтери → консумативи, хартия
   printers:    ['consumables','photo_paper','accessories'],
   inkjet:      ['consumables','photo_paper'],
   inkjet_aio:  ['consumables','photo_paper'],
   laser:       ['consumables','accessories'],
   megatank:    ['consumables','photo_paper'],
 
-  // PC РєРѕРјРїРѕРЅРµРЅС‚Рё в†’ РєСѓС‚РёРё, Р·Р°С…СЂР°РЅРІР°РЅРёСЏ
+  // PC компоненти → кутии, захранвания
   components:  ['case','psu','accessories'],
   gpu:         ['psu','case','accessories'],
   cpu:         ['case','psu','accessories'],
@@ -3926,44 +3926,44 @@ var _CROSS_SELL = {
   psu:         ['case','accessories'],
   case:        ['psu','accessories'],
 
-  // РџРµСЂРёС„РµСЂРёСЏ
+  // Периферия
   keyboard:    ['mouse','headphones','accessories'],
   mouse:       ['keyboard','accessories'],
   headphones:  ['microsd','accessories'],
   audio:       ['accessories'],
   webcam:      ['headphones','accessories'],
 
-  // UPS СЃРёСЃС‚РµРјРё в†’ Р±Р°С‚РµСЂРёРё/Р°РєСЃРµСЃРѕР°СЂРё
+  // UPS системи → батерии/аксесоари
   ups:         ['ups_battery','accessories'],
   ups_home:    ['ups_battery','accessories'],
   ups_office:  ['ups_battery','accessories'],
   ups_server:  ['ups_battery'],
   ups_battery: [],
 
-  // РџСЂРѕРµРєС‚РѕСЂРё в†’ Р°РєСЃРµСЃРѕР°СЂРё, РЅРѕСЃРёС‚РµР»Рё
+  // Проектори → аксесоари, носители
   projector:   ['accessories'],
 
-  // РљР°РјРµСЂРё Рё РІРёРґРµРѕРЅР°Р±Р»СЋРґРµРЅРёРµ в†’ РїР°РјРµС‚, Р°РєСЃРµСЃРѕР°СЂРё
+  // Камери и видеонаблюдение → памет, аксесоари
   cameras:     ['microsd','sd_card','accessories'],
   cam_indoor:  ['microsd','accessories'],
   cam_outdoor: ['microsd','accessories'],
   cam_poe:     ['accessories'],
 
-  // Р¤Р»Р°С€ Рё РєР°СЂС‚Рё РїР°РјРµС‚
+  // Флаш и карти памет
   usb_flash:   ['ext_drive','accessories'],
   microsd:     ['card_reader','accessories'],
   sd_card:     ['card_reader','accessories'],
   card_reader: ['microsd','sd_card'],
   cf_card:     ['card_reader'],
 
-  // РљРѕРЅСЃСѓРјР°С‚РёРІРё в†’ РїСЂРёРЅС‚РµСЂРё (РѕР±СЂР°С‚РЅР° РїРѕСЃРѕРєР°)
+  // Консумативи → принтери (обратна посока)
   consumables: ['printers','inkjet','laser'],
   photo_paper: ['inkjet','inkjet_aio','megatank'],
 
-  // РћС„РёСЃ / СЂР°Р±РѕС‚РЅРѕ РјСЏСЃС‚Рѕ
+  // Офис / работно място
   chair:       ['monitor','monitors','accessories'],
 
-  // РЁРёСЂРѕРєР° РїРµСЂРёС„РµСЂРёСЏ / Р°РєСЃРµСЃРѕР°СЂРё - Р±РµР· cross-sell
+  // Широка периферия / аксесоари - без cross-sell
   accessories: [],
   peripherals: [],
   multimedia:  [],
@@ -4015,18 +4015,18 @@ function pdpRenderRecsWidget(p) {
   };
 
   widget.innerHTML =
-    '<div class="pdp-rw-hdr"><span class="pdp-rw-flash">вљЎ</span>РњРѕР¶Рµ РґР° С‚Рµ Р·Р°РёРЅС‚РµСЂРµСЃСѓРІР°</div>' +
+    '<div class="pdp-rw-hdr"><span class="pdp-rw-flash">⚡</span>Може да те заинтересува</div>' +
     recs.map(function(r) {
       return '<div class="pdp-rw-row" onclick="openProductPage(' + r.id + ')" tabindex="0" role="button" aria-label="' + _e(r.name) + '">' +
         '<div class="pdp-rw-thumb">' + _thumb(r) + '</div>' +
         '<div class="pdp-rw-info">' +
-          '<div class="pdp-rw-name">' + _e(r.name.length > 42 ? r.name.substring(0,42)+'вЂ¦' : r.name) + '</div>' +
-          '<div class="pdp-rw-price">' + (typeof fmtEur === 'function' ? fmtEur(r.price) : r.price + ' в‚¬') + '</div>' +
+          '<div class="pdp-rw-name">' + _e(r.name.length > 42 ? r.name.substring(0,42)+'…' : r.name) + '</div>' +
+          '<div class="pdp-rw-price">' + (typeof fmtEur === 'function' ? fmtEur(r.price) : r.price + ' €') + '</div>' +
         '</div>' +
-        '<button type="button" class="pdp-rw-add" onclick="event.stopPropagation();addToCart(' + r.id + ');this.textContent=\'вњ“\';this.classList.add(\'added\');setTimeout(function(){this.textContent=\'+\';this.classList.remove(\'added\');}.bind(this),1400);" aria-label="Р”РѕР±Р°РІРё ' + _e(r.name) + ' РІ РєРѕС€РЅРёС†Р°">+</button>' +
+        '<button type="button" class="pdp-rw-add" onclick="event.stopPropagation();addToCart(' + r.id + ');this.textContent=\'✓\';this.classList.add(\'added\');setTimeout(function(){this.textContent=\'+\';this.classList.remove(\'added\');}.bind(this),1400);" aria-label="Добави ' + _e(r.name) + ' в кошница">+</button>' +
       '</div>';
     }).join('') +
-    '<div class="pdp-rw-foot">РљР»РёРµРЅС‚РёС‚Рµ РєСѓРїСѓРІР°С‚ Р·Р°РµРґРЅРѕ СЃ С‚РѕР·Рё РїСЂРѕРґСѓРєС‚</div>';
+    '<div class="pdp-rw-foot">Клиентите купуват заедно с този продукт</div>';
 
   widget.style.display = '';
 }
@@ -4049,14 +4049,14 @@ function pdpRenderRvCarousel() {
 // Shared carousel card renderer
 function _pdpCarCard(p) {
   var _e = typeof _esc === 'function' ? _esc : escHtml;
-  var price = (typeof fmtEur === 'function') ? fmtEur(p.price) : (p.price + ' Р»РІ.');
+  var price = (typeof fmtEur === 'function') ? fmtEur(p.price) : (p.price + ' лв.');
   var thumb = p.img
     ? '<img class="pdp-car-img" src="' + _e(p.img) + '" alt="" loading="lazy" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">'
     : '';
-  var emoji = '<span class="pdp-car-emoji"' + (p.img ? ' style="display:none"' : '') + '>' + (p.emoji || 'рџ“¦') + '</span>';
+  var emoji = '<span class="pdp-car-emoji"' + (p.img ? ' style="display:none"' : '') + '>' + (p.emoji || '📦') + '</span>';
   var stars = p.rating ? '<div class="pdp-car-stars">' + starsHTML(p.rating) + '</div>' : '';
-  var badge = p.badge === 'sale' ? '<span class="pdp-car-badge">РџСЂРѕРјРѕ</span>'
-    : p.badge === 'new' ? '<span class="pdp-car-badge pdp-car-badge-new">РќРѕРІРѕ</span>' : '';
+  var badge = p.badge === 'sale' ? '<span class="pdp-car-badge">Промо</span>'
+    : p.badge === 'new' ? '<span class="pdp-car-badge pdp-car-badge-new">Ново</span>' : '';
   return '<div class="pdp-car-card" onclick="openProductPage(' + p.id + ')">' +
     '<div class="pdp-car-thumb">' + badge + thumb + emoji + '</div>' +
     '<div class="pdp-car-info">' +
@@ -4087,10 +4087,10 @@ function pdpRenderSpecsSidebar(p) {
   sb.innerHTML =
     '<div class="pdp-sb-title">' +
       '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>' +
-      ' РћСЃРЅРѕРІРЅРё С…Р°СЂР°РєС‚РµСЂРёСЃС‚РёРєРё' +
+      ' Основни характеристики' +
     '</div>' +
     '<table class="pdp-sb-table"><tbody>' + rows + '</tbody></table>' +
-    '<button type="button" class="pdp-sb-more" onclick="pdpSwitchTab(\'specs\');document.getElementById(\'pdp-tab-specs\').scrollIntoView({behavior:\'smooth\'})">Р’РёР¶ РІСЃРёС‡РєРё в†’</button>';
+    '<button type="button" class="pdp-sb-more" onclick="pdpSwitchTab(\'specs\');document.getElementById(\'pdp-tab-specs\').scrollIntoView({behavior:\'smooth\'})">Виж всички →</button>';
   sb.style.display = '';
 }
 
@@ -4101,14 +4101,14 @@ function pdpCopySpecs() {
   var specs = p.specs || {};
   var text = p.name + '\n\n' + Object.keys(specs).map(function(k) { return k + ': ' + specs[k]; }).join('\n');
   var btn = document.getElementById('pdpCopyBtn');
-  if (!navigator.clipboard) { showToast && showToast('вљ пёЏ РљР»РёРїР±РѕСЂРґ РЅРµРґРѕСЃС‚СЉРїРµРЅ'); return; }
+  if (!navigator.clipboard) { showToast && showToast('⚠️ Клипборд недостъпен'); return; }
   navigator.clipboard.writeText(text).then(function() {
-    if (btn) { btn.textContent = 'вњ“ РљРѕРїРёСЂР°РЅРѕ'; btn.classList.add('pdp-copy-done'); }
-    if (typeof showToast === 'function') showToast('вњ“ РҐР°СЂР°РєС‚РµСЂРёСЃС‚РёРєРёС‚Рµ СЃР° РєРѕРїРёСЂР°РЅРё!');
+    if (btn) { btn.textContent = '✓ Копирано'; btn.classList.add('pdp-copy-done'); }
+    if (typeof showToast === 'function') showToast('✓ Характеристиките са копирани!');
     setTimeout(function() {
-      if (btn) { btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> РљРѕРїРёСЂР°Р№'; btn.classList.remove('pdp-copy-done'); }
+      if (btn) { btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Копирай'; btn.classList.remove('pdp-copy-done'); }
     }, 2000);
-  }).catch(function() { if (typeof showToast === 'function') showToast('вљ пёЏ Р“СЂРµС€РєР° РїСЂРё РєРѕРїРёСЂР°РЅРµ'); });
+  }).catch(function() { if (typeof showToast === 'function') showToast('⚠️ Грешка при копиране'); });
 }
 
 // ===== 11. PRINT / PDF =====
@@ -4122,18 +4122,18 @@ function pdpPrintSpecs() {
            '</td><td style="padding:7px 12px;border-bottom:1px solid #eee;">' + _ep(specs[k]) + '</td></tr>';
   }).join('');
   var win = window.open('', '_blank', 'width=800,height=700');
-  if (!win) { showToast('вљ пёЏ РџРѕРїСЉРї РїСЂРѕР·РѕСЂРµС†СЉС‚ Рµ Р±Р»РѕРєРёСЂР°РЅ. Р Р°Р·СЂРµС€Рё РїРѕРїСЉРїРё Р·Р° С‚РѕР·Рё СЃР°Р№С‚.'); return; }
+  if (!win) { showToast('⚠️ Попъп прозорецът е блокиран. Разреши попъпи за този сайт.'); return; }
   win.document.write(
-    '<!DOCTYPE html><html><head><title>' + _ep(p.name) + ' - РҐР°СЂР°РєС‚РµСЂРёСЃС‚РёРєРё</title>' +
+    '<!DOCTYPE html><html><head><title>' + _ep(p.name) + ' - Характеристики</title>' +
     '<style>body{font-family:Arial,sans-serif;padding:32px;color:#1a1a1a;}h1{font-size:20px;margin-bottom:4px;}' +
     '.sub{color:#888;font-size:13px;margin-bottom:24px;}table{width:100%;border-collapse:collapse;}' +
     'tr:nth-child(even){background:#f9f9f9;}' +
     '@media print{button{display:none!important;}}' +
     '</style></head><body>' +
     '<h1>' + _ep(p.name) + '</h1>' +
-    '<div class="sub">' + _ep(p.brand || '') + (p.sku ? ' В· SKU: ' + _ep(p.sku) : '') + '</div>' +
+    '<div class="sub">' + _ep(p.brand || '') + (p.sku ? ' · SKU: ' + _ep(p.sku) : '') + '</div>' +
     '<table><tbody>' + rows + '</tbody></table>' +
-    '<br><button onclick="window.print()" style="padding:10px 22px;background:#bd1105;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:14px;">рџ–Ё РџСЂРёРЅС‚РёСЂР°Р№</button>' +
+    '<br><button onclick="window.print()" style="padding:10px 22px;background:#bd1105;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:14px;">🖨 Принтирай</button>' +
     '</body></html>'
   );
   win.document.close();
@@ -4147,10 +4147,10 @@ function pdpToggleCompare() {
   toggleCompare(pdpProductId, !isActive);
   if (btn) {
     if (!isActive) {
-      btn.innerHTML = btn.innerHTML.replace('РЎСЂР°РІРЅРё', 'РЎСЂР°РІРЅРµРЅРѕ вњ“');
+      btn.innerHTML = btn.innerHTML.replace('Сравни', 'Сравнено ✓');
       btn.classList.add('active');
     } else {
-      btn.innerHTML = btn.innerHTML.replace('РЎСЂР°РІРЅРµРЅРѕ вњ“', 'РЎСЂР°РІРЅРё');
+      btn.innerHTML = btn.innerHTML.replace('Сравнено ✓', 'Сравни');
       btn.classList.remove('active');
     }
   }
@@ -4161,7 +4161,7 @@ var _pdpCompareReset = function() {
   var btn = document.getElementById('pdpCompareBtn');
   if (!btn) return;
   btn.classList.remove('active');
-  btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> РЎСЂР°РІРЅРё';
+  btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> Сравни';
 };
 
 // ===== 12. MOBILE BOTTOM SHEET =====
@@ -4176,12 +4176,12 @@ function pdpBsOpen(p) {
   var priceEl = document.getElementById('pdpBsPrice');
   var thumbEl = document.getElementById('pdpBsThumb');
   if (nameEl) nameEl.textContent = p.name;
-  if (priceEl) priceEl.textContent = (typeof fmtEur === 'function') ? fmtEur(p.price) : p.price + ' Р»РІ.';
+  if (priceEl) priceEl.textContent = (typeof fmtEur === 'function') ? fmtEur(p.price) : p.price + ' лв.';
   if (thumbEl) {
     var _e = typeof _esc === 'function' ? _esc : escHtml;
     thumbEl.innerHTML = p.img
       ? '<img src="' + _e(p.img) + '" style="width:44px;height:44px;object-fit:contain;border-radius:6px;">'
-      : '<span style="font-size:28px;">' + (p.emoji || 'рџ“¦') + '</span>';
+      : '<span style="font-size:28px;">' + (p.emoji || '📦') + '</span>';
   }
   sheet.classList.add('open');
   if (overlay) { overlay.style.display = ''; }
@@ -4287,14 +4287,14 @@ function openProdPreview(id) {
   var _e = typeof _esc === 'function' ? _esc : escHtml;
   if (imgEl) imgEl.innerHTML = p.img
     ? '<img src="' + _e(p.img) + '" style="width:72px;height:72px;object-fit:contain;border-radius:10px;">'
-    : '<span style="font-size:44px;">' + (p.emoji || 'рџ“¦') + '</span>';
+    : '<span style="font-size:44px;">' + (p.emoji || '📦') + '</span>';
   if (brandEl) brandEl.textContent = p.brand || '';
   if (nameEl) nameEl.textContent = p.name;
   if (ratingEl) {
     var stars = Math.round(p.rating || 0);
-    ratingEl.innerHTML = 'в…'.repeat(stars) + 'в†'.repeat(5 - stars) + ' <span style="color:var(--muted);font-size:11px;">(' + (p.reviews ? p.reviews.length : p.rv || 0) + ')</span>';
+    ratingEl.innerHTML = '★'.repeat(stars) + '☆'.repeat(5 - stars) + ' <span style="color:var(--muted);font-size:11px;">(' + (p.reviews ? p.reviews.length : p.rv || 0) + ')</span>';
   }
-  if (priceEl) priceEl.innerHTML = typeof fmtEur === 'function' ? '<strong>' + fmtEur(p.price) + '</strong>' : '<strong>' + p.price + ' в‚¬</strong>';
+  if (priceEl) priceEl.innerHTML = typeof fmtEur === 'function' ? '<strong>' + fmtEur(p.price) + '</strong>' : '<strong>' + p.price + ' €</strong>';
 
   var addBtn = document.getElementById('ppAddBtn');
   if (addBtn) {
@@ -4302,7 +4302,7 @@ function openProdPreview(id) {
       if (typeof addToCart === 'function') addToCart(_ppProductId);
       closeProdPreview();
     };
-    addBtn.textContent = p.stock === false ? 'вњ• РР·С‡РµСЂРїР°РЅ' : 'рџ›’ Р”РѕР±Р°РІРё РІ РєРѕС€РЅРёС†Р°';
+    addBtn.textContent = p.stock === false ? '✕ Изчерпан' : '🛒 Добави в кошница';
     addBtn.disabled = p.stock === false;
   }
   var detBtn = document.getElementById('ppDetailsBtn');
@@ -4336,415 +4336,415 @@ function closeProdPreview() {
 function _setPgBc(id, label, closeFnName) {
   const el = document.getElementById(id);
   if (!el) return;
-  el.innerHTML = `<ol class="pg-bc-list" itemscope itemtype="https://schema.org/BreadcrumbList"><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="/" class="pg-bc-home" onclick="${closeFnName}();return false;">РќР°С‡Р°Р»Рѕ</a><meta itemprop="position" content="1"/></li><li class="pg-bc-sep" aria-hidden="true">вЂє</li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><strong class="pg-bc-current" itemprop="name">${label}</strong><meta itemprop="position" content="2"/></li></ol>`;
+  el.innerHTML = `<ol class="pg-bc-list" itemscope itemtype="https://schema.org/BreadcrumbList"><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="/" class="pg-bc-home" onclick="${closeFnName}();return false;">Начало</a><meta itemprop="position" content="1"/></li><li class="pg-bc-sep" aria-hidden="true">›</li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><strong class="pg-bc-current" itemprop="name">${label}</strong><meta itemprop="position" content="2"/></li></ol>`;
 }
 const blogPosts = [
   {
     slug: 'palit-rtx-4070-super-jetstream-oc-review',
-    emoji: 'рџЋ®', cat: 'Р РµРІСЋ', title: 'Palit RTX 4070 Super JetStream OC - РљСЂР°Р» РЅР° СЃСЂРµРґРЅРёСЏ РєР»Р°СЃ',
-    date: '02 Р®РЅРё 2026', dateISO: '2026-06-02', read: '6 РјРёРЅ', author: 'РњРѕСЃС‚ РљРѕРјРїСЋС‚СЉСЂСЃ',
-    summary: 'RTX 4070 Super JetStream OC РѕС‚ Palit Рµ РјРѕР¶Рµ Р±Рё РЅР°Р№-Р±Р°Р»Р°РЅСЃРёСЂР°РЅР°С‚Р° РІРёРґРµРѕРєР°СЂС‚Р° Р·Р° 2026. РўРµСЃС‚РІР°С…РјРµ СЏ РІ РёРіСЂРё, СЂРµРЅРґРµСЂРёСЂР°РЅРµ Рё DLSS 3.',
-    metaDesc: 'Palit GeForce RTX 4070 Super JetStream OC СЂРµРІСЋ - С‚РµСЃС‚ РїСЂРё 1440p Рё 4K, DLSS 3, С‚РµРјРїРµСЂР°С‚СѓСЂРё. РќР°Р№-РґРѕР±СЂР°С‚Р° GeForce Р·Р° РїР°СЂРёС‚Рµ?',
-    tags: ['Nvidia', 'Palit', 'GPU', 'РіРµР№РјРёРЅРі', 'СЂРµРІСЋ'],
+    emoji: '🎮', cat: 'Ревю', title: 'Palit RTX 4070 Super JetStream OC - Крал на средния клас',
+    date: '02 Юни 2026', dateISO: '2026-06-02', read: '6 мин', author: 'Мост Компютърс',
+    summary: 'RTX 4070 Super JetStream OC от Palit е може би най-балансираната видеокарта за 2026. Тествахме я в игри, рендериране и DLSS 3.',
+    metaDesc: 'Palit GeForce RTX 4070 Super JetStream OC ревю - тест при 1440p и 4K, DLSS 3, температури. Най-добрата GeForce за парите?',
+    tags: ['Nvidia', 'Palit', 'GPU', 'гейминг', 'ревю'],
     brand: 'palit', rating: '9.1',
-    model: 'RTX 4070 Super', modelSub: 'JetStream OC В· 12 GB', brandLabel: 'PALIT В· GPU',
+    model: 'RTX 4070 Super', modelSub: 'JetStream OC · 12 GB', brandLabel: 'PALIT · GPU',
     productImage: './images/products/38228.webp',
-    verdict: 'Р‘РµР·СЃРїРѕСЂРµРЅ РёР·Р±РѕСЂ Р·Р° 1440p РіРµР№РјРёРЅРі СЃ Р±СЋРґР¶РµС‚ РґРѕ 1200 в‚¬. JetStream РѕС…Р»Р°РґРёС‚РµР»СЏС‚ Рµ СЃСЂРµРґ РЅР°Р№-РґРѕР±СЂРёС‚Рµ РІ РєР»Р°СЃР°, Р° factory OC РЅРѕСЃРё СЂРµР°Р»РµРЅ Р±РѕРЅСѓСЃ.',
-    specs: {'GPU С‡РёРї':'Ada Lovelace AD104','CUDA СЏРґСЂР°':'7 168','РџР°РјРµС‚':'12 GB GDDR6X, 192-bit','Boost Clock':'2535 MHz (factory OC)','TDP':'220 W','РћС…Р»Р°РґРёС‚РµР»':'JetStream 3Г—90 РјРј РІРµРЅС‚РёР»Р°С‚РѕСЂР°'},
-    body: `<h2>РџР°СЃРїРѕСЂС‚ РЅР° РєР°СЂС‚Р°С‚Р°</h2>
-<p>Palit GeForce RTX 4070 Super JetStream OC СЂР°Р·РїРѕР»Р°РіР° СЃ 7168 CUDA СЏРґСЂР° (Ada Lovelace), 12 GB GDDR6X РїР°РјРµС‚ РЅР° 192-Р±РёС‚РѕРІР° С€РёРЅР° Рё factory OC РѕС‚ 2535 MHz boost. РўСЂРёСЃРµРєС†РёРѕРЅРЅРёСЏС‚ РѕС…Р»Р°РґРёС‚РµР» СЃ 3 РІРµРЅС‚РёР»Р°С‚РѕСЂР° Г— 90 РјРј РѕСЃРёРіСѓСЂСЏРІР° РЅРёСЃРєРё С‚РµРјРїРµСЂР°С‚СѓСЂРё Рё РїРѕС‡С‚Рё Р±РµР·С€СѓРјРЅР° СЂР°Р±РѕС‚Р° РїСЂРё СѓРјРµСЂРµРЅРѕ РЅР°С‚РѕРІР°СЂРІР°РЅРµ.</p>
-<h2>РџСЂРѕРёР·РІРѕРґРёС‚РµР»РЅРѕСЃС‚ РїСЂРё 1440p</h2>
-<p>РџСЂРё <strong>1440p Ultra</strong> Palit RTX 4070 Super JetStream OC РїРѕСЃС‚РёРіР°:</p>
+    verdict: 'Безспорен избор за 1440p гейминг с бюджет до 1200 €. JetStream охладителят е сред най-добрите в класа, а factory OC носи реален бонус.',
+    specs: {'GPU чип':'Ada Lovelace AD104','CUDA ядра':'7 168','Памет':'12 GB GDDR6X, 192-bit','Boost Clock':'2535 MHz (factory OC)','TDP':'220 W','Охладител':'JetStream 3×90 мм вентилатора'},
+    body: `<h2>Паспорт на картата</h2>
+<p>Palit GeForce RTX 4070 Super JetStream OC разполага с 7168 CUDA ядра (Ada Lovelace), 12 GB GDDR6X памет на 192-битова шина и factory OC от 2535 MHz boost. Трисекционният охладител с 3 вентилатора × 90 мм осигурява ниски температури и почти безшумна работа при умерено натоварване.</p>
+<h2>Производителност при 1440p</h2>
+<p>При <strong>1440p Ultra</strong> Palit RTX 4070 Super JetStream OC постига:</p>
 <ul>
-<li>Cyberpunk 2077 (RT Ultra + DLSS Quality) - 85 fps СЃСЂРµРґРЅРѕ</li>
-<li>Alan Wake 2 (Path Tracing + DLSS Quality) - 72 fps СЃСЂРµРґРЅРѕ</li>
-<li>CS2 (High) - 260 fps СЃСЂРµРґРЅРѕ</li>
-<li>Microsoft Flight Simulator 2024 (High) - 68 fps СЃСЂРµРґРЅРѕ</li>
+<li>Cyberpunk 2077 (RT Ultra + DLSS Quality) - 85 fps средно</li>
+<li>Alan Wake 2 (Path Tracing + DLSS Quality) - 72 fps средно</li>
+<li>CS2 (High) - 260 fps средно</li>
+<li>Microsoft Flight Simulator 2024 (High) - 68 fps средно</li>
 </ul>
-<p>РџСЂРё 1440p Р±РµР· ray tracing РїСЂР°РєС‚РёС‡РµСЃРєРё РІСЃСЏРєР° РёРіСЂР° С‚РµС‡Рµ РЅР°Рґ 100 fps - РЅРёРІРѕС‚Рѕ, РѕС‚ РєРѕРµС‚Рѕ РёРіСЂР°С‚Р° Рµ РЅР°РёСЃС‚РёРЅР° РїР»Р°РІРЅР°.</p>
-<h2>РџСЂРѕРёР·РІРѕРґРёС‚РµР»РЅРѕСЃС‚ РїСЂРё 4K</h2>
-<p>4K РЅРµ Рµ РѕСЃРЅРѕРІРЅР°С‚Р° С†РµР»РµРІР° СЂРµР·РѕР»СЋС†РёСЏ РЅР° С‚Р°Р·Рё РєР°СЂС‚Р°, РЅРѕ СЃ DLSS 3 Quality (СЂРµР°Р»РµРЅ СЂРµРЅРґРµСЂ РїСЂРё 1440p) СЂРµР·СѓР»С‚Р°С‚РёС‚Рµ РёР·РЅРµРЅР°РґРІР°С‚: Cyberpunk 2077 - 62 fps, Alan Wake 2 - 54 fps. Р—Р° 4K Р±РµР· DLSS Frame Generation Рµ РЅСѓР¶РЅР° RTX 4080 Super РёР»Рё РїРѕ-РІРёСЃРѕРєР° РєР°СЂС‚Р°.</p>
-<h2>DLSS 3 Рё Frame Generation</h2>
-<p>Transformer-Р±Р°Р·РёСЂР°РЅРёСЏС‚ DLSS 3.7 РґР°РІР° РІРёР·СѓР°Р»РЅРѕ РєР°С‡РµСЃС‚РІРѕ, РЅРµРѕС‚Р»РёС‡РёРјРѕ РѕС‚ native СЂРµР·РѕР»СЋС†РёСЏ. Frame Generation СѓРґРІРѕСЏРІР° fps-РёС‚Рµ РїСЂРё GPU-bound СЃС†РµРЅР°СЂРёРё Р±РµР· Р·Р°Р±РµР»РµР¶РёРјР° Р»Р°С‚РµРЅС‚РЅРѕСЃС‚ РїСЂРё Reflex + G-Sync. Р’ Cyberpunk 2077 СЃ РІСЃРёС‡РєРё RT РµС„РµРєС‚Рё Рё FG - 165 fps РїСЂРё 1440p.</p>
-<h2>РўРµРјРїРµСЂР°С‚СѓСЂРё Рё С€СѓРј</h2>
-<p>РџСЂРё full load GPU С‚РµРјРїРµСЂР°С‚СѓСЂР°С‚Р° Рµ 68В°C РїСЂРё СЃС‚Р°Р№РЅР° С‚РµРјРїРµСЂР°С‚СѓСЂР° 22В°C. Р’РµРЅС‚РёР»Р°С‚РѕСЂРёС‚Рµ СЃРїРёСЂР°С‚ РЅР°РїСЉР»РЅРѕ РїСЂРё РЅР°С‚РѕРІР°СЂРІР°РЅРµ РїРѕРґ 60W. РџСЂРё РёРіСЂРё РЅРёРІРѕС‚Рѕ Рµ РѕРєРѕР»Рѕ 36 dBA - С‚РёС…Рѕ РґРѕСЂРё РІ РѕС‚РІРѕСЂРµРЅ РєРѕСЂРїСѓСЃ.</p>
-<h2>Р—Р°РєР»СЋС‡РµРЅРёРµ</h2>
-<p>Palit RTX 4070 Super JetStream OC Рµ <strong>Р±РµР·СЃРїРѕСЂРЅРёСЏС‚ РёР·Р±РѕСЂ Р·Р° 1440p РіРµР№РјРёРЅРі</strong> СЃ Р±СЋРґР¶РµС‚ РґРѕ 1200 в‚¬. JetStream РѕС…Р»Р°РґРёС‚РµР»СЏС‚ Рµ РµРґРёРЅ РѕС‚ РЅР°Р№-РґРѕР±СЂРёС‚Рµ РІ РєР»Р°СЃР°, Р° factory OC РЅРѕСЃРё РјР°Р»СЉРє, РЅРѕ СЂРµР°Р»РµРЅ Р±РѕРЅСѓСЃ. <strong>РћС†РµРЅРєР°: 9.1 / 10</strong></p>`
+<p>При 1440p без ray tracing практически всяка игра тече над 100 fps - нивото, от което играта е наистина плавна.</p>
+<h2>Производителност при 4K</h2>
+<p>4K не е основната целева резолюция на тази карта, но с DLSS 3 Quality (реален рендер при 1440p) резултатите изненадват: Cyberpunk 2077 - 62 fps, Alan Wake 2 - 54 fps. За 4K без DLSS Frame Generation е нужна RTX 4080 Super или по-висока карта.</p>
+<h2>DLSS 3 и Frame Generation</h2>
+<p>Transformer-базираният DLSS 3.7 дава визуално качество, неотличимо от native резолюция. Frame Generation удвоява fps-ите при GPU-bound сценарии без забележима латентност при Reflex + G-Sync. В Cyberpunk 2077 с всички RT ефекти и FG - 165 fps при 1440p.</p>
+<h2>Температури и шум</h2>
+<p>При full load GPU температурата е 68°C при стайна температура 22°C. Вентилаторите спират напълно при натоварване под 60W. При игри нивото е около 36 dBA - тихо дори в отворен корпус.</p>
+<h2>Заключение</h2>
+<p>Palit RTX 4070 Super JetStream OC е <strong>безспорният избор за 1440p гейминг</strong> с бюджет до 1200 €. JetStream охладителят е един от най-добрите в класа, а factory OC носи малък, но реален бонус. <strong>Оценка: 9.1 / 10</strong></p>`
   },
   {
     slug: 'amd-ryzen-9-9950x3d-review',
-    emoji: 'рџ”ґ', cat: 'Р РµРІСЋ', title: 'AMD Ryzen 9 9950X3D - РљСЂР°СЏС‚ РЅР° РєРѕРјРїСЂРѕРјРёСЃРёС‚Рµ',
-    date: '02 Р®РЅРё 2026', dateISO: '2026-06-02', read: '7 РјРёРЅ', author: 'РњРѕСЃС‚ РљРѕРјРїСЋС‚СЉСЂСЃ',
-    summary: 'AMD РєРѕРјР±РёРЅРёСЂР° Zen 5 Р°СЂС…РёС‚РµРєС‚СѓСЂР°С‚Р° СЃ 3D V-Cache С‚РµС…РЅРѕР»РѕРіРёСЏС‚Р°. Р РµР·СѓР»С‚Р°С‚СЉС‚ Рµ РїСЂРѕС†РµСЃРѕСЂСЉС‚, Р·Р° РєРѕР№С‚Рѕ РіРµР№РјСЉСЂРёС‚Рµ РјРµС‡С‚Р°РµС…Р°.',
-    metaDesc: 'AMD Ryzen 9 9950X3D СЂРµРІСЋ - Zen 5 + 3D V-Cache. РўРµСЃС‚ РІ РёРіСЂРё, СЂРµРЅРґРµСЂРёСЂР°РЅРµ Рё СЃСЉРґСЉСЂР¶Р°С‚РµР»РЅР° СЂР°Р±РѕС‚Р°. Р›РёРґРµСЂСЉС‚ Р·Р° 2026.',
-    tags: ['AMD', 'РїСЂРѕС†РµСЃРѕСЂРё', 'РіРµР№РјРёРЅРі', 'СЂРµРІСЋ'],
+    emoji: '🔴', cat: 'Ревю', title: 'AMD Ryzen 9 9950X3D - Краят на компромисите',
+    date: '02 Юни 2026', dateISO: '2026-06-02', read: '7 мин', author: 'Мост Компютърс',
+    summary: 'AMD комбинира Zen 5 архитектурата с 3D V-Cache технологията. Резултатът е процесорът, за който геймърите мечтаеха.',
+    metaDesc: 'AMD Ryzen 9 9950X3D ревю - Zen 5 + 3D V-Cache. Тест в игри, рендериране и съдържателна работа. Лидерът за 2026.',
+    tags: ['AMD', 'процесори', 'гейминг', 'ревю'],
     brand: 'amd', rating: '9.5',
-    model: 'Ryzen 9 9950X3D', modelSub: 'Zen 5 В· 3D V-Cache В· AM5', brandLabel: 'AMD В· CPU',
+    model: 'Ryzen 9 9950X3D', modelSub: 'Zen 5 · 3D V-Cache · AM5', brandLabel: 'AMD · CPU',
     productImage: './images/products/44782.webp',
-    verdict: 'РџСЉСЂРІРёСЏС‚ РїСЂРѕС†РµСЃРѕСЂ Р±РµР· РєРѕРјРїСЂРѕРјРёСЃ РјРµР¶РґСѓ РіРµР№РјРёРЅРі Рё РїСЂРѕРґСѓРєС‚РёРІРЅРѕСЃС‚. РЎРєСЉРї, РЅРѕ РЅР°РїСЉР»РЅРѕ РѕРїСЂР°РІРґР°РЅ Р·Р° enthusiast СЃРёСЃС‚РµРјРё.',
-    specs: {'РђСЂС…РёС‚РµРєС‚СѓСЂР°':'Zen 5 (TSMC 4nm)','РЇРґСЂР° / РќРёС€РєРё':'16C / 32T','Boost С‡РµСЃС‚РѕС‚Р°':'5.7 GHz','РљРµС€ (L3)':'128 MB 3D V-Cache + 64 MB','TDP':'170 W','РЎРѕРєРµС‚':'AM5 (LGA1718)'},
-    body: `<h2>Zen 5 + 3D V-Cache: РјРѕС‰РЅР°С‚Р° РєРѕРјР±РёРЅР°С†РёСЏ</h2>
-<p>Ryzen 9 9950X3D РЅРѕСЃРё 16 СЏРґСЂР° / 32 РЅРёС€РєРё РЅР° Zen 5 Р°СЂС…РёС‚РµРєС‚СѓСЂР° СЃ 5.7 GHz boost С‡РµСЃС‚РѕС‚Р° РїР»СЋСЃ 128 MB 3D V-Cache РІСЉСЂС…Сѓ CCD-С‚Рѕ. РћР±С‰Рѕ: 192 MB РєРµС€ (L2 + L3). AMD Рµ СЂРµС€РёР»Р° РґРёР»РµРјР°С‚Р° РѕС‚ РїСЂРµРґРёС€РЅРёС‚Рµ X3D РјРѕРґРµР»Рё - РєРµС€РёСЂР°РЅРѕС‚Рѕ CCD РІРµС‡Рµ РЅРµ РѕРіСЂР°РЅРёС‡Р°РІР° РјР°РєСЃРёРјР°Р»РЅРёС‚Рµ С‡РµСЃС‚РѕС‚Рё.</p>
-<h2>РџСЂРѕРёР·РІРѕРґРёС‚РµР»РЅРѕСЃС‚ РІ РёРіСЂРё</h2>
-<p>Р’ РіРµР№РјРёРЅРі С‚РµСЃС‚РѕРІРµС‚Рµ 9950X3D Рµ <strong>РЅРµРґРѕСЃС‚РёР¶РёРј РІ РјРѕРјРµРЅС‚Р°</strong>. РџСЂРё 1080p (CPU-limited) СЂРµР·СѓР»С‚Р°С‚РёС‚Рµ СЃР°:</p>
+    verdict: 'Първият процесор без компромис между гейминг и продуктивност. Скъп, но напълно оправдан за enthusiast системи.',
+    specs: {'Архитектура':'Zen 5 (TSMC 4nm)','Ядра / Нишки':'16C / 32T','Boost честота':'5.7 GHz','Кеш (L3)':'128 MB 3D V-Cache + 64 MB','TDP':'170 W','Сокет':'AM5 (LGA1718)'},
+    body: `<h2>Zen 5 + 3D V-Cache: мощната комбинация</h2>
+<p>Ryzen 9 9950X3D носи 16 ядра / 32 нишки на Zen 5 архитектура с 5.7 GHz boost честота плюс 128 MB 3D V-Cache върху CCD-то. Общо: 192 MB кеш (L2 + L3). AMD е решила дилемата от предишните X3D модели - кешираното CCD вече не ограничава максималните честоти.</p>
+<h2>Производителност в игри</h2>
+<p>В гейминг тестовете 9950X3D е <strong>недостижим в момента</strong>. При 1080p (CPU-limited) резултатите са:</p>
 <ul>
-<li>Cyberpunk 2077 - 245 fps СЃСЂРµРґРЅРѕ (+18% vs 9800X3D)</li>
-<li>CS2 - 680 fps СЃСЂРµРґРЅРѕ (+22% vs Intel Core Ultra 9 285K)</li>
+<li>Cyberpunk 2077 - 245 fps средно (+18% vs 9800X3D)</li>
+<li>CS2 - 680 fps средно (+22% vs Intel Core Ultra 9 285K)</li>
 <li>Microsoft Flight Simulator 2024 - 115 fps (+25% vs 9900X)</li>
 </ul>
-<p>РџРѕРґРѕР±СЂРµРЅРёСЏС‚Р° РёРґРІР°С‚ РѕС‚ РїРѕ-Р±СЉСЂР·РёСЏ Zen 5 IPC Рё СѓРІРµР»РёС‡РµРЅРёСЏ РєРµС€ - РґРІРѕР№РЅР° РїРѕР»Р·Р° РїСЂРё СЃРёР»РЅРѕ Р·Р°РІРёСЃРёРјРё РѕС‚ РєРµС€Р° РёРіСЂРё.</p>
-<h2>РџСЂРѕРёР·РІРѕРґРёС‚РµР»РЅРѕСЃС‚ РІ СЃСЉРґСЉСЂР¶Р°С‚РµР»РЅРё Р·Р°РґР°С‡Рё</h2>
-<p>Р—Р° СЂР°Р·Р»РёРєР° РѕС‚ 7950X3D, 9950X3D РЅРµ Р¶РµСЂС‚РІР° РїСЂРѕРёР·РІРѕРґРёС‚РµР»РЅРѕСЃС‚ РїСЂРё СЂРµРЅРґРµСЂРёСЂР°РЅРµ. Р’ Cinebench 2025 Multi-Core РЅР°РґРјРёРЅР°РІР° Core Ultra 9 285K СЃ РѕРєРѕР»Рѕ <strong>12%</strong>. РџСЂРё РєРѕРјРїРёР»Р°С†РёСЏ РЅР° РіРѕР»СЏРј C++ РїСЂРѕРµРєС‚ - 9950X3D Рµ ~8% РїРѕ-Р±СЉСЂР· РѕС‚ Intel.</p>
-<h2>РўРµРјРїРµСЂР°С‚СѓСЂР° Рё РѕС…Р»Р°Р¶РґР°РЅРµ</h2>
-<p>TDP Рµ 170W. AMD РїСЂРµРїРѕСЂСЉС‡РІР° РјРёРЅРёРјСѓРј 360 РјРј AIO РѕС…Р»Р°РґРёС‚РµР». РџСЂРё РґРѕР±СЂРѕ РѕС…Р»Р°Р¶РґР°РЅРµ С‚РµРјРїРµСЂР°С‚СѓСЂРёС‚Рµ СЃР° РѕРєРѕР»Рѕ 72В°C РїСЂРё full load - РѕС‚Р»РёС‡РЅРѕ Р·Р° 16-СЏРґСЂРµРЅ РїСЂРѕС†РµСЃРѕСЂ.</p>
-<h2>РџР»Р°С‚С„РѕСЂРјР° AM5 Рё РЅР°РґСЃС‚СЂРѕР№РєР°</h2>
-<p>РЎРѕРєРµС‚ AM5 РѕСЃРёРіСѓСЂСЏРІР° РґСЉР»РіРѕР»РµС‚РёРµ - РїР»Р°С‚РєРёС‚Рµ РѕС‚ X670E РєР»Р°СЃ РїРѕРґРґСЉСЂР¶Р°С‚ DDR5-6400+ Рё PCIe 5.0 x16. РђРєРѕ РІРµС‡Рµ РёРјР°С€ AM5 СЃРёСЃС‚РµРјР°, 9950X3D Рµ РґРёСЂРµРєС‚РЅР° РЅР°РґСЃС‚СЂРѕР№РєР° Р±РµР· СЃРјСЏРЅР° РЅР° РґСЉРЅРѕС‚Рѕ.</p>
-<h2>Р—Р°РєР»СЋС‡РµРЅРёРµ</h2>
-<p>9950X3D Рµ РїСЉСЂРІРёСЏС‚ РїСЂРѕС†РµСЃРѕСЂ, РїСЂРё РєРѕР№С‚Рѕ <em>РЅРµ Рµ РЅСѓР¶РµРЅ РєРѕРјРїСЂРѕРјРёСЃ</em> РјРµР¶РґСѓ РіРµР№РјРёРЅРі Рё РїСЂРѕРґСѓРєС‚РёРІРЅРѕСЃС‚. РЎРєСЉРї, РЅРѕ РѕРїСЂР°РІРґР°РЅ. <strong>РћС†РµРЅРєР°: 9.5 / 10</strong></p>`
+<p>Подобренията идват от по-бързия Zen 5 IPC и увеличения кеш - двойна полза при силно зависими от кеша игри.</p>
+<h2>Производителност в съдържателни задачи</h2>
+<p>За разлика от 7950X3D, 9950X3D не жертва производителност при рендериране. В Cinebench 2025 Multi-Core надминава Core Ultra 9 285K с около <strong>12%</strong>. При компилация на голям C++ проект - 9950X3D е ~8% по-бърз от Intel.</p>
+<h2>Температура и охлаждане</h2>
+<p>TDP е 170W. AMD препоръчва минимум 360 мм AIO охладител. При добро охлаждане температурите са около 72°C при full load - отлично за 16-ядрен процесор.</p>
+<h2>Платформа AM5 и надстройка</h2>
+<p>Сокет AM5 осигурява дълголетие - платките от X670E клас поддържат DDR5-6400+ и PCIe 5.0 x16. Ако вече имаш AM5 система, 9950X3D е директна надстройка без смяна на дъното.</p>
+<h2>Заключение</h2>
+<p>9950X3D е първият процесор, при който <em>не е нужен компромис</em> между гейминг и продуктивност. Скъп, но оправдан. <strong>Оценка: 9.5 / 10</strong></p>`
   },
   {
     slug: 'intel-core-ultra-300-arrow-lake-2026',
-    emoji: 'рџ”µ', cat: 'РќРѕРІРёРЅРё', title: 'Intel Core Ultra 300 (Arrow Lake-R) - РџСЂРµСЃРёС‡Р°РЅРµ РЅР° РїСЂРѕРїР°СЃС‚С‚Р°',
-    date: '02 Р®РЅРё 2026', dateISO: '2026-06-02', read: '5 РјРёРЅ', author: 'РњРѕСЃС‚ РљРѕРјРїСЋС‚СЉСЂСЃ',
-    summary: 'Intel Arrow Lake-R РґРѕРЅРµСЃРµ Р·РЅР°С‡РёС‚РµР»РЅРё РїРѕРґРѕР±СЂРµРЅРёСЏ СЃ BIOS РѕРїС‚РёРјРёР·Р°С†РёРё. Р’РµС‡Рµ Р»Рё Рµ РґРѕСЃС‚РѕРµРЅ РєРѕРЅРєСѓСЂРµРЅС‚ РЅР° AMD Ryzen 9000?',
-    metaDesc: 'Intel Core Ultra 300 Arrow Lake-R СЂРµРІСЋ 2026 - IPC СЂСЉСЃС‚, BIOS РѕРїС‚РёРјРёР·Р°С†РёРё, AI Boost. РЎСЂР°РІРЅРµРЅРёРµ СЃ AMD Ryzen 9 9900X.',
-    tags: ['Intel', 'РїСЂРѕС†РµСЃРѕСЂРё', 'Arrow Lake', 'РЅРѕРІРёРЅРё'],
+    emoji: '🔵', cat: 'Новини', title: 'Intel Core Ultra 300 (Arrow Lake-R) - Пресичане на пропастта',
+    date: '02 Юни 2026', dateISO: '2026-06-02', read: '5 мин', author: 'Мост Компютърс',
+    summary: 'Intel Arrow Lake-R донесе значителни подобрения с BIOS оптимизации. Вече ли е достоен конкурент на AMD Ryzen 9000?',
+    metaDesc: 'Intel Core Ultra 300 Arrow Lake-R ревю 2026 - IPC ръст, BIOS оптимизации, AI Boost. Сравнение с AMD Ryzen 9 9900X.',
+    tags: ['Intel', 'процесори', 'Arrow Lake', 'новини'],
     brand: 'intel', rating: '8.3',
-    model: 'Core Ultra 9 285K', modelSub: 'Arrow Lake-R В· LGA1851', brandLabel: 'INTEL В· CPU',
+    model: 'Core Ultra 9 285K', modelSub: 'Arrow Lake-R · LGA1851', brandLabel: 'INTEL · CPU',
     productImage: './images/products/43688.webp',
-    verdict: 'Arrow Lake-R Р·Р°С‚РІР°СЂСЏ РіРѕР»СЏРјР° С‡Р°СЃС‚ РѕС‚ РїСЂРѕРїР°СЃС‚С‚Р° СЃ AMD. Р”РѕР±СЉСЂ РёР·Р±РѕСЂ Р·Р° AI СЂР°Р±РѕС‚РЅРё РЅР°С‚РѕРІР°СЂРІР°РЅРёСЏ Рё СЃРјРµСЃРµРЅР° СѓРїРѕС‚СЂРµР±Р°.',
-    specs: {'РђСЂС…РёС‚РµРєС‚СѓСЂР°':'Lion Cove + Skymont E-cores','РЇРґСЂР°':'8P + 16E = 24 СЏРґСЂР°','Boost С‡РµСЃС‚РѕС‚Р°':'5.7 GHz','РљРµС€ (L3)':'36 MB','TDP':'125 W (253 W PL2)','РЎРѕРєРµС‚':'LGA1851 (Z890)','NPU':'48 TOPS'},
-    body: `<h2>РљР°РєРІРѕ СЃРµ РїСЂРѕРјРµРЅРё РїСЂРё Arrow Lake-R?</h2>
-<p>РЎРµСЂРёСЏС‚Р° Core Ultra 300 (Arrow Lake-R) Рµ РѕСЃРІРµР¶РµРЅ РІР°СЂРёР°РЅС‚ РЅР° Arrow Lake СЃ РЅРѕРІРё BIOS РјРёРєСЂРѕРєРѕРґРѕРІРµ, РѕРїС‚РёРјРёР·Р°С†РёРё Р·Р° Thread Director 2.0 Рё РїРѕРґРѕР±СЂРµРЅРё E-СЏРґСЂР° (Skymont). Intel РїСЂРёР·РЅР°РІР°, С‡Рµ РѕСЂРёРіРёРЅР°Р»РЅРёСЏС‚ Arrow Lake РЅРµ РїРѕСЃС‚РёРіРЅР° РѕС‡Р°РєРІР°РЅРёСЏС‚Р° РїСЂРё РіРµР№РјРёРЅРі - <strong>РѕСЃРІРµР¶РµРЅР°С‚Р° РІРµСЂСЃРёСЏ РєРѕСЂРёРіРёСЂР° Р·РЅР°С‡РёС‚РµР»РЅР° С‡Р°СЃС‚ РѕС‚ РїСЂРѕР±Р»РµРјРёС‚Рµ</strong>.</p>
-<h2>Core Ultra 9 285K vs РїСЂРµРґС€РµСЃС‚РІРµРЅРёРєР°</h2>
-<p>РџСЂРё РёРґРµРЅС‚РёС‡РµРЅ СЃРёР»РёС†РёР№, РЅРѕРІРёС‚Рµ BIOS РѕРїС‚РёРјРёР·Р°С†РёРё РЅРѕСЃСЏС‚:</p>
+    verdict: 'Arrow Lake-R затваря голяма част от пропастта с AMD. Добър избор за AI работни натоварвания и смесена употреба.',
+    specs: {'Архитектура':'Lion Cove + Skymont E-cores','Ядра':'8P + 16E = 24 ядра','Boost честота':'5.7 GHz','Кеш (L3)':'36 MB','TDP':'125 W (253 W PL2)','Сокет':'LGA1851 (Z890)','NPU':'48 TOPS'},
+    body: `<h2>Какво се промени при Arrow Lake-R?</h2>
+<p>Серията Core Ultra 300 (Arrow Lake-R) е освежен вариант на Arrow Lake с нови BIOS микрокодове, оптимизации за Thread Director 2.0 и подобрени E-ядра (Skymont). Intel признава, че оригиналният Arrow Lake не постигна очакванията при гейминг - <strong>освежената версия коригира значителна част от проблемите</strong>.</p>
+<h2>Core Ultra 9 285K vs предшественика</h2>
+<p>При идентичен силиций, новите BIOS оптимизации носят:</p>
 <ul>
-<li>+11% СЃСЂРµРґРЅРѕ РІ РіРµР№РјРёРЅРі С‚РµСЃС‚РѕРІРµ РїСЂРё 1080p</li>
-<li>+7% РІ Cinebench 2025 Multi-Core</li>
-<li>-15W СЃСЂРµРґРЅР° РєРѕРЅСЃСѓРјР°С†РёСЏ РїСЂРё РёРіСЂРё</li>
+<li>+11% средно в гейминг тестове при 1080p</li>
+<li>+7% в Cinebench 2025 Multi-Core</li>
+<li>-15W средна консумация при игри</li>
 </ul>
-<p>Р РµР·СѓР»С‚Р°С‚РёС‚Рµ РїРѕСЃС‚Р°РІСЏС‚ 285K РїРѕ-Р±Р»РёР·Рѕ РґРѕ AMD Ryzen 9 9900X, РЅРѕ Р±РµР· 3D V-Cache РІР°СЂРёР°РЅС‚РёС‚Рµ, РіРµР№РјРёРЅРіСЉС‚ РІСЃРµ РѕС‰Рµ Рµ РїСЂРµРґРёРјСЃС‚РІРѕ РЅР° AMD.</p>
-<h2>AI Boost - Intel NPU РІ РґРµР№СЃС‚РІРёРµ</h2>
-<p>Arrow Lake-R РІРєР»СЋС‡РІР° NPU СЃ <strong>48 TOPS</strong> AI РїСЂРѕРёР·РІРѕРґРёС‚РµР»РЅРѕСЃС‚. Microsoft Copilot+, Adobe Firefly Р»РѕРєР°Р»РЅРѕ Рё GitHub Copilot СЃ Р»РѕРєР°Р»РµРЅ РјРѕРґРµР» СЂР°Р±РѕС‚СЏС‚ Р·РЅР°С‡РёС‚РµР»РЅРѕ РїРѕ-РїР»Р°РІРЅРѕ. РђРєРѕ AI РёРЅСЃС‚СЂСѓРјРµРЅС‚РёС‚Рµ СЃР° РєР»СЋС‡РѕРІРё Р·Р° СЂР°Р±РѕС‚Р°С‚Р° С‚Рё - Intel Рµ РїРѕ-РґРѕР±СЂР°С‚Р° РїР»Р°С‚С„РѕСЂРјР° РІ РјРѕРјРµРЅС‚Р°.</p>
-<h2>РџР»Р°С‚С„РѕСЂРјР° LGA1851 Рё РїР°РјРµС‚</h2>
-<p>Core Ultra 300 РёР·РёСЃРєРІР° DDR5 - DDR4 РІРµС‡Рµ РЅРµ СЃРµ РїРѕРґРґСЉСЂР¶Р°. РћРїС‚РёРјР°Р»РЅРѕС‚Рѕ Рµ DDR5-6400 CL32. Intel РїСЂРµРїРѕСЂСЉС‡РІР° РїР»Р°С‚РєРё РѕС‚ Z890 РєР»Р°СЃ Р·Р° РјР°РєСЃРёРјР°Р»РЅР° РїСЂРѕРёР·РІРѕРґРёС‚РµР»РЅРѕСЃС‚. PCIe 5.0 x16 Р·Р° GPU Рё x4 Р·Р° NVMe SSD СЃР° СЃС‚Р°РЅРґР°СЂС‚.</p>
-<h2>Р—Р° РєРѕРіРѕ Рµ Intel Core Ultra 300?</h2>
-<p>РђРєРѕ СЂР°Р±РѕС‚РёС€ РёРЅС‚РµРЅР·РёРІРЅРѕ СЃ AI РёРЅСЃС‚СЂСѓРјРµРЅС‚Рё, РЅСѓР¶РґР°РµС€ СЃРµ РѕС‚ Thunderbolt 5, РёР»Рё РІРµС‡Рµ РёРјР°С€ LGA1851 РїР»Р°С‚РєР° - Core Ultra 300 Рµ Р»РѕРіРёС‡РЅРёСЏС‚ РёР·Р±РѕСЂ. Р—Р° С‡РёСЃС‚ РіРµР№РјРёРЅРі AMD РІСЃРµ РѕС‰Рµ РґСЉСЂР¶Рё РєРѕСЂРѕРЅР°С‚Р°. Р—Р° СЃРјРµСЃРµРЅР° СѓРїРѕС‚СЂРµР±Р° РґРІРµС‚Рµ РїР»Р°С‚С„РѕСЂРјРё СЃР° РїСЂР°РєС‚РёС‡РµСЃРєРё СЂР°РІРЅРё.</p>
-<h2>Р—Р°РєР»СЋС‡РµРЅРёРµ</h2>
-<p>Intel СЃРµ РІСЉСЂРЅР° РІ РёРіСЂР°С‚Р° СЃ Arrow Lake-R. РќРµ Рµ РїРµСЂС„РµРєС‚РµРЅ, РЅРѕ Рµ Р·РЅР°С‡РёС‚РµР»РЅРѕ РїРѕРґРѕР±СЂРµРЅ. РћС‡Р°РєРІР°РјРµ Panther Lake (РєСЂР°СЏ РЅР° 2026) РґР° Р·Р°С‚РІРѕСЂРё РѕРєРѕРЅС‡Р°С‚РµР»РЅРѕ РїСЂРѕРїР°СЃС‚С‚Р° СЃ AMD. <strong>РћС†РµРЅРєР°: 8.3 / 10</strong></p>`
+<p>Резултатите поставят 285K по-близо до AMD Ryzen 9 9900X, но без 3D V-Cache вариантите, геймингът все още е предимство на AMD.</p>
+<h2>AI Boost - Intel NPU в действие</h2>
+<p>Arrow Lake-R включва NPU с <strong>48 TOPS</strong> AI производителност. Microsoft Copilot+, Adobe Firefly локално и GitHub Copilot с локален модел работят значително по-плавно. Ако AI инструментите са ключови за работата ти - Intel е по-добрата платформа в момента.</p>
+<h2>Платформа LGA1851 и памет</h2>
+<p>Core Ultra 300 изисква DDR5 - DDR4 вече не се поддържа. Оптималното е DDR5-6400 CL32. Intel препоръчва платки от Z890 клас за максимална производителност. PCIe 5.0 x16 за GPU и x4 за NVMe SSD са стандарт.</p>
+<h2>За кого е Intel Core Ultra 300?</h2>
+<p>Ако работиш интензивно с AI инструменти, нуждаеш се от Thunderbolt 5, или вече имаш LGA1851 платка - Core Ultra 300 е логичният избор. За чист гейминг AMD все още държи короната. За смесена употреба двете платформи са практически равни.</p>
+<h2>Заключение</h2>
+<p>Intel се върна в играта с Arrow Lake-R. Не е перфектен, но е значително подобрен. Очакваме Panther Lake (края на 2026) да затвори окончателно пропастта с AMD. <strong>Оценка: 8.3 / 10</strong></p>`
   },
   {
     slug: 'amd-ryzen-7-9800x3d-review-2026',
-    emoji: 'рџ”ґ', cat: 'Р РµРІСЋ', title: 'AMD Ryzen 7 9800X3D - РќР°Р№-РґРѕР±СЂРёСЏС‚ РіРµР№РјСЉСЂСЃРєРё РїСЂРѕС†РµСЃРѕСЂ Р·Р° РїР°СЂРёС‚Рµ',
-    date: '26 РњР°Р№ 2026', dateISO: '2026-05-26', read: '6 РјРёРЅ', author: 'РњРѕСЃС‚ РљРѕРјРїСЋС‚СЉСЂСЃ',
-    summary: 'Ryzen 7 9800X3D РїСЂРµРґР»Р°РіР° 9950X3D РіРµР№РјРёРЅРі РїСЂРѕРёР·РІРѕРґРёС‚РµР»РЅРѕСЃС‚ РЅР° РїРѕР»РѕРІРёРЅ С†РµРЅР°. РўРµСЃС‚РІР°С…РјРµ РіРѕ РІ 12 РёРіСЂРё Рё РїСЂРё СЂРµРЅРґРµСЂРёСЂР°РЅРµ.',
-    metaDesc: 'AMD Ryzen 7 9800X3D СЂРµРІСЋ 2026 - С‚РµСЃС‚ РІ РёРіСЂРё, Zen 5 + 3D V-Cache, СЃСЂР°РІРЅРµРЅРёРµ СЃ 9950X3D. РќР°Р№-РґРѕР±СЂРёСЏС‚ РіРµР№РјСЉСЂСЃРєРё CPU Р·Р° С†РµРЅР°С‚Р°.',
-    tags: ['AMD', 'РїСЂРѕС†РµСЃРѕСЂРё', 'РіРµР№РјРёРЅРі', 'СЂРµРІСЋ'],
+    emoji: '🔴', cat: 'Ревю', title: 'AMD Ryzen 7 9800X3D - Най-добрият геймърски процесор за парите',
+    date: '26 Май 2026', dateISO: '2026-05-26', read: '6 мин', author: 'Мост Компютърс',
+    summary: 'Ryzen 7 9800X3D предлага 9950X3D гейминг производителност на половин цена. Тествахме го в 12 игри и при рендериране.',
+    metaDesc: 'AMD Ryzen 7 9800X3D ревю 2026 - тест в игри, Zen 5 + 3D V-Cache, сравнение с 9950X3D. Най-добрият геймърски CPU за цената.',
+    tags: ['AMD', 'процесори', 'гейминг', 'ревю'],
     brand: 'amd', rating: '9.4',
-    model: 'Ryzen 7 9800X3D', modelSub: 'Zen 5 В· 3D V-Cache В· AM5', brandLabel: 'AMD В· CPU',
+    model: 'Ryzen 7 9800X3D', modelSub: 'Zen 5 · 3D V-Cache · AM5', brandLabel: 'AMD · CPU',
     productImage: './images/products/44485.webp',
-    verdict: 'РђР±СЃРѕР»СЋС‚РЅРёСЏС‚ РєСЂР°Р» РЅР° РіРµР№РјРёРЅРі РїСЂРѕРёР·РІРѕРґРёС‚РµР»РЅРѕСЃС‚ Р·Р° С†РµРЅР°С‚Р°. РђРєРѕ Р±СЋРґР¶РµС‚СЉС‚ РЅРµ РїРѕР·РІРѕР»СЏРІР° 9950X3D - 9800X3D Рµ РїСЂР°РІРёР»РЅРёСЏС‚ РёР·Р±РѕСЂ.',
-    specs: {'РђСЂС…РёС‚РµРєС‚СѓСЂР°':'Zen 5 (TSMC 4nm)','РЇРґСЂР° / РќРёС€РєРё':'8C / 16T','Boost С‡РµСЃС‚РѕС‚Р°':'5.7 GHz','РљРµС€ (L3)':'96 MB 3D V-Cache','TDP':'120 W','РЎРѕРєРµС‚':'AM5 (LGA1718)'},
-    body: `<h2>Р—Р°С‰Рѕ 9800X3D Рµ СЃРїРµС†РёР°Р»РµРЅ?</h2>
-<p>AMD Ryzen 7 9800X3D СЃСЉС‡РµС‚Р°РІР° Zen 5 IPC СЃ 96 MB 3D V-Cache - РєРѕРјР±РёРЅР°С†РёСЏ, РєРѕСЏС‚Рѕ Рµ РїРѕС‡С‚Рё РЅРµРґРѕСЃС‚РёР¶РёРјР° РІ РіРµР№РјРёРЅРі РїСЂРё CPU-limited СЃС†РµРЅР°СЂРёРё. Р—Р° СЂР°Р·Р»РёРєР° РѕС‚ 7800X3D, РЅРѕРІРѕС‚Рѕ РїРѕРєРѕР»РµРЅРёРµ РЅРµ Р¶РµСЂС‚РІР° С‡РµСЃС‚РѕС‚Р° Р·Р° РєРµС€ - 5.7 GHz boost Рµ СЂРµР°Р»РµРЅ Рё РїРѕСЃС‚РёР¶РёРј РїСЂРё РѕС…Р»Р°Р¶РґР°РЅРµ СЃ 240+ РјРј AIO.</p>
-<h2>Р“РµР№РјРёРЅРі С‚РµСЃС‚РѕРІРµ РїСЂРё 1080p</h2>
-<p>РџСЂРё <strong>1080p CPU-limited</strong> С‚РµСЃС‚РѕРІРµ 9800X3D e:</p>
+    verdict: 'Абсолютният крал на гейминг производителност за цената. Ако бюджетът не позволява 9950X3D - 9800X3D е правилният избор.',
+    specs: {'Архитектура':'Zen 5 (TSMC 4nm)','Ядра / Нишки':'8C / 16T','Boost честота':'5.7 GHz','Кеш (L3)':'96 MB 3D V-Cache','TDP':'120 W','Сокет':'AM5 (LGA1718)'},
+    body: `<h2>Защо 9800X3D е специален?</h2>
+<p>AMD Ryzen 7 9800X3D съчетава Zen 5 IPC с 96 MB 3D V-Cache - комбинация, която е почти недостижима в гейминг при CPU-limited сценарии. За разлика от 7800X3D, новото поколение не жертва честота за кеш - 5.7 GHz boost е реален и постижим при охлаждане с 240+ мм AIO.</p>
+<h2>Гейминг тестове при 1080p</h2>
+<p>При <strong>1080p CPU-limited</strong> тестове 9800X3D e:</p>
 <ul>
-<li>Cyberpunk 2077 - 275 fps СЃСЂРµРґРЅРѕ</li>
-<li>CS2 - 620 fps СЃСЂРµРґРЅРѕ</li>
-<li>Hogwarts Legacy - 198 fps СЃСЂРµРґРЅРѕ</li>
-<li>Star Wars Outlaws - 165 fps СЃСЂРµРґРЅРѕ</li>
-<li>Microsoft Flight Simulator 2024 - 108 fps СЃСЂРµРґРЅРѕ</li>
+<li>Cyberpunk 2077 - 275 fps средно</li>
+<li>CS2 - 620 fps средно</li>
+<li>Hogwarts Legacy - 198 fps средно</li>
+<li>Star Wars Outlaws - 165 fps средно</li>
+<li>Microsoft Flight Simulator 2024 - 108 fps средно</li>
 </ul>
-<p>Р Р°Р·Р»РёРєР°С‚Р° СЃРїСЂСЏРјРѕ Ryzen 9 9950X3D Рµ РїРѕРґ <strong>8% РІ РїРѕРІРµС‡РµС‚Рѕ РёРіСЂРё</strong> - РЅРµР·РЅР°С‡РёС‚РµР»РЅР° Р·Р° РїСЂР°РєС‚РёС‡РµСЃРєРё СѓРїРѕС‚СЂРµР±Рё РїСЂРё 1440p СЃ RTX 4070+ GPU.</p>
-<h2>РџСЂРѕРґСѓРєС‚РёРІРЅРѕСЃС‚ - СЃР»Р°Р±Р°С‚Р° СЃС‚СЂР°РЅР°?</h2>
-<p>РџСЂРё 8 СЏРґСЂР° СЃСЂРµС‰Сѓ 16 РїСЂРё 9950X3D, СЂР°Р·Р»РёРєР°С‚Р° РІ СЂРµРЅРґРµСЂРёСЂР°РЅРµ Рµ СЂРµР°Р»РЅР°: Blender Classroom - 9800X3D Рµ ~42% РїРѕ-Р±Р°РІРµРЅ. Р—Р° С‡РёСЃС‚Р° РїСЂРѕРґСѓРєС‚РёРІРЅР° СЂР°Р±РѕС‚Р° 9950X3D РёР»Рё 9900X СЃР° РїРѕ-РґРѕР±СЂРё. 9800X3D Рµ РѕРїС‚РёРјР°Р»РµРЅ Р·Р° РіРµР№РјСЉСЂРё, РєРѕРёС‚Рѕ РїРѕРЅСЏРєРѕРіР° СЃС‚СЂРёР№РјРІР°С‚ РёР»Рё РєРѕРјРїРёР»РёСЂР°С‚.</p>
-<h2>РўРµРјРїРµСЂР°С‚СѓСЂР° Рё РїР»Р°С‚С„РѕСЂРјР°</h2>
-<p>TDP Рµ 120W - РїРѕ-Р»РµСЃРµРЅ Р·Р° РѕС…Р»Р°Р¶РґР°РЅРµ РѕС‚ 9950X3D. 240 РјРј AIO Рµ РґРѕСЃС‚Р°С‚СЉС‡РµРЅ. Р Р°Р±РѕС‚Рё РЅР° РІСЃСЏРєР° AM5 РїР»Р°С‚РєР° СЃ Р°РєС‚СѓР°Р»РµРЅ BIOS. РџСЂРµРїРѕСЂСЉС‡РёС‚РµР»РЅР° РїР°РјРµС‚: DDR5-6000 CL30 РІ 2Г—16 GB РєРѕРЅС„РёРіСѓСЂР°С†РёСЏ.</p>
-<h2>Р—Р°РєР»СЋС‡РµРЅРёРµ</h2>
-<p>9800X3D Рµ РїСЂРѕС†РµСЃРѕСЂСЉС‚, РєРѕР№С‚Рѕ РїРѕРІРµС‡РµС‚Рѕ РіРµР№РјСЉСЂРё <em>РґРµР№СЃС‚РІРёС‚РµР»РЅРѕ</em> С‚СЂСЏР±РІР° РґР° РєСѓРїСЏС‚. РћС„РµСЂРёСЂР° 95% РѕС‚ РіРµР№РјРёРЅРі РїСЂРѕРёР·РІРѕРґРёС‚РµР»РЅРѕСЃС‚С‚Р° РЅР° 9950X3D РЅР° РїРѕРґ 60% РѕС‚ С†РµРЅР°С‚Р°. <strong>РћС†РµРЅРєР°: 9.4 / 10</strong></p>`
+<p>Разликата спрямо Ryzen 9 9950X3D е под <strong>8% в повечето игри</strong> - незначителна за практически употреби при 1440p с RTX 4070+ GPU.</p>
+<h2>Продуктивност - слабата страна?</h2>
+<p>При 8 ядра срещу 16 при 9950X3D, разликата в рендериране е реална: Blender Classroom - 9800X3D е ~42% по-бавен. За чиста продуктивна работа 9950X3D или 9900X са по-добри. 9800X3D е оптимален за геймъри, които понякога стриймват или компилират.</p>
+<h2>Температура и платформа</h2>
+<p>TDP е 120W - по-лесен за охлаждане от 9950X3D. 240 мм AIO е достатъчен. Работи на всяка AM5 платка с актуален BIOS. Препоръчителна памет: DDR5-6000 CL30 в 2×16 GB конфигурация.</p>
+<h2>Заключение</h2>
+<p>9800X3D е процесорът, който повечето геймъри <em>действително</em> трябва да купят. Оферира 95% от гейминг производителността на 9950X3D на под 60% от цената. <strong>Оценка: 9.4 / 10</strong></p>`
   },
   {
     slug: 'intel-vs-amd-cpu-2026',
-    emoji: 'вљ”пёЏ', cat: 'РЎСЂР°РІРЅРµРЅРёРµ', title: 'Intel vs AMD 2026 - РљРѕР№ РїСЂРѕС†РµСЃРѕСЂ РґР° РёР·Р±РµСЂРµРј?',
+    emoji: '⚔️', cat: 'Сравнение', title: 'Intel vs AMD 2026 - Кой процесор да изберем?',
     productImage: './images/products/43688.webp',
-    date: '19 РњР°Р№ 2026', dateISO: '2026-05-19', read: '7 РјРёРЅ', author: 'РњРѕСЃС‚ РљРѕРјРїСЋС‚СЉСЂСЃ',
-    summary: 'Arrow Lake-R СЃСЂРµС‰Сѓ Zen 5 - РїСЉР»РЅРѕ СЃСЂР°РІРЅРµРЅРёРµ РїРѕ РіРµР№РјРёРЅРі, РїСЂРѕРґСѓРєС‚РёРІРЅРѕСЃС‚, AI Рё РїР»Р°С‚С„РѕСЂРјР°. РљРѕР№ РїРѕР±РµР¶РґР°РІР° РІ СЃСЂРµРґР°С‚Р° РЅР° 2026?',
-    metaDesc: 'Intel vs AMD 2026 - СЃСЂР°РІРЅРµРЅРёРµ Core Ultra 300 Arrow Lake-R СЃСЂРµС‰Сѓ Ryzen 9000 Zen 5. РљРѕР№ CPU РґР° РєСѓРїРёРј Р·Р° РіРµР№РјРёРЅРі Рё СЂР°Р±РѕС‚Р°?',
-    tags: ['Intel', 'AMD', 'РїСЂРѕС†РµСЃРѕСЂРё', 'СЃСЂР°РІРЅРµРЅРёРµ'],
+    date: '19 Май 2026', dateISO: '2026-05-19', read: '7 мин', author: 'Мост Компютърс',
+    summary: 'Arrow Lake-R срещу Zen 5 - пълно сравнение по гейминг, продуктивност, AI и платформа. Кой побеждава в средата на 2026?',
+    metaDesc: 'Intel vs AMD 2026 - сравнение Core Ultra 300 Arrow Lake-R срещу Ryzen 9000 Zen 5. Кой CPU да купим за гейминг и работа?',
+    tags: ['Intel', 'AMD', 'процесори', 'сравнение'],
     brand: 'general',
-    body: `<h2>РџР»Р°С‚С„РѕСЂРјРё - AM5 СЃСЂРµС‰Сѓ LGA1851</h2>
-<p><strong>AMD AM5</strong> Рµ РїРѕ-Р·СЂСЏР»Р° РїР»Р°С‚С„РѕСЂРјР° - СЃСЉС‰РµСЃС‚РІСѓРІР° РѕС‚ 2022 Рё РїРѕРґРґСЉСЂР¶Р° Ryzen 7000, 8000 Рё 9000 СЃРµСЂРёРё. РЎСЉС‰РµСЃС‚РІСѓРІР°С‰РёС‚Рµ AM5 РїР»Р°С‚РєРё (X670E, B650E, B650) СЂР°Р±РѕС‚СЏС‚ СЃ РЅРѕРІ BIOS. <strong>Intel LGA1851</strong> Рµ РїРѕ-РЅРѕРІР° - СЃР°РјРѕ Z890 Рё B860 РґСЉРЅРё, DDR5 Р·Р°РґСЉР»Р¶РёС‚РµР»РЅР°. AMD РґР°РІР° РїРѕ-РґСЉР»РіРѕС‚СЂР°Р№РЅР° РёРЅРІРµСЃС‚РёС†РёСЏ РІ РјРѕРјРµРЅС‚Р°.</p>
-<h2>Р“РµР№РјРёРЅРі - AMD РґРѕРјРёРЅРёСЂР°</h2>
-<p>РџСЂРё 1080p CPU-limited РіРµР№РјРёРЅРі, Ryzen 7 9800X3D Рё 9950X3D СЃР° РЅРµРґРѕСЃС‚РёР¶РёРјРё Р·Р° Intel. Core Ultra 9 285K РёР·РѕСЃС‚Р°РІР° СЃ 15-25% РІ РєРµС€РѕРІРѕ-Р·Р°РІРёСЃРёРјРё РёРіСЂРё. Р‘РµР· 3D V-Cache Intel РіСѓР±Рё РґРёСЂРµРєС‚РЅРёСЏ РґСѓРµР». РџСЂРё 1440p Рё 4K СЃ РјРѕС‰РЅР° GPU СЂР°Р·Р»РёРєР°С‚Р° РЅР°РјР°Р»СЏРІР° РґРѕ РїРѕРґ 5% - РїСЂР°РєС‚РёС‡РµСЃРєРё РЅРµР·РЅР°С‡РёС‚РµР»РЅР°.</p>
-<h2>РџСЂРѕРґСѓРєС‚РёРІРЅРѕСЃС‚ - РїРѕ-РёР·СЂР°РІРЅРµРЅР° Р±РёС‚РєР°</h2>
-<p>Р’ Cinebench 2025 Multi-Core: Core Ultra 9 285K Рµ РѕРєРѕР»Рѕ 8% РїСЂРµРґ Ryzen 9 9900X, РЅРѕ 12% Р·Р°Рґ 9950X3D. РџСЂРё video export (DaVinci Resolve) Intel Рµ РїРѕ-Р±СЉСЂР· СЃ ~6% СЃРїСЂСЏРјРѕ 9900X. AMD РїРµС‡РµР»Рё РїСЂРё РєРѕРјРїРёР»Р°С†РёСЏ Рё РЅР°СѓС‡РЅРё РёР·С‡РёСЃР»РµРЅРёСЏ Р±Р»Р°РіРѕРґР°СЂРµРЅРёРµ РЅР° РїРѕ-РіРѕР»СЏРј РєРµС€.</p>
-<h2>AI - Intel NPU СЃСЂРµС‰Сѓ AMD XDNA 2</h2>
-<p>Intel Core Ultra 300 РїСЂРµРґР»Р°РіР° <strong>48 TOPS NPU</strong>, AMD Ryzen 9000 - <strong>50 TOPS XDNA 2</strong>. Р”РІРµС‚Рµ РїР»Р°С‚С„РѕСЂРјРё СЃР° РїСЂР°РєС‚РёС‡РµСЃРєРё СЂР°РІРЅРё РїСЂРё Р»РѕРєР°Р»РµРЅ AI РёРЅС„РµСЂ. Microsoft Copilot+ СЂР°Р±РѕС‚Рё РґРѕР±СЂРµ Рё РЅР° РґРІРµС‚Рµ.</p>
-<h2>РџСЂРµРїРѕСЂСЉРєРё РїРѕ СЃР»СѓС‡Р°Р№</h2>
+    body: `<h2>Платформи - AM5 срещу LGA1851</h2>
+<p><strong>AMD AM5</strong> е по-зряла платформа - съществува от 2022 и поддържа Ryzen 7000, 8000 и 9000 серии. Съществуващите AM5 платки (X670E, B650E, B650) работят с нов BIOS. <strong>Intel LGA1851</strong> е по-нова - само Z890 и B860 дъни, DDR5 задължителна. AMD дава по-дълготрайна инвестиция в момента.</p>
+<h2>Гейминг - AMD доминира</h2>
+<p>При 1080p CPU-limited гейминг, Ryzen 7 9800X3D и 9950X3D са недостижими за Intel. Core Ultra 9 285K изостава с 15-25% в кешово-зависими игри. Без 3D V-Cache Intel губи директния дуел. При 1440p и 4K с мощна GPU разликата намалява до под 5% - практически незначителна.</p>
+<h2>Продуктивност - по-изравнена битка</h2>
+<p>В Cinebench 2025 Multi-Core: Core Ultra 9 285K е около 8% пред Ryzen 9 9900X, но 12% зад 9950X3D. При video export (DaVinci Resolve) Intel е по-бърз с ~6% спрямо 9900X. AMD печели при компилация и научни изчисления благодарение на по-голям кеш.</p>
+<h2>AI - Intel NPU срещу AMD XDNA 2</h2>
+<p>Intel Core Ultra 300 предлага <strong>48 TOPS NPU</strong>, AMD Ryzen 9000 - <strong>50 TOPS XDNA 2</strong>. Двете платформи са практически равни при локален AI инфер. Microsoft Copilot+ работи добре и на двете.</p>
+<h2>Препоръки по случай</h2>
 <ul>
-<li><strong>Р§РёСЃС‚ РіРµР№РјРёРЅРі</strong> в†’ AMD Ryzen 7 9800X3D</li>
-<li><strong>Р“РµР№РјРёРЅРі + РїСЂРѕРґСѓРєС‚РёРІРЅРѕСЃС‚</strong> в†’ AMD Ryzen 9 9950X3D</li>
-<li><strong>AI СЂР°Р±РѕС‚РЅРё РЅР°С‚РѕРІР°СЂРІР°РЅРёСЏ + Thunderbolt 5</strong> в†’ Intel Core Ultra 9 285K</li>
-<li><strong>Р‘СЋРґР¶РµС‚ РґРѕ 200 в‚¬</strong> в†’ Intel Core i5-14600K РёР»Рё AMD Ryzen 5 9600X</li>
+<li><strong>Чист гейминг</strong> → AMD Ryzen 7 9800X3D</li>
+<li><strong>Гейминг + продуктивност</strong> → AMD Ryzen 9 9950X3D</li>
+<li><strong>AI работни натоварвания + Thunderbolt 5</strong> → Intel Core Ultra 9 285K</li>
+<li><strong>Бюджет до 200 €</strong> → Intel Core i5-14600K или AMD Ryzen 5 9600X</li>
 </ul>
-<h2>Р—Р°РєР»СЋС‡РµРЅРёРµ</h2>
-<p>AMD РїРµС‡РµР»Рё 2026 РїСЂРё РіРµР№РјРёРЅРі. Intel РѕС‚РіРѕРІР°СЂСЏ СЃ РїРѕ-РґРѕР±СЂРё AI РёРЅСЃС‚СЂСѓРјРµРЅС‚Рё Рё Thunderbolt 5. Р—Р° РїРѕРІРµС‡РµС‚Рѕ РїРѕС‚СЂРµР±РёС‚РµР»Рё - AMD Рµ РїРѕ-РґРѕР±СЂРѕС‚Рѕ СЂРµС€РµРЅРёРµ РІ РјРѕРјРµРЅС‚Р°.</p>`
+<h2>Заключение</h2>
+<p>AMD печели 2026 при гейминг. Intel отговаря с по-добри AI инструменти и Thunderbolt 5. За повечето потребители - AMD е по-доброто решение в момента.</p>`
   },
   {
     slug: 'palit-rtx-4080-super-jetstream-review',
-    emoji: 'рџЋ®', cat: 'Р РµРІСЋ', title: 'Palit RTX 4080 Super JetStream OC - Р—Р° 4K Р±РµР· РєРѕРјРїСЂРѕРјРёСЃ',
-    date: '12 РњР°Р№ 2026', dateISO: '2026-05-12', read: '5 РјРёРЅ', author: 'РњРѕСЃС‚ РљРѕРјРїСЋС‚СЉСЂСЃ',
-    summary: 'RTX 4080 Super СЃ JetStream РѕС…Р»Р°РґРёС‚РµР»СЏ РЅР° Palit Рµ РѕС‚РіРѕРІРѕСЂСЉС‚ Р·Р° РёСЃС‚РёРЅСЃРєРѕ 4K РіРµР№РјРёРЅРі. РўРµСЃС‚РІР°С…РјРµ РіРѕ РїСЂРё РјР°РєСЃРёРјР°Р»РЅРё РЅР°СЃС‚СЂРѕР№РєРё.',
-    metaDesc: 'Palit RTX 4080 Super JetStream OC СЂРµРІСЋ 2026 - 4K РіРµР№РјРёРЅРі С‚РµСЃС‚, С‚РµРјРїРµСЂР°С‚СѓСЂРё, СЃСЂР°РІРЅРµРЅРёРµ СЃ RTX 4070 Ti Super. Worth it?',
-    tags: ['Nvidia', 'Palit', 'GPU', 'РіРµР№РјРёРЅРі', 'СЂРµРІСЋ'],
+    emoji: '🎮', cat: 'Ревю', title: 'Palit RTX 4080 Super JetStream OC - За 4K без компромис',
+    date: '12 Май 2026', dateISO: '2026-05-12', read: '5 мин', author: 'Мост Компютърс',
+    summary: 'RTX 4080 Super с JetStream охладителя на Palit е отговорът за истинско 4K гейминг. Тествахме го при максимални настройки.',
+    metaDesc: 'Palit RTX 4080 Super JetStream OC ревю 2026 - 4K гейминг тест, температури, сравнение с RTX 4070 Ti Super. Worth it?',
+    tags: ['Nvidia', 'Palit', 'GPU', 'гейминг', 'ревю'],
     brand: 'palit', rating: '8.9',
-    model: 'RTX 4080 Super', modelSub: 'JetStream OC В· 16 GB', brandLabel: 'PALIT В· GPU',
+    model: 'RTX 4080 Super', modelSub: 'JetStream OC · 16 GB', brandLabel: 'PALIT · GPU',
     productImage: './images/products/38666.webp',
-    verdict: 'РћРїС‚РёРјР°Р»РЅРёСЏС‚ РёР·Р±РѕСЂ Р·Р° 4K РіРµР№РјРёРЅРі СЃ Р±СЋРґР¶РµС‚ РїРѕРґ 2000 в‚¬. JetStream РѕС…Р»Р°РґРёС‚РµР»СЏС‚ РіРѕ РїСЂР°РІРё С‚РёС… РґРѕСЂРё РїСЂРё РјР°РєСЃРёРјР°Р»РЅРѕ РЅР°С‚РѕРІР°СЂРІР°РЅРµ.',
-    specs: {'GPU С‡РёРї':'Ada Lovelace AD102','CUDA СЏРґСЂР°':'10 240','РџР°РјРµС‚':'16 GB GDDR6X, 256-bit','Boost Clock':'2595 MHz (factory OC)','TDP':'320 W','РћС…Р»Р°РґРёС‚РµР»':'JetStream 3Г—100 РјРј'},
-    body: `<h2>RTX 4080 Super - РїРѕР·РёС†РёСЏС‚Р° РІ Р»РёРЅРµР№РєР°С‚Р°</h2>
-<p>RTX 4080 Super Р·Р°РїСЉР»РІР° РїСЂРѕСЃС‚СЂР°РЅСЃС‚РІРѕС‚Рѕ РјРµР¶РґСѓ RTX 4070 Ti Super Рё RTX 4090. РЎ 10 240 CUDA СЏРґСЂР° Рё 16 GB GDDR6X РЅР° 256-Р±РёС‚РѕРІР° С€РёРЅР°, РєР°СЂС‚Р°С‚Р° РїСЂРµРґР»Р°РіР° РѕРєРѕР»Рѕ <strong>15% РїРѕРІРµС‡Рµ РїСЂРѕРёР·РІРѕРґРёС‚РµР»РЅРѕСЃС‚</strong> СЃРїСЂСЏРјРѕ RTX 4070 Ti Super РїСЂРё ~20% РїРѕ-РІРёСЃРѕРєР° С†РµРЅР°. Palit JetStream OC РІРµСЂСЃРёСЏС‚Р° РёРґРІР° СЃ factory overclock РґРѕ 2595 MHz boost.</p>
-<h2>4K РіРµР№РјРёРЅРі РїСЂРѕРёР·РІРѕРґРёС‚РµР»РЅРѕСЃС‚</h2>
-<p>РџСЂРё <strong>4K Ultra</strong> РЅР°СЃС‚СЂРѕР№РєРё Р±РµР· ray tracing:</p>
+    verdict: 'Оптималният избор за 4K гейминг с бюджет под 2000 €. JetStream охладителят го прави тих дори при максимално натоварване.',
+    specs: {'GPU чип':'Ada Lovelace AD102','CUDA ядра':'10 240','Памет':'16 GB GDDR6X, 256-bit','Boost Clock':'2595 MHz (factory OC)','TDP':'320 W','Охладител':'JetStream 3×100 мм'},
+    body: `<h2>RTX 4080 Super - позицията в линейката</h2>
+<p>RTX 4080 Super запълва пространството между RTX 4070 Ti Super и RTX 4090. С 10 240 CUDA ядра и 16 GB GDDR6X на 256-битова шина, картата предлага около <strong>15% повече производителност</strong> спрямо RTX 4070 Ti Super при ~20% по-висока цена. Palit JetStream OC версията идва с factory overclock до 2595 MHz boost.</p>
+<h2>4K гейминг производителност</h2>
+<p>При <strong>4K Ultra</strong> настройки без ray tracing:</p>
 <ul>
-<li>Cyberpunk 2077 - 82 fps СЃСЂРµРґРЅРѕ</li>
-<li>Alan Wake 2 - 74 fps СЃСЂРµРґРЅРѕ</li>
-<li>Red Dead Redemption 2 - 98 fps СЃСЂРµРґРЅРѕ</li>
-<li>Microsoft Flight Simulator 2024 - 72 fps СЃСЂРµРґРЅРѕ</li>
+<li>Cyberpunk 2077 - 82 fps средно</li>
+<li>Alan Wake 2 - 74 fps средно</li>
+<li>Red Dead Redemption 2 - 98 fps средно</li>
+<li>Microsoft Flight Simulator 2024 - 72 fps средно</li>
 </ul>
-<p>РЎ DLSS 3 Quality (СЂРµРЅРґРµСЂ РїСЂРё 1440p) С‡РёСЃР»Р°С‚Р° СЃРєР°С‡Р°С‚ РґРѕ 130-165 fps - 4K РіРµР№РјРёРЅРі РЅР°Рґ 60 fps Рµ РїРѕСЃС‚РёР¶РёРјРѕ Р±РµР· Frame Generation РїСЂРё РїРѕРІРµС‡РµС‚Рѕ Р·Р°РіР»Р°РІРёСЏ.</p>
-<h2>Ray Tracing Рё DLSS 3</h2>
-<p>RTX 4080 Super Рµ <strong>Р·РЅР°С‡РёС‚РµР»РЅРѕ РїРѕ-РґРѕР±СЉСЂ РѕС‚ RTX 4070 Ti Super РїСЂРё RT</strong> - 18-22% СЂР°Р·Р»РёРєР° РїСЂРё Path Tracing РІ Cyberpunk 2077. Frame Generation СѓРґРІРѕСЏРІР° fps РїСЂРё GPU-bound СЃС†РµРЅР°СЂРёРё, Р° Reflex 2 Р·Р°РїР°Р·РІР° Р»Р°С‚РµРЅС‚РЅРѕСЃС‚С‚Р° РїРѕРґ РєРѕРЅС‚СЂРѕР».</p>
-<h2>РўРµРјРїРµСЂР°С‚СѓСЂРё Рё С€СѓРј</h2>
-<p>Palit JetStream РѕС…Р»Р°РґРёС‚РµР»СЏС‚ СЃ С‚СЂРё 100 РјРј РІРµРЅС‚РёР»Р°С‚РѕСЂР° РґСЉСЂР¶Рё GPU РЅР° 72В°C РїСЂРё full load РїСЂРё СЃС‚Р°Р№РЅР° С‚РµРјРїРµСЂР°С‚СѓСЂР° 22В°C. РЁСѓРјРЅРѕС‚Рѕ РЅРёРІРѕ Рµ 38 dBA - РїСЂР°РєС‚РёС‡РµСЃРєРё Р±РµР·С€СѓРјРµРЅ РІ Р·Р°С‚РІРѕСЂРµРЅ РєРѕСЂРїСѓСЃ. Р’РµРЅС‚РёР»Р°С‚РѕСЂРёС‚Рµ СЃРїРёСЂР°С‚ РЅР°РїСЉР»РЅРѕ РїСЂРё 2D РЅР°С‚РѕРІР°СЂРІР°РЅРµ.</p>
-<h2>Р—Р°РєР»СЋС‡РµРЅРёРµ</h2>
-<p>Palit RTX 4080 Super JetStream OC Рµ РїСЂР°РІРёР»РЅРёСЏС‚ РёР·Р±РѕСЂ Р·Р° 4K РіРµР№РјСЉСЂРё, РєРѕРёС‚Рѕ РЅРµ РёСЃРєР°С‚ РґР° РїР»Р°С‰Р°С‚ RTX 4090 С†РµРЅР°. РџСЂРё 1440p - RTX 4070 Super Рµ РїРѕ-РґРѕР±СЂР°С‚Р° СЃС‚РѕР№РЅРѕСЃС‚. <strong>РћС†РµРЅРєР°: 8.9 / 10</strong></p>`
+<p>С DLSS 3 Quality (рендер при 1440p) числата скачат до 130-165 fps - 4K гейминг над 60 fps е постижимо без Frame Generation при повечето заглавия.</p>
+<h2>Ray Tracing и DLSS 3</h2>
+<p>RTX 4080 Super е <strong>значително по-добър от RTX 4070 Ti Super при RT</strong> - 18-22% разлика при Path Tracing в Cyberpunk 2077. Frame Generation удвоява fps при GPU-bound сценарии, а Reflex 2 запазва латентността под контрол.</p>
+<h2>Температури и шум</h2>
+<p>Palit JetStream охладителят с три 100 мм вентилатора държи GPU на 72°C при full load при стайна температура 22°C. Шумното ниво е 38 dBA - практически безшумен в затворен корпус. Вентилаторите спират напълно при 2D натоварване.</p>
+<h2>Заключение</h2>
+<p>Palit RTX 4080 Super JetStream OC е правилният избор за 4K геймъри, които не искат да плащат RTX 4090 цена. При 1440p - RTX 4070 Super е по-добрата стойност. <strong>Оценка: 8.9 / 10</strong></p>`
   },
   {
     slug: 'ddr5-6000-gaming-guide-2026',
-    emoji: 'рџ§ ', cat: 'РЎСЉРІРµС‚Рё', title: 'DDR5 РїР°РјРµС‚ Р·Р° РіРµР№РјРёРЅРі 2026 - РљРѕР»РєРѕ Рё РєР°РєРІР°?',
-    date: '05 РњР°Р№ 2026', dateISO: '2026-05-05', read: '5 РјРёРЅ', author: 'РњРѕСЃС‚ РљРѕРјРїСЋС‚СЉСЂСЃ',
-    summary: 'DDR5-6000 РёР»Рё DDR5-6400? 32 GB РёР»Рё 64 GB? РџСЉР»РµРЅ РЅР°СЂСЉС‡РЅРёРє Р·Р° РёР·Р±РѕСЂ РЅР° РїР°РјРµС‚ Р·Р° AMD AM5 Рё Intel LGA1851.',
-    metaDesc: 'DDR5 РїР°РјРµС‚ Р·Р° РіРµР№РјРёРЅРі 2026 - DDR5-6000 vs 6400, 32 GB vs 64 GB, AMD AM5 Рё Intel Z890. РљР°Рє РґР° РёР·Р±РµСЂРµРј РїСЂР°РІРёР»РЅРѕ.',
-    tags: ['РїР°РјРµС‚', 'DDR5', 'AM5', 'СЃСЉРІРµС‚Рё'],
+    emoji: '🧠', cat: 'Съвети', title: 'DDR5 памет за гейминг 2026 - Колко и каква?',
+    date: '05 Май 2026', dateISO: '2026-05-05', read: '5 мин', author: 'Мост Компютърс',
+    summary: 'DDR5-6000 или DDR5-6400? 32 GB или 64 GB? Пълен наръчник за избор на памет за AMD AM5 и Intel LGA1851.',
+    metaDesc: 'DDR5 памет за гейминг 2026 - DDR5-6000 vs 6400, 32 GB vs 64 GB, AMD AM5 и Intel Z890. Как да изберем правилно.',
+    tags: ['памет', 'DDR5', 'AM5', 'съвети'],
     brand: 'general',
     productImage: './images/products/37086.webp',
-    body: `<h2>РљРѕР»РєРѕ GB РїР°РјРµС‚ Рµ РЅСѓР¶РЅР° Р·Р° РіРµР№РјРёРЅРі?</h2>
-<p><strong>32 GB (2Г—16 GB)</strong> Рµ СЃС‚Р°РЅРґР°СЂС‚СЉС‚ Р·Р° 2026. РџРѕРІРµС‡РµС‚Рѕ СЃСЉРІСЂРµРјРµРЅРЅРё РёРіСЂРё РёР·РїРѕР»Р·РІР°С‚ 16-24 GB РїСЂРё РјР°РєСЃРёРјР°Р»РЅРё РЅР°СЃС‚СЂРѕР№РєРё. 64 GB РёРјР° СЃРјРёСЃСЉР» СЃР°РјРѕ Р°РєРѕ РїСЂР°РІРёС€ РµРґРЅРѕРІСЂРµРјРµРЅРЅРѕ РіРµР№РјРёРЅРі + СЃС‚СЂРёР№РјРёРЅРі + РІРёРґРµРѕ РјРѕРЅС‚Р°Р¶. Р—Р° С‡РёСЃС‚ РіРµР№РјРёРЅРі 32 GB Рµ РѕРїС‚РёРјР°Р»РЅРѕС‚Рѕ.</p>
-<h2>DDR5-6000 vs DDR5-6400 - РєР°РєРІР° Рµ СЂР°Р·Р»РёРєР°С‚Р°?</h2>
-<p>Р—Р° <strong>AMD AM5</strong> - DDR5-6000 CL30 Рµ РѕРїС‚РёРјР°Р»РЅРѕС‚Рѕ: РїРѕРїР°РґР° РІ EXPO РїСЂРѕС„РёР»Р° Рё СЃРёРЅС…СЂРѕРЅРёР·РёСЂР° Infinity Fabric РєСЉРј 2000 MHz (1:1 СЂРµР¶РёРј). DDR5-6400 CL32 Рµ Р»РµРєРѕ РїРѕ-Р±СЉСЂР·Рѕ, РЅРѕ С†РµРЅР°С‚Р° Рµ РЅРµРїСЂРѕРїРѕСЂС†РёРѕРЅР°Р»РЅР°. РќР°Рґ DDR5-6400 AM5 РїСЂРµРјРёРЅР°РІР° РІ 1:2 СЂРµР¶РёРј Рё РїСЂРѕРёР·РІРѕРґРёС‚РµР»РЅРѕСЃС‚С‚Р° РїР°РґР°.</p>
-<p>Р—Р° <strong>Intel LGA1851</strong> - DDR5-6400 CL32 Рµ РїСЂРµРїРѕСЂСЉС‡РёС‚РµР»РЅРѕС‚Рѕ. Intel XMP РїСЂРѕС„РёР»РёС‚Рµ СЃР° РґРѕР±СЂРµ РѕРїС‚РёРјРёР·РёСЂР°РЅРё РґРѕ С‚Р°Р·Рё С‡РµСЃС‚РѕС‚Р°. РџРѕ-Р±СЉСЂР·Р°С‚Р° РїР°РјРµС‚ РЅРѕСЃРё РјРёРЅРёРјР°Р»РЅРё РїРѕР»Р·Рё РїСЂРё СЂРµР°Р»РЅР° СѓРїРѕС‚СЂРµР±Р°.</p>
-<h2>Dual Channel - Р·Р°РґСЉР»Р¶РёС‚РµР»РµРЅ</h2>
-<p>РќРёРєРѕРіР° РЅРµ РєСѓРїСѓРІР°Р№ РµРґРёРЅ РјРѕРґСѓР». 2Г—16 GB dual channel Рµ <strong>Р·РЅР°С‡РёС‚РµР»РЅРѕ РїРѕ-Р±СЉСЂР·Р°</strong> РѕС‚ 1Г—32 GB single channel - РґРѕ 20% СЂР°Р·Р»РёРєР° РІ РіРµР№РјРёРЅРі РїСЂРѕРёР·РІРѕРґРёС‚РµР»РЅРѕСЃС‚. РђРєРѕ РёРјР°С€ Р±СЋРґР¶РµС‚ Р·Р° 64 GB - 2Г—32 GB РІРјРµСЃС‚Рѕ 4Г—16 GB (РїРѕ-РјР°Р»РєРѕ СЃС‚СЂРµСЃ РІСЉСЂС…Сѓ РєРѕРЅС‚СЂРѕР»РµСЂР°).</p>
-<h2>CL (CAS Latency) - РІР°Р¶РµРЅ Р»Рё Рµ?</h2>
-<p>РџСЂРё СЂР°РІРЅРё С‡РµСЃС‚РѕС‚Рё - РїРѕ-РЅРёСЃСЉРє CL Рµ РїРѕ-РґРѕР±СЉСЂ. DDR5-6000 CL30 Рµ РїРѕ-Р±СЉСЂР·Р° РѕС‚ DDR5-6000 CL36. Р¤РѕСЂРјСѓР»Р°С‚Р° Рµ: <strong>Р»Р°С‚РµРЅС‚РЅРѕСЃС‚ (ns) = (CL / С‡РµСЃС‚РѕС‚Р°) Г— 2000</strong>. РџСЂРё DDR5-6000 CL30: 10 ns - РѕС‚Р»РёС‡РЅРѕ.</p>
-<h2>РџСЂРµРїРѕСЂСЉРєРё Р·Р° РїР»Р°С‚С„РѕСЂРјР°</h2>
+    body: `<h2>Колко GB памет е нужна за гейминг?</h2>
+<p><strong>32 GB (2×16 GB)</strong> е стандартът за 2026. Повечето съвременни игри използват 16-24 GB при максимални настройки. 64 GB има смисъл само ако правиш едновременно гейминг + стрийминг + видео монтаж. За чист гейминг 32 GB е оптималното.</p>
+<h2>DDR5-6000 vs DDR5-6400 - каква е разликата?</h2>
+<p>За <strong>AMD AM5</strong> - DDR5-6000 CL30 е оптималното: попада в EXPO профила и синхронизира Infinity Fabric към 2000 MHz (1:1 режим). DDR5-6400 CL32 е леко по-бързо, но цената е непропорционална. Над DDR5-6400 AM5 преминава в 1:2 режим и производителността пада.</p>
+<p>За <strong>Intel LGA1851</strong> - DDR5-6400 CL32 е препоръчителното. Intel XMP профилите са добре оптимизирани до тази честота. По-бързата памет носи минимални ползи при реална употреба.</p>
+<h2>Dual Channel - задължителен</h2>
+<p>Никога не купувай един модул. 2×16 GB dual channel е <strong>значително по-бърза</strong> от 1×32 GB single channel - до 20% разлика в гейминг производителност. Ако имаш бюджет за 64 GB - 2×32 GB вместо 4×16 GB (по-малко стрес върху контролера).</p>
+<h2>CL (CAS Latency) - важен ли е?</h2>
+<p>При равни честоти - по-нисък CL е по-добър. DDR5-6000 CL30 е по-бърза от DDR5-6000 CL36. Формулата е: <strong>латентност (ns) = (CL / честота) × 2000</strong>. При DDR5-6000 CL30: 10 ns - отлично.</p>
+<h2>Препоръки за платформа</h2>
 <ul>
-<li><strong>AMD AM5 (Ryzen 9000)</strong> в†’ DDR5-6000 CL30, 2Г—16 GB</li>
-<li><strong>Intel LGA1851 (Core Ultra 300)</strong> в†’ DDR5-6400 CL32, 2Г—16 GB</li>
-<li><strong>AMD AM4 (Ryzen 5000)</strong> в†’ РІСЃРµ РѕС‰Рµ DDR4-3600 CL18</li>
+<li><strong>AMD AM5 (Ryzen 9000)</strong> → DDR5-6000 CL30, 2×16 GB</li>
+<li><strong>Intel LGA1851 (Core Ultra 300)</strong> → DDR5-6400 CL32, 2×16 GB</li>
+<li><strong>AMD AM4 (Ryzen 5000)</strong> → все още DDR4-3600 CL18</li>
 </ul>`
   },
   {
     slug: 'byudzhetna-gaming-sistema-2026',
-    emoji: 'рџ–Ґ', cat: 'РЎСЉРІРµС‚Рё', title: 'Р‘СЋРґР¶РµС‚РЅР° РіРµР№РјРёРЅРі СЃРёСЃС‚РµРјР° Р·Р° 2026 - РїР»Р°РЅ Р·Р° 800 в‚¬',
-    date: '28 РђРїСЂРёР» 2026', dateISO: '2026-04-28', read: '6 РјРёРЅ', author: 'РњРѕСЃС‚ РљРѕРјРїСЋС‚СЉСЂСЃ',
-    summary: 'РљР°Рє РґР° СЃРіР»РѕР±РёРј РїСЉР»РЅР° РіРµР№РјРёРЅРі СЃРёСЃС‚РµРјР° Р·Р° РѕРєРѕР»Рѕ 800 в‚¬ СЃ РєРѕРјРїРѕРЅРµРЅС‚Рё, РЅР°Р»РёС‡РЅРё РІ РњРѕСЃС‚ РљРѕРјРїСЋС‚СЉСЂСЃ. РЎСЉРІРµС‚Рё Р·Р° РІСЃРµРєРё Р±СЋРґР¶РµС‚.',
-    metaDesc: 'Р‘СЋРґР¶РµС‚РЅР° РіРµР№РјРёРЅРі СЃРёСЃС‚РµРјР° 2026 - AMD Ryzen 5 9600X, Palit RTX 4060, B650 РґСЉРЅР°. РљР°Рє РґР° РёР·Р±РµСЂРµРј РїСЂР°РІРёР»РЅРёС‚Рµ РєРѕРјРїРѕРЅРµРЅС‚Рё Р·Р° 800 в‚¬.',
-    tags: ['РіРµР№РјРёРЅРі', 'AMD', 'Palit', 'СЃСЉРІРµС‚Рё', 'build'],
+    emoji: '🖥', cat: 'Съвети', title: 'Бюджетна гейминг система за 2026 - план за 800 €',
+    date: '28 Април 2026', dateISO: '2026-04-28', read: '6 мин', author: 'Мост Компютърс',
+    summary: 'Как да сглобим пълна гейминг система за около 800 € с компоненти, налични в Мост Компютърс. Съвети за всеки бюджет.',
+    metaDesc: 'Бюджетна гейминг система 2026 - AMD Ryzen 5 9600X, Palit RTX 4060, B650 дъна. Как да изберем правилните компоненти за 800 €.',
+    tags: ['гейминг', 'AMD', 'Palit', 'съвети', 'build'],
     brand: 'general',
     productImage: './images/products/35948.webp',
-    body: `<h2>РЎС‚СЂР°С‚РµРіРёСЏ: CPU РёР»Рё GPU - РєРѕРµ Рµ РїРѕ-РІР°Р¶РЅРѕ?</h2>
-<p>Р—Р° РіРµР№РјРёРЅРі <strong>GPU-С‚Рѕ Рµ РїРѕ-РІР°Р¶РЅРѕ</strong>. РџСЂРё РѕРіСЂР°РЅРёС‡РµРЅ Р±СЋРґР¶РµС‚ - РІР»РѕР¶Рё РїРѕРІРµС‡Рµ РІ РІРёРґРµРѕРєР°СЂС‚Р°С‚Р°. Ryzen 5 9600X Р·Р° 220 в‚¬ + RTX 4060 8GB Р·Р° 310 в‚¬ Рµ РїРѕ-РґРѕР±СЂР° РіРµР№РјРёРЅРі СЃРёСЃС‚РµРјР° РѕС‚ Ryzen 9 9950X3D + GTX 1660 Super. РџСЂР°РІРёР»РѕС‚Рѕ: GPU = 40-50% РѕС‚ Р±СЋРґР¶РµС‚Р°.</p>
-<h2>РџСЂРёРјРµСЂРЅР° РєРѕРЅС„РёРіСѓСЂР°С†РёСЏ Р·Р° ~800 в‚¬</h2>
+    body: `<h2>Стратегия: CPU или GPU - кое е по-важно?</h2>
+<p>За гейминг <strong>GPU-то е по-важно</strong>. При ограничен бюджет - вложи повече в видеокартата. Ryzen 5 9600X за 220 € + RTX 4060 8GB за 310 € е по-добра гейминг система от Ryzen 9 9950X3D + GTX 1660 Super. Правилото: GPU = 40-50% от бюджета.</p>
+<h2>Примерна конфигурация за ~800 €</h2>
 <ul>
-<li><strong>CPU:</strong> AMD Ryzen 5 9600X - 220 в‚¬ (6 СЏРґСЂР°, Zen 5, 5.9 GHz boost)</li>
-<li><strong>GPU:</strong> Palit GeForce RTX 4060 8GB - 310 в‚¬ (DLSS 3, Frame Gen, 1080p/1440p)</li>
-<li><strong>Р”СЉРЅР°:</strong> ASRock B650M-HDV/M.2 AM5 - 110 в‚¬ (B650, PCIe 4.0, 2Г— DDR5)</li>
-<li><strong>RAM:</strong> DDR5-6000 CL30 2Г—8 GB - 65 в‚¬ (РґРѕСЃС‚Р°С‚СЉС‡РЅРѕ Р·Р° РіРµР№РјРёРЅРі)</li>
-<li><strong>SSD:</strong> 1 TB NVMe Gen4 - 60 в‚¬</li>
-<li><strong>Р—Р°С…СЂР°РЅРІР°РЅРµ:</strong> 650W 80+ Bronze - 55 в‚¬</li>
+<li><strong>CPU:</strong> AMD Ryzen 5 9600X - 220 € (6 ядра, Zen 5, 5.9 GHz boost)</li>
+<li><strong>GPU:</strong> Palit GeForce RTX 4060 8GB - 310 € (DLSS 3, Frame Gen, 1080p/1440p)</li>
+<li><strong>Дъна:</strong> ASRock B650M-HDV/M.2 AM5 - 110 € (B650, PCIe 4.0, 2× DDR5)</li>
+<li><strong>RAM:</strong> DDR5-6000 CL30 2×8 GB - 65 € (достатъчно за гейминг)</li>
+<li><strong>SSD:</strong> 1 TB NVMe Gen4 - 60 €</li>
+<li><strong>Захранване:</strong> 650W 80+ Bronze - 55 €</li>
 </ul>
-<p><strong>РћР±С‰Рѕ: ~820 в‚¬</strong> - РїСЉР»РЅР° СЃРёСЃС‚РµРјР° Р±РµР· РєРѕСЂРїСѓСЃ Рё РѕС…Р»Р°РґСЏРІР°РЅРµ.</p>
-<h2>RTX 4060 - РґРѕР±СЂР° Р»Рё Рµ Р·Р° РїР°СЂРёС‚Рµ?</h2>
-<p>РџСЂРё 1080p Ultra - RTX 4060 РїРѕСЃС‚РёРіР° 85-120 fps РІ РїРѕРІРµС‡РµС‚Рѕ AAA Р·Р°РіР»Р°РІРёСЏ. РЎ DLSS 3 Frame Generation СЂРµР·СѓР»С‚Р°С‚РёС‚Рµ РїСЂРё 1440p СЃР° РёР·РЅРµРЅР°РґРІР°С‰Рѕ РґРѕР±СЂРё (65-90 fps). Р—Р° РіРµР№РјСЉСЂРё СЃ 1080p РјРѕРЅРёС‚РѕСЂ Рµ РѕС‚Р»РёС‡РµРЅ РёР·Р±РѕСЂ. Р—Р° 1440p - РїСЂРµРїРѕСЂСЉС‡РІР°РјРµ RTX 4070 Super.</p>
-<h2>РљР°Рє РґР° РЅР°РґРіСЂР°РґРёС€ РїРѕ-РєСЉСЃРЅРѕ?</h2>
-<p>AM5 РїР»Р°С‚С„РѕСЂРјР°С‚Р° РїРѕРґРґСЉСЂР¶Р° РґРѕ Ryzen 9000 СЃРµСЂРёСЏ - РјРѕР¶РµС€ РґР° СЃРјРµРЅРёС€ CPU РїРѕ-РєСЉСЃРЅРѕ Р±РµР· СЃРјСЏРЅР° РЅР° РґСЉРЅРѕС‚Рѕ. Р—Р°С…СЂР°РЅРІР°РЅРµС‚Рѕ РѕС‚ 650W РїРѕРґРґСЉСЂР¶Р° РґРѕ RTX 4080 Super РЅР°РґСЃС‚СЂРѕР№РєР°. РРЅРІРµСЃС‚РёСЂР°Р№ РІ РґРѕР±СЂРѕ Р·Р°С…СЂР°РЅРІР°РЅРµ РѕС‚ СЃР°РјРѕС‚Рѕ РЅР°С‡Р°Р»Рѕ.</p>
-<h2>РЎСЉРІРµС‚ Р·Р° СЃРїРµСЃС‚СЏРІР°РЅРµ</h2>
-<p>РђРєРѕ Р±СЋРґР¶РµС‚СЉС‚ Рµ РїРѕРґ 700 в‚¬ - Р·Р°РјРµРЅРё Ryzen 5 9600X СЃ Ryzen 5 9600 (MPK РІРµСЂСЃРёСЏ, ~185 в‚¬) Рё RTX 4060 СЃ RTX 3060 12GB (~250 в‚¬). РЎРёСЃС‚РµРјР°С‚Р° С‰Рµ Рµ РѕРєРѕР»Рѕ 100 в‚¬ РїРѕ-РµРІС‚РёРЅР° РїСЂРё СЃР°РјРѕ ~10% РїРѕ-РЅРёСЃРєР° РїСЂРѕРёР·РІРѕРґРёС‚РµР»РЅРѕСЃС‚.</p>`
+<p><strong>Общо: ~820 €</strong> - пълна система без корпус и охладяване.</p>
+<h2>RTX 4060 - добра ли е за парите?</h2>
+<p>При 1080p Ultra - RTX 4060 постига 85-120 fps в повечето AAA заглавия. С DLSS 3 Frame Generation резултатите при 1440p са изненадващо добри (65-90 fps). За геймъри с 1080p монитор е отличен избор. За 1440p - препоръчваме RTX 4070 Super.</p>
+<h2>Как да надградиш по-късно?</h2>
+<p>AM5 платформата поддържа до Ryzen 9000 серия - можеш да смениш CPU по-късно без смяна на дъното. Захранването от 650W поддържа до RTX 4080 Super надстройка. Инвестирай в добро захранване от самото начало.</p>
+<h2>Съвет за спестяване</h2>
+<p>Ако бюджетът е под 700 € - замени Ryzen 5 9600X с Ryzen 5 9600 (MPK версия, ~185 €) и RTX 4060 с RTX 3060 12GB (~250 €). Системата ще е около 100 € по-евтина при само ~10% по-ниска производителност.</p>`
   },
   {
     slug: 'am5-motherboard-guide-2026',
-    emoji: 'рџ”§', cat: 'РЎСЉРІРµС‚Рё', title: 'AM5 РґСЉРЅР° РїР»Р°С‚РєР° 2026 - ASRock, ASUS, Gigabyte РёР»Рё MSI?',
-    date: '21 РђРїСЂРёР» 2026', dateISO: '2026-04-21', read: '6 РјРёРЅ', author: 'РњРѕСЃС‚ РљРѕРјРїСЋС‚СЉСЂСЃ',
-    summary: 'B650 РёР»Рё X670? РљРѕР№ РїСЂРѕРёР·РІРѕРґРёС‚РµР» РїСЂРµРґР»Р°РіР° РЅР°Р№-РґРѕР±СЂРѕ РєР°С‡РµСЃС‚РІРѕ Р·Р° С†РµРЅР°С‚Р° РїСЂРё AM5 РїР»Р°С‚С„РѕСЂРјР°С‚Р°? РџСЉР»РµРЅ РЅР°СЂСЉС‡РЅРёРє.',
-    metaDesc: 'AM5 РґСЉРЅР° РїР»Р°С‚РєР° 2026 - B650 vs X670E, ASRock vs ASUS vs Gigabyte vs MSI. РљРѕРµ РґСЉРЅРѕ РґР° РёР·Р±РµСЂРµРј Р·Р° AMD Ryzen 9000?',
-    tags: ['РґСЉРЅРё РїР»Р°С‚РєРё', 'AM5', 'AMD', 'СЃСЉРІРµС‚Рё'],
+    emoji: '🔧', cat: 'Съвети', title: 'AM5 дъна платка 2026 - ASRock, ASUS, Gigabyte или MSI?',
+    date: '21 Април 2026', dateISO: '2026-04-21', read: '6 мин', author: 'Мост Компютърс',
+    summary: 'B650 или X670? Кой производител предлага най-добро качество за цената при AM5 платформата? Пълен наръчник.',
+    metaDesc: 'AM5 дъна платка 2026 - B650 vs X670E, ASRock vs ASUS vs Gigabyte vs MSI. Кое дъно да изберем за AMD Ryzen 9000?',
+    tags: ['дъни платки', 'AM5', 'AMD', 'съвети'],
     brand: 'general',
     productImage: './images/products/32593.webp',
-    body: `<h2>B650 РёР»Рё X670E - РєР°РєРІРѕ РґР° РёР·Р±РµСЂРµРј?</h2>
-<p><strong>B650</strong> Рµ РґРѕСЃС‚Р°С‚СЉС‡РµРЅ Р·Р° 95% РѕС‚ РїРѕС‚СЂРµР±РёС‚РµР»РёС‚Рµ. РџРѕРґРґСЉСЂР¶Р° DDR5 ECC, PCIe 4.0 x4 Р·Р° NVMe Рё USB 3.2 Gen 2. <strong>X670E</strong> РґРѕР±Р°РІСЏ PCIe 5.0 x16 Р·Р° GPU Рё PCIe 5.0 x4 Р·Р° NVMe - РїРѕР»РµР·РЅРѕ СЃР°РјРѕ Р°РєРѕ РёРјР°С€ PCIe 5.0 SSD РёР»Рё RTX 4090 РєР»Р°СЃ GPU. Р—Р° Ryzen 5/7 - B650 Рµ РѕРїС‚РёРјР°Р»РЅРѕС‚Рѕ.</p>
-<h2>РљРѕР№ РїСЂРѕРёР·РІРѕРґРёС‚РµР»?</h2>
+    body: `<h2>B650 или X670E - какво да изберем?</h2>
+<p><strong>B650</strong> е достатъчен за 95% от потребителите. Поддържа DDR5 ECC, PCIe 4.0 x4 за NVMe и USB 3.2 Gen 2. <strong>X670E</strong> добавя PCIe 5.0 x16 за GPU и PCIe 5.0 x4 за NVMe - полезно само ако имаш PCIe 5.0 SSD или RTX 4090 клас GPU. За Ryzen 5/7 - B650 е оптималното.</p>
+<h2>Кой производител?</h2>
 <h3>ASRock</h3>
-<p>РќР°Р№-РґРѕР±СЂР° СЃС‚РѕР№РЅРѕСЃС‚ Р·Р° РїР°СЂРёС‚Рµ. <strong>ASRock B650M Pro RS</strong> Рё <strong>B650M HDV/M.2</strong> РїСЂРµРґР»Р°РіР°С‚ СЃРѕР»РёРґРЅРё VRM Р·Р° Ryzen 9000 РЅР° РєРѕРЅРєСѓСЂРµРЅС‚РЅР° С†РµРЅР°. Р”РѕР±СЂР° BIOS РїРѕРґРґСЂСЉР¶РєР° СЃ СЂРµРґРѕРІРЅРё РѕР±РЅРѕРІСЏРІР°РЅРёСЏ. РњРёРЅСѓСЃ: РїРѕ-СЃРєСЂРѕРјРµРЅ РґРёР·Р°Р№РЅ.</p>
+<p>Най-добра стойност за парите. <strong>ASRock B650M Pro RS</strong> и <strong>B650M HDV/M.2</strong> предлагат солидни VRM за Ryzen 9000 на конкурентна цена. Добра BIOS поддръжка с редовни обновявания. Минус: по-скромен дизайн.</p>
 <h3>ASUS</h3>
-<p>РћС‚Р»РёС‡РЅР° BIOS СЃСЂРµРґР° (UEFI), Р±РѕРіР°С‚Р° С„СѓРЅРєС†РёРѕРЅР°Р»РЅРѕСЃС‚, РґРѕР±СЂР° VRM. <strong>ASUS Prime B650M-A</strong> Рµ РїРѕРїСѓР»СЏСЂРµРЅ РёР·Р±РѕСЂ Р·Р° mid-range СЃРёСЃС‚РµРјРё. РџРѕ-СЃРєСЉРїРѕ РѕС‚ ASRock, РЅРѕ РѕРїСЂР°РІРґР°РЅРѕ РїСЂРё Ryzen 7/9.</p>
+<p>Отлична BIOS среда (UEFI), богата функционалност, добра VRM. <strong>ASUS Prime B650M-A</strong> е популярен избор за mid-range системи. По-скъпо от ASRock, но оправдано при Ryzen 7/9.</p>
 <h3>Gigabyte</h3>
-<p>Р”РѕР±СЂРѕ РѕС…Р»Р°Р¶РґР°РЅРµ РЅР° VRM Р·РѕРЅР°С‚Р°. <strong>Gigabyte B650M DS3H</strong> Рµ РµРІС‚РёРЅР° Рё РЅР°РґРµР¶РґРЅР°. Pro СЃРµСЂРёСЏС‚Р° РїСЂРµРґР»Р°РіР° РїРѕРґРѕР±СЂРµРЅР° Р°СѓРґРёРѕ СЃРµРєС†РёСЏ Рё РїРѕ-РґРѕР±СЂРё РєРѕРЅРµРєС‚РѕСЂРё. РЎС‚Р°Р±РёР»РЅР° РѕРїС†РёСЏ.</p>
+<p>Добро охлаждане на VRM зоната. <strong>Gigabyte B650M DS3H</strong> е евтина и надеждна. Pro серията предлага подобрена аудио секция и по-добри конектори. Стабилна опция.</p>
 <h3>MSI</h3>
-<p>Р’РёСЃРѕРєРѕРєР°С‡РµСЃС‚РІРµРЅ РґРёР·Р°Р№РЅ Рё Р±РѕРіР°С‚Р° РµРєРѕСЃРёСЃС‚РµРјР° СЃ EZ Debug LED. <strong>MSI B650M Gaming Plus WiFi</strong> Рµ РѕС‚Р»РёС‡РµРЅ РёР·Р±РѕСЂ Р°РєРѕ РёСЃРєР°С€ WiFi РІРєР»СЋС‡РµРЅ. РџРѕ-РґРѕР±СЂР° РіРµР№РјСЉСЂСЃРєР° РµСЃС‚РµС‚РёРєР° РѕС‚ ASRock.</p>
-<h2>РљР°РєРІРѕ РґР° РїСЂРѕРІРµСЂРёРј РїСЂРё РёР·Р±РѕСЂ</h2>
+<p>Висококачествен дизайн и богата екосистема с EZ Debug LED. <strong>MSI B650M Gaming Plus WiFi</strong> е отличен избор ако искаш WiFi включен. По-добра геймърска естетика от ASRock.</p>
+<h2>Какво да проверим при избор</h2>
 <ul>
-<li><strong>VRM С„Р°Р·РѕРІРµ</strong> - Р·Р° Ryzen 9 9950X3D С‚СЂСЏР±РІР°С‚ РјРёРЅРёРјСѓРј 12+2 С„Р°Р·Рё СЃ 60A+ РґСЂРѕСЃРµР»Рё</li>
-<li><strong>M.2 СЃР»РѕС‚РѕРІРµ</strong> - РјРёРЅРёРјСѓРј 2 Р·Р° СЃРёСЃС‚РµРјР° + storage</li>
-<li><strong>WiFi</strong> - РЅРµ РІСЃРёС‡РєРё B650 РёРјР°С‚; РїСЂРѕРІРµСЂСЏРІР°Р№ СЃРїРµС†РёС„РёРєР°С†РёРёС‚Рµ</li>
-<li><strong>USB РїРѕСЂС‚РѕРІРµ</strong> - USB4 / Thunderbolt СЃР°РјРѕ РїСЂРё X670E</li>
+<li><strong>VRM фазове</strong> - за Ryzen 9 9950X3D трябват минимум 12+2 фази с 60A+ дросели</li>
+<li><strong>M.2 слотове</strong> - минимум 2 за система + storage</li>
+<li><strong>WiFi</strong> - не всички B650 имат; проверявай спецификациите</li>
+<li><strong>USB портове</strong> - USB4 / Thunderbolt само при X670E</li>
 </ul>
-<h2>РџСЂРµРїРѕСЂСЉРєР°</h2>
-<p>Р—Р° <strong>Ryzen 5/7 9000</strong> в†’ ASRock B650M Pro RS (~120 в‚¬). Р—Р° <strong>Ryzen 9 9950X3D</strong> в†’ ASUS Prime X670-P РёР»Рё MSI MEG X670E Ace Р·Р° РјР°РєСЃРёРјР°Р»РЅР° СЃС‚Р°Р±РёР»РЅРѕСЃС‚.</p>`
+<h2>Препоръка</h2>
+<p>За <strong>Ryzen 5/7 9000</strong> → ASRock B650M Pro RS (~120 €). За <strong>Ryzen 9 9950X3D</strong> → ASUS Prime X670-P или MSI MEG X670E Ace за максимална стабилност.</p>`
   },
   {
     slug: 'macbook-pro-m4-pro-review',
-    emoji: 'рџ’»', cat: 'Р РµРІСЋ', title: 'MacBook Pro M4 Pro - Worth It?',
+    emoji: '💻', cat: 'Ревю', title: 'MacBook Pro M4 Pro - Worth It?',
     productImage: './images/products/46747.webp',
-    date: '07 РњР°СЂС‚ 2026', dateISO: '2026-03-07', read: '5 РјРёРЅ', author: 'РњРѕСЃС‚ РљРѕРјРїСЋС‚СЉСЂСЃ',
-    summary: 'РўРµСЃС‚РІР°С…РјРµ РЅРѕРІРёСЏ MacBook Pro M4 Pro РІ СЂРµР°Р»РЅРё СѓСЃР»РѕРІРёСЏ - РІРёРґРµРѕ РјРѕРЅС‚Р°Р¶, РєРѕРґ Рё gaming. Р•С‚Рѕ СЂРµР·СѓР»С‚Р°С‚РёС‚Рµ.',
-    metaDesc: 'MacBook Pro M4 Pro СЂРµРІСЋ - РїСЂРѕРёР·РІРѕРґРёС‚РµР»РЅРѕСЃС‚, Р±Р°С‚РµСЂРёСЏ, РґРёСЃРїР»РµР№. РЎС‚СЂСѓРІР° Р»Рё СЃРё С†РµРЅР°С‚Р°? РўРµСЃС‚ РІ СЂРµР°Р»РЅРё СѓСЃР»РѕРІРёСЏ РѕС‚ Most Computers.',
-    tags: ['MacBook', 'Р»Р°РїС‚РѕРїРё', 'СЂРµРІСЋ'],
-    body: `<h2>Р”РёР·Р°Р№РЅ Рё РєРѕРЅСЃС‚СЂСѓРєС†РёСЏ</h2>
-<p>MacBook Pro M4 Pro Р·Р°РїР°Р·РІР° РµРјР±Р»РµРјР°С‚РёС‡РЅРёСЏ Р°Р»СѓРјРёРЅРёРµРІ РєРѕСЂРїСѓСЃ РІ Space Black. РџСЂРё 14-РёРЅС‡РѕРІРёСЏ РјРѕРґРµР» С‚РµР¶Рё 1.55 РєРі - РЅРµР·РЅР°С‡РёС‚РµР»РЅРѕ РїРѕРІРµС‡Рµ РѕС‚ M3, РЅРѕ СѓСЃРµС‰Р°РЅРµС‚Рѕ Р·Р° РєР°С‡РµСЃС‚РІРѕ Рµ РЅР° РЅРёРІРѕ. Notch-СЉС‚ Рµ РЅР°РјР°Р»РµРЅ СЃ 20% СЃРїСЂСЏРјРѕ РїСЂРµРґРёС€РЅРѕС‚Рѕ РїРѕРєРѕР»РµРЅРёРµ.</p>
-<h2>РџСЂРѕРёР·РІРѕРґРёС‚РµР»РЅРѕСЃС‚ - M4 Pro С‡РёРї</h2>
-<p>12-СЏРґСЂРµРЅРёСЏС‚ CPU РЅР° M4 Pro Рµ РѕРєРѕР»Рѕ <strong>22% РїРѕ-Р±СЉСЂР·</strong> РѕС‚ M3 Pro РїСЂРё РјРЅРѕРіРѕСЏРґСЂРµРЅРё Р·Р°РґР°С‡Рё. Р РµРЅРґРµСЂРёСЂР°РЅРµС‚Рѕ РЅР° 4K РїСЂРѕРµРєС‚ РІ Final Cut Pro, РєРѕРµС‚Рѕ РЅР° M3 Pro РѕС‚РЅРµРјР°С€Рµ 8 РјРёРЅСѓС‚Рё, РїСЂРё M4 Pro РїСЂРёРєР»СЋС‡РІР° Р·Р° 6:20. РљРѕРјРїРёР»Р°С†РёСЏС‚Р° РЅР° РіРѕР»СЏРј Swift РїСЂРѕРµРєС‚ СЃРµ СѓСЃРєРѕСЂСЏРІР° СЃ ~18%.</p>
-<p>РџСЂРё gaming С‡СЂРµР· Game Mode Рё Rosetta 2 РїРѕСЃС‚РёР¶РµРЅРёСЏС‚Р° СЃР° РёР·РЅРµРЅР°РґРІР°С‰Рё - Baldur's Gate 3 С‚РµС‡Рµ СЃС‚Р°Р±РёР»РЅРѕ РЅР° СЃСЂРµРґРЅРё РЅР°СЃС‚СЂРѕР№РєРё РїСЂРё 1080p, РѕРєРѕР»Рѕ 55-60 fps.</p>
-<h2>Р”РёСЃРїР»РµР№ Рё Р±Р°С‚РµСЂРёСЏ</h2>
-<p>Liquid Retina XDR РїР°РЅРµР»СЉС‚ СЃ 1000 РЅРёС‚Р° Р·Р° SDR Рё 1600 РЅРёС‚Р° Р·Р° HDR РѕСЃС‚Р°РІР° РµС‚Р°Р»РѕРЅ. ProMotion Р°РґР°РїС‚РёРІРЅРѕ СѓРїСЂР°РІР»СЏРІР° С‡РµСЃС‚РѕС‚Р°С‚Р° РјРµР¶РґСѓ 24 Рё 120 Hz. РџСЂРё СЃРјРµСЃРµРЅРѕ РЅР°С‚РѕРІР°СЂРІР°РЅРµ (РєРѕРґ, РІРёРґРµРѕ РєРѕРЅС„РµСЂРµРЅС†РёРё, Safari) РёР·РєР°СЂР°С…РјРµ <strong>16-17 С‡Р°СЃР°</strong> РѕС‚ Р·Р°СЂРµР¶РґР°РЅРµ РґРѕ Р·Р°СЂРµР¶РґР°РЅРµ - СЂРµР·СѓР»С‚Р°С‚, РЅРµРґРѕСЃС‚РёР¶РёРј Р·Р° Windows Р°Р»С‚РµСЂРЅР°С‚РёРІРёС‚Рµ.</p>
-<h2>РЎС‚СЂСѓРІР° Р»Рё СЃРё РЅР°РґСЃС‚СЂРѕР№РєР°С‚Р° РѕС‚ M3 Pro?</h2>
-<p>РђРєРѕ СЂР°Р±РѕС‚РёС€ СЃ M3 Pro Mac - РЅРµ Р±СЉСЂР·Р°Р№. РџРѕРґРѕР±СЂРµРЅРёРµС‚Рѕ Рµ СЂРµР°Р»РЅРѕ, РЅРѕ РЅРµ СЂРµРІРѕР»СЋС†РёРѕРЅРЅРѕ. РђРєРѕ РѕР±Р°С‡Рµ РёРґРІР°С€ РѕС‚ Intel Mac РёР»Рё M1, СЂР°Р·Р»РёРєР°С‚Р° Рµ <em>РѕРіСЂРѕРјРЅР°</em>. M4 Pro Рµ РЅР°Р№-Р±Р°Р»Р°РЅСЃРёСЂР°РЅРёСЏС‚ MacBook Pro Р·Р°СЃРµРіР°.</p>
-<p><strong>РћС†РµРЅРєР°: 9.2 / 10</strong></p>`
+    date: '07 Март 2026', dateISO: '2026-03-07', read: '5 мин', author: 'Мост Компютърс',
+    summary: 'Тествахме новия MacBook Pro M4 Pro в реални условия - видео монтаж, код и gaming. Ето резултатите.',
+    metaDesc: 'MacBook Pro M4 Pro ревю - производителност, батерия, дисплей. Струва ли си цената? Тест в реални условия от Most Computers.',
+    tags: ['MacBook', 'лаптопи', 'ревю'],
+    body: `<h2>Дизайн и конструкция</h2>
+<p>MacBook Pro M4 Pro запазва емблематичния алуминиев корпус в Space Black. При 14-инчовия модел тежи 1.55 кг - незначително повече от M3, но усещането за качество е на ниво. Notch-ът е намален с 20% спрямо предишното поколение.</p>
+<h2>Производителност - M4 Pro чип</h2>
+<p>12-ядреният CPU на M4 Pro е около <strong>22% по-бърз</strong> от M3 Pro при многоядрени задачи. Рендерирането на 4K проект в Final Cut Pro, което на M3 Pro отнемаше 8 минути, при M4 Pro приключва за 6:20. Компилацията на голям Swift проект се ускорява с ~18%.</p>
+<p>При gaming чрез Game Mode и Rosetta 2 постиженията са изненадващи - Baldur's Gate 3 тече стабилно на средни настройки при 1080p, около 55-60 fps.</p>
+<h2>Дисплей и батерия</h2>
+<p>Liquid Retina XDR панелът с 1000 нита за SDR и 1600 нита за HDR остава еталон. ProMotion адаптивно управлява честотата между 24 и 120 Hz. При смесено натоварване (код, видео конференции, Safari) изкарахме <strong>16-17 часа</strong> от зареждане до зареждане - резултат, недостижим за Windows алтернативите.</p>
+<h2>Струва ли си надстройката от M3 Pro?</h2>
+<p>Ако работиш с M3 Pro Mac - не бързай. Подобрението е реално, но не революционно. Ако обаче идваш от Intel Mac или M1, разликата е <em>огромна</em>. M4 Pro е най-балансираният MacBook Pro засега.</p>
+<p><strong>Оценка: 9.2 / 10</strong></p>`
   },
   {
     slug: 'iphone-16-pro-max-vs-s25-ultra',
-    emoji: 'рџ“±', cat: 'РЎСЂР°РІРЅРµРЅРёРµ', title: 'iPhone 16 Pro Max vs Samsung S25 Ultra',
+    emoji: '📱', cat: 'Сравнение', title: 'iPhone 16 Pro Max vs Samsung S25 Ultra',
     productImage: './images/products/42081.webp',
-    date: '03 РњР°СЂС‚ 2026', dateISO: '2026-03-03', read: '7 РјРёРЅ', author: 'РњРѕСЃС‚ РљРѕРјРїСЋС‚СЉСЂСЃ',
-    summary: 'Р”РІР°С‚Р° С„Р»Р°РіРјР°РЅР° СЃРµ СЃСЂРµС‰Р°С‚ РІ РґРёСЂРµРєС‚РµРЅ РґСѓРµР». РљР°РјРµСЂР°, РґРёСЃРїР»РµР№, Р±Р°С‚РµСЂРёСЏ - РєРѕР№ РїРµС‡РµР»Рё?',
-    metaDesc: 'iPhone 16 Pro Max СЃСЂРµС‰Сѓ Samsung Galaxy S25 Ultra - РїСЉР»РЅРѕ СЃСЂР°РІРЅРµРЅРёРµ РЅР° РєР°РјРµСЂР°, РґРёСЃРїР»РµР№, Р±Р°С‚РµСЂРёСЏ Рё РїСЂРѕРёР·РІРѕРґРёС‚РµР»РЅРѕСЃС‚.',
-    tags: ['iPhone', 'Samsung', 'СЃРјР°СЂС‚С„РѕРЅРё', 'СЃСЂР°РІРЅРµРЅРёРµ'],
-    body: `<h2>Р”РёР·Р°Р№РЅ</h2>
-<p>iPhone 16 Pro Max Рµ РїСЂРµРјРёРЅР°Р» РєСЉРј С‚РёС‚Р°РЅРёРµРІР° СЂР°РјРєР° СЃ РїРѕ-Р·Р°РѕР±Р»РµРЅРё СЉРіР»Рё. S25 Ultra Р·Р°Р»Р°РіР° РЅР° РїР»РѕСЃРєРё СЂСЉР±РѕРІРµ Рё РІРіСЂР°РґРµРЅР° S Pen - СѓРЅРёРєР°Р»РµРЅ РїР»СЋСЃ Р·Р° С‚РІРѕСЂС‡РµСЃРєР°С‚Р° СЂР°Р±РѕС‚Р°. Р РґРІР°С‚Р° СЃР° РІ premium СЃРµРіРјРµРЅС‚Р°, РЅРѕ Apple РёР·РіР»РµР¶РґР° РїРѕ-РёР·С‚СЉРЅС‡РµРЅРѕ.</p>
-<h2>Р”РёСЃРїР»РµР№</h2>
-<p>S25 Ultra РїСЂРµРґР»Р°РіР° 6.9" Dynamic AMOLED 2X СЃ 2600 РЅРёС‚Р° РїРёРє СЏСЂРєРѕСЃС‚ Рё 1-120 Hz Р°РґР°РїС‚РёРІРµРЅ ProMotion. iPhone 16 Pro Max СЂР°Р·РїРѕР»Р°РіР° СЃ 6.9" Super Retina XDR OLED СЃ ProMotion. Р’ РїСЂСЏРєР° РєРѕРЅРєСѓСЂРµРЅС†РёСЏ Samsung РїРµС‡РµР»Рё РїРѕ СЏСЂРєРѕСЃС‚ РїСЂРё РґРёСЂРµРєС‚РЅР° СЃР»СЉРЅС‡РµРІР° СЃРІРµС‚Р»РёРЅР°, РґРѕРєР°С‚Рѕ Apple РїСЂРµРІСЉР·С…РѕР¶РґР° РїСЂРё С‚РѕС‡РЅРѕСЃС‚ РЅР° С†РІРµС‚РѕРїСЂРµРґР°РІР°РЅРµС‚Рѕ.</p>
-<h2>РљР°РјРµСЂР°</h2>
-<p>iPhone 16 Pro Max СЂР°Р·РїРѕР»Р°РіР° СЃ 48 MP РіР»Р°РІРЅР°, 48 MP СѓР»С‚СЂР°С€РёСЂРѕРєР° Рё 5x РѕРїС‚РёС‡РµРЅ Р·СѓРј. S25 Ultra РїСЂРµРґР»Р°РіР° 200 MP РіР»Р°РІРЅР° СЃ 50 MP С‚РµР»РµС„РѕС‚Рѕ РїСЂРё 5x Рё 10x Р·СѓРј. РџСЂРё РґРЅРµРІРЅР° СЃРІРµС‚Р»РёРЅР° РґРІРµС‚Рµ СЃРёСЃС‚РµРјРё СЃР° РїСЂР°РєС‚РёС‡РµСЃРєРё СЂР°РІРЅРё. РќРѕС‰РЅРѕС‚Рѕ СЃРЅРёРјР°РЅРµ Р»РµРєРѕ РїСЂРµРґРїРѕС‡РёС‚Р° Samsung Р·Р°СЂР°РґРё Р°РіСЂРµСЃРёРІРЅР°С‚Р° РѕР±СЂР°Р±РѕС‚РєР°, РґРѕРєР°С‚Рѕ Apple РґР°РІР° РїРѕ-РµСЃС‚РµСЃС‚РІРµРЅ СЂРµР·СѓР»С‚Р°С‚.</p>
-<h2>РџСЂРѕРёР·РІРѕРґРёС‚РµР»РЅРѕСЃС‚</h2>
-<p>A18 Pro (Apple) СЃСЂРµС‰Сѓ Snapdragon 8 Elite (Samsung) - РІ РµР¶РµРґРЅРµРІРЅР° СѓРїРѕС‚СЂРµР±Р° СЂР°Р·Р»РёРєР°С‚Р° Рµ РЅРµРІРёРґРёРјР°. РџСЂРё С‚РµР¶РєРѕ РЅР°С‚РѕРІР°СЂРІР°РЅРµ (РІРёРґРµРѕ СЂРµРЅРґРµСЂРёСЂР°РЅРµ, ML Р·Р°РґР°С‡Рё) Apple РіСѓР±Рё РїРѕ-РјР°Р»РєРѕ РїСЂРѕРёР·РІРѕРґРёС‚РµР»РЅРѕСЃС‚ РїСЂРё С‚РѕРїР»РёРЅРЅРѕ РґСЂРѕСЃРёСЂР°РЅРµ.</p>
-<h2>Р‘Р°С‚РµСЂРёСЏ</h2>
-<p>S25 Ultra РїСЂРµРґР»Р°РіР° 5000 mAh Р±Р°С‚РµСЂРёСЏ СЃ 45W Р·Р°СЂРµР¶РґР°РЅРµ. iPhone 16 Pro Max - 4685 mAh СЃ 27W. РџСЂРё СЂРµР°Р»РЅР° СѓРїРѕС‚СЂРµР±Р° Samsung РґР°РІР° РѕРєРѕР»Рѕ 1 С‡Р°СЃ РїРѕРІРµС‡Рµ Р°РІС‚РѕРЅРѕРјРёСЏ, РЅРѕ Apple Р·Р°СЂРµР¶РґР° Р±РµР·Р¶РёС‡РЅРѕ РїРѕ-Р±СЉСЂР·Рѕ (MagSafe 25W).</p>
-<h2>Р—Р°РєР»СЋС‡РµРЅРёРµ</h2>
-<p>РђРєРѕ С‚Рё С‚СЂСЏР±РІР° S Pen, РјР°РєСЃРёРјР°Р»РµРЅ Р·СѓРј Рё Android - <strong>S25 Ultra</strong>. РђРєРѕ РёСЃРєР°С€ iOS РµРєРѕСЃРёСЃС‚РµРјР°, РїРѕ-РґРѕР±СЂРѕ РІРёРґРµРѕ Рё РїРѕ-РїР»Р°РІРµРЅ СЃРѕС„С‚СѓРµСЂ - <strong>iPhone 16 Pro Max</strong>.</p>`
+    date: '03 Март 2026', dateISO: '2026-03-03', read: '7 мин', author: 'Мост Компютърс',
+    summary: 'Двата флагмана се срещат в директен дуел. Камера, дисплей, батерия - кой печели?',
+    metaDesc: 'iPhone 16 Pro Max срещу Samsung Galaxy S25 Ultra - пълно сравнение на камера, дисплей, батерия и производителност.',
+    tags: ['iPhone', 'Samsung', 'смартфони', 'сравнение'],
+    body: `<h2>Дизайн</h2>
+<p>iPhone 16 Pro Max е преминал към титаниева рамка с по-заоблени ъгли. S25 Ultra залага на плоски ръбове и вградена S Pen - уникален плюс за творческата работа. И двата са в premium сегмента, но Apple изглежда по-изтънчено.</p>
+<h2>Дисплей</h2>
+<p>S25 Ultra предлага 6.9" Dynamic AMOLED 2X с 2600 нита пик яркост и 1-120 Hz адаптивен ProMotion. iPhone 16 Pro Max разполага с 6.9" Super Retina XDR OLED с ProMotion. В пряка конкуренция Samsung печели по яркост при директна слънчева светлина, докато Apple превъзхожда при точност на цветопредаването.</p>
+<h2>Камера</h2>
+<p>iPhone 16 Pro Max разполага с 48 MP главна, 48 MP ултраширока и 5x оптичен зум. S25 Ultra предлага 200 MP главна с 50 MP телефото при 5x и 10x зум. При дневна светлина двете системи са практически равни. Нощното снимане леко предпочита Samsung заради агресивната обработка, докато Apple дава по-естествен резултат.</p>
+<h2>Производителност</h2>
+<p>A18 Pro (Apple) срещу Snapdragon 8 Elite (Samsung) - в ежедневна употреба разликата е невидима. При тежко натоварване (видео рендериране, ML задачи) Apple губи по-малко производителност при топлинно дросиране.</p>
+<h2>Батерия</h2>
+<p>S25 Ultra предлага 5000 mAh батерия с 45W зареждане. iPhone 16 Pro Max - 4685 mAh с 27W. При реална употреба Samsung дава около 1 час повече автономия, но Apple зарежда безжично по-бързо (MagSafe 25W).</p>
+<h2>Заключение</h2>
+<p>Ако ти трябва S Pen, максимален зум и Android - <strong>S25 Ultra</strong>. Ако искаш iOS екосистема, по-добро видео и по-плавен софтуер - <strong>iPhone 16 Pro Max</strong>.</p>`
   },
   {
     slug: 'top-5-bejichni-slushalki-2026',
-    emoji: 'рџЋ§', cat: 'РўРѕРї 5', title: 'РќР°Р№-РґРѕР±СЂРё Р±РµР·Р¶РёС‡РЅРё СЃР»СѓС€Р°Р»РєРё Р·Р° 2026',
+    emoji: '🎧', cat: 'Топ 5', title: 'Най-добри безжични слушалки за 2026',
     productImage: './images/products/47243.webp',
-    date: '28 Р¤РµРІСЂСѓР°СЂРё 2026', dateISO: '2026-02-28', read: '4 РјРёРЅ', author: 'РњРѕСЃС‚ РљРѕРјРїСЋС‚СЉСЂСЃ',
-    summary: 'Sony, Bose, ANC С‚РµС…РЅРѕР»РѕРіРёСЏ - РєРѕРё СЃР»СѓС€Р°Р»РєРё РґР°РІР°С‚ РЅР°Р№-РґРѕР±СЂРѕ РєР°С‡РµСЃС‚РІРѕ Р·Р° РїР°СЂРёС‚Рµ СЃРё?',
-    metaDesc: 'РўРѕРї 5 Р±РµР·Р¶РёС‡РЅРё СЃР»СѓС€Р°Р»РєРё Р·Р° 2026 - Sony WH-1000XM6, Bose QC45, Jabra. РљРѕСЏ РґР° РёР·Р±РµСЂРµС€?',
-    tags: ['СЃР»СѓС€Р°Р»РєРё', 'Р°СѓРґРёРѕ', 'С‚РѕРї 5'],
-    body: `<h2>1. Sony WH-1000XM6 - РќР°Р№-РґРѕР±СЂРѕ С€СѓРјРѕРїРѕС‚РёСЃРєР°РЅРµ</h2>
-<p>Sony РїСЂРѕРґСЉР»Р¶Р°РІР° РґР° РґРѕРјРёРЅРёСЂР° РІ СЃРµРіРјРµРЅС‚Р° РЅР° ANC СЃР»СѓС€Р°Р»РєРёС‚Рµ. XM6 РїСЂРµРґР»Р°РіР° 40 С‡. Р°РІС‚РѕРЅРѕРјРёСЏ, Multipoint СЃРІСЉСЂР·РІР°РЅРµ СЃ 2 СѓСЃС‚СЂРѕР№СЃС‚РІР° Рё РїРѕРґРѕР±СЂРµРЅ РїСЂРѕС†РµСЃРѕСЂ V2 Р·Р° РїРѕ-РїСЂРµС†РёР·РЅРѕ С€СѓРјРѕРїРѕС‚РёСЃРєР°РЅРµ. Р—РІСѓРєСЉС‚ Рµ РЅР°СЃРёС‚РµРЅ Рё РґРµС‚Р°Р№Р»РµРЅ, РѕСЃРѕР±РµРЅРѕ РїСЂРё Hi-Res Wireless СЃ LDAC РєРѕРґРµРє.</p>
+    date: '28 Февруари 2026', dateISO: '2026-02-28', read: '4 мин', author: 'Мост Компютърс',
+    summary: 'Sony, Bose, ANC технология - кои слушалки дават най-добро качество за парите си?',
+    metaDesc: 'Топ 5 безжични слушалки за 2026 - Sony WH-1000XM6, Bose QC45, Jabra. Коя да избереш?',
+    tags: ['слушалки', 'аудио', 'топ 5'],
+    body: `<h2>1. Sony WH-1000XM6 - Най-добро шумопотискане</h2>
+<p>Sony продължава да доминира в сегмента на ANC слушалките. XM6 предлага 40 ч. автономия, Multipoint свързване с 2 устройства и подобрен процесор V2 за по-прецизно шумопотискане. Звукът е наситен и детайлен, особено при Hi-Res Wireless с LDAC кодек.</p>
 <h2>2. Bose QuietComfort Ultra</h2>
-<p>Bose Рµ РїРѕСЃС‚Р°РІРёР» Р°РєС†РµРЅС‚ РІСЉСЂС…Сѓ Immersive Audio - РїСЂРѕСЃС‚СЂР°РЅСЃС‚РІРµРЅ Р·РІСѓРє, РєРѕР№С‚Рѕ СЃРµ Р°РґР°РїС‚РёСЂР° СЃРїСЂСЏРјРѕ РґРІРёР¶РµРЅРёСЏС‚Р° РЅР° РіР»Р°РІР°С‚Р°. РђРєРѕ РїСЉС‚СѓРІР°С€ РјРЅРѕРіРѕ Рё С€СѓРјРѕРїРѕС‚РёСЃРєР°РЅРµС‚Рѕ Рµ РїСЂРёРѕСЂРёС‚РµС‚, QC Ultra Рµ СЂР°РІРЅРѕСЃС‚РѕРµРЅ РєРѕРЅРєСѓСЂРµРЅС‚ РЅР° Sony.</p>
-<h2>3. Jabra Evolve2 85 - Р—Р° РѕС„РёСЃР°</h2>
-<p>РђРєРѕ СЂР°Р±РѕС‚РёС€ РІ open space, Jabra РїСЂРµРґР»Р°РіР° 8-РјРёРєСЂРѕС„РѕРЅРµРЅ array Р·Р° РєСЂРёСЃС‚Р°Р»РЅРё РѕР±Р°Р¶РґР°РЅРёСЏ, 37 С‡. Р±Р°С‚РµСЂРёСЏ Рё СЃРµСЂС‚РёС„РёРєР°С†РёСЏ Р·Р° Microsoft Teams. Р—РІСѓРєСЉС‚ Рµ РјР°Р»РєРѕ РїРѕ-РЅРµСѓС‚СЂР°Р»РµРЅ РѕС‚ Sony, РЅРѕ Р·Р° РІРёРґРµРѕРєРѕРЅС„РµСЂРµРЅС†РёРё Рµ РёРґРµР°Р»РµРЅ.</p>
+<p>Bose е поставил акцент върху Immersive Audio - пространствен звук, който се адаптира спрямо движенията на главата. Ако пътуваш много и шумопотискането е приоритет, QC Ultra е равностоен конкурент на Sony.</p>
+<h2>3. Jabra Evolve2 85 - За офиса</h2>
+<p>Ако работиш в open space, Jabra предлага 8-микрофонен array за кристални обаждания, 37 ч. батерия и сертификация за Microsoft Teams. Звукът е малко по-неутрален от Sony, но за видеоконференции е идеален.</p>
 <h2>4. Sennheiser Momentum 4</h2>
-<p>Р“РµСЂРјР°РЅСЃРєР° РёРЅР¶РµРЅРµСЂРёСЏ, 60 С‡. Р±Р°С‚РµСЂРёСЏ Рё РµСЃС‚РµСЃС‚РІРµРЅ Р·РІСѓРє Р±РµР· РїСЂРµРєРѕРјРµСЂРЅР° РѕР±СЂР°Р±РѕС‚РєР°. Momentum 4 Рµ РёР·Р±РѕСЂСЉС‚ РЅР° Р°СѓРґРёРѕС„РёР»РёС‚Рµ СЃ Р±СЋРґР¶РµС‚ РїРѕРґ 350 в‚¬.</p>
-<h2>5. Logitech Zone Vibe 130 - Р‘СЋРґР¶РµС‚РµРЅ РёР·Р±РѕСЂ</h2>
-<p>Р›РµРєР° Р±РµР·Р¶РёС‡РЅР° СЃР»СѓС€Р°Р»РєР° СЃ 22 С‡. Р±Р°С‚РµСЂРёСЏ, РІРіСЂР°РґРµРЅ РјРёРєСЂРѕС„РѕРЅ Рё Teams/Zoom СЃРµСЂС‚РёС„РёРєР°С†РёСЏ. Р—Р° РїРѕРґ 100 в‚¬ Рµ С‚СЂСѓРґРЅРѕ РґР° СЃРµ РЅР°РјРµСЂРё РїРѕ-РґРѕР±СЉСЂ РѕС„РёСЃ РІР°СЂРёР°РЅС‚.</p>
-<h2>Р—Р°РєР»СЋС‡РµРЅРёРµ</h2>
-<p>Р—Р° РїРѕРІРµС‡РµС‚Рѕ С…РѕСЂР° - <strong>Sony WH-1000XM6</strong>. Р—Р° РѕС„РёСЃ СѓРїРѕС‚СЂРµР±Р° - <strong>Jabra Evolve2 85</strong>. РќР° Р±СЋРґР¶РµС‚ - <strong>Logitech Zone Vibe 130</strong>.</p>`
+<p>Германска инженерия, 60 ч. батерия и естествен звук без прекомерна обработка. Momentum 4 е изборът на аудиофилите с бюджет под 350 €.</p>
+<h2>5. Logitech Zone Vibe 130 - Бюджетен избор</h2>
+<p>Лека безжична слушалка с 22 ч. батерия, вграден микрофон и Teams/Zoom сертификация. За под 100 € е трудно да се намери по-добър офис вариант.</p>
+<h2>Заключение</h2>
+<p>За повечето хора - <strong>Sony WH-1000XM6</strong>. За офис употреба - <strong>Jabra Evolve2 85</strong>. На бюджет - <strong>Logitech Zone Vibe 130</strong>.</p>`
   },
   {
     slug: 'kak-da-izberem-monitor-rabota-vkashti',
-    emoji: 'рџ–Ґ', cat: 'РЎСЉРІРµС‚Рё', title: 'РљР°Рє РґР° РёР·Р±РµСЂРµРј РјРѕРЅРёС‚РѕСЂ Р·Р° СЂР°Р±РѕС‚Р° РѕС‚ РІРєСЉС‰Рё',
-    date: '22 Р¤РµРІСЂСѓР°СЂРё 2026', dateISO: '2026-02-22', read: '6 РјРёРЅ', author: 'РњРѕСЃС‚ РљРѕРјРїСЋС‚СЉСЂСЃ',
-    summary: '4K РёР»Рё 1440p? IPS РёР»Рё OLED? РџСЉР»РµРЅ РЅР°СЂСЉС‡РЅРёРє Р·Р° РїСЂР°РІРёР»РЅРёСЏ РёР·Р±РѕСЂ.',
-    metaDesc: 'РљР°Рє РґР° РёР·Р±РµСЂРµРј РјРѕРЅРёС‚РѕСЂ Р·Р° СЂР°Р±РѕС‚Р° РѕС‚ РІРєСЉС‰Рё - 4K, 1440p, IPS, OLED. РџСЉР»РµРЅ РЅР°СЂСЉС‡РЅРёРє 2026.',
-    tags: ['РјРѕРЅРёС‚РѕСЂРё', 'СЂР°Р±РѕС‚Р° РѕС‚ РІРєСЉС‰Рё', 'СЃСЉРІРµС‚Рё', '4K'],
+    emoji: '🖥', cat: 'Съвети', title: 'Как да изберем монитор за работа от вкъщи',
+    date: '22 Февруари 2026', dateISO: '2026-02-22', read: '6 мин', author: 'Мост Компютърс',
+    summary: '4K или 1440p? IPS или OLED? Пълен наръчник за правилния избор.',
+    metaDesc: 'Как да изберем монитор за работа от вкъщи - 4K, 1440p, IPS, OLED. Пълен наръчник 2026.',
+    tags: ['монитори', 'работа от вкъщи', 'съвети', '4K'],
     productImage: './images/products/46737.webp',
-    body: `<h2>Р РµР·РѕР»СЋС†РёСЏ: 1080p, 1440p РёР»Рё 4K?</h2>
-<p>РџСЂРё 24-27" РјРѕРЅРёС‚РѕСЂ <strong>1440p (2K)</strong> Рµ РѕРїС‚РёРјР°Р»РЅРёСЏС‚ Р±Р°Р»Р°РЅСЃ - РґРѕСЃС‚Р°С‚СЉС‡РЅРѕ РѕСЃС‚СЂР° РєР°СЂС‚РёРЅР° Р±РµР· РїСЂРµРєРѕРјРµСЂРЅРѕ РЅР°С‚РѕРІР°СЂРІР°РЅРµ РЅР° GPU. 4K РёРјР° СЃРјРёСЃСЉР» РїСЂРё 32"+ РёР»Рё Р°РєРѕ СЂР°Р±РѕС‚РёС€ СЃ РІРёРґРµРѕ/СЃРЅРёРјРєРё Рё РёРјР°С€ РјРѕС‰РЅР° РіСЂР°С„РёС‡РЅР° РєР°СЂС‚Р°.</p>
-<h2>РњР°С‚СЂРёС†Р°: IPS, VA РёР»Рё OLED?</h2>
+    body: `<h2>Резолюция: 1080p, 1440p или 4K?</h2>
+<p>При 24-27" монитор <strong>1440p (2K)</strong> е оптималният баланс - достатъчно остра картина без прекомерно натоварване на GPU. 4K има смисъл при 32"+ или ако работиш с видео/снимки и имаш мощна графична карта.</p>
+<h2>Матрица: IPS, VA или OLED?</h2>
 <ul>
-<li><strong>IPS</strong> - РЅР°Р№-РґРѕР±СЂРё СЉРіР»Рё РЅР° РІРёРґРёРјРѕСЃС‚, С‚РѕС‡РЅРё С†РІРµС‚РѕРІРµ. РРґРµР°Р»РµРЅ Р·Р° РґРёР·Р°Р№РЅ Рё С„РѕС‚Рѕ СЂР°Р±РѕС‚Р°.</li>
-<li><strong>VA</strong> - РїРѕ-РІРёСЃРѕРє РєРѕРЅС‚СЂР°СЃС‚, РїРѕ-РґРѕР±СЂРё С‡РµСЂРЅРё. Р”РѕР±СЉСЂ Р·Р° С„РёР»РјРё Рё РєРѕРґРёСЂР°РЅРµ.</li>
-<li><strong>OLED</strong> - РїРµСЂС„РµРєС‚РЅРё С‡РµСЂРЅРё, РёР·РєР»СЋС‡РёС‚РµР»РЅРё С†РІРµС‚РѕРІРµ, РЅРѕ СЂРёСЃРє РѕС‚ burn-in РїСЂРё СЃС‚Р°С‚РёС‡РЅРѕ СЃСЉРґСЉСЂР¶Р°РЅРёРµ.</li>
+<li><strong>IPS</strong> - най-добри ъгли на видимост, точни цветове. Идеален за дизайн и фото работа.</li>
+<li><strong>VA</strong> - по-висок контраст, по-добри черни. Добър за филми и кодиране.</li>
+<li><strong>OLED</strong> - перфектни черни, изключителни цветове, но риск от burn-in при статично съдържание.</li>
 </ul>
-<h2>Р§РµСЃС‚РѕС‚Р° РЅР° РѕРїСЂРµСЃРЅСЏРІР°РЅРµ</h2>
-<p>Р—Р° РѕС„РёСЃ СЂР°Р±РѕС‚Р° 60-75 Hz Рµ РґРѕСЃС‚Р°С‚СЉС‡РЅРѕ. РђРєРѕ РїРёС€РµС€ РєРѕРґ РёР»Рё С‡РµС‚РµС€ РјРЅРѕРіРѕ - 120-144 Hz РїСЂР°РІРё СЃРєСЂРѕР»РІР°РЅРµС‚Рѕ Р·РЅР°С‡РёС‚РµР»РЅРѕ РїРѕ-РїР»Р°РІРЅРѕ Рё РЅР°РјР°Р»СЏРІР° СѓРјРѕСЂР°С‚Р° РЅР° РѕС‡РёС‚Рµ.</p>
-<h2>Р Р°Р·РјРµСЂ Рё РµСЂРіРѕРЅРѕРјРёСЏ</h2>
-<p>27" Рµ СЃС‚Р°РЅРґР°СЂС‚СЉС‚ Р·Р° СЂР°Р±РѕС‚Р° РѕС‚ РІРєСЉС‰Рё. РђРєРѕ РёРјР°С€ РїСЂРѕСЃС‚СЂР°РЅСЃС‚РІРѕ - РїРѕРјРёСЃР»Рё Р·Р° СѓР»С‚СЂР°С€РёСЂРѕРє 34" (21:9), РєРѕР№С‚Рѕ Р·Р°РјРµРЅСЏ РґРІР° РѕС‚РґРµР»РЅРё РјРѕРЅРёС‚РѕСЂР°. РЎС‚РѕР№РєР° СЃ СЂРµРіСѓР»РёСЂР°РЅРµ РЅР° РІРёСЃРѕС‡РёРЅР° Рµ Р·Р°РґСЉР»Р¶РёС‚РµР»РЅР° Р·Р° РїСЂР°РІРёР»РЅР° РїРѕР·Р°.</p>
-<h2>РџСЂРµРїРѕСЂСЉРєРё РїРѕ Р±СЋРґР¶РµС‚</h2>
+<h2>Честота на опресняване</h2>
+<p>За офис работа 60-75 Hz е достатъчно. Ако пишеш код или четеш много - 120-144 Hz прави скролването значително по-плавно и намалява умората на очите.</p>
+<h2>Размер и ергономия</h2>
+<p>27" е стандартът за работа от вкъщи. Ако имаш пространство - помисли за ултраширок 34" (21:9), който заменя два отделни монитора. Стойка с регулиране на височина е задължителна за правилна поза.</p>
+<h2>Препоръки по бюджет</h2>
 <ul>
-<li><strong>РґРѕ 200 в‚¬</strong> - LG 27MN60T (IPS, 1080p, 75Hz)</li>
-<li><strong>РґРѕ 350 в‚¬</strong> - LG 27QN850-B (IPS, 1440p, USB-C 60W)</li>
-<li><strong>РґРѕ 600 в‚¬</strong> - LG 27UK850 (IPS, 4K, USB-C)</li>
-<li><strong>Р±РµР· РѕРіСЂР°РЅРёС‡РµРЅРёРµ</strong> - ASUS ProArt PA329CRV (4K OLED, 144Hz)</li>
+<li><strong>до 200 €</strong> - LG 27MN60T (IPS, 1080p, 75Hz)</li>
+<li><strong>до 350 €</strong> - LG 27QN850-B (IPS, 1440p, USB-C 60W)</li>
+<li><strong>до 600 €</strong> - LG 27UK850 (IPS, 4K, USB-C)</li>
+<li><strong>без ограничение</strong> - ASUS ProArt PA329CRV (4K OLED, 144Hz)</li>
 </ul>`
   },
   {
     slug: '10-nachina-udalzhim-bateriya',
-    emoji: 'рџ”‹', cat: 'РЎСЉРІРµС‚Рё', title: '10 РЅР°С‡РёРЅР° РґР° СѓРґСЉР»Р¶РёРј Р¶РёРІРѕС‚Р° РЅР° Р±Р°С‚РµСЂРёСЏС‚Р°',
+    emoji: '🔋', cat: 'Съвети', title: '10 начина да удължим живота на батерията',
     productImage: './images/products/52804.webp',
-    date: '15 Р¤РµРІСЂСѓР°СЂРё 2026', dateISO: '2026-02-15', read: '3 РјРёРЅ', author: 'РњРѕСЃС‚ РљРѕРјРїСЋС‚СЉСЂСЃ',
-    summary: 'РџСЂРѕСЃС‚РёС‚Рµ РЅР°РІРёС†Рё, РєРѕРёС‚Рѕ РјРѕРіР°С‚ РґР° СѓРґРІРѕСЏС‚ Р¶РёРІРѕС‚Р° РЅР° Р±Р°С‚РµСЂРёСЏС‚Р° РЅР° С‚РІРѕСЏ С‚РµР»РµС„РѕРЅ РёР»Рё Р»Р°РїС‚РѕРї.',
-    metaDesc: '10 СЃСЉРІРµС‚Р° Р·Р° РїРѕ-РґСЉР»СЉРі Р¶РёРІРѕС‚ РЅР° Р±Р°С‚РµСЂРёСЏС‚Р° РЅР° СЃРјР°СЂС‚С„РѕРЅ Рё Р»Р°РїС‚РѕРї. РџСЂР°РєС‚РёС‡РЅРё РЅР°РІРёС†Рё РѕС‚ Most Computers.',
-    tags: ['Р±Р°С‚РµСЂРёСЏ', 'СЃСЉРІРµС‚Рё', 'СЃРјР°СЂС‚С„РѕРЅ', 'Р»Р°РїС‚РѕРї'],
-    body: `<h2>Р—Р° СЃРјР°СЂС‚С„РѕРЅРё</h2>
+    date: '15 Февруари 2026', dateISO: '2026-02-15', read: '3 мин', author: 'Мост Компютърс',
+    summary: 'Простите навици, които могат да удвоят живота на батерията на твоя телефон или лаптоп.',
+    metaDesc: '10 съвета за по-дълъг живот на батерията на смартфон и лаптоп. Практични навици от Most Computers.',
+    tags: ['батерия', 'съвети', 'смартфон', 'лаптоп'],
+    body: `<h2>За смартфони</h2>
 <ol>
-<li><strong>РћРїС‚РёРјРёР·РёСЂР°РЅРѕ Р·Р°СЂРµР¶РґР°РЅРµ</strong> - iPhone Рё Android РёРјР°С‚ С„СѓРЅРєС†РёСЏ, РєРѕСЏС‚Рѕ РѕРіСЂР°РЅРёС‡Р°РІР° Р·Р°СЂРµР¶РґР°РЅРµС‚Рѕ РґРѕ 80% Р·Р° РЅРѕС‰РЅРё Р·Р°СЂСЏРґРєРё. Р’РєР»СЋС‡Рё СЏ.</li>
-<li><strong>РР·Р±СЏРіРІР°Р№ РєСЂР°Р№РЅРѕСЃС‚РёС‚Рµ</strong> - РЅРµ РёР·С‚РѕС‰Р°РІР°Р№ Р±Р°С‚РµСЂРёСЏС‚Р° РґРѕ 0% Рё РЅРµ СЏ РґСЂСЉР¶ РїРѕСЃС‚РѕСЏРЅРЅРѕ РЅР° 100%. РћРїС‚РёРјР°Р»РЅРёСЏС‚ РґРёР°РїР°Р·РѕРЅ Рµ 20-80%.</li>
-<li><strong>РќР°РјР°Р»Рё СЏСЂРєРѕСЃС‚С‚Р°</strong> - РґРёСЃРїР»РµСЏС‚ Рµ РЅР°Р№-РіРѕР»РµРјРёСЏС‚ РєРѕРЅСЃСѓРјР°С‚РѕСЂ. РђРІС‚РѕРјР°С‚РёС‡РЅР° СЏСЂРєРѕСЃС‚ + С‚СЉРјРµРЅ СЂРµР¶РёРј РјРѕРіР°С‚ РґР° СЃРїРµСЃС‚СЏС‚ РґРѕ 30% РѕС‚ Р±Р°С‚РµСЂРёСЏС‚Р°.</li>
-<li><strong>РћРіСЂР°РЅРёС‡Рё Background App Refresh</strong> - РїСЂРёР»РѕР¶РµРЅРёСЏС‚Р°, РєРѕРёС‚Рѕ СЃРµ РѕР±РЅРѕРІСЏРІР°С‚ РЅР° Р·Р°РґРµРЅ РїР»Р°РЅ, РёР·СЏР¶РґР°С‚ Р±Р°С‚РµСЂРёСЏ РЅРµР·Р°Р±РµР»РµР¶РёРјРѕ.</li>
-<li><strong>РР·РєР»СЋС‡Рё Location Services</strong> Р·Р° РїСЂРёР»РѕР¶РµРЅРёСЏ, РєРѕРёС‚Рѕ РЅРµ РіРѕ РЅСѓР¶РґР°СЏС‚.</li>
+<li><strong>Оптимизирано зареждане</strong> - iPhone и Android имат функция, която ограничава зареждането до 80% за нощни зарядки. Включи я.</li>
+<li><strong>Избягвай крайностите</strong> - не изтощавай батерията до 0% и не я дръж постоянно на 100%. Оптималният диапазон е 20-80%.</li>
+<li><strong>Намали яркостта</strong> - дисплеят е най-големият консуматор. Автоматична яркост + тъмен режим могат да спестят до 30% от батерията.</li>
+<li><strong>Ограничи Background App Refresh</strong> - приложенията, които се обновяват на заден план, изяждат батерия незабележимо.</li>
+<li><strong>Изключи Location Services</strong> за приложения, които не го нуждаят.</li>
 </ol>
-<h2>Р—Р° Р»Р°РїС‚РѕРїРё</h2>
+<h2>За лаптопи</h2>
 <ol start="6">
-<li><strong>Р‘Р°С‚РµСЂРёР№РЅРё СЂРµР¶РёРјРё</strong> - Windows РёРјР° "Battery Saver", macOS РёРјР° "Low Power Mode". Р’РєР»СЋС‡Рё РїСЂРё СЂР°Р±РѕС‚Р° Р±РµР· Р·Р°С…СЂР°РЅРІР°РЅРµ.</li>
-<li><strong>РћС…Р»Р°Р¶РґР°РЅРµ</strong> - Р±Р°С‚РµСЂРёРёС‚Рµ РґРµРіСЂР°РґРёСЂР°С‚ РїРѕ-Р±СЉСЂР·Рѕ РїСЂРё РІРёСЃРѕРєР° С‚РµРјРїРµСЂР°С‚СѓСЂР°. РќРµ СЂР°Р±РѕС‚Рё СЃ Р»Р°РїС‚РѕРїР° РІСЉСЂС…Сѓ РјРµРєРё РїРѕРІСЉСЂС…РЅРѕСЃС‚Рё.</li>
-<li><strong>Hibernation РІРјРµСЃС‚Рѕ Sleep</strong> РїСЂРё РґСЉР»РіРѕ РЅРµРёР·РїРѕР»Р·РІР°РЅРµ РїРµСЃС‚Рё Р·РЅР°С‡РёС‚РµР»РЅРѕ РїРѕРІРµС‡Рµ Р±Р°С‚РµСЂРёСЏ.</li>
-<li><strong>RAM РІРјРµСЃС‚Рѕ HDD/SSD swap</strong> - Р°РєРѕ Р»Р°РїС‚РѕРїСЉС‚ РїРѕСЃС‚РѕСЏРЅРЅРѕ РїРёС€Рµ РЅР° РґРёСЃРєР°, РґРѕР±Р°РІРё RAM.</li>
-<li><strong>РљР°Р»РёР±СЂР°С†РёСЏ</strong> - РІРµРґРЅСЉР¶ РЅР° 3 РјРµСЃРµС†Р° РЅР°РїСЉР»РЅРѕ Р·Р°СЂРµРґРё РґРѕ 100%, СЃР»РµРґ РєРѕРµС‚Рѕ РёР·С‚РѕС‰Рё РґРѕ ~5%. РџРѕРјР°РіР° Р·Р° С‚РѕС‡РЅРѕС‚Рѕ РѕС‚С‡РёС‚Р°РЅРµ РЅР° Р·Р°СЂСЏРґР°.</li>
+<li><strong>Батерийни режими</strong> - Windows има "Battery Saver", macOS има "Low Power Mode". Включи при работа без захранване.</li>
+<li><strong>Охлаждане</strong> - батериите деградират по-бързо при висока температура. Не работи с лаптопа върху меки повърхности.</li>
+<li><strong>Hibernation вместо Sleep</strong> при дълго неизползване пести значително повече батерия.</li>
+<li><strong>RAM вместо HDD/SSD swap</strong> - ако лаптопът постоянно пише на диска, добави RAM.</li>
+<li><strong>Калибрация</strong> - веднъж на 3 месеца напълно зареди до 100%, след което изтощи до ~5%. Помага за точното отчитане на заряда.</li>
 </ol>
-<p>РџСЂРё РїСЂР°РІРёР»РЅР° РіСЂРёР¶Р°, Р»РёС‚РёРµРІРѕ-Р№РѕРЅРЅР° Р±Р°С‚РµСЂРёСЏ РјРѕР¶Рµ РґР° Р·Р°РїР°Р·Рё РЅР°Рґ 80% РѕС‚ РєР°РїР°С†РёС‚РµС‚Р° СЃР»РµРґ 500 С†РёРєСЉР»Р° Р·Р°СЂРµР¶РґР°РЅРµ.</p>`
+<p>При правилна грижа, литиево-йонна батерия може да запази над 80% от капацитета след 500 цикъла зареждане.</p>`
   },
   {
     slug: 'umen-dom-pod-500-leva',
-    emoji: 'рџЏ ', cat: 'Smart Home', title: 'РљР°Рє РґР° РёР·РіСЂР°РґРёРј СѓРјРµРЅ РґРѕРј Р·Р° РїРѕРґ 500 Р»РІ.',
+    emoji: '🏠', cat: 'Smart Home', title: 'Как да изградим умен дом за под 500 лв.',
     productImage: './images/products/42961.webp',
-    date: '10 Р¤РµРІСЂСѓР°СЂРё 2026', dateISO: '2026-02-10', read: '8 РјРёРЅ', author: 'РњРѕСЃС‚ РљРѕРјРїСЋС‚СЉСЂСЃ',
-    summary: 'Philips Hue, СЃРјР°СЂС‚ РєРѕРЅС‚Р°РєС‚Рё, РіР»Р°СЃРѕРІ Р°СЃРёСЃС‚РµРЅС‚ - РїСЉР»РЅР° СЃРёСЃС‚РµРјР° Р±РµР· РґР° СЃРµ СЂР°Р·РѕСЂСЏРІР°РјРµ.',
-    metaDesc: 'РЈРјРµРЅ РґРѕРј Р·Р° РїРѕРґ 500 Р»РµРІР° - Philips Hue, Google Home, СЃРјР°СЂС‚ РєРѕРЅС‚Р°РєС‚Рё. Р СЉРєРѕРІРѕРґСЃС‚РІРѕ СЃС‚СЉРїРєР° РїРѕ СЃС‚СЉРїРєР°.',
-    tags: ['СѓРјРµРЅ РґРѕРј', 'Smart Home', 'Philips Hue', 'Google Home'],
-    body: `<h2>РћС‚РїСЂР°РІРЅР° С‚РѕС‡РєР°: Р“Р»Р°СЃРѕРІ Р°СЃРёСЃС‚РµРЅС‚</h2>
-<p>Р’СЃРёС‡РєРѕ Р·Р°РїРѕС‡РІР° СЃ С†РµРЅС‚СЂР°Р»РµРЅ С…СЉР±. <strong>Google Nest Mini</strong> (РѕРєРѕР»Рѕ 50 Р»РІ.) РёР»Рё <strong>Amazon Echo Dot</strong> (РѕРєРѕР»Рѕ 45 Р»РІ.) СЃР° РёРґРµР°Р»РЅРёС‚Рµ РѕС‚РїСЂР°РІРЅРё С‚РѕС‡РєРё. Р’РµРґРЅСЉР¶ РёРЅСЃС‚Р°Р»РёСЂР°РЅ, Р°СЃРёСЃС‚РµРЅС‚СЉС‚ СѓРїСЂР°РІР»СЏРІР° РІСЃРёС‡РєРё РѕСЃС‚Р°РЅР°Р»Рё СѓСЃС‚СЂРѕР№СЃС‚РІР° СЃ РіР»Р°СЃРѕРІРё РєРѕРјР°РЅРґРё.</p>
-<h2>РРЅС‚РµР»РёРіРµРЅС‚РЅРѕ РѕСЃРІРµС‚Р»РµРЅРёРµ (~150 Р»РІ.)</h2>
-<p>Philips Hue Starter Kit СЃ 3 РєСЂСѓС€РєРё Рё С…СЉР± Рµ РєР»Р°СЃРёС‡РµСЃРєРёСЏС‚ РёР·Р±РѕСЂ - СЃС‚Р°Р±РёР»РµРЅ Zigbee РїСЂРѕС‚РѕРєРѕР», Р±РѕРіР°С‚Р° РµРєРѕСЃРёСЃС‚РµРјР° Рё СЃС‚СЂР°С…РѕС‚РЅРѕ РїСЂРёР»РѕР¶РµРЅРёРµ. РђР»С‚РµСЂРЅР°С‚РёРІР°С‚Р° Рµ IKEA TRГ…DFRI (РїРѕ-РµРІС‚РёРЅРѕ, РјР°Р»РєРѕ РїРѕ-РѕРіСЂР°РЅРёС‡РµРЅРѕ). РЎРјР°СЂС‚ РєСЂСѓС€РєРёС‚Рµ СЃ WiFi (SONOFF, Tapo) РЅРµ РёР·РёСЃРєРІР°С‚ РѕС‚РґРµР»РµРЅ С…СЉР±.</p>
-<h2>РЎРјР°СЂС‚ РєРѕРЅС‚Р°РєС‚Рё (~80 Р»РІ. Р·Р° 2 Р±СЂ.)</h2>
-<p>РЎРјР°СЂС‚ РєРѕРЅС‚Р°РєС‚РёС‚Рµ С‚СЂР°РЅСЃС„РѕСЂРјРёСЂР°С‚ РѕР±РёРєРЅРѕРІРµРЅРё СѓСЂРµРґРё РІ РёРЅС‚РµР»РёРіРµРЅС‚РЅРё. РЎС‚Р°СЂ РІРµРЅС‚РёР»Р°С‚РѕСЂ, РєР°С„РµРјР°С€РёРЅР° РёР»Рё Р»Р°РјРїР° РјРѕРіР°С‚ РґР° СЃРµ СѓРїСЂР°РІР»СЏРІР°С‚ РѕС‚ С‚РµР»РµС„РѕРЅР° РёР»Рё С‚Р°Р№РјРµСЂ. TP-Link Tapo P115 Рµ Р»СЋР±РёРјРµС†СЉС‚ - РјРµСЂРё Рё РєРѕРЅСЃСѓРјР°С†РёСЏС‚Р° РЅР° С‚РѕРє.</p>
-<h2>РЎРёРіСѓСЂРЅРѕСЃС‚ (~150 Р»РІ.)</h2>
-<p>РЎРјР°СЂС‚ РІРёРґРµРѕРєР°РјРµСЂР° (Tapo C200 - РѕРєРѕР»Рѕ 60 Р»РІ.) + СЃРјР°СЂС‚ Р·РІСЉРЅРµС† (Reolink Video Doorbell - РѕРєРѕР»Рѕ 90 Р»РІ.) РїРѕРєСЂРёРІР°С‚ РѕСЃРЅРѕРІРЅР°С‚Р° РґРѕРјР°С€РЅР° СЃРёРіСѓСЂРЅРѕСЃС‚. Р РґРІР°С‚Р° СЂР°Р±РѕС‚СЏС‚ СЃ Google Home Рё Alexa.</p>
-<h2>РџСЂРёРјРµСЂРµРЅ Р±СЋРґР¶РµС‚</h2>
+    date: '10 Февруари 2026', dateISO: '2026-02-10', read: '8 мин', author: 'Мост Компютърс',
+    summary: 'Philips Hue, смарт контакти, гласов асистент - пълна система без да се разоряваме.',
+    metaDesc: 'Умен дом за под 500 лева - Philips Hue, Google Home, смарт контакти. Ръководство стъпка по стъпка.',
+    tags: ['умен дом', 'Smart Home', 'Philips Hue', 'Google Home'],
+    body: `<h2>Отправна точка: Гласов асистент</h2>
+<p>Всичко започва с централен хъб. <strong>Google Nest Mini</strong> (около 50 лв.) или <strong>Amazon Echo Dot</strong> (около 45 лв.) са идеалните отправни точки. Веднъж инсталиран, асистентът управлява всички останали устройства с гласови команди.</p>
+<h2>Интелигентно осветление (~150 лв.)</h2>
+<p>Philips Hue Starter Kit с 3 крушки и хъб е класическият избор - стабилен Zigbee протокол, богата екосистема и страхотно приложение. Алтернативата е IKEA TRÅDFRI (по-евтино, малко по-ограничено). Смарт крушките с WiFi (SONOFF, Tapo) не изискват отделен хъб.</p>
+<h2>Смарт контакти (~80 лв. за 2 бр.)</h2>
+<p>Смарт контактите трансформират обикновени уреди в интелигентни. Стар вентилатор, кафемашина или лампа могат да се управляват от телефона или таймер. TP-Link Tapo P115 е любимецът - мери и консумацията на ток.</p>
+<h2>Сигурност (~150 лв.)</h2>
+<p>Смарт видеокамера (Tapo C200 - около 60 лв.) + смарт звънец (Reolink Video Doorbell - около 90 лв.) покриват основната домашна сигурност. И двата работят с Google Home и Alexa.</p>
+<h2>Примерен бюджет</h2>
 <ul>
-<li>Google Nest Mini - 50 Р»РІ.</li>
-<li>Philips Hue Starter Kit - 150 Р»РІ.</li>
-<li>2x Tapo P115 СЃРјР°СЂС‚ РєРѕРЅС‚Р°РєС‚ - 80 Р»РІ.</li>
-<li>Tapo C200 РєР°РјРµСЂР° - 60 Р»РІ.</li>
-<li>Reolink Doorbell - 90 Р»РІ.</li>
-<li><strong>РћР±С‰Рѕ: ~430 Р»РІ.</strong></li>
+<li>Google Nest Mini - 50 лв.</li>
+<li>Philips Hue Starter Kit - 150 лв.</li>
+<li>2x Tapo P115 смарт контакт - 80 лв.</li>
+<li>Tapo C200 камера - 60 лв.</li>
+<li>Reolink Doorbell - 90 лв.</li>
+<li><strong>Общо: ~430 лв.</strong></li>
 </ul>
-<p>РђРєРѕ СЂР°Р·РїСЂРµРґРµР»РёС€ РїРѕРєСѓРїРєРёС‚Рµ Р·Р° 2-3 РјРµСЃРµС†Р°, СѓСЃРµС‰Р°РЅРµС‚Рѕ Р·Р° вЂћСѓРјРµРЅ РґРѕРј" РёРґРІР° РїРѕСЃС‚РµРїРµРЅРЅРѕ - Рё Рµ РјРЅРѕРіРѕ РїРѕ-РґРѕСЃС‚СЉРїРЅРѕ, РѕС‚РєРѕР»РєРѕС‚Рѕ РёР·РіР»РµР¶РґР°.</p>`
+<p>Ако разпределиш покупките за 2-3 месеца, усещането за „умен дом" идва постепенно - и е много по-достъпно, отколкото изглежда.</p>`
   },
 ];
 
@@ -4755,13 +4755,13 @@ function openBlogPage() {
   if (listView) listView.style.display = '';
   if (postView) postView.style.display = 'none';
   const titleEl = document.getElementById('blogPageTitle');
-  if (titleEl) titleEl.textContent = 'рџ“° Р‘Р»РѕРі Рё РЅРѕРІРёРЅРё';
+  if (titleEl) titleEl.textContent = '📰 Блог и новини';
   _renderBlogGrid();
-  _setPgBc('blogBc', 'Р‘Р»РѕРі Рё РЅРѕРІРёРЅРё', 'closeBlogPage');
+  _setPgBc('blogBc', 'Блог и новини', 'closeBlogPage');
   document.getElementById('blogPage').classList.add('open');
   document.body.style.overflow = 'hidden';
-  if (typeof setPageMeta === 'function') setPageMeta('Р‘Р»РѕРі - Most Computers', 'Р РµРІСЋС‚Р°, СЃСЂР°РІРЅРµРЅРёСЏ Рё СЃСЉРІРµС‚Рё Р·Р° РєРѕРјРїСЋС‚СЂРё, Р»Р°РїС‚РѕРїРё Рё РµР»РµРєС‚СЂРѕРЅРёРєР° РѕС‚ РµРєРёРїР° РЅР° Most Computers.');
-  if (typeof bcOnPage === 'function') bcOnPage('Р‘Р»РѕРі');
+  if (typeof setPageMeta === 'function') setPageMeta('Блог - Most Computers', 'Ревюта, сравнения и съвети за компютри, лаптопи и електроника от екипа на Most Computers.');
+  if (typeof bcOnPage === 'function') bcOnPage('Блог');
   try { history.pushState({ page: 'blog' }, '', '?page=blog'); } catch(e) {}
 }
 function _renderBlogGrid() {
@@ -4785,13 +4785,13 @@ function _renderBlogGrid() {
       <div class="blog-mag-body">
         <div class="blog-mag-meta">
           <span class="blog-mag-date">${escHtml(p.date)}</span>
-          <span class="blog-mag-read"><span class="blog-mag-dot"></span>${escHtml(p.read)} С‡РµС‚РµРЅРµ</span>
+          <span class="blog-mag-read"><span class="blog-mag-dot"></span>${escHtml(p.read)} четене</span>
         </div>
         <div class="blog-mag-title">${escHtml(p.title)}</div>
         <div class="blog-mag-summary">${escHtml(p.summary)}</div>
         <div class="blog-mag-footer">
           <span class="blog-mag-tag">${escHtml(p.tags[0]||'')}</span>
-          <span class="blog-mag-cta">РџСЂРѕС‡РµС‚Рё в†’</span>
+          <span class="blog-mag-cta">Прочети →</span>
         </div>
       </div>
     </div>`;
@@ -4808,21 +4808,21 @@ function openBlogPost(slug) {
   postView.style.display = '';
   const titleEl = document.getElementById('blogPageTitle');
   if (titleEl) titleEl.textContent = post.title;
-  // Update breadcrumb: РќР°С‡Р°Р»Рѕ > Р‘Р»РѕРі > [Title]
+  // Update breadcrumb: Начало > Блог > [Title]
   const bcEl = document.getElementById('blogBc');
   if (bcEl) {
-    const shortTitle = post.title.length > 40 ? post.title.slice(0, 40) + 'вЂ¦' : post.title;
+    const shortTitle = post.title.length > 40 ? post.title.slice(0, 40) + '…' : post.title;
     bcEl.innerHTML = `<ol class="pg-bc-list" itemscope itemtype="https://schema.org/BreadcrumbList">
     <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-      <a href="/" class="pg-bc-home" onclick="closeBlogPage();return false;">РќР°С‡Р°Р»Рѕ</a>
+      <a href="/" class="pg-bc-home" onclick="closeBlogPage();return false;">Начало</a>
       <meta itemprop="position" content="1"/>
     </li>
-    <li class="pg-bc-sep" aria-hidden="true">вЂє</li>
+    <li class="pg-bc-sep" aria-hidden="true">›</li>
     <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-      <a class="pg-bc-home" onclick="closeBlogPost();return false;" style="cursor:pointer">Р‘Р»РѕРі</a>
+      <a class="pg-bc-home" onclick="closeBlogPost();return false;" style="cursor:pointer">Блог</a>
       <meta itemprop="position" content="2"/>
     </li>
-    <li class="pg-bc-sep" aria-hidden="true">вЂє</li>
+    <li class="pg-bc-sep" aria-hidden="true">›</li>
     <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
       <strong class="pg-bc-current" itemprop="name">${shortTitle}</strong>
       <meta itemprop="position" content="3"/>
@@ -4838,7 +4838,7 @@ function openBlogPost(slug) {
     ? `<div class="blog-verdict">
         <div class="blog-verdict-score">${escHtml(post.rating)}<span>/ 10</span></div>
         <div class="blog-verdict-text">
-          <h3>РќР°С€Р°С‚Р° РїСЂРёСЃСЉРґР°</h3>
+          <h3>Нашата присъда</h3>
           <p>${escHtml(post.verdict||post.summary)}</p>
         </div>
        </div>`
@@ -4851,8 +4851,8 @@ function openBlogPost(slug) {
       <div class="blog-article-hero-meta">
         <span class="blog-article-hero-badge cat">${escHtml(post.cat)}</span>
         <time datetime="${post.dateISO}" class="blog-article-hero-badge info">${escHtml(post.date)}</time>
-        <span class="blog-article-hero-badge info">рџ“– ${escHtml(post.read)}</span>
-        <span class="blog-article-hero-badge info">вњЌпёЏ ${escHtml(post.author)}</span>
+        <span class="blog-article-hero-badge info">📖 ${escHtml(post.read)}</span>
+        <span class="blog-article-hero-badge info">✍️ ${escHtml(post.author)}</span>
       </div>
       ${post.productImage ? `<div class="blog-article-hero-product"><img src="${post.productImage}" alt="${escHtml(post.model||post.title)}" loading="lazy"></div>` : ''}
     </header>
@@ -4903,15 +4903,15 @@ function closeBlogPost() {
   if (postView) postView.style.display = 'none';
   if (listView) listView.style.display = '';
   const titleEl = document.getElementById('blogPageTitle');
-  if (titleEl) titleEl.textContent = 'рџ“° Р‘Р»РѕРі Рё РЅРѕРІРёРЅРё';
+  if (titleEl) titleEl.textContent = '📰 Блог и новини';
   // Remove Article JSON-LD
   const _ld = document.getElementById('_blogPostLD');
   if (_ld) _ld.remove();
-  if (typeof setPageMeta === 'function') setPageMeta('Р‘Р»РѕРі - Most Computers', 'Р РµРІСЋС‚Р°, СЃСЂР°РІРЅРµРЅРёСЏ Рё СЃСЉРІРµС‚Рё Р·Р° РєРѕРјРїСЋС‚СЂРё, Р»Р°РїС‚РѕРїРё Рё РµР»РµРєС‚СЂРѕРЅРёРєР° РѕС‚ РµРєРёРїР° РЅР° Most Computers.');
+  if (typeof setPageMeta === 'function') setPageMeta('Блог - Most Computers', 'Ревюта, сравнения и съвети за компютри, лаптопи и електроника от екипа на Most Computers.');
   const ogType = document.querySelector('meta[property="og:type"]');
   if (ogType) ogType.setAttribute('content', 'website');
   try { history.replaceState({ page: 'blog' }, '', '?page=blog'); } catch(e) {}
-  _setPgBc('blogBc', 'Р‘Р»РѕРі Рё РЅРѕРІРёРЅРё', 'closeBlogPage');
+  _setPgBc('blogBc', 'Блог и новини', 'closeBlogPage');
 }
 function closeBlogPage() {
   // If a post is open, close post first and go back to list
@@ -4958,11 +4958,11 @@ function _loadLeaflet(cb) {
 
 let _svcMap = null;
 function openServicePage() {
-  _setPgBc('serviceBc', 'РЎРµСЂРІРёР· Рё РїРѕРґРґСЂСЉР¶РєР°', 'closeServicePage');
+  _setPgBc('serviceBc', 'Сервиз и поддръжка', 'closeServicePage');
   document.getElementById('servicePage').classList.add('open');
   document.body.style.overflow = 'hidden';
-  if (typeof setPageMeta === 'function') setPageMeta('РЎРµСЂРІРёР·РµРЅ С†РµРЅС‚СЉСЂ - Most Computers', 'РЎРµСЂС‚РёС„РёС†РёСЂР°РЅ СЃРµСЂРІРёР· Р·Р° Р»Р°РїС‚РѕРїРё, РєРѕРјРїСЋС‚СЂРё Рё РµР»РµРєС‚СЂРѕРЅРёРєР°. Р”РёР°РіРЅРѕСЃС‚РёРєР°, СЂРµРјРѕРЅС‚ Рё РіР°СЂР°РЅС†РёРѕРЅРЅРѕ РѕР±СЃР»СѓР¶РІР°РЅРµ РІ Most Computers.');
-  if (typeof bcOnPage === 'function') bcOnPage('РЎРµСЂРІРёР·РµРЅ С†РµРЅС‚СЉСЂ');
+  if (typeof setPageMeta === 'function') setPageMeta('Сервизен център - Most Computers', 'Сертифициран сервиз за лаптопи, компютри и електроника. Диагностика, ремонт и гаранционно обслужване в Most Computers.');
+  if (typeof bcOnPage === 'function') bcOnPage('Сервизен център');
   try { history.pushState({ page: 'service' }, '', '?page=service'); } catch(e) {}
   _svcTrkInit();
   _svcMapInit();
@@ -4975,7 +4975,7 @@ function _svcMapInit() {
     if (_svcMap) return;
     _svcMap = L.map(el, { zoomControl: true, scrollWheelZoom: false }).setView([42.679938, 23.359063], 16);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: 'В© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       maxZoom: 19
     }).addTo(_svcMap);
     const pinIcon = L.divIcon({
@@ -4986,7 +4986,7 @@ function _svcMapInit() {
     });
     L.marker([42.679938, 23.359063], { icon: pinIcon })
       .addTo(_svcMap)
-      .bindPopup('<strong>РњРѕСЃС‚ РљРѕРјРїСЋС‚СЉСЂСЃ</strong><br>Р±СѓР». РЁРёРїС‡РµРЅСЃРєРё РїСЂРѕС…РѕРґ 240');
+      .bindPopup('<strong>Мост Компютърс</strong><br>бул. Шипченски проход 240');
     setTimeout(() => _svcMap.invalidateSize(), 200);
   });
 }
@@ -4998,11 +4998,11 @@ function closeServicePage() {
   try { history.pushState(null, '', window.location.pathname); } catch(e) {}
 }
 function openDeliveryPage() {
-  _setPgBc('deliveryBc', 'Р”РѕСЃС‚Р°РІРєР° Рё РїР»Р°С‰Р°РЅРµ', 'closeDeliveryPage');
+  _setPgBc('deliveryBc', 'Доставка и плащане', 'closeDeliveryPage');
   document.getElementById('deliveryPage').classList.add('open');
   document.body.style.overflow = 'hidden';
-  if (typeof setPageMeta === 'function') setPageMeta('Р”РѕСЃС‚Р°РІРєР° Рё РїР»Р°С‰Р°РЅРµ - Most Computers', 'Р‘РµР·РїР»Р°С‚РЅР° РґРѕСЃС‚Р°РІРєР° РїСЂРё РїРѕСЂСЉС‡РєРё РЅР°Рґ 100 в‚¬. Р”РѕСЃС‚Р°РІСЏРјРµ СЃ РєСѓСЂРёРµСЂ РІ СЂР°РјРєРёС‚Рµ РЅР° 1-3 СЂР°Р±РѕС‚РЅРё РґРЅРё РІ С†СЏР»Р° Р‘СЉР»РіР°СЂРёСЏ.');
-  if (typeof bcOnPage === 'function') bcOnPage('Р”РѕСЃС‚Р°РІРєР° Рё РїР»Р°С‰Р°РЅРµ');
+  if (typeof setPageMeta === 'function') setPageMeta('Доставка и плащане - Most Computers', 'Безплатна доставка при поръчки над 100 €. Доставяме с куриер в рамките на 1-3 работни дни в цяла България.');
+  if (typeof bcOnPage === 'function') bcOnPage('Доставка и плащане');
   try { history.pushState({ page: 'delivery' }, '', '?page=delivery'); } catch(e) {}
 }
 function closeDeliveryPage() {
@@ -5025,11 +5025,11 @@ function openReturnsSection() {
   }, 320);
 }
 function openWarrantyPage() {
-  _setPgBc('warrantyBc', 'Р“Р°СЂР°РЅС†РёРѕРЅРЅРё СѓСЃР»РѕРІРёСЏ', 'closeWarrantyPage');
+  _setPgBc('warrantyBc', 'Гаранционни условия', 'closeWarrantyPage');
   document.getElementById('warrantyPage').classList.add('open');
   document.body.style.overflow = 'hidden';
-  if (typeof setPageMeta === 'function') setPageMeta('Р“Р°СЂР°РЅС†РёРѕРЅРЅРё СѓСЃР»РѕРІРёСЏ (РћР“РЈ) - Most Computers', 'РћР±С‰Рё РіР°СЂР°РЅС†РёРѕРЅРЅРё СѓСЃР»РѕРІРёСЏ РЅР° РњРѕСЃС‚ РљРѕРјРїСЋС‚СЉСЂСЃ РћРћР”. Р“Р°СЂР°РЅС†РёРѕРЅРµРЅ СЃСЂРѕРє, РїСЂРёРµРјР°РЅРµ РЅР° СЂРµРєР»Р°РјР°С†РёРё Рё СЃРµСЂРІРёР·РЅР° РјСЂРµР¶Р° РІ 34 РіРѕСЂРѕРґР° РІ Р‘СЉР»РіР°СЂРёСЏ.');
-  if (typeof bcOnPage === 'function') bcOnPage('Р“Р°СЂР°РЅС†РёРѕРЅРЅРё СѓСЃР»РѕРІРёСЏ');
+  if (typeof setPageMeta === 'function') setPageMeta('Гаранционни условия (ОГУ) - Most Computers', 'Общи гаранционни условия на Мост Компютърс ООД. Гаранционен срок, приемане на рекламации и сервизна мрежа в 34 города в България.');
+  if (typeof bcOnPage === 'function') bcOnPage('Гаранционни условия');
   try { history.pushState({ page: 'warranty' }, '', '?page=warranty'); } catch(e) {}
 }
 function closeWarrantyPage() {
@@ -5050,7 +5050,7 @@ function filterCatScroll(type) {
 let _contactsMap = null;
 let _warehouseMap = null;
 function openContactsPage() {
-  _setPgBc('contactsBc', 'РљРѕРЅС‚Р°РєС‚Рё & РљР°Рє РґР° РЅРё РЅР°РјРµСЂРёС‚Рµ', 'closeContactsPage');
+  _setPgBc('contactsBc', 'Контакти', 'closeContactsPage');
   document.getElementById('contactsPage').classList.add('open');
   document.body.style.overflow = 'hidden';
   checkOpenNow();
@@ -5066,7 +5066,7 @@ function _contactsMapInit() {
     if (_contactsMap) return;
     _contactsMap = L.map(el, { zoomControl: true, scrollWheelZoom: false }).setView([42.679938, 23.359063], 16);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: 'В© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       maxZoom: 19
     }).addTo(_contactsMap);
     const pinIcon = L.divIcon({
@@ -5077,7 +5077,7 @@ function _contactsMapInit() {
     });
     L.marker([42.679938, 23.359063], { icon: pinIcon })
       .addTo(_contactsMap)
-      .bindPopup('<strong>РњРѕСЃС‚ РљРѕРјРїСЋС‚СЉСЂСЃ</strong><br>Р±СѓР». РЁРёРїС‡РµРЅСЃРєРё РїСЂРѕС…РѕРґ 240');
+      .bindPopup('<strong>Мост Компютърс</strong><br>бул. Шипченски проход 240');
     setTimeout(() => _contactsMap.invalidateSize(), 200);
   });
 }
@@ -5090,7 +5090,7 @@ function _warehouseMapInit() {
     if (_warehouseMap) return;
     _warehouseMap = L.map(el, { zoomControl: true, scrollWheelZoom: false }).setView([42.6558, 23.3894], 16);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: 'В© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       maxZoom: 19
     }).addTo(_warehouseMap);
     const pinIcon = L.divIcon({
@@ -5101,7 +5101,7 @@ function _warehouseMapInit() {
     });
     L.marker([42.6558, 23.3894], { icon: pinIcon })
       .addTo(_warehouseMap)
-      .bindPopup('<strong>Р¦РµРЅС‚СЂР°Р»РµРЅ СЃРєР»Р°Рґ</strong><br>СѓР». РњР°РіРЅР°СѓСЂСЃРєР° С€РєРѕР»Р° в„–13, Р—РРў');
+      .bindPopup('<strong>Централен склад</strong><br>ул. Магнаурска школа №13, ЗИТ');
     setTimeout(() => _warehouseMap.invalidateSize(), 200);
   });
 }
@@ -5121,35 +5121,35 @@ function switchDirTab(type, btn) {
 }
 
 function copyAddress() {
-  const addr = 'Р±СѓР». РЁРёРїС‡РµРЅСЃРєРё РїСЂРѕС…РѕРґ Р±Р».240, Р¶.Рє. Р“РµРѕ РњРёР»РµРІ, 1111 РЎРѕС„РёСЏ';
+  const addr = 'бул. Шипченски проход бл.240, ж.к. Гео Милев, 1111 София';
   if (navigator.clipboard) {
-    navigator.clipboard.writeText(addr).then(() => showToast('рџ“‹ РђРґСЂРµСЃСЉС‚ Рµ РєРѕРїРёСЂР°РЅ!')).catch(() => {
+    navigator.clipboard.writeText(addr).then(() => showToast('📋 Адресът е копиран!')).catch(() => {
       const ta = document.createElement('textarea');
       ta.value = addr; document.body.appendChild(ta);
       ta.select(); document.execCommand('copy');
       document.body.removeChild(ta);
-      showToast('рџ“‹ РђРґСЂРµСЃСЉС‚ Рµ РєРѕРїРёСЂР°РЅ!');
+      showToast('📋 Адресът е копиран!');
     });
   } else {
     const ta = document.createElement('textarea');
     ta.value = addr; document.body.appendChild(ta);
     ta.select(); document.execCommand('copy');
     document.body.removeChild(ta);
-    showToast('рџ“‹ РђРґСЂРµСЃСЉС‚ Рµ РєРѕРїРёСЂР°РЅ!');
+    showToast('📋 Адресът е копиран!');
   }
 }
 
 function copyWarehouseAddress() {
-  const addr = 'СѓР». РњР°РіРЅР°СѓСЂСЃРєР° С€РєРѕР»Р° в„–13, 1784 РЎРѕС„РёСЏ, Р—РРў, СЃРіСЂР°РґР° 1';
-  navigator.clipboard ? navigator.clipboard.writeText(addr).then(() => showToast('рџ“‹ РђРґСЂРµСЃСЉС‚ Рµ РєРѕРїРёСЂР°РЅ!')).catch(() => {
-    const ta = document.createElement('textarea'); ta.value = addr; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); showToast('рџ“‹ РђРґСЂРµСЃСЉС‚ Рµ РєРѕРїРёСЂР°РЅ!');
-  }) : (() => { const ta = document.createElement('textarea'); ta.value = addr; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); showToast('рџ“‹ РђРґСЂРµСЃСЉС‚ Рµ РєРѕРїРёСЂР°РЅ!'); })();
+  const addr = 'ул. Магнаурска школа №13, 1784 София, ЗИТ, сграда 1';
+  navigator.clipboard ? navigator.clipboard.writeText(addr).then(() => showToast('📋 Адресът е копиран!')).catch(() => {
+    const ta = document.createElement('textarea'); ta.value = addr; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); showToast('📋 Адресът е копиран!');
+  }) : (() => { const ta = document.createElement('textarea'); ta.value = addr; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); showToast('📋 Адресът е копиран!'); })();
 }
 
 function copyPlusCode() {
   const code = 'M9H5+XJ Sofia';
   if (navigator.clipboard) {
-    navigator.clipboard.writeText(code).then(() => showToast('рџ“Ќ Plus Code Рµ РєРѕРїРёСЂР°РЅ!')).catch(() => showToast('Plus Code: M9H5+XJ Sofia'));
+    navigator.clipboard.writeText(code).then(() => showToast('📍 Plus Code е копиран!')).catch(() => showToast('Plus Code: M9H5+XJ Sofia'));
   } else {
     showToast('Plus Code: M9H5+XJ Sofia');
   }
@@ -5178,16 +5178,16 @@ function checkOpenNow() {
   }
 
   badge.innerHTML = isOpen
-    ? '<span style="display:inline-flex;align-items:center;gap:6px;background:#e8f9ed;color:#1a7f37;border-radius:8px;padding:7px 14px;font-size:13px;font-weight:800;"><span style="width:8px;height:8px;border-radius:50%;background:#34c759;display:inline-block;"></span> РћС‚РІРѕСЂРµРЅРѕ СЃРµРіР°</span>'
-    : '<span style="display:inline-flex;align-items:center;gap:6px;background:#fef2f2;color:#dc2626;border-radius:8px;padding:7px 14px;font-size:13px;font-weight:800;"><span style="width:8px;height:8px;border-radius:50%;background:#ef4444;display:inline-block;"></span> Р—Р°С‚РІРѕСЂРµРЅРѕ</span>';
+    ? '<span style="display:inline-flex;align-items:center;gap:6px;background:#e8f9ed;color:#1a7f37;border-radius:8px;padding:7px 14px;font-size:13px;font-weight:800;"><span style="width:8px;height:8px;border-radius:50%;background:#34c759;display:inline-block;"></span> Отворено сега</span>'
+    : '<span style="display:inline-flex;align-items:center;gap:6px;background:#fef2f2;color:#dc2626;border-radius:8px;padding:7px 14px;font-size:13px;font-weight:800;"><span style="width:8px;height:8px;border-radius:50%;background:#ef4444;display:inline-block;"></span> Затворено</span>';
 
   // Warehouse badge - Mon-Fri 09:00-17:00 (540-1020)
   const warehouseBadge = document.getElementById('warehouseOpenNowBadge');
   if (warehouseBadge) {
     const whOpen = day >= 1 && day <= 5 && time >= (_scWH.warehouseOpenMin||540) && time < (_scWH.warehouseCloseMin||1020);
     warehouseBadge.innerHTML = whOpen
-      ? '<span style="display:inline-flex;align-items:center;gap:6px;background:#e8f9ed;color:#1a7f37;border-radius:8px;padding:7px 14px;font-size:13px;font-weight:800;"><span style="width:8px;height:8px;border-radius:50%;background:#34c759;display:inline-block;"></span> РћС‚РІРѕСЂРµРЅРѕ СЃРµРіР°</span>'
-      : '<span style="display:inline-flex;align-items:center;gap:6px;background:#fef2f2;color:#dc2626;border-radius:8px;padding:7px 14px;font-size:13px;font-weight:800;"><span style="width:8px;height:8px;border-radius:50%;background:#ef4444;display:inline-block;"></span> Р—Р°С‚РІРѕСЂРµРЅРѕ</span>';
+      ? '<span style="display:inline-flex;align-items:center;gap:6px;background:#e8f9ed;color:#1a7f37;border-radius:8px;padding:7px 14px;font-size:13px;font-weight:800;"><span style="width:8px;height:8px;border-radius:50%;background:#34c759;display:inline-block;"></span> Отворено сега</span>'
+      : '<span style="display:inline-flex;align-items:center;gap:6px;background:#fef2f2;color:#dc2626;border-radius:8px;padding:7px 14px;font-size:13px;font-weight:800;"><span style="width:8px;height:8px;border-radius:50%;background:#ef4444;display:inline-block;"></span> Затворено</span>';
     const whRows = document.querySelectorAll('#warehouseHoursTable tr');
     whRows.forEach(r => { r.style.background = ''; });
     if (whRows[dayMap[day]]) {
@@ -5273,7 +5273,7 @@ function _svcTrkSearch(order, warranty) {
   const btnTxt = document.getElementById('svcTrkBtnTxt');
   const loader = document.getElementById('svcTrkLoader');
   btn.disabled = true;
-  btnTxt.textContent = 'РџСЂРѕРІРµСЂСЏРІР°РјРµвЂ¦';
+  btnTxt.textContent = 'Проверяваме…';
   loader.style.display = 'inline-block';
   _svcTrkClearResult();
 
@@ -5283,14 +5283,14 @@ function _svcTrkSearch(order, warranty) {
   // TODO: replace setTimeout with real API fetch
   setTimeout(() => {
     btn.disabled = false;
-    btnTxt.textContent = 'рџ”Ќ РџСЂРѕРІРµСЂРё СЃС‚Р°С‚СѓСЃ';
+    btnTxt.textContent = '🔍 Провери статус';
     loader.style.display = 'none';
 
     if (searchValue.endsWith('0')) {
-      _svcTrkShowError('вљ пёЏ РќСЏРјР° РЅР°РјРµСЂРµРЅР° РїРѕСЂСЉС‡РєР° СЃ С‚РѕР·Рё РЅРѕРјРµСЂ. РџСЂРѕРІРµСЂРµС‚Рµ РґР°Р»Рё РЅРѕРјРµСЂСЉС‚ Рµ РёР·РїРёСЃР°РЅ РїСЂР°РІРёР»РЅРѕ.');
+      _svcTrkShowError('⚠️ Няма намерена поръчка с този номер. Проверете дали номерът е изписан правилно.');
     } else {
-      const demo = { found:true, status:'Р’ СЂРµРјРѕРЅС‚', updatedAt:'20.11.2025',
-        step:'РР·С‡Р°РєРІР° СЂРµР·РµСЂРІРЅРё С‡Р°СЃС‚Рё', location:'РЎРµСЂРІРёР·РµРЅ С†РµРЅС‚СЉСЂ - РЎРѕС„РёСЏ', searchType, searchValue };
+      const demo = { found:true, status:'В ремонт', updatedAt:'20.11.2025',
+        step:'Изчаква резервни части', location:'Сервизен център - София', searchType, searchValue };
       _svcTrkShowResult(demo, false);
       try { localStorage.setItem(_SVCTRK_LAST, JSON.stringify(demo)); } catch(e) {}
       _svcTrkSaveHistory(demo);
@@ -5301,33 +5301,33 @@ function _svcTrkSearch(order, warranty) {
 
 function _svcTrkPillClass(status) {
   const s = (status || '').toLowerCase();
-  if (s.includes('СЂРµРјРѕРЅС‚'))                    return 'svc-pill-repair';
-  if (s.includes('РёР·С‡Р°РєРІР°') || s.includes('С‡Р°СЃС‚Рё')) return 'svc-pill-waiting';
-  if (s.includes('РіРѕС‚РѕРІ')   || s.includes('РїРѕР»СѓС‡Р°РІР°РЅРµ')) return 'svc-pill-ready';
+  if (s.includes('ремонт'))                    return 'svc-pill-repair';
+  if (s.includes('изчаква') || s.includes('части')) return 'svc-pill-waiting';
+  if (s.includes('готов')   || s.includes('получаване')) return 'svc-pill-ready';
   return 'svc-pill-default';
 }
 
 function _svcTrkShowResult(data, fromCache) {
-  if (!data || !data.found) { _svcTrkShowError('вљ пёЏ РќСЏРјР° РЅР°РјРµСЂРµРЅР° РїРѕСЂСЉС‡РєР° СЃ С‚РѕР·Рё РЅРѕРјРµСЂ.'); return; }
+  if (!data || !data.found) { _svcTrkShowError('⚠️ Няма намерена поръчка с този номер.'); return; }
   const box       = document.getElementById('svcTrkResult');
   const pill      = _svcTrkPillClass(data.status);
   const isReady   = pill === 'svc-pill-ready';
-  const typeLabel = data.searchType === 'order' ? 'РЎРµСЂРІРёР·РЅР° РїРѕСЂСЉС‡РєР°' : 'Р“Р°СЂР°РЅС†РёРѕРЅРЅР° РєР°СЂС‚Р°';
+  const typeLabel = data.searchType === 'order' ? 'Сервизна поръчка' : 'Гаранционна карта';
   const sv        = _svcEsc(data.searchValue || '');
 
   box.innerHTML = `
-    <div class="svc-result-ok">вњ… РџРѕСЂСЉС‡РєР°С‚Р° Рµ РЅР°РјРµСЂРµРЅР°</div>
+    <div class="svc-result-ok">✅ Поръчката е намерена</div>
     <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px;">
-      <span class="svc-result-label">${typeLabel} в†’ ${sv}</span>
+      <span class="svc-result-label">${typeLabel} → ${sv}</span>
       <button type="button" class="svc-copy-btn"
-        onclick="navigator.clipboard&&navigator.clipboard.writeText('${sv}').then(()=>{this.textContent='РљРѕРїРёСЂР°РЅРѕ';setTimeout(()=>this.textContent='РљРѕРїРёСЂР°Р№ РЅРѕРјРµСЂ',1500)})">РљРѕРїРёСЂР°Р№ РЅРѕРјРµСЂ</button>
+        onclick="navigator.clipboard&&navigator.clipboard.writeText('${sv}').then(()=>{this.textContent='Копирано';setTimeout(()=>this.textContent='Копирай номер',1500)})">Копирай номер</button>
     </div>
-    <div class="svc-result-row"><span class="svc-result-label">РЎС‚Р°С‚СѓСЃ:</span> ${_svcEsc(data.status)} <span class="svc-pill ${pill}">${_svcEsc(data.status)}</span></div>
-    <div class="svc-result-row"><span class="svc-result-label">РџРѕСЃР»РµРґРЅР° Р°РєС‚СѓР°Р»РёР·Р°С†РёСЏ:</span> ${_svcEsc(data.updatedAt || '-')}</div>
-    <div class="svc-result-row"><span class="svc-result-label">Р•С‚Р°Рї:</span> ${_svcEsc(data.step || '-')}</div>
-    <div class="svc-result-row"><span class="svc-result-label">Р›РѕРєР°С†РёСЏ:</span> ${_svcEsc(data.location || '-')}</div>
-    ${isReady ? '<div class="svc-ready-note">вњ… Р РµРјРѕРЅС‚СЉС‚ Рµ РїСЂРёРєР»СЋС‡РёР». РќРѕСЃРµС‚Рµ СЃРµСЂРІРёР·РЅРёСЏ РїСЂРѕС‚РѕРєРѕР» РїСЂРё РїРѕР»СѓС‡Р°РІР°РЅРµ.</div>' : ''}
-    ${fromCache ? '<div style="margin-top:8px;font-size:12px;color:var(--muted);"><em>РџРѕРєР°Р·Р°РЅ Рµ РїРѕСЃР»РµРґРЅРёСЏС‚ СЂРµР·СѓР»С‚Р°С‚ РѕС‚ РїСЂРµРґРёС€РЅРѕ С‚СЉСЂСЃРµРЅРµ.</em></div>' : ''}
+    <div class="svc-result-row"><span class="svc-result-label">Статус:</span> ${_svcEsc(data.status)} <span class="svc-pill ${pill}">${_svcEsc(data.status)}</span></div>
+    <div class="svc-result-row"><span class="svc-result-label">Последна актуализация:</span> ${_svcEsc(data.updatedAt || '-')}</div>
+    <div class="svc-result-row"><span class="svc-result-label">Етап:</span> ${_svcEsc(data.step || '-')}</div>
+    <div class="svc-result-row"><span class="svc-result-label">Локация:</span> ${_svcEsc(data.location || '-')}</div>
+    ${isReady ? '<div class="svc-ready-note">✅ Ремонтът е приключил. Носете сервизния протокол при получаване.</div>' : ''}
+    ${fromCache ? '<div style="margin-top:8px;font-size:12px;color:var(--muted);"><em>Показан е последният резултат от предишно търсене.</em></div>' : ''}
   `;
   box.style.display = 'block';
   requestAnimationFrame(() => box.classList.add('show'));
@@ -5337,8 +5337,8 @@ function _svcTrkShowError(msg) {
   const box = document.getElementById('svcTrkResult');
   box.innerHTML = `
     <div class="svc-result-err">${_svcEsc(msg)}</div>
-    <div style="font-size:13px;color:var(--text2);">РџСЂРѕРІРµСЂРµС‚Рµ РґР°Р»Рё РЅРѕРјРµСЂСЉС‚ Рµ РёР·РїРёСЃР°РЅ РїСЂР°РІРёР»РЅРѕ Рё РѕРїРёС‚Р°Р№С‚Рµ РѕС‚РЅРѕРІРѕ.</div>
-    <div style="margin-top:8px;font-size:13px;">РџСЂРё РЅСѓР¶РґР° РѕС‚ СЃСЉРґРµР№СЃС‚РІРёРµ: <a href="tel:0700144 11" style="color:var(--primary);font-weight:700;">0700 144 11</a></div>
+    <div style="font-size:13px;color:var(--text2);">Проверете дали номерът е изписан правилно и опитайте отново.</div>
+    <div style="margin-top:8px;font-size:13px;">При нужда от съдействие: <a href="tel:0700144 11" style="color:var(--primary);font-weight:700;">0700 144 11</a></div>
   `;
   box.style.display = 'block';
   requestAnimationFrame(() => box.classList.add('show'));
@@ -5369,13 +5369,13 @@ function _svcTrkUpdateHistory() {
   const h = _svcTrkGetHistory();
   if (!h.length) { box.style.display = 'none'; return; }
   list.innerHTML = h.map(item => {
-    const label = item.searchType === 'order' ? 'РџРѕСЂСЉС‡РєР°' : 'Р“Р°СЂР°РЅС†РёСЏ';
+    const label = item.searchType === 'order' ? 'Поръчка' : 'Гаранция';
     const sv    = _svcEsc(item.searchValue || '');
     const st    = _svcEsc(item.status || '');
     const type  = _svcEsc(item.searchType || '');
     return `<li style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;gap:6px;flex-wrap:wrap;">
-      <span style="font-size:13px;">${label} в†’ ${sv} - ${st}</span>
-      <button type="button" class="svc-copy-btn" onclick="_svcTrkRepeat('${type}','${sv}')">РџРѕРІС‚РѕСЂРё</button>
+      <span style="font-size:13px;">${label} → ${sv} - ${st}</span>
+      <button type="button" class="svc-copy-btn" onclick="_svcTrkRepeat('${type}','${sv}')">Повтори</button>
     </li>`;
   }).join('');
   box.style.display = 'block';
@@ -5393,13 +5393,13 @@ function _svcTrkRepeat(type, value) {
 function openCareersPage() {
   const page = document.getElementById('careersPage');
   if (!page) return;
-  _setPgBc('careersBc', 'РљР°СЂРёРµСЂРё', 'closeCareersPage');
+  _setPgBc('careersBc', 'Кариери', 'closeCareersPage');
   page.style.display = 'flex';
   page.style.flexDirection = 'column';
   requestAnimationFrame(() => page.classList.add('open'));
   document.body.style.overflow = 'hidden';
-  if (typeof setPageMeta === 'function') setPageMeta('РљР°СЂРёРµСЂРё - Most Computers', 'Р Р°Р±РѕС‚Рё СЃ РЅР°СЃ. Most Computers С‚СЉСЂСЃРё РјРѕС‚РёРІРёСЂР°РЅРё С…РѕСЂР° Р·Р° СЃРІРѕСЏ РµРєРёРї.');
-  if (typeof bcOnPage === 'function') bcOnPage('РљР°СЂРёРµСЂРё');
+  if (typeof setPageMeta === 'function') setPageMeta('Кариери - Most Computers', 'Работи с нас. Most Computers търси мотивирани хора за своя екип.');
+  if (typeof bcOnPage === 'function') bcOnPage('Кариери');
   if (typeof renderCareersPage === 'function') renderCareersPage();
   try { history.pushState({ page: 'careers' }, '', '?page=careers'); } catch(e) {}
 }
@@ -5418,13 +5418,13 @@ function closeCareersPage() {
 function openAboutPage() {
   const page = document.getElementById('aboutPage');
   if (!page) return;
-  _setPgBc('aboutBc', 'Р—Р° РЅР°СЃ', 'closeAboutPage');
+  _setPgBc('aboutBc', 'За нас', 'closeAboutPage');
   page.style.display = 'flex';
   page.style.flexDirection = 'column';
   requestAnimationFrame(() => page.classList.add('open'));
   document.body.style.overflow = 'hidden';
-  if (typeof setPageMeta === 'function') setPageMeta('Р—Р° РЅР°СЃ - Most Computers', 'Most Computers - РЅР°Рґ 36 РіРѕРґРёРЅРё РѕРїРёС‚ РІ РїСЂРѕРґР°Р¶Р±Р°С‚Р° РЅР° РєРѕРјРїСЋС‚СЂРё Рё РµР»РµРєС‚СЂРѕРЅРёРєР°. РЎРїРµС†РёР°Р»РёР·РёСЂР°РЅ РјР°РіР°Р·РёРЅ РІ С†РµРЅС‚СЉСЂР° РЅР° РЎРѕС„РёСЏ.');
-  if (typeof bcOnPage === 'function') bcOnPage('Р—Р° РЅР°СЃ');
+  if (typeof setPageMeta === 'function') setPageMeta('За нас - Most Computers', 'Most Computers - над 36 години опит в продажбата на компютри и електроника. Специализиран магазин в центъра на София.');
+  if (typeof bcOnPage === 'function') bcOnPage('За нас');
   try{history.pushState({ page: 'about' }, '', '?page=about');}catch(e){}
 }
 function closeAboutPage() {
@@ -5456,7 +5456,7 @@ if (typeof module !== 'undefined') module.exports = {
   // 1. Generate SVG icon as data URL
   const iconSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
     <rect width="512" height="512" rx="115" fill="#bd1105"/>
-    <text x="256" y="340" font-size="280" text-anchor="middle" fill="white">рџ›’</text>
+    <text x="256" y="340" font-size="280" text-anchor="middle" fill="white">🛒</text>
     <text x="256" y="430" font-size="72" font-family="Arial" font-weight="900" text-anchor="middle" fill="white">MC</text>
   </svg>`;
   const iconUrl = 'data:image/svg+xml,' + encodeURIComponent(iconSvg);
@@ -5469,7 +5469,7 @@ if (typeof module !== 'undefined') module.exports = {
   const manifest = {
     name: 'Most Computers',
     short_name: 'Most Computers',
-    description: 'РћРЅР»Р°Р№РЅ РјР°РіР°Р·РёРЅ Р·Р° РµР»РµРєС‚СЂРѕРЅРёРєР°',
+    description: 'Онлайн магазин за електроника',
     start_url: './',
     display: 'standalone',
     orientation: 'portrait',
@@ -5494,7 +5494,7 @@ if (typeof module !== 'undefined') module.exports = {
   // (Blob URLs not supported for SW - browser security restriction)
   if ('serviceWorker' in navigator && location.protocol === 'https:') {
     navigator.serviceWorker.register('/sw.js', { scope: '/' })
-      .then(reg => { console.log('MC SW вњ“', reg.scope); window._mcSwReg = reg; })
+      .then(reg => { console.log('MC SW ✓', reg.scope); window._mcSwReg = reg; })
       .catch(err => console.warn('MC SW:', err.message));
   }
 
@@ -5539,7 +5539,7 @@ function pwaInstall() {
     prompt.userChoice.then(choice => {
       if (choice.outcome === 'accepted') {
         try { localStorage.setItem('mc_pwa_installed', '1'); } catch(e) {}
-        showToast('вњ“ РњРѕСЃС‚ РљРѕРјРїСЋС‚СЉСЂСЃ Рµ РёРЅСЃС‚Р°Р»РёСЂР°РЅ!');
+        showToast('✓ Мост Компютърс е инсталиран!');
       }
       document.getElementById('pwaBanner').classList.remove('show');
     });
@@ -5570,39 +5570,39 @@ function closePwaIos() {
 // ===== PUSH NOTIFICATIONS =====
 async function requestPushPermission() {
   if (!('Notification' in window)) {
-    showToast('вљ пёЏ Р‘СЂР°СѓР·СЉСЂСЉС‚ С‚Рё РЅРµ РїРѕРґРґСЉСЂР¶Р° РёР·РІРµСЃС‚РёСЏ');
+    showToast('⚠️ Браузърът ти не поддържа известия');
     return;
   }
   if (Notification.permission === 'granted') {
-    showToast('вњ“ РР·РІРµСЃС‚РёСЏС‚Р° РІРµС‡Рµ СЃР° Р°РєС‚РёРІРёСЂР°РЅРё!');
+    showToast('✓ Известията вече са активирани!');
     return;
   }
   if (Notification.permission === 'denied') {
-    showToast('вљ пёЏ РР·РІРµСЃС‚РёСЏС‚Р° СЃР° Р±Р»РѕРєРёСЂР°РЅРё РІ Р±СЂР°СѓР·СЉСЂР°');
+    showToast('⚠️ Известията са блокирани в браузъра');
     return;
   }
   const perm = await Notification.requestPermission();
   if (perm === 'granted') {
-    showToast('рџ”” Р©Рµ РїРѕР»СѓС‡Р°РІР°С€ РёР·РІРµСЃС‚РёСЏ Р·Р° РіРѕСЂРµС‰Рё РѕС„РµСЂС‚Рё!');
+    showToast('🔔 Ще получаваш известия за горещи оферти!');
     localStorage.setItem('mc_push_granted', '1');
     // Demo: send a test notification after 3s
     setTimeout(() => {
-      new Notification('РњРѕСЃС‚ РљРѕРјРїСЋС‚СЉСЂСЃ рџ”Ґ', {
-        body: 'Р”РѕР±СЂРµ РґРѕС€СЉР»! РЎР»РµРґРё Р·Р° РµРєСЃРєР»СѓР·РёРІРЅРё РѕС„РµСЂС‚Рё.',
-        icon: 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="115" fill="#bd1105"/><text x="256" y="340" font-size="280" text-anchor="middle" fill="white">рџ›’</text></svg>'),
+      new Notification('Мост Компютърс 🔥', {
+        body: 'Добре дошъл! Следи за ексклузивни оферти.',
+        icon: 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="115" fill="#bd1105"/><text x="256" y="340" font-size="280" text-anchor="middle" fill="white">🛒</text></svg>'),
         tag: 'mc-welcome'
       });
     }, 3000);
   } else {
-    showToast('РР·РІРµСЃС‚РёСЏС‚Р° РЅРµ СЃР° Р°РєС‚РёРІРёСЂР°РЅРё');
+    showToast('Известията не са активирани');
   }
 }
 
 function sendPromoNotification(title, body, url) {
   if (Notification.permission !== 'granted') return;
-  const n = new Notification(title || 'РњРѕСЃС‚ РљРѕРјРїСЋС‚СЉСЂСЃ рџ”Ґ', {
-    body: body || 'РќРѕРІР° РѕС„РµСЂС‚Р° С‚Рµ РѕС‡Р°РєРІР°!',
-    icon: 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="115" fill="#bd1105"/><text x="256" y="340" font-size="280" text-anchor="middle" fill="white">рџ›’</text></svg>'),
+  const n = new Notification(title || 'Мост Компютърс 🔥', {
+    body: body || 'Нова оферта те очаква!',
+    icon: 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="115" fill="#bd1105"/><text x="256" y="340" font-size="280" text-anchor="middle" fill="white">🛒</text></svg>'),
     tag: 'mc-promo',
     renotify: true
   });
@@ -5626,9 +5626,9 @@ function dismissPushBanner() {
 
 
 
-// в”Ђв”Ђ Lazy Admin Loader в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ
-// admin.js (144 KB) СЃРµ Р·Р°СЂРµР¶РґР° СЃР°РјРѕ РєРѕРіР°С‚Рѕ РїРѕС‚СЂРµР±РёС‚РµР»СЏС‚ РѕС‚РІРѕСЂРё admin РїР°РЅРµР»Р°.
-// РЎС‚СѓР±РѕРІРµС‚Рµ РїРѕ-РґРѕР»Сѓ СЃРµ Р·Р°РјРµРЅСЏС‚ Р°РІС‚РѕРјР°С‚РёС‡РЅРѕ РѕС‚ СЂРµР°Р»РЅРёС‚Рµ С„СѓРЅРєС†РёРё СЃР»РµРґ Р·Р°СЂРµР¶РґР°РЅРµ.
+// ── Lazy Admin Loader ────────────────────────────────────────────────────────
+// admin.js (144 KB) се зарежда само когато потребителят отвори admin панела.
+// Стубовете по-долу се заменят автоматично от реалните функции след зареждане.
 
 let _adminLoaded = false;
 let _adminLoading = false;
@@ -5648,19 +5648,19 @@ function _loadAdminScript(cb) {
   };
   s.onerror = () => {
     _adminLoading = false;
-    showToast('вљ пёЏ Р“СЂРµС€РєР° РїСЂРё Р·Р°СЂРµР¶РґР°РЅРµ РЅР° Admin РїР°РЅРµР»Р°');
+    showToast('⚠️ Грешка при зареждане на Admin панела');
   };
   document.head.appendChild(s);
 }
 
-// Stub - Р·Р°РјРµРЅСЏ СЃРµ РѕС‚ СЂРµР°Р»РЅР°С‚Р° С„СѓРЅРєС†РёСЏ РІ admin.js СЃР»РµРґ Р·Р°СЂРµР¶РґР°РЅРµ
+// Stub - заменя се от реалната функция в admin.js след зареждане
 function openAdminPage() {
   _loadAdminScript(() => {
     if (typeof openAdminPage === 'function') openAdminPage();
   });
 }
 
-// Stub - РЅСѓР¶РµРЅ РЅР° ui.js РїСЂРµРґРё admin.js РґР° СЃРµ Р·Р°СЂРµРґРё
+// Stub - нужен на ui.js преди admin.js да се зареди
 function closeAdminPage() {
   const page = document.getElementById('adminPage');
   if (page) page.style.display = 'none';
@@ -5675,12 +5675,12 @@ function closeAdminPage() {
 (function () {
   'use strict';
 
-  // в”Ђв”Ђ Config в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ
+  // ── Config ──────────────────────────────────────────────────────────────────
   const IS_DEV = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
   const GA4_ID = 'G-HE0YMD8BQ7';
-  const FB_PIXEL = ''; // РѕРїС†РёРѕРЅР°Р»РµРЅ Meta Pixel ID
+  const FB_PIXEL = ''; // опционален Meta Pixel ID
 
-  // в”Ђв”Ђ Core trackEvent в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ
+  // ── Core trackEvent ──────────────────────────────────────────────────────────
   function trackEvent(eventName, data) {
     const payload = Object.assign({ timestamp: Date.now() }, data || {});
 
@@ -5715,7 +5715,7 @@ function closeAdminPage() {
     } catch (_) {}
   }
 
-  // в”Ђв”Ђ page_view в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ
+  // ── page_view ────────────────────────────────────────────────────────────────
   function trackPageView() {
     trackEvent('page_view', {
       page_title: document.title,
@@ -5724,7 +5724,7 @@ function closeAdminPage() {
     });
   }
 
-  // в”Ђв”Ђ view_product в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ
+  // ── view_product ─────────────────────────────────────────────────────────────
   function hookOpenProductPage() {
     const _orig = window.openProductPage;
     if (typeof _orig !== 'function') return;
@@ -5753,7 +5753,7 @@ function closeAdminPage() {
     };
   }
 
-  // в”Ђв”Ђ add_to_cart в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ
+  // ── add_to_cart ───────────────────────────────────────────────────────────────
   function hookAddToCart() {
     const _orig = window.addToCart;
     if (typeof _orig !== 'function') return;
@@ -5784,7 +5784,7 @@ function closeAdminPage() {
     };
   }
 
-  // в”Ђв”Ђ remove_from_cart в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ
+  // ── remove_from_cart ─────────────────────────────────────────────────────────
   function hookRemoveFromCart() {
     const _orig = window.removeFromCart;
     if (typeof _orig !== 'function') return;
@@ -5811,7 +5811,7 @@ function closeAdminPage() {
     };
   }
 
-  // в”Ђв”Ђ add_to_wishlist / remove_from_wishlist в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ
+  // ── add_to_wishlist / remove_from_wishlist ────────────────────────────────────
   function hookToggleWishlist() {
     const _orig = window.toggleWishlist;
     if (typeof _orig !== 'function') return;
@@ -5837,7 +5837,7 @@ function closeAdminPage() {
     };
   }
 
-  // в”Ђв”Ђ begin_checkout в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ
+  // ── begin_checkout ───────────────────────────────────────────────────────────
   function hookToggleCart() {
     const _orig = window.toggleCart;
     if (typeof _orig !== 'function') return;
@@ -5881,7 +5881,7 @@ function closeAdminPage() {
     };
   }
 
-  // в”Ђв”Ђ apply_promo в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ
+  // ── apply_promo ──────────────────────────────────────────────────────────────
   function hookApplyPromo() {
     const _orig = window.applyPromo;
     if (typeof _orig !== 'function') return;
@@ -5905,7 +5905,7 @@ function closeAdminPage() {
     };
   }
 
-  // в”Ђв”Ђ purchase в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ
+  // ── purchase ─────────────────────────────────────────────────────────────────
   function hookSubmitOrder() {
     const _orig = window.submitOrder;
     if (typeof _orig !== 'function') return;
@@ -5959,7 +5959,7 @@ function closeAdminPage() {
     };
   }
 
-  // в”Ђв”Ђ search в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ
+  // ── search ───────────────────────────────────────────────────────────────────
   function hookSearch() {
     const _origFull = window.doFullSearch;
     if (typeof _origFull === 'function') {
@@ -5988,7 +5988,7 @@ function closeAdminPage() {
     }
   }
 
-  // в”Ђв”Ђ view_category в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ
+  // ── view_category ─────────────────────────────────────────────────────────────
   function hookFilterCat() {
     const _orig = window.filterCat;
     if (typeof _orig !== 'function') return;
@@ -6003,7 +6003,7 @@ function closeAdminPage() {
     };
   }
 
-  // в”Ђв”Ђ Init: wire up all hooks в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ
+  // ── Init: wire up all hooks ───────────────────────────────────────────────────
   function init() {
     hookOpenProductPage();
     hookAddToCart();
@@ -6030,7 +6030,7 @@ function closeAdminPage() {
     setTimeout(init, 0);
   }
 
-  // в”Ђв”Ђ Public API в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ
+  // ── Public API ───────────────────────────────────────────────────────────────
   window.mcTrack = trackEvent;
   window.mcAnalyticsLog = function () {
     try { return JSON.parse(localStorage.getItem('mc_analytics_log') || '[]'); } catch (_) { return []; }

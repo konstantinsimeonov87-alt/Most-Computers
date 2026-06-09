@@ -1,5 +1,5 @@
 ---
-description: ⚡ Performance & SEO одитор — анализира скоростта, размера и SEO здравето на mostcomputers.bg
+description: ⚡ Performance & SEO — скорост, Core Web Vitals, SEO; стартирай с: performance, seo, бавно зареждане, lighthouse, page speed, оптимизация скорост
 ---
 
 # ⚡ Агент: Performance & SEO Одитор

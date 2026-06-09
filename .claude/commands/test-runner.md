@@ -1,5 +1,5 @@
 ---
-description: 🧪 Тестов агент — пише и изпълнява тестове за сайта mostcomputers.bg
+description: 🧪 Тестов агент — Jest unit + browser тестове; стартирай с: тестове, tests, jest, npm test, unit тестове, тест покритие, пиши тестове
 ---
 
 # 🧪 Агент: QA Инженер (Test Runner)

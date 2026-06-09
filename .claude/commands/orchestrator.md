@@ -1,5 +1,6 @@
 ---
-description: 🎯 Оркестратор — ръководи всички агенти, наблюдава напредъка и организира работата по mostcomputers.bg
+description: 🎯 Оркестратор — координира всички агенти и pipeline-и; стартирай с: оркестратор, статус, план, координирай, pipeline, мисия, launch ready
+model: claude-opus-4-8
 ---
 
 # 🎯 Оркестратор (Mission Control)

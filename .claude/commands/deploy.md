@@ -1,5 +1,5 @@
 ---
-description: 🚀 Deploy агент — build, оптимизация и deployment pipeline за mostcomputers.bg
+description: 🚀 Deploy — build, minify и deployment pipeline; стартирай с: deploy, качи сайта, build production, minify, netlify, vercel, публикувай
 ---
 
 # 🚀 Deploy Agent

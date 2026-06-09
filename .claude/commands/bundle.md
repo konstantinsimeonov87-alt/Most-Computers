@@ -1,5 +1,5 @@
 ---
-description: 📦 Bundle анализатор — оптимизира размерите на файловете за mostcomputers.bg
+description: 📦 Bundle анализатор — размери на файлове, code splitting; стартирай с: bundle, file size, lazy load, код разделяне, оптимизиране файлове
 ---
 
 # 📦 Bundle Analyzer

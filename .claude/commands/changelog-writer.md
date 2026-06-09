@@ -1,5 +1,6 @@
 ---
-description: 📝 Changelog Writer — генерира CHANGELOG.md и release notes от git история
+description: 📝 Changelog Writer — CHANGELOG.md и release notes от git история; стартирай с: changelog, release notes, история промените, версии, what changed
+model: claude-haiku-4-5-20251001
 ---
 
 # 📝 Агент: Changelog Writer

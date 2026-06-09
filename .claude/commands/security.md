@@ -1,5 +1,5 @@
 ---
-description: 🔒 Security одитор — проверява за уязвимости в кода на mostcomputers.bg
+description: 🔒 Security одит — уязвимости по OWASP Top 10; стартирай с: security, сигурност, xss, injection, уязвимости, csrf, owasp, хакване
 ---
 
 # 🔒 Security Auditor

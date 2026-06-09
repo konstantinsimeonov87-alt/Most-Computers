@@ -34,6 +34,10 @@ const CATEGORIES = [
 // Статуси, които означават "налично"
 const IN_STOCK_STATUSES = ['в наличност', 'в наличност.', 'available', 'in stock'];
 
+// Категории в data.js, чиито продукти НЕ се покриват от нито един XML фийд —
+// при "не е намерен в XML" тези продукти се оставят непроменени.
+const NO_XML_CATS = new Set(['cameras', 'consumables']);
+
 function fetchXml(categoryId) {
   return new Promise((resolve, reject) => {
     const url = `https://portal.mostbg.com/api/product/xml/categoryId=${categoryId}?currency=EUR`;
@@ -116,6 +120,8 @@ async function main() {
 
     const skuMatch = block.match(/\bsku:'([^']+)'/);
     const eanMatch = block.match(/\bean:'(\d{8,14})'/);
+    const catMatch = block.match(/\bcat:'([^']+)'/);
+    const cat = catMatch ? catMatch[1] : null;
 
     let inStock = null;
     if (skuMatch && stockMap.has(skuMatch[1])) {
@@ -124,7 +130,13 @@ async function main() {
       inStock = stockMap.get('EAN:' + eanMatch[1]);
     }
 
-    if (inStock === null) { notFound++; continue; }
+    if (inStock === null) {
+      // Product not found in any XML feed.
+      // If its category is not covered by the XML sync, leave it unchanged.
+      // Otherwise treat it as discontinued → out of stock.
+      if (!cat || NO_XML_CATS.has(cat)) { notFound++; continue; }
+      inStock = false;
+    }
 
     const newStockStr = inStock ? 'stock:true' : 'stock:false';
     const oldStockMatch = block.match(/\bstock:(true|false)\b/);

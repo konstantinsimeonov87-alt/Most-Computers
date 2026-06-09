@@ -310,7 +310,7 @@ function _cuItemHtml(p) {
     : `<button type="button" class="cu-add" onclick="cuChangeQty(${p.id},1)" title="Добави в кошницата">+</button>`;
   return `<div class="cu-item" id="cu-item-${p.id}">
     <button type="button" class="cu-link" onclick="openProductPage(${p.id})" title="Виж продукта">
-      <div class="cu-emoji">${escHtml(p.emoji || '')}</div>
+      <div class="cu-thumb">${_prodThumb(p, 36)}</div>
       <div class="cu-info">
         <div class="cu-name">${escHtml(p.name.length > 32 ? p.name.substring(0, 32) + '…' : p.name)}</div>
         <div class="cu-price">${fmtEur(p.price)}</div>
@@ -403,7 +403,7 @@ function renderOrderSummary() {
 
   document.getElementById('osSummaryItems').innerHTML = cart.map(x => `
     <div class="os-item">
-      <div class="os-emoji">${escHtml(x.emoji || '')}</div>
+      <div class="os-thumb">${_prodThumb(x, 44)}</div>
       <div class="os-item-info">
         <div class="os-item-name">${escHtml(x.name || '')}</div>
         <div class="os-qty-ctrl">

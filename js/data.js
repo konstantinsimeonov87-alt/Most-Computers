@@ -932,7 +932,7 @@ var products = [
    specs:{'Чипсет':'AMD/Intel A520','Памет':'2× DDR4','SATA3':'4×SATA3','RAID':'Да','M.2':'1xM2','PCIe x16':'1×PCIEx16','PCIe x1':'1xPCIEx1','Изходи':'HDMI / VGA','Форм фактор':'ATX','Сокет':'AM4'},
    rating:4.4,rv:0,reviews:[],
    desc:'Gigabyte дънна платка GB A520M K V2 / AM4.',
-   img:'./images/products/35537.webp',stock:true},
+   img:'./images/products/35537.webp',stock:false},
 
   {id:134,name:'GB A520M S2H / AM4',brand:'Gigabyte',cat:'components',subcat:'motherboard',
    price:100,old:null,pct:null,badge:null,added:'2026-04-20',emoji:'⚙️',sku:'A520M S2H 1.3',ean:null,
@@ -4311,7 +4311,7 @@ var products = [
    specs:{'Тип':'DDR4','Капацитет':'16 GB','Честота':'3200 MHz','Латентност':'CL 16-20-20','Форм фактор':'DIMM','Напрежение':'1.35V'},
    rating:4.4,rv:0,reviews:[],
    desc:'ADATA 2X8G DDR4 3200 XPG D35/BK - DDR4 DIMM 3200 MHz, 16 GB, CL 16-20-20.',
-   img:'./images/products/36027.webp',stock:true},
+   img:'./images/products/36027.webp',stock:false},
 
   {id:616,name:'2X8G DDR4 3200 XPG D35G',brand:'ADATA',cat:'components',subcat:'ram',
    price:198,old:null,pct:null,badge:null,added:'2026-04-20',emoji:'🟢',sku:'AX4U32008G16A-DTBKD35G',ean:'4711085943286',
@@ -4388,7 +4388,7 @@ var products = [
    specs:{'Тип':'DDR5','Капацитет':'16 GB','Честота':'5600 MHz','Латентност':'CL36','Форм фактор':'DIMM'},
    rating:4.4,rv:0,reviews:[],
    desc:'Kingston 2X8G DDR5 5600 KING EXPO BEAST - DDR5 DIMM 5600 MHz, 16 GB, CL36.',
-   img:'./images/products/34691.webp',stock:true},
+   img:'./images/products/34691.webp',stock:false},
 
   {id:627,name:'2X8G DDR5 6000 KING FURY BEAST',brand:'Kingston',cat:'components',subcat:'ram',
    price:101,old:null,pct:null,badge:null,added:'2026-04-20',emoji:'🟣',sku:'KF560C40BBK2-16',ean:null,
@@ -6336,7 +6336,7 @@ var products = [
    specs:{'Капацитет':'2 TB','Интерфейс':'NVMe PCIe Gen4','Форм фактор':'M.2 2280'},
    rating:4.3,rv:0,reviews:[],
    desc:'TeamGroup TEAM SSD MP44Q 2TB M2 PCI-E - NVMe SSD 2 TB, NVMe PCIe Gen4, M.2 2280.',
-   img:'./images/products/42167.webp',stock:false},
+   img:'./images/products/42167.webp',stock:true},
 
   {id:905,name:'TEAM SSD MP44Q 1TB M2 PCI-E',brand:'TeamGroup',cat:'components',subcat:'ssd',
    price:300,old:null,pct:null,badge:null,added:'2026-04-21',emoji:'⚡',sku:'TM8FFD001T0C101',ean:'4711430802824',
@@ -6721,7 +6721,7 @@ var products = [
    specs:{'Капацитет':'960 GB','Интерфейс':'SATA III','Форм фактор':'2.5\''},
    rating:4.3,rv:0,reviews:[],
    desc:'Emtec EMTEC SSD X150 960G 2.5INCH - SSD 960 GB, SATA III, 2.5".',
-   img:'./images/products/47821.webp',stock:true},
+   img:'./images/products/47821.webp',stock:false},
 
   {id:960,name:'EMTEC SSD X250 1TB M2 SATA',brand:'Emtec',cat:'components',subcat:'ssd',
    price:159,old:null,pct:null,badge:null,added:'2026-04-21',emoji:'⚡',sku:'ECSSD1TX250',ean:'3126170170514',
@@ -7646,7 +7646,7 @@ var products = [
    specs:{'Ratio':'21:9','DP':'Да','HDMI':'Да','HDR':'Да','Размер':'34\'','Панел':'VA','Резолюция':'3440×1440 (UW-QHD)','Честота':'100 Hz','Отклик':'5ms','Curved':'Да'},
    rating:4.3,rv:0,reviews:[],
    desc:'LG 34 LG 34WR50QK-B - 34" монитор, VA, 3440×1440 (UW-QHD), 100 Hz.',
-   img:'./images/products/45964.webp',stock:false},
+   img:'./images/products/45964.webp',stock:true},
 
   {id:1092,name:'32 LG 32GX850A-B',brand:'LG',cat:'monitors',subcat:'monitor',
    price:1974,old:null,pct:null,badge:null,added:'2026-04-21',emoji:'✨',sku:'32GX850A.AEU',ean:'8806096592595',
@@ -8514,7 +8514,7 @@ var products = [
    specs:{'Ratio':'16:9','HDMI':'Да','Размер':'22\'','Панел':'VA','Резолюция':'1920×1080 (FHD)','Честота':'100 Hz','Отклик':'5ms'},
    rating:4.3,rv:0,reviews:[],
    desc:'Koorui KOORUI 22 E2212F FHD - 22" монитор, VA, 1920×1080 (FHD), 100 Hz.',
-   img:'./images/products/50826.webp',stock:false},
+   img:'./images/products/50826.webp',stock:true},
 
   {id:1216,name:'KOORUI 24 E2412F FHD',brand:'Koorui',cat:'monitors',subcat:'monitor',
    price:128.34,old:135.13,pct:5,badge:'sale',added:'2026-04-21',emoji:'🖥',sku:'E2412F',ean:'6977295256105',
@@ -9671,7 +9671,7 @@ var products = [
    specs:{'Връзка':'Кабелна','Сензор':'Оптичен','DPI':'1000 DPI'},
    rating:4.2,rv:0,reviews:[],
    desc:'A4Tech A4 OP-550NU 3 KEY V-TRACK - мишка, кабелна, 1000 DPI.',
-   img:'./images/products/26096.webp',stock:true},
+   img:'./images/products/26096.webp',stock:false},
 
   {id:1381,name:'A4 V9M BLOODY XGILDE GAMING BL',brand:'A4Tech',cat:'peripherals',subcat:'mouse',
    price:26,old:null,pct:null,badge:null,added:'2026-04-21',emoji:'🎮',sku:'V9M',ean:null,
@@ -11111,7 +11111,7 @@ const _staticProductsMap = Object.fromEntries(products.map(p => [p.id, { old: p.
 const _laptops = [
 // ── Laptops Import - 2026-04-22 - categoryId=21 (Most BG) - 974 ноутбука ──
   {id:1579,name:'MSI RAIDER GE78 HX 14VIG 692',brand:'MSI',cat:'laptops',subcat:'gaming_l',price:5833,old:null,pct:null,badge:null,added:'2026-04-22',emoji:'🎮',sku:'9S7-17S151-692',ean:null,specs:{'Процесор':'Intel® Core™ i9-14900HX Processor','RAM':'64 (2 X 32 GB) GB, Max 96GB','GPU':'NVIDIA® GeForce RTX™ 4090 Laptop GPU 16GB GDDR6','Екран':'17 ", 2560 x 1600, 16:10 QHD+,240Hz, 100% DCI-P3, IPS-level panel','SSD':'2 TB','ОС':'Windows11 Pro High-End Standard Version','Тегло':'3.10 kg','Батерия':'4 cell, 99.99Whr'},rating:4.5,rv:3,reviews:[],desc:'MSI RAIDER GE78 HX 14VIG 692 - Intel® Core™ i9-14900HX Processor, 64 (2 X 32 GB) GB RAM, NVIDIA® GeForce RTX™ 4090 Laptop GPU 16GB GDDR6',img:'./images/products/38136.webp',stock:false},
-  {id:1580,name:'MSI RAIDER A18 HX A9WIG-047',brand:'MSI',cat:'laptops',subcat:'gaming_l',price:7916,old:null,pct:null,badge:null,added:'2026-04-22',emoji:'🎮',sku:'9S7-182L72-047',ean:'4711377313957',specs:{'Процесор':'AMD Ryzen™ 9 9955HX3D Processor','RAM':'64GB (2x32GB), DDR5-5600','GPU':'NVIDIA® GeForce RTX™ 5080 Laptop GPU, GDDR7 16GB','Екран':'18", 3840x2400, UHD+ MiniLED, 120Hz, 100% DCI-P3 (Typ.), IPS-Level panel, 16:10','SSD':'2TB','ОС':'Windows® 11 Home Advanced','Тегло':'3.6 kg','Батерия':'4 cell, 99.99Whr'},rating:4.6,rv:28,reviews:[],desc:'MSI RAIDER A18 HX A9WIG-047 - AMD Ryzen™ 9 9955HX3D Processor, 64GB (2x32GB) RAM, NVIDIA® GeForce RTX™ 5080 Laptop GPU, GDDR7 16GB',img:'./images/products/46747.webp',stock:true},
+  {id:1580,name:'MSI RAIDER A18 HX A9WIG-047',brand:'MSI',cat:'laptops',subcat:'gaming_l',price:7916,old:null,pct:null,badge:null,added:'2026-04-22',emoji:'🎮',sku:'9S7-182L72-047',ean:'4711377313957',specs:{'Процесор':'AMD Ryzen™ 9 9955HX3D Processor','RAM':'64GB (2x32GB), DDR5-5600','GPU':'NVIDIA® GeForce RTX™ 5080 Laptop GPU, GDDR7 16GB','Екран':'18", 3840x2400, UHD+ MiniLED, 120Hz, 100% DCI-P3 (Typ.), IPS-Level panel, 16:10','SSD':'2TB','ОС':'Windows® 11 Home Advanced','Тегло':'3.6 kg','Батерия':'4 cell, 99.99Whr'},rating:4.6,rv:28,reviews:[],desc:'MSI RAIDER A18 HX A9WIG-047 - AMD Ryzen™ 9 9955HX3D Processor, 64GB (2x32GB) RAM, NVIDIA® GeForce RTX™ 5080 Laptop GPU, GDDR7 16GB',img:'./images/products/46747.webp',stock:false},
   {id:1581,name:'MSI RAIDER A18 HX A9WJG-045',brand:'MSI',cat:'laptops',subcat:'gaming_l',price:8999,old:null,pct:null,badge:null,added:'2026-04-22',emoji:'🎮',sku:'9S7-182L72-045',ean:'4711377313940',specs:{'Процесор':'AMD Ryzen™ 9 9955HX3D Processor','RAM':'64GB (2x32GB), DDR5-5600','GPU':'NVIDIA® GeForce RTX™ 5090 Laptop GPU, GDDR7 24GB','Екран':'18", 3840x2400, UHD+ MiniLED, 120Hz, 100% DCI-P3 (Typ.), IPS-Level panel, 16:10','SSD':'2TB','ОС':'Windows® 11 Home Advanced','Тегло':'3.6 kg','Батерия':'4 cell, 99.99Whr'},rating:4.0,rv:24,reviews:[],desc:'MSI RAIDER A18 HX A9WJG-045 - AMD Ryzen™ 9 9955HX3D Processor, 64GB (2x32GB) RAM, NVIDIA® GeForce RTX™ 5090 Laptop GPU, GDDR7 24GB',img:'./images/products/46752.webp',stock:false},
   {id:1582,name:'MSI THIN 15 B12UCX-1467XBG',brand:'MSI',cat:'laptops',subcat:'gaming_l',price:1107,old:null,pct:null,badge:null,added:'2026-04-22',emoji:'🎮',sku:'9S7-16R831-1467',ean:'15121467512458',specs:{'Процесор':'Alder Lake i5-12450H','RAM':'8 GB, Max 64GB','GPU':'NVIDIA® GeForce RTX™ 2050 Laptop GPU 4GB GDDR6','Екран':'15.60 ", 1920 x 1080, FHD,144Hz 45%NTSC IPS-Level','SSD':'512 GB','ОС':'N/A','Тегло':'1.86 kg','Батерия':'3 cell, 53.5Whr'},rating:4.9,rv:29,reviews:[],desc:'MSI THIN 15 B12UCX-1467XBG - Alder Lake i5-12450H, 8 GB RAM, NVIDIA® GeForce RTX™ 2050 Laptop GPU 4GB GDDR6',img:'./images/products/39097.webp',stock:false},
   {id:1583,name:'MSI THIN 15 B12UCX-1466XBG',brand:'MSI',cat:'laptops',subcat:'gaming_l',price:1274,old:null,pct:null,badge:null,added:'2026-04-22',emoji:'🎮',sku:'9S7-16R831-1466',ean:null,specs:{'Процесор':'Alder Lake i7-12650H','RAM':'8 GB, Max 64GB','GPU':'NVIDIA® GeForce RTX™ 2050 Laptop GPU 4GB GDDR6','Екран':'15.60 ", 1920 x 1080, FHD, 144Hz 45%NTSC IPS-Level','SSD':'512 GB','ОС':'N/A','Тегло':'1.86 kg','Батерия':'3 cell, 53.5Whr'},rating:4.3,rv:25,reviews:[],desc:'MSI THIN 15 B12UCX-1466XBG - Alder Lake i7-12650H, 8 GB RAM, NVIDIA® GeForce RTX™ 2050 Laptop GPU 4GB GDDR6',img:'./images/products/39091.webp',stock:false},
@@ -11142,8 +11142,8 @@ const _laptops = [
   {id:1608,name:'MSI KATANA 15 HX B14WGK-215XBG',brand:'MSI',cat:'laptops',subcat:'gaming_l',price:2565,old:null,pct:null,badge:null,added:'2026-04-22',emoji:'🎮',sku:'9S7-1587C1-215',ean:'4711377350556',specs:{'Процесор':'Intel® Core™ i7-14650HX Processor','RAM':'16 GB (2x8GB), DDR5 -5600','GPU':'NVIDIA® GeForce RTX™ 5070 Laptop GPU, GDDR7 8GB','Екран':'15.6", 2560x1440, QHD 165Hz DCI-P3 100% typical','SSD':'1TB','ОС':'None','Тегло':'2.4 kg','Батерия':'4 cell 75 Battery (Whr)'},rating:4.2,rv:4,reviews:[],desc:'MSI KATANA 15 HX B14WGK-215XBG - Intel® Core™ i7-14650HX Processor, 16 GB (2x8GB) RAM, NVIDIA® GeForce RTX™ 5070 Laptop GPU, GDDR7 8GB',img:'./images/products/100491.webp',stock:true},
   {id:1609,name:'MSI KATANA 15 HX B14WEK-899XBG',brand:'MSI',cat:'laptops',subcat:'gaming_l',price:2229,old:null,pct:null,badge:null,added:'2026-04-22',emoji:'🎮',sku:'9S7-1587C1-899',ean:'4711377423656',specs:{'Процесор':'Intel® Core™ i7-14650HX Processor','RAM':'16GB, DDR5-5600','GPU':'NVIDIA® GeForce RTX™ 5050 Laptop GPU, GDDR7 8GB','Екран':'15.6", 2560x1440, QHD 165Hz DCI-P3 100% typical','SSD':'1TB','ОС':'None','Тегло':'2.4 kg','Батерия':'4-Cell 75 Battery (Whr)'},rating:4.5,rv:16,reviews:[],desc:'MSI KATANA 15 HX B14WEK-899XBG - Intel® Core™ i7-14650HX Processor, 16GB RAM, NVIDIA® GeForce RTX™ 5050 Laptop GPU, GDDR7 8GB',img:'./images/products/100676.webp',stock:true},
   {id:1610,name:'MSI KATANA 17 B13VGK-1078BG',brand:'MSI',cat:'laptops',subcat:'gaming_l',price:2583,old:null,pct:null,badge:null,added:'2026-04-22',emoji:'🎮',sku:'9S7-17L541-1078',ean:null,specs:{'Процесор':'Raptor Lake i7-13700H','RAM':'16 (2 X 8 GB) GB, Max 64GB','GPU':'NVIDIA® GeForce RTX™ 4070 Laptop GPU 8GB GDDR6','Екран':'17.30 ", 1920 x 1080, FHD,144Hz 45% NTSC','SSD':'1 TB','ОС':'Windows® 11 Home Advanced','Тегло':'2.60 kg','Батерия':'3 cell, 53.5Whr'},rating:4.7,rv:15,reviews:[],desc:'MSI KATANA 17 B13VGK-1078BG - Raptor Lake i7-13700H, 16 (2 X 8 GB) GB RAM, NVIDIA® GeForce RTX™ 4070 Laptop GPU 8GB GDDR6',img:'./images/products/40050.webp',stock:false},
-  {id:1611,name:'MSI KATANA 17 HX B14WFK-289XBG',brand:'MSI',cat:'laptops',subcat:'gaming_l',price:2479,old:null,pct:null,badge:null,added:'2026-04-22',emoji:'🎮',sku:'9S7-17L791-289',ean:'4711377423625',specs:{'Процесор':'Intel® Core™ i7-14650HX Processor','RAM':'16GB, DDR5-5600','GPU':'NVIDIA® GeForce RTX™ 5060 Laptop GPU, GDDR7 8GB','Екран':'17.3", 2560x1440, QHD 240Hz DCI-P3 100% typical','SSD':'1TB','ОС':'None','Тегло':'2.7 kg','Батерия':'4-Cell 75 Battery (Whr)'},rating:4.1,rv:28,reviews:[],desc:'MSI KATANA 17 HX B14WFK-289XBG - Intel® Core™ i7-14650HX Processor, 16GB RAM, NVIDIA® GeForce RTX™ 5060 Laptop GPU, GDDR7 8GB',img:'./images/products/100681.webp',stock:true},
-  {id:1612,name:'MSI KATANA 17 HX B14WGK-223XBG',brand:'MSI',cat:'laptops',subcat:'gaming_l',price:3195,old:null,pct:null,badge:null,added:'2026-04-22',emoji:'🎮',sku:'9S7-17L791-223',ean:'4711377363662',specs:{'Процесор':'Intel® Core™ i9-14900HX Processor','RAM':'32GB (16GBx2), DDR5-5600','GPU':'NVIDIA® GeForce RTX™ 5070 Laptop GPU, GDDR7 8GB','Екран':'17.3", 2560x1440, QHD 240Hz DCI-P3 100% typical','SSD':'1TB','ОС':'None','Тегло':'2.7 kg','Батерия':'4-Cell 75 Battery (Whr)'},rating:4.1,rv:19,reviews:[],desc:'MSI KATANA 17 HX B14WGK-223XBG - Intel® Core™ i9-14900HX Processor, 32GB (16GBx2) RAM, NVIDIA® GeForce RTX™ 5070 Laptop GPU, GDDR7 8GB',img:'./images/products/100688.webp',stock:true},
+  {id:1611,name:'MSI KATANA 17 HX B14WFK-289XBG',brand:'MSI',cat:'laptops',subcat:'gaming_l',price:2479,old:null,pct:null,badge:null,added:'2026-04-22',emoji:'🎮',sku:'9S7-17L791-289',ean:'4711377423625',specs:{'Процесор':'Intel® Core™ i7-14650HX Processor','RAM':'16GB, DDR5-5600','GPU':'NVIDIA® GeForce RTX™ 5060 Laptop GPU, GDDR7 8GB','Екран':'17.3", 2560x1440, QHD 240Hz DCI-P3 100% typical','SSD':'1TB','ОС':'None','Тегло':'2.7 kg','Батерия':'4-Cell 75 Battery (Whr)'},rating:4.1,rv:28,reviews:[],desc:'MSI KATANA 17 HX B14WFK-289XBG - Intel® Core™ i7-14650HX Processor, 16GB RAM, NVIDIA® GeForce RTX™ 5060 Laptop GPU, GDDR7 8GB',img:'./images/products/100681.webp',stock:false},
+  {id:1612,name:'MSI KATANA 17 HX B14WGK-223XBG',brand:'MSI',cat:'laptops',subcat:'gaming_l',price:3195,old:null,pct:null,badge:null,added:'2026-04-22',emoji:'🎮',sku:'9S7-17L791-223',ean:'4711377363662',specs:{'Процесор':'Intel® Core™ i9-14900HX Processor','RAM':'32GB (16GBx2), DDR5-5600','GPU':'NVIDIA® GeForce RTX™ 5070 Laptop GPU, GDDR7 8GB','Екран':'17.3", 2560x1440, QHD 240Hz DCI-P3 100% typical','SSD':'1TB','ОС':'None','Тегло':'2.7 kg','Батерия':'4-Cell 75 Battery (Whr)'},rating:4.1,rv:19,reviews:[],desc:'MSI KATANA 17 HX B14WGK-223XBG - Intel® Core™ i9-14900HX Processor, 32GB (16GBx2) RAM, NVIDIA® GeForce RTX™ 5070 Laptop GPU, GDDR7 8GB',img:'./images/products/100688.webp',stock:false},
   {id:1613,name:'MSI VECTOR 17 HX A13VHG-693BG',brand:'MSI',cat:'laptops',subcat:'gaming_l',price:4333,old:null,pct:null,badge:null,added:'2026-04-22',emoji:'🎮',sku:'9S7-17S162-693',ean:null,specs:{'Процесор':'Raptor Lake i9-13980HX (support ABT &amp; TVB)','RAM':'32 (2 X 16 GB) GB, Max 64GB','GPU':'NVIDIA® GeForce RTX™ 4080 Laptop GPU 12GB GDDR6','Екран':'17 ", 1920 x 1200, 16:10 FHD+,165hz, 100% sRGB','SSD':'1 TB','ОС':'Windows® 11 Home Advanced','Тегло':'3 kg','Батерия':'4 cell, 90Whr'},rating:3.9,rv:12,reviews:[],desc:'MSI VECTOR 17 HX A13VHG-693BG - Raptor Lake i9-13980HX (support ABT &amp; TVB), 32 (2 X 16 GB) GB RAM, NVIDIA® GeForce RTX™ 4080 Laptop GPU 12GB GDDR6',img:'./images/products/38552.webp',stock:false},
   {id:1614,name:'MSI VECTOR 16 HX A14VHG-809BG',brand:'MSI',cat:'laptops',subcat:'gaming_l',price:4332,old:null,pct:null,badge:null,added:'2026-04-22',emoji:'🎮',sku:'9S7-15M142-809',ean:null,specs:{'Процесор':'Intel® Core™ i9-14900HX Processor','RAM':'2x16GB, Up to DDR5-5600','GPU':'NVIDIA® GeForce RTX™ 4080 Laptop GPU 12GB GDDR6 powers advanced AI with 542 AI TOPS;Up to 2280MHz Boost Clock 175W Maximum Graphics Power with Dynamic Boost;Max. 240W CPU-GPU Power with MSI OverBoost Technology;*May vary by scenario;*Full-Power GPU Design','Екран':'16", 2560 x 1600','SSD':'1TB','ОС':'Windows® 11 Home Advanced','Тегло':'2.7 kg','Батерия':'4-Cell;90 Battery (Whr)'},rating:4.8,rv:18,reviews:[],desc:'MSI VECTOR 16 HX A14VHG-809BG - Intel® Core™ i9-14900HX Processor, 2x16GB RAM, NVIDIA® GeForce RTX™ 4080 Laptop GPU 12GB GDDR6 powers advanced AI with 542 AI TOPS;Up to 2280MHz Boost Clock 175W Maximu',img:'./images/products/42922.webp',stock:false},
   {id:1615,name:'MSI VECTOR 16 HX AI A2XWIG 028',brand:'MSI',cat:'laptops',subcat:'gaming_l',price:4877,old:null,pct:null,badge:null,added:'2026-04-22',emoji:'🎮',sku:'9S7-15M352-028',ean:'4711377300742',specs:{'Процесор':'Intel® Core™ Ultra 9 275HX','RAM':'32GB (2x16GB), Up to DDR5-6400','GPU':'NVIDIA® GeForce RTX™ 5080 Laptop GPU, GDDR7 16GB','Екран':'16", 2560 x 1600, 16:10 QHD+ 240Hz, 100% DCI-P3, IPS-level panel','SSD':'1TB','ОС':'Windows® 11 Home Advanced','Тегло':'2.7 kg','Батерия':'4-Cell, 90 Battery (Whr)'},rating:4.9,rv:14,reviews:[],desc:'MSI VECTOR 16 HX AI A2XWIG 028 - Intel® Core™ Ultra 9 275HX, 32GB (2x16GB) RAM, NVIDIA® GeForce RTX™ 5080 Laptop GPU, GDDR7 16GB',img:'./images/products/48292.webp',stock:true},

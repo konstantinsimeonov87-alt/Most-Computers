@@ -7285,13 +7285,26 @@
    align-items: center;
    gap: 8px;
    font-size: 13px;
-   font-weight: 600;
+   font-weight: 500;
    color: #aab0bb;
-   padding: 4px 12px;
+   padding: 0 16px;
+   position: relative;
+ }
+
+ .checkout-step + .checkout-step::before {
+   content: '';
+   position: absolute;
+   left: 0;
+   top: 50%;
+   transform: translateY(-50%);
+   width: 1px;
+   height: 18px;
+   background: #e8eaed;
  }
 
  .checkout-step.active {
    color: var(--text);
+   font-weight: 600;
  }
 
  .checkout-step.done {
@@ -7314,7 +7327,7 @@
  }
 
  .checkout-step.active .cs-num {
-   background: var(--text);
+   background: var(--red, var(--primary));
    color: #fff;
  }
 
@@ -7323,11 +7336,7 @@
    color: #aab0bb;
  }
 
- .cs-sep {
-   color: #d8dbe0;
-   font-size: 12px;
-   flex-shrink: 0;
- }
+ .cs-sep { display: none; }
 
  .checkout-close-btn {
    background: none;
@@ -7451,6 +7460,20 @@
  .checkout-card-icon {
    font-size: 18px;
    opacity: 0.7;
+ }
+
+ .ck-section-num {
+   width: 22px;
+   height: 22px;
+   border-radius: 50%;
+   background: var(--primary, #bd1105);
+   color: #fff;
+   font-size: 11px;
+   font-weight: 700;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   flex-shrink: 0;
  }
 
  .checkout-card-title {

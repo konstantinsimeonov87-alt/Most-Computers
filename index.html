@@ -2435,11 +2435,9 @@
             <div class="checkout-step active" id="cs1">
               <div class="cs-num" id="csn1">1</div><span>Данни</span>
             </div>
-            <div class="cs-sep">›</div>
             <div class="checkout-step" id="cs2">
               <div class="cs-num" id="csn2">2</div><span>Доставка</span>
             </div>
-            <div class="cs-sep">›</div>
             <div class="checkout-step" id="cs3">
               <div class="cs-num" id="csn3">3</div><span>Плащане</span>
             </div>
@@ -2453,13 +2451,13 @@
             <!-- Guest vs Login chooser -->
             <div class="checkout-card" id="ck-guest-chooser">
               <div class="checkout-card-header">
-                <span class="checkout-card-icon">🔑</span>
-                <span class="checkout-card-title">Как искаш да поръчаш?</span>
+                <div class="ck-section-num">1</div>
+                <span class="checkout-card-title">Начин на поръчка</span>
               </div>
               <div class="checkout-card-body">
                 <div class="ck-mode-row">
                   <div class="ck-mode-opt selected" id="ckModeGuest" onclick="selectCheckoutMode('guest')" role="radio" aria-checked="true" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')selectCheckoutMode('guest')">
-                    <div class="ck-mode-icon">👤</div>
+                    <div class="ck-mode-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
                     <div class="ck-mode-info">
                       <div class="ck-mode-title">Поръчай като гост</div>
                       <div class="ck-mode-sub">Без регистрация - попълни само данните за доставка</div>
@@ -2467,7 +2465,7 @@
                     <div class="ck-mode-radio" id="ckModeGuestRadio"></div>
                   </div>
                   <div class="ck-mode-opt" id="ckModeLogin" onclick="selectCheckoutMode('login')" role="radio" aria-checked="false" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')selectCheckoutMode('login')">
-                    <div class="ck-mode-icon">⚡</div>
+                    <div class="ck-mode-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
                     <div class="ck-mode-info">
                       <div class="ck-mode-title">Влез в профила си</div>
                       <div class="ck-mode-sub">По-бързо попълване с запазени данни</div>
@@ -2481,8 +2479,8 @@
             <!-- Step 1: Contact info -->
             <div class="checkout-card" id="ck-step1">
               <div class="checkout-card-header">
-                <span class="checkout-card-icon">👤</span>
-                <span class="checkout-card-title">1. Данни за контакт</span>
+                <div class="ck-section-num">2</div>
+                <span class="checkout-card-title">Данни за контакт</span>
               </div>
               <div class="checkout-card-body">
                 <div class="ck-row2">
@@ -2532,8 +2530,8 @@
             <div class="checkout-card" id="ck-step2" style="display:none;">
               <div class="checkout-card-header">
                 <button type="button" class="ck-back-btn" onclick="showCheckoutStep(1)">← Назад</button>
-                <span class="checkout-card-icon">🚚</span>
-                <span class="checkout-card-title">2. Начин на доставка</span>
+                <div class="ck-section-num">3</div>
+                <span class="checkout-card-title">Начин на доставка</span>
               </div>
               <div class="checkout-card-body">
                 <div class="delivery-opts" role="radiogroup" aria-label="Начин на доставка">
@@ -2640,8 +2638,8 @@
             <div class="checkout-card" id="ck-step3" style="display:none;">
               <div class="checkout-card-header">
                 <button type="button" class="ck-back-btn" onclick="showCheckoutStep(2)">← Назад</button>
-                <span class="checkout-card-icon">💳</span>
-                <span class="checkout-card-title">3. Начин на плащане</span>
+                <div class="ck-section-num">4</div>
+                <span class="checkout-card-title">Начин на плащане</span>
               </div>
               <div class="checkout-card-body">
                 <div class="payment-opts">
@@ -2703,8 +2701,8 @@
           <div class="order-summary">
             <div class="os-card">
               <div class="os-header">
-                🛒 Поръчка
-                <span class="os-edit" data-action="closeCheckoutPage">← Редактирай поръчката</span>
+                Поръчка
+                <span class="os-edit" data-action="closeCheckoutPage">← Редактирай</span>
               </div>
               <div class="os-items" id="osSummaryItems"></div>
               <div class="os-totals">

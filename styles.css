@@ -8027,7 +8027,7 @@
  .thankyou-page {
    position: fixed;
    inset: 0;
-   z-index: 700;
+   z-index: 800;
    background: var(--bg);
    overflow-y: auto;
    opacity: 0;
@@ -8049,7 +8049,7 @@
    background: var(--white);
    border-bottom: 1px solid var(--border);
    padding: 0 24px;
-   height: 60px;
+   height: 56px;
    display: flex;
    align-items: center;
    position: sticky;
@@ -8059,7 +8059,7 @@
  }
 
  .ty-logo {
-   font-size: 18px;
+   font-size: 17px;
    font-weight: 900;
  }
 
@@ -8068,164 +8068,176 @@
  }
 
  .ty-body {
-   max-width: 760px;
+   max-width: 680px;
    margin: 0 auto;
-   padding: 48px 24px;
+   padding: 40px 20px 60px;
  }
 
- /* Hero success banner */
+ /* Hero — clean white card with red top accent */
  .ty-hero {
-   background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-   border-radius: 20px;
-   padding: 48px 40px;
+   background: var(--white);
+   border: 1px solid var(--border);
+   border-top: 3px solid var(--primary);
+   border-radius: 16px;
+   padding: 40px 32px 36px;
    text-align: center;
-   color: #fff;
-   margin-bottom: 28px;
-   position: relative;
-   overflow: hidden;
- }
-
- .ty-hero::before {
-   content: '';
-   position: absolute;
-   inset: 0;
-   background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='20'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+   margin-bottom: 20px;
+   box-shadow: var(--shadow-card);
  }
 
  .ty-check-anim {
-   width: 80px;
-   height: 80px;
+   width: 64px;
+   height: 64px;
    border-radius: 50%;
-   background: rgba(255, 255, 255, 0.2);
-   border: 3px solid rgba(255, 255, 255, 0.5);
+   background: var(--primary);
    display: flex;
    align-items: center;
    justify-content: center;
-   font-size: 36px;
    margin: 0 auto 20px;
    animation: ty-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+   box-shadow: 0 4px 16px rgba(189, 17, 5, 0.25);
  }
 
  @keyframes ty-pop {
-   from {
-     transform: scale(0);
-     opacity: 0;
-   }
-
-   to {
-     transform: scale(1);
-     opacity: 1;
-   }
+   from { transform: scale(0); opacity: 0; }
+   to   { transform: scale(1); opacity: 1; }
  }
 
- .ty-hero h1 {
-   font-size: 28px;
-   font-weight: 900;
+ .ty-hero h2 {
+   font-size: 22px;
+   font-weight: 800;
+   color: var(--text);
    margin-bottom: 8px;
-   position: relative;
+   letter-spacing: -0.3px;
  }
 
  .ty-hero p {
-   font-size: 15px;
-   opacity: 0.9;
-   position: relative;
+   font-size: 14px;
+   color: var(--text2);
+   line-height: 1.6;
+   margin-bottom: 0;
  }
 
  .ty-order-num {
    display: inline-flex;
    align-items: center;
-   gap: 8px;
-   background: rgba(255, 255, 255, 0.15);
-   border: 1px solid rgba(255, 255, 255, 0.3);
+   gap: 6px;
+   background: var(--primary-light);
+   color: var(--primary);
    border-radius: 8px;
-   padding: 8px 18px;
-   margin-top: 16px;
-   font-size: 15px;
+   padding: 7px 16px;
+   margin-top: 18px;
+   font-size: 13px;
    font-weight: 800;
-   position: relative;
-   letter-spacing: 0.05em;
+   letter-spacing: 0.04em;
  }
 
- /* Info cards row */
- .ty-cards {
-   display: grid;
-   grid-template-columns: repeat(3, 1fr);
-   gap: 14px;
-   margin-bottom: 28px;
+ /* Info pills row */
+ .ty-pills {
+   display: flex;
+   align-items: stretch;
+   background: var(--white);
+   border: 1px solid var(--border);
+   border-radius: 12px;
+   margin-bottom: 20px;
+   overflow: hidden;
+   box-shadow: var(--shadow-card);
  }
 
- @media(max-width:640px) {
-   .ty-cards {
-     grid-template-columns: 1fr;
-   }
+ .ty-pill {
+   flex: 1;
+   display: flex;
+   align-items: center;
+   gap: 12px;
+   padding: 16px 18px;
  }
 
- .ty-card {
+ .ty-pill-sep {
+   width: 1px;
+   background: var(--border);
+   flex-shrink: 0;
+   margin: 12px 0;
+ }
+
+ .ty-pill-icon {
+   color: var(--primary);
+   flex-shrink: 0;
+   opacity: 0.85;
+ }
+
+ .ty-pill-label {
+   font-size: 10px;
+   font-weight: 700;
+   letter-spacing: 0.08em;
+   text-transform: uppercase;
+   color: var(--muted);
+   margin-bottom: 3px;
+ }
+
+ .ty-pill-val {
+   font-size: 13px;
+   font-weight: 600;
+   color: var(--text);
+   line-height: 1.4;
+ }
+
+ @media(max-width:600px) {
+   .ty-pills { flex-direction: column; }
+   .ty-pill-sep { width: auto; height: 1px; margin: 0 16px; }
+ }
+
+ /* Sections */
+ .ty-section {
    background: var(--white);
    border-radius: 12px;
    border: 1px solid var(--border);
-   padding: 20px;
-   text-align: center;
- }
-
- .ty-card-icon {
-   font-size: 32px;
-   margin-bottom: 8px;
- }
-
- .ty-card-title {
-   font-size: 13px;
-   font-weight: 800;
-   margin-bottom: 4px;
- }
-
- .ty-card-val {
-   font-size: 13px;
-   color: var(--text2);
-   line-height: 1.5;
- }
-
- /* Order details */
- .ty-section {
-   background: var(--white);
-   border-radius: 14px;
-   border: 1px solid var(--border);
    overflow: hidden;
-   margin-bottom: 20px;
+   margin-bottom: 16px;
+   box-shadow: var(--shadow-card);
  }
 
  .ty-section-header {
-   padding: 16px 22px;
+   padding: 14px 20px;
    border-bottom: 1px solid var(--border);
-   font-size: 14px;
+   font-size: 13px;
    font-weight: 800;
    display: flex;
    align-items: center;
    gap: 8px;
+   color: var(--text);
+   background: var(--bg);
+ }
+
+ .ty-section-header svg {
+   color: var(--primary);
+   flex-shrink: 0;
  }
 
  .ty-section-body {
-   padding: 18px 22px;
+   padding: 18px 20px;
  }
 
+ /* Order items */
  .ty-items {
    display: flex;
    flex-direction: column;
-   gap: 12px;
+   gap: 10px;
  }
 
  .ty-item {
    display: flex;
    align-items: center;
    gap: 14px;
-   padding: 12px;
+   padding: 10px 12px;
    background: var(--bg);
-   border-radius: 10px;
+   border-radius: 8px;
+   border: 1px solid var(--border-light);
  }
 
  .ty-item-emoji {
-   font-size: 36px;
+   font-size: 28px;
    flex-shrink: 0;
+   line-height: 1;
  }
 
  .ty-item-info {
@@ -8237,23 +8249,27 @@
    font-size: 13px;
    font-weight: 700;
    margin-bottom: 2px;
+   white-space: nowrap;
+   overflow: hidden;
+   text-overflow: ellipsis;
  }
 
  .ty-item-meta {
-   font-size: 12px;
+   font-size: 11px;
    color: var(--muted);
  }
 
  .ty-item-price {
-   font-size: 15px;
-   font-weight: 900;
+   font-size: 14px;
+   font-weight: 800;
    flex-shrink: 0;
+   color: var(--text);
  }
 
  .ty-totals {
    border-top: 1px solid var(--border);
    margin-top: 14px;
-   padding-top: 14px;
+   padding-top: 12px;
  }
 
  .ty-total-row {
@@ -8261,36 +8277,34 @@
    justify-content: space-between;
    font-size: 13px;
    color: var(--text2);
-   margin-bottom: 6px;
+   margin-bottom: 7px;
  }
 
  .ty-total-row.final {
-   font-size: 18px;
+   font-size: 17px;
    font-weight: 900;
    color: var(--text);
-   border-top: 2px solid var(--border);
-   padding-top: 10px;
-   margin-top: 6px;
+   border-top: 1px solid var(--border);
+   padding-top: 11px;
+   margin-top: 4px;
  }
 
- /* Delivery address */
+ /* Address grid */
  .ty-address-grid {
    display: grid;
    grid-template-columns: 1fr 1fr;
-   gap: 14px;
+   gap: 16px;
  }
 
- @media(max-width:560px) {
-   .ty-address-grid {
-     grid-template-columns: 1fr;
-   }
+ @media(max-width:520px) {
+   .ty-address-grid { grid-template-columns: 1fr; }
  }
 
  .ty-addr-item { display: flex; flex-direction: column; }
 
  .ty-addr-label {
    font-size: 10px;
-   font-weight: 800;
+   font-weight: 700;
    letter-spacing: 0.1em;
    text-transform: uppercase;
    color: var(--muted);
@@ -8300,76 +8314,76 @@
  .ty-addr-val {
    font-size: 14px;
    font-weight: 600;
+   color: var(--text);
  }
 
  /* Status timeline */
  .ty-timeline {
    display: flex;
    flex-direction: column;
-   gap: 0;
  }
 
  .ty-tl-item {
    display: flex;
-   gap: 16px;
+   gap: 14px;
    position: relative;
  }
 
  .ty-tl-item:not(:last-child)::before {
    content: '';
    position: absolute;
-   left: 17px;
-   top: 36px;
-   bottom: -4px;
+   left: 15px;
+   top: 32px;
+   bottom: -2px;
    width: 2px;
    background: var(--border);
  }
 
  .ty-tl-dot {
-   width: 36px;
-   height: 36px;
+   width: 32px;
+   height: 32px;
    border-radius: 50%;
    flex-shrink: 0;
    display: flex;
    align-items: center;
    justify-content: center;
-   font-size: 16px;
    border: 2px solid var(--border);
    background: var(--white);
+   color: var(--muted);
    z-index: 1;
  }
 
  .ty-tl-item.done .ty-tl-dot {
-   background: var(--new);
-   border-color: var(--new);
+   background: #1a6b35;
+   border-color: #1a6b35;
+   color: #fff;
  }
 
  .ty-tl-item.active .ty-tl-dot {
    background: var(--primary);
    border-color: var(--primary);
+   color: #fff;
    animation: pulse-dot 1.5s ease-in-out infinite;
  }
 
  @keyframes pulse-dot {
-
-   0%,
-   100% {
-     box-shadow: 0 0 0 0 rgba(189, 17, 5, 0.3)
-   }
-
-   50% {
-     box-shadow: 0 0 0 8px rgba(189, 17, 5, 0)
-   }
+   0%, 100% { box-shadow: 0 0 0 0 rgba(189, 17, 5, 0.3); }
+   50%       { box-shadow: 0 0 0 7px rgba(189, 17, 5, 0); }
  }
 
  .ty-tl-content {
-   padding: 6px 0 24px;
+   padding: 5px 0 22px;
  }
 
  .ty-tl-title {
-   font-size: 14px;
+   font-size: 13px;
    font-weight: 700;
    margin-bottom: 2px;
+   color: var(--text);
+ }
+
+ .ty-tl-item:not(.done):not(.active) .ty-tl-title {
+   color: var(--muted);
  }
 
  .ty-tl-sub {
@@ -8380,24 +8394,28 @@
  /* Action buttons */
  .ty-actions {
    display: flex;
-   gap: 12px;
+   gap: 10px;
    flex-wrap: wrap;
+   margin-bottom: 16px;
  }
 
  .ty-btn-primary {
    flex: 1;
-   min-width: 160px;
+   min-width: 180px;
    background: var(--primary);
    color: #fff;
    border: none;
-   padding: 14px 20px;
+   padding: 13px 20px;
    border-radius: 10px;
    font-family: 'Inter', sans-serif;
    font-size: 14px;
    font-weight: 800;
    cursor: pointer;
-   transition: all 0.2s;
-   text-align: center;
+   transition: background 0.18s, transform 0.18s;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   gap: 8px;
  }
 
  .ty-btn-primary:hover {
@@ -8407,18 +8425,21 @@
 
  .ty-btn-outline {
    flex: 1;
-   min-width: 160px;
-   background: none;
+   min-width: 150px;
+   background: var(--white);
    border: 1.5px solid var(--border);
    color: var(--text2);
-   padding: 14px 20px;
+   padding: 13px 18px;
    border-radius: 10px;
    font-family: 'Inter', sans-serif;
-   font-size: 14px;
+   font-size: 13px;
    font-weight: 700;
    cursor: pointer;
-   transition: all 0.2s;
-   text-align: center;
+   transition: border-color 0.18s, color 0.18s;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   gap: 7px;
  }
 
  .ty-btn-outline:hover {
@@ -8426,26 +8447,50 @@
    color: var(--primary);
  }
 
+ /* Contact info strip */
+ .ty-contact {
+   display: flex;
+   flex-wrap: wrap;
+   gap: 12px 20px;
+   justify-content: center;
+   padding: 14px 0;
+   margin-bottom: 16px;
+ }
+
+ .ty-contact-item {
+   display: flex;
+   align-items: center;
+   gap: 6px;
+   font-size: 12px;
+   color: var(--muted);
+   text-decoration: none;
+ }
+
+ a.ty-contact-item:hover {
+   color: var(--primary);
+ }
+
+ /* Newsletter */
  .ty-newsletter {
-   background: linear-gradient(135deg, #fff8f8, #fff);
-   border: 1px solid #ffd6d3;
+   background: var(--primary-light);
+   border: 1px solid rgba(189, 17, 5, 0.12);
    border-radius: 12px;
-   padding: 20px 22px;
+   padding: 18px 20px;
    display: flex;
    align-items: center;
    gap: 16px;
-   margin-top: 20px;
    flex-wrap: wrap;
  }
 
  .ty-nl-text {
    flex: 1;
-   min-width: 200px;
+   min-width: 180px;
  }
 
  .ty-nl-title {
    font-size: 14px;
    font-weight: 800;
+   color: var(--text);
    margin-bottom: 3px;
  }
 
@@ -8460,6 +8505,7 @@
  }
 
  .ty-nl-input {
+   background: var(--white);
    border: 1.5px solid var(--border);
    border-radius: 8px;
    padding: 9px 14px;
@@ -8467,10 +8513,12 @@
    font-size: 13px;
    outline: none;
    width: 200px;
+   color: var(--text);
  }
 
  .ty-nl-input:focus {
    border-color: var(--primary);
+   box-shadow: 0 0 0 3px rgba(189, 17, 5, 0.08);
  }
 
  .ty-nl-btn {
@@ -8479,10 +8527,25 @@
    border: none;
    border-radius: 8px;
    padding: 9px 16px;
+   font-family: 'Inter', sans-serif;
    font-size: 13px;
    font-weight: 700;
    cursor: pointer;
    white-space: nowrap;
+   transition: background 0.18s;
+ }
+
+ .ty-nl-btn:hover {
+   background: var(--primary-dark);
+ }
+
+ @media(max-width:480px) {
+   .ty-body { padding: 24px 16px 48px; }
+   .ty-hero { padding: 32px 20px 28px; }
+   .ty-hero h2 { font-size: 19px; }
+   .ty-btn-primary, .ty-btn-outline { min-width: 100%; }
+   .ty-nl-form { flex-direction: column; }
+   .ty-nl-input { width: 100%; }
  }
 
  /* ===== DARK MODE ===== */
@@ -9823,6 +9886,16 @@
  .rv-card-img {
    width: 70px;
    height: 70px;
+   flex-shrink: 0;
+   overflow: hidden;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+ }
+
+ .rv-card-img img {
+   width: 100%;
+   height: 100%;
    object-fit: contain;
  }
 

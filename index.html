@@ -2184,7 +2184,7 @@
         <div class="sp-stat">
           <svg width="20" height="20" class="svg-ic" aria-hidden="true"><use href="#ic-star"/></svg>
           <div class="sp-text">
-            <span class="sp-num" id="spAvgRating">4.8</span>
+            <span class="sp-num" id="spAvgRating">4.8 <small style="font-size:0.6em;font-weight:500;opacity:0.7">от 5</small></span>
             <span class="sp-sub">средна оценка</span>
           </div>
         </div>
@@ -2740,50 +2740,64 @@
 
           <!-- Hero -->
           <div class="ty-hero">
-            <div class="ty-check-anim">✓</div>
+            <div class="ty-check-anim">
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
             <h2>Поръчката е потвърдена!</h2>
             <p>Благодарим ти за доверието. Ще получиш имейл потвърждение скоро.</p>
-            <div class="ty-order-num">📋 Поръчка № <span id="tyOrderNum">-</span></div>
+            <div class="ty-order-num">Поръчка № <span id="tyOrderNum">-</span></div>
           </div>
 
-          <!-- 3 info cards -->
-          <div class="ty-cards">
-            <div class="ty-card">
-              <div class="ty-card-icon">📧</div>
-              <div class="ty-card-title">Имейл потвърждение</div>
-              <div class="ty-card-val" id="tyEmail">-</div>
+          <!-- 3 info pills -->
+          <div class="ty-pills">
+            <div class="ty-pill">
+              <svg class="ty-pill-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              <div class="ty-pill-text">
+                <div class="ty-pill-label">Имейл потвърждение</div>
+                <div class="ty-pill-val" id="tyEmail">-</div>
+              </div>
             </div>
-            <div class="ty-card">
-              <div class="ty-card-icon">🚚</div>
-              <div class="ty-card-title">Очаквана доставка</div>
-              <div class="ty-card-val" id="tyDeliveryDate">-</div>
+            <div class="ty-pill-sep"></div>
+            <div class="ty-pill">
+              <svg class="ty-pill-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+              <div class="ty-pill-text">
+                <div class="ty-pill-label">Очаквана доставка</div>
+                <div class="ty-pill-val" id="tyDeliveryDate">-</div>
+              </div>
             </div>
-            <div class="ty-card">
-              <div class="ty-card-icon">💳</div>
-              <div class="ty-card-title">Начин на плащане</div>
-              <div class="ty-card-val" id="tyPayment">-</div>
+            <div class="ty-pill-sep"></div>
+            <div class="ty-pill">
+              <svg class="ty-pill-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+              <div class="ty-pill-text">
+                <div class="ty-pill-label">Начин на плащане</div>
+                <div class="ty-pill-val" id="tyPayment">-</div>
+              </div>
             </div>
           </div>
 
           <!-- Order items -->
           <div class="ty-section">
-            <div class="ty-section-header">🛍 Продукти в поръчката</div>
+            <div class="ty-section-header">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+              Продукти в поръчката
+            </div>
             <div class="ty-section-body">
               <div class="ty-items" id="tyItems"></div>
               <div class="ty-totals">
                 <div class="ty-total-row"><span>Продукти</span><span id="tySubtotal">-</span></div>
                 <div class="ty-total-row"><span>Доставка</span><span id="tyDeliveryCost">-</span></div>
-                <div class="ty-total-row is-hidden" id="tyPromoRow"><span>Промо код</span><span id="tyPromoAmt"
-                    class="color-success">-</span></div>
-                <div class="ty-total-row final"><span>Платено</span><span id="tyTotal"
-                    style="color:var(--primary)">-</span></div>
+                <div class="ty-total-row is-hidden" id="tyPromoRow"><span>Промо код</span><span id="tyPromoAmt" class="color-success">-</span></div>
+                <div class="ty-total-row final"><span>Платено</span><span id="tyTotal" style="color:var(--primary)">-</span></div>
               </div>
             </div>
           </div>
 
           <!-- Delivery address -->
           <div class="ty-section">
-            <div class="ty-section-header">📍 Адрес за доставка</div>
+            <div class="ty-section-header">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              Адрес за доставка
+            </div>
             <div class="ty-section-body">
               <div class="ty-address-grid">
                 <div class="ty-addr-item">
@@ -2816,32 +2830,43 @@
 
           <!-- Status timeline -->
           <div class="ty-section">
-            <div class="ty-section-header">📦 Статус на поръчката</div>
+            <div class="ty-section-header">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Статус на поръчката
+            </div>
             <div class="ty-section-body">
               <div class="ty-timeline">
                 <div class="ty-tl-item done">
-                  <div class="ty-tl-dot">✓</div>
+                  <div class="ty-tl-dot">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                  </div>
                   <div class="ty-tl-content">
                     <div class="ty-tl-title">Поръчката е получена</div>
                     <div class="ty-tl-sub" id="tyTimestamp">-</div>
                   </div>
                 </div>
                 <div class="ty-tl-item active">
-                  <div class="ty-tl-dot">⚙</div>
+                  <div class="ty-tl-dot">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+                  </div>
                   <div class="ty-tl-content">
                     <div class="ty-tl-title">Обработва се</div>
                     <div class="ty-tl-sub">Очаквано: до 2 часа</div>
                   </div>
                 </div>
                 <div class="ty-tl-item">
-                  <div class="ty-tl-dot">📦</div>
+                  <div class="ty-tl-dot">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                  </div>
                   <div class="ty-tl-content">
                     <div class="ty-tl-title">Изпратена</div>
                     <div class="ty-tl-sub">Ще получиш товарителница по имейл</div>
                   </div>
                 </div>
                 <div class="ty-tl-item">
-                  <div class="ty-tl-dot">🏠</div>
+                  <div class="ty-tl-dot">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                  </div>
                   <div class="ty-tl-content">
                     <div class="ty-tl-title">Доставена</div>
                     <div class="ty-tl-sub" id="tyDeliveryDateLine">-</div>
@@ -2853,32 +2878,44 @@
 
           <!-- Action buttons -->
           <div class="ty-actions">
-            <button type="button" class="ty-btn-primary" data-action="closeThankyouPage">🛍 Продължи
-              пазаруването</button>
-            <button type="button" class="ty-btn-outline" data-action="closeCheckoutPageAndTrack">📦 Проследи
-              поръчката</button>
-            <button type="button" class="ty-btn-outline" data-action="printInvoice">📄 Свали фактура</button>
+            <button type="button" class="ty-btn-primary" data-action="closeThankyouPage">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+              Продължи пазаруването
+            </button>
+            <button type="button" class="ty-btn-outline" data-action="closeCheckoutPageAndTrack">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              Проследи поръчката
+            </button>
+            <button type="button" class="ty-btn-outline" data-action="printInvoice">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+              Свали фактура
+            </button>
           </div>
 
           <!-- Contact info -->
-          <div class="ty-section" style="margin-bottom:0">
-            <div class="ty-section-body" style="padding:16px 20px;">
-              <div style="display:flex;flex-wrap:wrap;gap:16px;justify-content:center;text-align:center;">
-                <a href="tel:+35929191823" style="display:flex;align-items:center;gap:8px;color:#9ca3af;text-decoration:none;font-size:13px;">📞 <span>+359 2 919 1823</span></a>
-                <span style="color:#2d3148;display:flex;align-items:center;gap:8px;font-size:13px;">📍 <span>бул. „Шипченски проход" бл.240, София</span></span>
-                <span style="color:#9ca3af;display:flex;align-items:center;gap:8px;font-size:13px;">🕐 <span>Пон–Пет 09:30–18:15</span></span>
-              </div>
-            </div>
+          <div class="ty-contact">
+            <a href="tel:+35929191823" class="ty-contact-item">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.1a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.06 6.06l.97-.97a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 17z"/></svg>
+              +359 2 919 1823
+            </a>
+            <span class="ty-contact-item">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              бул. „Шипченски проход" бл.240, София
+            </span>
+            <span class="ty-contact-item">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Пон–Пет 09:30–18:15
+            </span>
           </div>
 
           <!-- Newsletter -->
           <div class="ty-newsletter">
             <div class="ty-nl-text">
-              <div class="ty-nl-title">🎁 Получавай ексклузивни оферти!</div>
+              <div class="ty-nl-title">Получавай ексклузивни оферти</div>
               <div class="ty-nl-sub">Абонирай се и получи -5% от следващата поръчка</div>
             </div>
             <div class="ty-nl-form">
-              <input class="ty-nl-input" id="tyNlEmail" placeholder="твоя@имейл.bg">
+              <input class="ty-nl-input" id="tyNlEmail" type="email" autocomplete="email" placeholder="твоя@имейл.bg">
               <button type="button" class="ty-nl-btn" data-action="subscribeNL">Абонирай се</button>
             </div>
           </div>
@@ -3619,53 +3656,65 @@
     <div class="megamenu-body">
 
       <!-- Service cards -->
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px;margin-bottom:28px;">
-        <div class="megamenu-cat-card" style="flex-direction:row;align-items:center;text-align:left;padding:14px 16px;gap:14px;">
-          <div style="font-size:26px;flex-shrink:0;">🔧</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;margin-bottom:28px;">
+        <div class="megamenu-cat-card" style="flex-direction:row;align-items:flex-start;text-align:left;padding:18px 20px;gap:16px;">
+          <div style="width:42px;height:42px;border-radius:10px;background:var(--primary-light);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+          </div>
           <div>
-            <div style="font-size:13px;font-weight:700;margin-bottom:2px;">Ремонт и диагностика</div>
+            <div style="font-size:13px;font-weight:700;margin-bottom:3px;">Ремонт и диагностика</div>
             <div style="font-size:12px;color:var(--muted);line-height:1.5;">Лаптопи, телефони, таблети - диагностика за 24ч.</div>
-            <div style="font-size:12px;font-weight:700;color:var(--primary);margin-top:4px;">от 25 €</div>
+            <div style="font-size:12px;font-weight:700;color:var(--primary);margin-top:6px;">от 25 €</div>
           </div>
         </div>
-        <div class="megamenu-cat-card" style="flex-direction:row;align-items:center;text-align:left;padding:14px 16px;gap:14px;">
-          <div style="font-size:26px;flex-shrink:0;">💾</div>
+        <div class="megamenu-cat-card" style="flex-direction:row;align-items:flex-start;text-align:left;padding:18px 20px;gap:16px;">
+          <div style="width:42px;height:42px;border-radius:10px;background:var(--primary-light);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+          </div>
           <div>
-            <div style="font-size:13px;font-weight:700;margin-bottom:2px;">Възстановяване на данни</div>
+            <div style="font-size:13px;font-weight:700;margin-bottom:3px;">Възстановяване на данни</div>
             <div style="font-size:12px;color:var(--muted);line-height:1.5;">Изтрити файлове, повредени дискове - 95% успеваемост.</div>
-            <div style="font-size:12px;font-weight:700;color:var(--primary);margin-top:4px;">от 40 €</div>
+            <div style="font-size:12px;font-weight:700;color:var(--primary);margin-top:6px;">от 40 €</div>
           </div>
         </div>
-        <div class="megamenu-cat-card" style="flex-direction:row;align-items:center;text-align:left;padding:14px 16px;gap:14px;">
-          <div style="font-size:26px;flex-shrink:0;">🖥</div>
+        <div class="megamenu-cat-card" style="flex-direction:row;align-items:flex-start;text-align:left;padding:18px 20px;gap:16px;">
+          <div style="width:42px;height:42px;border-radius:10px;background:var(--primary-light);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </div>
           <div>
-            <div style="font-size:13px;font-weight:700;margin-bottom:2px;">Инсталация на Windows / macOS</div>
+            <div style="font-size:13px;font-weight:700;margin-bottom:3px;">Инсталация на Windows / macOS</div>
             <div style="font-size:12px;color:var(--muted);line-height:1.5;">Чиста инсталация, трансфер на данни, настройка.</div>
-            <div style="font-size:12px;font-weight:700;color:var(--primary);margin-top:4px;">от 20 €</div>
+            <div style="font-size:12px;font-weight:700;color:var(--primary);margin-top:6px;">от 20 €</div>
           </div>
         </div>
-        <div class="megamenu-cat-card" style="flex-direction:row;align-items:center;text-align:left;padding:14px 16px;gap:14px;">
-          <div style="font-size:26px;flex-shrink:0;">📡</div>
+        <div class="megamenu-cat-card" style="flex-direction:row;align-items:flex-start;text-align:left;padding:18px 20px;gap:16px;">
+          <div style="width:42px;height:42px;border-radius:10px;background:var(--primary-light);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
+          </div>
           <div>
-            <div style="font-size:13px;font-weight:700;margin-bottom:2px;">Мрежова поддръжка</div>
+            <div style="font-size:13px;font-weight:700;margin-bottom:3px;">Мрежова поддръжка</div>
             <div style="font-size:12px;color:var(--muted);line-height:1.5;">Рутери, мрежи за дома и офиса, Wi-Fi оптимизация.</div>
-            <div style="font-size:12px;font-weight:700;color:var(--primary);margin-top:4px;">от 30 €</div>
+            <div style="font-size:12px;font-weight:700;color:var(--primary);margin-top:6px;">от 30 €</div>
           </div>
         </div>
-        <div class="megamenu-cat-card" style="flex-direction:row;align-items:center;text-align:left;padding:14px 16px;gap:14px;">
-          <div style="font-size:26px;flex-shrink:0;">🔋</div>
+        <div class="megamenu-cat-card" style="flex-direction:row;align-items:flex-start;text-align:left;padding:18px 20px;gap:16px;">
+          <div style="width:42px;height:42px;border-radius:10px;background:var(--primary-light);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="2"/><line x1="10" y1="6" x2="14" y2="6"/><line x1="12" y1="18" x2="12" y2="18"/></svg>
+          </div>
           <div>
-            <div style="font-size:13px;font-weight:700;margin-bottom:2px;">Смяна на батерия</div>
+            <div style="font-size:13px;font-weight:700;margin-bottom:3px;">Смяна на батерия</div>
             <div style="font-size:12px;color:var(--muted);line-height:1.5;">Лаптопи и смартфони. Оригинални части с 3 мес. гаранция.</div>
-            <div style="font-size:12px;font-weight:700;color:var(--primary);margin-top:4px;">от 30 €</div>
+            <div style="font-size:12px;font-weight:700;color:var(--primary);margin-top:6px;">от 30 €</div>
           </div>
         </div>
-        <div class="megamenu-cat-card" style="flex-direction:row;align-items:center;text-align:left;padding:14px 16px;gap:14px;">
-          <div style="font-size:26px;flex-shrink:0;">🧹</div>
+        <div class="megamenu-cat-card" style="flex-direction:row;align-items:flex-start;text-align:left;padding:18px 20px;gap:16px;">
+          <div style="width:42px;height:42px;border-radius:10px;background:var(--primary-light);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2a10 10 0 0 1 10 10c0 5.52-4.48 10-10 10S2 17.52 2 12c0-2.76 1.12-5.26 2.93-7.07"/><path d="M4.93 4.93A10 10 0 0 1 12 2"/><polyline points="8 6 12 2 16 6"/></svg>
+          </div>
           <div>
-            <div style="font-size:13px;font-weight:700;margin-bottom:2px;">Почистване и профилактика</div>
+            <div style="font-size:13px;font-weight:700;margin-bottom:3px;">Почистване и профилактика</div>
             <div style="font-size:12px;color:var(--muted);line-height:1.5;">Термопаста, почистване от прах - по-добро охлаждане.</div>
-            <div style="font-size:12px;font-weight:700;color:var(--primary);margin-top:4px;">от 15 €</div>
+            <div style="font-size:12px;font-weight:700;color:var(--primary);margin-top:6px;">от 15 €</div>
           </div>
         </div>
       </div>
@@ -3678,45 +3727,47 @@
           <a href="tel:070014411"
             style="display:inline-flex;align-items:center;gap:8px;background:#fff;color:#bd1105;border:none;border-radius:24px;padding:13px 28px;font-size:15px;font-weight:800;cursor:pointer;text-decoration:none;transition:opacity .2s;"
             onmouseover="this.style.opacity='.9'" onmouseout="this.style.opacity='1'">
-            📞 Обадете се сега
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.1a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.06 6.06l.97-.97a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 17z"/></svg>
+            Обадете се сега
           </a>
           <button type="button" data-action="openContactPage();closeServicePage"
             style="display:inline-flex;align-items:center;gap:8px;background:transparent;color:#fff;border:2px solid rgba(255,255,255,.7);border-radius:24px;padding:13px 28px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Outfit',sans-serif;transition:border-color .2s;"
             onmouseover="this.style.borderColor='#fff'" onmouseout="this.style.borderColor='rgba(255,255,255,.7)'">
-            📩 Изпрати запитване
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            Изпрати запитване
           </button>
         </div>
         <div style="font-size:12px;opacity:.7;margin-top:14px;">Пон–Пет 09:30–18:15 · 0700 144 11</div>
       </div>
 
       <!-- Service center + map -->
-      <div class="megamenu-section-title">📍 Сервизен център</div>
+      <div class="megamenu-section-title" style="display:flex;align-items:center;gap:8px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Сервизен център</div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:stretch;margin-bottom:32px;">
         <div style="background:var(--white);border:1px solid var(--border);border-radius:14px;padding:28px 32px;">
           <div style="display:grid;gap:14px;">
             <div class="row-gap-14-center">
-              <span class="text-20">📍</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
               <div>
                 <div class="meta-label">Адрес</div>
                 <div class="text-14-semibold">бул. Шипченски проход 240, София</div>
               </div>
             </div>
             <div class="row-gap-14-center">
-              <span class="text-20">📞</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.1a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.06 6.06l.97-.97a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 17z"/></svg>
               <div>
                 <div class="meta-label">Телефон</div>
                 <div class="text-14-semibold"><a href="tel:070014411" style="color:inherit;text-decoration:none;">0700 144 11</a></div>
               </div>
             </div>
             <div class="row-gap-14-center">
-              <span class="text-20">⏰</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
               <div>
                 <div class="meta-label">Работно време</div>
                 <div class="text-14-semibold">Пон–Пет 09:30–18:15</div>
               </div>
             </div>
             <div class="row-gap-14-center">
-              <span class="text-20">✉️</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
               <div>
                 <div class="meta-label">Имейл</div>
                 <div class="text-14-semibold"><span class="ep" data-u="support" data-d="mostbg.com"></span></div>
@@ -3731,7 +3782,7 @@
       <details style="margin-bottom:32px;border:1px solid var(--border);border-radius:14px;overflow:hidden;">
         <summary style="padding:16px 22px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;background:var(--white);">
           <div>
-            <div style="font-size:14px;font-weight:700;">📦 Провери статус на сервизна поръчка</div>
+            <div style="font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg> Провери статус на сервизна поръчка</div>
             <div style="font-size:12px;color:var(--muted);margin-top:3px;">Въведете номер на поръчка или гаранционна карта и вижте в какъв етап е вашето устройство.</div>
           </div>
           <span style="font-size:18px;color:var(--muted);flex-shrink:0;margin-left:16px;">＋</span>
@@ -3751,7 +3802,7 @@
             </div>
             <div id="svcTrkErr" style="color:var(--primary);font-size:13px;margin-bottom:8px;display:none;">Моля, въведете поне един валиден номер (минимум 3 символа).</div>
             <button type="submit" id="svcTrkBtn"
-              style="width:100%;background:var(--primary);color:#fff;border:none;border-radius:20px;padding:11px 16px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;transition:background .2s;display:flex;align-items:center;justify-content:center;gap:8px;"
+              style="background:var(--primary);color:#fff;border:none;border-radius:8px;padding:10px 24px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;transition:background .2s;display:inline-flex;align-items:center;gap:8px;"
               onmouseover="this.style.background='var(--primary-dark)'" onmouseout="if(!this.disabled)this.style.background='var(--primary)'">
               <div class="svc-loader" id="svcTrkLoader"></div>
               <span id="svcTrkBtnTxt">🔍 Провери статус</span>

@@ -2062,17 +2062,17 @@
             <div class="s1-over">ТЕХНИЧЕСКИ РЕШЕНИЯ ЗА ВСЕКИ РАБОТЕН ДЯЛ</div>
             <h2 class="s1-hdg">Обзаведи офиса си с най-доброто</h2>
             <div class="s1-cards">
-              <button type="button" class="s1-card" data-action="openCatPage('promo')">
+              <button type="button" class="s1-card" data-action="openCatPage('laptops')">
                 <svg class="s1-icon" aria-hidden="true"><use href="#ic-laptop"/></svg>
                 <div class="s1-card-name">Лаптопи</div>
                 <div class="s1-card-sub">Мощност. Мобилност.</div>
               </button>
-              <button type="button" class="s1-card" data-action="openCatPage('promo')">
+              <button type="button" class="s1-card" data-action="openCatPage('accessories')">
                 <svg class="s1-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1" y="8" width="13" height="9" rx="2"/><circle cx="7.5" cy="12.5" r="2.5"/><circle cx="7.5" cy="12.5" r="1"/><path d="M14 10l7-4M14 15l7 4"/></svg>
                 <div class="s1-card-name">Проектори</div>
                 <div class="s1-card-sub">Големи идеи. Голям екран.</div>
               </button>
-              <button type="button" class="s1-card" data-action="openCatPage('promo')">
+              <button type="button" class="s1-card" data-action="openCatPage('monitors')">
                 <svg class="s1-icon" aria-hidden="true"><use href="#ic-tv"/></svg>
                 <div class="s1-card-name">Монитори</div>
                 <div class="s1-card-sub">Яркост. Цвят. Контрол.</div>
@@ -2152,13 +2152,66 @@
         </div>
       </div>
 
+      <!-- BUDGET CHIPS -->
+      <div class="budget-chips-strip">
+        <span class="budget-chips-label">Бюджет:</span>
+        <button type="button" class="budget-chip" data-action="openPriceCat(0,300)">До 300 €</button>
+        <button type="button" class="budget-chip" data-action="openPriceCat(300,600)">300 - 600 €</button>
+        <button type="button" class="budget-chip" data-action="openPriceCat(600,1200)">600 - 1 200 €</button>
+        <button type="button" class="budget-chip" data-action="openPriceCat(1200,null)">1 200+ €</button>
+      </div>
+
       <!-- CATEGORY CARDS -->
       <div class="hp-cats-section" id="hpCatsSection">
         <div class="hp-cats-header">
           <div class="hp-cats-title">🗂 Разгледай по категории</div>
           <span class="hp-cats-all" data-action="openMegamenu">Всички категории →</span>
         </div>
+        <div class="popular-searches">
+          <span class="ps-label">Популярни:</span>
+          <button type="button" class="ps-chip" data-action="openPopularSearch('Gaming лаптоп')">Gaming лаптоп</button>
+          <button type="button" class="ps-chip" data-action="openPopularSearch('RTX 5060')">RTX 5060</button>
+          <button type="button" class="ps-chip" data-action="openPopularSearch('SSD 1TB')">SSD 1TB</button>
+          <button type="button" class="ps-chip" data-action="openPopularSearch('Монитор 144Hz')">Монитор 144Hz</button>
+          <button type="button" class="ps-chip" data-action="openPopularSearch('Механична клавиатура')">Механична клавиатура</button>
+          <button type="button" class="ps-chip" data-action="openPopularSearch('Безжични слушалки')">Безжични слушалки</button>
+        </div>
         <div class="hp-cats-grid" id="hpCatsGrid"></div>
+      </div>
+
+      <!-- SOCIAL PROOF STRIP -->
+      <div class="social-proof-strip">
+        <div class="sp-stat">
+          <svg width="20" height="20" class="svg-ic" aria-hidden="true"><use href="#ic-star"/></svg>
+          <div class="sp-text">
+            <span class="sp-num" id="spAvgRating">4.8</span>
+            <span class="sp-sub">средна оценка</span>
+          </div>
+        </div>
+        <div class="sp-sep"></div>
+        <div class="sp-stat">
+          <svg width="20" height="20" class="svg-ic" aria-hidden="true"><use href="#ic-check"/></svg>
+          <div class="sp-text">
+            <span class="sp-num">36+</span>
+            <span class="sp-sub">год. на пазара</span>
+          </div>
+        </div>
+        <div class="sp-sep"></div>
+        <div class="sp-stat">
+          <svg width="20" height="20" class="svg-ic" aria-hidden="true"><use href="#ic-truck"/></svg>
+          <div class="sp-text">
+            <span class="sp-num">50 000+</span>
+            <span class="sp-sub">доволни клиенти</span>
+          </div>
+        </div>
+        <div class="sp-sep"></div>
+        <div class="sp-stat">
+          <svg width="20" height="20" class="svg-ic" aria-hidden="true"><use href="#ic-shield"/></svg>
+          <div class="sp-text">
+            <span class="sp-num">Официален</span>
+            <span class="sp-sub">сертифициран сервиз</span>
+          </div>
+        </div>
       </div>
 
       <!-- FLASH SALE -->
@@ -2168,6 +2221,7 @@
             <h2 class="flash-title"><svg class="sh-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Светкавични оферти</h2>
             <div class="flash-subtitle">Ограничено количество - не изпускай!</div>
           </div>
+          <a href="#" class="view-all-link" data-action="openCatPage('sale')">Виж всички промоции →</a>
           <div class="flash-timer" id="flashTimer" style="visibility:hidden">
             <div class="timer-block"><span class="timer-num" id="th">--</span><span class="timer-label">ч.</span></div>
             <span class="timer-sep">:</span>
@@ -2226,6 +2280,7 @@
             <button type="button" class="npc-chip npc-active" data-days="14">14 дни</button>
             <button type="button" class="npc-chip" data-days="30">30 дни</button>
           </div>
+          <a href="#" class="view-all-link" data-action="openCatPage('new')">Виж всички нови →</a>
         </div>
         <div class="products-row cols5" id="newGrid"></div>
         <div id="newGridPager" aria-live="polite"></div>
@@ -2249,80 +2304,95 @@
         <div class="products-row cols5" id="bestsellersGrid"></div>
       </div>
 
+      <!-- RECENTLY VIEWED -->
+      <div class="section-wrap" id="recentlyViewedSection" style="display:none;" aria-hidden="true">
+        <div class="section-header">
+          <div class="section-header-left">
+            <div class="section-accent" style="background:var(--muted)"></div>
+            <div>
+              <h2 class="section-title"><svg class="sh-icon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Наскоро разгледани</h2>
+              <div class="section-subtitle">Продукти, които разгледа наскоро</div>
+            </div>
+          </div>
+          <button type="button" class="view-all-link" data-action="clearRecentlyViewed" style="font-size:12px;color:var(--muted);">Изчисти историята</button>
+        </div>
+        <div class="rv-scroll-wrap" id="rvScroll" style="display:flex;gap:12px;overflow-x:auto;padding-bottom:8px;"></div>
+      </div>
+
       <!-- BRANDS BAR -->
-      <div class="brands-bar">
+      <div class="brands-bar" onclick="var b=event.target.dataset.brand;if(b)openBrandCat(b)" aria-label="Марки - клик за филтриране">
         <div class="brands-track">
-          <span class="brand-name">Intel</span>
-          <span class="brand-name">ASUS</span>
-          <span class="brand-name">Acer</span>
-          <span class="brand-name">Microsoft</span>
-          <span class="brand-name">Lenovo</span>
-          <span class="brand-name">Gigabyte</span>
-          <span class="brand-name">LG</span>
-          <span class="brand-name">HP</span>
-          <span class="brand-name">ADATA</span>
-          <span class="brand-name">Sapphire</span>
-          <span class="brand-name">Tenda</span>
-          <span class="brand-name">Kingston</span>
-          <span class="brand-name">Seagate</span>
-          <span class="brand-name">AMD</span>
-          <span class="brand-name">Seasonic</span>
-          <span class="brand-name">ASRock</span>
-          <span class="brand-name">Repotec</span>
-          <span class="brand-name">Realme</span>
-          <span class="brand-name">MSI</span>
-          <span class="brand-name">Tuncmatik</span>
-          <span class="brand-name">Palit</span>
-          <span class="brand-name">Nokia</span>
-          <span class="brand-name">Dynac</span>
-          <span class="brand-name">Cooler Master</span>
-          <span class="brand-name">Fractal</span>
-          <span class="brand-name">NZXT</span>
-          <span class="brand-name">Canon</span>
-          <span class="brand-name">Fnatic</span>
-          <span class="brand-name">GeIL</span>
-          <span class="brand-name">FSP Group</span>
-          <span class="brand-name">Omega</span>
-          <span class="brand-name">Inform UPS</span>
-          <span class="brand-name">QNAP</span>
-          <span class="brand-name">D-Link</span>
-          <span class="brand-name">AV Tech</span>
-          <!-- duplicate for infinite scroll -->
-          <span class="brand-name">Intel</span>
-          <span class="brand-name">ASUS</span>
-          <span class="brand-name">Acer</span>
-          <span class="brand-name">Microsoft</span>
-          <span class="brand-name">Lenovo</span>
-          <span class="brand-name">Gigabyte</span>
-          <span class="brand-name">LG</span>
-          <span class="brand-name">HP</span>
-          <span class="brand-name">ADATA</span>
-          <span class="brand-name">Sapphire</span>
-          <span class="brand-name">Tenda</span>
-          <span class="brand-name">Kingston</span>
-          <span class="brand-name">Seagate</span>
-          <span class="brand-name">AMD</span>
-          <span class="brand-name">Seasonic</span>
-          <span class="brand-name">ASRock</span>
-          <span class="brand-name">Repotec</span>
-          <span class="brand-name">Realme</span>
-          <span class="brand-name">MSI</span>
-          <span class="brand-name">Tuncmatik</span>
-          <span class="brand-name">Palit</span>
-          <span class="brand-name">Nokia</span>
-          <span class="brand-name">Dynac</span>
-          <span class="brand-name">Cooler Master</span>
-          <span class="brand-name">Fractal</span>
-          <span class="brand-name">NZXT</span>
-          <span class="brand-name">Canon</span>
-          <span class="brand-name">Fnatic</span>
-          <span class="brand-name">GeIL</span>
-          <span class="brand-name">FSP Group</span>
-          <span class="brand-name">Omega</span>
-          <span class="brand-name">Inform UPS</span>
-          <span class="brand-name">QNAP</span>
-          <span class="brand-name">D-Link</span>
-          <span class="brand-name">AV Tech</span>
+          <span class="brand-name" data-brand="Intel" role="button" tabindex="0">Intel</span>
+          <span class="brand-name" data-brand="ASUS" role="button" tabindex="0">ASUS</span>
+          <span class="brand-name" data-brand="Acer" role="button" tabindex="0">Acer</span>
+          <span class="brand-name" data-brand="Microsoft" role="button" tabindex="0">Microsoft</span>
+          <span class="brand-name" data-brand="Lenovo" role="button" tabindex="0">Lenovo</span>
+          <span class="brand-name" data-brand="Gigabyte" role="button" tabindex="0">Gigabyte</span>
+          <span class="brand-name" data-brand="LG" role="button" tabindex="0">LG</span>
+          <span class="brand-name" data-brand="HP" role="button" tabindex="0">HP</span>
+          <span class="brand-name" data-brand="ADATA" role="button" tabindex="0">ADATA</span>
+          <span class="brand-name" data-brand="Sapphire" role="button" tabindex="0">Sapphire</span>
+          <span class="brand-name" data-brand="Tenda" role="button" tabindex="0">Tenda</span>
+          <span class="brand-name" data-brand="Kingston" role="button" tabindex="0">Kingston</span>
+          <span class="brand-name" data-brand="Seagate" role="button" tabindex="0">Seagate</span>
+          <span class="brand-name" data-brand="AMD" role="button" tabindex="0">AMD</span>
+          <span class="brand-name" data-brand="Seasonic" role="button" tabindex="0">Seasonic</span>
+          <span class="brand-name" data-brand="ASRock" role="button" tabindex="0">ASRock</span>
+          <span class="brand-name" data-brand="Repotec" role="button" tabindex="0">Repotec</span>
+          <span class="brand-name" data-brand="Realme" role="button" tabindex="0">Realme</span>
+          <span class="brand-name" data-brand="MSI" role="button" tabindex="0">MSI</span>
+          <span class="brand-name" data-brand="Tuncmatik" role="button" tabindex="0">Tuncmatik</span>
+          <span class="brand-name" data-brand="Palit" role="button" tabindex="0">Palit</span>
+          <span class="brand-name" data-brand="Nokia" role="button" tabindex="0">Nokia</span>
+          <span class="brand-name" data-brand="Dynac" role="button" tabindex="0">Dynac</span>
+          <span class="brand-name" data-brand="Cooler Master" role="button" tabindex="0">Cooler Master</span>
+          <span class="brand-name" data-brand="Fractal" role="button" tabindex="0">Fractal</span>
+          <span class="brand-name" data-brand="NZXT" role="button" tabindex="0">NZXT</span>
+          <span class="brand-name" data-brand="Canon" role="button" tabindex="0">Canon</span>
+          <span class="brand-name" data-brand="Fnatic" role="button" tabindex="0">Fnatic</span>
+          <span class="brand-name" data-brand="GeIL" role="button" tabindex="0">GeIL</span>
+          <span class="brand-name" data-brand="FSP Group" role="button" tabindex="0">FSP Group</span>
+          <span class="brand-name" data-brand="Omega" role="button" tabindex="0">Omega</span>
+          <span class="brand-name" data-brand="Inform UPS" role="button" tabindex="0">Inform UPS</span>
+          <span class="brand-name" data-brand="QNAP" role="button" tabindex="0">QNAP</span>
+          <span class="brand-name" data-brand="D-Link" role="button" tabindex="0">D-Link</span>
+          <span class="brand-name" data-brand="AV Tech" role="button" tabindex="0">AV Tech</span>
+          <!-- duplicate for infinite scroll — tabindex="-1" to avoid double tab stops -->
+          <span class="brand-name" data-brand="Intel" role="button" tabindex="-1">Intel</span>
+          <span class="brand-name" data-brand="ASUS" role="button" tabindex="-1">ASUS</span>
+          <span class="brand-name" data-brand="Acer" role="button" tabindex="-1">Acer</span>
+          <span class="brand-name" data-brand="Microsoft" role="button" tabindex="-1">Microsoft</span>
+          <span class="brand-name" data-brand="Lenovo" role="button" tabindex="-1">Lenovo</span>
+          <span class="brand-name" data-brand="Gigabyte" role="button" tabindex="-1">Gigabyte</span>
+          <span class="brand-name" data-brand="LG" role="button" tabindex="-1">LG</span>
+          <span class="brand-name" data-brand="HP" role="button" tabindex="-1">HP</span>
+          <span class="brand-name" data-brand="ADATA" role="button" tabindex="-1">ADATA</span>
+          <span class="brand-name" data-brand="Sapphire" role="button" tabindex="-1">Sapphire</span>
+          <span class="brand-name" data-brand="Tenda" role="button" tabindex="-1">Tenda</span>
+          <span class="brand-name" data-brand="Kingston" role="button" tabindex="-1">Kingston</span>
+          <span class="brand-name" data-brand="Seagate" role="button" tabindex="-1">Seagate</span>
+          <span class="brand-name" data-brand="AMD" role="button" tabindex="-1">AMD</span>
+          <span class="brand-name" data-brand="Seasonic" role="button" tabindex="-1">Seasonic</span>
+          <span class="brand-name" data-brand="ASRock" role="button" tabindex="-1">ASRock</span>
+          <span class="brand-name" data-brand="Repotec" role="button" tabindex="-1">Repotec</span>
+          <span class="brand-name" data-brand="Realme" role="button" tabindex="-1">Realme</span>
+          <span class="brand-name" data-brand="MSI" role="button" tabindex="-1">MSI</span>
+          <span class="brand-name" data-brand="Tuncmatik" role="button" tabindex="-1">Tuncmatik</span>
+          <span class="brand-name" data-brand="Palit" role="button" tabindex="-1">Palit</span>
+          <span class="brand-name" data-brand="Nokia" role="button" tabindex="-1">Nokia</span>
+          <span class="brand-name" data-brand="Dynac" role="button" tabindex="-1">Dynac</span>
+          <span class="brand-name" data-brand="Cooler Master" role="button" tabindex="-1">Cooler Master</span>
+          <span class="brand-name" data-brand="Fractal" role="button" tabindex="-1">Fractal</span>
+          <span class="brand-name" data-brand="NZXT" role="button" tabindex="-1">NZXT</span>
+          <span class="brand-name" data-brand="Canon" role="button" tabindex="-1">Canon</span>
+          <span class="brand-name" data-brand="Fnatic" role="button" tabindex="-1">Fnatic</span>
+          <span class="brand-name" data-brand="GeIL" role="button" tabindex="-1">GeIL</span>
+          <span class="brand-name" data-brand="FSP Group" role="button" tabindex="-1">FSP Group</span>
+          <span class="brand-name" data-brand="Omega" role="button" tabindex="-1">Omega</span>
+          <span class="brand-name" data-brand="Inform UPS" role="button" tabindex="-1">Inform UPS</span>
+          <span class="brand-name" data-brand="QNAP" role="button" tabindex="-1">QNAP</span>
+          <span class="brand-name" data-brand="D-Link" role="button" tabindex="-1">D-Link</span>
+          <span class="brand-name" data-brand="AV Tech" role="button" tabindex="-1">AV Tech</span>
         </div>
       </div>
 
@@ -2331,8 +2401,8 @@
       <!-- NEWSLETTER STRIP -->
       <div class="newsletter-strip">
         <div class="newsletter-text">
-          <h3><svg class="sh-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>Топ оферти всяка седмица</h3>
-          <p>Подбрани намаления и нови продукти директно в имейла ти. Без излишен спам.</p>
+          <h3><svg class="sh-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>Бъди първи при Flash Sale</h3>
+          <p>Flash Sale известия 30 мин. преди всички. Нови продукти, ексклузивни оферти. Без спам.</p>
         </div>
         <div>
           <div class="newsletter-form">
@@ -3275,8 +3345,8 @@
         <h3 class="footer-col-title">Магазин</h3>
         <a href="#" data-action="openMegamenu">Всички продукти</a>
         <a href="#" data-action="scrollToSale">Намаления</a>
-        <a href="#" data-action="document.getElementById('newGrid').closest('.section-wrap').scrollIntoView({behavior:'smooth'})">Нови продукти</a>
-        <a href="#" data-action="document.getElementById('bestsellersSection').scrollIntoView({behavior:'smooth'})">Топ продавани</a>
+        <a href="#" data-action="scrollToNew">Нови продукти</a>
+        <a href="#" data-action="scrollToBestsellers">Топ продавани</a>
       </div>
       <div class="footer-col">
         <h3 class="footer-col-title">За нас</h3>
@@ -4796,13 +4866,15 @@
         <div class="about-section-eyebrow">Работим с</div>
         <h2 class="about-section-title" style="margin-bottom:28px;">Официални партньори</h2>
         <div class="about-partners">
+          <div class="about-partner">Asus</div>
           <div class="about-partner">Lenovo</div>
-          <div class="about-partner">ASUS</div>
-          <div class="about-partner">Nokia</div>
-          <div class="about-partner">Canon</div>
           <div class="about-partner">MSI</div>
-          <div class="about-partner">Kingston</div>
-          <div class="about-partner">Tenda</div>
+          <div class="about-partner">Acer</div>
+          <div class="about-partner">LG</div>
+          <div class="about-partner">HMD</div>
+          <div class="about-partner">Thomson</div>
+          <div class="about-partner">AMD</div>
+          <div class="about-partner">Intel</div>
         </div>
       </div>
 

@@ -3392,6 +3392,9 @@
    transition: color 0.2s;
    cursor: default;
  }
+ .brand-name[data-brand] {
+   cursor: pointer;
+ }
 
  .brand-name:hover {
    color: var(--primary);
@@ -14708,6 +14711,55 @@
      position: static;
      max-height: none;
    }
+ }
+
+ /* ===== BUDGET CHIPS ===== */
+ .budget-chips-strip {
+   display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+   padding: 12px 0 4px;
+ }
+ .budget-chips-label {
+   font-size: 12px; font-weight: 600; color: var(--muted); white-space: nowrap;
+ }
+ .budget-chip {
+   background: var(--bg2); border: 1px solid var(--border); border-radius: 20px;
+   padding: 5px 14px; font-size: 12px; font-weight: 600; color: var(--text2);
+   cursor: pointer; transition: background .15s, color .15s, border-color .15s;
+   white-space: nowrap;
+ }
+ .budget-chip:hover {
+   background: #fff0f0; border-color: var(--primary); color: var(--primary);
+ }
+ [data-theme="dark"] .budget-chip:hover { background: rgba(189,17,5,.12); }
+
+ /* ===== POPULAR SEARCHES ===== */
+ .popular-searches {
+   display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+   padding: 8px 0 12px;
+ }
+ .ps-label { font-size: 11px; font-weight: 600; color: var(--muted); white-space: nowrap; }
+ .ps-chip {
+   background: transparent; border: 1px solid var(--border); border-radius: 14px;
+   padding: 4px 12px; font-size: 12px; color: var(--text2); cursor: pointer;
+   transition: border-color .15s, color .15s;
+ }
+ .ps-chip:hover { border-color: var(--primary); color: var(--primary); }
+
+ /* ===== SOCIAL PROOF STRIP ===== */
+ .social-proof-strip {
+   display: flex; align-items: center; justify-content: center; gap: 0;
+   background: var(--bg2); border: 1px solid var(--border); border-radius: 12px;
+   padding: 14px 24px; margin: 16px 0; flex-wrap: wrap;
+ }
+ .sp-stat { display: flex; align-items: center; gap: 10px; padding: 6px 20px; }
+ .sp-sep { width: 1px; height: 32px; background: var(--border); flex-shrink: 0; }
+ .sp-text { display: flex; flex-direction: column; }
+ .sp-num { font-size: 18px; font-weight: 800; color: var(--text); line-height: 1.1; }
+ .sp-sub { font-size: 11px; color: var(--muted); }
+ @media (max-width: 600px) {
+   .sp-sep { display: none; }
+   .sp-stat { padding: 6px 12px; }
+   .sp-num { font-size: 15px; }
  }
 
  /* ===== HOMEPAGE CATEGORY CARDS ===== */

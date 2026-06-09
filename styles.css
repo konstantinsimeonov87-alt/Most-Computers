@@ -7291,7 +7291,7 @@
  }
 
  .checkout-step.active {
-   color: var(--text);
+   color: var(--primary);
  }
 
  .checkout-step.done {
@@ -7314,7 +7314,7 @@
  }
 
  .checkout-step.active .cs-num {
-   background: var(--text);
+   background: var(--primary);
    color: #fff;
  }
 

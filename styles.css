@@ -346,10 +346,19 @@
  }
 
  .sd-emoji {
-   font-size: 32px;
+   font-size: 28px;
    flex-shrink: 0;
    width: 44px;
    text-align: center;
+ }
+
+ .sd-thumb {
+   flex-shrink: 0;
+   width: 44px;
+   height: 44px;
+   object-fit: contain;
+   border-radius: 4px;
+   background: #f5f5f5;
  }
 
  .sd-info {
@@ -19187,6 +19196,27 @@ html[data-theme="dark"] .cart-upsell-title {
   .hp-section-title,
   .section-header-left h2,
   .section-header-left h3 { font-size: 18px; }
+}
+
+@media (max-width: 639px) {
+  /* БЪГ 1: section-header с 3 деца не се побира на 1 ред — wrap на 2 реда */
+  .section-header {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .section-header .npc-wrap {
+    order: 3;
+    width: 100%;
+  }
+  .section-header .view-all-link {
+    order: 2;
+    flex-shrink: 0;
+  }
+
+  /* БЪГ 2: премахни margin-top: auto за да няма голям gap между цена и бутони */
+  .product-footer {
+    margin-top: 8px;
+  }
 }
 
 /* ===== PRINT STYLES ===== */

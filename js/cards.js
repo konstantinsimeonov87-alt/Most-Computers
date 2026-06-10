@@ -23,6 +23,7 @@ const _SVG_PLACEHOLDERS = (function(){
     tablet:     enc(`<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="200" ${BG}/><rect x="18" y="52" width="164" height="110" rx="12" ${N} ${S} ${SW}="5"/><rect x="30" y="64" width="136" height="86" rx="5" ${F}/><circle cx="186" cy="107" r="6" ${N} ${S} ${SW}="3"/><circle cx="100" cy="56" r="3.5" ${N} ${S} ${SW}="2.5"/></svg>`),
     printer:    enc(`<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="200" ${BG}/><rect x="22" y="68" width="156" height="78" rx="8" ${N} ${S} ${SW}="5"/><rect x="32" y="78" width="136" height="58" rx="4" ${F}/><rect x="42" y="144" width="116" height="20" rx="4" ${N} ${S} ${SW}="4"/><rect x="42" y="50" width="116" height="20" rx="4" ${N} ${S} ${SW}="4"/><rect x="62" y="36" width="76" height="18" rx="2" ${N} ${S} ${SW}="3"/><circle cx="150" cy="98" r="6" ${N} ${S} ${SW}="3"/><circle cx="164" cy="98" r="6" ${N} ${S} ${SW}="3"/><rect x="38" y="84" width="56" height="26" rx="3" ${N} ${S} ${SW}="2.5"/></svg>`),
     tv:         enc(`<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="200" ${BG}/><rect x="14" y="28" width="172" height="114" rx="8" ${N} ${S} ${SW}="5"/><rect x="24" y="38" width="152" height="94" rx="3" ${F}/><rect x="38" y="142" width="26" height="22" rx="4" ${N} ${S} ${SW}="4"/><rect x="136" y="142" width="26" height="22" rx="4" ${N} ${S} ${SW}="4"/><rect x="28" y="162" width="46" height="8" rx="4" ${N} ${S} ${SW}="4"/><rect x="126" y="162" width="46" height="8" rx="4" ${N} ${S} ${SW}="4"/></svg>`),
+    bag:        enc(`<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="200" ${BG}/><rect x="24" y="52" width="152" height="118" rx="14" ${N} ${S} ${SW}="5"/><rect x="35" y="63" width="130" height="97" rx="8" ${F}/><path d="M80 52 Q80 34 100 34 Q120 34 120 52" ${N} ${S} ${SW}="5" stroke-linecap="round"/><line x1="38" y1="98" x2="162" y2="98" ${S} ${SW}="3.5" stroke-linecap="round"/><path d="M98 98 L96 86 L104 86 L102 98" ${N} ${S} ${SW}="3" stroke-linejoin="round"/><rect x="52" y="68" width="96" height="66" rx="5" ${N} ${S} ${SW}="2.5" stroke-dasharray="5,3"/><rect x="24" y="100" width="6" height="36" rx="3" fill="#cbd5e1"/></svg>`),
   };
 })();
 
@@ -48,6 +49,8 @@ function categoryPlaceholderSvg(cat, subcat){
   if(s==='mouse')                                       return _SVG_PLACEHOLDERS.mouse;
   if(s==='headphones')                                  return _SVG_PLACEHOLDERS.headphones;
   if(s==='webcam')                                      return _SVG_PLACEHOLDERS.webcam;
+  // Accessories
+  if(s==='bag')                                         return _SVG_PLACEHOLDERS.bag;
   // Phones
   if(s==='smartphone')                                  return _SVG_PLACEHOLDERS.phone;
   if(s==='tablet')                                      return _SVG_PLACEHOLDERS.tablet;

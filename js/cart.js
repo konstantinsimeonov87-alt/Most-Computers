@@ -239,7 +239,7 @@ function toggleCart() { const co=document.getElementById('cartOverlay'),cp=docum
 // ===== CHECKOUT & THANK YOU =====
 let ckDeliveryIdx = 0;
 let ckDeliveryCosts = (()=>{ try{const sc=JSON.parse(localStorage.getItem('mc_store_config')||'{}');return sc.deliveryCosts||[5.99,4.99,0];}catch(e){return [5.99,4.99,0];} })();
-let ckDeliveryNames = ['Еконт', 'Speedy', 'Вземи от магазин'];
+let ckDeliveryNames = ['Еконт', 'Еконт', 'Вземи от магазин'];
 let ckPaymentType = 'card';
 let promoApplied = false;
 
@@ -1184,7 +1184,7 @@ function renderCartPageSummary() {
   if (!el) return;
   const subtotal = cart.reduce((s, x) => s + x.price * x.qty, 0);
   const savings = cart.reduce((s, x) => s + (x.old ? (x.old - x.price) * x.qty : 0), 0);
-  const delivery = subtotal >= FREE_SHIP_BGN ? 0 : Math.round(9.99 * EUR_RATE * 100) / 100;
+  const delivery = subtotal >= FREE_SHIP_BGN ? 0 : (typeof ckDeliveryCosts !== 'undefined' && ckDeliveryCosts[0] ? ckDeliveryCosts[0] : Math.round(5.99 * EUR_RATE * 100) / 100);
   const total = subtotal + delivery;
 
   if (cart.length === 0) {

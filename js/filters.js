@@ -231,7 +231,7 @@ function renderGrids(){
   // Slide 4 - sync price from products array (id:1884 = Lenovo Legion Pro 7 RTX 5090)
   const _s4 = products.find(p=>p.id===1884);
   const _s4el = document.getElementById('slide4Price');
-  if(_s4 && _s4el) _s4el.innerHTML = `${(_s4.price/EUR_RATE).toFixed(2)} € / ${_s4.price} лв. <small>с ДДС</small>`;
+  if(_s4 && _s4el) _s4el.innerHTML = `${(_s4.price/EUR_RATE).toFixed(2)} € / ${fmtBgn(_s4.price)} <small>с ДДС</small>`;
   renderNewGrid(window._newPeriodDays || 14);
   initNewPeriodChips();
   // Promo strip - update free delivery threshold with current EUR rate
@@ -1604,6 +1604,9 @@ function matchesSubcat(p, subcat) {
     cf_card:       () => p.subcat === 'cf_card',
     card_reader:   () => p.subcat === 'card_reader',
     // Accessories
+    projector:  () => p.subcat === 'projector' || all.includes('проектор') || all.includes('projector'),
+    chair:      () => p.subcat === 'chair' || all.includes('gaming chair') || all.includes('геймърски стол') || all.includes('gaming стол'),
+    controller: () => p.subcat === 'controller' || all.includes('контролер') || all.includes('controller') || all.includes('gamepad') || all.includes('геймпад'),
     bag:           () => all.includes('чант') || all.includes('bag') || all.includes('backpack') || all.includes('case') || all.includes('sleeve'),
     cable:         () => all.includes('кабел') || all.includes('cable') || all.includes('cord') || all.includes('зарядн') || all.includes('charger'),
     hub:           () => all.includes('hub') || all.includes('хъб') || all.includes('dock') || all.includes('adapter') || all.includes('адаптер'),

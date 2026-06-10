@@ -19213,9 +19213,18 @@ html[data-theme="dark"] .cart-upsell-title {
     flex-shrink: 0;
   }
 
-  /* БЪГ 2: премахни margin-top: auto за да няма голям gap между цена и бутони */
+  /* БЪГ 2: карти да са само колкото съдържанието им — без grid row equalization */
+  .products-row {
+    align-items: start !important;
+  }
+  /* footer да следва директно след цената */
   .product-footer {
-    margin-top: 8px;
+    margin-top: 8px !important;
+  }
+
+  /* БЪГ 3: compare bar — translateY(100%) не скрива бара напълно при bottom:60px */
+  .compare-bar {
+    transform: translateY(calc(100% + 60px));
   }
 }
 

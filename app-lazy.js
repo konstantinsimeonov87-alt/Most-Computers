@@ -1789,8 +1789,6 @@ let recentSearches = [];
 try { recentSearches = JSON.parse(localStorage.getItem('mc_recent') || '[]'); } catch(e) { localStorage.removeItem('mc_recent'); }
 let searchFocusIdx = -1;
 let searchDebounce = null;
-let _srpQuery = ''; // current SRP query - never embed user input in HTML attributes
-
 const searchInput = document.getElementById('searchInput');
 const searchDropdown = document.getElementById('searchDropdown');
 const searchBar = document.getElementById('searchBar');
@@ -1827,9 +1825,9 @@ function _levenshtein(a, b) {
   return row[b.length];
 }
 
-// Check if query token fuzzy-matches any word in text (1 typo tolerance per 4 chars)
+// Check if query token fuzzy-matches any word in text (1 edit for <=7 chars, 2 for longer)
 function _fuzzyTokenMatch(token, text) {
-  const maxDist = token.length <= 4 ? 1 : token.length <= 7 ? 1 : 2;
+  const maxDist = token.length <= 7 ? 1 : 2;
   const words = text.split(/\s+/);
   return words.some(w => {
     if (w.length < token.length - maxDist) return false;
@@ -1860,10 +1858,15 @@ function matchesQuery(p, q) {
     if (q.includes(' ')) {
       if (q.split(/\s+/).filter(Boolean).every(w => allFields.includes(normStr(w)))) return true;
     }
-    // Fuzzy fallback: each query token must fuzzy-match something in allFields
+    // Fuzzy fallback: each query token must fuzzy-match something in allFields.
+    // Only activates when ALL tokens are >=3 chars — if any token is shorter it acts as
+    // an exact constraint handled by the multi-word path above, and fuzzy should not
+    // bypass it (e.g. "Sony TV" must not match Sony just because "TV" is <3 chars).
     if (q.length >= 3) {
-      const tokens = normStr(q).split(/\s+/).filter(t => t.length >= 3);
-      if (tokens.length > 0 && tokens.every(t => _fuzzyTokenMatch(t, allFields))) return true;
+      const allTokens = normStr(q).split(/\s+/).filter(Boolean);
+      const tokens = allTokens.filter(t => t.length >= 3);
+      if (tokens.length > 0 && tokens.length === allTokens.length &&
+          tokens.every(t => _fuzzyTokenMatch(t, allFields))) return true;
     }
     return false;
   } catch(e) { return false; }
@@ -1893,24 +1896,24 @@ function renderDropdown(query) {
   if (!q) {
     // Show recent searches + hint chips
     const hints = recentSearches.length === 0
-      ? `<div class="sd-section-title">💡 Можеш да търсиш по</div>
+      ? `<div class="sd-section-title"><svg width="12" height="12" class="svg-ic" aria-hidden="true"><use href="#ic-spark"/></svg> Можеш да търсиш по</div>
          <div class="sd-recent">
-           <div class="sd-recent-chip" onclick="void(0)">📝 Име / марка</div>
-           <div class="sd-recent-chip" onclick="void(0)">🔖 SKU (напр. MC-SONY-WH1000XM6)</div>
-           <div class="sd-recent-chip" onclick="void(0)">📦 EAN баркод (13 цифри)</div>
+           <div class="sd-recent-chip" onclick="void(0)"><svg width="14" height="14" class="svg-ic" aria-hidden="true"><use href="#ic-search"/></svg> Име / марка</div>
+           <div class="sd-recent-chip" onclick="void(0)"><svg width="14" height="14" class="svg-ic" aria-hidden="true"><use href="#ic-tag"/></svg> SKU (напр. MC-SONY-WH1000XM6)</div>
+           <div class="sd-recent-chip" onclick="void(0)"><svg width="14" height="14" class="svg-ic" aria-hidden="true"><use href="#ic-package"/></svg> EAN баркод (13 цифри)</div>
          </div>`
-      : `<div class="sd-section-title">🕐 Последни търсения</div>
+      : `<div class="sd-section-title"><svg width="12" height="12" class="svg-ic" aria-hidden="true"><use href="#ic-clock"/></svg> Последни търсения</div>
          <div class="sd-recent">
            ${recentSearches.map((s,i) => `
              <div class="sd-recent-chip" data-recent-search="${escHtml(s)}">
-               🔍 ${escHtml(s)}
+               <svg width="13" height="13" class="svg-ic" aria-hidden="true"><use href="#ic-search"/></svg> ${escHtml(s)}
                <button type="button" class="sd-recent-remove" onclick="removeRecent(event,${i})">×</button>
              </div>`).join('')}
          </div>
-         <div class="sd-section-title">💡 Търси и по</div>
+         <div class="sd-section-title"><svg width="12" height="12" class="svg-ic" aria-hidden="true"><use href="#ic-spark"/></svg> Търси и по</div>
          <div class="sd-recent">
-           <div class="sd-recent-chip cursor-default">🔖 SKU код</div>
-           <div class="sd-recent-chip cursor-default">📦 EAN баркод</div>
+           <div class="sd-recent-chip cursor-default"><svg width="14" height="14" class="svg-ic" aria-hidden="true"><use href="#ic-tag"/></svg> SKU код</div>
+           <div class="sd-recent-chip cursor-default"><svg width="14" height="14" class="svg-ic" aria-hidden="true"><use href="#ic-package"/></svg> EAN баркод</div>
          </div>`;
     searchDropdown.innerHTML = hints;
     searchDropdown.classList.add('open');
@@ -1955,7 +1958,7 @@ function renderDropdown(query) {
     }
     searchDropdown.innerHTML = `
       <div class="sd-empty">
-        <div class="sd-empty-icon">🔍</div>
+        <div class="sd-empty-icon"><svg width="36" height="36" class="svg-ic" aria-hidden="true"><use href="#ic-search"/></svg></div>
         <div class="sd-empty-text">Няма резултати за "<strong>${escHtml(q)}</strong>"</div>
         ${hint}
       </div>`;
@@ -1984,13 +1987,13 @@ function renderDropdown(query) {
       const skuMatch = p.sku && p.sku.toLowerCase().includes(q.toLowerCase());
       const eanMatch = p.ean && p.ean.includes(q);
       const extraMeta = skuMatch
-        ? `<span class="text-primary-strong">🔖 ${highlightMatch(p.sku, q)}</span>`
+        ? `<span class="text-primary-strong"><svg width="11" height="11" class="svg-ic" aria-hidden="true"><use href="#ic-tag"/></svg> ${highlightMatch(p.sku, q)}</span>`
         : eanMatch
-        ? `<span class="text-primary-strong">📦 EAN: ${highlightMatch(p.ean, q)}</span>`
+        ? `<span class="text-primary-strong"><svg width="11" height="11" class="svg-ic" aria-hidden="true"><use href="#ic-package"/></svg> EAN: ${highlightMatch(p.ean, q)}</span>`
         : `<span>SKU: ${p.sku}</span>`;
       return `
         <div class="sd-result" data-idx="${i}" onclick="selectSearchResult(${p.id})">
-          <div class="sd-emoji">${p.emoji}</div>
+          ${p.img ? `<img class="sd-thumb" src="${p.img}" alt="" loading="lazy" onerror="this.style.display='none'">` : `<div class="sd-emoji">${p.emoji}</div>`}
           <div class="sd-info">
             <div class="sd-name">${highlightMatch(p.name, q)}</div>
             <div class="sd-meta">
@@ -2065,8 +2068,6 @@ function showSearchResultsPage(query) {
     srpCurrentQuery = query; srpCurrentCatFilter = '';
     srpPriceAbsMax = realMax; srpPriceMinVal = 0; srpPriceMaxVal = realMax;
   }
-  _srpQuery = srpCurrentQuery;
-
   // Inline search bar
   const srpInput = document.getElementById('srpSearchInput');
   const srpClear = document.getElementById('srpSearchClear');
@@ -2239,7 +2240,7 @@ function closeSearchDropdown() {
 }
 
 function saveRecentSearch(q) {
-  if (!q) return;
+  if (!q || !q.trim()) return;
   recentSearches = [q, ...recentSearches.filter(s => s !== q)].slice(0, 6);
   try { localStorage.setItem('mc_recent', JSON.stringify(recentSearches)); } catch(e) {}
 }

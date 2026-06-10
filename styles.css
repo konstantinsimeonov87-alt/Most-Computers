@@ -19217,6 +19217,10 @@ html[data-theme="dark"] .cart-upsell-title {
   .products-row {
     align-items: start !important;
   }
+  /* flashGrid: min-height:820px + align-content:stretch разтяга редовете — пакетирай отгоре */
+  #flashGrid {
+    align-content: start !important;
+  }
   /* footer да следва директно след цената */
   .product-footer {
     margin-top: 8px !important;

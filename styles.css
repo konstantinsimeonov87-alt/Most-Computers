@@ -19230,6 +19230,11 @@ html[data-theme="dark"] .cart-upsell-title {
   .compare-bar {
     transform: translateY(calc(100% + 60px));
   }
+
+  /* header border-bottom се вижда като бяла линия срещу червения тикер */
+  header {
+    border-bottom: none;
+  }
 }
 
 /* ===== PRINT STYLES ===== */

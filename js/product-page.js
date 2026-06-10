@@ -563,6 +563,18 @@ function pdpSwitchTab(tab) {
   }
 }
 
+function pdpShowPlaceholder(el, p) {
+  const svgSrc = typeof categoryPlaceholderSvg === 'function' ? categoryPlaceholderSvg(p.cat, p.subcat) : null;
+  if (svgSrc) {
+    el.style.display = 'contents';
+    el.innerHTML = `<img src="${svgSrc}" alt="">`;
+  } else {
+    el.style.display = '';
+    el.innerHTML = '';
+    el.textContent = p.emoji || '🖥';
+  }
+}
+
 function pdpRenderGallery() {
   const mainImg   = document.getElementById('pdpMainImg');
   const mainEmoji = document.getElementById('pdpMainEmoji');
@@ -577,14 +589,12 @@ function pdpRenderGallery() {
     mainEmoji.style.display = 'none';
     mainImg.onerror = function() {
       this.style.display = 'none';
-      mainEmoji.style.display = '';
-      mainEmoji.textContent = p.emoji || '🖥';
+      pdpShowPlaceholder(mainEmoji, p);
       this.onerror = null;
     };
   } else {
     mainImg.style.display = 'none';
-    mainEmoji.style.display = '';
-    mainEmoji.textContent = p.emoji || '🖥';
+    pdpShowPlaceholder(mainEmoji, p);
   }
 
   if (pdpGallery.length > 1) {

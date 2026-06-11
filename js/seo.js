@@ -243,8 +243,8 @@ function injectProductSchema(p) {
     "offers": {
       "@type": "Offer",
       "url": `${location.href.split('?')[0]}?product=${p.id}`,
-      "priceCurrency": "BGN",
-      "price": p.price,
+      "priceCurrency": "EUR",
+      "price": Math.round(toEur(p.price) * 100) / 100,
       "priceValidUntil": priceValidUntil,
       "itemCondition": "https://schema.org/NewCondition",
       "availability": p.stock === false ? "https://schema.org/OutOfStock" : "https://schema.org/InStock",

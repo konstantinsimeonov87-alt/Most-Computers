@@ -1179,36 +1179,10 @@ function renderGrids(){
       : '🚚 ';
     el.innerHTML = prefix + `Безплатна доставка над ${_freeDelEur} € / ${_freeDelBgn} лв.`;
   });
-  renderHeroPanel();
   renderPromoBanner();
   updateWishlistUI();
   if(typeof initLazyImages==='function') initLazyImages();
   if(typeof renderHpCats==='function') renderHpCats();
-}
-
-function renderHeroPanel(){
-  const panel = document.getElementById('heroRightPanel');
-  if(!panel) return;
-  const byScore = [...products].sort((a,b)=>(b.rating*(b.rv||1))-(a.rating*(a.rv||1)));
-  const picks = [
-    { p: byScore[0], label:'⭐ Препоръчано', cls:'mini-promo-recommended' },
-    { p: byScore.find(p=>p.badge==='sale'), label:'🔥 Бестселър', cls:'mini-promo-bestseller' },
-    { p: [...products].filter(p=>p.badge==='new'||p.badge==='hot')[0], label:'🆕 Ново', cls:'mini-promo-new' },
-  ];
-  panel.innerHTML = picks.filter(x=>x.p).map(({p,label,cls})=>`
-    <div class="mini-promo ${cls}">
-      ${p.img
-        ? `<img class="mini-promo-img" src="${p.img}" alt="${escHtml(p.name)}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">`
-        : ''}
-      <div class="mini-promo-emoji" style="${p.img?'display:none':''}"> ${p.emoji}</div>
-      <div class="mini-promo-text">
-        <div class="mini-promo-label">${label}</div>
-        <div class="mini-promo-name">${escHtml(p.name.length>32?p.name.slice(0,32)+'…':p.name)}</div>
-        ${p.old?`<div class="mini-promo-old">${(p.old/EUR_RATE).toFixed(2)} € / ${p.old} лв.</div>`:''}
-        <div class="mini-promo-price">${(p.price/EUR_RATE).toFixed(2)} € / ${p.price} лв.</div>
-      </div>
-      <button type="button" class="mini-promo-view" onclick="event.stopPropagation();openProductPage(${p.id})">Виж →</button>
-    </div>`).join('');
 }
 
 function renderPromoBanner(){
@@ -3568,8 +3542,8 @@ function injectProductSchema(p) {
     "offers": {
       "@type": "Offer",
       "url": `${location.href.split('?')[0]}?product=${p.id}`,
-      "priceCurrency": "BGN",
-      "price": p.price,
+      "priceCurrency": "EUR",
+      "price": Math.round(toEur(p.price) * 100) / 100,
       "priceValidUntil": priceValidUntil,
       "itemCondition": "https://schema.org/NewCondition",
       "availability": p.stock === false ? "https://schema.org/OutOfStock" : "https://schema.org/InStock",
@@ -5978,12 +5952,13 @@ function _openInvoiceWindow(o, co) {
     const d = o.date ? new Date(o.date) : new Date();
     invDate = isNaN(d.getTime()) ? new Date().toLocaleDateString('bg-BG') : d.toLocaleDateString('bg-BG');
   } catch(e) { invDate = new Date().toLocaleDateString('bg-BG'); }
+  const _eur = (bgn) => (bgn / EUR_RATE).toFixed(2);
   const rows = (o.itemsData && o.itemsData.length)
     ? o.itemsData.map((x, i) => {
         const qty = Number(x.qty) || 1;
         const unitEx = x.price / 1.2;
         const lineEx = unitEx * qty;
-        return `<tr><td style="text-align:center;">${i+1}</td><td>${_h(x.name||'')}</td><td style="text-align:center;">бр.</td><td style="text-align:center;">${qty}</td><td style="text-align:right;">${unitEx.toFixed(2)}</td><td style="text-align:right;font-weight:700;">${lineEx.toFixed(2)}</td></tr>`;
+        return `<tr><td style="text-align:center;">${i+1}</td><td>${_h(x.name||'')}</td><td style="text-align:center;">бр.</td><td style="text-align:center;">${qty}</td><td style="text-align:right;">${_eur(unitEx)}</td><td style="text-align:right;font-weight:700;">${_eur(lineEx)}</td></tr>`;
       }).join('')
     : `<tr><td colspan="6" style="text-align:center;color:#888;padding:12px;">${_h(o.items||'-')}</td></tr>`;
   const win = window.open('', '_blank', 'width=800,height=920');
@@ -6034,17 +6009,17 @@ tbody td{border:1px solid #bbb;padding:5px 8px;vertical-align:top}
     <th>Наименование на стоката / услугата</th>
     <th style="width:42px;text-align:center;">Мярка</th>
     <th style="width:40px;text-align:center;">Кол.</th>
-    <th style="width:88px;text-align:right;">Ед. цена лв.</th>
-    <th style="width:88px;text-align:right;">Стойност лв.</th>
+    <th style="width:88px;text-align:right;">Ед. цена €</th>
+    <th style="width:88px;text-align:right;">Стойност €</th>
   </tr></thead>
   <tbody>${rows}</tbody>
 </table>
 <div class="tw"><div class="totals">
-  <div class="tr"><span>Данъчна основа</span><span>${base.toFixed(2)} лв.</span></div>
-  <div class="tr"><span>ДДС 20%</span><span>${vat.toFixed(2)} лв.</span></div>
-  <div class="tr"><span>Сума за плащане</span><span>${itemsTotal.toFixed(2)} лв.</span></div>
+  <div class="tr"><span>Данъчна основа</span><span>${_eur(base)} €</span></div>
+  <div class="tr"><span>ДДС 20%</span><span>${_eur(vat)} €</span></div>
+  <div class="tr"><span>Сума за плащане</span><span>${_eur(itemsTotal)} €</span></div>
 </div></div>
-<div class="slovom"><strong>Словом:</strong> ${_bgNumWords(itemsTotal)}</div>
+<div class="slovom"><strong>Словом:</strong> ${_bgNumWords(itemsTotal)} (${_eur(itemsTotal)} EUR)</div>
 <div class="bank"><strong>Банкова сметка:</strong> ${_h(co.bank)} &nbsp;·&nbsp; BIC: ${_h(co.bic)} &nbsp;·&nbsp; IBAN: ${_h(co.iban)}</div>
 </div></body></html>`);
   win.document.close();

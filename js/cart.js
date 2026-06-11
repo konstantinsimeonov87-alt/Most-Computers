@@ -23,8 +23,9 @@ function oosNotify(id) {
 function loadCart() {
   try {
     const saved = JSON.parse(localStorage.getItem('mc_cart') || '[]');
-    if (saved.length) { cart = saved.map(x => { const p = products.find(p => p.id === x.id); return p ? { ...p, qty: x.qty } : null; }).filter(Boolean); updateCart(); }
+    if (saved.length) { cart = saved.map(x => { const p = products.find(p => p.id === x.id); return p ? { ...p, qty: x.qty } : null; }).filter(Boolean); }
   } catch (e) { }
+  updateCart();
 }
 
 function addToCart(id) {
@@ -50,9 +51,9 @@ function addToCart(id) {
         wrap.style.display = 'block';
       } else {
         var pct = Math.min(100, Math.round(total / FREE_SHIP_BGN * 100));
-        var remaining = (FREE_SHIP_BGN - total).toFixed(2).replace('.',',');
+        var remainingEur = ((FREE_SHIP_BGN - total) / EUR_RATE).toFixed(2);
         fill.style.width = pct + '%';
-        label.textContent = 'Още ' + remaining + ' лв. до безплатна доставка';
+        label.textContent = 'Още ' + remainingEur + ' € до безплатна доставка';
         wrap.style.display = 'block';
       }
     }
@@ -60,7 +61,7 @@ function addToCart(id) {
     clearTimeout(ct._timer);
     ct._timer = setTimeout(function() { ct.classList.remove('show'); }, 3500);
   })(p);
-  if (!document.getElementById('recPanel')) showRecommended(p);
+  if (!document.getElementById('recPanel')) setTimeout(function(){ if (!document.getElementById('recPanel')) showRecommended(p); }, 3600);
 }
 
 function showRecommended(p) {
@@ -70,9 +71,13 @@ function showRecommended(p) {
   recs = recs.slice(0, 3);
   if (!recs.length) return;
 
+  const _pillEl = document.getElementById('floatCartPill');
+  const _pillBtn = _pillEl && _pillEl.querySelector('.fcp-pill');
+  const _pillVisible = _pillEl && _pillEl.classList.contains('visible');
+  const _recBottom = _pillVisible ? 24 + (_pillBtn ? _pillBtn.offsetHeight : 44) + 16 : 24;
   const panel = document.createElement('div');
   panel.id = 'recPanel';
-  panel.style.cssText = 'position:fixed;bottom:80px;right:20px;z-index:2000;background:var(--white);border:1px solid var(--border);border-radius:14px;padding:14px 16px;max-width:300px;width:calc(100vw - 40px);box-shadow:0 8px 32px rgba(0,0,0,0.18);opacity:0;transform:translateY(10px);transition:opacity 0.25s,transform 0.25s;';
+  panel.style.cssText = `position:fixed;bottom:${_recBottom}px;right:20px;z-index:2000;background:var(--white);border:1px solid var(--border);border-radius:14px;padding:14px 16px;max-width:300px;width:calc(100vw - 40px);box-shadow:0 8px 32px rgba(0,0,0,0.18);opacity:0;transform:translateY(10px);transition:opacity 0.25s,transform 0.25s;`;
   panel.innerHTML = `
     <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:10px;">Клиентите купуват и…</div>
     ${recs.map(r => `
@@ -147,6 +152,8 @@ function updateCart() {
   });
   const body = document.getElementById('cartBody');
   if (!body) return;
+  const _deliveryValEl = document.getElementById('cartDeliveryVal');
+  if (_deliveryValEl) _deliveryValEl.textContent = (5.99 / EUR_RATE).toFixed(2) + ' €';
   if (cart.length === 0) {
     body.innerHTML = '<div class="cart-empty-msg"><div class="ce-icon"><svg width="44" height="44" class="svg-ic" aria-hidden="true" style="opacity:.25"><use href="#ic-cart"/></svg></div><p>Кошницата е празна.</p><button type="button" class="ce-cta-btn" onclick="closeCart();filterCatScroll(\'all\')">Разгледай продуктите →</button></div>';
     // Return focus to cart icon button when cart becomes empty and panel is open
@@ -222,7 +229,7 @@ function updateFloatPill() {
   const totalEl = document.getElementById('floatCartTotal');
   const labelEl = pill.querySelector('.fcp-label');
   if (countEl) countEl.textContent = count;
-  if (totalEl) totalEl.textContent = fmtEur(total);
+  if (totalEl) totalEl.textContent = total >= 10000 ? fmtEur(total).replace(/,\d{2} €$/, ' €') : fmtEur(total);
   if (labelEl) labelEl.textContent = count === 1 ? 'продукт' : 'продукта';
   const itemsEl = document.getElementById('floatCartItems');
   if (!itemsEl) return;
@@ -230,8 +237,8 @@ function updateFloatPill() {
   const shown = cart.slice(0, MAX);
   const extra = cart.length - MAX;
   let html = shown.map(x => {
-    const shortName = x.name && x.name.length > 32 ? escHtml(x.name.substring(0, 32)) + '…' : escHtml(x.name || '');
-    return `<div class="fcp-item"><div class="fcp-item-thumb">${_prodThumb(x, 36)}</div><div class="fcp-item-name">${shortName}</div><span class="fcp-item-qty">${x.qty} бр.</span><span class="fcp-item-price">${fmtEur(x.price * x.qty)}</span></div>`;
+    const shortName = x.name && x.name.length > 26 ? escHtml(x.name.substring(0, 26)) + '…' : escHtml(x.name || '');
+    return `<div class="fcp-item"><div class="fcp-item-thumb">${_prodThumb(x, 28)}</div><div class="fcp-item-body"><div class="fcp-item-name">${shortName}</div><div class="fcp-item-foot"><div class="fcp-item-qty-ctrl"><button type="button" class="fcp-qty-btn" onclick="event.stopPropagation();changeQty(${x.id},-1)" aria-label="Намали">−</button><span class="fcp-qty-num">${x.qty}</span><button type="button" class="fcp-qty-btn" onclick="event.stopPropagation();changeQty(${x.id},1)" aria-label="Увеличи">+</button></div><span class="fcp-item-price">${fmtEur(x.price * x.qty)}</span><button type="button" class="fcp-remove-btn" onclick="event.stopPropagation();removeFromCart(${x.id})" aria-label="Премахни">×</button></div></div></div>`;
   }).join('');
   if (extra > 0) html += `<div class="fcp-more">и още ${extra} продукт${extra === 1 ? '' : 'а'}</div>`;
   itemsEl.innerHTML = html;
@@ -254,6 +261,13 @@ function _initFloatPill() {
       btn.setAttribute('aria-expanded', 'false');
     }
   });
+  window.addEventListener('scroll', function() {
+    const pill = document.getElementById('floatCartPill');
+    const footer = document.querySelector('footer');
+    if (!pill || !footer) return;
+    const nearFooter = footer.getBoundingClientRect().top < window.innerHeight + 20;
+    pill.classList.toggle('fcp--near-footer', nearFooter);
+  }, { passive: true });
 }
 
 function changeQty(id, d) { const i = cart.find(x => x.id === id); if (!i) return; i.qty += d; if (i.qty <= 0) cart = cart.filter(x => x.id !== id); updateCart(); saveCart(); }
@@ -1430,7 +1444,7 @@ function submitPhoneOrder() {
 
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = {
-    addToCart, removeFromCart, changeQty,
+    addToCart, removeFromCart, changeQty, updateFloatPill,
     applyPromo, renderOrderSummary, formatCardNum, formatExpiry,
     _resetCheckout: () => { ckDeliveryIdx = 0; ckPaymentType = 'card'; promoApplied = false; },
     _setDelivery: (idx) => { ckDeliveryIdx = idx; },

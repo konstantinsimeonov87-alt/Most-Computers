@@ -190,8 +190,9 @@ function updateCompareBar(){
   const bar=document.getElementById('compareBar');
   const preview=document.getElementById('comparePreview');
   const cnt=document.getElementById('compareCnt');
-  if(compareList.length===0){bar.classList.remove('visible');return;}
+  if(compareList.length===0){bar.classList.remove('visible');document.body.classList.remove('compare-active');return;}
   bar.classList.add('visible');
+  document.body.classList.add('compare-active');
   if(cnt) cnt.textContent=compareList.length;
   let html='';
   for(let i=0;i<3;i++){
@@ -428,8 +429,9 @@ function oosNotify(id) {
 function loadCart() {
   try {
     const saved = JSON.parse(localStorage.getItem('mc_cart') || '[]');
-    if (saved.length) { cart = saved.map(x => { const p = products.find(p => p.id === x.id); return p ? { ...p, qty: x.qty } : null; }).filter(Boolean); updateCart(); }
+    if (saved.length) { cart = saved.map(x => { const p = products.find(p => p.id === x.id); return p ? { ...p, qty: x.qty } : null; }).filter(Boolean); }
   } catch (e) { }
+  updateCart();
 }
 
 function addToCart(id) {
@@ -455,9 +457,9 @@ function addToCart(id) {
         wrap.style.display = 'block';
       } else {
         var pct = Math.min(100, Math.round(total / FREE_SHIP_BGN * 100));
-        var remaining = (FREE_SHIP_BGN - total).toFixed(2).replace('.',',');
+        var remainingEur = ((FREE_SHIP_BGN - total) / EUR_RATE).toFixed(2);
         fill.style.width = pct + '%';
-        label.textContent = 'Още ' + remaining + ' лв. до безплатна доставка';
+        label.textContent = 'Още ' + remainingEur + ' € до безплатна доставка';
         wrap.style.display = 'block';
       }
     }
@@ -465,7 +467,7 @@ function addToCart(id) {
     clearTimeout(ct._timer);
     ct._timer = setTimeout(function() { ct.classList.remove('show'); }, 3500);
   })(p);
-  if (!document.getElementById('recPanel')) showRecommended(p);
+  if (!document.getElementById('recPanel')) setTimeout(function(){ if (!document.getElementById('recPanel')) showRecommended(p); }, 3600);
 }
 
 function showRecommended(p) {
@@ -475,9 +477,13 @@ function showRecommended(p) {
   recs = recs.slice(0, 3);
   if (!recs.length) return;
 
+  const _pillEl = document.getElementById('floatCartPill');
+  const _pillBtn = _pillEl && _pillEl.querySelector('.fcp-pill');
+  const _pillVisible = _pillEl && _pillEl.classList.contains('visible');
+  const _recBottom = _pillVisible ? 24 + (_pillBtn ? _pillBtn.offsetHeight : 44) + 16 : 24;
   const panel = document.createElement('div');
   panel.id = 'recPanel';
-  panel.style.cssText = 'position:fixed;bottom:80px;right:20px;z-index:2000;background:var(--white);border:1px solid var(--border);border-radius:14px;padding:14px 16px;max-width:300px;width:calc(100vw - 40px);box-shadow:0 8px 32px rgba(0,0,0,0.18);opacity:0;transform:translateY(10px);transition:opacity 0.25s,transform 0.25s;';
+  panel.style.cssText = `position:fixed;bottom:${_recBottom}px;right:20px;z-index:2000;background:var(--white);border:1px solid var(--border);border-radius:14px;padding:14px 16px;max-width:300px;width:calc(100vw - 40px);box-shadow:0 8px 32px rgba(0,0,0,0.18);opacity:0;transform:translateY(10px);transition:opacity 0.25s,transform 0.25s;`;
   panel.innerHTML = `
     <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:10px;">Клиентите купуват и…</div>
     ${recs.map(r => `
@@ -552,6 +558,8 @@ function updateCart() {
   });
   const body = document.getElementById('cartBody');
   if (!body) return;
+  const _deliveryValEl = document.getElementById('cartDeliveryVal');
+  if (_deliveryValEl) _deliveryValEl.textContent = (5.99 / EUR_RATE).toFixed(2) + ' €';
   if (cart.length === 0) {
     body.innerHTML = '<div class="cart-empty-msg"><div class="ce-icon"><svg width="44" height="44" class="svg-ic" aria-hidden="true" style="opacity:.25"><use href="#ic-cart"/></svg></div><p>Кошницата е празна.</p><button type="button" class="ce-cta-btn" onclick="closeCart();filterCatScroll(\'all\')">Разгледай продуктите →</button></div>';
     // Return focus to cart icon button when cart becomes empty and panel is open
@@ -627,7 +635,7 @@ function updateFloatPill() {
   const totalEl = document.getElementById('floatCartTotal');
   const labelEl = pill.querySelector('.fcp-label');
   if (countEl) countEl.textContent = count;
-  if (totalEl) totalEl.textContent = fmtEur(total);
+  if (totalEl) totalEl.textContent = total >= 10000 ? fmtEur(total).replace(/,\d{2} €$/, ' €') : fmtEur(total);
   if (labelEl) labelEl.textContent = count === 1 ? 'продукт' : 'продукта';
   const itemsEl = document.getElementById('floatCartItems');
   if (!itemsEl) return;
@@ -635,8 +643,8 @@ function updateFloatPill() {
   const shown = cart.slice(0, MAX);
   const extra = cart.length - MAX;
   let html = shown.map(x => {
-    const shortName = x.name && x.name.length > 32 ? escHtml(x.name.substring(0, 32)) + '…' : escHtml(x.name || '');
-    return `<div class="fcp-item"><div class="fcp-item-thumb">${_prodThumb(x, 36)}</div><div class="fcp-item-name">${shortName}</div><span class="fcp-item-qty">${x.qty} бр.</span><span class="fcp-item-price">${fmtEur(x.price * x.qty)}</span></div>`;
+    const shortName = x.name && x.name.length > 26 ? escHtml(x.name.substring(0, 26)) + '…' : escHtml(x.name || '');
+    return `<div class="fcp-item"><div class="fcp-item-thumb">${_prodThumb(x, 28)}</div><div class="fcp-item-body"><div class="fcp-item-name">${shortName}</div><div class="fcp-item-foot"><div class="fcp-item-qty-ctrl"><button type="button" class="fcp-qty-btn" onclick="event.stopPropagation();changeQty(${x.id},-1)" aria-label="Намали">−</button><span class="fcp-qty-num">${x.qty}</span><button type="button" class="fcp-qty-btn" onclick="event.stopPropagation();changeQty(${x.id},1)" aria-label="Увеличи">+</button></div><span class="fcp-item-price">${fmtEur(x.price * x.qty)}</span><button type="button" class="fcp-remove-btn" onclick="event.stopPropagation();removeFromCart(${x.id})" aria-label="Премахни">×</button></div></div></div>`;
   }).join('');
   if (extra > 0) html += `<div class="fcp-more">и още ${extra} продукт${extra === 1 ? '' : 'а'}</div>`;
   itemsEl.innerHTML = html;
@@ -659,6 +667,13 @@ function _initFloatPill() {
       btn.setAttribute('aria-expanded', 'false');
     }
   });
+  window.addEventListener('scroll', function() {
+    const pill = document.getElementById('floatCartPill');
+    const footer = document.querySelector('footer');
+    if (!pill || !footer) return;
+    const nearFooter = footer.getBoundingClientRect().top < window.innerHeight + 20;
+    pill.classList.toggle('fcp--near-footer', nearFooter);
+  }, { passive: true });
 }
 
 function changeQty(id, d) { const i = cart.find(x => x.id === id); if (!i) return; i.qty += d; if (i.qty <= 0) cart = cart.filter(x => x.id !== id); updateCart(); saveCart(); }
@@ -1835,7 +1850,7 @@ function submitPhoneOrder() {
 
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = {
-    addToCart, removeFromCart, changeQty,
+    addToCart, removeFromCart, changeQty, updateFloatPill,
     applyPromo, renderOrderSummary, formatCardNum, formatExpiry,
     _resetCheckout: () => { ckDeliveryIdx = 0; ckPaymentType = 'card'; promoApplied = false; },
     _setDelivery: (idx) => { ckDeliveryIdx = idx; },
@@ -2860,8 +2875,8 @@ function openProductPage(id) {
     "offers": {
       "@type": "Offer",
       "url": `${location.origin}/?product=${p.id}`,
-      "priceCurrency": "BGN",
-      "price": p.price,
+      "priceCurrency": "EUR",
+      "price": Math.round(toEur(p.price) * 100) / 100,
       "priceValidUntil": _priceValidUntil,
       "itemCondition": "https://schema.org/NewCondition",
       "availability": p.stock === false ? "https://schema.org/OutOfStock" : "https://schema.org/InStock",
@@ -3528,7 +3543,7 @@ function _pdpSrchRender(q) {
   }
 
   drop.innerHTML = _pdpSrchResults.map((p, i) => {
-    const price = typeof formatPrice === 'function' ? formatPrice(p.price) : p.price + ' лв.';
+    const price = fmtEur(p.price);
     const img = p.img
       ? `<img src="${escHtml(p.img)}" alt="" class="pdp-drop-img" loading="lazy">`
       : `<span class="pdp-drop-emoji">${escHtml(p.emoji || '📦')}</span>`;
@@ -5768,6 +5783,7 @@ function closeAdminPage() {
   const IS_DEV = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
   const GA4_ID = 'G-HE0YMD8BQ7';
   const FB_PIXEL = ''; // опционален Meta Pixel ID
+  const _e = (bgn) => Math.round(bgn / (typeof EUR_RATE !== 'undefined' ? EUR_RATE : 1.95583) * 100) / 100;
 
   // ── Core trackEvent ──────────────────────────────────────────────────────────
   function trackEvent(eventName, data) {
@@ -5824,17 +5840,17 @@ function closeAdminPage() {
         trackEvent('view_product', {
           product_id: p.id,
           product_name: p.name,
-          price: p.price,
+          price: _e(p.price),
           category: p.cat,
           brand: p.brand || '',
-          currency: 'BGN'
+          currency: 'EUR'
         });
         // GA4 standard ecommerce
         if (typeof gtag === 'function') {
           gtag('event', 'view_item', {
-            currency: 'BGN',
-            value: p.price,
-            items: [{ item_id: String(p.id), item_name: p.name, item_category: p.cat, price: p.price }]
+            currency: 'EUR',
+            value: _e(p.price),
+            items: [{ item_id: String(p.id), item_name: p.name, item_category: p.cat, price: _e(p.price) }]
           });
         }
       }
@@ -5853,20 +5869,20 @@ function closeAdminPage() {
         trackEvent('add_to_cart', {
           product_id: p.id,
           product_name: p.name,
-          price: p.price,
+          price: _e(p.price),
           category: p.cat,
           brand: p.brand || '',
-          currency: 'BGN'
+          currency: 'EUR'
         });
         if (typeof gtag === 'function') {
           gtag('event', 'add_to_cart', {
-            currency: 'BGN',
-            value: p.price,
-            items: [{ item_id: String(p.id), item_name: p.name, item_category: p.cat, price: p.price, quantity: 1 }]
+            currency: 'EUR',
+            value: _e(p.price),
+            items: [{ item_id: String(p.id), item_name: p.name, item_category: p.cat, price: _e(p.price), quantity: 1 }]
           });
         }
         if (typeof fbq === 'function') {
-          fbq('track', 'AddToCart', { content_ids: [p.id], content_name: p.name, value: p.price, currency: 'BGN' });
+          fbq('track', 'AddToCart', { content_ids: [p.id], content_name: p.name, value: _e(p.price), currency: 'EUR' });
         }
       }
       return result;
@@ -5884,15 +5900,15 @@ function closeAdminPage() {
         trackEvent('remove_from_cart', {
           product_id: p.id,
           product_name: p.name,
-          price: p.price,
+          price: _e(p.price),
           category: p.cat,
-          currency: 'BGN'
+          currency: 'EUR'
         });
         if (typeof gtag === 'function') {
           gtag('event', 'remove_from_cart', {
-            currency: 'BGN',
-            value: p.price,
-            items: [{ item_id: String(p.id), item_name: p.name, item_category: p.cat, price: p.price }]
+            currency: 'EUR',
+            value: _e(p.price),
+            items: [{ item_id: String(p.id), item_name: p.name, item_category: p.cat, price: _e(p.price) }]
           });
         }
       }
@@ -5914,12 +5930,12 @@ function closeAdminPage() {
         trackEvent(eventName, {
           product_id: p.id,
           product_name: p.name,
-          price: p.price,
+          price: _e(p.price),
           category: p.cat,
-          currency: 'BGN'
+          currency: 'EUR'
         });
         if (!wasInWishlist && typeof fbq === 'function') {
-          fbq('track', 'AddToWishlist', { content_ids: [p.id], content_name: p.name, value: p.price, currency: 'BGN' });
+          fbq('track', 'AddToWishlist', { content_ids: [p.id], content_name: p.name, value: _e(p.price), currency: 'EUR' });
         }
       }
       return result;
@@ -5937,9 +5953,9 @@ function closeAdminPage() {
       if (isOpening && typeof cart !== 'undefined' && cart.length > 0) {
         const total = cart.reduce((s, x) => s + x.price * x.qty, 0);
         trackEvent('view_cart', {
-          cart_total: Math.round(total * 100) / 100,
+          cart_total: _e(total),
           item_count: cart.reduce((s, x) => s + x.qty, 0),
-          currency: 'BGN'
+          currency: 'EUR'
         });
       }
       return result;
@@ -5953,17 +5969,17 @@ function closeAdminPage() {
       const result = _orig.apply(this, arguments);
       if (n === 1 && typeof cart !== 'undefined') {
         const total = cart.reduce((s, x) => s + x.price * x.qty, 0);
-        const items = cart.map(x => ({ item_id: String(x.id), item_name: x.name, price: x.price, quantity: x.qty }));
+        const items = cart.map(x => ({ item_id: String(x.id), item_name: x.name, price: _e(x.price), quantity: x.qty }));
         trackEvent('begin_checkout', {
-          cart_total: Math.round(total * 100) / 100,
+          cart_total: _e(total),
           item_count: cart.reduce((s, x) => s + x.qty, 0),
-          currency: 'BGN'
+          currency: 'EUR'
         });
         if (typeof gtag === 'function') {
-          gtag('event', 'begin_checkout', { currency: 'BGN', value: total, items });
+          gtag('event', 'begin_checkout', { currency: 'EUR', value: _e(total), items });
         }
         if (typeof fbq === 'function') {
-          fbq('track', 'InitiateCheckout', { value: total, currency: 'BGN', num_items: items.length });
+          fbq('track', 'InitiateCheckout', { value: _e(total), currency: 'EUR', num_items: items.length });
         }
       }
       return result;
@@ -5984,8 +6000,8 @@ function closeAdminPage() {
         trackEvent('apply_promo', {
           promo_code: code,
           discount_pct: 10,
-          discount_amount: Math.round(total * 0.10 * 100) / 100,
-          currency: 'BGN'
+          discount_amount: _e(total * 0.10),
+          currency: 'EUR'
         });
       } else if (!codeAfter && code) {
         trackEvent('promo_failed', { promo_code: code });
@@ -5999,7 +6015,7 @@ function closeAdminPage() {
     const _orig = window.submitOrder;
     if (typeof _orig !== 'function') return;
     window.submitOrder = function () {
-      // Snapshot cart before submit clears it
+      // Snapshot cart before submit clears it; prices kept in BGN for total computation
       const cartSnapshot = (typeof cart !== 'undefined') ? cart.map(x => ({
         item_id: String(x.id),
         item_name: x.name,
@@ -6021,26 +6037,26 @@ function closeAdminPage() {
         const orderNum = orderNumEl ? orderNumEl.textContent : 'unknown';
         trackEvent('purchase', {
           transaction_id: orderNum,
-          value: total,
-          subtotal: Math.round(subtotal * 100) / 100,
-          discount: Math.round(promo * 100) / 100,
-          shipping: delivery,
-          currency: 'BGN',
+          value: _e(total),
+          subtotal: _e(subtotal),
+          discount: _e(promo),
+          shipping: _e(delivery),
+          currency: 'EUR',
           payment_method: (typeof ckPaymentType !== 'undefined') ? ckPaymentType : 'unknown',
           item_count: cartSnapshot.reduce((s, x) => s + x.quantity, 0)
         });
         if (typeof gtag === 'function') {
           gtag('event', 'purchase', {
             transaction_id: orderNum,
-            currency: 'BGN',
-            value: total,
-            shipping: delivery,
+            currency: 'EUR',
+            value: _e(total),
+            shipping: _e(delivery),
             coupon: (typeof promoApplied !== 'undefined' && promoApplied) ? 'MOSTCOMP10' : '',
-            items: cartSnapshot
+            items: cartSnapshot.map(x => Object.assign({}, x, { price: _e(x.price) }))
           });
         }
         if (typeof fbq === 'function') {
-          fbq('track', 'Purchase', { value: total, currency: 'BGN', num_items: cartSnapshot.length });
+          fbq('track', 'Purchase', { value: _e(total), currency: 'EUR', num_items: cartSnapshot.length });
         }
       }, 600);
 

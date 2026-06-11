@@ -10,6 +10,7 @@
   const IS_DEV = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
   const GA4_ID = 'G-HE0YMD8BQ7';
   const FB_PIXEL = ''; // опционален Meta Pixel ID
+  const _e = (bgn) => Math.round(bgn / (typeof EUR_RATE !== 'undefined' ? EUR_RATE : 1.95583) * 100) / 100;
 
   // ── Core trackEvent ──────────────────────────────────────────────────────────
   function trackEvent(eventName, data) {
@@ -66,17 +67,17 @@
         trackEvent('view_product', {
           product_id: p.id,
           product_name: p.name,
-          price: p.price,
+          price: _e(p.price),
           category: p.cat,
           brand: p.brand || '',
-          currency: 'BGN'
+          currency: 'EUR'
         });
         // GA4 standard ecommerce
         if (typeof gtag === 'function') {
           gtag('event', 'view_item', {
-            currency: 'BGN',
-            value: p.price,
-            items: [{ item_id: String(p.id), item_name: p.name, item_category: p.cat, price: p.price }]
+            currency: 'EUR',
+            value: _e(p.price),
+            items: [{ item_id: String(p.id), item_name: p.name, item_category: p.cat, price: _e(p.price) }]
           });
         }
       }
@@ -95,20 +96,20 @@
         trackEvent('add_to_cart', {
           product_id: p.id,
           product_name: p.name,
-          price: p.price,
+          price: _e(p.price),
           category: p.cat,
           brand: p.brand || '',
-          currency: 'BGN'
+          currency: 'EUR'
         });
         if (typeof gtag === 'function') {
           gtag('event', 'add_to_cart', {
-            currency: 'BGN',
-            value: p.price,
-            items: [{ item_id: String(p.id), item_name: p.name, item_category: p.cat, price: p.price, quantity: 1 }]
+            currency: 'EUR',
+            value: _e(p.price),
+            items: [{ item_id: String(p.id), item_name: p.name, item_category: p.cat, price: _e(p.price), quantity: 1 }]
           });
         }
         if (typeof fbq === 'function') {
-          fbq('track', 'AddToCart', { content_ids: [p.id], content_name: p.name, value: p.price, currency: 'BGN' });
+          fbq('track', 'AddToCart', { content_ids: [p.id], content_name: p.name, value: _e(p.price), currency: 'EUR' });
         }
       }
       return result;
@@ -126,15 +127,15 @@
         trackEvent('remove_from_cart', {
           product_id: p.id,
           product_name: p.name,
-          price: p.price,
+          price: _e(p.price),
           category: p.cat,
-          currency: 'BGN'
+          currency: 'EUR'
         });
         if (typeof gtag === 'function') {
           gtag('event', 'remove_from_cart', {
-            currency: 'BGN',
-            value: p.price,
-            items: [{ item_id: String(p.id), item_name: p.name, item_category: p.cat, price: p.price }]
+            currency: 'EUR',
+            value: _e(p.price),
+            items: [{ item_id: String(p.id), item_name: p.name, item_category: p.cat, price: _e(p.price) }]
           });
         }
       }
@@ -156,12 +157,12 @@
         trackEvent(eventName, {
           product_id: p.id,
           product_name: p.name,
-          price: p.price,
+          price: _e(p.price),
           category: p.cat,
-          currency: 'BGN'
+          currency: 'EUR'
         });
         if (!wasInWishlist && typeof fbq === 'function') {
-          fbq('track', 'AddToWishlist', { content_ids: [p.id], content_name: p.name, value: p.price, currency: 'BGN' });
+          fbq('track', 'AddToWishlist', { content_ids: [p.id], content_name: p.name, value: _e(p.price), currency: 'EUR' });
         }
       }
       return result;
@@ -179,9 +180,9 @@
       if (isOpening && typeof cart !== 'undefined' && cart.length > 0) {
         const total = cart.reduce((s, x) => s + x.price * x.qty, 0);
         trackEvent('view_cart', {
-          cart_total: Math.round(total * 100) / 100,
+          cart_total: _e(total),
           item_count: cart.reduce((s, x) => s + x.qty, 0),
-          currency: 'BGN'
+          currency: 'EUR'
         });
       }
       return result;
@@ -195,17 +196,17 @@
       const result = _orig.apply(this, arguments);
       if (n === 1 && typeof cart !== 'undefined') {
         const total = cart.reduce((s, x) => s + x.price * x.qty, 0);
-        const items = cart.map(x => ({ item_id: String(x.id), item_name: x.name, price: x.price, quantity: x.qty }));
+        const items = cart.map(x => ({ item_id: String(x.id), item_name: x.name, price: _e(x.price), quantity: x.qty }));
         trackEvent('begin_checkout', {
-          cart_total: Math.round(total * 100) / 100,
+          cart_total: _e(total),
           item_count: cart.reduce((s, x) => s + x.qty, 0),
-          currency: 'BGN'
+          currency: 'EUR'
         });
         if (typeof gtag === 'function') {
-          gtag('event', 'begin_checkout', { currency: 'BGN', value: total, items });
+          gtag('event', 'begin_checkout', { currency: 'EUR', value: _e(total), items });
         }
         if (typeof fbq === 'function') {
-          fbq('track', 'InitiateCheckout', { value: total, currency: 'BGN', num_items: items.length });
+          fbq('track', 'InitiateCheckout', { value: _e(total), currency: 'EUR', num_items: items.length });
         }
       }
       return result;
@@ -226,8 +227,8 @@
         trackEvent('apply_promo', {
           promo_code: code,
           discount_pct: 10,
-          discount_amount: Math.round(total * 0.10 * 100) / 100,
-          currency: 'BGN'
+          discount_amount: _e(total * 0.10),
+          currency: 'EUR'
         });
       } else if (!codeAfter && code) {
         trackEvent('promo_failed', { promo_code: code });
@@ -241,7 +242,7 @@
     const _orig = window.submitOrder;
     if (typeof _orig !== 'function') return;
     window.submitOrder = function () {
-      // Snapshot cart before submit clears it
+      // Snapshot cart before submit clears it; prices kept in BGN for total computation
       const cartSnapshot = (typeof cart !== 'undefined') ? cart.map(x => ({
         item_id: String(x.id),
         item_name: x.name,
@@ -263,26 +264,26 @@
         const orderNum = orderNumEl ? orderNumEl.textContent : 'unknown';
         trackEvent('purchase', {
           transaction_id: orderNum,
-          value: total,
-          subtotal: Math.round(subtotal * 100) / 100,
-          discount: Math.round(promo * 100) / 100,
-          shipping: delivery,
-          currency: 'BGN',
+          value: _e(total),
+          subtotal: _e(subtotal),
+          discount: _e(promo),
+          shipping: _e(delivery),
+          currency: 'EUR',
           payment_method: (typeof ckPaymentType !== 'undefined') ? ckPaymentType : 'unknown',
           item_count: cartSnapshot.reduce((s, x) => s + x.quantity, 0)
         });
         if (typeof gtag === 'function') {
           gtag('event', 'purchase', {
             transaction_id: orderNum,
-            currency: 'BGN',
-            value: total,
-            shipping: delivery,
+            currency: 'EUR',
+            value: _e(total),
+            shipping: _e(delivery),
             coupon: (typeof promoApplied !== 'undefined' && promoApplied) ? 'MOSTCOMP10' : '',
-            items: cartSnapshot
+            items: cartSnapshot.map(x => Object.assign({}, x, { price: _e(x.price) }))
           });
         }
         if (typeof fbq === 'function') {
-          fbq('track', 'Purchase', { value: total, currency: 'BGN', num_items: cartSnapshot.length });
+          fbq('track', 'Purchase', { value: _e(total), currency: 'EUR', num_items: cartSnapshot.length });
         }
       }, 600);
 

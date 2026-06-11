@@ -1100,7 +1100,7 @@ body.compare-active{padding-bottom:90px}
       <!-- MOBILE STICKY CTA -->
       <div class="modal-sticky-cta" id="modalStickyCta">
         <div class="msc-info">
-          <div class="msc-price" id="mscPrice">0.00 лв.</div>
+          <div class="msc-price" id="mscPrice"></div>
           <div class="msc-stock">В наличност</div>
         </div>
         <button type="button" class="msc-btn" data-action="addFromModal">Купи сега</button>
@@ -1394,7 +1394,7 @@ body.compare-active{padding-bottom:90px}
     <div class="cart-panel-footer">
       <div class="cart-subtotal">
         <span>Общо</span>
-        <strong id="cartTotal">0.00 лв.</strong>
+        <strong id="cartTotal">0,00 €</strong>
       </div>
       <div class="cart-progress-wrap" id="cartProgressWrap">
         <div class="cart-progress-text" id="cartProgressText">Добави продукти за още <strong>100 €</strong> за <span
@@ -1405,7 +1405,7 @@ body.compare-active{padding-bottom:90px}
       </div>
       <div class="cart-delivery-row" id="cartDeliveryRow">
         <span>Доставка (Еконт)</span>
-        <span id="cartDeliveryVal">5.99 лв.</span>
+        <span id="cartDeliveryVal">3,07 €</span>
       </div>
       <button type="button" class="view-cart-page-btn" onclick="openCartPage()">🛒 Виж кошницата</button>
       <button type="button" class="checkout-btn" data-action="handleCheckout">🔒 Завърши поръчката →</button>
@@ -2171,15 +2171,6 @@ body.compare-active{padding-bottom:90px}
         </div>
       </div>
 
-      <!-- BUDGET CHIPS -->
-      <div class="budget-chips-strip">
-        <span class="budget-chips-label">Бюджет:</span>
-        <button type="button" class="budget-chip" data-action="openPriceCat(0,300)">До 300 €</button>
-        <button type="button" class="budget-chip" data-action="openPriceCat(300,600)">300 - 600 €</button>
-        <button type="button" class="budget-chip" data-action="openPriceCat(600,1200)">600 - 1 200 €</button>
-        <button type="button" class="budget-chip" data-action="openPriceCat(1200,null)">1 200+ €</button>
-      </div>
-
       <!-- CATEGORY CARDS -->
       <div class="hp-cats-section" id="hpCatsSection">
         <div class="hp-cats-header">
@@ -2444,9 +2435,9 @@ body.compare-active{padding-bottom:90px}
             <a href="/" class="checkout-bc-home" onclick="event.preventDefault();closeCheckoutPage()" aria-label="Начало">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9.5z"/><polyline points="9 21 9 12 15 12 15 21"/></svg>
             </a>
-            <span class="checkout-bc-sep">›</span>
+            <span class="checkout-bc-sep"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg></span>
             <a href="/cart" class="checkout-bc-link" onclick="event.preventDefault();closeCheckoutPage()">Кошница</a>
-            <span class="checkout-bc-sep">›</span>
+            <span class="checkout-bc-sep"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg></span>
             <span class="checkout-bc-current" id="checkoutBcCurrent">Поръчка</span>
           </nav>
           <div class="checkout-logo">Most <span>Computers</span></div>
@@ -2454,16 +2445,16 @@ body.compare-active{padding-bottom:90px}
             <div class="checkout-step active" id="cs1">
               <div class="cs-num" id="csn1">1</div><span>Данни</span>
             </div>
-            <div class="cs-sep">›</div>
+            <div class="cs-sep"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg></div>
             <div class="checkout-step" id="cs2">
               <div class="cs-num" id="csn2">2</div><span>Доставка</span>
             </div>
-            <div class="cs-sep">›</div>
+            <div class="cs-sep"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg></div>
             <div class="checkout-step" id="cs3">
               <div class="cs-num" id="csn3">3</div><span>Плащане</span>
             </div>
           </div>
-          <button type="button" class="checkout-close-btn" data-action="closeCheckoutPage">‹ Обратно към магазина</button>
+          <button type="button" class="checkout-close-btn" data-action="closeCheckoutPage"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg> Обратно към магазина</button>
         </div>
 
         <div class="checkout-body">
@@ -2486,7 +2477,7 @@ body.compare-active{padding-bottom:90px}
                     <div class="ck-mode-radio" id="ckModeGuestRadio"></div>
                   </div>
                   <div class="ck-mode-opt" id="ckModeLogin" onclick="selectCheckoutMode('login')" role="radio" aria-checked="false" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')selectCheckoutMode('login')">
-                    <div class="ck-mode-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+                    <div class="ck-mode-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg></div>
                     <div class="ck-mode-info">
                       <div class="ck-mode-title">Влез в профила си</div>
                       <div class="ck-mode-sub">По-бързо попълване с запазени данни</div>
@@ -2531,7 +2522,7 @@ body.compare-active{padding-bottom:90px}
                   </div>
                 </div>
                 <div id="ckSavedAddrNotice" style="display:none;margin-top:10px;padding:10px 14px;background:#f0f7ff;border-radius:8px;border-left:3px solid #1a6b35;font-size:13px;color:#1a4a2a;display:flex;align-items:center;gap:8px">
-                  <span>✅ Попълнено от запазените данни</span>
+                  <span style="display:inline-flex;align-items:center;gap:6px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> Попълнено от запазените данни</span>
                   <button type="button" onclick="ckClearSavedAddr()" style="margin-left:auto;background:none;border:none;color:#bd1105;font-size:12px;font-weight:600;cursor:pointer;text-decoration:underline">Не съм аз? Изчисти</button>
                 </div>
                 <div class="ck-save-row" style="margin-top:10px">
@@ -2558,7 +2549,7 @@ body.compare-active{padding-bottom:90px}
                 <div class="delivery-opts" role="radiogroup" aria-label="Начин на доставка">
                   <div class="delivery-opt selected" role="radio" aria-checked="true" tabindex="0" data-action="selectDeliveryCk(this, 0)">
                     <div class="delivery-opt-radio"></div>
-                    <div class="delivery-opt-icon">🏃</div>
+                    <div class="delivery-opt-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
                     <div class="delivery-opt-info">
                       <div class="delivery-opt-name">Еконт - до адрес</div>
                       <div class="delivery-opt-sub">Доставка до 1–2 работни дни <span class="ck-deliv-date"
@@ -2568,7 +2559,7 @@ body.compare-active{padding-bottom:90px}
                   </div>
                   <div class="delivery-opt" role="radio" aria-checked="false" tabindex="-1" data-action="selectDeliveryCk(this, 1)">
                     <div class="delivery-opt-radio"></div>
-                    <div class="delivery-opt-icon">📦</div>
+                    <div class="delivery-opt-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="21 8 21 21 3 21 3 8"/><rect x="1" y="3" width="22" height="5"/><line x1="10" y1="12" x2="14" y2="12"/></svg></div>
                     <div class="delivery-opt-info">
                       <div class="delivery-opt-name">Еконт - до офис</div>
                       <div class="delivery-opt-sub">Доставка до 1–3 работни дни <span class="ck-deliv-date"
@@ -2578,7 +2569,7 @@ body.compare-active{padding-bottom:90px}
                   </div>
                   <div class="delivery-opt" role="radio" aria-checked="false" tabindex="-1" data-action="selectDeliveryCk(this, 2)">
                     <div class="delivery-opt-radio"></div>
-                    <div class="delivery-opt-icon">🏪</div>
+                    <div class="delivery-opt-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
                     <div class="delivery-opt-info">
                       <div class="delivery-opt-name">Вземи от магазин</div>
                       <div class="delivery-opt-sub">бул. „Шипченски проход" бл.240, София <span class="ck-deliv-date"
@@ -2666,14 +2657,14 @@ body.compare-active{padding-bottom:90px}
                 <div class="payment-opts">
                   <div class="payment-opt selected" data-action="selectPayment(this,'card')">
                     <div class="payment-opt-radio"></div>
-                    <div class="payment-opt-icon">💳</div>
+                    <div class="payment-opt-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div>
                     <div class="payment-opt-info">
                       <div class="payment-opt-name">Кредитна / Дебитна карта</div>
                       <div class="payment-opt-sub">Visa, Mastercard, Maestro</div>
                     </div>
                   </div>
                   <div class="card-fields show" id="cardFields">
-                    <div style="background:#fef3c7;border:1px solid #f59e0b;border-radius:8px;padding:8px 12px;font-size:12px;color:#92400e;margin-bottom:10px;">⚠️ <strong>Тестова форма</strong> - не въвеждай реални карт данни. Плащането се обработва при вземане от магазин или наложен платеж.</div>
+                    <div style="background:#fef3c7;border:1px solid #f59e0b;border-radius:8px;padding:8px 12px;font-size:12px;color:#92400e;margin-bottom:10px;display:flex;align-items:flex-start;gap:7px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0;margin-top:1px"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><span><strong>Тестова форма</strong> - не въвеждай реални карт данни. Плащането се обработва при вземане от магазин или наложен платеж.</span></div>
                     <div class="card-icon-row">
                       <span class="card-icon">VISA</span>
                       <span class="card-icon">MC</span>
@@ -2692,7 +2683,7 @@ body.compare-active{padding-bottom:90px}
                   </div>
                   <div class="payment-opt" data-action="selectPayment(this,'cod')">
                     <div class="payment-opt-radio"></div>
-                    <div class="payment-opt-icon">💵</div>
+                    <div class="payment-opt-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></svg></div>
                     <div class="payment-opt-info">
                       <div class="payment-opt-name">Наложен платеж</div>
                       <div class="payment-opt-sub">Плащаш при получаване (+0.77 € / 1.50 лв. такса)</div>
@@ -2700,7 +2691,7 @@ body.compare-active{padding-bottom:90px}
                   </div>
                   <div class="payment-opt" data-action="selectPayment(this,'bank')">
                     <div class="payment-opt-radio"></div>
-                    <div class="payment-opt-icon">🏦</div>
+                    <div class="payment-opt-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" y1="22" x2="21" y2="22"/><line x1="6" y1="18" x2="6" y2="11"/><line x1="10" y1="18" x2="10" y2="11"/><line x1="14" y1="18" x2="14" y2="11"/><line x1="18" y1="18" x2="18" y2="11"/><polygon points="12 2 20 7 4 7"/></svg></div>
                     <div class="payment-opt-info">
                       <div class="payment-opt-name">Банков превод</div>
                       <div class="payment-opt-sub">Поръчката се обработва след потвърждение</div>
@@ -2708,11 +2699,11 @@ body.compare-active{padding-bottom:90px}
                   </div>
                 </div>
                 <div class="ck-payment-info">
-                  <span>💳 Карта/превод - без такса</span>
-                  <span>📦 Наложен платеж - +0.77 €</span>
+                  <span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg> Карта/превод - без такса</span>
+                  <span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2"/></svg> Наложен платеж - +0.77 €</span>
                 </div>
                 <div class="ck-promo-hint" id="ckPromoHint">
-                  🎁 Имаш промо код? <strong>MOSTCOMP10</strong> дава <strong>-10%</strong> от поръчката! Въведи го в полето вдясно.
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:3px" aria-hidden="true"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg> Имаш промо код? <strong>MOSTCOMP10</strong> дава <strong>-10%</strong> от поръчката! Въведи го в полето вдясно.
                 </div>
               </div>
             </div>
@@ -2731,7 +2722,7 @@ body.compare-active{padding-bottom:90px}
                   <input class="promo-input" id="promoInput" placeholder="Промо код">
                   <button type="button" class="promo-btn" data-action="applyPromo">Приложи</button>
                 </div>
-                <div class="promo-ok" id="promoOk">✓ Код MOSTCOMP10 приложен - -10%!</div>
+                <div class="promo-ok" id="promoOk"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> Код MOSTCOMP10 приложен - -10%!</div>
                 <div class="os-row"><span>Продукти</span><span id="osSubtotal">-</span></div>
                 <div class="os-row"><span>Доставка</span><span id="osDelivery">3.06 € / 5.99 лв.</span></div>
                 <div class="os-row save" id="osSaveRow" class="is-hidden"><span>Спестяваш</span><span
@@ -2741,9 +2732,9 @@ body.compare-active{padding-bottom:90px}
                 <div class="os-row total"><span>Общо</span><span id="osTotal">-</span></div>
               </div>
               <button type="button" class="os-submit" data-action="submitOrder">
-                🔒 Потвърди поръчката
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Потвърди поръчката
               </button>
-              <div class="os-secure"><span>🔒 SSL криптиране</span><span>↩ 14 дни връщане</span><span>🎖 Официална гаранция</span></div>
+              <div class="os-secure"><span><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> SSL криптиране</span><span><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 14 4 9 9 4"/><path d="M20 20v-7a4 4 0 0 0-4-4H4"/></svg> 14 дни връщане</span><span><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Официална гаранция</span></div>
             </div>
             <div class="cart-upsell" id="ckUpsell" style="display:none;margin-top:12px;"></div>
           </div>

@@ -243,36 +243,10 @@ function renderGrids(){
       : '🚚 ';
     el.innerHTML = prefix + `Безплатна доставка над ${_freeDelEur} € / ${_freeDelBgn} лв.`;
   });
-  renderHeroPanel();
   renderPromoBanner();
   updateWishlistUI();
   if(typeof initLazyImages==='function') initLazyImages();
   if(typeof renderHpCats==='function') renderHpCats();
-}
-
-function renderHeroPanel(){
-  const panel = document.getElementById('heroRightPanel');
-  if(!panel) return;
-  const byScore = [...products].sort((a,b)=>(b.rating*(b.rv||1))-(a.rating*(a.rv||1)));
-  const picks = [
-    { p: byScore[0], label:'⭐ Препоръчано', cls:'mini-promo-recommended' },
-    { p: byScore.find(p=>p.badge==='sale'), label:'🔥 Бестселър', cls:'mini-promo-bestseller' },
-    { p: [...products].filter(p=>p.badge==='new'||p.badge==='hot')[0], label:'🆕 Ново', cls:'mini-promo-new' },
-  ];
-  panel.innerHTML = picks.filter(x=>x.p).map(({p,label,cls})=>`
-    <div class="mini-promo ${cls}">
-      ${p.img
-        ? `<img class="mini-promo-img" src="${p.img}" alt="${escHtml(p.name)}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">`
-        : ''}
-      <div class="mini-promo-emoji" style="${p.img?'display:none':''}"> ${p.emoji}</div>
-      <div class="mini-promo-text">
-        <div class="mini-promo-label">${label}</div>
-        <div class="mini-promo-name">${escHtml(p.name.length>32?p.name.slice(0,32)+'…':p.name)}</div>
-        ${p.old?`<div class="mini-promo-old">${(p.old/EUR_RATE).toFixed(2)} € / ${p.old} лв.</div>`:''}
-        <div class="mini-promo-price">${(p.price/EUR_RATE).toFixed(2)} € / ${p.price} лв.</div>
-      </div>
-      <button type="button" class="mini-promo-view" onclick="event.stopPropagation();openProductPage(${p.id})">Виж →</button>
-    </div>`).join('');
 }
 
 function renderPromoBanner(){

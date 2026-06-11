@@ -449,8 +449,8 @@ function openProductPage(id) {
     "offers": {
       "@type": "Offer",
       "url": `${location.origin}/?product=${p.id}`,
-      "priceCurrency": "BGN",
-      "price": p.price,
+      "priceCurrency": "EUR",
+      "price": Math.round(toEur(p.price) * 100) / 100,
       "priceValidUntil": _priceValidUntil,
       "itemCondition": "https://schema.org/NewCondition",
       "availability": p.stock === false ? "https://schema.org/OutOfStock" : "https://schema.org/InStock",
@@ -1117,7 +1117,7 @@ function _pdpSrchRender(q) {
   }
 
   drop.innerHTML = _pdpSrchResults.map((p, i) => {
-    const price = typeof formatPrice === 'function' ? formatPrice(p.price) : p.price + ' лв.';
+    const price = fmtEur(p.price);
     const img = p.img
       ? `<img src="${escHtml(p.img)}" alt="" class="pdp-drop-img" loading="lazy">`
       : `<span class="pdp-drop-emoji">${escHtml(p.emoji || '📦')}</span>`;

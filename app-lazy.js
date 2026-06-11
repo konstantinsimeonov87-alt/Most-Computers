@@ -620,6 +620,8 @@ function updateFloatPill() {
   const shouldShow = count > 0 && !cartPageOpen && !checkoutOpen && !panelOpen;
   pill.classList.toggle('visible', shouldShow);
   pill.classList.toggle('fcp--pdp', !!pdpOpen);
+  const btt = document.getElementById('backToTop');
+  if (btt) btt.classList.toggle('pill-offset', shouldShow);
   if (!shouldShow) { pill.classList.remove('expanded'); const btn = document.getElementById('floatCartBtn'); if (btn) btn.setAttribute('aria-expanded','false'); return; }
   const countEl = document.getElementById('floatCartCount');
   const totalEl = document.getElementById('floatCartTotal');

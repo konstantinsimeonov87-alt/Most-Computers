@@ -4476,6 +4476,8 @@
    opacity: 1;
    pointer-events: all;
    transform: translateY(0);
+ }.back-to-top.pill-offset{
+   bottom: 76px;
  }.back-to-top:hover{
    background: var(--primary-dark);
    transform: translateY(-2px);

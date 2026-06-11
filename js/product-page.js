@@ -421,6 +421,7 @@ function openProductPage(id) {
   _pdpEl.classList.add('open');
   document.documentElement.style.overflow = 'hidden';
   document.body.style.overflow = 'hidden';
+  if (typeof updateFloatPill === 'function') updateFloatPill();
 
   // ── Structured Data (Product + BreadcrumbList) ──
   const _avgRating = p.rating || 0;
@@ -498,6 +499,7 @@ function closeProductPage() {
   document.getElementById('pdpBackdrop').classList.remove('open');
   const _sb = document.getElementById('pdpStickyBar');
   if (_sb) _sb.classList.remove('visible');
+  if (typeof updateFloatPill === 'function') updateFloatPill();
   // Keep body locked if cat-page is still open
   if (!document.getElementById('catPage')?.classList.contains('open')) {
     document.documentElement.style.overflow = '';

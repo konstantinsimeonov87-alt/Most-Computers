@@ -13322,7 +13322,7 @@
 @media (max-width: 768px){.b2b-form-row-2col{ grid-template-columns: 1fr; } }
 
 /* ===== FLOATING CART PILL (desktop only) ===== */
-.fcp{position:fixed;bottom:24px;right:24px;z-index:2000;display:flex;flex-direction:column;align-items:flex-end;opacity:0;transform:translateY(16px);pointer-events:none;transition:opacity .3s cubic-bezier(.4,0,.2,1),transform .3s cubic-bezier(.4,0,.2,1);}
+.fcp{position:fixed;bottom:24px;right:24px;z-index:9520;display:flex;flex-direction:column;align-items:flex-end;opacity:0;transform:translateY(16px);pointer-events:none;transition:opacity .3s cubic-bezier(.4,0,.2,1),transform .3s cubic-bezier(.4,0,.2,1);}
 @media(max-width:1023px){.fcp{display:none!important;}}
 .fcp.visible{opacity:1;transform:translateY(0);pointer-events:auto;}
 .fcp-pill{display:flex;align-items:center;gap:8px;padding:11px 20px;background:var(--primary);color:#fff;border:none;border-radius:50px;cursor:pointer;font-size:14px;font-weight:700;box-shadow:0 4px 20px rgba(189,17,5,.35),0 2px 8px rgba(0,0,0,.15);transition:transform .2s,box-shadow .2s;white-space:nowrap;user-select:none;font-family:inherit;}
@@ -13343,3 +13343,4 @@
 .fcp-checkout-btn{width:100%;padding:11px 16px;background:var(--primary);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;transition:background .15s;font-family:inherit;}
 .fcp-checkout-btn:hover{background:var(--primary-dark);}
 html[data-theme="dark"] .fcp-pill{box-shadow:0 4px 20px rgba(189,17,5,.5),0 2px 8px rgba(0,0,0,.4);}
+.fcp.fcp--pdp{bottom:80px;}

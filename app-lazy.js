@@ -616,8 +616,10 @@ function updateFloatPill() {
   const cartPageOpen = document.getElementById('cartPage')?.style.display !== 'none';
   const checkoutOpen = document.getElementById('checkoutPage')?.classList.contains('open');
   const panelOpen = document.getElementById('cartPanel')?.classList.contains('open');
+  const pdpOpen = document.getElementById('pdpBackdrop')?.classList.contains('open');
   const shouldShow = count > 0 && !cartPageOpen && !checkoutOpen && !panelOpen;
   pill.classList.toggle('visible', shouldShow);
+  pill.classList.toggle('fcp--pdp', !!pdpOpen);
   if (!shouldShow) { pill.classList.remove('expanded'); const btn = document.getElementById('floatCartBtn'); if (btn) btn.setAttribute('aria-expanded','false'); return; }
   const countEl = document.getElementById('floatCartCount');
   const totalEl = document.getElementById('floatCartTotal');
@@ -2828,6 +2830,7 @@ function openProductPage(id) {
   _pdpEl.classList.add('open');
   document.documentElement.style.overflow = 'hidden';
   document.body.style.overflow = 'hidden';
+  if (typeof updateFloatPill === 'function') updateFloatPill();
 
   // ── Structured Data (Product + BreadcrumbList) ──
   const _avgRating = p.rating || 0;
@@ -2905,6 +2908,7 @@ function closeProductPage() {
   document.getElementById('pdpBackdrop').classList.remove('open');
   const _sb = document.getElementById('pdpStickyBar');
   if (_sb) _sb.classList.remove('visible');
+  if (typeof updateFloatPill === 'function') updateFloatPill();
   // Keep body locked if cat-page is still open
   if (!document.getElementById('catPage')?.classList.contains('open')) {
     document.documentElement.style.overflow = '';

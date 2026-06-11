@@ -1,5 +1,5 @@
-// Most Computers — Service Worker edbfb360
-const CACHE = 'mc-edbfb360';
+// Most Computers — Service Worker bea9ec4
+const CACHE = 'mc-bea9ec4';
 const PRECACHE = [
   './',
   './index.html',

@@ -4,6 +4,7 @@
 (function () {
   if (typeof renderHeroRightPanel === 'function') renderHeroRightPanel();
   if (typeof loadCart === 'function') loadCart();
+  if (typeof _initFloatPill === 'function') _initFloatPill();
   if (typeof renderRecentlyDiscounted === 'function') {
     var el = document.getElementById('recentlyDiscountedGrid');
     if (el) renderRecentlyDiscounted();

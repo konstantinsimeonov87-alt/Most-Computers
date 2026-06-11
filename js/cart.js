@@ -200,7 +200,58 @@ function updateCart() {
   if (ckBtn) ckBtn.innerHTML = '🔒 Завърши поръчката · ' + fmtEur(total) + ' →';
   // Sync cart page if open
   if (typeof renderCartPageSummary === 'function' && document.getElementById('cartPage')?.style.display !== 'none') { renderCartPageSummary(); }
+  updateFloatPill();
 }
+
+function updateFloatPill() {
+  const pill = document.getElementById('floatCartPill');
+  if (!pill) return;
+  const count = cart.reduce((s, x) => s + x.qty, 0);
+  const total = cart.reduce((s, x) => s + x.price * x.qty, 0);
+  const cartPageOpen = document.getElementById('cartPage')?.style.display !== 'none';
+  const checkoutOpen = document.getElementById('checkoutPage')?.classList.contains('open');
+  const panelOpen = document.getElementById('cartPanel')?.classList.contains('open');
+  const shouldShow = count > 0 && !cartPageOpen && !checkoutOpen && !panelOpen;
+  pill.classList.toggle('visible', shouldShow);
+  if (!shouldShow) { pill.classList.remove('expanded'); const btn = document.getElementById('floatCartBtn'); if (btn) btn.setAttribute('aria-expanded','false'); return; }
+  const countEl = document.getElementById('floatCartCount');
+  const totalEl = document.getElementById('floatCartTotal');
+  const labelEl = pill.querySelector('.fcp-label');
+  if (countEl) countEl.textContent = count;
+  if (totalEl) totalEl.textContent = fmtEur(total);
+  if (labelEl) labelEl.textContent = count === 1 ? 'продукт' : 'продукта';
+  const itemsEl = document.getElementById('floatCartItems');
+  if (!itemsEl) return;
+  const MAX = 4;
+  const shown = cart.slice(0, MAX);
+  const extra = cart.length - MAX;
+  let html = shown.map(x => {
+    const shortName = x.name && x.name.length > 32 ? escHtml(x.name.substring(0, 32)) + '…' : escHtml(x.name || '');
+    return `<div class="fcp-item"><div class="fcp-item-thumb">${_prodThumb(x, 36)}</div><div class="fcp-item-name">${shortName}</div><span class="fcp-item-qty">${x.qty} бр.</span><span class="fcp-item-price">${fmtEur(x.price * x.qty)}</span></div>`;
+  }).join('');
+  if (extra > 0) html += `<div class="fcp-more">и още ${extra} продукт${extra === 1 ? '' : 'а'}</div>`;
+  itemsEl.innerHTML = html;
+}
+
+function _initFloatPill() {
+  const btn = document.getElementById('floatCartBtn');
+  if (!btn) return;
+  btn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    const pill = document.getElementById('floatCartPill');
+    if (!pill) return;
+    const expanded = pill.classList.toggle('expanded');
+    btn.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+  });
+  document.addEventListener('click', function(e) {
+    const pill = document.getElementById('floatCartPill');
+    if (pill && pill.classList.contains('expanded') && !pill.contains(e.target)) {
+      pill.classList.remove('expanded');
+      btn.setAttribute('aria-expanded', 'false');
+    }
+  });
+}
+
 function changeQty(id, d) { const i = cart.find(x => x.id === id); if (!i) return; i.qty += d; if (i.qty <= 0) cart = cart.filter(x => x.id !== id); updateCart(); saveCart(); }
 function removeFromCart(id) {
   const removed = cart.find(x => x.id === id);
@@ -235,7 +286,7 @@ function undoRemoveCart() {
   updateCart(); saveCart();
   showToast('✓ ' + item.name.substring(0, 28) + '… върнат в кошницата');
 }
-function toggleCart() { const co=document.getElementById('cartOverlay'),cp=document.getElementById('cartPanel'); if(co)co.classList.toggle('open'); if(cp)cp.classList.toggle('open'); }
+function toggleCart() { const co=document.getElementById('cartOverlay'),cp=document.getElementById('cartPanel'); if(co)co.classList.toggle('open'); if(cp)cp.classList.toggle('open'); updateFloatPill(); }
 // ===== CHECKOUT & THANK YOU =====
 let ckDeliveryIdx = 0;
 let ckDeliveryCosts = (()=>{ try{const sc=JSON.parse(localStorage.getItem('mc_store_config')||'{}');return sc.deliveryCosts||[5.99,4.99,0];}catch(e){return [5.99,4.99,0];} })();
@@ -287,6 +338,7 @@ function handleCheckout() {
   document.getElementById('cartPanel').classList.remove('open');
   document.getElementById('cartOverlay').classList.remove('open');
   document.body.style.overflow = 'hidden';
+  updateFloatPill();
   showCheckoutStep(1);
   // Clear previous validation states and touched flags
   document.querySelectorAll('#checkoutPage .ck-input').forEach(el => { el.classList.remove('error', 'valid'); delete el.dataset.touched; });
@@ -379,6 +431,7 @@ function closeCheckoutPage() {
   if (_ckUpsellTimer) { clearInterval(_ckUpsellTimer); _ckUpsellTimer = null; }
   document.getElementById('checkoutPage').classList.remove('open');
   document.body.style.overflow = '';
+  updateFloatPill();
 }
 
 function ckClearSavedAddr() {
@@ -1108,12 +1161,14 @@ function openCartPage() {
   renderCartPage();
   const page = document.getElementById('cartPage');
   if (page) { page.style.display = 'flex'; document.body.style.overflow = 'hidden'; }
+  updateFloatPill();
 }
 
 function closeCartPage() {
   const page = document.getElementById('cartPage');
   if (page) { page.style.display = 'none'; }
   document.body.style.overflow = '';
+  updateFloatPill();
 }
 
 function renderCartPage() {

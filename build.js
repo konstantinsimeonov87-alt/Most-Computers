@@ -152,9 +152,13 @@ jsFiles.forEach(({ src, dst }) => {
     fs.copyFileSync(srcPath, dstPath);
   }
 });
-// Also copy stripped data.js to root (for dev — dist version is minified)
+// Also copy stripped files to root (for dev — dist version is minified)
 fs.copyFileSync(tmpDataPath, path.join(ROOT, 'data.js'));
 log('data.js copied to root (dev, stripped)');
+fs.copyFileSync(tmpCorePath, path.join(ROOT, 'data-core.js'));
+log('data-core.js copied to root (dev, stripped)');
+fs.copyFileSync(tmpDetailsPath, path.join(ROOT, 'data-details.js'));
+log('data-details.js copied to root (dev, stripped)');
 // Clean up temp files
 if (fs.existsSync(tmpDataPath)) fs.unlinkSync(tmpDataPath);
 if (fs.existsSync(tmpCorePath)) fs.unlinkSync(tmpCorePath);

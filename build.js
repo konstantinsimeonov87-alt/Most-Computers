@@ -106,14 +106,16 @@ const tmpCorePath = path.join(ROOT, '_tmp_data_core.js');
 const tmpDetailsPath = path.join(ROOT, '_tmp_data_details.js');
 try {
   const dataStr = fs.readFileSync(tmpDataPath, 'utf8');
+  // data-core.js: structurally identical to data.js, all desc fields removed via regex.
+  // This preserves cart/compareList globals, _staticProductsMap, persistProducts, restoreProducts, etc.
+  const coreJs = dataStr.replace(/,\s*desc\s*:'(?:[^'\\]|\\.)*'/g, '');
+  fs.writeFileSync(tmpCorePath, coreJs);
+  // data-details.js: id→desc map only
   const getProds = new Function(dataStr + '\nreturn products;');
   const prods = getProds();
-  const coreProds = prods.map(p => { const c = Object.assign({}, p); delete c.desc; return c; });
   const details = {};
   prods.forEach(p => { if (p.desc) details[p.id] = p.desc; });
-  const coreJs = 'var products=' + JSON.stringify(coreProds) + ';';
   const detailsJs = 'var productDesc=' + JSON.stringify(details) + ';';
-  fs.writeFileSync(tmpCorePath, coreJs);
   fs.writeFileSync(tmpDetailsPath, detailsJs);
   log(`data-core.js: ${(coreJs.length/1024).toFixed(0)} KB | data-details.js: ${(detailsJs.length/1024).toFixed(0)} KB`);
 } catch(splitErr) {

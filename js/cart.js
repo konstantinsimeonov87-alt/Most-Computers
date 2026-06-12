@@ -84,7 +84,7 @@ function showRecommended(p) {
       <div onclick="openProductPage(${r.id})" style="display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--border);cursor:pointer;">
         <div style="min-width:34px;text-align:center;">${_prodThumb(r, 34)}</div>
         <div style="flex:1;min-width:0;">
-          <div style="font-size:12px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${r.name.length > 32 ? r.name.substring(0, 32) + '…' : r.name}</div>
+          <div style="font-size:12px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${escHtml(r.name.length > 32 ? r.name.substring(0, 32) + '…' : r.name)}</div>
           <div style="font-size:12px;color:var(--primary);font-weight:700;">${fmtEur(r.price)}</div>
         </div>
         <button type="button" onclick="event.stopPropagation();addToCart(${r.id})" style="background:var(--primary);color:#fff;border:none;border-radius:8px;padding:5px 10px;font-size:11px;cursor:pointer;white-space:nowrap;font-family:'Outfit',sans-serif;font-weight:700;">+</button>

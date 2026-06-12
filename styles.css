@@ -56,6 +56,8 @@
    --radius: 12px;
    --radius-sm: 8px;
    --radius-lg: 18px;
+   --radius-xs: 6px;
+   --radius-pill: 20px;
 
    /* ── Z-index скала ── */
    --z-dropdown: 100;

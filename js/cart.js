@@ -806,34 +806,6 @@ function submitOrder() {
     if (!el.value.trim()) { el.classList.add('error'); el.setAttribute('aria-invalid', 'true'); valid = false; }
     else { el.classList.remove('error'); el.setAttribute('aria-invalid', 'false'); }
   });
-  if (ckPaymentType === 'card') {
-    const cardNum  = document.getElementById('ckCardNum');
-    const cardName = document.getElementById('ckCardName');
-    const cardExp  = document.getElementById('ckCardExp');
-    const cardCvv  = document.getElementById('ckCardCvv');
-    const _cardErr = (el, bad) => {
-      el.classList.toggle('error', bad);
-      el.classList.toggle('valid', !bad);
-      el.setAttribute('aria-invalid', bad ? 'true' : 'false');
-      if (bad) valid = false;
-    };
-    // Number: 16 digits (spaces stripped)
-    if (cardNum) _cardErr(cardNum, cardNum.value.replace(/\s/g,'').length !== 16);
-    // Name: at least two words
-    if (cardName) _cardErr(cardName, cardName.value.trim().split(/\s+/).length < 2);
-    // Expiry: MM/YY format, not expired
-    if (cardExp) {
-      const parts = cardExp.value.split('/');
-      const mm = parseInt(parts[0], 10), yy = parseInt(parts[1], 10);
-      const now = new Date();
-      const badExp = isNaN(mm) || isNaN(yy) || mm < 1 || mm > 12 ||
-        (yy + 2000 < now.getFullYear()) ||
-        (yy + 2000 === now.getFullYear() && mm < now.getMonth() + 1);
-      _cardErr(cardExp, badExp);
-    }
-    // CVV: 3 or 4 digits
-    if (cardCvv) _cardErr(cardCvv, !/^\d{3,4}$/.test(cardCvv.value.trim()));
-  }
   if (!valid) { showToast('Моля попълни всички задължителни полета!'); return; }
 
   // Loading state

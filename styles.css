@@ -4764,7 +4764,7 @@
  }/* ===== CHECKOUT PAGE ===== */.checkout-page{
    position: fixed;
    inset: 0;
-   z-index: 9050;
+   z-index: 10050;
    background: #fff;
    overflow-y: auto;
    overscroll-behavior: contain;
@@ -5336,7 +5336,7 @@
  }/* ===== THANK YOU PAGE ===== */.thankyou-page{
    position: fixed;
    inset: 0;
-   z-index: 9100;
+   z-index: 10100;
    background: var(--bg);
    overflow-y: auto;
    opacity: 0;

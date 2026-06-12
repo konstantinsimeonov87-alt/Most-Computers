@@ -1,12 +1,12 @@
-// Most Computers — Service Worker d9ae9e5b
-const CACHE = 'mc-d9ae9e5b';
+// Most Computers — Service Worker da3fa960
+const CACHE = 'mc-da3fa960';
 const PRECACHE = [
   './',
   './index.html',
   './styles.css',
   './products.js',
   './app.js',
-  './data.js',
+  './data-core.js',
 ];
 
 // Install - precache shell

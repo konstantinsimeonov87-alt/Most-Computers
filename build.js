@@ -100,11 +100,35 @@ const tmpDataPath = path.join(ROOT, '_tmp_data_stripped.js');
   log(`data.js stripped: ${(beforeStrip/1024).toFixed(0)} KB → ${(dataContent.length/1024).toFixed(0)} KB (-${((beforeStrip-dataContent.length)/1024).toFixed(0)} KB)`);
 }
 
+// 4b. Split data.js → data-core.js (no desc) + data-details.js (id→desc map)
+console.log('\n✂️  Splitting data.js into core + details...');
+const tmpCorePath = path.join(ROOT, '_tmp_data_core.js');
+const tmpDetailsPath = path.join(ROOT, '_tmp_data_details.js');
+try {
+  const dataStr = fs.readFileSync(tmpDataPath, 'utf8');
+  const getProds = new Function(dataStr + '\nreturn products;');
+  const prods = getProds();
+  const coreProds = prods.map(p => { const c = Object.assign({}, p); delete c.desc; return c; });
+  const details = {};
+  prods.forEach(p => { if (p.desc) details[p.id] = p.desc; });
+  const coreJs = 'var products=' + JSON.stringify(coreProds) + ';';
+  const detailsJs = 'var productDesc=' + JSON.stringify(details) + ';';
+  fs.writeFileSync(tmpCorePath, coreJs);
+  fs.writeFileSync(tmpDetailsPath, detailsJs);
+  log(`data-core.js: ${(coreJs.length/1024).toFixed(0)} KB | data-details.js: ${(detailsJs.length/1024).toFixed(0)} KB`);
+} catch(splitErr) {
+  warn('data split failed (' + splitErr.message + ') — using full data as core');
+  fs.copyFileSync(tmpDataPath, tmpCorePath);
+  fs.writeFileSync(tmpDetailsPath, 'var productDesc={};');
+}
+
 // 4. Minify JavaScript
 console.log('\n📦 Minifying JavaScript...');
 const jsFiles = [
   { src: 'products.js',   dst: 'products.js' },
   { src: '_tmp_data_stripped.js', dst: 'data.js' },
+  { src: '_tmp_data_core.js',    dst: 'data-core.js' },
+  { src: '_tmp_data_details.js', dst: 'data-details.js' },
   { src: 'app.js',        dst: 'app.js' },
   { src: 'app-lazy.js',   dst: 'app-lazy.js' },
   { src: 'js/admin.js',           dst: 'js/admin.js' },
@@ -131,8 +155,10 @@ jsFiles.forEach(({ src, dst }) => {
 // Also copy stripped data.js to root (for dev — dist version is minified)
 fs.copyFileSync(tmpDataPath, path.join(ROOT, 'data.js'));
 log('data.js copied to root (dev, stripped)');
-// Clean up temp file
+// Clean up temp files
 if (fs.existsSync(tmpDataPath)) fs.unlinkSync(tmpDataPath);
+if (fs.existsSync(tmpCorePath)) fs.unlinkSync(tmpCorePath);
+if (fs.existsSync(tmpDetailsPath)) fs.unlinkSync(tmpDetailsPath);
 
 // 4. PurgeCSS + Minify CSS
 console.log('\n🎨 Purging + Minifying CSS...');
@@ -175,6 +201,8 @@ console.log('\n📝 Processing HTML...');
   htmlSrc = htmlSrc.replace(/app\.js\?v=\d{8}/g, `app.js?v=${today}`);
   htmlSrc = htmlSrc.replace(/app-lazy\.js\?v=\d{8}/g, `app-lazy.js?v=${today}`);
   htmlSrc = htmlSrc.replace(/data\.js\?v=\d{8}/g, `data.js?v=${today}`);
+  htmlSrc = htmlSrc.replace(/data-core\.js\?v=\d{8}/g, `data-core.js?v=${today}`);
+  htmlSrc = htmlSrc.replace(/data-details\.js\?v=\d{8}/g, `data-details.js?v=${today}`);
   fs.writeFileSync(path.join(ROOT, 'index.html'), htmlSrc);
   // Minify for dist/
   const htmlDistPath = path.join(DIST, 'index.html');

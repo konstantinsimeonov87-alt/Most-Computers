@@ -2431,6 +2431,13 @@ function openProductPage(id) {
   pdpQtyVal = 1;
   addToRecentlyViewed(id);
 
+  // Clear PDP search input on each product page open to prevent stale/autocomplete values
+  const _pdpSI = document.getElementById('pdpSearchInput');
+  if (_pdpSI) _pdpSI.value = '';
+  const _pdpSIClear = document.getElementById('pdpShClear');
+  if (_pdpSIClear) _pdpSIClear.style.display = 'none';
+  pdpSearchDropClose();
+
   // Breadcrumb (inline - no wrapper needed)
   const _bcCatLabel = (typeof CAT_LABELS !== 'undefined' ? CAT_LABELS[p.cat] : null) || p.cat;
   if (typeof bcSet === 'function') {

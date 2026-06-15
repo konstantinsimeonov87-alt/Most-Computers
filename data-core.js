@@ -11098,7 +11098,7 @@ const _cases = [
    price:118.09,added:'2026-06-10',emoji:'🎒',sku:'90XB0AM0-BBP000',
    specs:{'Тип':'Раница','Съвместимост':'15.6"','Материал':'Thermo Polyurethane, Cordura Polyester','Цвят':'Black','Размери':'43.00 x 30.00 x 11.00 cm;NB Compartment Size: 36.00 x 26.80 x 2.69 cm'},
    rating:4.2,rv:0,
-   img:'',stock:true},
+   img:'./images/products/4125.webp',stock:true},
 
   {id:4126,name:'ASUS AP1602 BACKPACK  GREY 16',brand:'Asus',cat:'accessories',subcat:'bag',
    price:24.39,added:'2026-06-10',emoji:'🎒',sku:'90XXB0A20-BBP000',

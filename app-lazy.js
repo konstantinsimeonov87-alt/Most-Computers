@@ -759,9 +759,17 @@ function handleCheckout() {
   } catch (e) { }
   renderOrderSummary();
   _startCkUpsell();
+  // Close any open full-screen pages before checkout
+  ['catPage','blogPage','searchResultsPage','wishlistPage','myOrdersPage',
+   'contactsPage','aboutPage','orderTrackerPage','serviceModalBackdrop','deliveryPage'].forEach(id => {
+    document.getElementById(id)?.classList.remove('open');
+  });
+  const _pdp = document.getElementById('pdpBackdrop');
+  if (_pdp && _pdp.classList.contains('open') && typeof closeProductPage === 'function') closeProductPage();
   document.getElementById('checkoutPage').classList.add('open');
   document.getElementById('cartPanel').classList.remove('open');
   document.getElementById('cartOverlay').classList.remove('open');
+  document.documentElement.style.overflow = 'hidden';
   document.body.style.overflow = 'hidden';
   updateFloatPill();
   showCheckoutStep(1);
@@ -855,6 +863,7 @@ function _startCkUpsell() {
 function closeCheckoutPage() {
   if (_ckUpsellTimer) { clearInterval(_ckUpsellTimer); _ckUpsellTimer = null; }
   document.getElementById('checkoutPage').classList.remove('open');
+  document.documentElement.style.overflow = '';
   document.body.style.overflow = '';
   updateFloatPill();
 }

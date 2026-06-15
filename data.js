@@ -12193,7 +12193,6 @@ const _desktops = [
   {id:2780,name:'Lenovo LOQ TWR 26 / 91DF005NRM',brand:'Lenovo',cat:'desktops',subcat:'office_pc',price:1996,added:'2026-04-22',emoji:'🖥',sku:'91DF005NRM',ean:'0199273238743',specs:{'Процесор':'AMD Ryzen 7 8745HX',},rating:4.8,rv:13,desc:'Lenovo LOQ TWR 26 / 91DF005NRM',img:'https://images.icecat.biz/img/gallery_mediums/60894f65d1444c63953474677b3124439a92a4f1.jpg',stock:true},
   {id:2781,name:'Lenovo LOQ TWR 26 / 91DF005VRM',brand:'Lenovo',cat:'desktops',subcat:'office_pc',price:3421.49,old:3667,pct:7,badge:'sale',added:'2026-04-22',emoji:'🖥',sku:'91DF005VRM',ean:'0199273238835',specs:{'Процесор':'AMD Ryzen 7 8745HX',},rating:4.8,rv:1,desc:'Lenovo LOQ TWR 26 / 91DF005VRM',img:'https://images.icecat.biz/img/gallery_mediums/60894f65d1444c63953474677b3124439a92a4f1.jpg',stock:true},
   {id:2782,name:'Lenovo LOQ TWR 26 / 91DF005URM',brand:'Lenovo',cat:'desktops',subcat:'office_pc',price:2882.93,old:3045,pct:5,badge:'sale',added:'2026-04-22',emoji:'🖥',sku:'91DF005URM',ean:'0199273238828',specs:{'Процесор':'AMD Ryzen 7 8745HX',},rating:5.2,rv:34,desc:'Lenovo LOQ TWR 26 / 91DF005URM',img:'https://images.icecat.biz/img/gallery_mediums/60894f65d1444c63953474677b3124439a92a4f1.jpg',stock:true},
-  {id:2783,name:'Lenovo LOQ TWR 17 / 91AY000VBH',brand:'Lenovo',cat:'desktops',subcat:'office_pc',price:3013.62,old:3202,pct:6,badge:'sale',added:'2026-04-22',emoji:'🖥',sku:'91AY000VBH',ean:'0198158892629',specs:{'Процесор':'Intel Core Ultra 7 255HX',},rating:4.2,rv:24,desc:'Lenovo LOQ TWR 17 / 91AY000VBH',img:'./images/products/49046.webp',stock:true},
   {id:2784,name:'Lenovo LEGION T5 26/90UU00NKRM',brand:'Lenovo',cat:'desktops',subcat:'office_pc',price:4749,added:'2026-04-22',emoji:'🖥',sku:'90UU00NKRM',ean:'52689000',specs:{'Процесор':'Intel Core i9-14900F','RAM':'2x 16GB UDIMM DDR5-5600, Max Memory: Up to 64GB DDR5-5600','GPU':'NVIDIA® GeForce RTX™ 4070 SUPER 12GB GDDR6X 568 AI TOPS','SSD':'2TB','ОС':'None','Захранване':'500W 85%','Размери':'Tower (26L), 205 x 396.9 x 425.9 mm'},rating:4.8,rv:13,desc:'Lenovo LEGION T5 26/90UU00NKRM, 2x 16GB UDIMM DDR5-5600 RAM, 2TB SSD',img:'./images/products/42427.webp',stock:false},
   {id:2785,name:'Lenovo DT LEGION T7/90Y60030RM',brand:'Lenovo',cat:'desktops',subcat:'office_pc',price:6249,added:'2026-04-22',emoji:'🖥',sku:'90Y60030RM',ean:'0198156967107',specs:{'Процесор':'Intel Core Ultra 7 265KF','RAM':'64GB (2x32GB), UDIMM DDR5-5600','GPU':'NVIDIA® GeForce RTX™ 5080 16GB GDDR7','SSD':'2TB','ОС':'None','Захранване':'850W 90%','Размери':'Tower (34L);211 x 451.6 x 477.4 mm'},rating:4.4,rv:49,desc:'Lenovo DT LEGION T7/90Y60030RM, 64GB (2x32GB) RAM, 2TB SSD',img:'./images/products/47862.webp',stock:false},
   {id:2786,name:'Lenovo DT LEGION T7/90Y60057RM',brand:'Lenovo',cat:'desktops',subcat:'office_pc',price:7249,added:'2026-04-22',emoji:'🖥',sku:'90Y60057RM',ean:'0198158892650',specs:{'Процесор':'Intel Core Ultra 9 285K','RAM':'64GB (2x32GB), UDIMM DDR5-5600','GPU':'NVIDIA® GeForce RTX™ 5080 16GB GDDR7','SSD':'2TB','ОС':'None','Захранване':'1200W 90%','Размери':'211 x 451.6 x 477.4 mm'},rating:5.0,rv:2,desc:'Lenovo DT LEGION T7/90Y60057RM, 64GB (2x32GB) RAM, 2TB SSD',img:'./images/products/48033.webp',stock:true},
@@ -12207,7 +12206,6 @@ const _desktops = [
   {id:2794,name:'Lenovo IC AIO 27 / F0HQ000YRI',brand:'Lenovo',cat:'desktops',subcat:'aio',price:1598,added:'2026-04-22',emoji:'🖥',sku:'F0HQ000YRI',ean:'0197530040344',specs:{'Процесор':'AMD Ryzen 7 7735HS',},rating:4.6,rv:26,desc:'Lenovo IC AIO 27 / F0HQ000YRI',img:'./images/products/51984.webp',stock:true},
   {id:2795,name:'Lenovo TS P3 TOWER /30GS000VBL',brand:'Lenovo',cat:'desktops',subcat:'office_pc',price:2384,added:'2026-04-22',emoji:'🖥',sku:'30GS000VBL',ean:'0196804914541',specs:{},rating:4.3,rv:49,desc:'Lenovo TS P3 TOWER /30GS000VBL',img:null,stock:false},
   {id:2798,name:'Lenovo TS P2 TOWER /30FSS67Q00',brand:'Lenovo',cat:'desktops',subcat:'office_pc',price:2322,added:'2026-04-22',emoji:'🖥',sku:'30FSS67Q00',specs:{},rating:4.7,rv:8,desc:'Lenovo TS P2 TOWER /30FSS67Q00',img:null,stock:false},
-  {id:2799,name:'Lenovo IC AIO 27 // 74RI',brand:'Lenovo',cat:'desktops',subcat:'aio',price:1374,added:'2026-04-22',emoji:'🖥',sku:'F0HM0074RI',ean:'0198153625949',specs:{'Процесор':'Intel Core i7-13620H',},rating:5.1,rv:43,desc:'Lenovo IC AIO 27 // 74RI',img:'./images/products/42118.webp',stock:false},
   {id:2800,name:'ACER CX16_QC3100U CHROM DESK',brand:'Acer',cat:'desktops',subcat:'office_pc',price:1080,added:'2026-04-22',emoji:'🖥',sku:'DT.Z51EX.001',ean:'4710886161474',specs:{},rating:4.9,rv:23,desc:'ACER CX16_QC3100U CHROM DESK',img:null,stock:true},
 ];
 products.push(..._desktops);
@@ -13921,3 +13919,42 @@ products.push(...[
    rating:4.6,rv:0,stock:false,
    desc:'Lenovo Tab TB710FU с 11.1" 3.2K дисплей 144Hz и Snapdragon 8 Gen 3. 12 GB RAM, 256 GB UFS 4.0, Wi-Fi 7, 8860 mAh батерия и 4 тонколони Dolby Atmos.'}
 ]);
+
+
+// ── Dedup: remove duplicate products (same SKU+name or same ID) ──────────────
+(function dedupProducts() {
+  function scoreP(p) { return ('stock' in p ? 1000 : 0) + Object.keys(p.specs || {}).length; }
+  // Pass 1: best entry per (sku, name)
+  var best = Object.create(null);
+  for (var i = 0; i < products.length; i++) {
+    var p = products[i];
+    var sku = p.sku && p.sku.trim ? p.sku.trim() : '';
+    if (!sku) continue;
+    var key = sku + ' ' + p.name;
+    var s = scoreP(p);
+    if (!best[key] || s > best[key].score) best[key] = {score: s, idx: i};
+  }
+  var keepIdx = new Set();
+  for (var j = 0; j < products.length; j++) {
+    var p2 = products[j];
+    var sku2 = p2.sku && p2.sku.trim ? p2.sku.trim() : '';
+    if (!sku2) { keepIdx.add(j); continue; }
+    var key2 = sku2 + ' ' + p2.name;
+    if (best[key2].idx === j) keepIdx.add(j);
+  }
+  products.splice(0, products.length, ...products.filter(function(_, k) { return keepIdx.has(k); }));
+  // Pass 2: best entry per null-SKU id (products pushed twice without SKU)
+  var bestNull = Object.create(null);
+  for (var m = 0; m < products.length; m++) {
+    var pm = products[m];
+    var skuM = pm.sku && pm.sku.trim ? pm.sku.trim() : '';
+    if (skuM) continue;
+    var sm = scoreP(pm);
+    if (!bestNull[pm.id] || sm > bestNull[pm.id].score) bestNull[pm.id] = {score: sm, idx: m};
+  }
+  products.splice(0, products.length, ...products.filter(function(pn, n) {
+    var skuN = pn.sku && pn.sku.trim ? pn.sku.trim() : '';
+    if (skuN) return true;
+    return bestNull[pn.id] ? bestNull[pn.id].idx === n : true;
+  }));
+})();

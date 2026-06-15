@@ -216,7 +216,7 @@ function openProductPage(id) {
   const prEl = document.getElementById('pdpPrice');
   prEl.textContent = fmtEur(priceBgn);
   prEl.className   = 'pdp-price-main' + (p.badge==='sale' ? ' sale' : '');
-  document.getElementById('pdpPriceEur').textContent = `${fmtBgn(priceBgn)}`;
+  document.getElementById('pdpPriceEur').textContent = `${fmtBgn(priceBgn)} · с вкл. ДДС`;
 
   const oldRow = document.getElementById('pdpOldRow');
   if (p.old) {

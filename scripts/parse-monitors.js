@@ -101,7 +101,7 @@ function parseProducts(xml) {
     const imgMatch = block.match(/<pictureUrl>([^<]+)<\/pictureUrl>/);
     const img = imgMatch ? imgMatch[1] : null;
     const stock = status.includes('наличност');
-    const priceBGN = Math.round(price * EUR_RATE);
+    const priceBGN = Math.round(price * EUR_RATE * 1.2 * 100) / 100;
 
     const attrs = getDescAttrs(block);
     const searchstring = extractBetween(block, '<searchstring>', '</searchstring>');

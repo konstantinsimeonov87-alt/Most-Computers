@@ -65,7 +65,7 @@ function parsePriceMap(xml) {
     const eanM   = block.match(/<EAN>(\d{8,14})<\/EAN>/i);
     const priceM = block.match(/<price>([\d.]+)<\/price>/i);
     if (!priceM) continue;
-    const priceBGN = Math.round(parseFloat(priceM[1]) * EUR_RATE * 100) / 100;
+    const priceBGN = Math.round(parseFloat(priceM[1]) * EUR_RATE * 1.2 * 100) / 100;
     if (skuM && skuM[1].trim()) map.set(skuM[1].trim(), priceBGN);
     if (eanM)                   map.set('EAN:' + eanM[1].trim(), priceBGN);
   }

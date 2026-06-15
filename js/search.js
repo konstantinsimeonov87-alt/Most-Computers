@@ -216,7 +216,7 @@ function renderDropdown(query) {
             </div>
           </div>
           ${badgeHtml}
-          <div class="sd-price">${fmtEur(p.price)}<span class="text-10-muted-block">${fmtBgn(p.price)}</span></div>
+          <div class="sd-price">${fmtEur(p.price)}<span class="text-10-muted-block">${fmtBgn(p.price)} · с вкл. ДДС</span></div>
           <div id="sd-ctrl-${p.id}" class="sd-ctrl">${_sdCtrlHtml(p.id)}</div>
         </div>`;
     }).join('')}

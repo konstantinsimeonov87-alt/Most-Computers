@@ -11170,7 +11170,7 @@ const _cases = [
    price:51.63,added:'2026-06-10',emoji:'🎒',sku:'GP.BAG11.02A',
    specs:{'Тип':'Раница','Съвместимост':'15.6`` notebook','Размери':'340 x 470 x 190 mm'},
    rating:4.2,rv:0,
-   img:'',stock:true},
+   img:'./images/products/4137.webp',stock:true},
 
   {id:4138,name:'ACER URBAN BACKPACK 15.6 GY&GR',brand:'Acer',cat:'accessories',subcat:'bag',
    price:27.93,added:'2026-06-10',emoji:'🎒',sku:'GP.BAG11.034',

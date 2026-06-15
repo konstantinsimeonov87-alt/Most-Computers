@@ -12768,7 +12768,7 @@ const _cases = [
    specs:{'Тип':'Раница','Съвместимост':'15.6`` notebook','Размери':'340 x 470 x 190 mm'},
    rating:4.2,rv:0,reviews:[],
    desc:'Acer ACER 15.6 NITRO MF BACKPACK - лаптоп раница. Подходяща за 15.6`` notebook.',
-   img:'',stock:true},
+   img:'./images/products/4137.webp',stock:true},
 
   {id:4138,name:'ACER URBAN BACKPACK 15.6 GY&GR',brand:'Acer',cat:'accessories',subcat:'bag',
    price:27.93,old:null,pct:null,badge:null,added:'2026-06-10',emoji:'🎒',sku:'GP.BAG11.034',ean:null,

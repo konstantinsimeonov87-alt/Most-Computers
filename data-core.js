@@ -11152,7 +11152,7 @@ const _cases = [
    price:74.87,added:'2026-06-10',emoji:'🎒',sku:'NP.BAG1A.290',
    specs:{'Тип':'Раница','Съвместимост':'Maximum Screen Size Supported:39.6 cm (15.6")','Материал':'Weather Resistant Exterior'},
    rating:4.2,rv:0,
-   img:'',stock:true},
+   img:'./images/products/4134.webp',stock:true},
 
   {id:4135,name:'ACER NB CARRY CASE 15.6 ABG558',brand:'Acer',cat:'accessories',subcat:'bag',
    price:32.86,added:'2026-06-10',emoji:'🎒',sku:'NP.BAG1A.189',

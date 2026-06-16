@@ -1,5 +1,5 @@
-// Most Computers — Service Worker 6bfe4f6
-const CACHE = 'mc-6bfe4f6';
+// Most Computers — Service Worker 864ca7b
+const CACHE = 'mc-864ca7b';
 const PRECACHE = [
   './',
   './index.html',
@@ -7,6 +7,7 @@ const PRECACHE = [
   './app.js',
   './app-lazy.js',
   './data-core.js',
+  './data-details.js',
 ];
 
 // Install - precache shell

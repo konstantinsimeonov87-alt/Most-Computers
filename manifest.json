@@ -1,4 +1,5 @@
 {
+  "id": "/",
   "name": "Most Computers",
   "short_name": "Most Computers",
   "description": "Специализиран магазин за електроника - лаптопи, телефони, телевизори и аксесоари.",
@@ -56,12 +57,14 @@
     {
       "name": "Промоции",
       "url": "/?cat=sale",
-      "description": "Виж всички намалени продукти"
+      "description": "Виж всички намалени продукти",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
     },
     {
       "name": "Лаптопи",
       "url": "/?cat=laptops",
-      "description": "Разгледай лаптопи и компютри"
+      "description": "Разгледай лаптопи и компютри",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
     }
   ]
 }

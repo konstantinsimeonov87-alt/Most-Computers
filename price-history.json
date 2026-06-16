@@ -288,8 +288,8 @@
     "date": "2026-06-15"
   },
   "AHD710P-5TU31-CBK": {
-    "baseline": 362.47,
-    "date": "2026-06-15"
+    "baseline": 478.81,
+    "date": "2026-06-16"
   },
   "AHD710P-4TU31-CBK": {
     "baseline": 449.54,
@@ -304,32 +304,32 @@
     "date": "2026-06-15"
   },
   "AHD710P-2TU31-CYL": {
-    "baseline": 200.48,
-    "date": "2026-06-15"
+    "baseline": 254.63,
+    "date": "2026-06-16"
   },
   "AHD710P-2TU31-CRD": {
-    "baseline": 205.53,
-    "date": "2026-06-15"
+    "baseline": 262.72,
+    "date": "2026-06-16"
   },
   "AHD710P-2TU31-CBK": {
-    "baseline": 204.12,
-    "date": "2026-06-15"
+    "baseline": 260.09,
+    "date": "2026-06-16"
   },
   "AHV620S-2TU31-CBL": {
-    "baseline": 190.15,
-    "date": "2026-06-15"
+    "baseline": 245.68,
+    "date": "2026-06-16"
   },
   "AHV620S-2TU31-CWH": {
-    "baseline": 190.55,
-    "date": "2026-06-15"
+    "baseline": 245.89,
+    "date": "2026-06-16"
   },
   "AHV620S-2TU31-CBK": {
     "baseline": 230.03,
     "date": "2026-06-15"
   },
   "AHD710P-1TU31-CRD": {
-    "baseline": 162.6,
-    "date": "2026-06-15"
+    "baseline": 210.6,
+    "date": "2026-06-16"
   },
   "AHD710P-1TU31-CYL": {
     "baseline": 161.38,
@@ -340,12 +340,12 @@
     "date": "2026-06-15"
   },
   "AHD710P-1TU31-CBK": {
-    "baseline": 156.94,
-    "date": "2026-06-15"
+    "baseline": 203.91,
+    "date": "2026-06-16"
   },
   "AHV620S-1TU31-CWH": {
-    "baseline": 145.8,
-    "date": "2026-06-15"
+    "baseline": 197.19,
+    "date": "2026-06-16"
   },
   "AHV620S-1TU31-CBL": {
     "baseline": 182.85,
@@ -464,8 +464,8 @@
     "date": "2026-06-15"
   },
   "AUSDX128GUI3V30SA2-RA1": {
-    "baseline": 77.36,
-    "date": "2026-06-15"
+    "baseline": 109.77,
+    "date": "2026-06-16"
   },
   "AUSDX512GUI3V30SA2-RA1": {
     "baseline": 155.35,
@@ -684,16 +684,16 @@
     "date": "2026-06-15"
   },
   "UC310-128G-RBK": {
-    "baseline": 25.11,
-    "date": "2026-06-15"
+    "baseline": 25.96,
+    "date": "2026-06-16"
   },
   "AROY-UR340-128GBK": {
     "baseline": 31.07,
     "date": "2026-06-15"
   },
   "AUV128-128G-RBE": {
-    "baseline": 22.88,
-    "date": "2026-06-15"
+    "baseline": 23.73,
+    "date": "2026-06-16"
   },
   "AUV320-128G-RBKBL": {
     "baseline": 23.68,
@@ -868,20 +868,20 @@
     "date": "2026-06-15"
   },
   "AUV240-32G-RWH": {
-    "baseline": 12.25,
-    "date": "2026-06-15"
+    "baseline": 12.67,
+    "date": "2026-06-16"
   },
   "AUV210-32G-RGD": {
     "baseline": 12.86,
     "date": "2026-06-15"
   },
   "AUV150-32G-RRD": {
-    "baseline": 12.65,
-    "date": "2026-06-15"
+    "baseline": 12.89,
+    "date": "2026-06-16"
   },
   "AUV150-32G-RBK": {
-    "baseline": 12.65,
-    "date": "2026-06-15"
+    "baseline": 12.89,
+    "date": "2026-06-16"
   },
   "AUV128-32G-RBE": {
     "baseline": 13.26,
@@ -9136,12 +9136,12 @@
     "date": "2026-06-16"
   },
   "SSPECTRIXS65G-1000G-CI": {
-    "baseline": 395.68,
-    "date": "2026-06-15"
+    "baseline": 404.34,
+    "date": "2026-06-16"
   },
   "SSPECTRIX65G-500G-CI": {
-    "baseline": 224.77,
-    "date": "2026-06-15"
+    "baseline": 232.92,
+    "date": "2026-06-16"
   },
   "SMAR-980B-2TCS": {
     "baseline": 498.95,
@@ -10144,8 +10144,8 @@
     "date": "2026-06-15"
   },
   "AX5U6400C3216G-SLABRBK": {
-    "baseline": 636.04,
-    "date": "2026-06-15"
+    "baseline": 653.9,
+    "date": "2026-06-16"
   },
   "AX5U6000C3016G-DCCARGY": {
     "baseline": 645.96,

@@ -5021,7 +5021,7 @@ var products = [
    img:'./images/products/31611.webp',stock:false},
 
   {id:717,name:'32G DDR5 5600 ADATA',brand:'ADATA',cat:'components',subcat:'ram',
-   price:798,old:null,pct:null,badge:null,added:'2026-04-20',emoji:'🟣',sku:'AD5U560032G-S',ean:'4711085939296',
+   price:882.54,old:933.1,pct:5,badge:'sale',added:'2026-04-20',emoji:'🟣',sku:'AD5U560032G-S',ean:'4711085939296',
    specs:{'Тип':'DDR5','Капацитет':'32 GB','Честота':'5600 MHz','Форм фактор':'DIMM','Напрежение':'1.1V'},
    rating:4.4,rv:0,reviews:[],
    desc:'ADATA 32G DDR5 5600 ADATA - DDR5 DIMM 5600 MHz, 32 GB.',
@@ -5497,7 +5497,7 @@ var products = [
    img:'./images/products/44147.webp',stock:false},
 
   {id:785,name:'16G DDR5 5600 ADATA SODIMM',brand:'ADATA',cat:'components',subcat:'ram',
-   price:460.8,old:null,pct:null,badge:null,added:'2026-04-20',emoji:'💻',sku:'AD5S560016G-S',ean:'4711085941107',
+   price:428.89,old:466.54,pct:8,badge:'sale',added:'2026-04-20',emoji:'💻',sku:'AD5S560016G-S',ean:'4711085941107',
    specs:{'Тип':'DDR5','Капацитет':'16 GB','Честота':'5600 MHz','Форм фактор':'SO-DIMM','Напрежение':'1.1V'},
    rating:4.4,rv:0,reviews:[],
    desc:'ADATA 16G DDR5 5600 ADATA SODIMM - DDR5 SO-DIMM 5600 MHz, 16 GB.',
@@ -5567,7 +5567,7 @@ var products = [
    img:'./images/products/32472.webp',stock:false},
 
   {id:795,name:'32G DDR5 5600 ADATA SODIMM',brand:'ADATA',cat:'components',subcat:'ram',
-   price:795.6,old:null,pct:null,badge:null,added:'2026-04-20',emoji:'💻',sku:'AD5S560032G-S',ean:'4711085941114',
+   price:862.24,old:941.59,pct:8,badge:'sale',added:'2026-04-20',emoji:'💻',sku:'AD5S560032G-S',ean:'4711085941114',
    specs:{'Тип':'DDR5','Капацитет':'32 GB','Честота':'5600 MHz','Форм фактор':'SO-DIMM','Напрежение':'1.1V'},
    rating:4.4,rv:0,reviews:[],
    desc:'ADATA 32G DDR5 5600 ADATA SODIMM - DDR5 SO-DIMM 5600 MHz, 32 GB.',
@@ -6486,14 +6486,14 @@ var products = [
    img:'./images/products/42644.webp',stock:false},
 
   {id:926,name:'ADATA SSD SU650 240GB 3D NAND',brand:'ADATA',cat:'components',subcat:'ssd',
-   price:109.2,old:null,pct:null,badge:null,added:'2026-04-21',emoji:'💾',sku:'ASU650SS-240GT-R',ean:'4713218461162',
+   price:86.84,old:110.57,pct:21,badge:'sale',added:'2026-04-21',emoji:'💾',sku:'ASU650SS-240GT-R',ean:'4713218461162',
    specs:{'Капацитет':'240 GB','Интерфейс':'SATA III','Форм фактор':'2.5\''},
    rating:4.3,rv:0,reviews:[],
    desc:'ADATA ADATA SSD SU650 240GB 3D NAND - SSD 240 GB, SATA III, 2.5".',
    img:'./images/products/14733.webp',stock:false},
 
   {id:927,name:'ADATA SSD SU650 256GB 3D NAND',brand:'ADATA',cat:'components',subcat:'ssd',
-   price:111.6,old:null,pct:null,badge:null,added:'2026-04-21',emoji:'💾',sku:'ASU650SS-256GT-R',ean:'4711085931511',
+   price:89.26,old:112.98,pct:21,badge:'sale',added:'2026-04-21',emoji:'💾',sku:'ASU650SS-256GT-R',ean:'4711085931511',
    specs:{'Капацитет':'256 GB','Интерфейс':'SATA III','Форм фактор':'2.5\''},
    rating:4.3,rv:0,reviews:[],
    desc:'ADATA ADATA SSD SU650 256GB 3D NAND - SSD 256 GB, SATA III, 2.5".',
@@ -6507,7 +6507,7 @@ var products = [
    img:'./images/products/16189.webp',stock:true},
 
   {id:929,name:'ADATA SSD SU650 512GB 3D NAND',brand:'ADATA',cat:'components',subcat:'ssd',
-   price:176.4,old:null,pct:null,badge:null,added:'2026-04-21',emoji:'💾',sku:'ASU650SS-512GT-R',ean:'4711085931528',
+   price:149.71,old:179.01,pct:16,badge:'sale',added:'2026-04-21',emoji:'💾',sku:'ASU650SS-512GT-R',ean:'4711085931528',
    specs:{'Капацитет':'512 GB','Интерфейс':'SATA III','Форм фактор':'2.5\''},
    rating:4.3,rv:0,reviews:[],
    desc:'ADATA ADATA SSD SU650 512GB 3D NAND - SSD 512 GB, SATA III, 2.5".',
@@ -6535,14 +6535,14 @@ var products = [
    img:'./images/products/51170.webp',stock:true},
 
   {id:933,name:'ADATA LEGEND 710 512GB M2 PCIE',brand:'ADATA',cat:'components',subcat:'ssd',
-   price:217.2,old:null,pct:null,badge:null,added:'2026-04-21',emoji:'⚡',sku:'ALEG-710-512GCS',ean:'4711085937834',
+   price:202.08,old:217.2,pct:7,badge:'sale',added:'2026-04-21',emoji:'⚡',sku:'ALEG-710-512GCS',ean:'4711085937834',
    specs:{'Капацитет':'512 GB','Интерфейс':'NVMe PCIe Gen4','Форм фактор':'M.2 2280'},
    rating:4.3,rv:0,reviews:[],
    desc:'ADATA ADATA LEGEND 710 512GB M2 PCIE - NVMe SSD 512 GB, NVMe PCIe Gen4, M.2 2280.',
    img:'./images/products/31441.webp',stock:true},
 
   {id:934,name:'ADATA LEGEND 710 1TB M2 PCIE',brand:'ADATA',cat:'components',subcat:'ssd',
-   price:384,old:null,pct:null,badge:null,added:'2026-04-21',emoji:'⚡',sku:'ALEG-710-1TCS',ean:'4711085937841',
+   price:367.21,old:389.2,pct:6,badge:'sale',added:'2026-04-21',emoji:'⚡',sku:'ALEG-710-1TCS',ean:'4711085937841',
    specs:{'Капацитет':'1 TB','Интерфейс':'NVMe PCIe Gen4','Форм фактор':'M.2 2280'},
    rating:4.3,rv:0,reviews:[],
    desc:'ADATA ADATA LEGEND 710 1TB M2 PCIE - NVMe SSD 1 TB, NVMe PCIe Gen4, M.2 2280.',
@@ -6710,7 +6710,7 @@ var products = [
    img:'./images/products/45200.webp',stock:false},
 
   {id:958,name:'EMTEC SSD X150 480G 2.5INCH',brand:'Emtec',cat:'components',subcat:'ssd',
-   price:159.67,old:182.4,pct:12,badge:'sale',added:'2026-04-21',emoji:'💾',sku:'ECSSD480GX150',ean:'3126170136411',
+   price:159.88,old:182.4,pct:12,badge:'sale',added:'2026-04-21',emoji:'💾',sku:'ECSSD480GX150',ean:'3126170136411',
    specs:{'Капацитет':'480 GB','Интерфейс':'SATA III','Форм фактор':'2.5\''},
    rating:4.3,rv:0,reviews:[],
    desc:'Emtec EMTEC SSD X150 480G 2.5INCH - SSD 480 GB, SATA III, 2.5".',

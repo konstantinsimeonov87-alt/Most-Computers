@@ -39,3 +39,12 @@ function escHtml(str) {
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = { EUR_RATE, toEur, fmtEur, fmtBgn, fmtPrice, fmtDual, escHtml };
 }
+
+// Cache viewport width to avoid forced reflow (window.innerWidth triggers layout when DOM is dirty).
+// Read once before any DOM mutations, then update lazily on resize.
+let _cachedInnerWidth = (typeof window !== 'undefined') ? window.innerWidth : 1280;
+if (typeof window !== 'undefined') {
+  window.addEventListener('resize', function() {
+    _cachedInnerWidth = window.innerWidth;
+  }, { passive: true });
+}

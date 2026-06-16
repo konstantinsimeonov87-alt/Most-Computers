@@ -123,7 +123,7 @@ function makeCard(p,small=false){
   const _eName = escHtml(p.name);
   const safeImg = isSafeImgUrl(p.img) ? p.img : null;
   const imgHtml = safeImg
-    ? `<img class="product-img-real" src="${escHtml(safeImg)}" alt="${_eName}" itemprop="image" loading="lazy" width="300" height="300" decoding="async" onload="this.classList.add('img-loaded')" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="product-img-emoji is-hidden" aria-hidden="true">${p.emoji}</span>`
+    ? `<img class="product-img-real" src="${escHtml(safeImg)}" alt="${_eName}" itemprop="image" loading="lazy" width="200" height="200" decoding="async" onload="this.classList.add('img-loaded')" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="product-img-emoji is-hidden" aria-hidden="true">${p.emoji}</span>`
     : `<img class="product-img-placeholder" src="${categoryPlaceholderSvg(p.cat,p.subcat)}" alt="" aria-hidden="true" width="200" height="200" loading="lazy">`;
   return `<article class="product-card pos-rel${p.stock===false?' is-out-of-stock':''}" itemscope itemtype="https://schema.org/Product">
     <div class="product-badge-wrap">
@@ -3041,17 +3041,20 @@ function megaMenuOpen(catEl, cat) {
     return;
   }
 
-  // Highlight active cat item
+  // Read layout metrics BEFORE any DOM writes to avoid forced reflow
+  const rect = catEl.getBoundingClientRect();
+  const sidebarEl = catEl.closest('.sidebar-categories');
+  const sidebarRect = sidebarEl ? sidebarEl.getBoundingClientRect() : null;
+
+  // Highlight active cat item (DOM writes happen after reads)
   document.querySelectorAll('.cat-item').forEach(el => el.classList.remove('mega-active'));
   catEl.classList.add('mega-active');
   _megaMenuActiveCat = cat;
 
   // Position: right of the sidebar, aligned to top of cat item
   function reposition() {
-    const rect = catEl.getBoundingClientRect();
-    const sidebarRect = catEl.closest('.sidebar-categories').getBoundingClientRect();
     menu.style.top = rect.top + 'px';
-    menu.style.left = (sidebarRect.right - 1) + 'px';
+    menu.style.left = (sidebarRect ? sidebarRect.right - 1 : 0) + 'px';
   }
   reposition();
 

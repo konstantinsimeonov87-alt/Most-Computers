@@ -480,12 +480,12 @@
     "date": "2026-06-15"
   },
   "AUSDX128GUICL10A1-RA1": {
-    "baseline": 36.75,
-    "date": "2026-06-15"
+    "baseline": 37.46,
+    "date": "2026-06-17"
   },
   "AUSDX64GUICL10A1-RA1": {
-    "baseline": 22.18,
-    "date": "2026-06-15"
+    "baseline": 22.58,
+    "date": "2026-06-17"
   },
   "AUSDX64GXUI3-R": {
     "baseline": 81.21,
@@ -500,8 +500,8 @@
     "date": "2026-06-15"
   },
   "AUSDH32GUICL10A1-RA1": {
-    "baseline": 20.14,
-    "date": "2026-06-15"
+    "baseline": 20.44,
+    "date": "2026-06-17"
   },
   "SDCG4/1TB": {
     "baseline": 292.2,
@@ -692,8 +692,8 @@
     "date": "2026-06-15"
   },
   "AUV128-128G-RBE": {
-    "baseline": 23.73,
-    "date": "2026-06-16"
+    "baseline": 24.29,
+    "date": "2026-06-17"
   },
   "AUV320-128G-RBKBL": {
     "baseline": 23.68,
@@ -736,8 +736,8 @@
     "date": "2026-06-15"
   },
   "AUV150-64G-RRD": {
-    "baseline": 13.66,
-    "date": "2026-06-15"
+    "baseline": 13.96,
+    "date": "2026-06-17"
   },
   "AUV150-64G-RBK": {
     "baseline": 13.96,
@@ -9944,8 +9944,8 @@
     "date": "2026-06-15"
   },
   "AD4U320032G22-SGN": {
-    "baseline": 616.6,
-    "date": "2026-06-15"
+    "baseline": 630.57,
+    "date": "2026-06-17"
   },
   "KVR64A52BD8-64": {
     "baseline": 1985.46,
@@ -10144,20 +10144,20 @@
     "date": "2026-06-15"
   },
   "AX5U6400C3216G-SLABRBK": {
-    "baseline": 653.9,
-    "date": "2026-06-16"
+    "baseline": 670.47,
+    "date": "2026-06-17"
   },
   "AX5U6000C3016G-DCCARGY": {
     "baseline": 645.96,
     "date": "2026-06-15"
   },
   "AX5U6000C3016G-SLABRWH": {
-    "baseline": 593.3,
-    "date": "2026-06-15"
+    "baseline": 602.83,
+    "date": "2026-06-17"
   },
   "AX5U6000C3016G-SLABRBK": {
-    "baseline": 593.3,
-    "date": "2026-06-15"
+    "baseline": 604.87,
+    "date": "2026-06-17"
   },
   "AX5U6000C4016G-CLARBK": {
     "baseline": 138.71,

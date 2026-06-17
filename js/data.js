@@ -4307,7 +4307,7 @@ var products = [
    img:'./images/products/52494.webp',stock:false},
 
   {id:615,name:'2X8G DDR4 3200 XPG D35/BK',brand:'ADATA',cat:'components',subcat:'ram',
-   price:330,old:null,pct:null,badge:null,added:'2026-04-20',emoji:'🟢',sku:'AX4U32008G16A-DTBKD35',ean:'4711085942807',
+   price:309.62,old:334.73,pct:8,badge:'sale',added:'2026-04-20',emoji:'🟢',sku:'AX4U32008G16A-DTBKD35',ean:'4711085942807',
    specs:{'Тип':'DDR4','Капацитет':'16 GB','Честота':'3200 MHz','Латентност':'CL 16-20-20','Форм фактор':'DIMM','Напрежение':'1.35V'},
    rating:4.4,rv:0,reviews:[],
    desc:'ADATA 2X8G DDR4 3200 XPG D35/BK - DDR4 DIMM 3200 MHz, 16 GB, CL 16-20-20.',
@@ -4388,7 +4388,7 @@ var products = [
    specs:{'Тип':'DDR5','Капацитет':'16 GB','Честота':'5600 MHz','Латентност':'CL36','Форм фактор':'DIMM'},
    rating:4.4,rv:0,reviews:[],
    desc:'Kingston 2X8G DDR5 5600 KING EXPO BEAST - DDR5 DIMM 5600 MHz, 16 GB, CL36.',
-   img:'./images/products/34691.webp',stock:false},
+   img:'./images/products/34691.webp',stock:true},
 
   {id:627,name:'2X8G DDR5 6000 KING FURY BEAST',brand:'Kingston',cat:'components',subcat:'ram',
    price:121.2,old:null,pct:null,badge:null,added:'2026-04-20',emoji:'🟣',sku:'KF560C40BBK2-16',ean:null,
@@ -4573,7 +4573,7 @@ var products = [
    img:'./images/products/37541.webp',stock:true},
 
   {id:653,name:'16G DDR5 4800 ADATA',brand:'ADATA',cat:'components',subcat:'ram',
-   price:411.6,old:null,pct:null,badge:null,added:'2026-04-20',emoji:'🟣',sku:'AD5U480016G-S',ean:'4711085936448',
+   price:391.62,old:411.6,pct:5,badge:'sale',added:'2026-04-20',emoji:'🟣',sku:'AD5U480016G-S',ean:'4711085936448',
    specs:{'Тип':'DDR5','Капацитет':'16 GB','Честота':'4800 MHz','Форм фактор':'DIMM'},
    rating:4.4,rv:0,reviews:[],
    desc:'ADATA 16G DDR5 4800 ADATA - DDR5 DIMM 4800 MT/s MHz, 16 GB.',
@@ -4601,7 +4601,7 @@ var products = [
    img:'./images/products/44166.webp',stock:false},
 
   {id:657,name:'16G DDR5 5600 ADATA',brand:'ADATA',cat:'components',subcat:'ram',
-   price:470.4,old:null,pct:null,badge:null,added:'2026-04-20',emoji:'🟣',sku:'AD5U560016G-S',ean:'4711085939234',
+   price:436.17,old:475.85,pct:8,badge:'sale',added:'2026-04-20',emoji:'🟣',sku:'AD5U560016G-S',ean:'4711085939234',
    specs:{'Тип':'DDR5','Капацитет':'16 GB','Честота':'5600 MHz','Форм фактор':'DIMM','Напрежение':'1.1V'},
    rating:4.4,rv:0,reviews:[],
    desc:'ADATA 16G DDR5 5600 ADATA - DDR5 DIMM 5600 MHz, 16 GB.',
@@ -5567,7 +5567,7 @@ var products = [
    img:'./images/products/32472.webp',stock:false},
 
   {id:795,name:'32G DDR5 5600 ADATA SODIMM',brand:'ADATA',cat:'components',subcat:'ram',
-   price:860.62,old:941.59,pct:9,badge:'sale',added:'2026-04-20',emoji:'💻',sku:'AD5S560032G-S',ean:'4711085941114',
+   price:867.71,old:941.59,pct:8,badge:'sale',added:'2026-04-20',emoji:'💻',sku:'AD5S560032G-S',ean:'4711085941114',
    specs:{'Тип':'DDR5','Капацитет':'32 GB','Честота':'5600 MHz','Форм фактор':'SO-DIMM','Напрежение':'1.1V'},
    rating:4.4,rv:0,reviews:[],
    desc:'ADATA 32G DDR5 5600 ADATA SODIMM - DDR5 SO-DIMM 5600 MHz, 32 GB.',

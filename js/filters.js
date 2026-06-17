@@ -194,7 +194,7 @@ function renderGrids(){
   const _flashAll=[...products].filter(p=>_inStock(p)&&p.old&&p.pct>0);
   for(let i=_flashAll.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[_flashAll[i],_flashAll[j]]=[_flashAll[j],_flashAll[i]];}
   const _vw = (typeof _cachedInnerWidth !== 'undefined') ? _cachedInnerWidth : window.innerWidth;
-  const _flashProds=_flashAll.slice(0,_vw<640?2:4);
+  const _flashProds=_flashAll.slice(0,_vw<640?6:4);
   const flashSection=document.getElementById('sale');
   if(flashSection) flashSection.style.display=_flashProds.length?'':'none';
   const fg=document.getElementById('flashGrid');
@@ -233,6 +233,27 @@ function renderGrids(){
   const _s4 = products.find(p=>p.id===1884);
   const _s4el = document.getElementById('slide4Price');
   if(_s4 && _s4el) _s4el.innerHTML = `${(_s4.price/EUR_RATE).toFixed(2)} € / ${fmtBgn(_s4.price)} <small>с ДДС</small>`;
+  // Mobile homepage hero — populate with top flash-sale product by savings
+  const _mobHeroEl = document.getElementById('mobHpHero');
+  if (_mobHeroEl && _flashAll.length) {
+    const _heroPref = ['laptops','gaming_l','convertible','monitors','gpu','headphones','audio'];
+    const _hp = ([..._flashAll].filter(p=>(p.rv||0)>0&&_heroPref.includes(p.cat)).sort((a,b)=>(b.rv||0)*b.pct-(a.rv||0)*a.pct)[0])
+              || ([..._flashAll].filter(p=>(p.rv||0)>0).sort((a,b)=>(b.rv||0)*b.pct-(a.rv||0)*a.pct)[0])
+              || [..._flashAll].sort((a,b)=>b.pct-a.pct)[0];
+    const _hpPr  = (_hp.price/EUR_RATE).toFixed(2);
+    const _hpOld = (_hp.old  /EUR_RATE).toFixed(2);
+    const _hpSv  = ((_hp.old-_hp.price)/EUR_RATE).toFixed(2);
+    const _t=document.getElementById('mobHpTitle'),_s=document.getElementById('mobHpSub'),
+          _p=document.getElementById('mobHpPrice'),_o=document.getElementById('mobHpPriceOld'),
+          _sv=document.getElementById('mobHpSave'),_b=document.getElementById('mobHpBtn');
+    if(_t) _t.textContent = _hp.name||'';
+    if(_s) _s.textContent = _hp.brand||'';
+    if(_p) _p.textContent = _hpPr+' €';
+    if(_o) _o.textContent = _hpOld+' €';
+    if(_sv) _sv.textContent = 'Спестяваш '+_hpSv+' €';
+    if(_b){ _b.dataset.action='openProductPage('+_hp.id+')'; _b.textContent='Купи сега'; }
+    _mobHeroEl.removeAttribute('aria-hidden');
+  }
   renderNewGrid(window._newPeriodDays || 14);
   initNewPeriodChips();
   // Promo strip - update free delivery threshold with current EUR rate
@@ -248,6 +269,7 @@ function renderGrids(){
   updateWishlistUI();
   if(typeof initLazyImages==='function') initLazyImages();
   if(typeof renderHpCats==='function') renderHpCats();
+  if(window.innerWidth<=768 && typeof switchMobTab==='function') switchMobTab('sale');
 }
 
 function renderPromoBanner(){

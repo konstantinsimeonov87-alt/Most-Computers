@@ -74,6 +74,22 @@ function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
 function scrollToFeatured() { document.getElementById('featured')?.scrollIntoView({ behavior: 'smooth' }); }
 function scrollToSale()     { document.getElementById('sale')?.scrollIntoView({ behavior: 'smooth' }); }
 
+function switchMobTab(tab) {
+  if (window.innerWidth > 768) return;
+  document.querySelectorAll('.mob-hp-tab').forEach(t => {
+    t.classList.toggle('active', t.dataset.tab === tab);
+    t.setAttribute('aria-selected', t.dataset.tab === tab ? 'true' : 'false');
+  });
+  const map = { sale: 'sale', new: 'newSection', bestsellers: 'bestsellersSection' };
+  const banners = [document.getElementById('promoSplitBanner'), document.getElementById('promoBanner')];
+  Object.entries(map).forEach(([key, id]) => {
+    const el = document.getElementById(id);
+    if (el) el.classList.toggle('mob-tab-hidden', key !== tab);
+  });
+  banners.forEach(el => { if (el) el.classList.toggle('mob-tab-hidden', tab !== 'sale'); });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
 function initBackToTop() {
   const btn = document.getElementById('backToTop');
   if (!btn) return;
@@ -83,17 +99,50 @@ function initBackToTop() {
   }, { passive: true });
 }
 
+// ===== FOOTER ACCORDION (MOBILE) =====
+function initFooterAccordion() {
+  if (window.innerWidth > 768) return;
+  document.querySelectorAll('.footer-col-title').forEach(title => {
+    title.addEventListener('click', () => {
+      title.closest('.footer-col').classList.toggle('expanded');
+    });
+  });
+}
+initFooterAccordion();
+window.addEventListener('resize', () => {
+  if (window.innerWidth > 768) {
+    document.querySelectorAll('.footer-col').forEach(c => c.classList.add('expanded'));
+  }
+});
+
 // ===== BOTTOM NAV =====
 function setBottomNavActive(id) {
   document.querySelectorAll('.bn-item').forEach(b => b.classList.remove('active'));
   document.querySelectorAll('#' + id).forEach(el => el.classList.add('active'));
 }
+window.addEventListener('popstate', () => setBottomNavActive(''));
+
+function openMobCatsPage() {
+  const el = document.getElementById('mobCatsPage');
+  if (!el) return;
+  el.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  setBottomNavActive('bn-cats');
+}
+function closeMobCatsPage() {
+  const el = document.getElementById('mobCatsPage');
+  if (!el) return;
+  el.classList.remove('open');
+  document.body.style.overflow = '';
+  setBottomNavActive('');
+}
+
 function closePagesGoHome() {
   ['wishlistPage','contactPage','searchResultsPage','checkoutPage','thankyouPage','myOrdersPage'].forEach(id => {
     document.getElementById(id)?.classList.remove('open');
   });
   document.body.style.overflow = '';
-  setBottomNavActive('bn-home');
+  setBottomNavActive('');
   window.scrollTo({top:0,behavior:'smooth'});
 }
 function focusSearch() {

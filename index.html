@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="bg">
 <head>
   <meta charset="UTF-8">
@@ -41,10 +41,10 @@
     content="лаптопи, смартфони, телевизори, таблети, аудио, гейминг, Most Computers, онлайн магазин електроника, компютри, аксесоари, Samsung, ASUS, Sony, Lenovo, MSI">
   <link rel="alternate" hreflang="bg" href="https://mostcomputers.bg/">
   <link rel="preload" href="styles.css" as="style">
-  <link rel="preload" href="data-core.js?v=20260616" as="script">
-  <link rel="preload" href="app.js?v=20260616" as="script">
-  <link rel="prefetch" href="app-lazy.js?v=20260616">
-  <link rel="prefetch" href="data-details.js?v=20260616">
+  <link rel="preload" href="data-core.js?v=20260617" as="script">
+  <link rel="preload" href="app.js?v=20260617" as="script">
+  <link rel="prefetch" href="app-lazy.js?v=20260617">
+  <link rel="prefetch" href="data-details.js?v=20260617">
   <link rel="alternate" hreflang="x-default" href="https://mostcomputers.bg/">
   <link rel="canonical" href="https://mostcomputers.bg/">
   <link rel="sitemap" type="application/xml" href="/sitemap.xml">
@@ -758,341 +758,111 @@ body.compare-active{padding-bottom:90px}
   <!-- CART OVERLAY -->
   <div class="cart-overlay" id="cartOverlay" data-action="toggleCart"></div>
 
-  <!-- MOBILE DRAWER -->
-  <div class="mob-overlay" id="mobOverlay" data-action="toggleMobMenu"></div>
-
-  <div class="mob-drawer" id="mobDrawer" role="dialog" aria-label="Навигационно меню" aria-modal="true">
-    <div class="mob-drawer-header">
-      <span class="mob-drawer-title">Most <span style="color:var(--primary)">Computers</span></span>
-      <button type="button" class="mob-drawer-close" data-action="toggleMobMenu" aria-label="Затвори меню"><svg width="20" height="20"
-          class="svg-ic" aria-hidden="true">
-          <use href="#ic-close" />
-        </svg></button>
-    </div>
-
-    <!-- User strip -->
-    <button type="button" class="mob-drawer-user-strip" data-action="toggleMobMenu;handleProfileClick">
-      <div class="mob-user-avatar">👤</div>
-      <div>
-        <div class="mob-user-name" id="mobUserName">Вход / Регистрация</div>
-        <div class="mob-user-sub" id="mobUserSub">Управлявай профила си</div>
-      </div>
-      <span class="mob-user-arr">›</span>
-    </button>
-
-    <!-- Trust badges -->
-    <div class="mob-drawer-trust">
-      <span class="mob-trust-badge"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true" style="display:inline-block;vertical-align:-1px;margin-right:3px"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>От 1990 г.</span>
-      <span class="mob-trust-badge">🚚 Безплатна доставка</span>
-      <span class="mob-trust-badge">↩ 14 дни връщане</span>
-    </div>
-
-    <!-- Removed redundant mob-search, we use the main live search instead --> <!-- Main nav -->
-    <div class="mob-nav-section">
-      <div class="mob-nav-title">Навигация</div>
-      <button type="button" class="mob-nav-item" data-action="toggleMobMenu;scrollToTop"><span
-          class="mi-icon">🏠</span>Начало<span class="mi-arr">›</span></button>
-      <button type="button" class="mob-nav-item hot" data-action="toggleMobMenu;filterCatScroll:new"><span
-          class="mi-icon">🔥</span>Нови продукти<span class="mi-badge">NEW</span></button>
-      <button type="button" class="mob-nav-item sale" data-action="toggleMobMenu;filterCatScroll:sale"><span
-          class="mi-icon">%</span>Намаления до -60%<span class="mi-badge"
-          style="background:var(--sale)">SALE</span></button>
-      <button type="button" class="mob-nav-item" data-action="toggleMobMenu;openAboutPage"><span
-          class="mi-icon">🏢</span>За нас<span class="mi-arr">›</span></button>
-      <button type="button" class="mob-nav-item" data-action="toggleMobMenu;openBlogPage"><span
-          class="mi-icon">📰</span>Блог<span class="mi-badge">Ново</span></button>
-      <button type="button" class="mob-nav-item" data-action="toggleMobMenu;openDeliveryPage"><span
-          class="mi-icon">🚚</span>Доставка<span class="mi-arr">›</span></button>
-      <button type="button" class="mob-nav-item" data-action="toggleMobMenu;openContactsPage"><span
-          class="mi-icon">📞</span>Контакти<span class="mi-arr">›</span></button>
-      <button type="button" class="mob-nav-item" data-action="toggleMobMenu;openServicePage"><span
-          class="mi-icon">🔧</span>Сервизен център<span class="mi-arr">›</span></button>
-      <button type="button" class="mob-nav-item" data-action="toggleMobMenu;openB2BPage"><span
-          class="mi-icon">🏢</span>B2B портал<span class="mi-arr">›</span></button>
-      <button type="button" class="mob-nav-item" data-action="toggleMobMenu;openCareersPage"><span
-          class="mi-icon">👥</span>Кариери<span class="mi-arr">›</span></button>
-    </div>
-
-    <!-- Categories - Quick Grid -->
-    <div class="mob-nav-section">
-      <div class="mob-nav-title">Категории</div>
-      <div class="mob-cats-grid">
-        <button type="button" class="mob-cat-tile" data-action="toggleMobMenu;openCatPage('phones')">
-          <span class="mob-cat-emoji">📱</span><span>Телефони</span>
-        </button>
-        <button type="button" class="mob-cat-tile" data-action="toggleMobMenu;openCatPage('laptops')">
-          <span class="mob-cat-emoji">💻</span><span>Лаптопи</span>
-        </button>
-        <button type="button" class="mob-cat-tile" data-action="toggleMobMenu;openCatPage('desktops')">
-          <span class="mob-cat-emoji">🖥</span><span>Настолни</span>
-        </button>
-        <button type="button" class="mob-cat-tile" data-action="toggleMobMenu;openCatPage('components')">
-          <span class="mob-cat-emoji">⚙️</span><span>Компоненти</span>
-        </button>
-        <button type="button" class="mob-cat-tile" data-action="toggleMobMenu;openCatPage('monitors')">
-          <span class="mob-cat-emoji">🖥️</span><span>Монитори</span>
-        </button>
-        <button type="button" class="mob-cat-tile" data-action="toggleMobMenu;openCatPage('peripherals')">
-          <span class="mob-cat-emoji">🖱</span><span>Периферия</span>
-        </button>
-        <button type="button" class="mob-cat-tile" data-action="toggleMobMenu;openCatPage('audio')">
-          <span class="mob-cat-emoji">🎧</span><span>Аудио</span>
-        </button>
-        <button type="button" class="mob-cat-tile" data-action="toggleMobMenu;openCatPage('cameras')">
-          <span class="mob-cat-emoji">📹</span><span>Камери</span>
-        </button>
-        <button type="button" class="mob-cat-tile" data-action="toggleMobMenu;openCatPage('network')">
-          <span class="mob-cat-emoji">📡</span><span>Мрежово</span>
-        </button>
-        <button type="button" class="mob-cat-tile" data-action="toggleMobMenu;openCatPage('storage')">
-          <span class="mob-cat-emoji">💾</span><span>Памет и съхранение</span>
-        </button>
-        <button type="button" class="mob-cat-tile" data-action="toggleMobMenu;openCatPage('accessories')">
-          <span class="mob-cat-emoji">🎒</span><span>Аксесоари</span>
-        </button>
-        <button type="button" class="mob-cat-tile" data-action="toggleMobMenu;openCatPage('printers')">
-          <span class="mob-cat-emoji">🖨</span><span>Принтери</span>
-        </button>
-        <button type="button" class="mob-cat-tile" data-action="toggleMobMenu;openCatPage('consumables')">
-          <span class="mob-cat-emoji">🖋️</span><span>Консумативи</span>
-        </button>
-        <button type="button" class="mob-cat-tile" data-action="toggleMobMenu;openCatPage('ups')">
-          <span class="mob-cat-emoji">⚡</span><span>UPS</span>
-        </button>
-        <button type="button" class="mob-cat-tile" data-action="toggleMobMenu;openCatPage('software')">
-          <span class="mob-cat-emoji">📀</span><span>Софтуер</span>
-        </button>
-      </div>
-    </div>
-
-    <!-- Categories - Accordion -->
-    <div class="mob-nav-section mob-accordion">
-      <button class="mob-accordion-toggle"
-        onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open');this.setAttribute('aria-expanded',this.classList.contains('open'))" type="button" aria-expanded="false">
-        <span>📦 Категории</span>
-        <span class="mob-acc-arrow">›</span>
+  <!-- MOB CATEGORIES PAGE -->
+  <div class="mob-cats-page" id="mobCatsPage" role="dialog" aria-label="Категории" aria-modal="true">
+    <!-- MCP Header -->
+    <div class="mcp-hdr">
+      <button type="button" class="mcp-back" data-action="closeMobCatsPage" aria-label="Назад">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
       </button>
-      <div class="mob-accordion-body">
-        <!-- LAPTOP -->
-        <div class="mob-sub-accordion">
-          <button class="mob-sub-accordion-toggle"
-            onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open');this.setAttribute('aria-expanded',this.classList.contains('open'))" type="button" aria-expanded="false">
-            <div style="display:flex;align-items:center;gap:12px;"><span class="mi-icon"><svg width="18" height="18"
-                  class="svg-ic" aria-hidden="true">
-                  <use href="#ic-laptop" />
-                </svg></span>Лаптопи</div>
-            <span class="mob-acc-arrow">›</span>
-          </button>
-          <div class="mob-sub-accordion-body">
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:laptops">Всички Лаптопи</button>
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:laptops"
-              onclick="setTimeout(()=>applySubcatById('gaming'),50)">🎮 Геймърски</button>
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:laptops"
-              onclick="setTimeout(()=>applySubcatById('ultrabook'),50)">✈ Ултрабуци</button>
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:laptops"
-              onclick="setTimeout(()=>applySubcatById('business'),50)">💼 Бизнес</button>
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:laptops"
-              onclick="setTimeout(()=>applySubcatById('convertible'),50)">🔄 2-в-1</button>
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:laptops"
-              onclick="setTimeout(()=>applySubcatById('budget'),50)">💰 Бюджетни</button>
-          </div>
-        </div>
-        <!-- MOBILE -->
-        <div class="mob-sub-accordion">
-          <button class="mob-sub-accordion-toggle"
-            onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open');this.setAttribute('aria-expanded',this.classList.contains('open'))" type="button" aria-expanded="false">
-            <div style="display:flex;align-items:center;gap:12px;"><span class="mi-icon"><svg width="18" height="18"
-                  class="svg-ic" aria-hidden="true">
-                  <use href="#ic-phone" />
-                </svg></span>Телефони</div>
-            <span class="mob-acc-arrow">›</span>
-          </button>
-          <div class="mob-sub-accordion-body">
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:phones">Всички
-              Телефони</button>
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:phones"
-              onclick="setTimeout(()=>applySubcatById('flagship'),50)">👑 Флагмани</button>
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:phones"
-              onclick="setTimeout(()=>applySubcatById('midrange'),50)">⚡ Среден клас</button>
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:phones"
-              onclick="setTimeout(()=>applySubcatById('budget'),50)">💰 Бюджетни</button>
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:phones"
-              onclick="setTimeout(()=>applySubcatById('foldable'),50)">🔄 Сгъваеми</button>
-          </div>
-        </div>
-        <!-- TABLET -->
-        <div class="mob-sub-accordion">
-          <button class="mob-sub-accordion-toggle"
-            onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open');this.setAttribute('aria-expanded',this.classList.contains('open'))" type="button" aria-expanded="false">
-            <div style="display:flex;align-items:center;gap:12px;"><span class="mi-icon"><svg width="18" height="18"
-                  class="svg-ic" aria-hidden="true">
-                  <use href="#ic-tablet" />
-                </svg></span>Таблети</div>
-            <span class="mob-acc-arrow">›</span>
-          </button>
-          <div class="mob-sub-accordion-body">
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:phones">Всички
-              Таблети</button>
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:phones"
-              onclick="setTimeout(()=>applySubcatById('pro'),50)">💼 Pro</button>
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:phones"
-              onclick="setTimeout(()=>applySubcatById('kids'),50)">👦 За деца</button>
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:phones"
-              onclick="setTimeout(()=>applySubcatById('drawing'),50)">✏ За рисуване</button>
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:phones"
-              onclick="setTimeout(()=>applySubcatById('budget'),50)">💰 Бюджетни</button>
-          </div>
-        </div>
-        <!-- AUDIO -->
-        <div class="mob-sub-accordion">
-          <button class="mob-sub-accordion-toggle"
-            onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open');this.setAttribute('aria-expanded',this.classList.contains('open'))" type="button" aria-expanded="false">
-            <div style="display:flex;align-items:center;gap:12px;"><span class="mi-icon"><svg width="18" height="18"
-                  class="svg-ic" aria-hidden="true">
-                  <use href="#ic-headphones" />
-                </svg></span>Аудио и слушалки</div>
-            <span class="mob-acc-arrow">›</span>
-          </button>
-          <div class="mob-sub-accordion-body">
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:audio">Всички
-              Слушалки</button>
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:audio"
-              onclick="setTimeout(()=>applySubcatById('hp_gaming'),50)">🎮 Gaming</button>
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:audio"
-              onclick="setTimeout(()=>applySubcatById('hp_wireless'),50)">📡 Bluetooth / Безжични</button>
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:audio"
-              onclick="setTimeout(()=>applySubcatById('hp_inear'),50)">🎧 Тапи (In-ear)</button>
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:audio"
-              onclick="setTimeout(()=>applySubcatById('hp_office'),50)">💼 Офис headset</button>
-          </div>
-        </div>
-        <!-- Cameras -->
-        <div class="mob-sub-accordion">
-          <button class="mob-sub-accordion-toggle"
-            onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open');this.setAttribute('aria-expanded',this.classList.contains('open'))" type="button" aria-expanded="false">
-            <div style="display:flex;align-items:center;gap:12px;"><span class="mi-icon"><svg width="18" height="18"
-                  class="svg-ic" aria-hidden="true">
-                  <use href="#ic-camera" />
-                </svg></span>Камери</div>
-            <span class="mob-acc-arrow">›</span>
-          </button>
-          <div class="mob-sub-accordion-body">
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:cameras">Всички камери</button>
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:cameras"
-              onclick="setTimeout(()=>applySubcatById('cam_indoor'),50)">🏠 За закрито</button>
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:cameras"
-              onclick="setTimeout(()=>applySubcatById('cam_outdoor'),50)">🌧 За открито</button>
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:cameras"
-              onclick="setTimeout(()=>applySubcatById('cam_poe'),50)">🔌 POE камери</button>
-          </div>
-        </div>
-        <!-- TV -->
-        <div class="mob-sub-accordion">
-          <button class="mob-sub-accordion-toggle"
-            onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open');this.setAttribute('aria-expanded',this.classList.contains('open'))" type="button" aria-expanded="false">
-            <div style="display:flex;align-items:center;gap:12px;"><span class="mi-icon"><svg width="18" height="18"
-                  class="svg-ic" aria-hidden="true">
-                  <use href="#ic-tv" />
-                </svg></span>Телевизори</div>
-            <span class="mob-acc-arrow">›</span>
-          </button>
-          <div class="mob-sub-accordion-body">
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:accessories">Всички
-              Телевизори</button>
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:accessories"
-              onclick="setTimeout(()=>applySubcatById('oled'),50)">✨ OLED</button>
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:accessories"
-              onclick="setTimeout(()=>applySubcatById('qled'),50)">💡 QLED</button>
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:accessories"
-              onclick="setTimeout(()=>applySubcatById('small'),50)">📺 до 43"</button>
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:accessories"
-              onclick="setTimeout(()=>applySubcatById('large'),50)">🖥 55"+</button>
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:accessories"
-              onclick="setTimeout(()=>applySubcatById('4k'),50)">4K Ultra HD</button>
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:accessories"
-              onclick="setTimeout(()=>applySubcatById('8k'),50)">8K</button>
-          </div>
-        </div>
-        <!-- OTHERS (Flat) -->
-        <button type="button" class="mob-nav-item" data-action="toggleMobMenu;filterCat:peripherals"><span
-            class="mi-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true">
-              <use href="#ic-camera" />
-            </svg></span>Фотоапарати<span class="mi-arr">›</span></button>
-        <button type="button" class="mob-nav-item" data-action="toggleMobMenu;filterCat:gaming"><span
-            class="mi-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true">
-              <use href="#ic-gamepad" />
-            </svg></span>Гейминг<span class="mi-arr">›</span></button>
-        <button type="button" class="mob-nav-item" data-action="toggleMobMenu;filterCat:accessories"><span
-            class="mi-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true">
-              <use href="#ic-watch" />
-            </svg></span>Смарт устройства<span class="mi-arr">›</span></button>
-        <button type="button" class="mob-nav-item" data-action="toggleMobMenu;filterCat:network"><span
-            class="mi-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true">
-              <use href="#ic-wifi" />
-            </svg></span>Мрежово оборудване<span class="mi-arr">›</span></button>
-        <button type="button" class="mob-nav-item" data-action="toggleMobMenu;filterCat:ups"><span
-            class="mi-icon">⚡</span>UPS устройства<span class="mi-arr">›</span></button>
-        <button type="button" class="mob-nav-item" data-action="toggleMobMenu;filterCat:components"><span
-            class="mi-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true">
-              <use href="#ic-cpu" />
-            </svg></span>Компоненти<span class="mi-arr">›</span></button>
-        <button type="button" class="mob-nav-item" data-action="toggleMobMenu;filterCat:monitors"><span
-            class="mi-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true">
-              <use href="#ic-monitor" />
-            </svg></span>Монитори<span class="mi-arr">›</span></button>
-        <button type="button" class="mob-nav-item" data-action="toggleMobMenu;filterCat:desktops"><span
-            class="mi-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true">
-              <use href="#ic-desktop" />
-            </svg></span>Настолни компютри<span class="mi-arr">›</span></button>
-        <button type="button" class="mob-nav-item" data-action="toggleMobMenu;filterCat:storage"><span
-            class="mi-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true">
-              <use href="#ic-storage" />
-            </svg></span>Памет и съхранение<span class="mi-arr">›</span></button>
-        <button type="button" class="mob-nav-item" data-action="toggleMobMenu;filterCat:printers"><span
-            class="mi-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true">
-              <use href="#ic-printer" />
-            </svg></span>Принтери<span class="mi-arr">›</span></button>
-        <button type="button" class="mob-nav-item" data-action="toggleMobMenu;filterCat:consumables"><span
-            class="mi-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true">
-              <use href="#ic-consumables" />
-            </svg></span>Консумативи<span class="mi-arr">›</span></button>
+      <span class="mcp-title">Категории</span>
+      <span class="mcp-spacer"></span>
+    </div>
+    <!-- MCP Scrollable content -->
+    <div class="mcp-content">
+      <div class="mcp-promo-row">
+        <button type="button" class="mcp-promo-btn mcp-new" data-action="closeMobCatsPage;filterCatScroll:new">🔥 Нови продукти</button>
+        <button type="button" class="mcp-promo-btn mcp-sale" data-action="closeMobCatsPage;filterCatScroll:sale">% Намаления -60%</button>
       </div>
-    </div>
-
-    <!-- Account -->
-    <div class="mob-nav-section">
-      <div class="mob-nav-title">Акаунт</div>
-      <button type="button" class="mob-nav-item" data-action="toggleMobMenu;handleProfileClick"><span
-          class="mi-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true">
-            <use href="#ic-user" />
-          </svg></span>Профил<span class="mi-arr">›</span></button>
-      <button type="button" class="mob-nav-item" data-action="toggleCart;toggleMobMenu"><span class="mi-icon"><svg
-            width="18" height="18" class="svg-ic" aria-hidden="true">
-            <use href="#ic-cart" />
-          </svg></span>Кошница<span class="mi-arr">›</span></button>
-      <button type="button" class="mob-nav-item" data-action="toggleMobMenu;openWishlist"><span class="mi-icon"><svg
-            width="18" height="18" class="svg-ic" aria-hidden="true">
-            <use href="#ic-heart" />
-          </svg></span>Любими<span class="mi-arr">›</span></button>
-      <button type="button" class="mob-nav-item" data-action="toggleMobMenu;openOrderTracker:"><span
-          class="mi-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true">
-            <use href="#ic-package" />
-          </svg></span>Проследи поръчка<span class="mi-arr">›</span></button>
-    </div>
-
-    <!-- Bottom contacts -->
-    <div class="mob-drawer-bottom">
-      <button type="button" class="mob-dark-toggle" data-action="toggleDarkMode" aria-label="Превключи тъмен режим">
-        <svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-moon"/></svg>
-        <span>Тъмен режим</span>
-      </button>
-      <div class="mob-contact-row">
-        <div class="mob-contact-item">📞 Офис: <a href="tel:+35929191823">(+359 2) 91 823</a></div>
-        <div class="mob-contact-item">🔧 Сервиз: <a href="tel:+35970014411">0700 144 11</a></div>
-        <div class="mob-contact-item" style="color:#6b7280;font-size:11px;margin-top:4px;">© 1990–2026 Most
-          Computers</div>
+      <div class="mcp-grid">
+        <button type="button" class="mcp-cat mcp-laptops" data-action="closeMobCatsPage;openCatPage('laptops')">
+          <svg class="svg-ic" aria-hidden="true"><use href="#ic-laptop"/></svg>
+          <span class="mcp-cat-name">Лаптопи</span>
+          <span class="mcp-cat-cnt" data-mcp-cat="laptops"></span>
+          <span class="mcp-cat-badge">-20%</span>
+        </button>
+        <button type="button" class="mcp-cat mcp-phones" data-action="closeMobCatsPage;openCatPage('phones')">
+          <svg class="svg-ic" aria-hidden="true"><use href="#ic-phone"/></svg>
+          <span class="mcp-cat-name">Телефони</span>
+          <span class="mcp-cat-cnt" data-mcp-cat="phones"></span>
+        </button>
+        <button type="button" class="mcp-cat mcp-desktops" data-action="closeMobCatsPage;openCatPage('desktops')">
+          <svg class="svg-ic" aria-hidden="true"><use href="#ic-desktop"/></svg>
+          <span class="mcp-cat-name">Настолни</span>
+          <span class="mcp-cat-cnt" data-mcp-cat="desktops"></span>
+        </button>
+        <button type="button" class="mcp-cat mcp-components" data-action="closeMobCatsPage;openCatPage('components')">
+          <svg class="svg-ic" aria-hidden="true"><use href="#ic-cpu"/></svg>
+          <span class="mcp-cat-name">Компоненти</span>
+          <span class="mcp-cat-cnt" data-mcp-cat="components"></span>
+        </button>
+        <button type="button" class="mcp-cat mcp-monitors" data-action="closeMobCatsPage;openCatPage('monitors')">
+          <svg class="svg-ic" aria-hidden="true"><use href="#ic-monitor"/></svg>
+          <span class="mcp-cat-name">Монитори</span>
+          <span class="mcp-cat-cnt" data-mcp-cat="monitors"></span>
+        </button>
+        <button type="button" class="mcp-cat mcp-peripherals" data-action="closeMobCatsPage;openCatPage('peripherals')">
+          <svg class="svg-ic" aria-hidden="true"><use href="#ic-mouse"/></svg>
+          <span class="mcp-cat-name">Периферия</span>
+          <span class="mcp-cat-cnt" data-mcp-cat="peripherals"></span>
+        </button>
+        <button type="button" class="mcp-cat mcp-audio" data-action="closeMobCatsPage;openCatPage('audio')">
+          <svg class="svg-ic" aria-hidden="true"><use href="#ic-headphones"/></svg>
+          <span class="mcp-cat-name">Аудио</span>
+          <span class="mcp-cat-cnt" data-mcp-cat="audio"></span>
+        </button>
+        <button type="button" class="mcp-cat mcp-cameras" data-action="closeMobCatsPage;openCatPage('cameras')">
+          <svg class="svg-ic" aria-hidden="true"><use href="#ic-camera"/></svg>
+          <span class="mcp-cat-name">Камери</span>
+          <span class="mcp-cat-cnt" data-mcp-cat="cameras"></span>
+        </button>
+        <button type="button" class="mcp-cat mcp-network" data-action="closeMobCatsPage;openCatPage('network')">
+          <svg class="svg-ic" aria-hidden="true"><use href="#ic-wifi"/></svg>
+          <span class="mcp-cat-name">Мрежово</span>
+          <span class="mcp-cat-cnt" data-mcp-cat="network"></span>
+        </button>
+        <button type="button" class="mcp-cat mcp-storage" data-action="closeMobCatsPage;openCatPage('storage')">
+          <svg class="svg-ic" aria-hidden="true"><use href="#ic-storage"/></svg>
+          <span class="mcp-cat-name">Памет</span>
+          <span class="mcp-cat-cnt" data-mcp-cat="storage"></span>
+        </button>
+        <button type="button" class="mcp-cat mcp-printers" data-action="closeMobCatsPage;openCatPage('printers')">
+          <svg class="svg-ic" aria-hidden="true"><use href="#ic-printer"/></svg>
+          <span class="mcp-cat-name">Принтери</span>
+          <span class="mcp-cat-cnt" data-mcp-cat="printers"></span>
+        </button>
+        <button type="button" class="mcp-cat mcp-ups" data-action="closeMobCatsPage;openCatPage('ups')">
+          <svg class="svg-ic" aria-hidden="true"><use href="#ic-bolt"/></svg>
+          <span class="mcp-cat-name">UPS</span>
+          <span class="mcp-cat-cnt" data-mcp-cat="ups"></span>
+        </button>
+        <button type="button" class="mcp-cat mcp-consumables" data-action="closeMobCatsPage;openCatPage('consumables')">
+          <svg class="svg-ic" aria-hidden="true"><use href="#ic-consumables"/></svg>
+          <span class="mcp-cat-name">Консумативи</span>
+          <span class="mcp-cat-cnt" data-mcp-cat="consumables"></span>
+        </button>
+        <button type="button" class="mcp-cat mcp-accessories" data-action="closeMobCatsPage;openCatPage('accessories')">
+          <svg class="svg-ic" aria-hidden="true"><use href="#ic-gift"/></svg>
+          <span class="mcp-cat-name">Аксесоари</span>
+          <span class="mcp-cat-cnt" data-mcp-cat="accessories"></span>
+        </button>
+        <button type="button" class="mcp-cat mcp-software" data-action="closeMobCatsPage;openCatPage('software')">
+          <svg class="svg-ic" aria-hidden="true"><use href="#ic-tag"/></svg>
+          <span class="mcp-cat-name">Софтуер</span>
+          <span class="mcp-cat-cnt" data-mcp-cat="software"></span>
+        </button>
       </div>
-    </div>
+      <div class="mcp-info">
+        <div class="mcp-info-title">Информация</div>
+        <div class="mcp-info-pills">
+          <button type="button" class="mcp-info-pill" data-action="closeMobCatsPage;openAboutPage">За нас</button>
+          <button type="button" class="mcp-info-pill" data-action="closeMobCatsPage;openDeliveryPage">Доставка</button>
+          <button type="button" class="mcp-info-pill" data-action="closeMobCatsPage;openContactsPage">Контакти</button>
+          <button type="button" class="mcp-info-pill" data-action="closeMobCatsPage;openBlogPage">Блог</button>
+          <button type="button" class="mcp-info-pill" data-action="closeMobCatsPage;openServicePage">Сервиз</button>
+        </div>
+      </div>
+    </div><!-- /mcp-content -->
   </div>
 
   <!-- PRODUCT DETAIL MODAL -->
@@ -1616,13 +1386,14 @@ body.compare-active{padding-bottom:90px}
 
   <!-- MOBILE BOTTOM NAV BAR -->
   <nav class="mob-bottom-nav" id="mobBottomNav" aria-label="Мобилна навигация">
-    <button type="button" class="bn-item active" data-action="scrollToTop" id="bn-home">
+    <button type="button" class="bn-item" data-action="openWishlist" id="bn-wish">
       <svg width="22" height="22" class="svg-ic" aria-hidden="true">
-        <use href="#ic-home" />
+        <use href="#ic-heart" />
       </svg>
-      <span>Начало</span>
+      <span class="bn-wish-label">Любими</span>
+      <span class="bn-badge bn-wish-badge" id="bnWishBadge" style="display:none">0</span>
     </button>
-    <button type="button" class="bn-item" data-action="toggleMobMenu" id="bn-cats">
+    <button type="button" class="bn-item" data-action="openMobCatsPage" id="bn-cats">
       <svg width="22" height="22" class="svg-ic" aria-hidden="true">
         <use href="#ic-filter" />
       </svg>
@@ -2146,6 +1917,33 @@ body.compare-active{padding-bottom:90px}
     <!-- CONTENT -->
     <div id="mainContent" class="content-area">
 
+      <!-- MOBILE HERO (mobile-only, populated by renderGrids) -->
+      <div class="mob-hp-hero" id="mobHpHero">
+        <div class="mob-hp-accent" aria-hidden="true"></div>
+        <div class="mob-hp-accent2" aria-hidden="true"></div>
+        <div class="mob-hp-em" aria-hidden="true">💻</div>
+        <div class="mob-hp-content">
+          <div class="mob-hp-badge">🔥 #1 Бестселър тази седмица</div>
+          <div class="mob-hp-title" id="mobHpTitle">Зарежда се...</div>
+          <div class="mob-hp-sub" id="mobHpSub"></div>
+          <div class="mob-hp-row">
+            <div class="mob-hp-prices">
+              <div>
+                <span class="mob-hp-price-old" id="mobHpPriceOld"></span>
+                <span class="mob-hp-price" id="mobHpPrice"></span>
+              </div>
+              <div class="mob-hp-save" id="mobHpSave"></div>
+            </div>
+            <button type="button" class="mob-hp-btn" id="mobHpBtn" data-action="scrollToSale">Виж оферти</button>
+          </div>
+        </div>
+      </div>
+      <div class="mob-hp-dots" aria-hidden="true">
+        <span class="mob-hp-dot mob-hp-dot-a"></span>
+        <span class="mob-hp-dot"></span>
+        <span class="mob-hp-dot"></span>
+      </div>
+
       <!-- HERO SLIDER -->
       <div class="hero-section">
         <div class="hero-slider">
@@ -2211,7 +2009,37 @@ body.compare-active{padding-bottom:90px}
         <div class="hero-right-panel" id="heroRightPanel"></div>
       </div>
 
-      <!-- TRUST BAR - immediately after hero for conversion impact -->
+      <!-- MOBILE SEARCH BAR (mobile-only) -->
+      <button type="button" class="mob-hp-search" data-action="focusSearch" aria-label="Търси продукт">
+        <span class="mob-hp-search-icon" aria-hidden="true">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </span>
+        <span class="mob-hp-search-ph">Търси продукт или марка...</span>
+      </button>
+
+      <!-- MOBILE TABS (mobile-only) -->
+      <div class="mob-hp-tabs-wrap">
+        <div class="mob-hp-tabs" role="tablist" aria-label="Тип оферти">
+          <button type="button" class="mob-hp-tab active" id="tab-sale" data-tab="sale" data-action="switchMobTab('sale')" role="tab" aria-selected="true" aria-controls="sale">⚡ Оферти</button>
+          <button type="button" class="mob-hp-tab" data-tab="new" data-action="switchMobTab('new')" role="tab" aria-selected="false" aria-controls="newSection">✨ Нови</button>
+          <button type="button" class="mob-hp-tab" data-tab="bestsellers" data-action="switchMobTab('bestsellers')" role="tab" aria-selected="false" aria-controls="bestsellersSection">⭐ Bestsellers</button>
+        </div>
+        <button type="button" class="mob-hp-nav-chip" data-action="openCatPage('sale')" aria-label="Виж всички намалени продукти">🔁 Намалени -&gt;</button>
+      </div>
+
+      <!-- MOBILE CATEGORY CHIPS (mobile-only) -->
+      <div class="mob-hp-chips-wrap">
+        <div class="mob-hp-chips">
+          <button type="button" class="mob-chip active">Всички</button>
+          <button type="button" class="mob-chip" data-action="openCatPage('laptops')">💻 Лаптопи</button>
+          <button type="button" class="mob-chip" data-action="openCatPage('monitors')">🖥️ Монитори</button>
+          <button type="button" class="mob-chip" data-action="openCatPage('mice')">🖱️ Мишки</button>
+          <button type="button" class="mob-chip" data-action="openCatPage('keyboards')">⌨️ Клавиатури</button>
+          <button type="button" class="mob-chip" data-action="openCatPage('storage')">💾 Памет</button>
+        </div>
+      </div>
+
+      <!-- TRUST BAR - after chips on mobile, after hero on desktop (mob elements are hidden) -->
       <div class="trust-bar">
         <div class="trust-item">
           <svg width="22" height="22" class="svg-ic trust-icon" aria-hidden="true"><use href="#ic-truck"/></svg>
@@ -2297,13 +2125,13 @@ body.compare-active{padding-bottom:90px}
       </div>
 
       <!-- FLASH SALE -->
-      <div class="flash-sale-section section-wrap" id="sale">
+      <div class="flash-sale-section section-wrap" id="sale" role="tabpanel" tabindex="0" aria-labelledby="tab-sale">
         <div class="flash-header">
           <div>
             <h2 class="flash-title"><svg class="sh-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Светкавични оферти</h2>
             <div class="flash-subtitle">Ограничено количество - не изпускай!</div>
           </div>
-          <a href="#" class="view-all-link" data-action="openCatPage('sale')">Виж всички промоции →</a>
+          <a href="#" class="view-all-link" data-action="openCatPage('sale')">Всички →</a>
           <div class="flash-timer" id="flashTimer" style="visibility:hidden">
             <div class="timer-block"><span class="timer-num" id="th">--</span><span class="timer-label">ч.</span></div>
             <span class="timer-sep">:</span>
@@ -2315,6 +2143,32 @@ body.compare-active{padding-bottom:90px}
           </div>
         </div>
         <div class="products-row cols5" id="flashGrid"></div>
+      </div>
+
+      <!-- MOBILE STATS STRIP (mobile-only) -->
+      <div class="mob-stats">
+        <div class="mob-stat">
+          <div class="mob-stat-num">4.8<em>★</em></div>
+          <div class="mob-stat-lbl">средна оценка</div>
+        </div>
+        <div class="mob-stat">
+          <div class="mob-stat-num">36<em>+</em></div>
+          <div class="mob-stat-lbl">год. на пазара</div>
+        </div>
+        <div class="mob-stat">
+          <div class="mob-stat-num">550K<em>+</em></div>
+          <div class="mob-stat-lbl">доволни клиенти</div>
+        </div>
+      </div>
+
+      <!-- MOBILE PROMO BANNER (mobile-only) -->
+      <div class="mob-promo">
+        <div class="mob-promo-text">
+          <div class="mob-promo-title">Нови продукти всяка седмица</div>
+          <div class="mob-promo-sub">Следи за ексклузивни оферти</div>
+          <button type="button" class="mob-promo-btn" data-action="openCatPage('new')">Разгледай новите →</button>
+        </div>
+        <div class="mob-promo-em">🚀</div>
       </div>
 
       <!-- PROMO SPLIT BANNER - Option A: RTX 5060 Dual OC + Canon MAXIFY GX2040 -->
@@ -2348,7 +2202,7 @@ body.compare-active{padding-bottom:90px}
       </div>
 
       <!-- НОВИ ПРОДУКТИ -->
-      <div class="section-wrap">
+      <div class="section-wrap" id="newSection">
         <div class="section-header">
           <div class="section-header-left">
             <div class="section-accent" style="background:var(--new)"></div>
@@ -3544,11 +3398,11 @@ body.compare-active{padding-bottom:90px}
   </footer>
 
   <!-- Leaflet loaded on-demand: see _loadLeaflet() in pages.js -->
-  <script src="data-core.js?v=20260616" defer></script>
-  <script src="js/promotions-data.js?v=20260616" defer></script>
-  <script src="app.js?v=20260616" defer></script>
+  <script src="data-core.js?v=20260617" defer></script>
+  <script src="js/promotions-data.js?v=20260617" defer></script>
+  <script src="app.js?v=20260617" defer></script>
   <script src="js/b2b.js?v=20260602" defer></script>
-  <script src="js/careers-data.js?v=20260616" defer></script>
+  <script src="js/careers-data.js?v=20260617" defer></script>
   <script src="js/careers-page.js?v=20260605" defer></script>
   <!-- Supabase loaded lazily on first checkout attempt (~50 KiB saved on initial load) -->
 

@@ -251,6 +251,22 @@ function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
 function scrollToFeatured() { document.getElementById('featured')?.scrollIntoView({ behavior: 'smooth' }); }
 function scrollToSale()     { document.getElementById('sale')?.scrollIntoView({ behavior: 'smooth' }); }
 
+function switchMobTab(tab) {
+  if (window.innerWidth > 768) return;
+  document.querySelectorAll('.mob-hp-tab').forEach(t => {
+    t.classList.toggle('active', t.dataset.tab === tab);
+    t.setAttribute('aria-selected', t.dataset.tab === tab ? 'true' : 'false');
+  });
+  const map = { sale: 'sale', new: 'newSection', bestsellers: 'bestsellersSection' };
+  const banners = [document.getElementById('promoSplitBanner'), document.getElementById('promoBanner')];
+  Object.entries(map).forEach(([key, id]) => {
+    const el = document.getElementById(id);
+    if (el) el.classList.toggle('mob-tab-hidden', key !== tab);
+  });
+  banners.forEach(el => { if (el) el.classList.toggle('mob-tab-hidden', tab !== 'sale'); });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
 function initBackToTop() {
   const btn = document.getElementById('backToTop');
   if (!btn) return;
@@ -260,17 +276,50 @@ function initBackToTop() {
   }, { passive: true });
 }
 
+// ===== FOOTER ACCORDION (MOBILE) =====
+function initFooterAccordion() {
+  if (window.innerWidth > 768) return;
+  document.querySelectorAll('.footer-col-title').forEach(title => {
+    title.addEventListener('click', () => {
+      title.closest('.footer-col').classList.toggle('expanded');
+    });
+  });
+}
+initFooterAccordion();
+window.addEventListener('resize', () => {
+  if (window.innerWidth > 768) {
+    document.querySelectorAll('.footer-col').forEach(c => c.classList.add('expanded'));
+  }
+});
+
 // ===== BOTTOM NAV =====
 function setBottomNavActive(id) {
   document.querySelectorAll('.bn-item').forEach(b => b.classList.remove('active'));
   document.querySelectorAll('#' + id).forEach(el => el.classList.add('active'));
 }
+window.addEventListener('popstate', () => setBottomNavActive(''));
+
+function openMobCatsPage() {
+  const el = document.getElementById('mobCatsPage');
+  if (!el) return;
+  el.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  setBottomNavActive('bn-cats');
+}
+function closeMobCatsPage() {
+  const el = document.getElementById('mobCatsPage');
+  if (!el) return;
+  el.classList.remove('open');
+  document.body.style.overflow = '';
+  setBottomNavActive('');
+}
+
 function closePagesGoHome() {
   ['wishlistPage','contactPage','searchResultsPage','checkoutPage','thankyouPage','myOrdersPage'].forEach(id => {
     document.getElementById(id)?.classList.remove('open');
   });
   document.body.style.overflow = '';
-  setBottomNavActive('bn-home');
+  setBottomNavActive('');
   window.scrollTo({top:0,behavior:'smooth'});
 }
 function focusSearch() {
@@ -1139,7 +1188,7 @@ function renderGrids(){
   const _flashAll=[...products].filter(p=>_inStock(p)&&p.old&&p.pct>0);
   for(let i=_flashAll.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[_flashAll[i],_flashAll[j]]=[_flashAll[j],_flashAll[i]];}
   const _vw = (typeof _cachedInnerWidth !== 'undefined') ? _cachedInnerWidth : window.innerWidth;
-  const _flashProds=_flashAll.slice(0,_vw<640?2:4);
+  const _flashProds=_flashAll.slice(0,_vw<640?6:4);
   const flashSection=document.getElementById('sale');
   if(flashSection) flashSection.style.display=_flashProds.length?'':'none';
   const fg=document.getElementById('flashGrid');
@@ -1178,6 +1227,27 @@ function renderGrids(){
   const _s4 = products.find(p=>p.id===1884);
   const _s4el = document.getElementById('slide4Price');
   if(_s4 && _s4el) _s4el.innerHTML = `${(_s4.price/EUR_RATE).toFixed(2)} € / ${fmtBgn(_s4.price)} <small>с ДДС</small>`;
+  // Mobile homepage hero — populate with top flash-sale product by savings
+  const _mobHeroEl = document.getElementById('mobHpHero');
+  if (_mobHeroEl && _flashAll.length) {
+    const _heroPref = ['laptops','gaming_l','convertible','monitors','gpu','headphones','audio'];
+    const _hp = ([..._flashAll].filter(p=>(p.rv||0)>0&&_heroPref.includes(p.cat)).sort((a,b)=>(b.rv||0)*b.pct-(a.rv||0)*a.pct)[0])
+              || ([..._flashAll].filter(p=>(p.rv||0)>0).sort((a,b)=>(b.rv||0)*b.pct-(a.rv||0)*a.pct)[0])
+              || [..._flashAll].sort((a,b)=>b.pct-a.pct)[0];
+    const _hpPr  = (_hp.price/EUR_RATE).toFixed(2);
+    const _hpOld = (_hp.old  /EUR_RATE).toFixed(2);
+    const _hpSv  = ((_hp.old-_hp.price)/EUR_RATE).toFixed(2);
+    const _t=document.getElementById('mobHpTitle'),_s=document.getElementById('mobHpSub'),
+          _p=document.getElementById('mobHpPrice'),_o=document.getElementById('mobHpPriceOld'),
+          _sv=document.getElementById('mobHpSave'),_b=document.getElementById('mobHpBtn');
+    if(_t) _t.textContent = _hp.name||'';
+    if(_s) _s.textContent = _hp.brand||'';
+    if(_p) _p.textContent = _hpPr+' €';
+    if(_o) _o.textContent = _hpOld+' €';
+    if(_sv) _sv.textContent = 'Спестяваш '+_hpSv+' €';
+    if(_b){ _b.dataset.action='openProductPage('+_hp.id+')'; _b.textContent='Купи сега'; }
+    _mobHeroEl.removeAttribute('aria-hidden');
+  }
   renderNewGrid(window._newPeriodDays || 14);
   initNewPeriodChips();
   // Promo strip - update free delivery threshold with current EUR rate
@@ -1193,6 +1263,7 @@ function renderGrids(){
   updateWishlistUI();
   if(typeof initLazyImages==='function') initLazyImages();
   if(typeof renderHpCats==='function') renderHpCats();
+  if(window.innerWidth<=768 && typeof switchMobTab==='function') switchMobTab('sale');
 }
 
 function renderPromoBanner(){

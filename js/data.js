@@ -5608,7 +5608,7 @@ var products = [
    specs:{'Капацитет':'2 TB','Интерфейс':'SATA III','Форм фактор':'3.5\'','RPM':'7,200','Кеш':'256 MB'},
    rating:4.3,rv:0,reviews:[],
    desc:'Seagate 2T SG ST2000DM008 SATA 6G 256M - хард диск 2 TB, SATA III, 3.5".',
-   img:'./images/products/19454.webp',stock:false},
+   img:'./images/products/19454.webp',stock:true},
 
   {id:801,name:'2T SG ST2000DM008 3Y WARR',brand:'Seagate',cat:'components',subcat:'hdd',
    price:164.4,old:null,pct:null,badge:null,added:'2026-04-21',emoji:'🖴',sku:'ST2000DM008 3Y',ean:'8719706011280',

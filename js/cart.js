@@ -159,12 +159,17 @@ function updateCart() {
     // Return focus to cart icon button when cart becomes empty and panel is open
     const panel = document.getElementById('cartPanel');
     if (panel && panel.classList.contains('open')) { const cartBtn = document.querySelector('[onclick*="toggleCart"]') || document.querySelector('#cartIcon'); if (cartBtn) cartBtn.focus(); }
-    // Disable checkout button when cart is empty
+    // Hide footer elements when cart is empty
+    const _deliveryRowEmpty = document.getElementById('cartDeliveryRow');
+    if (_deliveryRowEmpty) _deliveryRowEmpty.style.display = 'none';
+    const _progressWrapEmpty = document.getElementById('cartProgressWrap');
+    if (_progressWrapEmpty) _progressWrapEmpty.style.display = 'none';
+    const _viewCartBtnEmpty = document.querySelector('.view-cart-page-btn');
+    if (_viewCartBtnEmpty) _viewCartBtnEmpty.style.display = 'none';
     const _ckBtnEmpty = document.querySelector('.checkout-btn');
     if (_ckBtnEmpty) {
+      _ckBtnEmpty.style.display = 'none';
       _ckBtnEmpty.disabled = true;
-      _ckBtnEmpty.style.opacity = '0.4';
-      _ckBtnEmpty.style.cursor = 'not-allowed';
     }
     updateFloatPill();
     return;
@@ -210,11 +215,17 @@ function updateCart() {
     }
   } catch (e) { }
   body.innerHTML = html;
+  // Restore footer elements for non-empty cart
+  const _progressWrap = document.getElementById('cartProgressWrap');
+  if (_progressWrap) _progressWrap.style.display = '';
+  const _viewCartBtn = document.querySelector('.view-cart-page-btn');
+  if (_viewCartBtn) _viewCartBtn.style.display = '';
   // Update checkout button with total amount
   const ckBtn = document.querySelector('.checkout-btn');
   if (ckBtn) {
     ckBtn.innerHTML = '🔒 Завърши поръчката · ' + fmtEur(total) + ' →';
     ckBtn.disabled = false;
+    ckBtn.style.display = '';
     ckBtn.style.opacity = '';
     ckBtn.style.cursor = '';
   }

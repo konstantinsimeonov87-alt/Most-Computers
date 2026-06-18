@@ -1492,25 +1492,15 @@ body.compare-active{padding-bottom:90px}
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
       <span>Каталог</span>
     </button>
-    <button type="button" class="bn-item bn-search-pill" data-action="focusSearch" id="bn-search" aria-label="Търсене">
-      <svg width="20" height="20" class="svg-ic" aria-hidden="true">
-        <use href="#ic-search" />
-      </svg>
-      <span>Търсене</span>
-    </button>
-    <button type="button" class="bn-item bn-cart-btn" data-action="toggleCart" id="bn-cart" aria-label="Кошница">
+    <button type="button" class="bn-item" data-action="openWishlist" id="bn-wish" aria-label="Любими">
       <span class="bn-icon-wrap">
-        <svg width="22" height="22" class="svg-ic" aria-hidden="true">
-          <use href="#ic-cart" />
-        </svg>
-        <span class="bn-badge" id="bnCartBadge" style="display:none">0</span>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+        <span class="bn-badge" id="bnWishBadge" style="display:none">0</span>
       </span>
-      <span>Количка</span>
+      <span>Любими</span>
     </button>
     <button type="button" class="bn-item" data-action="handleProfileClick" id="bn-profile">
-      <svg width="22" height="22" class="svg-ic" aria-hidden="true">
-        <use href="#ic-user" />
-      </svg>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
       <span>Профил</span>
     </button>
   </nav>
@@ -1588,14 +1578,6 @@ body.compare-active{padding-bottom:90px}
           </svg>
           <span>Кошница</span>
           <span class="badge" id="cartBadge" aria-live="polite" aria-atomic="true">0</span>
-        </button>
-        <div class="hdr-divider"></div>
-        <button class="hdr-btn pos-rel" type="button" data-action="openWishlist" aria-label="Отвори любими">
-          <span id="wlHdrIcon"><svg width="20" height="20" class="svg-ic" aria-hidden="true">
-              <use href="#ic-heart" />
-            </svg></span>
-          <span>Любими</span>
-          <span class="wl-badge is-hidden" id="wlHdrBadge" aria-live="polite">0</span>
         </button>
         <div class="hdr-divider"></div>
         <button class="hdr-btn hdr-dark-btn" id="dmToggle" type="button" data-action="toggleDarkMode"
@@ -2102,13 +2084,6 @@ body.compare-active{padding-bottom:90px}
         <div class="hero-right-panel" id="heroRightPanel"></div>
       </div>
 
-      <!-- MOBILE SEARCH BAR (mobile-only) -->
-      <button type="button" class="mob-hp-search" data-action="focusSearch" aria-label="Търси продукт">
-        <span class="mob-hp-search-icon" aria-hidden="true">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        </span>
-        <span class="mob-hp-search-ph">Търси продукт или марка...</span>
-      </button>
 
       <!-- MOBILE TABS (mobile-only) -->
       <div class="mob-hp-tabs-wrap">

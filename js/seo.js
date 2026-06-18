@@ -937,11 +937,12 @@ function cpRenderSubcatBar(cat) {
   const bar = document.getElementById('cpSubcatBar');
   if (!bar) return;
   const subs = typeof SUBCATS !== 'undefined' ? SUBCATS[cat] : null;
-  if (!subs || !subs.length) { bar.innerHTML = ''; bar.style.display = 'none'; return; }
+  if (!subs || !subs.length) { bar.innerHTML = ''; bar.classList.remove('visible'); return; }
   const catProds = (typeof products !== 'undefined' ? products : []).filter(p => normalizeCat(p.cat) === cat);
   const activeSubs = subs.filter(s => catProds.some(p => matchesSubcat(p, s.id)));
-  if (!activeSubs.length) { bar.innerHTML = ''; bar.style.display = 'none'; return; }
+  if (!activeSubs.length) { bar.innerHTML = ''; bar.classList.remove('visible'); return; }
   bar.style.display = '';
+  bar.classList.add('visible');
   bar.innerHTML =
     `<button type="button" class="subcat-pill active" onclick="cpApplySubcat('all',this)">Всички</button>` +
     activeSubs.map(s =>

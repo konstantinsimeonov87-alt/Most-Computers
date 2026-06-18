@@ -14095,3 +14095,11 @@ body.compare-active .fcp{bottom:92px;}
     order: 99;
   }
 }
+
+/* C5 — Disable floating sticky filter bar on mobile (overlaps products while scrolling) */
+@media (max-width: 768px) {
+  .cp-sticky-bar,
+  .cp-sticky-bar.show {
+    display: none !important;
+  }
+}

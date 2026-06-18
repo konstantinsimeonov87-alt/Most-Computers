@@ -14103,3 +14103,12 @@ body.compare-active .fcp{bottom:92px;}
     display: none !important;
   }
 }
+
+/* C6 — PDP mini-header: remove sticky on mobile (floats over content while scrolling) */
+@media (max-width: 768px) {
+  .pdp-mhdr {
+    position: relative;
+    top: auto;
+    box-shadow: none;
+  }
+}

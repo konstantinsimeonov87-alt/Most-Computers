@@ -14391,3 +14391,8 @@ body.compare-active .fcp{bottom:92px;}
     display: flex !important;
   }
 }
+
+/* — Hide floating cart pill on mobile (cart is in bottom nav) — */
+@media (max-width: 768px) {
+  .fcp { display: none !important; }
+}

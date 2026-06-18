@@ -451,6 +451,9 @@ function closeSearchDropdown() {
   if (searchDropdown) searchDropdown.classList.remove('open');
   if (searchBar) searchBar.classList.remove('active');
   searchFocusIdx = -1;
+  document.body.classList.remove('search-open');
+  const bd = document.getElementById('searchBackdrop');
+  if (bd) bd.style.display = 'none';
 }
 
 function saveRecentSearch(q) {

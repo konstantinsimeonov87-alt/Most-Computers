@@ -13793,3 +13793,71 @@ body.compare-active .fcp{bottom:92px;}
     display: block;
   }
 }
+
+/* ===== MOBILE IMPROVEMENTS - BATCH 2 ===== */
+
+/* --- 1. Fade gradient on horizontal category chips --- */
+@media (max-width: 768px) {
+  .mob-hp-chips-wrap {
+    position: relative;
+  }
+  .mob-hp-chips-wrap::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 48px;
+    background: linear-gradient(to left, var(--bg, #f8f9fa) 20%, transparent);
+    pointer-events: none;
+    z-index: 1;
+  }
+}
+
+/* --- 2. Add-to-cart button - minimum 44px touch target on mobile --- */
+@media (max-width: 768px) {
+  .product-card .add-cart-btn {
+    min-height: 44px !important;
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+  }
+}
+
+/* --- 3. Wishlist back button - clean borderless style on mobile --- */
+@media (max-width: 768px) {
+  .wishlist-back {
+    border: none !important;
+    background: none !important;
+    box-shadow: none !important;
+    padding: 8px !important;
+    border-radius: 0 !important;
+    outline: none !important;
+  }
+  .wishlist-back:focus-visible { outline: none !important; }
+}
+
+/* --- 4. Search overlay backdrop --- */
+#searchBackdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 899;
+  cursor: pointer;
+}
+
+/* --- 5. Categories overlay - chevron indicator for subcategories --- */
+.mcp-cat::after {
+  content: '\203A';
+  font-size: 20px;
+  color: var(--text2, #555e6d);
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+/* --- 6. Auth modal - extra padding-bottom on mobile for cookie banner --- */
+@media (max-width: 768px) {
+  .auth-body {
+    padding-bottom: max(16px, calc(env(safe-area-inset-bottom) + 60px)) !important;
+  }
+}

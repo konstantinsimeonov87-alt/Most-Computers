@@ -295,7 +295,7 @@ window.addEventListener('resize', () => {
 // ===== BOTTOM NAV =====
 function setBottomNavActive(id) {
   document.querySelectorAll('.bn-item').forEach(b => b.classList.remove('active'));
-  document.querySelectorAll('#' + id).forEach(el => el.classList.add('active'));
+  if (id) document.getElementById(id)?.classList.add('active');
 }
 window.addEventListener('popstate', () => setBottomNavActive(''));
 
@@ -324,7 +324,19 @@ function closePagesGoHome() {
 }
 function focusSearch() {
   const inp = document.getElementById('searchInput');
-  if (inp) { inp.focus(); inp.scrollIntoView({behavior:'smooth',block:'center'}); }
+  if (inp) {
+    inp.scrollIntoView({behavior:'smooth',block:'center'});
+    inp.focus({ preventScroll: true });
+  }
+  document.body.classList.add('search-open');
+  let bd = document.getElementById('searchBackdrop');
+  if (!bd && window.innerWidth <= 768) {
+    bd = document.createElement('div');
+    bd.id = 'searchBackdrop';
+    document.body.appendChild(bd);
+    bd.addEventListener('click', () => { if (typeof closeSearchDropdown === 'function') closeSearchDropdown(); });
+  }
+  if (bd) bd.style.display = 'block';
   setBottomNavActive('bn-search');
 }
 // Sync bottom nav cart badge with main cart

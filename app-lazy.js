@@ -565,6 +565,13 @@ function updateCart() {
     // Return focus to cart icon button when cart becomes empty and panel is open
     const panel = document.getElementById('cartPanel');
     if (panel && panel.classList.contains('open')) { const cartBtn = document.querySelector('[onclick*="toggleCart"]') || document.querySelector('#cartIcon'); if (cartBtn) cartBtn.focus(); }
+    // Disable checkout button when cart is empty
+    const _ckBtnEmpty = document.querySelector('.checkout-btn');
+    if (_ckBtnEmpty) {
+      _ckBtnEmpty.disabled = true;
+      _ckBtnEmpty.style.opacity = '0.4';
+      _ckBtnEmpty.style.cursor = 'not-allowed';
+    }
     updateFloatPill();
     return;
   }
@@ -611,7 +618,12 @@ function updateCart() {
   body.innerHTML = html;
   // Update checkout button with total amount
   const ckBtn = document.querySelector('.checkout-btn');
-  if (ckBtn) ckBtn.innerHTML = '🔒 Завърши поръчката · ' + fmtEur(total) + ' →';
+  if (ckBtn) {
+    ckBtn.innerHTML = '🔒 Завърши поръчката · ' + fmtEur(total) + ' →';
+    ckBtn.disabled = false;
+    ckBtn.style.opacity = '';
+    ckBtn.style.cursor = '';
+  }
   // Sync cart page if open
   if (typeof renderCartPageSummary === 'function' && document.getElementById('cartPage')?.style.display !== 'none') { renderCartPageSummary(); }
   updateFloatPill();
@@ -2293,6 +2305,9 @@ function closeSearchDropdown() {
   if (searchDropdown) searchDropdown.classList.remove('open');
   if (searchBar) searchBar.classList.remove('active');
   searchFocusIdx = -1;
+  document.body.classList.remove('search-open');
+  const bd = document.getElementById('searchBackdrop');
+  if (bd) bd.style.display = 'none';
 }
 
 function saveRecentSearch(q) {

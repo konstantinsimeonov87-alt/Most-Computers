@@ -13978,3 +13978,120 @@ body.compare-active .fcp{bottom:92px;}
   .cp-sb-apply:active { opacity: 0.85; }
 }
 .pp-quick-btn:active { opacity: 0.8; }
+
+/* ═══ MOB DRAWER ═══ */
+.mob-drawer-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 8000;
+  cursor: pointer;
+}
+.mob-drawer-overlay.open { display: block; }
+
+.mob-drawer {
+  position: fixed;
+  top: 0;
+  left: -100%;
+  width: min(300px, 85vw);
+  bottom: 0;
+  background: var(--white);
+  z-index: 8001;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  transition: left 0.28s cubic-bezier(0.4,0,0.2,1);
+  box-shadow: 4px 0 24px rgba(0,0,0,0.18);
+  display: flex;
+  flex-direction: column;
+}
+.mob-drawer.open { left: 0; }
+
+@media (min-width: 769px) {
+  .mob-drawer, .mob-drawer-overlay { display: none !important; }
+}
+
+.mob-drawer-hdr {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  background: var(--white);
+  z-index: 1;
+}
+.mob-drawer-title { font-size: 17px; font-weight: 700; color: var(--text); }
+.mob-drawer-close {
+  background: none; border: none; cursor: pointer;
+  padding: 4px; color: var(--text2);
+  min-width: 44px; min-height: 44px;
+  display: flex; align-items: center; justify-content: center;
+}
+.mob-drawer-body { flex: 1; padding: 12px 0 24px; overflow-y: auto; }
+
+.mob-drawer-promo {
+  display: flex; gap: 8px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+}
+.mob-drawer-promo-new, .mob-drawer-promo-sale {
+  flex: 1; padding: 10px 8px; border: none; border-radius: 10px;
+  font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit;
+  text-align: center;
+}
+.mob-drawer-promo-new { background: #fef9ec; color: #92400e; }
+.mob-drawer-promo-sale { background: #fef2f2; color: var(--primary); }
+
+.mob-drawer-section { border-bottom: 1px solid var(--border); padding: 8px 0; }
+.mob-drawer-section-lbl {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
+  color: var(--text2); text-transform: uppercase;
+  padding: 8px 16px 4px;
+}
+.mob-drawer-item {
+  display: flex; align-items: center; gap: 10px;
+  width: 100%; padding: 13px 16px;
+  background: none; border: none; cursor: pointer;
+  font-size: 15px; color: var(--text); font-family: inherit;
+  text-align: left;
+}
+.mob-drawer-item:active { background: var(--bg); }
+
+.mob-drawer-auth { padding: 16px; }
+.mob-drawer-auth-btn {
+  display: block; width: 100%; padding: 14px;
+  background: var(--primary); color: #fff; border: none; border-radius: 10px;
+  font-size: 15px; font-weight: 700; cursor: pointer; font-family: inherit;
+}
+.mob-drawer-auth-btn:active { opacity: 0.85; }
+
+/* Move related/recs widget BELOW main PDP content on mobile
+   The #pdpRecsWidget is nested inside .pdp-gallery (first grid child),
+   which causes it to appear between gallery and product info on mobile.
+   Fix: unwrap .pdp-gallery with display:contents so its children become
+   direct flex children of .pdp-main-grid, then use order to push the
+   recs widget to the bottom. */
+@media (max-width: 900px) {
+  .pdp-main-grid {
+    display: flex;
+    flex-direction: column;
+  }
+  .pdp-gallery {
+    display: contents;
+  }
+  .pdp-main-img-wrap {
+    order: 1;
+  }
+  .pdp-thumbs {
+    order: 2;
+  }
+  .pdp-info {
+    order: 3;
+  }
+  .pdp-recs-widget {
+    order: 99;
+  }
+}

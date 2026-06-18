@@ -13861,3 +13861,59 @@ body.compare-active .fcp{bottom:92px;}
     padding-bottom: max(16px, calc(env(safe-area-inset-bottom) + 60px)) !important;
   }
 }
+
+/* ═══════════════════════════════════════════
+   MOBILE IMPROVEMENTS — C1/C2/C3
+═══════════════════════════════════════════ */
+
+/* C1 — Bottom nav z-index above cookie banner (cookie-banner: 750) */
+@media (max-width: 768px) {
+  .mob-bottom-nav {
+    z-index: 800;
+  }
+}
+
+/* C2 — Product card delivery text truncation on mobile */
+@media (max-width: 768px) {
+  .card-delivery-hint {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+  }
+}
+
+/* C3 — Subcat pills horizontal scroll on mobile with fade gradient */
+@media (max-width: 768px) {
+  .subcat-bar {
+    display: none;
+  }
+  .subcat-bar.visible {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    padding-bottom: 4px;
+    position: relative;
+  }
+  .subcat-bar.visible::-webkit-scrollbar {
+    display: none;
+  }
+  .subcat-bar.visible::after {
+    content: '';
+    position: sticky;
+    right: 0;
+    top: 0;
+    flex-shrink: 0;
+    width: 32px;
+    height: 100%;
+    background: linear-gradient(to right, transparent, var(--bg, #fff));
+    pointer-events: none;
+  }
+}
+
+/* prod-preview-sheet must appear above cat-page (z-index 9000) */
+.prod-preview-sheet { z-index: 9500; }
+.prod-preview-backdrop { z-index: 9499; }

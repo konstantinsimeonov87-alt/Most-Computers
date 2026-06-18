@@ -22,6 +22,7 @@
 
   _stub('openProductPage');
   _stub('openProductModal');
+  _stub('openProdPreview');
   _stub('addToCart');
   _stub('openQuickOrder');
   _stub('toggleCompare');

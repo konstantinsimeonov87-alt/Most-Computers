@@ -134,7 +134,7 @@ function makeCard(p,small=false){
   const imgHtml = safeImg
     ? `<img class="product-img-real" src="${escHtml(safeImg)}" alt="${_eName}" itemprop="image" loading="lazy" width="300" height="300" decoding="async" onload="this.classList.add('img-loaded')" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="product-img-emoji is-hidden" aria-hidden="true">${p.emoji}</span>`
     : `<img class="product-img-placeholder" src="${categoryPlaceholderSvg(p.cat,p.subcat)}" alt="" aria-hidden="true" width="200" height="200" loading="lazy">`;
-  return `<article class="product-card pos-rel${p.stock===false?' is-out-of-stock':''}" itemscope itemtype="https://schema.org/Product">
+  return `<article class="product-card pos-rel${p.stock===false?' is-out-of-stock':''}" itemscope itemtype="https://schema.org/Product" onclick="openProdPreview(${p.id})" style="cursor:pointer;">
     <div class="product-badge-wrap">
       ${p.badge==='sale'?'<span class="badge badge-sale">Промо</span>':''}
       ${p.badge==='promo'?'<span class="badge badge-promo">Промоция</span>':''}
@@ -146,12 +146,12 @@ function makeCard(p,small=false){
 
     </div>
     <button class="product-wishlist" id="wl-${p.id}" type="button" onclick="toggleWishlist(${p.id},event)" title="Добави в любими" aria-label="Добави в любими"><svg width="15" height="15" class="svg-ic" aria-hidden="true"><use href="#ic-heart"/></svg></button>
-    <a href="?product=${p.id}" class="product-img-wrap${small?' small':''}" onclick="openProdPreview(${p.id});return false;" style="cursor:pointer;" aria-label="${_eName}" itemprop="url">
+    <a href="?product=${p.id}" class="product-img-wrap${small?' small':''}" onclick="event.stopPropagation();openProdPreview(${p.id});return false;" style="cursor:pointer;" aria-label="${_eName}" itemprop="url">
       ${imgHtml}
     </a>
     <div class="product-body">
       <div class="product-brand" itemprop="brand" data-brand-search="${escHtml(p.brand)}" style="cursor:pointer;" title="Виж всички ${escHtml(p.brand)}">${escHtml(p.brand)}</div>
-      <h3 class="product-name" itemprop="name"><a href="?product=${p.id}" onclick="openProdPreview(${p.id});return false;" style="color:inherit;text-decoration:none;">${_eName}</a></h3>
+      <h3 class="product-name" itemprop="name"><a href="?product=${p.id}" onclick="event.stopPropagation();openProdPreview(${p.id});return false;" style="color:inherit;text-decoration:none;">${_eName}</a></h3>
       <div class="product-rating"><span class="stars">${starsHTML(p.rating)}</span><span class="rating-num">${p.rating} (${p.rv})</span></div>
       <div class="price-row">
         <div class="price-current${p.badge==='sale'?' sale':''}" itemprop="offers" itemscope itemtype="https://schema.org/Offer"><meta itemprop="priceCurrency" content="EUR"><link itemprop="availability" href="${p.stock===false?'https://schema.org/OutOfStock':'https://schema.org/InStock'}"><span itemprop="price" content="${p.price}">${fmtPrice(p.price, p.badge==='sale'?'sale':'')}</span></div>
@@ -160,14 +160,14 @@ function makeCard(p,small=false){
       <div class="product-footer">
         ${p.stock!==false?`<div class="card-delivery-hint">${p.badge==='sale'?'⚡ Бърза доставка - поръчай до 17:00':'📦 Доставка до 2 работни дни'}</div>`:''}
         ${p.stock===false
-          ? `<button type="button" class="add-cart-btn oos-notify-btn" onclick="oosNotify(${p.id})">🔔 Уведоми ме при наличност</button>
+          ? `<button type="button" class="add-cart-btn oos-notify-btn" onclick="event.stopPropagation();oosNotify(${p.id})">🔔 Уведоми ме при наличност</button>
           <button type="button" class="card-see-similar" onclick="event.stopPropagation();openCatPage('${p.cat}')">Виж подобни →</button>`
-          : `<button type="button" class="add-cart-btn" id="cb-${p.id}" onclick="addToCart(${p.id})"><svg width="15" height="15" class="svg-ic" aria-hidden="true"><use href="#ic-cart"/></svg> Добави в кошница</button>`
+          : `<button type="button" class="add-cart-btn" id="cb-${p.id}" onclick="event.stopPropagation();addToCart(${p.id})"><svg width="15" height="15" class="svg-ic" aria-hidden="true"><use href="#ic-cart"/></svg> Добави в кошница</button>`
         }
         <div class="row-gap-6 card-secondary-btns" style="margin-top:6px;">
-          <button type="button" class="card-sec-btn product-quick-view-btn" onclick="openProductPage(${p.id})" title="Бърз преглед"><svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-eye"/></svg><span class="card-sec-btn-label">Преглед</span></button>
-          <button type="button" class="card-sec-btn" onclick="openQuickOrder(${p.id})" title="Бърза поръчка"><svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-bolt"/></svg><span class="card-sec-btn-label">Бърза поръчка</span></button>
-          <button type="button" class="card-sec-btn" id="cmp-btn-${p.id}" onclick="toggleCompare(${p.id},!compareList.includes(${p.id}))" title="Сравни"><svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-compare"/></svg><span class="card-sec-btn-label">Сравни</span></button>
+          <button type="button" class="card-sec-btn product-quick-view-btn" onclick="event.stopPropagation();openProductPage(${p.id})" title="Бърз преглед"><svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-eye"/></svg><span class="card-sec-btn-label">Преглед</span></button>
+          <button type="button" class="card-sec-btn" onclick="event.stopPropagation();openQuickOrder(${p.id})" title="Бърза поръчка"><svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-bolt"/></svg><span class="card-sec-btn-label">Бърза поръчка</span></button>
+          <button type="button" class="card-sec-btn" id="cmp-btn-${p.id}" onclick="event.stopPropagation();toggleCompare(${p.id},!compareList.includes(${p.id}))" title="Сравни"><svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-compare"/></svg><span class="card-sec-btn-label">Сравни</span></button>
         </div>
       </div>
     </div>
@@ -6317,6 +6317,7 @@ function closeCheckoutPageAndTrack() {
 
   _stub('openProductPage');
   _stub('openProductModal');
+  _stub('openProdPreview');
   _stub('addToCart');
   _stub('openQuickOrder');
   _stub('toggleCompare');

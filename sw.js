@@ -1,9 +1,9 @@
-// Most Computers — Service Worker 53a827b
+// Most Computers — Service Worker f493473
 // Most Computers — Service Worker e2ea8f10
-const CACHE = 'mc-53a827b';
+const CACHE = 'mc-f493473';
 =======
 // Most Computers — Service Worker 0a84693a
-const CACHE = 'mc-53a827b';
+const CACHE = 'mc-f493473';
 >>>>>>> 0ec6325 (fix(mobile): drawer menu + PDP layout fixes)
 const PRECACHE = [
   './',

@@ -780,3 +780,30 @@ function closeMobMenu() {
   document.body.style.width = '';
   window.scrollTo(0, scrollY);
 }
+
+// ===== CATEGORY BOTTOM SHEET =====
+function openCatSheet() {
+  const sheet = document.getElementById('catSheet');
+  const overlay = document.getElementById('catSheetOverlay');
+  if (!sheet || !overlay) return;
+  sheet.classList.add('open');
+  overlay.classList.add('open');
+  setBottomNavActive('bn-cats');
+  document.body.style.overflow = 'hidden';
+}
+function closeCatSheet() {
+  const sheet = document.getElementById('catSheet');
+  const overlay = document.getElementById('catSheetOverlay');
+  if (sheet) sheet.classList.remove('open');
+  if (overlay) overlay.classList.remove('open');
+  setBottomNavActive('');
+  document.body.style.overflow = '';
+}
+
+// ===== HOME BUTTON =====
+function goHome() {
+  closeMobMenu();
+  closeCatSheet();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  setBottomNavActive('bn-home');
+}

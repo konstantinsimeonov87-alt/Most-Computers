@@ -764,49 +764,79 @@ body.compare-active{padding-bottom:90px}
   <!-- MOB DRAWER -->
   <nav class="mob-drawer" id="mobDrawer" aria-label="Мобилно меню" role="dialog" aria-modal="true">
     <div class="mob-drawer-hdr">
-      <span class="mob-drawer-title">Меню</span>
+      <span class="mob-drawer-title">Most Computers</span>
       <button type="button" class="mob-drawer-close" onclick="closeMobMenu()" aria-label="Затвори меню">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
     </div>
     <div class="mob-drawer-body">
-      <!-- Categories — first, immediately visible -->
-      <div class="mob-drawer-section">
-        <div class="mob-drawer-section-lbl">Категории</div>
-        <button type="button" class="mob-drawer-item" data-action="closeMobMenu;openCatPage('laptops')">💻 Лаптопи</button>
-        <button type="button" class="mob-drawer-item" data-action="closeMobMenu;openCatPage('phones')">📱 Телефони</button>
-        <button type="button" class="mob-drawer-item" data-action="closeMobMenu;openCatPage('desktops')">🖥️ Настолни</button>
-        <button type="button" class="mob-drawer-item" data-action="closeMobMenu;openCatPage('monitors')">🖥️ Монитори</button>
-        <button type="button" class="mob-drawer-item" data-action="closeMobMenu;openCatPage('components')">⚙️ Компоненти</button>
-        <button type="button" class="mob-drawer-item" data-action="closeMobMenu;openCatPage('gaming')">🎮 Гейминг</button>
-        <button type="button" class="mob-drawer-item" data-action="closeMobMenu;openCatPage('peripherals')">🖱️ Периферия</button>
-        <button type="button" class="mob-drawer-item" data-action="closeMobMenu;openCatPage('audio')">🎧 Аудио</button>
-        <button type="button" class="mob-drawer-item" data-action="closeMobMenu;openCatPage('network')">📡 Мрежово</button>
-        <button type="button" class="mob-drawer-item" data-action="closeMobMenu;openCatPage('storage')">💾 Памет</button>
-      </div>
-      <!-- Quick promo -->
-      <div class="mob-drawer-promo">
-        <button type="button" class="mob-drawer-promo-new" data-action="closeMobMenu;openCatPage('new')">🔥 Нови продукти</button>
-        <button type="button" class="mob-drawer-promo-sale" data-action="closeMobMenu;openCatPage('sale')">% Намаления</button>
-      </div>
-      <!-- Main navigation -->
-      <div class="mob-drawer-section">
-        <div class="mob-drawer-section-lbl">Информация</div>
-        <button type="button" class="mob-drawer-item" data-action="closeMobMenu">🏠 Начало</button>
-        <button type="button" class="mob-drawer-item" data-action="closeMobMenu;openAbout">📖 За нас</button>
-        <button type="button" class="mob-drawer-item" data-action="closeMobMenu;openBlog">📝 Блог</button>
-        <button type="button" class="mob-drawer-item" data-action="closeMobMenu;openDelivery">🚚 Доставка</button>
-        <button type="button" class="mob-drawer-item" data-action="closeMobMenu;openContacts">📞 Контакти</button>
-        <button type="button" class="mob-drawer-item" data-action="closeMobMenu;openService">🔧 Сервиз</button>
-        <button type="button" class="mob-drawer-item" data-action="closeMobMenu;openB2B">🏢 B2B</button>
-        <button type="button" class="mob-drawer-item" data-action="closeMobMenu;openCareers">💼 Кариери</button>
-      </div>
       <!-- Account -->
       <div class="mob-drawer-section mob-drawer-auth">
         <button type="button" class="mob-drawer-auth-btn" data-action="closeMobMenu;openAuth">👤 Вход / Регистрация</button>
       </div>
+      <!-- Company navigation -->
+      <div class="mob-drawer-section">
+        <div class="mob-drawer-section-lbl">Компания</div>
+        <button type="button" class="mob-drawer-item" data-action="closeMobMenu;openAbout">📖 За нас</button>
+        <button type="button" class="mob-drawer-item" data-action="closeMobMenu;openBlog">📝 Блог</button>
+        <button type="button" class="mob-drawer-item" data-action="closeMobMenu;openDelivery">🚚 Доставка и връщане</button>
+        <button type="button" class="mob-drawer-item" data-action="closeMobMenu;openContacts">📞 Контакти</button>
+        <button type="button" class="mob-drawer-item" data-action="closeMobMenu;openService">🔧 Сервиз</button>
+      </div>
+      <div class="mob-drawer-section">
+        <button type="button" class="mob-drawer-item" data-action="closeMobMenu;openB2B">🏢 B2B партньорство</button>
+        <button type="button" class="mob-drawer-item" data-action="closeMobMenu;openCareers">💼 Кариери при нас</button>
+      </div>
     </div>
   </nav>
+
+  <!-- CATEGORY BOTTOM SHEET -->
+  <div class="cat-sheet-overlay" id="catSheetOverlay" onclick="closeCatSheet()"></div>
+  <div class="cat-sheet" id="catSheet" role="dialog" aria-modal="true" aria-label="Категории">
+    <div class="cat-sheet-handle"></div>
+    <div class="cat-sheet-hdr">
+      <span class="cat-sheet-title">Категории</span>
+      <button type="button" class="cat-sheet-close" onclick="closeCatSheet()" aria-label="Затвори">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="cat-sheet-grid">
+      <button type="button" class="cat-sheet-item" data-action="closeCatSheet;openCatPage('laptops')">
+        <span class="csi-emoji">💻</span><span class="csi-name">Лаптопи</span>
+      </button>
+      <button type="button" class="cat-sheet-item" data-action="closeCatSheet;openCatPage('phones')">
+        <span class="csi-emoji">📱</span><span class="csi-name">Телефони</span>
+      </button>
+      <button type="button" class="cat-sheet-item" data-action="closeCatSheet;openCatPage('desktops')">
+        <span class="csi-emoji">🖥️</span><span class="csi-name">Настолни</span>
+      </button>
+      <button type="button" class="cat-sheet-item" data-action="closeCatSheet;openCatPage('monitors')">
+        <span class="csi-emoji">🖥️</span><span class="csi-name">Монитори</span>
+      </button>
+      <button type="button" class="cat-sheet-item" data-action="closeCatSheet;openCatPage('components')">
+        <span class="csi-emoji">⚙️</span><span class="csi-name">Компоненти</span>
+      </button>
+      <button type="button" class="cat-sheet-item" data-action="closeCatSheet;openCatPage('gaming')">
+        <span class="csi-emoji">🎮</span><span class="csi-name">Гейминг</span>
+      </button>
+      <button type="button" class="cat-sheet-item" data-action="closeCatSheet;openCatPage('peripherals')">
+        <span class="csi-emoji">🖱️</span><span class="csi-name">Периферия</span>
+      </button>
+      <button type="button" class="cat-sheet-item" data-action="closeCatSheet;openCatPage('audio')">
+        <span class="csi-emoji">🎧</span><span class="csi-name">Аудио</span>
+      </button>
+      <button type="button" class="cat-sheet-item" data-action="closeCatSheet;openCatPage('network')">
+        <span class="csi-emoji">📡</span><span class="csi-name">Мрежово</span>
+      </button>
+      <button type="button" class="cat-sheet-item" data-action="closeCatSheet;openCatPage('storage')">
+        <span class="csi-emoji">💾</span><span class="csi-name">Памет</span>
+      </button>
+    </div>
+    <div class="cat-sheet-promo">
+      <button type="button" class="csp-btn csp-new" data-action="closeCatSheet;openCatPage('new')">🔥 Нови продукти</button>
+      <button type="button" class="csp-btn csp-sale" data-action="closeCatSheet;openCatPage('sale')">% Намаления</button>
+    </div>
+  </div>
 
   <!-- MOB CATEGORIES PAGE -->
   <div class="mob-cats-page" id="mobCatsPage" role="dialog" aria-label="Категории" aria-modal="true">
@@ -1436,31 +1466,28 @@ body.compare-active{padding-bottom:90px}
 
   <!-- MOBILE BOTTOM NAV BAR -->
   <nav class="mob-bottom-nav" id="mobBottomNav" aria-label="Мобилна навигация">
-    <button type="button" class="bn-item" data-action="openWishlist" id="bn-wish">
-      <svg width="22" height="22" class="svg-ic" aria-hidden="true">
-        <use href="#ic-heart" />
-      </svg>
-      <span class="bn-wish-label">Любими</span>
-      <span class="bn-badge bn-wish-badge" id="bnWishBadge" style="display:none">0</span>
+    <button type="button" class="bn-item" data-action="goHome" id="bn-home">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg>
+      <span>Начало</span>
     </button>
-    <button type="button" class="bn-item" data-action="toggleMobMenu" id="bn-menu">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-      <span>Меню</span>
+    <button type="button" class="bn-item" data-action="openCatSheet" id="bn-cats">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      <span>Каталог</span>
+    </button>
+    <button type="button" class="bn-item bn-search-pill" data-action="focusSearch" id="bn-search" aria-label="Търсене">
+      <svg width="20" height="20" class="svg-ic" aria-hidden="true">
+        <use href="#ic-search" />
+      </svg>
+      <span>Търсене</span>
     </button>
     <button type="button" class="bn-item bn-cart-btn" data-action="toggleCart" id="bn-cart" aria-label="Кошница">
       <span class="bn-cart-wrap">
-        <svg width="24" height="24" class="svg-ic" aria-hidden="true">
+        <svg width="22" height="22" class="svg-ic" aria-hidden="true">
           <use href="#ic-cart" />
         </svg>
         <span class="bn-badge" id="bnCartBadge">0</span>
       </span>
       <span>Количка</span>
-    </button>
-    <button type="button" class="bn-item" data-action="focusSearch" id="bn-search" aria-label="Търсене">
-      <svg width="22" height="22" class="svg-ic" aria-hidden="true">
-        <use href="#ic-search" />
-      </svg>
-      <span>Търсене</span>
     </button>
     <button type="button" class="bn-item" data-action="handleProfileClick" id="bn-profile">
       <svg width="22" height="22" class="svg-ic" aria-hidden="true">

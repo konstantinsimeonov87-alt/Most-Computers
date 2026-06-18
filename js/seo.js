@@ -618,6 +618,7 @@ function openCatPage(cat, preSubcat, fromURL = false) {
   document.getElementById('catPage').classList.add('open');
   document.documentElement.style.overflow = 'hidden';
   document.body.style.overflow = 'hidden';
+  if (typeof setBottomNavActive === 'function') setBottomNavActive('bn-cats');
   try{history.pushState({ catPage: cat, subcat: preSubcat || 'all' }, '', '?cat=' + cat + _subSuffix);}catch(e){}
   // Defer render so overflow/class paint commits before heavy grid work
   requestAnimationFrame(() => {

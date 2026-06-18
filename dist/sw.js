@@ -1,6 +1,6 @@
 <<<<<<< HEAD
-// Most Computers — Service Worker 5225d78e
-const CACHE = 'mc-5225d78e';
+// Most Computers — Service Worker eafb3851
+const CACHE = 'mc-eafb3851';
 =======
 // Most Computers — Service Worker 0a84693a
 const CACHE = 'mc-0a84693a';

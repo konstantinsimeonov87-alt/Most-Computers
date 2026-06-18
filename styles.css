@@ -14104,11 +14104,9 @@ body.compare-active .fcp{bottom:92px;}
   }
 }
 
-/* C6 — PDP mini-header: remove sticky on mobile (floats over content while scrolling) */
+/* C6 — PDP mini-header: hide on mobile (phone+cart bar wastes top space; bottom nav has cart) */
 @media (max-width: 768px) {
   .pdp-mhdr {
-    position: relative;
-    top: auto;
-    box-shadow: none;
+    display: none;
   }
 }

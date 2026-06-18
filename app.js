@@ -930,6 +930,7 @@ function toggleMobMenu() {
   if (!drawer || !overlay) return;
   const isOpen = drawer.classList.toggle('open');
   overlay.classList.toggle('open', isOpen);
+  setBottomNavActive(isOpen ? 'bn-menu' : '');
   if (isOpen) {
     document.body.dataset.scrollY = window.scrollY;
     document.body.style.cssText += ';overflow:hidden;position:fixed;top:-' + window.scrollY + 'px;width:100%';
@@ -948,6 +949,7 @@ function closeMobMenu() {
   const drawer = document.getElementById('mobDrawer');
   if (overlay) overlay.classList.remove('open');
   if (drawer) drawer.classList.remove('open');
+  setBottomNavActive('');
   const scrollY = parseInt(document.body.dataset.scrollY || '0', 10);
   document.body.style.overflow = '';
   document.body.style.position = '';

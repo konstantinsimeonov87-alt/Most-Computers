@@ -14357,3 +14357,37 @@ body.compare-active .fcp{bottom:92px;}
 }
 .csp-new { background: #fff4e0; color: #92400e; }
 .csp-sale { background: #fef2f2; color: #991b1b; }
+
+/* — Cart icon badge (small dot above icon) — */
+@media (max-width: 768px) {
+  .bn-icon-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .bn-icon-wrap .bn-badge {
+    position: absolute;
+    top: -5px; right: -7px;
+    background: var(--primary, #bd1105);
+    color: #fff;
+    font-size: 9px;
+    font-weight: 700;
+    min-width: 15px;
+    height: 15px;
+    border-radius: 8px;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    padding: 0 3px;
+    border: 1.5px solid #fff;
+    line-height: 1;
+  }
+}
+
+/* — Cart badge show class — */
+@media (max-width: 768px) {
+  .bn-icon-wrap .bn-badge.show {
+    display: flex !important;
+  }
+}

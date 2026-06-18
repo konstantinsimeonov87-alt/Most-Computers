@@ -4117,6 +4117,13 @@ function buildCpSidebar(cat) {
   _cpMaxEur = maxPriceRound;
   cpPriceMax = maxPriceRound;
 
+  // ── Header (close button) ──
+  var headerHtml = '<div class="cp-sb-header">' +
+    '<span class="cp-sb-title">Филтри</span>' +
+    '<button type="button" class="cp-sb-close" onclick="cpCloseSidebar()" aria-label="Затвори">' +
+    '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>' +
+    '</button></div>';
+
   // ── Price block ──
   let html = `
     <div class="sidebar-filter-block" style="border-bottom:1px solid var(--border);padding:16px;">
@@ -4213,7 +4220,12 @@ function buildCpSidebar(cat) {
     </button>
   </div>`;
 
-  sb.innerHTML = html;
+  // ── Footer (apply button) ──
+  var footerHtml = '<div class="cp-sb-footer">' +
+    '<button type="button" class="cp-sb-apply" onclick="cpCloseSidebar()">Приложи филтрите</button>' +
+    '</div>';
+
+  sb.innerHTML = headerHtml + html + footerHtml;
   cpUpdateSlider(true);
 }
 

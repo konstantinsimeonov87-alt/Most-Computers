@@ -13917,3 +13917,64 @@ body.compare-active .fcp{bottom:92px;}
 /* prod-preview-sheet must appear above cat-page (z-index 9000) */
 .prod-preview-sheet { z-index: 9500; }
 .prod-preview-backdrop { z-index: 9499; }
+
+/* PDP Preview Sheet - expanded content */
+.pp-stock { margin-top: 4px; }
+.pp-instock-badge { font-size: 12px; font-weight: 600; color: #16a34a; background: #dcfce7; padding: 2px 8px; border-radius: 20px; display: inline-block; }
+.pp-oos-badge { font-size: 12px; font-weight: 600; color: var(--primary); background: #fef2f2; padding: 2px 8px; border-radius: 20px; display: inline-block; }
+.pp-delivery { font-size: 12px; color: var(--text2, #555e6d); margin-top: 4px; }
+.pp-quick-btn { display: block; width: 100%; padding: 12px; background: transparent; border: 1.5px solid var(--primary); color: var(--primary); border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer; font-family: inherit; }
+
+/* Filter sidebar header + footer on mobile */
+@media (max-width: 767px) {
+  .cp-sb-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 16px 12px;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    background: var(--white);
+    z-index: 1;
+  }
+  .cp-sb-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .cp-sb-close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    color: var(--text2, #555e6d);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 44px;
+  }
+  .cp-sb-footer {
+    padding: 16px;
+    border-top: 1px solid var(--border);
+    position: sticky;
+    bottom: 0;
+    background: var(--white);
+  }
+  .cp-sb-apply {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .cp-sb-apply:active { opacity: 0.85; }
+}
+.pp-quick-btn:active { opacity: 0.8; }

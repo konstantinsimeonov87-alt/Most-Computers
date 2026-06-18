@@ -4402,6 +4402,22 @@ function openProdPreview(id) {
   }
   if (priceEl) priceEl.innerHTML = typeof fmtEur === 'function' ? '<strong>' + fmtEur(p.price) + '</strong>' : '<strong>' + p.price + ' €</strong>';
 
+  var stockEl = document.getElementById('ppStock');
+  if (stockEl) {
+    stockEl.innerHTML = p.stock === false
+      ? '<span class="pp-oos-badge">✕ Изчерпан</span>'
+      : '<span class="pp-instock-badge">✓ В наличност</span>';
+  }
+  var delivEl = document.getElementById('ppDelivery');
+  if (delivEl) delivEl.textContent = p.stock !== false
+    ? (p.badge === 'sale' ? '⚡ Бърза доставка - поръчай до 17:00' : '📦 Доставка до 2 работни дни')
+    : '';
+  var quickBtn = document.getElementById('ppQuickBtn');
+  if (quickBtn) {
+    quickBtn.style.display = p.stock === false ? 'none' : '';
+    quickBtn.onclick = function() { closeProdPreview(); if (typeof openQuickOrder === 'function') openQuickOrder(_ppProductId); };
+  }
+
   var addBtn = document.getElementById('ppAddBtn');
   if (addBtn) {
     addBtn.onclick = function() {

@@ -2403,6 +2403,7 @@ let _pdpScrollY = 0;
 function openProductPage(id) {
   const p = products.find(x => x.id === id);
   if (!p) return;
+  if (typeof closeProdPreview === 'function') closeProdPreview();
   if (document.getElementById('pdpBackdrop')?.classList.contains('open')) {
     document.getElementById('pdpStickyBar')?.classList.remove('visible');
   }

@@ -14494,3 +14494,11 @@ body.compare-active .fcp{bottom:92px;}
     color: #854d0e;
   }
 }
+
+/* ── PDP Mobile: hide related carousel + fix overflow ──────────── */
+@media (max-width: 768px) {
+  #pdpRelated   { display: none !important; }
+  #pdpRecsWidget { display: none !important; }
+  .pdp-backdrop { overflow-x: hidden; }
+  .pdp-inner    { overflow-x: hidden; max-width: 100%; }
+}

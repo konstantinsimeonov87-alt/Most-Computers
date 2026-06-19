@@ -4499,23 +4499,23 @@ body.compare-active{padding-bottom:90px}
           <!-- Viewers counter (QW-02) -->
           <div class="pdp-viewers" id="pdpViewers" style="display:none;"></div>
 
-          <!-- Stock -->
-          <div class="pdp-stock" id="pdpStock">
-            <div class="pdp-stock-dot"></div>
-            <span id="pdpStockTxt">В наличност</span>
-          </div>
-
-          <!-- Delivery timer -->
-          <div class="pdp-delivery" id="pdpDelivery">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <rect x="1" y="3" width="15" height="13" rx="1" />
-              <path d="M16 8h4l3 5v3h-7V8z" />
-              <circle cx="5.5" cy="18.5" r="2.5" />
-              <circle cx="18.5" cy="18.5" r="2.5" />
-            </svg>
-            <span id="pdpDeliveryMsg">Поръчай до <strong>14:00 ч.</strong> и получи <strong>утре</strong></span>
-            <span class="pdp-delivery-cd" id="pdpDeliveryCd"></span>
+          <!-- Stock + Delivery row -->
+          <div class="pdp-delivery-row">
+            <div class="pdp-stock" id="pdpStock">
+              <div class="pdp-stock-dot"></div>
+              <span id="pdpStockTxt">В наличност</span>
+            </div>
+            <div class="pdp-delivery" id="pdpDelivery">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="1" y="3" width="15" height="13" rx="1" />
+                <path d="M16 8h4l3 5v3h-7V8z" />
+                <circle cx="5.5" cy="18.5" r="2.5" />
+                <circle cx="18.5" cy="18.5" r="2.5" />
+              </svg>
+              <span id="pdpDeliveryMsg">Поръчай до <strong>14:00 ч.</strong> и получи <strong>утре</strong></span>
+              <span class="pdp-delivery-cd" id="pdpDeliveryCd"></span>
+            </div>
           </div>
 
           <!-- Quick specs -->
@@ -4534,7 +4534,6 @@ body.compare-active{padding-bottom:90px}
               height="20" class="svg-ic" aria-hidden="true">
               <use href="#ic-cart" />
             </svg> Добави в кошница</button>
-          <button type="button" class="pdp-phone-order-btn" id="pdpPhoneOrderBtn" data-action="openPhoneOrder"><svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-phone"/></svg> Поръчай с телефон</button>
           <button type="button" class="pdp-checkout-btn" id="pdpCheckoutBtn"
             onclick="closeProductPage();handleCheckout();" style="display:none;"><svg width="18" height="18"
               class="svg-ic" aria-hidden="true">
@@ -4546,9 +4545,10 @@ body.compare-active{padding-bottom:90px}
             <canvas id="pdpSparkline" width="120" height="36" aria-hidden="true"></canvas>
           </div>
 
-          <button type="button" class="pdp-price-alert-btn" id="pdpPriceAlertBtn" onclick="pdpTogglePriceAlert()"><svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-bell"/></svg> <span id="pdpPriceAlertLabel">При намаление</span></button>
-
+          <div class="pdp-zone-divider"></div>
           <div class="pdp-secondary-actions">
+            <button type="button" class="pdp-sec-btn" data-action="openPhoneOrder"><svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-phone"/></svg> Телефон</button>
+            <button type="button" class="pdp-sec-btn pdp-price-alert-btn" id="pdpPriceAlertBtn" onclick="pdpTogglePriceAlert()"><svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-bell"/></svg> <span id="pdpPriceAlertLabel">Намаление</span></button>
             <button type="button" class="pdp-sec-btn" id="pdpWishBtn" data-action="pdpToggleWish"><svg width="16"
                 height="16" class="svg-ic" aria-hidden="true">
                 <use href="#ic-heart" />

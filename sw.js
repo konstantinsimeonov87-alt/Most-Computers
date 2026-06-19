@@ -1,15 +1,15 @@
-// Most Computers — Service Worker 3e0ebec
+// Most Computers — Service Worker c662290
 // Most Computers — Service Worker 4b3d57c0
 // Most Computers — Service Worker 1af9e586
-const CACHE = 'mc-3e0ebec';
+const CACHE = 'mc-c662290';
 =======
 <<<<<<< HEAD
 // Most Computers — Service Worker 4c790905
-const CACHE = 'mc-3e0ebec';
+const CACHE = 'mc-c662290';
 >>>>>>> 947bad8 (feat(cat): replace all-at-once render with 24-per-page pagination)
 =======
 // Most Computers — Service Worker 0a84693a
-const CACHE = 'mc-3e0ebec';
+const CACHE = 'mc-c662290';
 >>>>>>> 0ec6325 (fix(mobile): drawer menu + PDP layout fixes)
 const PRECACHE = [
   './',

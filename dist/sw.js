@@ -1,6 +1,6 @@
-// Most Computers — Service Worker 68c2df84
+// Most Computers — Service Worker b628bc03
 // Most Computers — Service Worker 1af9e586
-const CACHE = 'mc-68c2df84';
+const CACHE = 'mc-b628bc03';
 =======
 // Most Computers — Service Worker 0a84693a
 const CACHE = 'mc-814ada2';

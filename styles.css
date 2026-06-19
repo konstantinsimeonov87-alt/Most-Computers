@@ -14545,3 +14545,59 @@ body.compare-active .fcp{bottom:92px;}
     min-height: 400px;
   }
 }
+
+/* ===== MOBILE SPRINT — UX/UI IMPROVEMENTS ===== */
+
+/* M1: Card secondary action buttons - touch target 30px -> 44px */
+@media (max-width: 768px) {
+  .card-sec-btn {
+    min-height: 44px;
+    padding: 8px 10px;
+  }
+}
+
+/* M2: Wishlist heart button on product cards - 40px -> 44px touch target */
+@media (max-width: 768px) {
+  .product-wishlist {
+    width: 44px;
+    height: 44px;
+  }
+}
+
+/* M3: Cart empty state - flex-center content, eliminates huge whitespace gap */
+@media (max-width: 768px) {
+  .cart-panel-body {
+    display: flex;
+    flex-direction: column;
+  }
+  .cart-empty-msg {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 24px;
+  }
+}
+
+/* M4: Subcat pills - hide "Подкатегория:" label on mobile to free ~110px for pills */
+@media (max-width: 768px) {
+  .subcat-bar::before {
+    display: none;
+  }
+}
+
+/* M5: PDP quick-view preview - larger thumbnail for better product recognition */
+@media (max-width: 768px) {
+  .pp-img {
+    width: 88px;
+    flex-shrink: 0;
+  }
+}
+
+/* M6: Bottom nav label font-size conflict fix - 11px overrides earlier 10px rule */
+@media (max-width: 768px) {
+  .mob-bottom-nav .bn-item {
+    font-size: 11px;
+  }
+}

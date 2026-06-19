@@ -24,6 +24,37 @@ function normalizeCat(cat) {
   return m[(cat||'').toLowerCase()] || 'accessories';
 }
 
+// ── SVG icon helper for filter labels ────────────────────────────────────────
+// Maps leading emoji in label strings to inline SVG <use> references.
+// All icon IDs reference symbols defined in index.html.
+const _FI = {
+  '📱':'ic-phone','💻':'ic-laptop','🖥':'ic-monitor','🖥️':'ic-monitor',
+  '🎮':'ic-gamepad','⚙️':'ic-settings','⚙':'ic-settings','🖱':'ic-mouse','🖱️':'ic-mouse',
+  '📡':'ic-wifi','💾':'ic-storage','📀':'ic-storage','🎒':'ic-bag','🖨':'ic-printer','🖨️':'ic-printer',
+  '⚡':'ic-bolt','💼':'ic-bag','🔄':'ic-return','💰':'ic-tag','📟':'ic-tablet','✈':'ic-globe',
+  '🏷':'ic-tag','🧠':'ic-cpu','🔍':'ic-search','🔩':'ic-wrench','🔌':'ic-bolt','📐':'ic-monitor',
+  '🌀':'ic-return','🌡':'ic-settings','🏭':'ic-settings','💿':'ic-storage','📦':'ic-package',
+  '🔧':'ic-wrench','📻':'ic-wifi','🌐':'ic-globe','💡':'ic-bolt','🎧':'ic-headphones',
+  '📷':'ic-camera','🎙':'ic-chat','🏆':'ic-star','⌚':'ic-watch','🎯':'ic-search',
+  '🗄':'ic-storage','❄':'ic-settings','⌨':'ic-laptop','⌨️':'ic-laptop','🎨':'ic-spark',
+  '🔗':'ic-arrow-right','📶':'ic-wifi','🏢':'ic-home','🏠':'ic-home','🪟':'ic-settings',
+  '⚖':'ic-settings','🧮':'ic-cpu','🔢':'ic-cpu','📌':'ic-pin','🛡':'ic-shield',
+  '🔀':'ic-return','🔬':'ic-search','🪑':'ic-settings','📋':'ic-package','🏔️':'ic-globe',
+  '🌙':'ic-moon','🕸️':'ic-wifi','⭐':'ic-star','🔥':'ic-bolt','🆕':'ic-spark',
+  '✓':'ic-check','🏔':'ic-globe','♾️':'ic-return','♾':'ic-return',
+};
+function _fl(label) {
+  if (!label) return label;
+  for (const em of Object.keys(_FI)) {
+    if (label.startsWith(em + ' ') || label === em) {
+      const id = _FI[em];
+      const text = label.startsWith(em + ' ') ? label.slice(em.length + 1) : '';
+      return `<svg width="12" height="12" class="svg-ic" aria-hidden="true" style="vertical-align:-1px;margin-right:3px;opacity:.75;flex-shrink:0"><use href="#${id}"/></svg>${text}`;
+    }
+  }
+  return label;
+}
+
 let _filterCache = null;
 function _invalidateFilterCache(){ _filterCache = null; }
 function getFilteredSorted(){
@@ -453,37 +484,37 @@ function updateActiveFiltersBar() {
       updateURL();
       updateActiveFiltersBar();
     });
-    active.push({ label: _catLabels[currentFilter] || currentFilter, idx });
+    active.push({ label: _fl(_catLabels[currentFilter] || currentFilter), idx });
   }
   advFilterBrands.forEach(b => {
     const idx = window._afRemove.length;
     window._afRemove.push(() => { const cb=document.querySelector(`input[type=checkbox][value="${CSS.escape(b)}"]`); if(cb) cb.checked=false; advFilterBrands.delete(b); applyAdvFilters(); });
-    active.push({ label: '🏷 '+b, idx });
+    active.push({ label: _fl('🏷 '+b), idx });
   });
   if (advFilterRating > 0) {
     const idx = window._afRemove.length;
     window._afRemove.push(() => { const r=document.querySelector('input[name="ratingFilter"][value="0"]'); if(r) r.checked=true; applyAdvFilters(); });
-    active.push({ label:`⭐ ${advFilterRating}+`, idx });
+    active.push({ label: _fl(`⭐ ${advFilterRating}+`), idx });
   }
   if (advFilterSaleOnly) {
     const idx = window._afRemove.length;
     window._afRemove.push(() => { const el=document.getElementById('saleOnlyToggle'); if(el) el.checked=false; applyAdvFilters(); });
-    active.push({ label:'🔥 Само намалени', idx });
+    active.push({ label: _fl('🔥 Само намалени'), idx });
   }
   if (advFilterNewOnly) {
     const idx = window._afRemove.length;
     window._afRemove.push(() => { const el=document.getElementById('newOnlyToggle'); if(el) el.checked=false; applyAdvFilters(); });
-    active.push({ label:'🆕 Само нови', idx });
+    active.push({ label: _fl('🆕 Само нови'), idx });
   }
   if (advFilterStockOnly) {
     const idx = window._afRemove.length;
     window._afRemove.push(() => { const el=document.getElementById('stockOnlyToggle'); if(el) el.checked=false; applyAdvFilters(); });
-    active.push({ label:'✓ В наличност', idx });
+    active.push({ label: _fl('✓ В наличност'), idx });
   }
   if (typeof advPriceMin!=='undefined' && (advPriceMin>0||advPriceMax<2000)) {
     const idx = window._afRemove.length;
     window._afRemove.push(() => { setPriceGroup(0,2000,'pg-all'); applyAdvFilters(); });
-    active.push({ label:`💰 ${advPriceMin}€–${advPriceMax}€`, idx });
+    active.push({ label: _fl(`💰 ${advPriceMin}€–${advPriceMax}€`), idx });
   }
   if (active.length === 0) { bar.classList.remove('show'); return; }
   bar.classList.add('show');
@@ -1328,7 +1359,7 @@ function renderSubcatBar(cat) {
   bar.innerHTML =
     `<button type="button" class="subcat-pill active" onclick="applySubcat('all', this)">Всички</button>` +
     subs.map(s =>
-      `<button type="button" class="subcat-pill" onclick="applySubcat('${s.id}', this)">${s.label}</button>`
+      `<button type="button" class="subcat-pill" onclick="applySubcat('${s.id}', this)">${_fl(s.label)}</button>`
     ).join('');
   currentSubcat = 'all';
 }
@@ -1363,13 +1394,13 @@ function renderCatSpecFilters(cat, subcat) {
 
   const subcatLabels = { cpu:'Процесори', gpu:'Видео карти', motherboard:'Дънни платки', ram:'RAM памет', ssd:'SSD / NVMe', hdd:'HDD дискове' };
   const titleText = (subcat && subcat !== 'all' && subcatLabels[subcat])
-    ? `⚙ ${subcatLabels[subcat]}, филтри`
-    : `⚙ ${CAT_LABELS[cat] || cat}, филтри`;
-  if (title) title.textContent = titleText;
+    ? _fl(`⚙ ${subcatLabels[subcat]}, филтри`)
+    : _fl(`⚙ ${CAT_LABELS[cat] || cat}, филтри`);
+  if (title) title.innerHTML = titleText;
 
   inner.innerHTML = specs.map(spec => `
     <div class="csf-block">
-      <div class="csf-title">${spec.label}</div>
+      <div class="csf-title">${_fl(spec.label)}</div>
       <div class="csf-options">
         ${spec.values.map(val => `
           <label class="csf-opt">

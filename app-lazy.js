@@ -577,6 +577,8 @@ function updateCart() {
       _ckBtnEmpty.style.display = 'none';
       _ckBtnEmpty.disabled = true;
     }
+    const _subtotalEmpty = document.querySelector('.cart-subtotal');
+    if (_subtotalEmpty) _subtotalEmpty.style.display = 'none';
     updateFloatPill();
     return;
   }
@@ -622,6 +624,8 @@ function updateCart() {
   } catch (e) { }
   body.innerHTML = html;
   // Restore footer elements for non-empty cart
+  const _subtotalRestore = document.querySelector('.cart-subtotal');
+  if (_subtotalRestore) _subtotalRestore.style.display = '';
   const _progressWrap = document.getElementById('cartProgressWrap');
   if (_progressWrap) _progressWrap.style.display = '';
   const _viewCartBtn = document.querySelector('.view-cart-page-btn');

@@ -297,6 +297,7 @@ function openMegamenu() {
   if (!catsEl) return;
   catsEl.innerHTML = megaCategories.map(c => {
     const count = products.filter(p=>p.cat===c.cat||normalizeCat(p.cat)===c.cat).length;
+    if (count === 0) return '';
     const isComp = c.cat === 'components';
     const subcatHtml = isComp ? `<div class="mega-comp-subcats" id="megaCompSubcats">${
       _compSubcats.map(s => {
@@ -312,9 +313,10 @@ function openMegamenu() {
     </div>`;
   }).join('');
 
-  // Render brands
+  // Render brands (skip brands with 0 products)
   var _el_megamenuBrands=document.getElementById('megamenuBrands'); if(_el_megamenuBrands) _el_megamenuBrands.innerHTML = megaBrands.map(b => {
     const count = products.filter(p=>p.brand===b).length;
+    if (count === 0) return '';
     return `<div class="megamenu-brand-card" onclick="megaFilterBrand('${b}')">
       <div>${b}</div>
       <div style="font-size:10px;color:var(--muted);margin-top:2px;">${count} продукта</div>

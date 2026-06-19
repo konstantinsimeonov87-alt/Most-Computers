@@ -14522,3 +14522,26 @@ body.compare-active .fcp{bottom:92px;}
   .pdp-secondary-actions > .pdp-sec-btn:first-child { display: none; }
   .pdp-secondary-actions .pdp-price-alert-btn { display: none; }
 }
+
+/* ===== C1: Bestsellers cards — force visible on desktop ===== */
+/* card-animate starts at opacity:0 and relies on IntersectionObserver to add
+   card-visible. On desktop the threshold can miss cards already in viewport,
+   leaving them semi-invisible. Override for the bestsellers section only. */
+@media (min-width: 769px) {
+  #bestsellersSection .product-card.card-animate,
+  #bestsellersSection .product-card {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+}
+
+/* ===== C4: PDP gallery — prevent whitespace under image at 1440px ===== */
+/* The gallery column uses 1fr but .pdp-main-img-wrap has aspect-ratio:1
+   without a min-height, so on wide viewports the image area can under-fill.
+   Setting min-height ensures the image area is always substantial. */
+@media (min-width: 769px) {
+  .pdp-main-img-wrap {
+    min-height: 400px;
+  }
+}

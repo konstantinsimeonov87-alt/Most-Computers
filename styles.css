@@ -14445,7 +14445,7 @@ body.compare-active .fcp{bottom:92px;}
   line-height: 1;
 }
 .cp-page-btn:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); }
-.cp-page-btn.active { background: #6366f1; border-color: #6366f1; color: #fff; font-weight: 700; }
+.cp-page-btn.active { background: #bd1105; border-color: #bd1105; color: #fff; font-weight: 700; }
 .cp-page-ellipsis { color: var(--muted); font-size: 14px; padding: 0 2px; line-height: 36px; }
 @media (max-width: 768px) {
   #cpPagination { padding: 20px 12px 80px; }
@@ -14515,4 +14515,10 @@ body.compare-active .fcp{bottom:92px;}
   #pdpRecsWidget { display: none !important; }
   .pdp-backdrop { overflow-x: hidden; }
   .pdp-inner    { overflow-x: hidden; max-width: 100%; }
+}
+
+/* Desktop: Phone + Bell visible only in mobile secondary-actions row */
+@media (min-width: 769px) {
+  .pdp-secondary-actions > .pdp-sec-btn:first-child { display: none; }
+  .pdp-secondary-actions .pdp-price-alert-btn { display: none; }
 }

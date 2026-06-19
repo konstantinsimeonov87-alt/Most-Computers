@@ -2839,6 +2839,7 @@ function openProductPage(id) {
   document.documentElement.style.overflow = 'hidden';
   document.body.style.overflow = 'hidden';
   if (typeof updateFloatPill === 'function') updateFloatPill();
+  if (window.innerWidth <= 768 && typeof pdpBsOpen === 'function') pdpBsOpen(p);
 
   // ── Structured Data (Product + BreadcrumbList) ──
   const _avgRating = p.rating || 0;
@@ -2916,6 +2917,7 @@ function closeProductPage() {
   document.getElementById('pdpBackdrop').classList.remove('open');
   const _sb = document.getElementById('pdpStickyBar');
   if (_sb) _sb.classList.remove('visible');
+  if (typeof pdpBsClose === 'function') pdpBsClose();
   if (typeof updateFloatPill === 'function') updateFloatPill();
   // Keep body locked if cat-page is still open
   if (!document.getElementById('catPage')?.classList.contains('open')) {
@@ -3361,10 +3363,7 @@ function submitNotifyStock() {
           const addBtn = document.getElementById('pdpAddBtn');
           if (!bar || !addBtn) { ticking = false; return; }
           const rect = addBtn.getBoundingClientRect();
-          const tabsEl = document.getElementById('pdpTabs');
-          const tabsTop = tabsEl ? tabsEl.getBoundingClientRect().top : 0;
-          const barH = bar.offsetHeight || 65;
-          const show = rect.bottom < 0 && tabsTop < (window.innerHeight - barH - 10);
+          const show = rect.bottom < 0;
           if (show !== _barWasVisible) {
             bar.classList.toggle('visible', show);
             _barWasVisible = show;
@@ -4289,35 +4288,7 @@ function pdpBsClose() {
   _pdpBsVisible = false;
 }
 
-// Show bottom sheet when add button scrolls out of view (mobile only)
-(function() {
-  var backdrop = document.getElementById('pdpBackdrop');
-  if (!backdrop) return;
-  var _pdpScrollTicking = false;
-  backdrop.addEventListener('scroll', function() {
-    if (window.innerWidth > 768) return;
-    if (_pdpScrollTicking) return;
-    _pdpScrollTicking = true;
-    requestAnimationFrame(function() {
-      var addBtn = document.getElementById('pdpAddBtn');
-      if (addBtn) {
-        var rect = addBtn.getBoundingClientRect();
-        var outOfView = rect.bottom < 0 || rect.top > window.innerHeight;
-        var sheet = document.getElementById('pdpBottomSheet');
-        if (sheet) {
-          if (outOfView && !sheet.classList.contains('open')) {
-            var p = (typeof products !== 'undefined' && pdpProductId != null)
-              ? products.find(function(x) { return x.id === pdpProductId; }) : null;
-            if (p) pdpBsOpen(p);
-          } else if (!outOfView && sheet.classList.contains('open')) {
-            pdpBsClose();
-          }
-        }
-      }
-      _pdpScrollTicking = false;
-    });
-  }, { passive: true });
-})();
+// Bottom sheet is now opened/closed by openProductPage/closeProductPage directly.
 
 // Sync bottom sheet qty display
 var _origPdpChangeQty = typeof pdpChangeQty === 'function' ? pdpChangeQty : null;

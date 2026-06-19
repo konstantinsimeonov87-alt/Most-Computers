@@ -53,7 +53,7 @@ function openProductPage(id) {
         if (typeof applySubcatById === 'function') setTimeout(() => applySubcatById(p.subcat), 50);
         bcSet([{ label: _bcCatLabel, fn: _bcCatFn }]);
       };
-      _bcItems.push({ label: _subcatLabel, url: `https://mostcomputers.bg/?cat=${p.cat}`, fn: _bcSubFn });
+      _bcItems.push({ label: _subcatLabel, url: `https://mostcomputers.bg/?cat=${p.cat}&sub=${p.subcat}`, fn: _bcSubFn });
     }
     _bcItems.push({ label: p.name, url: `https://mostcomputers.bg/?product=${p.id}`, fn: null });
     bcSet(_bcItems);
@@ -430,6 +430,7 @@ function openProductPage(id) {
   document.documentElement.style.overflow = 'hidden';
   document.body.style.overflow = 'hidden';
   if (typeof updateFloatPill === 'function') updateFloatPill();
+  if (window.innerWidth <= 768 && typeof pdpBsOpen === 'function') pdpBsOpen(p);
 
   // ── Structured Data (Product + BreadcrumbList) ──
   const _avgRating = p.rating || 0;
@@ -507,6 +508,7 @@ function closeProductPage() {
   document.getElementById('pdpBackdrop').classList.remove('open');
   const _sb = document.getElementById('pdpStickyBar');
   if (_sb) _sb.classList.remove('visible');
+  if (typeof pdpBsClose === 'function') pdpBsClose();
   if (typeof updateFloatPill === 'function') updateFloatPill();
   // Keep body locked if cat-page is still open
   if (!document.getElementById('catPage')?.classList.contains('open')) {
@@ -536,11 +538,8 @@ function closeProductPage() {
   const canonical = document.querySelector('link[rel="canonical"]');
   if (canonical) canonical.setAttribute('href', 'https://mostcomputers.bg/');
   if (typeof bcSet === 'function') {
-    if (_bcTrail.length >= 2) {
-      bcSet([_bcTrail[0]]);
-    } else {
-      bcSet([]);
-    }
+    const catOpen = document.getElementById('catPage')?.classList.contains('open');
+    bcSet(catOpen && _bcTrail.length >= 1 ? [_bcTrail[0]] : []);
   }
 }
 
@@ -952,10 +951,7 @@ function submitNotifyStock() {
           const addBtn = document.getElementById('pdpAddBtn');
           if (!bar || !addBtn) { ticking = false; return; }
           const rect = addBtn.getBoundingClientRect();
-          const tabsEl = document.getElementById('pdpTabs');
-          const tabsTop = tabsEl ? tabsEl.getBoundingClientRect().top : 0;
-          const barH = bar.offsetHeight || 65;
-          const show = rect.bottom < 0 && tabsTop < (window.innerHeight - barH - 10);
+          const show = rect.bottom < 0;
           if (show !== _barWasVisible) {
             bar.classList.toggle('visible', show);
             _barWasVisible = show;

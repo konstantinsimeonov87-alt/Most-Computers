@@ -4785,21 +4785,22 @@ body.compare-active{padding-bottom:90px}
         <button type="button" class="pdp-mob-back" data-action="closeProductPage" aria-label="Назад">
           <svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-arrow-left"/></svg>
         </button>
+        <div class="pdp-sticky-thumb" id="pdpStickyThumb"></div>
         <div class="pdp-sticky-info">
           <span class="pdp-sticky-name" id="pdpStickyName"></span>
           <span class="pdp-sticky-price" id="pdpStickyPrice"></span>
         </div>
         <div class="pdp-sticky-actions">
-          <div class="pdp-qty-ctrl" style="background:var(--bg2);border-radius:8px;">
-            <button type="button" class="pdp-qty-btn" data-action="pdpChangeQty(-1)">−</button>
+          <div class="pdp-sticky-qty">
+            <button type="button" class="pdp-sticky-qty-btn" data-action="pdpChangeQty(-1)">−</button>
             <span class="pdp-qty-num" id="pdpStickyQty">1</span>
-            <button type="button" class="pdp-qty-btn" data-action="pdpChangeQty(1)">+</button>
+            <button type="button" class="pdp-sticky-qty-btn" data-action="pdpChangeQty(1)">+</button>
           </div>
           <button type="button" class="pdp-sticky-atc" data-action="pdpAddToCart">
             <svg width="16" height="16" class="svg-ic" aria-hidden="true">
               <use href="#ic-cart" />
             </svg>
-            Добави в кошница
+            Купи
           </button>
           <button type="button" class="pdp-sticky-checkout" id="pdpStickyCheckoutBtn"
             onclick="closeProductPage();handleCheckout();" style="display:none;">
@@ -6085,6 +6086,41 @@ body.compare-active{padding-bottom:90px}
       <svg class="fcp-arrow" width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 8L6 4L10 8"/></svg>
     </button>
   </div>
+
+<script>
+/* Sticky bar overrides — patch pdpUpdateStickyBar to show EUR only + populate thumb */
+(function() {
+  function _patchStickyBar() {
+    if (typeof pdpUpdateStickyBar !== 'function') return;
+    if (window._stickyBarPatched) return;
+    window._stickyBarPatched = true;
+    var _orig = pdpUpdateStickyBar;
+    window.pdpUpdateStickyBar = function(p) {
+      _orig(p);
+      // Show EUR only (trim " / лв." part)
+      var priceEl = document.getElementById('pdpStickyPrice');
+      if (priceEl) {
+        var t = priceEl.textContent || '';
+        var slash = t.indexOf(' / ');
+        if (slash > -1) priceEl.textContent = t.substring(0, slash);
+      }
+      // Populate thumbnail with product image
+      var thumb = document.getElementById('pdpStickyThumb');
+      if (thumb && p && p.img) {
+        thumb.innerHTML = '<img src="' + p.img + '" alt="" width="40" height="40" loading="eager" onerror="this.style.display=\'none\'">';
+      }
+    };
+  }
+  // Poll until app-lazy defines pdpUpdateStickyBar (it loads lazily on first interaction)
+  var _t = setInterval(function() {
+    if (typeof pdpUpdateStickyBar === 'function') {
+      _patchStickyBar();
+      clearInterval(_t);
+    }
+  }, 150);
+  setTimeout(function() { clearInterval(_t); }, 30000);
+})();
+</script>
 
 </body>
 

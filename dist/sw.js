@@ -1,7 +1,7 @@
 <<<<<<< HEAD
-// Most Computers — Service Worker fe352fbd
+// Most Computers — Service Worker 1d55dea0
 // Most Computers — Service Worker 1af9e586
-const CACHE = 'mc-fe352fbd';
+const CACHE = 'mc-1d55dea0';
 =======
 <<<<<<< HEAD
 // Most Computers — Service Worker 4c790905

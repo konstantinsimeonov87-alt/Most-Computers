@@ -2839,7 +2839,10 @@ function openProductPage(id) {
   document.documentElement.style.overflow = 'hidden';
   document.body.style.overflow = 'hidden';
   if (typeof updateFloatPill === 'function') updateFloatPill();
-  if (window.innerWidth <= 768 && typeof pdpBsOpen === 'function') pdpBsOpen(p);
+  if (window.innerWidth <= 768) {
+    const _sbEl = document.getElementById('pdpStickyBar');
+    if (_sbEl) _sbEl.classList.add('visible');
+  }
 
   // ── Structured Data (Product + BreadcrumbList) ──
   const _avgRating = p.rating || 0;
@@ -3375,14 +3378,16 @@ function submitNotifyStock() {
       }
     }, { passive: true });
   }
-  document.addEventListener('DOMContentLoaded', initStickyBar);
+  initStickyBar();
 })();
 
 function pdpUpdateStickyBar(p) {
   const nameEl = document.getElementById('pdpStickyName');
   const priceEl = document.getElementById('pdpStickyPrice');
+  const thumbEl = document.getElementById('pdpStickyThumb');
   if (nameEl) nameEl.textContent = p.name;
   if (priceEl) priceEl.textContent = fmtEur(p.price) + ' / ' + fmtBgn(p.price);
+  if (thumbEl && p.img) thumbEl.innerHTML = '<img src="' + (typeof _esc === 'function' ? _esc(p.img) : p.img) + '" style="width:40px;height:40px;object-fit:contain;">';
 }
 
 // QW-02: Viewers counter - seeded by product id for consistency per session

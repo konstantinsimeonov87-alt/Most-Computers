@@ -14494,15 +14494,15 @@ body.compare-active .fcp{bottom:92px;}
     display: flex;
     align-items: center;
     justify-content: center;
-    background: none;
-    border: 1px solid var(--border);
+    background: var(--bg2);
+    border: 1.5px solid var(--border);
     border-radius: 10px;
-    color: inherit;
+    color: var(--text2);
     padding: 10px 4px 8px;
     font-size: 10px;
     gap: 5px;
     font-family: inherit;
-    font-weight: 500;
+    font-weight: 700;
     cursor: pointer;
   }
   .pdp-secondary-actions .pdp-price-alert-btn.active {

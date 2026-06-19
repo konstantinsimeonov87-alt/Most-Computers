@@ -3901,7 +3901,7 @@ function pdpInitSwipe() {
   }, { passive: true });
   wrap.addEventListener('touchend', function(e) {
     var dx = e.changedTouches[0].clientX - sx;
-    if (Math.abs(dx) > 40) {
+    if (Math.abs(dx) > 40 && pdpGallery.length > 1) {
       pdpGalleryNav(dx < 0 ? 1 : -1);
       wrap.classList.remove('swipe-bounce');
       // Double rAF restarts the animation without a forced synchronous reflow

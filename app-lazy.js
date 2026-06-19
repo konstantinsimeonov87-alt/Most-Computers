@@ -2706,7 +2706,7 @@ function openProductPage(id) {
 
   // Wishlist btn
   const wishBtn = document.getElementById('pdpWishBtn');
-  if (wishBtn) wishBtn.innerHTML = wishlist.includes(id) ? '❤ В любими' : '♡ Добави в желания';
+  if (wishBtn) wishBtn.innerHTML = wishlist.includes(id) ? '<svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-heart-fill"/></svg> В любими' : '<svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-heart"/></svg> Добави в желания';
 
   // Meta
   document.getElementById('pdpSku').textContent     = p.sku  || '-';
@@ -3140,7 +3140,7 @@ function pdpToggleWish() {
   if (!pdpProductId) return;
   toggleWishlist(pdpProductId, null);
   const wishBtn = document.getElementById('pdpWishBtn');
-  if (wishBtn) wishBtn.innerHTML = wishlist.includes(pdpProductId) ? '❤ В любими' : '♡ Добави в желания';
+  if (wishBtn) wishBtn.innerHTML = wishlist.includes(pdpProductId) ? '<svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-heart-fill"/></svg> В любими' : '<svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-heart"/></svg> Добави в желания';
 }
 
 

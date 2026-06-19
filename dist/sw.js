@@ -1,7 +1,7 @@
 <<<<<<< HEAD
-// Most Computers — Service Worker 57f43ba4
+// Most Computers — Service Worker 4b3d57c0
 // Most Computers — Service Worker 1af9e586
-const CACHE = 'mc-57f43ba4';
+const CACHE = 'mc-4b3d57c0';
 =======
 <<<<<<< HEAD
 // Most Computers — Service Worker 4c790905

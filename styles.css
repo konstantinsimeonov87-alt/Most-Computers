@@ -14396,3 +14396,29 @@ body.compare-active .fcp{bottom:92px;}
 @media (max-width: 768px) {
   .fcp { display: none !important; }
 }
+
+/* === CATEGORY PAGE PAGINATION === */
+#cpPagination { display: flex; justify-content: center; padding: 28px 16px 40px; }
+.cp-pagination { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; justify-content: center; }
+.cp-page-info { font-size: 13px; color: var(--muted); white-space: nowrap; }
+.cp-page-buttons { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
+.cp-page-btn {
+  min-width: 36px; height: 36px; padding: 0 8px;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 8px;
+  background: rgba(255,255,255,0.04);
+  color: var(--text);
+  font-size: 14px; font-weight: 500; font-family: inherit;
+  cursor: pointer; display: inline-flex; align-items: center; justify-content: center;
+  transition: background 0.15s, border-color 0.15s;
+  line-height: 1;
+}
+.cp-page-btn:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); }
+.cp-page-btn.active { background: #6366f1; border-color: #6366f1; color: #fff; font-weight: 700; }
+.cp-page-ellipsis { color: var(--muted); font-size: 14px; padding: 0 2px; line-height: 36px; }
+@media (max-width: 768px) {
+  #cpPagination { padding: 20px 12px 80px; }
+  .cp-pagination { gap: 10px; }
+  .cp-page-info { font-size: 12px; }
+  .cp-page-btn { min-width: 32px; height: 32px; font-size: 13px; border-radius: 6px; }
+}

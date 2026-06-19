@@ -1093,6 +1093,37 @@ function normalizeCat(cat) {
   return m[(cat||'').toLowerCase()] || 'accessories';
 }
 
+// ── SVG icon helper for filter labels ────────────────────────────────────────
+// Maps leading emoji in label strings to inline SVG <use> references.
+// All icon IDs reference symbols defined in index.html.
+const _FI = {
+  '📱':'ic-phone','💻':'ic-laptop','🖥':'ic-monitor','🖥️':'ic-monitor',
+  '🎮':'ic-gamepad','⚙️':'ic-settings','⚙':'ic-settings','🖱':'ic-mouse','🖱️':'ic-mouse',
+  '📡':'ic-wifi','💾':'ic-storage','📀':'ic-storage','🎒':'ic-bag','🖨':'ic-printer','🖨️':'ic-printer',
+  '⚡':'ic-bolt','💼':'ic-bag','🔄':'ic-return','💰':'ic-tag','📟':'ic-tablet','✈':'ic-globe',
+  '🏷':'ic-tag','🧠':'ic-cpu','🔍':'ic-search','🔩':'ic-wrench','🔌':'ic-bolt','📐':'ic-monitor',
+  '🌀':'ic-return','🌡':'ic-settings','🏭':'ic-settings','💿':'ic-storage','📦':'ic-package',
+  '🔧':'ic-wrench','📻':'ic-wifi','🌐':'ic-globe','💡':'ic-bolt','🎧':'ic-headphones',
+  '📷':'ic-camera','🎙':'ic-chat','🏆':'ic-star','⌚':'ic-watch','🎯':'ic-search',
+  '🗄':'ic-storage','❄':'ic-settings','⌨':'ic-laptop','⌨️':'ic-laptop','🎨':'ic-spark',
+  '🔗':'ic-arrow-right','📶':'ic-wifi','🏢':'ic-home','🏠':'ic-home','🪟':'ic-settings',
+  '⚖':'ic-settings','🧮':'ic-cpu','🔢':'ic-cpu','📌':'ic-pin','🛡':'ic-shield',
+  '🔀':'ic-return','🔬':'ic-search','🪑':'ic-settings','📋':'ic-package','🏔️':'ic-globe',
+  '🌙':'ic-moon','🕸️':'ic-wifi','⭐':'ic-star','🔥':'ic-bolt','🆕':'ic-spark',
+  '✓':'ic-check','🏔':'ic-globe','♾️':'ic-return','♾':'ic-return',
+};
+function _fl(label) {
+  if (!label) return label;
+  for (const em of Object.keys(_FI)) {
+    if (label.startsWith(em + ' ') || label === em) {
+      const id = _FI[em];
+      const text = label.startsWith(em + ' ') ? label.slice(em.length + 1) : '';
+      return `<svg width="12" height="12" class="svg-ic" aria-hidden="true" style="vertical-align:-1px;margin-right:3px;opacity:.75;flex-shrink:0"><use href="#${id}"/></svg>${text}`;
+    }
+  }
+  return label;
+}
+
 let _filterCache = null;
 function _invalidateFilterCache(){ _filterCache = null; }
 function getFilteredSorted(){
@@ -1522,37 +1553,37 @@ function updateActiveFiltersBar() {
       updateURL();
       updateActiveFiltersBar();
     });
-    active.push({ label: _catLabels[currentFilter] || currentFilter, idx });
+    active.push({ label: _fl(_catLabels[currentFilter] || currentFilter), idx });
   }
   advFilterBrands.forEach(b => {
     const idx = window._afRemove.length;
     window._afRemove.push(() => { const cb=document.querySelector(`input[type=checkbox][value="${CSS.escape(b)}"]`); if(cb) cb.checked=false; advFilterBrands.delete(b); applyAdvFilters(); });
-    active.push({ label: '🏷 '+b, idx });
+    active.push({ label: _fl('🏷 '+b), idx });
   });
   if (advFilterRating > 0) {
     const idx = window._afRemove.length;
     window._afRemove.push(() => { const r=document.querySelector('input[name="ratingFilter"][value="0"]'); if(r) r.checked=true; applyAdvFilters(); });
-    active.push({ label:`⭐ ${advFilterRating}+`, idx });
+    active.push({ label: _fl(`⭐ ${advFilterRating}+`), idx });
   }
   if (advFilterSaleOnly) {
     const idx = window._afRemove.length;
     window._afRemove.push(() => { const el=document.getElementById('saleOnlyToggle'); if(el) el.checked=false; applyAdvFilters(); });
-    active.push({ label:'🔥 Само намалени', idx });
+    active.push({ label: _fl('🔥 Само намалени'), idx });
   }
   if (advFilterNewOnly) {
     const idx = window._afRemove.length;
     window._afRemove.push(() => { const el=document.getElementById('newOnlyToggle'); if(el) el.checked=false; applyAdvFilters(); });
-    active.push({ label:'🆕 Само нови', idx });
+    active.push({ label: _fl('🆕 Само нови'), idx });
   }
   if (advFilterStockOnly) {
     const idx = window._afRemove.length;
     window._afRemove.push(() => { const el=document.getElementById('stockOnlyToggle'); if(el) el.checked=false; applyAdvFilters(); });
-    active.push({ label:'✓ В наличност', idx });
+    active.push({ label: _fl('✓ В наличност'), idx });
   }
   if (typeof advPriceMin!=='undefined' && (advPriceMin>0||advPriceMax<2000)) {
     const idx = window._afRemove.length;
     window._afRemove.push(() => { setPriceGroup(0,2000,'pg-all'); applyAdvFilters(); });
-    active.push({ label:`💰 ${advPriceMin}€–${advPriceMax}€`, idx });
+    active.push({ label: _fl(`💰 ${advPriceMin}€–${advPriceMax}€`), idx });
   }
   if (active.length === 0) { bar.classList.remove('show'); return; }
   bar.classList.add('show');
@@ -2397,7 +2428,7 @@ function renderSubcatBar(cat) {
   bar.innerHTML =
     `<button type="button" class="subcat-pill active" onclick="applySubcat('all', this)">Всички</button>` +
     subs.map(s =>
-      `<button type="button" class="subcat-pill" onclick="applySubcat('${s.id}', this)">${s.label}</button>`
+      `<button type="button" class="subcat-pill" onclick="applySubcat('${s.id}', this)">${_fl(s.label)}</button>`
     ).join('');
   currentSubcat = 'all';
 }
@@ -2432,13 +2463,13 @@ function renderCatSpecFilters(cat, subcat) {
 
   const subcatLabels = { cpu:'Процесори', gpu:'Видео карти', motherboard:'Дънни платки', ram:'RAM памет', ssd:'SSD / NVMe', hdd:'HDD дискове' };
   const titleText = (subcat && subcat !== 'all' && subcatLabels[subcat])
-    ? `⚙ ${subcatLabels[subcat]}, филтри`
-    : `⚙ ${CAT_LABELS[cat] || cat}, филтри`;
-  if (title) title.textContent = titleText;
+    ? _fl(`⚙ ${subcatLabels[subcat]}, филтри`)
+    : _fl(`⚙ ${CAT_LABELS[cat] || cat}, филтри`);
+  if (title) title.innerHTML = titleText;
 
   inner.innerHTML = specs.map(spec => `
     <div class="csf-block">
-      <div class="csf-title">${spec.label}</div>
+      <div class="csf-title">${_fl(spec.label)}</div>
       <div class="csf-options">
         ${spec.values.map(val => `
           <label class="csf-opt">
@@ -4025,6 +4056,7 @@ let cpRating = 0;
 let cpSaleOnly = false, cpNewOnly = false, cpStockOnly = false;
 let cpSpecFilters = {};
 let cpSubcat = 'all';
+let cpPage = 1;
 let _cpSubcatBrands = null; // known brand values for current subcat (to power "Other" filter)
 
 let _catPageScrollY = 0;
@@ -4036,6 +4068,7 @@ function openCatPage(cat, preSubcat, fromURL = false) {
   cpBrands = new Set();
   cpRating = 0; cpSaleOnly = false; cpNewOnly = false; cpStockOnly = false;
   cpSpecFilters = {};
+  cpPage = 1;
 
   cpSubcat = preSubcat || 'all';
 
@@ -4184,7 +4217,7 @@ function buildCpSidebar(cat) {
   var headerHtml = '<div class="cp-sb-header">' +
     '<span class="cp-sb-title">Филтри</span>' +
     '<button type="button" class="cp-sb-close" onclick="cpCloseSidebar()" aria-label="Затвори">' +
-    '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>' +
+    '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>' +
     '</button></div>';
 
   // ── Price block ──
@@ -4229,7 +4262,7 @@ function buildCpSidebar(cat) {
     html += `<div id="cpCatSpecWrap">`;
     specs.forEach(spec => {
       html += `<div class="sidebar-filter-block" style="border-bottom:1px solid var(--border);padding:16px;">
-        <div class="sfb-title" style="font-size:12px;font-weight:800;color:var(--text2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;">${spec.label}</div>
+        <div class="sfb-title" style="font-size:12px;font-weight:800;color:var(--text2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;">${typeof _fl==='function'?_fl(spec.label):spec.label}</div>
         <div style="display:flex;flex-direction:column;gap:4px;">`;
       spec.values.forEach(val => {
         html += `<label class="brand-filter-item" style="display:flex;align-items:center;gap:8px;cursor:pointer;">
@@ -4278,9 +4311,7 @@ function buildCpSidebar(cat) {
 
   // ── Reset button ──
   html += `<div style="padding:12px 16px 16px;">
-    <button type="button" onclick="cpResetFilters()" style="width:100%;background:none;border:1px solid var(--border);border-radius:8px;padding:9px;font-size:12px;font-weight:700;color:var(--text2);cursor:pointer;font-family:'Outfit',sans-serif;transition:all .18s;" onmouseover="this.style.borderColor='var(--primary)';this.style.color='var(--primary)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text2)'">
-      ✕ Изчисти всички филтри
-    </button>
+    <button type="button" onclick="cpResetFilters()" style="width:100%;background:none;border:1px solid var(--border);border-radius:8px;padding:9px;font-size:12px;font-weight:700;color:var(--text2);cursor:pointer;font-family:'Outfit',sans-serif;transition:all .18s;" onmouseover="this.style.borderColor='var(--primary)';this.style.color='var(--primary)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text2)'">Изчисти всички филтри</button>
   </div>`;
 
   // ── Footer (apply button) ──
@@ -4311,11 +4342,13 @@ function cpUpdateSlider(skipRender) {
 function cpBrandChange(cb) {
   if (cb.checked) cpBrands.add(cb.value);
   else cpBrands.delete(cb.value);
+  cpPage = 1;
   cpRenderGrid();
 }
 
 function cpRatingChange(rb) {
   cpRating = parseFloat(rb.value);
+  cpPage = 1;
   cpRenderGrid();
 }
 
@@ -4324,15 +4357,18 @@ function cpApplyFilters() {
   cpStockOnly = document.getElementById('cpStockToggle')?.checked || false;
   cpSaleOnly = document.getElementById('cpSaleToggle')?.checked || false;
   cpNewOnly  = document.getElementById('cpNewToggle')?.checked || false;
+  cpPage = 1;
   cpRenderGrid();
 }
 
 function cpApplySort(val) {
   cpSort = val;
+  cpPage = 1;
   cpRenderGrid();
 }
 
 function cpSpecChange(cb) {
+  cpPage = 1;
   const key = cb.dataset.specKey;
   const val = cb.value;
   if (!cpSpecFilters[key]) cpSpecFilters[key] = new Set();
@@ -4380,6 +4416,7 @@ function cpResetFilters() {
   const st = document.getElementById('cpSaleToggle'); if (st) st.checked = false;
   const nt = document.getElementById('cpNewToggle'); if (nt) nt.checked = false;
   cpSubcat = 'all';
+  cpPage = 1;
   cpUpdateSlider();
   cpRenderGrid();
   cpRenderSubcatBar(cpCat);
@@ -4401,7 +4438,7 @@ function cpRenderSubcatBar(cat) {
   bar.innerHTML =
     `<button type="button" class="subcat-pill active" onclick="cpApplySubcat('all',this)">Всички</button>` +
     activeSubs.map(s =>
-      `<button type="button" class="subcat-pill" onclick="cpApplySubcat('${s.id}',this)">${s.label}</button>`
+      `<button type="button" class="subcat-pill" onclick="cpApplySubcat('${s.id}',this)">${typeof _fl==='function'?_fl(s.label):s.label}</button>`
     ).join('');
 }
 
@@ -4559,7 +4596,7 @@ function cpApplySubcat(id, btn) {
     if (subcatSpecs && subcatSpecs.length) {
       cpSubcatSpecBlock.innerHTML = subcatSpecs.map(spec => `
         <div class="sidebar-filter-block" style="border-bottom:1px solid var(--border);padding:16px;">
-          <div class="sfb-title" style="font-size:12px;font-weight:800;color:var(--text2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;">${spec.label}</div>
+          <div class="sfb-title" style="font-size:12px;font-weight:800;color:var(--text2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;">${typeof _fl==='function'?_fl(spec.label):spec.label}</div>
           <div style="display:flex;flex-direction:column;gap:4px;">
             ${spec.values.map(val => `<label class="brand-filter-item" style="display:flex;align-items:center;gap:8px;cursor:pointer;">
               <input type="checkbox" data-spec-key="${spec.key}" value="${val}" onchange="cpSubcatSpecChange(this)">
@@ -4571,6 +4608,7 @@ function cpApplySubcat(id, btn) {
       cpSubcatSpecBlock.innerHTML = '';
     }
   }
+  cpPage = 1;
   cpRenderGrid();
   cpUpdateCatBreadcrumb(cpCat, id);
   setSidebarActive(cpCat, id);
@@ -4589,6 +4627,7 @@ function cpUpdateURL() {
   if (cpNewOnly) params.set('new', '1');
   if (cpStockOnly) params.set('stock', '1');
   if (cpRating > 0) params.set('rating', cpRating);
+  if (cpPage > 1) params.set('page', cpPage);
   const qs = '?' + params.toString();
   const fullUrl = 'https://mostcomputers.bg/' + qs;
   try { history.replaceState({ catPage: cpCat, subcat: cpSubcat }, '', qs); } catch(e) {}
@@ -4636,6 +4675,8 @@ function cpApplyURLFilters() {
     if (rEl) rEl.checked = true;
   }
   cpUpdateSlider(true);
+  const pageN = parseInt(params.get('page'), 10);
+  if (!isNaN(pageN) && pageN > 1) cpPage = pageN;
 }
 
 // ═══════════════════════════════════════
@@ -5261,12 +5302,17 @@ function cpUpdateFilterBadge() {
   });
 }
 
+const CP_PER_PAGE = 24;
+
 function cpRenderGrid() {
   cpUpdateFilterBadge();
   const grid = document.getElementById('cpGrid');
   const count = document.getElementById('cpResultsCount');
   if (!grid) return;
   const list = cpGetFiltered();
+  const totalPages = Math.max(1, Math.ceil(list.length / CP_PER_PAGE));
+  if (cpPage > totalPages) cpPage = totalPages;
+  if (cpPage < 1) cpPage = 1;
   if (count) count.textContent = list.length + ' продукта';
   if (list.length === 0) {
     const allInCat = products.filter(p => normalizeCat(p.cat) === cpCat);
@@ -5281,10 +5327,57 @@ function cpRenderGrid() {
         <button type="button" class="cp-empty-btn-sec" onclick="closeCatPage()">← Обратно</button>
       </div>
     </div>`;
+    _cpRenderPagination(0, 1);
     return;
   }
-  grid.innerHTML = list.map(p => makeCard(p)).join('');
+  const start = (cpPage - 1) * CP_PER_PAGE;
+  grid.innerHTML = list.slice(start, start + CP_PER_PAGE).map(p => makeCard(p)).join('');
+  _cpRenderPagination(list.length, totalPages);
   cpUpdateURL();
+}
+
+function _cpRenderPagination(total, totalPages) {
+  let el = document.getElementById('cpPagination');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'cpPagination';
+    document.getElementById('cpGrid')?.insertAdjacentElement('afterend', el);
+  }
+  if (totalPages <= 1) { el.innerHTML = ''; return; }
+  const start = (cpPage - 1) * CP_PER_PAGE + 1;
+  const end = Math.min(cpPage * CP_PER_PAGE, total);
+  const delta = 2;
+  const rangeStart = Math.max(1, cpPage - delta);
+  const rangeEnd = Math.min(totalPages, cpPage + delta);
+  let html = `<div class="cp-pagination"><span class="cp-page-info">${start}-${end} от ${total}</span><div class="cp-page-buttons">`;
+  if (cpPage > 1) {
+    html += `<button class="cp-page-btn" onclick="cpGoToPage(${cpPage - 1})" aria-label="Предишна"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg></button>`;
+  }
+  if (rangeStart > 1) {
+    html += `<button class="cp-page-btn" onclick="cpGoToPage(1)">1</button>`;
+    if (rangeStart > 2) html += `<span class="cp-page-ellipsis">...</span>`;
+  }
+  for (let p = rangeStart; p <= rangeEnd; p++) {
+    html += `<button class="cp-page-btn${p === cpPage ? ' active' : ''}" onclick="cpGoToPage(${p})">${p}</button>`;
+  }
+  if (rangeEnd < totalPages) {
+    if (rangeEnd < totalPages - 1) html += `<span class="cp-page-ellipsis">...</span>`;
+    html += `<button class="cp-page-btn" onclick="cpGoToPage(${totalPages})">${totalPages}</button>`;
+  }
+  if (cpPage < totalPages) {
+    html += `<button class="cp-page-btn" onclick="cpGoToPage(${cpPage + 1})" aria-label="Следваща"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg></button>`;
+  }
+  html += `</div></div>`;
+  el.innerHTML = html;
+}
+
+function cpGoToPage(n) {
+  const list = cpGetFiltered();
+  const totalPages = Math.max(1, Math.ceil(list.length / CP_PER_PAGE));
+  cpPage = Math.min(totalPages, Math.max(1, n));
+  cpRenderGrid();
+  const pg = document.getElementById('catPage');
+  if (pg) pg.scrollTop = 0;
 }
 
 // ═══════════════════════════════════════

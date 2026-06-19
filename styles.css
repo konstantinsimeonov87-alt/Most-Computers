@@ -9030,9 +9030,11 @@
  }/* Hide vendor tab on mobile */
  @media(max-width:768px){.pdp-tab[data-action="pdpSwitchTab('vendor')"]{
      display: none;
-   }/* 1. Sticky bar must sit above the bottom nav */
+   }/* 1. Sticky bar: above bottom nav by default; at true bottom when visible (PDP open, nav hidden behind backdrop) */
    .pdp-sticky-bar{
      bottom: calc(64px + env(safe-area-inset-bottom));
+   }.pdp-sticky-bar.visible{
+     bottom: env(safe-area-inset-bottom, 0px);
    }/* Mobile back button — скрит на мобилен, thumb показва продукта */
    .pdp-mob-back{
      display: none;

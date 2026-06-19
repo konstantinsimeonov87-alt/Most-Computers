@@ -2462,7 +2462,7 @@ function openProductPage(id) {
         if (typeof applySubcatById === 'function') setTimeout(() => applySubcatById(p.subcat), 50);
         bcSet([{ label: _bcCatLabel, fn: _bcCatFn }]);
       };
-      _bcItems.push({ label: _subcatLabel, url: `https://mostcomputers.bg/?cat=${p.cat}`, fn: _bcSubFn });
+      _bcItems.push({ label: _subcatLabel, url: `https://mostcomputers.bg/?cat=${p.cat}&sub=${p.subcat}`, fn: _bcSubFn });
     }
     _bcItems.push({ label: p.name, url: `https://mostcomputers.bg/?product=${p.id}`, fn: null });
     bcSet(_bcItems);
@@ -2947,11 +2947,8 @@ function closeProductPage() {
   const canonical = document.querySelector('link[rel="canonical"]');
   if (canonical) canonical.setAttribute('href', 'https://mostcomputers.bg/');
   if (typeof bcSet === 'function') {
-    if (_bcTrail.length >= 2) {
-      bcSet([_bcTrail[0]]);
-    } else {
-      bcSet([]);
-    }
+    const catOpen = document.getElementById('catPage')?.classList.contains('open');
+    bcSet(catOpen && _bcTrail.length >= 1 ? [_bcTrail[0]] : []);
   }
 }
 
@@ -4416,7 +4413,7 @@ function closeProdPreview() {
 function _setPgBc(id, label, closeFnName) {
   const el = document.getElementById(id);
   if (!el) return;
-  el.innerHTML = `<ol class="pg-bc-list" itemscope itemtype="https://schema.org/BreadcrumbList"><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="/" class="pg-bc-home" onclick="${closeFnName}();return false;">Начало</a><meta itemprop="position" content="1"/></li><li class="pg-bc-sep" aria-hidden="true">›</li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><strong class="pg-bc-current" itemprop="name">${label}</strong><meta itemprop="position" content="2"/></li></ol>`;
+  el.innerHTML = `<ol class="pg-bc-list" itemscope itemtype="https://schema.org/BreadcrumbList"><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="/" class="pg-bc-home" itemprop="item" onclick="${closeFnName}();return false;"><span itemprop="name">Начало</span></a><meta itemprop="position" content="1"/></li><li class="pg-bc-sep" aria-hidden="true">›</li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><strong class="pg-bc-current" itemprop="name">${label}</strong><meta itemprop="position" content="2"/></li></ol>`;
 }
 const blogPosts = [
   {

@@ -27,6 +27,8 @@ function bcRender() {
   }).join('');
 
   inner.innerHTML = html;
+  const wrap = document.getElementById('bcWrap');
+  if (wrap) wrap.style.display = _bcTrail.length > 0 ? '' : 'none';
 
   // Mirror into PDP subheader breadcrumb
   const pdpBc = document.getElementById('pdpBcInner');

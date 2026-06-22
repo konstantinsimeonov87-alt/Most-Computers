@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+// Most Computers — Service Worker 66ecc8d
 // Most Computers — Service Worker 68d410c
 // Most Computers — Service Worker f9d6cf3
 =======
@@ -16,12 +16,12 @@
 // Most Computers — Service Worker 1af9e586
 <<<<<<< HEAD
 <<<<<<< HEAD
-const CACHE = 'mc-68d410c';
+const CACHE = 'mc-66ecc8d';
 =======
-const CACHE = 'mc-10ea6bec';
+const CACHE = 'mc-66ecc8d';
 >>>>>>> 33fdc47 (fix(pdp-mobile): remove product title from mobile PDP header)
 =======
-const CACHE = 'mc-68d410c';
+const CACHE = 'mc-66ecc8d';
 >>>>>>> 27684c9 (fix(mobile): replace emoji with SVG icons in homepage tabs, fix one-row layout)
 =======
 <<<<<<< HEAD
@@ -29,39 +29,39 @@ const CACHE = 'mc-68d410c';
 // Most Computers — Service Worker c662290
 // Most Computers — Service Worker 4b3d57c0
 // Most Computers — Service Worker 1af9e586
-const CACHE = 'mc-68d410c';
+const CACHE = 'mc-66ecc8d';
 >>>>>>> c3fd921 (fix(pdp-mobile): replace back button with compact one-row mobile header)
 =======
 <<<<<<< HEAD
 // Most Computers — Service Worker 4c790905
-const CACHE = 'mc-68d410c';
+const CACHE = 'mc-66ecc8d';
 >>>>>>> 947bad8 (feat(cat): replace all-at-once render with 24-per-page pagination)
 =======
 // Most Computers — Service Worker 0a84693a
-const CACHE = 'mc-68d410c';
+const CACHE = 'mc-66ecc8d';
 =======
 // Most Computers — Service Worker 4c6a43be
 // Most Computers — Service Worker 4b3d57c0
 // Most Computers — Service Worker 1af9e586
-const CACHE = 'mc-68d410c';
+const CACHE = 'mc-66ecc8d';
 =======
 // Most Computers — Service Worker 557b9dd2
 // Most Computers — Service Worker 4b3d57c0
 // Most Computers — Service Worker 1af9e586
-const CACHE = 'mc-68d410c';
+const CACHE = 'mc-66ecc8d';
 >>>>>>> 42c3966 (fix(pdp-mobile): add back navigation button on mobile product page)
 =======
 <<<<<<< HEAD
 // Most Computers — Service Worker 4c790905
-const CACHE = 'mc-68d410c';
+const CACHE = 'mc-66ecc8d';
 >>>>>>> 947bad8 (feat(cat): replace all-at-once render with 24-per-page pagination)
 =======
 // Most Computers — Service Worker 0a84693a
 <<<<<<< HEAD
-const CACHE = 'mc-68d410c';
+const CACHE = 'mc-66ecc8d';
 >>>>>>> 0b0dfb2 (fix(pdp): match 'При намаление' button style to other secondary action buttons)
 =======
-const CACHE = 'mc-68d410c';
+const CACHE = 'mc-66ecc8d';
 >>>>>>> 42c3966 (fix(pdp-mobile): add back navigation button on mobile product page)
 >>>>>>> 0ec6325 (fix(mobile): drawer menu + PDP layout fixes)
 const PRECACHE = [

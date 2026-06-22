@@ -14615,12 +14615,12 @@ body.compare-active .fcp{bottom:92px;}
   .pdp-mob-hdr {
     display: flex;
     align-items: center;
-    gap: 4px;
-    height: 48px;
+    gap: 2px;
+    height: 40px;
     background: var(--white);
     border-bottom: 1px solid var(--border);
-    margin: -16px -14px 12px;
-    padding: 0 6px;
+    margin: -16px -14px 10px;
+    padding: 0 4px;
     position: sticky;
     top: 0;
     z-index: 10;
@@ -14628,19 +14628,18 @@ body.compare-active .fcp{bottom:92px;}
   .pdp-mob-back {
     display: flex;
     align-items: center;
-    gap: 6px;
-    height: 40px;
-    padding: 0 8px 0 4px;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
     border: none;
     background: none;
     cursor: pointer;
     color: var(--text);
     border-radius: 8px;
     flex-shrink: 0;
-    font-size: 14px;
-    font-weight: 600;
-    font-family: inherit;
   }
+  .pdp-mob-back span { display: none; }
   .pdp-mob-back:hover { background: var(--border); }
   .pdp-mob-hdr-spacer { flex: 1; }
   .pdp-mob-wish,
@@ -14648,9 +14647,9 @@ body.compare-active .fcp{bottom:92px;}
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
-    min-width: 40px;
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
     border: none;
     background: none;
     cursor: pointer;

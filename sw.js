@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 // Most Computers — Service Worker 66ecc8d
 // Most Computers — Service Worker 68d410c
+=======
+<<<<<<< HEAD
+// Most Computers — Service Worker dcd45302
+>>>>>>> ea76ec1 (fix(pdp-mobile): compact mobile PDP header — 40px, icon-only back arrow)
 // Most Computers — Service Worker f9d6cf3
 =======
 <<<<<<< HEAD
@@ -16,7 +21,11 @@
 // Most Computers — Service Worker 1af9e586
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 const CACHE = 'mc-66ecc8d';
+=======
+const CACHE = 'mc-dcd45302';
+>>>>>>> ea76ec1 (fix(pdp-mobile): compact mobile PDP header — 40px, icon-only back arrow)
 =======
 const CACHE = 'mc-66ecc8d';
 >>>>>>> 33fdc47 (fix(pdp-mobile): remove product title from mobile PDP header)

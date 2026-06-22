@@ -751,7 +751,7 @@
 }.pdp-mhdr-bc .bc-item button:hover, .pdp-mhdr-bc .bc-item a:hover{ opacity: .65; text-decoration: underline; }.pdp-mhdr-bc .bc-item.current{ min-width: 0; flex: 0 1 auto; overflow: hidden; }.pdp-mhdr-bc .bc-item.current span{
   color: var(--text2); font-weight: 600;
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block;
-}.pdp-mhdr-bc .bc-sep{ margin: 0 6px; color: var(--muted); font-size: 11px; flex-shrink: 0; }/* Responsive */
+}.pdp-mhdr-bc .bc-sep{ margin: 0 6px; color: var(--muted); font-size: 11px; flex-shrink: 0; }/* Back button (desktop: hidden; mobile: visible) */.pdp-back-btn{ display: none; align-items: center; gap: 6px; background: none; border: none; cursor: pointer; font-family: inherit; font-size: 14px; font-weight: 600; color: var(--text); padding: 8px 10px 8px 4px; border-radius: 8px; transition: background .15s; flex-shrink: 0; white-space: nowrap; }.pdp-back-btn:hover{ background: var(--border); }.pdp-back-btn svg{ flex-shrink: 0; }/* Responsive */
 @media (max-width: 900px){.pdp-mhdr-btn span{ display: none; }.pdp-mhdr-btn{ padding: 8px 10px; }.pdp-mhdr-phone{ font-size: 12px; }.pdp-mhdr-phone span{ display: inline; } /* keep phone number visible */
 }
 @media (max-width: 640px){.pdp-mhdr-row{ flex-wrap: wrap; gap: 10px; }.pdp-mhdr-logo{ display: none; }/* logo already in main header */.pdp-sh-search-wrap{ order: -1; flex: 1 1 100%; }.pdp-mhdr-actions{ flex: 1 1 auto; justify-content: flex-end; }.pdp-mhdr-wish{ display: none; } /* hide wishlist on mobile to save space */
@@ -14142,6 +14142,10 @@ body.compare-active .fcp{bottom:92px;}
 @media (max-width: 768px) {
   .pdp-mhdr {
     display: none;
+  }
+  /* Show back button outside pdp-mhdr on mobile */
+  .pdp-back-btn {
+    display: flex;
   }
 }
 

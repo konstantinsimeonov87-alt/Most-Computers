@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // Most Computers — Service Worker 420bf23
 // Most Computers — Service Worker c662290
 // Most Computers — Service Worker 4b3d57c0
@@ -17,14 +18,24 @@ const CACHE = 'mc-420bf23';
 // Most Computers — Service Worker 1af9e586
 const CACHE = 'mc-420bf23';
 =======
+// Most Computers — Service Worker 557b9dd2
+// Most Computers — Service Worker 4b3d57c0
+// Most Computers — Service Worker 1af9e586
+const CACHE = 'mc-557b9dd2';
+>>>>>>> 42c3966 (fix(pdp-mobile): add back navigation button on mobile product page)
+=======
 <<<<<<< HEAD
 // Most Computers — Service Worker 4c790905
 const CACHE = 'mc-420bf23';
 >>>>>>> 947bad8 (feat(cat): replace all-at-once render with 24-per-page pagination)
 =======
 // Most Computers — Service Worker 0a84693a
+<<<<<<< HEAD
 const CACHE = 'mc-420bf23';
 >>>>>>> 0b0dfb2 (fix(pdp): match 'При намаление' button style to other secondary action buttons)
+=======
+const CACHE = 'mc-2bd8598';
+>>>>>>> 42c3966 (fix(pdp-mobile): add back navigation button on mobile product page)
 >>>>>>> 0ec6325 (fix(mobile): drawer menu + PDP layout fixes)
 const PRECACHE = [
   './',

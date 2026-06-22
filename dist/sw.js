@@ -1,8 +1,15 @@
+<<<<<<< HEAD
 // Most Computers — Service Worker 9b1b30a4
 // Most Computers — Service Worker c662290
 // Most Computers — Service Worker 4b3d57c0
 // Most Computers — Service Worker 1af9e586
 const CACHE = 'mc-9b1b30a4';
+=======
+// Most Computers — Service Worker 557b9dd2
+// Most Computers — Service Worker 4b3d57c0
+// Most Computers — Service Worker 1af9e586
+const CACHE = 'mc-557b9dd2';
+>>>>>>> 42c3966 (fix(pdp-mobile): add back navigation button on mobile product page)
 =======
 <<<<<<< HEAD
 // Most Computers — Service Worker 4c790905

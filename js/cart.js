@@ -133,6 +133,8 @@ function updateCart() {
   // sync PDP mini-header cart badge
   const pdpB = document.getElementById('pdpMhdrCartBadge');
   if (pdpB) { pdpB.textContent = count; pdpB.style.display = count > 0 ? '' : 'none'; }
+  const pdpMobB = document.getElementById('pdpMobCartBadge');
+  if (pdpMobB) { pdpMobB.textContent = count > 0 ? count : ''; }
   // sync bottom nav badges (two nav bars exist - update all)
   document.querySelectorAll('#bnCartBadge, #bnCartBadge2').forEach(bnB => {
     const bnPrev = parseInt(bnB.textContent, 10) || 0;

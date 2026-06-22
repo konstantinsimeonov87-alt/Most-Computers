@@ -1,9 +1,18 @@
+<<<<<<< HEAD
 // Most Computers — Service Worker f6a5d73
 // Most Computers — Service Worker 420bf23
 // Most Computers — Service Worker c662290
 // Most Computers — Service Worker 4b3d57c0
 // Most Computers — Service Worker 1af9e586
 const CACHE = 'mc-f6a5d73';
+=======
+<<<<<<< HEAD
+// Most Computers — Service Worker 93e6cded
+// Most Computers — Service Worker c662290
+// Most Computers — Service Worker 4b3d57c0
+// Most Computers — Service Worker 1af9e586
+const CACHE = 'mc-93e6cded';
+>>>>>>> c3fd921 (fix(pdp-mobile): replace back button with compact one-row mobile header)
 =======
 <<<<<<< HEAD
 // Most Computers — Service Worker 4c790905

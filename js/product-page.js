@@ -105,6 +105,9 @@ function openProductPage(id) {
   // Brand / Name / Rating
   const _pdpB=document.getElementById('pdpBrand'); if(_pdpB){_pdpB.textContent=p.brand||'';if(p.brand){_pdpB.dataset.brandSearch=p.brand;_pdpB.style.cursor='pointer';}}
   document.getElementById('pdpName').textContent  = p.name;
+  // Sync mobile header title
+  const _mobBrand = document.getElementById('pdpMobBrand'); if (_mobBrand) _mobBrand.textContent = p.brand || '';
+  const _mobName  = document.getElementById('pdpMobName');  if (_mobName)  _mobName.textContent  = p.name  || '';
   const _hasRv = p.rv && p.rv > 0;
   const _starsEl = document.getElementById('pdpStars');
   const _rvEl    = document.getElementById('pdpRv');
@@ -302,6 +305,9 @@ function openProductPage(id) {
   // Wishlist btn
   const wishBtn = document.getElementById('pdpWishBtn');
   if (wishBtn) wishBtn.innerHTML = wishlist.includes(id) ? '<svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-heart-fill"/></svg> В любими' : '<svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-heart"/></svg> Добави в желания';
+  // Sync mobile header wishlist icon
+  const _mobWish = document.getElementById('pdpMobWishBtn');
+  if (_mobWish) _mobWish.innerHTML = wishlist.includes(id) ? '<svg width="20" height="20" class="svg-ic" aria-hidden="true"><use href="#ic-heart-fill"/></svg>' : '<svg width="20" height="20" class="svg-ic" aria-hidden="true"><use href="#ic-heart"/></svg>';
 
   // Meta
   document.getElementById('pdpSku').textContent     = p.sku  || '-';
@@ -738,6 +744,8 @@ function pdpToggleWish() {
   toggleWishlist(pdpProductId, null);
   const wishBtn = document.getElementById('pdpWishBtn');
   if (wishBtn) wishBtn.innerHTML = wishlist.includes(pdpProductId) ? '<svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-heart-fill"/></svg> В любими' : '<svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-heart"/></svg> Добави в желания';
+  const _mobWish = document.getElementById('pdpMobWishBtn');
+  if (_mobWish) _mobWish.innerHTML = wishlist.includes(pdpProductId) ? '<svg width="20" height="20" class="svg-ic" aria-hidden="true"><use href="#ic-heart-fill"/></svg>' : '<svg width="20" height="20" class="svg-ic" aria-hidden="true"><use href="#ic-heart"/></svg>';
 }
 
 

@@ -629,7 +629,15 @@ function updateCart() {
   const _subtotalRestore = document.querySelector('.cart-subtotal');
   if (_subtotalRestore) _subtotalRestore.style.display = '';
   const _progressWrap = document.getElementById('cartProgressWrap');
-  if (_progressWrap) _progressWrap.style.display = '';
+  const _progressFill = document.getElementById('cartProgressFill');
+  const _progressText = document.getElementById('cartProgressText');
+  if (total >= FREE_SHIP_BGN) {
+    if (_progressWrap) _progressWrap.style.display = 'none';
+  } else {
+    if (_progressWrap) _progressWrap.style.display = '';
+    if (_progressFill) _progressFill.style.width = Math.min(100, (total / FREE_SHIP_BGN * 100)).toFixed(1) + '%';
+    if (_progressText) _progressText.innerHTML = 'Добави продукти за още <strong>' + ((FREE_SHIP_BGN - total) / EUR_RATE).toFixed(2) + ' €</strong> за <span style="color:var(--new);font-weight:700;">БЕЗПЛАТНА доставка</span>';
+  }
   const _viewCartBtn = document.querySelector('.view-cart-page-btn');
   if (_viewCartBtn) _viewCartBtn.style.display = '';
   // Update checkout button with total amount

@@ -14689,6 +14689,10 @@ body.compare-active .fcp{bottom:92px;}
   .pdp-tabs { scrollbar-width: none; }
   .pdp-tabs::-webkit-scrollbar { display: none; }
   .pdp-tab { padding: 9px 11px; }
+  /* Fix: ck-row2 base rule declared after mobile override, re-declare here */
+  .ck-row2 { grid-template-columns: 1fr; }
+  /* Compact checkout logo on mobile */
+  .checkout-logo { display: none; }
 }
 @media (max-width: 480px) {
   .pdp-sticky-name { max-width: 160px; }

@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 // Most Computers — Service Worker 68d410c
 // Most Computers — Service Worker f9d6cf3
+=======
+<<<<<<< HEAD
+// Most Computers — Service Worker 10ea6bec
+>>>>>>> 33fdc47 (fix(pdp-mobile): remove product title from mobile PDP header)
 // Most Computers — Service Worker f6a5d73
 =======
 <<<<<<< HEAD
@@ -10,7 +15,11 @@
 // Most Computers — Service Worker 4b3d57c0
 // Most Computers — Service Worker 1af9e586
 <<<<<<< HEAD
+<<<<<<< HEAD
 const CACHE = 'mc-68d410c';
+=======
+const CACHE = 'mc-10ea6bec';
+>>>>>>> 33fdc47 (fix(pdp-mobile): remove product title from mobile PDP header)
 =======
 const CACHE = 'mc-68d410c';
 >>>>>>> 27684c9 (fix(mobile): replace emoji with SVG icons in homepage tabs, fix one-row layout)

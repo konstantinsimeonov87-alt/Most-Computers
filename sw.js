@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+// Most Computers — Service Worker 74d12c4
 // Most Computers — Service Worker c1c628e4
 // Most Computers — Service Worker 68d410c
 =======
@@ -22,15 +22,15 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
-const CACHE = 'mc-c1c628e4';
+const CACHE = 'mc-74d12c4';
 =======
-const CACHE = 'mc-dcd45302';
+const CACHE = 'mc-74d12c4';
 >>>>>>> ea76ec1 (fix(pdp-mobile): compact mobile PDP header — 40px, icon-only back arrow)
 =======
-const CACHE = 'mc-66ecc8d';
+const CACHE = 'mc-74d12c4';
 >>>>>>> 33fdc47 (fix(pdp-mobile): remove product title from mobile PDP header)
 =======
-const CACHE = 'mc-66ecc8d';
+const CACHE = 'mc-74d12c4';
 >>>>>>> 27684c9 (fix(mobile): replace emoji with SVG icons in homepage tabs, fix one-row layout)
 =======
 <<<<<<< HEAD
@@ -38,39 +38,39 @@ const CACHE = 'mc-66ecc8d';
 // Most Computers — Service Worker c662290
 // Most Computers — Service Worker 4b3d57c0
 // Most Computers — Service Worker 1af9e586
-const CACHE = 'mc-66ecc8d';
+const CACHE = 'mc-74d12c4';
 >>>>>>> c3fd921 (fix(pdp-mobile): replace back button with compact one-row mobile header)
 =======
 <<<<<<< HEAD
 // Most Computers — Service Worker 4c790905
-const CACHE = 'mc-66ecc8d';
+const CACHE = 'mc-74d12c4';
 >>>>>>> 947bad8 (feat(cat): replace all-at-once render with 24-per-page pagination)
 =======
 // Most Computers — Service Worker 0a84693a
-const CACHE = 'mc-66ecc8d';
+const CACHE = 'mc-74d12c4';
 =======
 // Most Computers — Service Worker 4c6a43be
 // Most Computers — Service Worker 4b3d57c0
 // Most Computers — Service Worker 1af9e586
-const CACHE = 'mc-66ecc8d';
+const CACHE = 'mc-74d12c4';
 =======
 // Most Computers — Service Worker 557b9dd2
 // Most Computers — Service Worker 4b3d57c0
 // Most Computers — Service Worker 1af9e586
-const CACHE = 'mc-66ecc8d';
+const CACHE = 'mc-74d12c4';
 >>>>>>> 42c3966 (fix(pdp-mobile): add back navigation button on mobile product page)
 =======
 <<<<<<< HEAD
 // Most Computers — Service Worker 4c790905
-const CACHE = 'mc-66ecc8d';
+const CACHE = 'mc-74d12c4';
 >>>>>>> 947bad8 (feat(cat): replace all-at-once render with 24-per-page pagination)
 =======
 // Most Computers — Service Worker 0a84693a
 <<<<<<< HEAD
-const CACHE = 'mc-66ecc8d';
+const CACHE = 'mc-74d12c4';
 >>>>>>> 0b0dfb2 (fix(pdp): match 'При намаление' button style to other secondary action buttons)
 =======
-const CACHE = 'mc-66ecc8d';
+const CACHE = 'mc-74d12c4';
 >>>>>>> 42c3966 (fix(pdp-mobile): add back navigation button on mobile product page)
 >>>>>>> 0ec6325 (fix(mobile): drawer menu + PDP layout fixes)
 const PRECACHE = [

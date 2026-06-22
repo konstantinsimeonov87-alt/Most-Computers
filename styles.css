@@ -8848,8 +8848,8 @@
    color: #fff;
    border: none;
    border-radius: 10px;
-   padding: 16px 24px;
-   font-size: 16px;
+   padding: 11px 20px;
+   font-size: 15px;
    font-weight: 700;
    cursor: pointer;
    transition: all 0.2s;
@@ -14464,10 +14464,11 @@ body.compare-active .fcp{bottom:92px;}
   .pdp-qty-row { display: none; }
 
   .pdp-add-btn {
-    height: 56px;
-    font-size: 17px;
-    border-radius: 16px;
-    box-shadow: 0 4px 16px rgba(189,17,5,.25);
+    width: auto;
+    height: 38px;
+    font-size: 14px;
+    border-radius: 8px;
+    padding: 0 18px;
   }
 
   .pdp-price-block { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
@@ -14629,9 +14630,9 @@ body.compare-active .fcp{bottom:92px;}
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 36px;
+    gap: 2px;
     height: 36px;
-    padding: 0;
+    padding: 0 8px 0 4px;
     border: none;
     background: none;
     cursor: pointer;
@@ -14639,7 +14640,7 @@ body.compare-active .fcp{bottom:92px;}
     border-radius: 8px;
     flex-shrink: 0;
   }
-  .pdp-mob-back span { display: none; }
+  .pdp-mob-back span { font-size: 14px; font-weight: 600; }
   .pdp-mob-back:hover { background: var(--border); }
   .pdp-mob-hdr-spacer { flex: 1; }
   .pdp-mob-wish,
@@ -14678,4 +14679,17 @@ body.compare-active .fcp{bottom:92px;}
   .pdp-mob-cart-badge:not(:empty) { display: block; }
   /* Hide old standalone back button - replaced by pdp-mob-hdr */
   .pdp-back-btn { display: none !important; }
+  /* ── PDP UX Cleanup ── */
+  .pdp-meta > div:first-child,
+  .pdp-meta > div:nth-child(2) { display: none; }
+  .pdp-add-btn { margin-left: auto; margin-right: auto; }
+  .pdp-main-grid { gap: 14px; }
+  .pdp-contact-strip { display: none; }
+  .pdp-copy-btn, .pdp-print-btn { display: none; }
+  .pdp-tabs { scrollbar-width: none; }
+  .pdp-tabs::-webkit-scrollbar { display: none; }
+  .pdp-tab { padding: 9px 11px; }
+}
+@media (max-width: 480px) {
+  .pdp-sticky-name { max-width: 160px; }
 }

@@ -2751,7 +2751,7 @@ function openProductPage(id) {
     let specRows = `<tr><th scope="row">SKU / Part Number</th><td style="font-family:'JetBrains Mono',monospace;font-size:12px;">${p.sku||'-'}</td></tr>`;
     if (p.ean) specRows += `<tr><th scope="row">EAN / Баркод</th><td style="font-family:'JetBrains Mono',monospace;font-size:12px;">${p.ean}</td></tr>`;
     const _se = s => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-    specRows += Object.entries(specs).map(([k,v]) => `<tr><th scope="row">${_se(k)}</th><td>${_se(v)}</td></tr>`).join('');
+    specRows += Object.entries(specs).filter(([,v]) => { const s = String(v||'').trim(); return s && s.toLowerCase() !== 'none'; }).map(([k,v]) => `<tr><th scope="row">${_se(k)}</th><td>${_se(v)}</td></tr>`).join('');
     tbody.innerHTML = specRows || '<tr><td colspan="2" style="color:var(--muted);text-align:center;padding:24px;">Няма данни за спецификации.</td></tr>';
   }
 

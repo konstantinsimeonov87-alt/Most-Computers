@@ -14693,3 +14693,105 @@ body.compare-active .fcp{bottom:92px;}
 @media (max-width: 480px) {
   .pdp-sticky-name { max-width: 160px; }
 }
+
+/* ===== DESKTOP SPRINT — UX/UI IMPROVEMENTS (2026-06-22) ===== */
+
+/* D1 — PDP wider layout at 1440px+ */
+@media (min-width: 1280px) {
+  .pdp-wrap {
+    max-width: 1280px;
+    padding: 24px 48px 60px;
+  }
+  .pdp-main-grid {
+    grid-template-columns: 1fr 480px;
+    gap: 48px;
+  }
+}
+
+/* D2 — PDP info panel: card visual treatment on desktop */
+@media (min-width: 769px) {
+  .pdp-info {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px 24px;
+    box-shadow: var(--shadow-card);
+  }
+}
+
+/* D3 — Wider search input on larger screens */
+@media (min-width: 1024px) {
+  .overlay-search-input {
+    width: 360px;
+  }
+}
+@media (min-width: 1280px) {
+  .overlay-search-input {
+    width: 440px;
+  }
+}
+
+/* D4 — Sidebar filter readability improvements on desktop */
+@media (min-width: 769px) {
+  .sfb-title {
+    font-size: 13px;
+  }
+  .sfb-header {
+    padding: 14px 16px;
+  }
+  .sfb-body {
+    padding: 14px 16px;
+  }
+  .brand-filter-item {
+    font-size: 14px;
+    padding: 8px 8px;
+    min-height: 38px;
+  }
+  .stock-toggle-row {
+    font-size: 14px;
+  }
+}
+
+/* D5 — PDP recs widget: larger on desktop */
+@media (min-width: 769px) {
+  .pdp-rw-thumb {
+    width: 48px;
+    height: 48px;
+  }
+  .pdp-rw-name {
+    font-size: 12px;
+  }
+  .pdp-rw-price {
+    font-size: 12px;
+  }
+  .pdp-rw-row {
+    padding: 9px 6px;
+  }
+  .pdp-rw-add {
+    width: 30px;
+    height: 30px;
+  }
+  .pdp-rw-hdr {
+    font-size: 11px;
+    margin-bottom: 10px;
+  }
+}
+
+/* D6 — Cart empty state: vertical centering on desktop */
+@media (min-width: 769px) {
+  .cart-panel-body {
+    display: flex;
+    flex-direction: column;
+  }
+  .cart-empty-msg {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 24px;
+    text-align: center;
+  }
+}
+
+/* ===== END DESKTOP SPRINT ===== */

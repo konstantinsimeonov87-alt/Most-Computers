@@ -1,4 +1,4 @@
-// Most Computers — Service Worker c2582ca8
+// Most Computers — Service Worker fba79fa3
 // Most Computers — Service Worker c1c628e4
 // Most Computers — Service Worker 68d410c
 =======
@@ -22,7 +22,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
-const CACHE = 'mc-c2582ca8';
+const CACHE = 'mc-fba79fa3';
 =======
 const CACHE = 'mc-38384f4';
 >>>>>>> ea76ec1 (fix(pdp-mobile): compact mobile PDP header — 40px, icon-only back arrow)

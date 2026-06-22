@@ -1,10 +1,19 @@
+<<<<<<< HEAD
 // Most Computers — Service Worker f9d6cf3
 // Most Computers — Service Worker f6a5d73
+=======
+<<<<<<< HEAD
+// Most Computers — Service Worker 4d773356
+>>>>>>> 27684c9 (fix(mobile): replace emoji with SVG icons in homepage tabs, fix one-row layout)
 // Most Computers — Service Worker 420bf23
 // Most Computers — Service Worker c662290
 // Most Computers — Service Worker 4b3d57c0
 // Most Computers — Service Worker 1af9e586
+<<<<<<< HEAD
 const CACHE = 'mc-f9d6cf3';
+=======
+const CACHE = 'mc-4d773356';
+>>>>>>> 27684c9 (fix(mobile): replace emoji with SVG icons in homepage tabs, fix one-row layout)
 =======
 <<<<<<< HEAD
 // Most Computers — Service Worker 93e6cded

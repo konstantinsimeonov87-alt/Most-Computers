@@ -1,4 +1,4 @@
-// Most Computers — Service Worker 7062d6c1
+// Most Computers — Service Worker a190c1b0
 // Most Computers — Service Worker c1c628e4
 // Most Computers — Service Worker 68d410c
 =======
@@ -22,7 +22,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
-const CACHE = 'mc-7062d6c1';
+const CACHE = 'mc-a190c1b0';
 =======
 const CACHE = 'mc-38384f4';
 >>>>>>> ea76ec1 (fix(pdp-mobile): compact mobile PDP header — 40px, icon-only back arrow)

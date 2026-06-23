@@ -14915,6 +14915,7 @@ body.compare-active .fcp{bottom:92px;}
   justify-content: center;
   gap: 28px;
   z-index: 80;
+  transition: opacity .25s ease;
 }
 .gfb-copy { font-size: 11px; color: rgba(255,255,255,.4); white-space: nowrap; }
 .gfb-sep { width: 1px; height: 20px; background: rgba(255,255,255,.1); flex-shrink: 0; }

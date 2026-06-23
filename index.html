@@ -6128,7 +6128,19 @@ body.compare-active{padding-bottom:90px}
     </span>
   </div>
 </div>
-<script>var _gy=document.getElementById('gfb-year');if(_gy)_gy.textContent=new Date().getFullYear();</script>
+<script>
+var _gy=document.getElementById('gfb-year');if(_gy)_gy.textContent=new Date().getFullYear();
+(function(){
+  var gfb=document.getElementById('gfb');
+  var fb=document.querySelector('.footer-bottom');
+  if(!gfb||!fb)return;
+  var obs=new IntersectionObserver(function(entries){
+    gfb.style.opacity=entries[0].isIntersecting?'0':'';
+    gfb.style.pointerEvents=entries[0].isIntersecting?'none':'';
+  },{threshold:0.1});
+  obs.observe(fb);
+})();
+</script>
 
 </body>
 

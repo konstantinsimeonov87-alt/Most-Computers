@@ -5543,6 +5543,7 @@ window._onSupabaseSignOut = function() {
   showToast('Излязохте успешно от профила.');
 };
 
+function openAuth(tab) { openAuthModal(tab || 'login'); }
 function openAuthModal(tab = 'login') {
   switchAuthTab(tab);
   resetAuthForms();

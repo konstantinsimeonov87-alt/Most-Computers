@@ -14921,3 +14921,30 @@ body.compare-active .fcp{bottom:92px;}
   color: #16a34a;
   flex-shrink: 0;
 }
+
+/* ===== MOBILE SPRINT — UX Polish ===== */
+
+/* S1: Wishlist empty state - vertically center content on mobile */
+@media (max-width: 768px) {
+  .wishlist-body {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - 120px);
+  }
+  .wishlist-empty {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+  }
+}
+
+/* S2: Subcat bar scroll mask - softer fade so last pill is more readable */
+@media (max-width: 768px) {
+  .subcat-bar.visible {
+    mask-image: linear-gradient(to right, black 88%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, black 88%, transparent 100%);
+  }
+}

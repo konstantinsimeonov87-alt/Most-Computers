@@ -287,7 +287,7 @@ var products = [
    specs:{'Чипсет':'AMD A520','Сокет':'AM4','Форм фактор':'Micro-ATX','Памет':'2× DDR4','SATA':'4× SATA3','M.2':'1×','PCIe':'1× x16 / 1× x1','Изходи':'HDMI / VGA','Звук':'7.1 HD Audio','LAN':'Gigabit'},
    rating:4.3,rv:0,
    desc:'ASRock A520M-HVS - най-достъпната Micro-ATX платка за Ryzen. HDMI + VGA, 1× M.2 слот.',
-   img:'./images/products/26800.webp',stock:true},
+   img:'./images/products/26800.webp',stock:false},
 
   {id:42,name:'ASRock B550M-HDV / AM4',brand:'ASRock',cat:'components',subcat:'motherboard',
    price:142.8,added:'2026-04-20',emoji:'⚙️',sku:'B550M-HDV',ean:'4710483931635',
@@ -470,7 +470,7 @@ var products = [
    specs:{'Чипсет':'AMD/Intel B850','Памет':'4× DDR5','SATA3':'4×SATA3','RAID':'Да','M.2':'3xM2','PCIe x16':'1×PCIEx16','PCIe x1':'1xPCIEx1','Изходи':'HDMI / DP','Форм фактор':'ATX','Сокет':'AM5'},
    rating:4.4,rv:0,
    desc:'ASRock дънна платка ASROCK B850M PRO-A /AM5.',
-   img:'./images/products/44591.webp',stock:true},
+   img:'./images/products/44591.webp',stock:false},
 
   {id:68,name:'ASROCK B850M PRO-A WIFI /AM5',brand:'ASRock',cat:'components',subcat:'motherboard',
    price:260.4,added:'2026-04-20',emoji:'⚙️',sku:'B850M PRO-A WIFI',ean:'4711581490376',
@@ -529,7 +529,7 @@ var products = [
    img:'./images/products/48791.webp',stock:true},
 
   {id:76,name:'ASROCK B850 PRO RS /AM5',brand:'ASRock',cat:'components',subcat:'motherboard',
-   price:311.12,old:327.6,pct:5,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'B850 PRO RS',ean:'4711581490161',
+   price:312.03,old:327.6,pct:5,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'B850 PRO RS',ean:'4711581490161',
    specs:{'Чипсет':'AMD/Intel B850','Памет':'4× DDR5','SATA3':'4×SATA3','RAID':'Да','M.2':'4xM2','PCIe x16':'1×PCIEx16','Изходи':'HDMI','Форм фактор':'ATX','Сокет':'AM5'},
    rating:4.4,rv:0,
    desc:'ASRock дънна платка ASROCK B850 PRO RS /AM5.',
@@ -543,7 +543,7 @@ var products = [
    img:'./images/products/47015.webp',stock:false},
 
   {id:78,name:'ASROCK B850 PRO RS WIFI /AM5',brand:'ASRock',cat:'components',subcat:'motherboard',
-   price:339.52,old:362.4,pct:6,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'B850 PRO RS WIFI',ean:'4711581490178',
+   price:340.53,old:362.4,pct:6,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'B850 PRO RS WIFI',ean:'4711581490178',
    specs:{'Чипсет':'AMD/Intel B850','Памет':'4× DDR5','SATA3':'4×SATA3','RAID':'Да','M.2':'4xM2','PCIe x16':'1×PCIEx16','Изходи':'HDMI','Форм фактор':'ATX','Сокет':'AM5'},
    rating:4.4,rv:0,
    desc:'ASRock дънна платка ASROCK B850 PRO RS WIFI /AM5.',
@@ -746,7 +746,7 @@ var products = [
    img:'./images/products/37854.webp',stock:true},
 
   {id:107,name:'ASROCK H810M-H',brand:'ASRock',cat:'components',subcat:'motherboard',
-   price:152.91,old:170.4,pct:10,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'H810M-H',ean:'4711581490833',
+   price:153.35,old:170.4,pct:10,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'H810M-H',ean:'4711581490833',
    specs:{'Чипсет':'AMD/Intel H610','Памет':'2× DDR5','SATA3':'4×SATA3','M.2':'1xM2','PCIe x16':'1×PCIEx16','PCIe x1':'1xPCIEx1','Изходи':'HDMI','Форм фактор':'ATX','Сокет':'LGA1700'},
    rating:4.4,rv:0,
    desc:'ASRock дънна платка ASROCK H810M-H.',
@@ -767,7 +767,7 @@ var products = [
    img:'./images/products/44603.webp',stock:false},
 
   {id:110,name:'ASROCK B860M-H2',brand:'ASRock',cat:'components',subcat:'motherboard',
-   price:199.49,old:217.2,pct:8,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'B860M-H2',ean:'4711581490437',
+   price:200.08,old:217.2,pct:8,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'B860M-H2',ean:'4711581490437',
    specs:{'Форм фактор':'ATX','Сокет':'LGA1700'},
    rating:4.4,rv:0,
    desc:'ASRock дънна платка ASROCK B860M-H2.',
@@ -788,7 +788,7 @@ var products = [
    img:'./images/products/48799.webp',stock:false},
 
   {id:113,name:'ASROCK B860M PRO-A',brand:'ASRock',cat:'components',subcat:'motherboard',
-   price:247.94,old:268.8,pct:8,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'B860M PRO-A',ean:'4711581490291',
+   price:248.66,old:268.8,pct:7,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'B860M PRO-A',ean:'4711581490291',
    specs:{'Чипсет':'AMD/Intel B860','Памет':'4× DDR5','SATA3':'4×SATA3','RAID':'Да','M.2':'3xM2','PCIe x16':'1×PCIEx16','Изходи':'HDMI / DP','Форм фактор':'ATX','Сокет':'LGA1700'},
    rating:4.4,rv:0,
    desc:'ASRock дънна платка ASROCK B860M PRO-A.',
@@ -851,7 +851,7 @@ var products = [
    img:'./images/products/44619.webp',stock:true},
 
   {id:122,name:'ASROCK B860 PRO-A WIFI/LGA1851',brand:'ASRock',cat:'components',subcat:'motherboard',
-   price:283.24,old:307.2,pct:8,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'B860 PRO-A WIFI',ean:'4711581490253',
+   price:284.06,old:307.2,pct:8,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'B860 PRO-A WIFI',ean:'4711581490253',
    specs:{'Чипсет':'AMD/Intel B860','Памет':'4× DDR5','SATA3':'4×SATA3','RAID':'Да','M.2':'3xM2','PCIe x16':'2×PCIEx16','Изходи':'HDMI / DP','Форм фактор':'ATX','Сокет':'LGA1851'},
    rating:4.4,rv:0,
    desc:'ASRock дънна платка ASROCK B860 PRO-A WIFI/LGA1851.',
@@ -1051,7 +1051,7 @@ var products = [
    specs:{'Чипсет':'AMD/Intel B650','Памет':'4× DDR5','SATA3':'4×SATA3','RAID':'Да','M.2':'3xM2','PCIe x16':'3×PCIEx16','Изходи':'HDMI / DP','Форм фактор':'ATX','Сокет':'AM5'},
    rating:4.4,rv:0,
    desc:'Gigabyte дънна платка GB B650 GAMING X AX V2 /AM5.',
-   img:'./images/products/42793.webp',stock:true},
+   img:'./images/products/42793.webp',stock:false},
 
   {id:151,name:'GB B650M GAMING PLUS WF /AM5',brand:'Gigabyte',cat:'components',subcat:'motherboard',
    price:290.4,added:'2026-04-20',emoji:'⚙️',sku:'B650M GAMING PLUS WF 1.3',
@@ -1072,7 +1072,7 @@ var products = [
    specs:{'Чипсет':'AMD/Intel B650','Памет':'4× DDR5','SATA3':'4×SATA3','RAID':'Да','M.2':'2xM2','PCIe x16':'1×PCIEx16','PCIe x1':'1xPCIEx1','Изходи':'HDMI','Форм фактор':'ATX','Сокет':'AM5'},
    rating:4.4,rv:0,
    desc:'Gigabyte дънна платка GB B650M D3HP AX /AM5.',
-   img:'./images/products/38600.webp',stock:true},
+   img:'./images/products/38600.webp',stock:false},
 
   {id:154,name:'GB B650M D3HP /AM5',brand:'Gigabyte',cat:'components',subcat:'motherboard',
    price:217.2,added:'2026-04-20',emoji:'⚙️',sku:'B650M D3HP 1.3',ean:'4719331857851',
@@ -1562,7 +1562,7 @@ var products = [
    specs:{'Чипсет':'AMD/Intel Z790','Памет':'4× DDR5','SATA3':'4×SATA3','RAID':'Да','M.2':'3xM2','PCIe x16':'3×PCIEx16','PCIe x1':'2xPCIEx1','Изходи':'HDMI / DP','Форм фактор':'ATX','Сокет':'LGA1700'},
    rating:4.4,rv:0,
    desc:'Gigabyte дънна платка GB Z790 EAGLE AX /LGA1700.',
-   img:'./images/products/39261.webp',stock:true},
+   img:'./images/products/39261.webp',stock:false},
 
   {id:224,name:'GB H810M S2H /LGA1851',brand:'Gigabyte',cat:'components',subcat:'motherboard',
    price:195.6,added:'2026-04-20',emoji:'⚙️',sku:'H810M S2H 1.0',ean:'4719331869168',
@@ -1688,7 +1688,7 @@ var products = [
    specs:{'Чипсет':'AMD/Intel A520','Памет':'2× DDR4','SATA3':'4×SATA3','M.2':'1xM2','PCIe x16':'1×PCIEx16','PCIe x1':'1xPCIEx1','Изходи':'HDMI / DVI','Форм фактор':'ATX','Сокет':'AM4'},
    rating:4.4,rv:0,
    desc:'MSI дънна платка MSI A520M-A PRO /AM4.',
-   img:'./images/products/26322.webp',stock:true},
+   img:'./images/products/26322.webp',stock:false},
 
   {id:242,name:'MSI A520M PRO',brand:'MSI',cat:'components',subcat:'motherboard',
    price:117.6,added:'2026-04-20',emoji:'⚙️',sku:'911-7D14-020',
@@ -2209,7 +2209,7 @@ var products = [
    img:'./images/products/27094.webp',stock:false},
 
   {id:316,name:'ASUS TUF GAMING B550M-PLUS/AM4',brand:'Asus',cat:'components',subcat:'motherboard',
-   price:217.54,old:301.2,pct:28,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'90MB14A0-M0EAY0',ean:'4718017623544',
+   price:218.2,old:301.2,pct:28,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'90MB14A0-M0EAY0',ean:'4718017623544',
    specs:{'Чипсет':'AMD/Intel B550','Памет':'4× DDR4','SATA3':'4×SATA3','RAID':'Да','M.2':'2xM2','PCIe x16':'2×PCIEx16','PCIe x1':'1xPCIEx1','Изходи':'HDMI / DP','Форм фактор':'ATX','Сокет':'AM4'},
    rating:4.4,rv:0,
    desc:'ASUS дънна платка ASUS TUF GAMING B550M-PLUS/AM4.',
@@ -2223,7 +2223,7 @@ var products = [
    img:'./images/products/37075.webp',stock:false},
 
   {id:318,name:'ASUS PRIME B550-PLUS /AM4',brand:'Asus',cat:'components',subcat:'motherboard',
-   price:209.35,old:308.4,pct:32,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'90MB14U0-M0EAY0',ean:'4718017782340',
+   price:209.96,old:308.4,pct:32,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'90MB14U0-M0EAY0',ean:'4718017782340',
    specs:{'Чипсет':'AMD/Intel B550','Памет':'4× DDR4','SATA3':'6×SATA3','RAID':'Да','M.2':'2xM2','PCIe x16':'2×PCIEx16','PCIe x1':'3xPCIEx1','Изходи':'HDMI / DP','Форм фактор':'ATX','Сокет':'AM4'},
    rating:4.4,rv:0,
    desc:'ASUS дънна платка ASUS PRIME B550-PLUS /AM4.',
@@ -2370,7 +2370,7 @@ var products = [
    img:'./images/products/48195.webp',stock:true},
 
   {id:339,name:'ASUS TUF GAMING B850-PLUS WIFI',brand:'Asus',cat:'components',subcat:'motherboard',
-   price:420.75,old:536.4,pct:22,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'90MB1J30-M0EAY0',ean:'4711387781609',
+   price:421.99,old:536.4,pct:21,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'90MB1J30-M0EAY0',ean:'4711387781609',
    specs:{'Форм фактор':'ATX','Сокет':'AM5'},
    rating:4.4,rv:0,
    desc:'ASUS дънна платка ASUS TUF GAMING B850-PLUS WIFI.',
@@ -2573,7 +2573,7 @@ var products = [
    img:'./images/products/48252.webp',stock:false},
 
   {id:368,name:'ASUS PRIME B760M-A-CSM/LGA1700',brand:'Asus',cat:'components',subcat:'motherboard',
-   price:229.86,old:258,pct:11,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'90MB1EK0-M1EAYC',ean:'4711387140710',
+   price:230.55,old:258,pct:11,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'90MB1EK0-M1EAYC',ean:'4711387140710',
    specs:{'Чипсет':'AMD/Intel B760','Памет':'4× DDR5','SATA3':'4×SATA3','RAID':'Да','M.2':'2xM2','PCIe x16':'3×PCIEx16','Изходи':'DP','Форм фактор':'ATX','Сокет':'LGA1700'},
    rating:4.4,rv:0,
    desc:'ASUS дънна платка ASUS PRIME B760M-A-CSM/LGA1700.',
@@ -3037,14 +3037,14 @@ var products = [
    img:'./images/products/32560.webp',stock:false},
 
   {id:434,name:'INTEL I3-14100 3.5GHZ 12MB BOX 1700',brand:'Intel',cat:'components',subcat:'cpu',
-   price:297.6,old:362.4,pct:18,badge:'sale',added:'2026-04-20',emoji:'🔵',sku:'INB71514100SRMX1',ean:'5032037279079',
+   price:298.47,old:362.4,pct:18,badge:'sale',added:'2026-04-20',emoji:'🔵',sku:'INB71514100SRMX1',ean:'5032037279079',
    specs:{'Сокет':'FCLGA1700','Ядра':'4','Нишки':'8','Честота':'Max Turbo Frequency: 4.7 GHz; Performance-core Max Turbo Frequency: 4.7 GHz; Performance-core Base F','Кеш':'12 MB Smart Cache','Памет':'Макс: 192 GB; Memory Types Up to DDR5 4800 MT/s; Up to DDR4 3200 MT/s | Канали: 2 | 76.8 GB/s','Интегрирана графика':'UHD Graphics 730','TDP':'60 W'},
    rating:4.5,rv:0,
    desc:'Intel I3-14100 3.5GHZ 12MB BOX 1700 - сокет FCLGA1700, 4 ядра, TDP 60 W.',
    img:'./images/products/38366.webp',stock:false},
 
   {id:435,name:'INTEL I3-14100 3.5GHZ 12M TRAY 1700',brand:'Intel',cat:'components',subcat:'cpu',
-   price:292.46,old:326.4,pct:10,badge:'sale',added:'2026-04-20',emoji:'🔵',sku:'CM8071505092206',ean:'4251538816816',
+   price:293.33,old:326.4,pct:10,badge:'sale',added:'2026-04-20',emoji:'🔵',sku:'CM8071505092206',ean:'4251538816816',
    specs:{'Manufacturer':'Intel','Сокет':'FCLGA1700','Ядра':'4','Нишки':'8','Честота':'Max Turbo Frequency: 4.7 GHz;Performance-core Max Turbo Frequency: 4.7 GHz;Performance-core Base Fre','Кеш':'12 MB Smart Cache;Total L2 Cache: 5 MB','Памет':'Max Memory Size: 192 GB | Тип: Up to DDR5 4800 MT/s, Up to DDR4 3200 MT/s | Канали: 2 | 76.8 GB/s','Tray':'Yes','Интегрирана графика':'UHD Graphics 730, 1.5 GHz,'},
    rating:4.5,rv:0,
    desc:'Intel I3-14100 3.5GHZ 12M TRAY 1700 - сокет FCLGA1700, 4 ядра.',
@@ -3086,7 +3086,7 @@ var products = [
    img:'./images/products/50431.webp',stock:false},
 
   {id:441,name:'INTEL I5-14500 3.7GHZ 24MB BOX 1700',brand:'Intel',cat:'components',subcat:'cpu',
-   price:557.22,old:600,pct:7,badge:'sale',added:'2026-04-20',emoji:'🔵',sku:'INV71514500SRN3T',ean:'5032037279185',
+   price:558.87,old:600,pct:7,badge:'sale',added:'2026-04-20',emoji:'🔵',sku:'INV71514500SRN3T',ean:'5032037279185',
    specs:{'Сокет':'FCLGA1700','Ядра':'14','Нишки':'20','Честота':'Max Turbo Frequency:5 GHz; Performance-core Max Turbo Frequency:5 GHz; Efficient-core Max Turbo Freq','Кеш':'24 MB Smart Cache','Памет':'Макс: 192 GB | Тип: Up to DDR5 4800 MT/s; Up to DDR4 3200 MT/s | Канали: 2 | 76.8 GB/s','Интегрирана графика':'UHD Graphics 770'},
    rating:4.5,rv:0,
    desc:'Intel I5-14500 3.7GHZ 24MB BOX 1700 - сокет FCLGA1700, 14 ядра.',
@@ -3226,7 +3226,7 @@ var products = [
    img:'./images/products/51085.webp',stock:false},
 
   {id:461,name:'INTEL CORE ULTRA 5 245KF BOX',brand:'Intel',cat:'components',subcat:'cpu',
-   price:387.89,old:432.7,pct:10,badge:'sale',added:'2026-04-20',emoji:'🔵',sku:'BX80768245KF',ean:'5032037282109',
+   price:389.04,old:432.7,pct:10,badge:'sale',added:'2026-04-20',emoji:'🔵',sku:'BX80768245KF',ean:'5032037282109',
    specs:{'Manufacturer':'Intel','Сокет':'FCLGA1851','Ядра':'Total Cores: 14;# of Performance-cores: 6;# of Efficient-cores: 8','Нишки':'14','Честота':'Max Turbo Frequency: 5.2 GHz;Performance-core Max Turbo Frequency: 5.2 GHz;Efficient-core Max Turbo ','Кеш':'Cache: 24 MB Smart Cache;Total L2 Cache: 26 MB','Памет':'Макс: 256 GB | Тип: Up to DDR5 6400 MT/s;Maximum Memory Speed: 6400 MHz | Канали: 2','Интегрирана графика':'None'},
    rating:4.5,rv:0,
    desc:'Intel INTEL CORE ULTRA 5 245KF BOX - сокет FCLGA1851, Total ядра.',
@@ -3240,7 +3240,7 @@ var products = [
    img:'./images/products/51086.webp',stock:false},
 
   {id:463,name:'INTEL CORE ULTRA 7 265KF BOX',brand:'Intel',cat:'components',subcat:'cpu',
-   price:595.2,old:638.4,pct:7,badge:'sale',added:'2026-04-20',emoji:'🔵',sku:'BX80768265KF',ean:'5032037281980',
+   price:594.89,old:638.4,pct:7,badge:'sale',added:'2026-04-20',emoji:'🔵',sku:'BX80768265KF',ean:'5032037281980',
    specs:{'Сокет':'FCLGA1851','Ядра':'Total Cores 20;# of Performance-cores 8;# of Efficient-cores 12','Нишки':'20','Честота':'Max Turbo Frequency 5.5 GHz;Turbo Boost Max Technology 3.0 Frequency 5.5GHz;Performance-core Max Tur','Кеш':'Cache 30 MB Smart Cache;Total L2 Cache 36 MB','Памет':'Max Memory Size (dependent on memory type) 192 GB;Memory Types Up to DDR5 6400 MT/s;Maximum Memory S'},
    rating:4.5,rv:0,
    desc:'Intel INTEL CORE ULTRA 7 265KF BOX - сокет FCLGA1851, Total ядра.',
@@ -3639,7 +3639,7 @@ var products = [
    img:'./images/products/35197.webp',stock:false},
 
   {id:520,name:'AMD RYZEN 5 7600X 4.7G 38M BOX',brand:'AMD',cat:'components',subcat:'cpu',
-   price:390.99,old:414,pct:6,badge:'sale',added:'2026-04-20',emoji:'🔴',sku:'100-100000593WOF',ean:'0730143314442',
+   price:392.14,old:414,pct:5,badge:'sale',added:'2026-04-20',emoji:'🔴',sku:'100-100000593WOF',ean:'0730143314442',
    specs:{'Сокет':'AM5','Ядра':'6','Нишки':'12','Честота':'Max. Boost Clock:Up to 5.3GHz; Base Clock:4.7GHz','Кеш':'L1 Cache:384KB; L2 Cache:6MB; L3 Cache:32MB','Памет':'System Memory Type:DDR5; Memory Channels:2; Max Memory Speed: 2x1R-DDR5-5200','Интегрирана графика':'AMD Radeon™ Graphics','TDP':'105W'},
    rating:4.5,rv:0,
    desc:'AMD AMD RYZEN 5 7600X 4.7G 38M BOX - сокет AM5, 6 ядра, TDP 105W.',
@@ -3702,7 +3702,7 @@ var products = [
    img:'./images/products/45880.webp',stock:false},
 
   {id:529,name:'AMD RYZEN 7 7800X3D BOX',brand:'AMD',cat:'components',subcat:'cpu',
-   price:831.21,old:885.6,pct:6,badge:'sale',added:'2026-04-20',emoji:'🔴',sku:'100-100000910WOF',ean:'0730143314930',
+   price:833.68,old:885.6,pct:6,badge:'sale',added:'2026-04-20',emoji:'🔴',sku:'100-100000910WOF',ean:'0730143314930',
    specs:{'Сокет':'AM5','Ядра':'8','Нишки':'16','Честота':'Max. Boost Clock:Up to 5.0GHz; Base Clock:4.2GHz','Кеш':'L1 Cache:512KB; L2 Cache:8MB; L3 Cache:96MB','Памет':'PCI Express® Version:PCIe® 5.0; System Memory Type:DDR5; Memory Channels:2; Max Memory Speed: 2x1R; ','Интегрирана графика':'Graphics Model:AMD Radeon™ Graphics; Graphics Core Count:2; Graphics Frequency:2200 MHz','TDP':'120W'},
    rating:4.5,rv:0,
    desc:'AMD AMD RYZEN 7 7800X3D BOX - сокет AM5, 8 ядра, TDP 120W.',
@@ -3716,7 +3716,7 @@ var products = [
    img:'./images/products/46354.webp',stock:true},
 
   {id:531,name:'AMD RYZEN 9 7900X 4.7G 76M BOX',brand:'AMD',cat:'components',subcat:'cpu',
-   price:697.81,old:738,pct:5,badge:'sale',added:'2026-04-20',emoji:'🔴',sku:'AW100100000589WOF',ean:'0730143314558',
+   price:699.87,old:738,pct:5,badge:'sale',added:'2026-04-20',emoji:'🔴',sku:'AW100100000589WOF',ean:'0730143314558',
    specs:{'Ядра':'12','Нишки':'24','Честота':'Max. Boost Clock:Up to 5.6GHz; Base Clock:4.7GHz','Кеш':'L1 Cache:768KB; L2 Cache:12MB; L3 Cache:64MB','Памет':'System Memory Type:DDR5; Memory Channels:2; Max Memory Speed: 2x1R-DDR5-5200; 2x2R-DDR5-5200; 4x1R-D','Интегрирана графика':'AMD Radeon™ Graphics','TDP':'170W'},
    rating:4.5,rv:0,
    desc:'AMD AMD RYZEN 9 7900X 4.7G 76M BOX, 12 ядра, TDP 170W.',
@@ -4017,14 +4017,14 @@ var products = [
    img:'./images/products/51094.webp',stock:true},
 
   {id:574,name:'AMD RYZEN 9 9900X 4.4G 64M BOX',brand:'AMD',cat:'components',subcat:'cpu',
-   price:781.95,old:849.6,pct:8,badge:'sale',added:'2026-04-20',emoji:'🔴',sku:'100-100000662WOF',ean:'0730143315296',
+   price:784.27,old:849.6,pct:8,badge:'sale',added:'2026-04-20',emoji:'🔴',sku:'100-100000662WOF',ean:'0730143315296',
    specs:{'Model':'AMD Ryzen™ 9 9900X','Сокет':'AM5','Ядра':'12','Нишки':'24','Честота':'Up to 5.6 GHz; Base Clock ; 4.4 GHz;','Кеш':'L1 Cache; 960 KB; L2 Cache; 12 MB; L3 Cache; 64 MB;','Памет':'System Memory Type DDR5; Memory Channels 2; Max. Memory 192 GB; System Memory Subtype UDIMM; Max Mem','Package':'3','Интегрирана графика':'AMD Radeon™ Graphics','TDP':'120W'},
    rating:4.5,rv:0,
    desc:'AMD AMD RYZEN 9 9900X 4.4G 64M BOX - сокет AM5, 12 ядра, TDP 120W.',
    img:'./images/products/41781.webp',stock:true},
 
   {id:575,name:'AMD RYZEN 9 9900X3D BOX',brand:'AMD',cat:'components',subcat:'cpu',
-   price:1161.65,old:1245.6,pct:7,badge:'sale',added:'2026-04-20',emoji:'🔴',sku:'100-100001368WOF',ean:'0730143315579',
+   price:1165.07,old:1245.6,pct:6,badge:'sale',added:'2026-04-20',emoji:'🔴',sku:'100-100001368WOF',ean:'0730143315579',
    specs:{'Manufacturer':'AMD','Сокет':'AM5','Ядра':'12','Нишки':'24','Честота':'Max. Boost Clock: Up to 5.5 GHz;Base Clock: 4.4 GHz','Кеш':'L1 Cache: 960 KB;L2 Cache: 12 MB;L3 Cache: 128 MB','Max. PCI Express Lanes':'Total 28/ Usable 24','Памет':'System Memory Type: DDR5;Memory Channels: 2;Max. Memory: 192 GB;System Memory Subtype: UDIMM;Max Mem','Fan':'Not included','Интегрирана графика':'AMD Radeon™ Graphics 2 2200 MHz','TDP':'120W'},
    rating:4.5,rv:0,
    desc:'AMD AMD RYZEN 9 9900X3D BOX - сокет AM5, 12 ядра, TDP 120W.',
@@ -4059,7 +4059,7 @@ var products = [
    img:'./images/products/45215.webp',stock:false},
 
   {id:580,name:'AMD RYZEN 9 9950X3D BOX',brand:'AMD',cat:'components',subcat:'cpu',
-   price:1401.77,old:1473.6,pct:5,badge:'sale',added:'2026-04-20',emoji:'🔴',sku:'100-100000719WOF',ean:'730143315555',
+   price:1405.92,old:1473.6,pct:5,badge:'sale',added:'2026-04-20',emoji:'🔴',sku:'100-100000719WOF',ean:'730143315555',
    specs:{'Manufacturer':'AMD','Сокет':'AM5','Ядра':'16','Нишки':'32','Честота':'Max. Boost Clock: Up to 5.7 GHz;Base Clock: 4.3 GHz','Кеш':'L1 Cache: 1280 KB;L2 Cache: 16 MB;L3 Cache: 128 MB','Max. PCI Express Lanes':'28 , 24 (Total/Usable)','Памет':'System Memory Type: DDR5;Memory Channels: 2;Max. Memory: 192 GB;System Memory Subtype: UDIMM;Max Mem','Fan':'Not Included','Интегрирана графика':'Graphics Model: AMD Radeon™ Graphics;Graphics Core Count: 2;Graphics Frequency: 2200 MHz;USB Type-C®','TDP':'170W'},
    rating:4.5,rv:0,
    desc:'AMD AMD RYZEN 9 9950X3D BOX - сокет AM5, 16 ядра, TDP 170W.',
@@ -4160,7 +4160,7 @@ var products = [
    img:'./images/products/28799.webp',stock:true},
 
   {id:594,name:'8G DDR4 3200 TEAM ELITE',brand:'TeamGroup',cat:'components',subcat:'ram',
-   price:127.65,old:142.54,pct:10,badge:'sale',added:'2026-04-20',emoji:'🟢',sku:'TED48G3200C2201',ean:'0765441647787',
+   price:128.03,old:142.54,pct:10,badge:'sale',added:'2026-04-20',emoji:'🟢',sku:'TED48G3200C2201',ean:'0765441647787',
    specs:{'Тип':'DDR4','Капацитет':'8 GB','Честота':'3200 MHz','Латентност':'CL22-22-22-52','Форм фактор':'DIMM','Напрежение':'1.2V'},
    rating:4.4,rv:0,
    desc:'TeamGroup 8G DDR4 3200 TEAM ELITE - DDR4 DIMM 3200 MHz, 8 GB, CL22-22-22-52.',
@@ -4307,7 +4307,7 @@ var products = [
    img:'./images/products/52494.webp',stock:false},
 
   {id:615,name:'2X8G DDR4 3200 XPG D35/BK',brand:'ADATA',cat:'components',subcat:'ram',
-   price:313.82,old:334.73,pct:6,badge:'sale',added:'2026-04-20',emoji:'🟢',sku:'AX4U32008G16A-DTBKD35',ean:'4711085942807',
+   price:314.73,old:334.73,pct:6,badge:'sale',added:'2026-04-20',emoji:'🟢',sku:'AX4U32008G16A-DTBKD35',ean:'4711085942807',
    specs:{'Тип':'DDR4','Капацитет':'16 GB','Честота':'3200 MHz','Латентност':'CL 16-20-20','Форм фактор':'DIMM','Напрежение':'1.35V'},
    rating:4.4,rv:0,
    desc:'ADATA 2X8G DDR4 3200 XPG D35/BK - DDR4 DIMM 3200 MHz, 16 GB, CL 16-20-20.',
@@ -4398,7 +4398,7 @@ var products = [
    img:'./images/products/33605.webp',stock:false},
 
   {id:628,name:'16G DDR4 2666 TEAM ELITE',brand:'TeamGroup',cat:'components',subcat:'ram',
-   price:242.59,old:258,pct:6,badge:'sale',added:'2026-04-20',emoji:'🟢',sku:'TED416G2666C1901',ean:'0765441637016',
+   price:243.31,old:258,pct:6,badge:'sale',added:'2026-04-20',emoji:'🟢',sku:'TED416G2666C1901',ean:'0765441637016',
    specs:{'Тип':'DDR4','Капацитет':'16 GB','Честота':'2666 MHz','Форм фактор':'DIMM','Напрежение':'1.2V'},
    rating:4.4,rv:0,
    desc:'TeamGroup 16G DDR4 2666 TEAM ELITE - DDR4 DIMM 2666 MHz, 16 GB.',
@@ -4479,7 +4479,7 @@ var products = [
    specs:{'Тип':'DDR4','Капацитет':'16 GB','Честота':'3200 MHz','Латентност':'CL22','Форм фактор':'DIMM'},
    rating:4.4,rv:0,
    desc:'Kingston 16G DDR4 3200 KINGSTON - DDR4 DIMM 3200 MHz, 16 GB, CL22.',
-   img:'./images/products/25112.webp',stock:true},
+   img:'./images/products/25112.webp',stock:false},
 
   {id:640,name:'16G DDR4 3200 KINGS FURY BEAST',brand:'Kingston',cat:'components',subcat:'ram',
    price:168,added:'2026-04-20',emoji:'🟢',sku:'KF432C16BB/16',
@@ -4500,7 +4500,7 @@ var products = [
    specs:{'Тип':'DDR4','Капацитет':'32 GB','Честота':'3200 MHz','Латентност':'CL 16-20-20','Форм фактор':'DIMM','Напрежение':'1.35V'},
    rating:4.4,rv:0,
    desc:'ADATA 2X16G DDR4 3200 XPG D35 - DDR4 DIMM 3200 MHz, 32 GB, CL 16-20-20.',
-   img:'./images/products/36032.webp',stock:false},
+   img:'./images/products/36032.webp',stock:true},
 
   {id:643,name:'2X16G DDR4 3200 XPG D35G',brand:'ADATA',cat:'components',subcat:'ram',
    price:654,added:'2026-04-20',emoji:'🟢',sku:'AX4U320016G16A-DTBKD35G',ean:'4711085943323',
@@ -4601,7 +4601,7 @@ var products = [
    img:'./images/products/44166.webp',stock:false},
 
   {id:657,name:'16G DDR5 5600 ADATA',brand:'ADATA',cat:'components',subcat:'ram',
-   price:442.08,old:475.85,pct:7,badge:'sale',added:'2026-04-20',emoji:'🟣',sku:'AD5U560016G-S',ean:'4711085939234',
+   price:435.16,old:475.85,pct:9,badge:'sale',added:'2026-04-20',emoji:'🟣',sku:'AD5U560016G-S',ean:'4711085939234',
    specs:{'Тип':'DDR5','Капацитет':'16 GB','Честота':'5600 MHz','Форм фактор':'DIMM','Напрежение':'1.1V'},
    rating:4.4,rv:0,
    desc:'ADATA 16G DDR5 5600 ADATA - DDR5 DIMM 5600 MHz, 16 GB.',
@@ -5070,7 +5070,7 @@ var products = [
    img:'./images/products/33472.webp',stock:true},
 
   {id:724,name:'32G DDR5 6000 KING FURY BEAST',brand:'Kingston',cat:'components',subcat:'ram',
-   price:1005.66,old:1161.6,pct:13,badge:'sale',added:'2026-04-20',emoji:'🟢',sku:'KF560C36BBE2-32',
+   price:1008.62,old:1161.6,pct:13,badge:'sale',added:'2026-04-20',emoji:'🟢',sku:'KF560C36BBE2-32',
    specs:{'Тип':'DDR4','Форм фактор':'DIMM'},
    rating:4.4,rv:0,
    desc:'Kingston 32G DDR5 6000 KING FURY BEAST - DDR4 DIMM.',
@@ -5238,7 +5238,7 @@ var products = [
    img:'./images/products/45511.webp',stock:true},
 
   {id:748,name:'8GB DDR4 3200 TEAM ELITE SODIM',brand:'TeamGroup',cat:'components',subcat:'ram',
-   price:116.97,old:124.8,pct:6,badge:'sale',added:'2026-04-20',emoji:'💻',sku:'TED48G3200C22-S01',ean:'0765441651722',
+   price:117.33,old:124.8,pct:6,badge:'sale',added:'2026-04-20',emoji:'💻',sku:'TED48G3200C22-S01',ean:'0765441651722',
    specs:{'Тип':'DDR4','Капацитет':'8 GB','Честота':'3200 MHz','Форм фактор':'SO-DIMM','Напрежение':'1.2V'},
    rating:4.4,rv:0,
    desc:'TeamGroup 8GB DDR4 3200 TEAM ELITE SODIM - DDR4 SO-DIMM 3200 MHz, 8 GB.',
@@ -5336,7 +5336,7 @@ var products = [
    img:'./images/products/43925.webp',stock:false},
 
   {id:762,name:'16GB DDR4 2666 ADATA SODIMM',brand:'ADATA',cat:'components',subcat:'ram',
-   price:298.8,added:'2026-04-20',emoji:'💻',sku:'AD4S266616G19-BGN',ean:'4711085931467',
+   price:265.33,old:307.08,pct:14,badge:'sale',added:'2026-04-20',emoji:'💻',sku:'AD4S266616G19-BGN',ean:'4711085931467',
    specs:{'Тип':'DDR4','Капацитет':'16 GB','Честота':'2666 MHz','Форм фактор':'SO-DIMM','Напрежение':'1.2 V'},
    rating:4.4,rv:0,
    desc:'ADATA 16GB DDR4 2666 ADATA SODIMM - DDR4 SO-DIMM 2666 MHz, 16 GB.',
@@ -5455,7 +5455,7 @@ var products = [
    img:'./images/products/38932.webp',stock:false},
 
   {id:779,name:'16G DDR5 4800 ADATA SODIMM',brand:'ADATA',cat:'components',subcat:'ram',
-   price:421.2,added:'2026-04-20',emoji:'💻',sku:'AD5S480016G-S',ean:'4711085936592',
+   price:398.92,old:432.9,pct:8,badge:'sale',added:'2026-04-20',emoji:'💻',sku:'AD5S480016G-S',ean:'4711085936592',
    specs:{'Тип':'DDR5','Капацитет':'16 GB','Честота':'4800 MHz','Форм фактор':'SO-DIMM'},
    rating:4.4,rv:0,
    desc:'ADATA 16G DDR5 4800 ADATA SODIMM - DDR5 SO-DIMM 4 800 MHz, 16 GB.',
@@ -5497,7 +5497,7 @@ var products = [
    img:'./images/products/44147.webp',stock:false},
 
   {id:785,name:'16G DDR5 5600 ADATA SODIMM',brand:'ADATA',cat:'components',subcat:'ram',
-   price:433.87,old:466.54,pct:7,badge:'sale',added:'2026-04-20',emoji:'💻',sku:'AD5S560016G-S',ean:'4711085941107',
+   price:435.16,old:466.54,pct:7,badge:'sale',added:'2026-04-20',emoji:'💻',sku:'AD5S560016G-S',ean:'4711085941107',
    specs:{'Тип':'DDR5','Капацитет':'16 GB','Честота':'5600 MHz','Форм фактор':'SO-DIMM','Напрежение':'1.1V'},
    rating:4.4,rv:0,
    desc:'ADATA 16G DDR5 5600 ADATA SODIMM - DDR5 SO-DIMM 5600 MHz, 16 GB.',
@@ -5567,7 +5567,7 @@ var products = [
    img:'./images/products/32472.webp',stock:false},
 
   {id:795,name:'32G DDR5 5600 ADATA SODIMM',brand:'ADATA',cat:'components',subcat:'ram',
-   price:879.44,old:941.59,pct:7,badge:'sale',added:'2026-04-20',emoji:'💻',sku:'AD5S560032G-S',ean:'4711085941114',
+   price:867.64,old:941.59,pct:8,badge:'sale',added:'2026-04-20',emoji:'💻',sku:'AD5S560032G-S',ean:'4711085941114',
    specs:{'Тип':'DDR5','Капацитет':'32 GB','Честота':'5600 MHz','Форм фактор':'SO-DIMM','Напрежение':'1.1V'},
    rating:4.4,rv:0,
    desc:'ADATA 32G DDR5 5600 ADATA SODIMM - DDR5 SO-DIMM 5600 MHz, 32 GB.',
@@ -6178,21 +6178,21 @@ var products = [
    img:'./images/products/100159.webp',stock:true},
 
   {id:882,name:'TEAM SSD GX1 480G 2.5INCH',brand:'TeamGroup',cat:'components',subcat:'ssd',
-   price:162.34,old:174,pct:7,badge:'sale',added:'2026-04-21',emoji:'💾',sku:'T253X1480G0C101',ean:'0765441645264',
+   price:162.81,old:174,pct:6,badge:'sale',added:'2026-04-21',emoji:'💾',sku:'T253X1480G0C101',ean:'0765441645264',
    specs:{'Капацитет':'480 GB','Интерфейс':'SATA III','Форм фактор':'2.5\''},
    rating:4.3,rv:0,
    desc:'TeamGroup TEAM SSD GX1 480G 2.5INCH - SSD 480 GB, SATA III, 2.5".',
    img:'./images/products/100160.webp',stock:true},
 
   {id:883,name:'TEAM SSD GX2 256G 2.5INCH',brand:'TeamGroup',cat:'components',subcat:'ssd',
-   price:104.89,old:117.6,pct:11,badge:'sale',added:'2026-04-21',emoji:'💾',sku:'T253X2256G0C101',ean:'0765441645189',
+   price:105.19,old:117.6,pct:11,badge:'sale',added:'2026-04-21',emoji:'💾',sku:'T253X2256G0C101',ean:'0765441645189',
    specs:{'Капацитет':'256 GB','Интерфейс':'SATA III','Форм фактор':'2.5\''},
    rating:4.3,rv:0,
    desc:'TeamGroup TEAM SSD GX2 256G 2.5INCH - SSD 256 GB, SATA III, 2.5".',
    img:'./images/products/31109.webp',stock:true},
 
   {id:884,name:'TEAM SSD GX2 512G 2.5INCH',brand:'TeamGroup',cat:'components',subcat:'ssd',
-   price:175.48,old:189.6,pct:7,badge:'sale',added:'2026-04-21',emoji:'💾',sku:'T253X2512G0C101',ean:'0765441645196',
+   price:176,old:189.6,pct:7,badge:'sale',added:'2026-04-21',emoji:'💾',sku:'T253X2512G0C101',ean:'0765441645196',
    specs:{'Капацитет':'512 GB','Интерфейс':'SATA III','Форм фактор':'2.5\''},
    rating:4.3,rv:0,
    desc:'TeamGroup TEAM SSD GX2 512G 2.5INCH - SSD 512 GB, SATA III, 2.5".',
@@ -6472,7 +6472,7 @@ var products = [
    img:'./images/products/44154.webp',stock:false},
 
   {id:924,name:'MSI SPATIUM M560 2T PCIE5.0',brand:'MSI',cat:'components',subcat:'ssd',
-   price:962.57,old:1022.4,pct:6,badge:'sale',added:'2026-04-21',emoji:'⚡',sku:'S78-440Q940-P83',ean:'4711377275354',
+   price:965.41,old:1022.4,pct:6,badge:'sale',added:'2026-04-21',emoji:'⚡',sku:'S78-440Q940-P83',ean:'4711377275354',
    specs:{'Капацитет':'2 TB','Интерфейс':'NVMe PCIe Gen4','Форм фактор':'M.2 2280'},
    rating:4.3,rv:0,
    desc:'MSI MSI SPATIUM M560 2T PCIE5.0 - NVMe SSD 2 TB, NVMe PCIe Gen4, M.2 2280.',
@@ -6486,42 +6486,42 @@ var products = [
    img:'./images/products/42644.webp',stock:false},
 
   {id:926,name:'ADATA SSD SU650 240GB 3D NAND',brand:'ADATA',cat:'components',subcat:'ssd',
-   price:87.85,old:110.57,pct:21,badge:'sale',added:'2026-04-21',emoji:'💾',sku:'ASU650SS-240GT-R',ean:'4713218461162',
+   price:88.11,old:110.57,pct:20,badge:'sale',added:'2026-04-21',emoji:'💾',sku:'ASU650SS-240GT-R',ean:'4713218461162',
    specs:{'Капацитет':'240 GB','Интерфейс':'SATA III','Форм фактор':'2.5\''},
    rating:4.3,rv:0,
    desc:'ADATA ADATA SSD SU650 240GB 3D NAND - SSD 240 GB, SATA III, 2.5".',
    img:'./images/products/14733.webp',stock:true},
 
   {id:927,name:'ADATA SSD SU650 256GB 3D NAND',brand:'ADATA',cat:'components',subcat:'ssd',
-   price:90.31,old:112.98,pct:20,badge:'sale',added:'2026-04-21',emoji:'💾',sku:'ASU650SS-256GT-R',ean:'4711085931511',
+   price:90.57,old:112.98,pct:20,badge:'sale',added:'2026-04-21',emoji:'💾',sku:'ASU650SS-256GT-R',ean:'4711085931511',
    specs:{'Капацитет':'256 GB','Интерфейс':'SATA III','Форм фактор':'2.5\''},
    rating:4.3,rv:0,
    desc:'ADATA ADATA SSD SU650 256GB 3D NAND - SSD 256 GB, SATA III, 2.5".',
    img:'./images/products/36406.webp',stock:true},
 
   {id:928,name:'ADATA SSD SU650 480GB 3D NAND',brand:'ADATA',cat:'components',subcat:'ssd',
-   price:168,added:'2026-04-21',emoji:'💾',sku:'ASU650SS-480GT-R',ean:'4713218461179',
+   price:140.8,old:170.13,pct:17,badge:'sale',added:'2026-04-21',emoji:'💾',sku:'ASU650SS-480GT-R',ean:'4713218461179',
    specs:{'Капацитет':'480 GB','Интерфейс':'SATA III','Форм фактор':'2.5\''},
    rating:4.3,rv:0,
    desc:'ADATA ADATA SSD SU650 480GB 3D NAND - SSD 480 GB, SATA III, 2.5".',
-   img:'./images/products/16189.webp',stock:false},
+   img:'./images/products/16189.webp',stock:true},
 
   {id:929,name:'ADATA SSD SU650 512GB 3D NAND',brand:'ADATA',cat:'components',subcat:'ssd',
-   price:151.48,old:179.01,pct:15,badge:'sale',added:'2026-04-21',emoji:'💾',sku:'ASU650SS-512GT-R',ean:'4711085931528',
+   price:151.92,old:179.01,pct:15,badge:'sale',added:'2026-04-21',emoji:'💾',sku:'ASU650SS-512GT-R',ean:'4711085931528',
    specs:{'Капацитет':'512 GB','Интерфейс':'SATA III','Форм фактор':'2.5\''},
    rating:4.3,rv:0,
    desc:'ADATA ADATA SSD SU650 512GB 3D NAND - SSD 512 GB, SATA III, 2.5".',
    img:'./images/products/36412.webp',stock:true},
 
   {id:930,name:'ADATA SSD SU650 960GB 3D NAND',brand:'ADATA',cat:'components',subcat:'ssd',
-   price:330,added:'2026-04-21',emoji:'💾',sku:'ASU650SS-960GT-R',ean:'4713218461186',
+   price:298.07,old:330,pct:10,badge:'sale',added:'2026-04-21',emoji:'💾',sku:'ASU650SS-960GT-R',ean:'4713218461186',
    specs:{'Капацитет':'960 GB','Интерфейс':'SATA III','Форм фактор':'2.5\''},
    rating:4.3,rv:0,
    desc:'ADATA ADATA SSD SU650 960GB 3D NAND - SSD 960 GB, SATA III, 2.5".',
    img:'./images/products/18337.webp',stock:true},
 
   {id:931,name:'ADATA SSD SU650 1TB 3D NAND',brand:'ADATA',cat:'components',subcat:'ssd',
-   price:336,added:'2026-04-21',emoji:'💾',sku:'ASU650SS-1TT-R',ean:'4711085940049',
+   price:313.09,old:336,pct:7,badge:'sale',added:'2026-04-21',emoji:'💾',sku:'ASU650SS-1TT-R',ean:'4711085940049',
    specs:{'Капацитет':'1 TB','Интерфейс':'SATA III','Форм фактор':'2.5\''},
    rating:4.3,rv:0,
    desc:'ADATA ADATA SSD SU650 1TB 3D NAND - SSD 1 TB, SATA III, 2.5".',
@@ -6535,14 +6535,14 @@ var products = [
    img:'./images/products/51170.webp',stock:true},
 
   {id:933,name:'ADATA LEGEND 710 512GB M2 PCIE',brand:'ADATA',cat:'components',subcat:'ssd',
-   price:204.42,old:217.2,pct:6,badge:'sale',added:'2026-04-21',emoji:'⚡',sku:'ALEG-710-512GCS',ean:'4711085937834',
+   price:202.33,old:217.2,pct:7,badge:'sale',added:'2026-04-21',emoji:'⚡',sku:'ALEG-710-512GCS',ean:'4711085937834',
    specs:{'Капацитет':'512 GB','Интерфейс':'NVMe PCIe Gen4','Форм фактор':'M.2 2280'},
    rating:4.3,rv:0,
    desc:'ADATA ADATA LEGEND 710 512GB M2 PCIE - NVMe SSD 512 GB, NVMe PCIe Gen4, M.2 2280.',
    img:'./images/products/31441.webp',stock:true},
 
   {id:934,name:'ADATA LEGEND 710 1TB M2 PCIE',brand:'ADATA',cat:'components',subcat:'ssd',
-   price:371.48,old:389.2,pct:5,badge:'sale',added:'2026-04-21',emoji:'⚡',sku:'ALEG-710-1TCS',ean:'4711085937841',
+   price:358.57,old:389.2,pct:8,badge:'sale',added:'2026-04-21',emoji:'⚡',sku:'ALEG-710-1TCS',ean:'4711085937841',
    specs:{'Капацитет':'1 TB','Интерфейс':'NVMe PCIe Gen4','Форм фактор':'M.2 2280'},
    rating:4.3,rv:0,
    desc:'ADATA ADATA LEGEND 710 1TB M2 PCIE - NVMe SSD 1 TB, NVMe PCIe Gen4, M.2 2280.',
@@ -6710,7 +6710,7 @@ var products = [
    img:'./images/products/45200.webp',stock:false},
 
   {id:958,name:'EMTEC SSD X150 480G 2.5INCH',brand:'Emtec',cat:'components',subcat:'ssd',
-   price:159.67,old:182.4,pct:12,badge:'sale',added:'2026-04-21',emoji:'💾',sku:'ECSSD480GX150',ean:'3126170136411',
+   price:159.74,old:182.4,pct:12,badge:'sale',added:'2026-04-21',emoji:'💾',sku:'ECSSD480GX150',ean:'3126170136411',
    specs:{'Капацитет':'480 GB','Интерфейс':'SATA III','Форм фактор':'2.5\''},
    rating:4.3,rv:0,
    desc:'Emtec EMTEC SSD X150 480G 2.5INCH - SSD 480 GB, SATA III, 2.5".',
@@ -8690,7 +8690,7 @@ var products = [
    specs:{'Връзка':'Кабелна','Подредба':'BG (Кирилица)','Тип':'Мембранна'},
    rating:4.2,rv:0,
    desc:'A4Tech A4 KRS-83 COMFORT A-SHAPE BK - клавиатура мембранна, кабелна, BG (Кирилица).',
-   img:'./images/products/39383.webp',stock:true},
+   img:'./images/products/39383.webp',stock:false},
 
   {id:1241,name:'A4 KR-83 COMFORT BLACK',brand:'A4Tech',cat:'peripherals',subcat:'keyboard',
    price:14.4,added:'2026-04-21',emoji:'⌨',sku:'KR-83',
@@ -11337,7 +11337,7 @@ const _laptops = [
   {id:1803,name:'Lenovo IP5 2IN1 16/83KS000RBM',brand:'Lenovo',cat:'laptops',subcat:null,price:2344.8,added:'2026-04-22',emoji:'💻',sku:'83KS000RBM',ean:'0198156608765',specs:{'Процесор':'Intel® Core Ultra 7 255H, 16C (6P + 8E + 2LPE) / 16T, Max Turbo up to 5.1GHz, 24MB','RAM':'16GB, Soldered LPDDR5x-8000','GPU':'Integrated Intel® Arc™ 140T GPU','Екран':'16", 1920x1200, WUXGA IPS 300nits Glossy, 45% NTSC, 60Hz, TUV Low Blue Light, Glass, Touch, 10-point Multi-touch','SSD':'1TB','ОС':'Windows® 11 Home, English;Office Trial','Тегло':'Starting at 2 kg','Батерия':'57Wh'},rating:3.9,rv:13,desc:'Lenovo IP5 2IN1 16/83KS000RBM - Intel® Core Ultra 7 255H, 16C (6P + 8E + 2LPE) / 16T, Max Turbo up to 5.1GHz, 24MB, 16GB RAM, Екран 16"',img:'./images/products/48061.webp',stock:false},
   {id:1804,name:'Lenovo IP5 2IN1 16/83KS000PBM',brand:'Lenovo',cat:'laptops',subcat:null,price:1974,added:'2026-04-22',emoji:'💻',sku:'83KS000PBM',ean:'0198156608734',specs:{'Процесор':'Intel® Core Ultra 5 225U, 12C (2P + 8E + 2LPE) / 14T, Max Turbo up to 4.8GHz, 12MB','RAM':'16GB, Soldered LPDDR5x-8000','GPU':'Integrated Intel® Graphics','Екран':'16", 1920x1200, WUXGA IPS 300nits Glossy, 45% NTSC, 60Hz, TUV Low Blue Light, Glass, Touch','SSD':'512GB','ОС':'Windows® 11 Home, English, Office Trial','Тегло':'Starting at 2 kg','Батерия':'57Wh'},rating:4.4,rv:22,desc:'Lenovo IP5 2IN1 16/83KS000PBM - Intel® Core Ultra 5 225U, 12C (2P + 8E + 2LPE) / 14T, Max Turbo up to 4.8GHz, 12MB, 16GB RAM, Екран 16"',img:'./images/products/49983.webp',stock:false},
   {id:1805,name:'Lenovo IP5 2IN1 16/ 83KS000SBM',brand:'Lenovo',cat:'laptops',subcat:null,price:2346,added:'2026-04-22',emoji:'💻',sku:'83KS000SBM',ean:'0198156608772',specs:{'Процесор':'Intel Core™ Ultra 7 255U, 12C (2P + 8E + 2LPE) / 14T, Max Turbo up to 5.2GHz, 12MB Intel® Smart Cache','RAM':'16GB, Soldered LPDDR5X-8000 Max Memory: 16GB soldered memory','GPU':'Integrated Intel® Graphics','Екран':'16", 1920x1200, WUXGA IPS 300nits Glossy, 45% NTSC, 60Hz, TÜV Low Blue Light, Glass, Touch','SSD':'1TB','ОС':'Windows® 11 Home, English Office Trial','Тегло':'Starting at 2 kg','Батерия':'57Wh'},rating:4.9,rv:16,desc:'Lenovo IP5 2IN1 16/ 83KS000SBM - Intel Core™ Ultra 7 255U, 12C (2P + 8E + 2LPE) / 14T, Max Turbo up to 5.2GHz, 12MB Intel® Smart Cache, 16GB RAM, Екран 16"',img:'./images/products/100264.webp',stock:true},
-  {id:1806,name:'Lenovo IP5 2IN1 16/ 83KU000FBM',brand:'Lenovo',cat:'laptops',subcat:null,price:2050.8,added:'2026-04-22',emoji:'💻',sku:'83KU000FBM',ean:'0198156608659',specs:{'Процесор':'AMD Ryzen™ AI 5 340 (6C / 12T, 2.0 / 4.8GHz, 6MB L2 / 16MB L3)','RAM':'16GB, Soldered LPDDR5X-7500 Max Memory: 16GB soldered memory','GPU':'Integrated AMD Radeon™ 840M Graphics','Екран':'16", 1920x1200, WUXGA IPS 300nits Glossy, 45% NTSC, 60Hz, TÜV Low Blue Light, Glass, Touch','SSD':'1TB','ОС':'Windows® 11 Home, English Office Trial','Тегло':'Starting at 2 kg','Батерия':'57Wh'},rating:4.4,rv:9,desc:'Lenovo IP5 2IN1 16/ 83KU000FBM - AMD Ryzen™ AI 5 340 (6C / 12T, 2.0 / 4.8GHz, 6MB L2 / 16MB L3), 16GB RAM, Integrated AMD Radeon™ 840M Graphics',img:'./images/products/100275.webp',stock:true},
+  {id:1806,name:'Lenovo IP5 2IN1 16/ 83KU000FBM',brand:'Lenovo',cat:'laptops',subcat:null,price:2050.8,added:'2026-04-22',emoji:'💻',sku:'83KU000FBM',ean:'0198156608659',specs:{'Процесор':'AMD Ryzen™ AI 5 340 (6C / 12T, 2.0 / 4.8GHz, 6MB L2 / 16MB L3)','RAM':'16GB, Soldered LPDDR5X-7500 Max Memory: 16GB soldered memory','GPU':'Integrated AMD Radeon™ 840M Graphics','Екран':'16", 1920x1200, WUXGA IPS 300nits Glossy, 45% NTSC, 60Hz, TÜV Low Blue Light, Glass, Touch','SSD':'1TB','ОС':'Windows® 11 Home, English Office Trial','Тегло':'Starting at 2 kg','Батерия':'57Wh'},rating:4.4,rv:9,desc:'Lenovo IP5 2IN1 16/ 83KU000FBM - AMD Ryzen™ AI 5 340 (6C / 12T, 2.0 / 4.8GHz, 6MB L2 / 16MB L3), 16GB RAM, Integrated AMD Radeon™ 840M Graphics',img:'./images/products/100275.webp',stock:false},
   {id:1807,name:'Lenovo IP5 2IN1 16/83DU000HBM',brand:'Lenovo',cat:'laptops',subcat:null,price:2599.2,added:'2026-04-22',emoji:'💻',sku:'83DU000HBM',ean:'0197531965790',specs:{'Процесор':'Intel® Core™ 7 150U, 10C (2P + 8E) / 12T, P-core 1.8 / 5.4GHz, E-core 1.2 / 4.0GHz, 12MB','RAM':'16GB, Soldered LPDDR5x-5200','GPU':'Integrated Intel® Graphics','Екран':'16", 2048x1280, OLED 400nits Glossy, 2K, 100% DCI-P3, 60Hz, TUV Low Blue Light, Glass, Touch;Touchscreen 10-point Multi-touch','SSD':'1TB','ОС':'Windows® 11 Home, English;Office Trial','Тегло':'Starting at 1.9 kg','Батерия':'Integrated 57Wh'},rating:4.2,rv:27,desc:'Lenovo IP5 2IN1 16/83DU000HBM - Intel® Core™ 7 150U, 10C (2P + 8E) / 12T, P-core 1.8 / 5.4GHz, E-core 1.2 / 4.0GHz, 12MB, 16GB RAM, Екран 16"',img:'./images/products/43232.webp',stock:false},
   {id:1808,name:'Lenovo IP5 PRO 14/83D20016BM',brand:'Lenovo',cat:'laptops',subcat:null,price:2149.2,added:'2026-04-22',emoji:'💻',sku:'83D20016BM',ean:'51498320016',specs:{'Процесор':'Intel® Core™ Ultra 5 125H, 14C (4P + 8E + 2LPE) / 18T, Max Turbo up to 4.5GHz, 18MB','RAM':'32 GB, Memory:32GB Soldered LPDDR5x-7467','GPU':'Integrated Intel® Arc™ Graphics','Екран':'14 ", 2880 x 1800, 2.8K ,IPS 400nits Anti-glare, 100% sRGB, 120Hz, Eyesafe®','SSD':'1 TB','ОС':'N/A','Тегло':'1.46 kg','Батерия':'Integrated 84Wh'},rating:4.5,rv:6,desc:'Lenovo IP5 PRO 14/83D20016BM - Intel® Core™ Ultra 5 125H, 14C (4P + 8E + 2LPE) / 18T, Max Turbo up to 4.5GHz, 18MB, 32 GB RAM, Екран 14 "',img:'./images/products/39763.webp',stock:false},
   {id:1809,name:'Lenovo IP5 PRO 14/83D20017BM',brand:'Lenovo',cat:'laptops',subcat:null,price:2248.8,added:'2026-04-22',emoji:'💻',sku:'83D20017BM',ean:'0197531690456',specs:{'Процесор':'Intel® Core™ Ultra 5 125H, 14C (4P + 8E + 2LPE) / 18T, Max Turbo up to 4.5GHz, 18MB','RAM':'32GB, Soldered LPDDR5x-7467','GPU':'Integrated Intel® Arc™ Graphics','Екран':'14", 2880x1800, OLED 400nits Glossy, 100% DCI-P3, 2.8K, 120Hz, Eyesafe®, DisplayHDR™ True Black 500','SSD':'1TB','Тегло':'Starting at 1.46 kg','Батерия':'Integrated 84Wh'},rating:3.9,rv:29,desc:'Lenovo IP5 PRO 14/83D20017BM - Intel® Core™ Ultra 5 125H, 14C (4P + 8E + 2LPE) / 18T, Max Turbo up to 4.5GHz, 18MB, 32GB RAM, Екран 14"',img:'./images/products/43218.webp',stock:false},
@@ -11925,7 +11925,7 @@ const _laptops = [
   {id:2399,name:'Lenovo TB 14 G8 / 21SJ007ERI',brand:'Lenovo',cat:'laptops',subcat:null,price:2068.8,added:'2026-04-22',emoji:'💻',sku:'21SJ007ERI',ean:'0198156376305',specs:{},rating:4.9,rv:16,desc:'Lenovo TB 14 G8 / 21SJ007ERI',img:'https://images.icecat.biz/img/gallery_mediums/428b1e1c913aa69f2724a8d534f2d78a90c301f1.jpg',stock:false},
   {id:2400,name:'Lenovo TB 14 G8 / 21SJ007KRI',brand:'Lenovo',cat:'laptops',subcat:null,price:2247.6,added:'2026-04-22',emoji:'💻',sku:'21SJ007KRI',ean:'0198156378644',specs:{},rating:4.1,rv:22,desc:'Lenovo TB 14 G8 / 21SJ007KRI',img:'https://images.icecat.biz/img/gallery_mediums/428b1e1c913aa69f2724a8d534f2d78a90c301f1.jpg',stock:false},
   {id:2401,name:'Lenovo TB 14 G8 / 21SJ00ELBM',brand:'Lenovo',cat:'laptops',subcat:null,price:1562.4,added:'2026-04-22',emoji:'💻',sku:'21SJ00ELBM',ean:'01992740384565',specs:{'Процесор':'Intel Core™ Ultra 5 135H, 14C (4P + 8E + 2LPE) / 18T, Max Turbo up to 4.6GHz, 18MB Intel® Smart Cache','RAM':'16GB, SODIMM DDR5-5600 Max Memory: Up to 64GB DDR5-5600','GPU':'Integrated Intel® Arc™ Graphics Functions as Intel® Graphics','Екран':'14", 1920x1200, WUXGA IPS 300nits Anti-glare, 45% NTSC, 60Hz','SSD':'512GB','ОС':'None','Тегло':'Starting at 1.36 kg','Батерия':'45Wh'},rating:4.4,rv:9,desc:'Lenovo TB 14 G8 / 21SJ00ELBM - Intel Core™ Ultra 5 135H, 14C (4P + 8E + 2LPE) / 18T, Max Turbo up to 4.6GHz, 18MB Intel® Smart Cache, 16GB RAM, Екран 14"',img:'./images/products/100184.webp',stock:true},
-  {id:2402,name:'Lenovo TB 16 G8 / 21SK007YBM',brand:'Lenovo',cat:'laptops',subcat:null,price:1954.8,added:'2026-04-22',emoji:'💻',sku:'21SK007YBM',ean:'0198156366962',specs:{'Процесор':'Intel® Core Ultra 7 255H, 16C (6P + 8E + 2LPE) / 16T, Max Turbo up to 5.1GHz, 24MB Intel Smart Cache','RAM':'16GB, SODIMM DDR5-5600','GPU':'Integrated Intel® Arc™ 140T GPU Functions as Intel Graphics','Екран':'16", 1920x1200, WUXGA IPS 300nits Anti-glare, 45% NTSC, 60Hz','SSD':'512GB','ОС':'None','Тегло':'Starting at 1.7 kg','Батерия':'45Wh'},rating:4.5,rv:11,desc:'Lenovo TB 16 G8 / 21SK007YBM - Intel® Core Ultra 7 255H, 16C (6P + 8E + 2LPE) / 16T, Max Turbo up to 5.1GHz, 24MB Intel Smart Cache, 16GB RAM, Екран 16"',img:'./images/products/50764.webp',stock:true},
+  {id:2402,name:'Lenovo TB 16 G8 / 21SK007YBM',brand:'Lenovo',cat:'laptops',subcat:null,price:1954.8,added:'2026-04-22',emoji:'💻',sku:'21SK007YBM',ean:'0198156366962',specs:{'Процесор':'Intel® Core Ultra 7 255H, 16C (6P + 8E + 2LPE) / 16T, Max Turbo up to 5.1GHz, 24MB Intel Smart Cache','RAM':'16GB, SODIMM DDR5-5600','GPU':'Integrated Intel® Arc™ 140T GPU Functions as Intel Graphics','Екран':'16", 1920x1200, WUXGA IPS 300nits Anti-glare, 45% NTSC, 60Hz','SSD':'512GB','ОС':'None','Тегло':'Starting at 1.7 kg','Батерия':'45Wh'},rating:4.5,rv:11,desc:'Lenovo TB 16 G8 / 21SK007YBM - Intel® Core Ultra 7 255H, 16C (6P + 8E + 2LPE) / 16T, Max Turbo up to 5.1GHz, 24MB Intel Smart Cache, 16GB RAM, Екран 16"',img:'./images/products/50764.webp',stock:false},
   {id:2403,name:'Lenovo TB 16 G8 / 21SKA06SBM',brand:'Lenovo',cat:'laptops',subcat:null,price:1758,added:'2026-04-22',emoji:'💻',sku:'21SKA06SBM',specs:{'Процесор':'G8 IAL, Intel® Core™ Ultra 5 225U (E-cores up to 3.80GHz, 12MB)','RAM':'16.0GB','GPU':'Intel® Graphics','Екран':'16", 1080P FHD, WUXGA Non- Touch','SSD':'512GB','Батерия':'3 Cell Li-ion 45Wh'},rating:4.7,rv:11,desc:'Lenovo TB 16 G8 / 21SKA06SBM - G8 IAL, Intel® Core™ Ultra 5 225U (E-cores up to 3.80GHz, 12MB), 16.0GB RAM, Екран 16"',img:'./images/products/51346.webp',stock:true},
   {id:2404,name:'Lenovo TB 16 G8 / 21SH008GBM',brand:'Lenovo',cat:'laptops',subcat:null,price:1526.4,added:'2026-04-22',emoji:'💻',sku:'21SH008GBM',ean:'0198156167477',specs:{'Процесор':'Intel® Core 5 210H, 8C (4P + 4E) / 12T, P-core 2.2 / 4.8GHz, E-core 1.6 / 3.6GHz, 12MB Intel Smart Cache','RAM':'16GB, SODIMM DDR5-5600','GPU':'Integrated Intel® Graphics','Екран':'16", 1920x1200, WUXGA IPS 300nits Anti-glare, 45% NTSC, 60Hz','SSD':'512GB','ОС':'None','Тегло':'Starting at 1.7 kg','Батерия':'45Wh'},rating:3.9,rv:16,desc:'Lenovo TB 16 G8 / 21SH008GBM - Intel® Core 5 210H, 8C (4P + 4E) / 12T, P-core 2.2 / 4.8GHz, E-core 1.6 / 3.6GHz, 12MB Intel Smart Cache, 16GB RAM, Екран 16"',img:'./images/products/50774.webp',stock:false},
   {id:2405,name:'Lenovo TB 16 G7 / 21MSA0C8BM',brand:'Lenovo',cat:'laptops',subcat:null,price:2108.4,added:'2026-04-22',emoji:'💻',sku:'21MSA0C8BM',specs:{},rating:4.3,rv:15,desc:'Lenovo TB 16 G7 / 21MSA0C8BM',img:'./images/products/51283.webp',stock:false},
@@ -12339,7 +12339,7 @@ const _cases = [
   {id:2925,name:'FD MESHIFY 3 XL AMBIPRO RGB WH',brand:'Fractal Design',cat:'components',subcat:'case',price:526.8,added:'2026-04-22',emoji:'🖥',sku:'FD-C-MES3X-05',specs:{'Формфактор':'Mid Tower','Цвят':'Ambience Pro RGB White TG Clear Tint','I/O':'Front interface: 1 x USB Type-C 20 Gbps;2 x USB Type-A 5 Gbps;1x Audio Combo Jac','Размери':'575 x 245 x 515 mm'},rating:5.0,rv:16,desc:'FD MESHIFY 3 XL AMBIPRO RGB WH, Mid Tower, Ambience Pro RGB White TG Clear Tint',img:'./images/products/46514.webp',stock:true},
   {id:2926,name:'FD MESHIFY 2 XL BLACK TG DARK',brand:'Fractal Design',cat:'components',subcat:'case',price:422.4,added:'2026-04-22',emoji:'🖥',sku:'FD-C-MES2X-01',specs:{'Формфактор':'Mini-ITX','I/O':'1x USB 3.1 Gen 2 Type-C, 2x USB 3.0, Audio I/O, Power button, Reset button','Охлаждане':'Front interface:1x USB 3.1 Gen 2 Type-C, 2x USB 3.0, Audio I','Размери':'600 x 240 x 566 mm'},rating:4.4,rv:35,desc:'FD MESHIFY 2 XL BLACK TG DARK, Mini-ITX',img:'./images/products/26295.webp',stock:false},
   {id:2927,name:'FD MESHIFY 2 XL BLACK TG LIGHT',brand:'Fractal Design',cat:'components',subcat:'case',price:432,added:'2026-04-22',emoji:'🖥',sku:'FD-C-MES2X-02',specs:{'Формфактор':'Mini-ITX','I/O':'1x USB 3.1 Gen 2 Type-C, 2x USB 3.0, Audio I/O, Power button, Reset button','Охлаждане':'Total fan mounts:11x 120 mm or 9x 140 mm; Front fan:4x 120 m','Размери':'600 x 240 x 566 mm'},rating:3.9,rv:39,desc:'FD MESHIFY 2 XL BLACK TG LIGHT, Mini-ITX',img:'./images/products/26303.webp',stock:false},
-  {id:2928,name:'FD RIDGE WHITE MITX PCIE 4.0',brand:'Fractal Design',cat:'components',subcat:'case',price:272.4,added:'2026-04-22',emoji:'🖥',sku:'FD-C-RID1N-12',ean:'7340172706106',specs:{'I/O':'1x USB 3.1 Gen 2 Type-C, 2x USB 3.0, 1x Combo jack – Audio/Microphone, power but','Охлаждане':'Total fan mounts:2x 120/140 mm and 3x 80 mm; Side fan:2x 120','Размери':'Vertical: 374 x 110 x 395 mm, Horizontal: 360 x 37'},rating:4.0,rv:20,desc:'FD RIDGE WHITE MITX PCIE 4.0',img:'./images/products/39451.webp',stock:true},
+  {id:2928,name:'FD RIDGE WHITE MITX PCIE 4.0',brand:'Fractal Design',cat:'components',subcat:'case',price:272.4,added:'2026-04-22',emoji:'🖥',sku:'FD-C-RID1N-12',ean:'7340172706106',specs:{'I/O':'1x USB 3.1 Gen 2 Type-C, 2x USB 3.0, 1x Combo jack – Audio/Microphone, power but','Охлаждане':'Total fan mounts:2x 120/140 mm and 3x 80 mm; Side fan:2x 120','Размери':'Vertical: 374 x 110 x 395 mm, Horizontal: 360 x 37'},rating:4.0,rv:20,desc:'FD RIDGE WHITE MITX PCIE 4.0',img:'./images/products/39451.webp',stock:false},
   {id:2929,name:'FD RIDGE BLACK MITX PCIE 4.0',brand:'Fractal Design',cat:'components',subcat:'case',price:272.4,added:'2026-04-22',emoji:'🖥',sku:'FD-C-RID1N-11',ean:'7340172706090',specs:{'Цвят':'Black','I/O':'1x USB 3.2 Gen 2x2 Type-C (20 Gbps);2x USB 3.0;1x Combo jack – Audio/Microphone;','Охлаждане':'Total fan mounts 2x 120/140 mm and 3x 80 mm;Side fan 2x 120/'},rating:3.9,rv:1,desc:'FD RIDGE BLACK MITX PCIE 4.0, Black',img:'./images/products/43125.webp',stock:true},
   {id:2930,name:'FD MOOD LIGHT GRAY MITX',brand:'Fractal Design',cat:'components',subcat:'case',price:298.8,added:'2026-04-22',emoji:'🖥',sku:'FD-C-MOD1N-01',specs:{'Цвят':'LIGHT GRAY','I/O':'1x USB 3.2 Gen 2x2 Type-C (20 Gbps), 2x USB 3.0 Type-A (5 Gbps), 1x Combo jack –','Охлаждане':'Total fan mounts: 1x 180 mm 2x 120 mm 2x 140 mm;','Размери':'212 x 212 x 453 mm'},rating:4.6,rv:11,desc:'FD MOOD LIGHT GRAY MITX, LIGHT GRAY',img:'./images/products/42260.webp',stock:true},
   {id:2931,name:'FD MOOD BLACK MITX',brand:'Fractal Design',cat:'components',subcat:'case',price:298.8,added:'2026-04-22',emoji:'🖥',sku:'FD-C-MOD1N-02',specs:{'Цвят':'Black','I/O':'1x USB 3.2 Gen 2x2 Type-C (20 Gbps), 2x USB 3.0 Type-A (5 Gbps), 1x Combo jack –','Охлаждане':'Total fan mounts: 1x 180 mm 2x 120 mm 2x 140 mm;','Размери':'212 x 212 x 453 mm'},rating:4.8,rv:28,desc:'FD MOOD BLACK MITX, Black',img:'./images/products/42268.webp',stock:true},
@@ -12477,7 +12477,7 @@ const _cases = [
   {id:3063,name:'PSU FORTRON VITA-850GD 850W 80',brand:'Fortron',cat:'components',subcat:'psu',price:188.4,added:'2026-04-22',emoji:'⚡',sku:'PPA8504702',specs:{'Мощност':'850W','Формфактор':'ATX12V V3.1','Вентилатор':'HYB Bearing, 120mm'},rating:3.9,rv:37,desc:'PSU FORTRON VITA-850GD 850W 80, 850W',img:'./images/products/47706.webp',stock:false},
   {id:3064,name:'PSU FORTRON HYP 80+PRO550 BULK',brand:'Fortron',cat:'components',subcat:'psu',price:92.4,added:'2026-04-22',emoji:'⚡',sku:'9PA5509407',specs:{'Мощност':'550W','Формфактор':'ATX','Вентилатор':'Sleeve Fan, 120mm'},rating:4.7,rv:18,desc:'PSU FORTRON HYP 80+PRO550 BULK, 550W',img:'./images/products/26413.webp',stock:true},
   {id:3065,name:'PSU FORTRON HYPER 80+ PRO 650',brand:'Fortron',cat:'components',subcat:'psu',price:99.6,added:'2026-04-22',emoji:'⚡',sku:'9PA6507503',specs:{'Мощност':'650W','Ефективност':'80+ Bronze','Формфактор':'ATX','Вентилатор':'Sleeve Fan, 120mm'},rating:4.8,rv:24,desc:'PSU FORTRON HYPER 80+ PRO 650, 650W, 80+ Bronze',img:'./images/products/26414.webp',stock:false},
-  {id:3066,name:'PSU FORTRON HYPER 80+ PRO 650R',brand:'Fortron',cat:'components',subcat:'psu',price:99.6,added:'2026-04-22',emoji:'⚡',sku:'9PA6507504',specs:{'Формфактор':'ATX12 V2.4','Вентилатор':'Sleeve Fan, 120mm'},rating:4.8,rv:39,desc:'PSU FORTRON HYPER 80+ PRO 650R',img:'./images/products/50522.webp',stock:true},
+  {id:3066,name:'PSU FORTRON HYPER 80+ PRO 650R',brand:'Fortron',cat:'components',subcat:'psu',price:99.6,added:'2026-04-22',emoji:'⚡',sku:'9PA6507504',specs:{'Формфактор':'ATX12 V2.4','Вентилатор':'Sleeve Fan, 120mm'},rating:4.8,rv:39,desc:'PSU FORTRON HYPER 80+ PRO 650R',img:'./images/products/50522.webp',stock:false},
   {id:3067,name:'PSU FORTRON HYPER PRO 650W',brand:'Fortron',cat:'components',subcat:'psu',price:94.8,added:'2026-04-22',emoji:'⚡',sku:'SPA6507504',specs:{'Мощност':'650W','Ефективност':'80+ Bronze','Формфактор':'ATX12 V2.4','Вентилатор':'Sleeve Fan, 120mm'},rating:4.2,rv:37,desc:'PSU FORTRON HYPER PRO 650W, 650W, 80+ Bronze',img:'./images/products/49360.webp',stock:false},
   {id:3068,name:'PSU FORTRON HYPER 80+ PRO 700',brand:'Fortron',cat:'components',subcat:'psu',price:115.2,added:'2026-04-22',emoji:'⚡',sku:'9PA7008803',specs:{'Мощност':'700W','Ефективност':'80+ Bronze','Формфактор':'ATX','Вентилатор':'Sleeve Fan, 120mm'},rating:4.1,rv:25,desc:'PSU FORTRON HYPER 80+ PRO 700, 700W, 80+ Bronze',img:'./images/products/26415.webp',stock:false},
   {id:3069,name:'PSU FORTRON FSP550-50ABA /550W',brand:'Fortron',cat:'components',subcat:'psu',price:126,added:'2026-04-22',emoji:'⚡',sku:'9PA550A702',specs:{'Мощност':'550W','Ефективност':'80 Plus','Формфактор':'ATX 12V V2.52','Вентилатор':'12cm Fan Provide Ultra Silent Working Environment'},rating:4.6,rv:23,desc:'PSU FORTRON FSP550-50ABA /550W, 550W, 80 Plus',img:'./images/products/34781.webp',stock:true},
@@ -12626,8 +12626,8 @@ const _cases = [
   {id:3759,name:'TUNCMATIK MODULTECH 2U 30KVA',brand:'TUNCMATIK',cat:'ups',subcat:'ups_server',price:8235.61,added:'2026-04-30',emoji:'⚡',sku:'TSK10013',ean:'',specs:{'Мощност':'30KVA','Тип':'Онлайн / Чиста синусоида'},rating:4.5,rv:0,desc:'TUNCMATIK MODULTECH 2U 30KVA - 30KVA, TUNCMATIK',img:null,stock:false},
   {id:3760,name:'FORTRON FSP1290 BATTERY 12V 9A',brand:'FORTRON',cat:'ups',subcat:'ups_home',price:46.4,added:'2026-04-30',emoji:'⚡',sku:'MPF0000200GP',ean:'',specs:{'Тип':'Линейно-интерактивен'},rating:4.5,rv:0,desc:'FORTRON FSP1290 BATTERY 12V 9A, FORTRON',img:'./images/products/52803.webp',stock:true},
   {id:3761,name:'HIKVISION DS-UPS600VA',brand:'HIKVISION',cat:'ups',subcat:'ups_home',price:111.43,added:'2026-04-30',emoji:'⚡',sku:'2128010009',ean:'',specs:{'Мощност':'600VA','Тип':'Линейно-интерактивен'},rating:4.5,rv:0,desc:'HIKVISION DS-UPS600VA - 600VA, HIKVISION',img:'./images/products/42693.webp',stock:true},
-  {id:3762,name:'HIKVISION DS-UPS1000VA',brand:'HIKVISION',cat:'ups',subcat:'ups_office',price:137.8,added:'2026-04-30',emoji:'⚡',sku:'2128010007',ean:'',specs:{'Мощност':'1000VA','Тип':'Линейно-интерактивен'},rating:4.5,rv:0,desc:'HIKVISION DS-UPS1000VA - 1000VA, HIKVISION',img:'./images/products/42694.webp',stock:false},
-  {id:3763,name:'HIKVISION DS-UPS3000VA',brand:'HIKVISION',cat:'ups',subcat:'ups_office',price:552.62,added:'2026-04-30',emoji:'⚡',sku:'2128010008',ean:'',specs:{'Мощност':'3000VA','Тип':'Линейно-интерактивен'},rating:4.5,rv:0,desc:'HIKVISION DS-UPS3000VA - 3000VA, HIKVISION',img:'./images/products/43396.webp',stock:false},
+  {id:3762,name:'HIKVISION DS-UPS1000VA',brand:'HIKVISION',cat:'ups',subcat:'ups_office',price:137.8,added:'2026-04-30',emoji:'⚡',sku:'2128010007',ean:'',specs:{'Мощност':'1000VA','Тип':'Линейно-интерактивен'},rating:4.5,rv:0,desc:'HIKVISION DS-UPS1000VA - 1000VA, HIKVISION',img:'./images/products/42694.webp',stock:true},
+  {id:3763,name:'HIKVISION DS-UPS3000VA',brand:'HIKVISION',cat:'ups',subcat:'ups_office',price:552.62,added:'2026-04-30',emoji:'⚡',sku:'2128010008',ean:'',specs:{'Мощност':'3000VA','Тип':'Линейно-интерактивен'},rating:4.5,rv:0,desc:'HIKVISION DS-UPS3000VA - 3000VA, HIKVISION',img:'./images/products/43396.webp',stock:true},
 
   // ── Bags & Cases (imported from categoryId=21, 2026-06-10) ─────────────────────
   {id:4118,name:'ASUS NEREUS CARRY BAG 16 IN BK',brand:'Asus',cat:'accessories',subcat:'bag',
@@ -12883,7 +12883,7 @@ products.push(
   {id:3146,name:'CANON PIXMA MG-2551S AIO GREY',brand:'CANON',cat:'printers',subcat:'inkjet_aio',price:51.24,added:'2026-04-23',emoji:'🖨',sku:'0727C066BA',ean:'4549292234206',specs:{'Model':'PIXMA MG2551S','Interface':'No display;Hi-Speed USB (B Port)','Print speed':'Approx. 8 ipm (~ 18 ppm)','Scan speed':'48 bit / 24 bit (Input / Output)','Copy speed':'Approx. 1.6 ipm; FCOT: Approx. 31 seconds','Print resolution':'4800 x 600 dpi','Scanner resolution':'600 x 1200 dpi','Paper size':'Plain paper: A4, A5, B5, Letter, Legal; Photo paper: 10x15 cm, 13x18 cm Envelopes: DL, COM10'},rating:4.4,rv:5,desc:'CANON PIXMA MG-2551S AIO GREY - мастиленоструен принтер. CANON качество и надеждност.',img:'./images/products/41236.webp',stock:false},
   {id:3147,name:'CANON PIXMA G2410 AIO',brand:'CANON',cat:'printers',subcat:'inkjet_aio',price:316.85,added:'2026-04-23',emoji:'🖨',sku:'2313C009AA',ean:'4549292095210',specs:{'Vendor_url':'https://www.canon-europe.com/printers/pixma-g2410/specifications/','Interface':'Display Type &amp; Size:LCD (1.2 inch segment mono); Interface Type - PC / Mac:Hi-Speed USB (B Port)','Print speed':'Mono Print Speed:Approx. 8.8 ipm; Colour Print Speed:Approx. 5.0 ipm; Photo Print Speed:Borderless 1','Scan speed':'Approx. 19 sec','Copy speed':'sFCOT: Approx. 32 sec; sESAT: Approx. 1.7 ipm','Print resolution':'Up to 4800 x 1200 dpi','Scanner resolution':'600 x 1200 dpi','Paper size':'A4, A5, B5, 10 x 15 cm, 13 x 18 cm, 20 x 25 cm, Envelopes (DL, COM10), Letter, Legal'},rating:4.6,rv:8,desc:'CANON PIXMA G2410 AIO - мастиленоструен принтер. CANON качество и надеждност.',img:'./images/products/16402.webp',stock:true},
   {id:3148,name:'CANON PIXMA G2430 AIO',brand:'CANON',cat:'printers',subcat:'megatank',price:327.41,added:'2026-04-23',emoji:'🖨',sku:'5991C009AA',ean:'4549292213515',specs:{'Vendor_url':'https://www.canon-europe.com/printers/pixma-g2430/','Manufacturer':'Canon','Interface':'Hi-Speed USB (USB B Port)','Print speed':'Mono Print Speed: approx. 11 ipm;Colour Print Speed: approx. 6.0 ipm;Photo Print Speed: Borderless 1','Scan speed':'Colour: 3.5 ms/line(300dpi);Greyscale: 1.5 ms/line(300dpi)','Copy speed':'sFCOT: Approx. 23 sec;sESAT: Approx. 2.7 ipm','Print resolution':'Up to 4800 x 1200 dpi','Scanner resolution':'600 x 1200 dpi'},rating:4.4,rv:12,desc:'CANON PIXMA G2430 AIO - мастиленоструен принтер. CANON качество и надеждност.',img:'./images/products/44933.webp',stock:true},
-  {id:3149,name:'CANON PIXMA G3430 AIO',brand:'CANON',cat:'printers',subcat:'megatank',price:312.95,old:369.23,pct:15,badge:'sale',added:'2026-04-23',emoji:'🖨',sku:'5989C009AC',ean:'4549292213287',specs:{'Vendor_url':'https://www.canon-europe.com/printers/pixma-g3430/specifications/','Interface':'Hi-Speed USB (USB B Port); Wi-Fi: IEEE802.11 b/g/n; Wi-Fi Security: WPA-PSK, WPA2-PSK, WEP, Administ','Print speed':'Mono Print Speed:approx. 11 ipm; Colour Print Speed:approx. 6.0 ipm; Photo Print Speed:Borderless 10','Scan speed':'Colour: 3.5 ms/line (300dpi); Greyscale: 1.5 ms/line (300dpi)','Copy speed':'sFCOT: Approx. 23 sec; sESAT: Approx. 2.7 ipm','Print resolution':'Up to 4800 x 1200 dpi','Scanner resolution':'600 x 1200 dpi','Paper size':'A4, A5, A6, B5, LTR, LGL, Executive (184.2 mm x 266.7 mm), Legal (215 mm x 345 mm), 4" x 6", 5" x 7"'},rating:4.4,rv:24,desc:'CANON PIXMA G3430 AIO - мастиленоструен принтер. CANON качество и надеждност.',img:'./images/products/37445.webp',stock:true},
+  {id:3149,name:'CANON PIXMA G3430 AIO',brand:'CANON',cat:'printers',subcat:'megatank',price:294.38,old:369.23,pct:20,badge:'sale',added:'2026-04-23',emoji:'🖨',sku:'5989C009AC',ean:'4549292213287',specs:{'Vendor_url':'https://www.canon-europe.com/printers/pixma-g3430/specifications/','Interface':'Hi-Speed USB (USB B Port); Wi-Fi: IEEE802.11 b/g/n; Wi-Fi Security: WPA-PSK, WPA2-PSK, WEP, Administ','Print speed':'Mono Print Speed:approx. 11 ipm; Colour Print Speed:approx. 6.0 ipm; Photo Print Speed:Borderless 10','Scan speed':'Colour: 3.5 ms/line (300dpi); Greyscale: 1.5 ms/line (300dpi)','Copy speed':'sFCOT: Approx. 23 sec; sESAT: Approx. 2.7 ipm','Print resolution':'Up to 4800 x 1200 dpi','Scanner resolution':'600 x 1200 dpi','Paper size':'A4, A5, A6, B5, LTR, LGL, Executive (184.2 mm x 266.7 mm), Legal (215 mm x 345 mm), 4" x 6", 5" x 7"'},rating:4.4,rv:24,desc:'CANON PIXMA G3430 AIO - мастиленоструен принтер. CANON качество и надеждност.',img:'./images/products/37445.webp',stock:true},
   {id:3150,name:'CANON PIXMA G3470 AIO BLACK',brand:'CANON',cat:'printers',subcat:'megatank',price:167.52,added:'2026-04-23',emoji:'🖨',sku:'5805C009AA',ean:'4549292205398',specs:{'Vendor_url':'https://www.canon-europe.com/printers/pixma-g3470-series/','Interface':'1.35 " / 3.4 cm Square LCD (Monochrome);Hi-Speed USB (USB B Port); Wi-Fi: IEEE802.11 b/g/n/15; Wi-Fi','Print speed':'Mono Print Speed:approx. 11 ipm2; Colour Print Speed:approx. 6.0 ipm3; Photo Print Speed:Borderless ','Scan speed':'Colour: 3.5 ms/line(300dpi)11; Greyscale: 1.5 ms/line(300dpi)12','Copy speed':'sFCOT: Approx. 23 sec13; sESAT: Approx. 3.2 ipm14','Print resolution':'Up to 4800 x 1200 dpi1','Scanner resolution':'600 x 1200 dpi10','Paper size':'A4, A5, A6, B5, LTR, LGL, Executive (184.2 mm x 266.7 mm), Legal(215 mm x 345 mm), 4" x 6", 5" x 7",'},rating:4.2,rv:16,desc:'CANON PIXMA G3470 AIO BLACK - мастиленоструен принтер. CANON качество и надеждност.',img:'./images/products/34159.webp',stock:true},
   {id:3151,name:'CANON PIXMA G3470 AIO WHITE',brand:'CANON',cat:'printers',subcat:'megatank',price:167.52,added:'2026-04-23',emoji:'🖨',sku:'5805C029AD',ean:'4549292205534',specs:{'Vendor_url':'https://www.canon-europe.com/printers/pixma-g3470-series/specifications/#','Interface':'Display Type &amp; Size:1.35 " / 3.4 cm Square LCD (Monochrome); Hi-Speed USB (USB B Port)','Print speed':'Mono Print Speed:approx. 11 ipm2; Colour Print Speed:approx. 6.0 ipm3; Photo Print Speed:Borderless ','Scan speed':'Colour: 3.5 ms/line(300dpi)11; Greyscale: 1.5 ms/line(300dpi)12','Copy speed':'sFCOT: Approx. 23 sec13; sESAT: Approx. 3.2 ipm14','Print resolution':'Up to 4800 x 1200 dpi1','Scanner resolution':'600 x 1200 dpi10','Paper size':'A4, A5, A6, B5, LTR, LGL, Executive (184.2 mm x 266.7 mm), Legal(215 mm x 345 mm), 4" x 6", 5" x 7",'},rating:4.7,rv:20,desc:'CANON PIXMA G3470 AIO WHITE - мастиленоструен принтер. CANON качество и надеждност.',img:'./images/products/35970.webp',stock:true},
   {id:3152,name:'CANON PIXMA G3480 AIO',brand:'CANON',cat:'printers',subcat:'megatank',price:225.72,added:'2026-04-23',emoji:'🖨',sku:'6708C009AC',ean:'4549292235753',specs:{'Vendor_url':'https://www.canon-europe.com/printers/pixma-g3480/','Manufacturer':'Canon','Interface':'1.35 " / 3.4 cm Square LCD (Monochrome); Hi-Speed USB (USB B Port)','Print speed':'Mono Print Speed: approx. 11 ipm;Colour Print Speed: approx. 6.0 ipm;Photo Print Speed: Borderless 1','Scan speed':'Colour: 3.5 ms/line(300dpi);Greyscale: 1.5 ms/line(300dpi)','Copy speed':'sFCOT: Approx. 23 sec;sESAT: Approx. 3.2 ipm','Print resolution':'Up to 4800 x 1200 dpi','Scanner resolution':'600 x 1200 dpi'},rating:4.2,rv:18,desc:'CANON PIXMA G3480 AIO - мастиленоструен принтер. CANON качество и надеждност.',img:'./images/products/46662.webp',stock:true},

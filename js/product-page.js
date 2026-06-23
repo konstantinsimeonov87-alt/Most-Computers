@@ -1,4 +1,20 @@
 // ===== PRODUCT PAGE =====
+function _sanitizeHtml(html) {
+  try {
+    const doc = new DOMParser().parseFromString(html, 'text/html');
+    ['script','iframe','object','embed','form','base','meta','link'].forEach(function(tag) {
+      doc.querySelectorAll(tag).forEach(function(el) { el.remove(); });
+    });
+    doc.querySelectorAll('*').forEach(function(el) {
+      Array.from(el.attributes).forEach(function(attr) {
+        if (/^on/i.test(attr.name) || /^javascript:/i.test((attr.value || '').trim())) {
+          el.removeAttribute(attr.name);
+        }
+      });
+    });
+    return doc.body.innerHTML;
+  } catch(e) { return ''; }
+}
 let pdpProductId = null;
 let pdpQtyVal    = 1;
 let pdpGallery   = [];
@@ -348,8 +364,7 @@ function openProductPage(id) {
   const htmlContent = document.getElementById('pdpHtmlContent');
   if (htmlContent) {
     if (p.htmlDesc) {
-      // htmlDesc is admin-authored HTML - kept as-is (trusted source)
-      htmlContent.innerHTML = p.htmlDesc;
+      htmlContent.innerHTML = _sanitizeHtml(p.htmlDesc);
     } else if (p.desc) {
       // p.desc may come from XML - render as plain text to prevent XSS
       htmlContent.innerHTML = '';
@@ -426,7 +441,7 @@ function openProductPage(id) {
   pdpInitZoom();
   pdpInitSwipe();
   pdpInitTabsScroll();
-  if (typeof pdpInitDeliveryTimer === 'function') pdpInitDeliveryTimer();
+  // pdpInitDeliveryTimer вече е извикан на ред 435
   // Sidebar disabled - specs already shown in main tab
   if (typeof pdpInitPinch === 'function') pdpInitPinch();
   if (typeof _pdpCompareReset === 'function') _pdpCompareReset();
@@ -548,7 +563,7 @@ function closeProductPage() {
   if (canonical) canonical.setAttribute('href', 'https://mostcomputers.bg/');
   if (typeof bcSet === 'function') {
     const catOpen = document.getElementById('catPage')?.classList.contains('open');
-    bcSet(catOpen && _bcTrail.length >= 1 ? [_bcTrail[0]] : []);
+    bcSet(catOpen && typeof _bcTrail !== 'undefined' && _bcTrail.length >= 1 ? [_bcTrail[0]] : []);
   }
 }
 
@@ -646,12 +661,15 @@ function pdpRenderVideo(url, wrap) {
   const vmMatch = url.match(/vimeo\.com\/(\d+)/);
   if (vmMatch) embedUrl = `https://player.vimeo.com/video/${vmMatch[1]}`;
 
+  const safeEmbed = /^https:\/\/(www\.youtube\.com\/embed\/|player\.vimeo\.com\/video\/)/.test(embedUrl) ? embedUrl : null;
   const isEmbed = embedUrl !== url || url.includes('embed') || url.includes('youtube') || url.includes('vimeo');
   if (isEmbed || url.startsWith('http')) {
     if (url.match(/\.(mp4|webm|ogg)$/i)) {
-      wrap.innerHTML = `<video controls><source src="${url}"></video>`;
+      wrap.innerHTML = `<video controls><source src="${escHtml(url)}"></video>`;
+    } else if (safeEmbed) {
+      wrap.innerHTML = `<iframe src="${safeEmbed}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
     } else {
-      wrap.innerHTML = `<iframe src="${embedUrl}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+      wrap.innerHTML = `<div class="pdp-video-placeholder"><span>▶</span><div style="font-size:13px;color:var(--muted);">Невалиден видео линк.</div></div>`;
     }
   } else {
     wrap.innerHTML = `<div class="pdp-video-placeholder"><span>▶</span><div style="font-size:13px;color:var(--muted);">Невалиден видео линк.</div></div>`;

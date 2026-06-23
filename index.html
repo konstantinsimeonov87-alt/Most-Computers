@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <script>try{if(localStorage.getItem('mc_dark')==='1')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src https://fonts.gstatic.com data:; img-src * data: blob:; connect-src 'self' https://zdwzccucqfvlsgxlspby.supabase.co https://www.google-analytics.com https://analytics.google.com https://www.googletagmanager.com; frame-src https://www.openstreetmap.org; object-src 'none'; base-uri 'self';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src https://fonts.gstatic.com data:; img-src * data: blob:; connect-src 'self' https://zdwzccucqfvlsgxlspby.supabase.co https://www.google-analytics.com https://analytics.google.com https://www.googletagmanager.com; frame-src https://www.openstreetmap.org https://www.youtube.com https://player.vimeo.com; object-src 'none'; base-uri 'self'; upgrade-insecure-requests;">
   <meta http-equiv="X-Content-Type-Options" content="nosniff">
   <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
   <meta name="theme-color" content="#bd1105">
@@ -14,13 +14,13 @@
   <meta name="apple-mobile-web-app-title" content="Most Computers">
   <meta name="application-name" content="Most Computers">
   <meta name="description"
-    content="Most Computers, магазин за електроника от 1990 г. Лаптопи, смартфони, телевизори от Samsung, ASUS, Lenovo. Безплатна доставка над 100 €.">
+    content="Лаптопи, смартфони, телевизори и аксесоари от Samsung, ASUS, Lenovo. Безплатна доставка над 100 €. Most Computers - 36 г. опит в електрониката.">
   <link rel="manifest" id="pwaManifest" href="/manifest.json">
   <link rel="apple-touch-icon" id="pwaAppleIcon">
-  <title>Most Computers | Лаптопи, Телефони, Телевизори | От 1990 г.</title>
-  <meta property="og:title" content="Most Computers | Лаптопи, Телефони, Телевизори | От 1990 г.">
+  <title>Most Computers | Лаптопи, Смартфони, Телевизори | От 1990 г.</title>
+  <meta property="og:title" content="Most Computers | Лаптопи, Смартфони, Телевизори | От 1990 г.">
   <meta property="og:description"
-    content="Most Computers, специализиран магазин за електроника от 1990 г. Смартфони, лаптопи, телевизори, аудио и аксесоари от Samsung, Sony, Lenovo и още. Безплатна доставка над 100 €. Сертифициран сервиз.">
+    content="Открий топ оферти за лаптопи, смартфони, телевизори и аудио. Samsung, Sony, Lenovo и още. Безплатна доставка над 100 €. 36 г. опит. Сертифициран сервиз.">
   <meta property="og:image" content="https://mostcomputers.bg/og-default.jpg">
   <meta property="og:image:alt" content="Most Computers, магазин за електроника от 1990 г.">
   <meta property="og:image:width" content="1200">
@@ -33,7 +33,7 @@
   <meta name="twitter:site" content="@mostcomputers">
   <meta name="twitter:title" content="Most Computers | Електроника от 1990 г.">
   <meta name="twitter:description"
-    content="Лаптопи, Телефони, Телевизори, Аудио и аксесоари от Samsung, Sony, Lenovo. Безплатна доставка над 100 €.">
+    content="Топ цени на лаптопи, смартфони и телевизори. Samsung, Sony, Lenovo и още. Безплатна доставка над 100 €. 36 г. опит.">
   <meta name="twitter:image" content="https://mostcomputers.bg/og-default.jpg">
   <meta name="robots" content="index, follow">
   <meta name="author" content="Most Computers">
@@ -41,10 +41,11 @@
     content="лаптопи, смартфони, телевизори, таблети, аудио, гейминг, Most Computers, онлайн магазин електроника, компютри, аксесоари, Samsung, ASUS, Sony, Lenovo, MSI">
   <link rel="alternate" hreflang="bg" href="https://mostcomputers.bg/">
   <link rel="preload" href="styles.css" as="style">
-  <link rel="preload" href="data-core.js?v=20260622" as="script">
-  <link rel="preload" href="app.js?v=20260622" as="script">
-  <link rel="prefetch" href="app-lazy.js?v=20260622">
-  <link rel="prefetch" href="data-details.js?v=20260622">
+  <link rel="preload" href="data-core.js?v=20260623" as="script">
+  <link rel="preload" href="app.js?v=20260623" as="script">
+  <link rel="prefetch" href="app-lazy.js?v=20260623">
+  <link rel="prefetch" href="data-details.js?v=20260623">
+  <link rel="preload" as="image" href="https://portal.mostbg.com/api/images/imageFileData/100502.png" fetchpriority="high">
   <link rel="alternate" hreflang="x-default" href="https://mostcomputers.bg/">
   <link rel="canonical" href="https://mostcomputers.bg/">
   <link rel="sitemap" type="application/xml" href="/sitemap.xml">
@@ -74,6 +75,8 @@
     function gtag(){dataLayer.push(arguments);}
     var _gtmLoaded=false;
     function _loadGTM(){
+      var consent; try { consent=localStorage.getItem('mc_cookies_set'); } catch(e) {}
+      if(!consent || consent==='essential') return; // GDPR: зареди GA само след consent
       if(_gtmLoaded)return; _gtmLoaded=true;
       var s=document.createElement('script');
       s.async=true;
@@ -82,7 +85,7 @@
       gtag('js',new Date());
       gtag('config','G-HE0YMD8BQ7',{send_page_view:true});
     }
-    // Fire on first user interaction, or after 4 seconds (whichever is sooner)
+    // Fire on first user interaction, or after 5 seconds (whichever is sooner)
     ['click','scroll','keydown','touchstart'].forEach(function(e){
       document.addEventListener(e,_loadGTM,{once:true,passive:true});
     });
@@ -189,7 +192,8 @@
     .sk-brand{height:11px;width:38%}.sk-title{height:14px;width:85%}.sk-title2{height:14px;width:62%}
     .sk-price{height:22px;width:48%;margin-top:4px}.sk-btn{height:38px;width:100%;margin-top:8px;border-radius:12px}
   </style>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="styles.css"></noscript>
   <!-- Leaflet loaded on-demand in pages.js when service/contacts map is opened -->
 
   <script type="application/ld+json">
@@ -2021,8 +2025,8 @@ body.compare-active{padding-bottom:90px}
       <div class="hero-section">
         <div class="hero-slider">
           <div class="slide slide-1 active">
-            <div class="s1-over">ТЕХНИЧЕСКИ РЕШЕНИЯ ЗА ВСЕКИ РАБОТЕН ДЯЛ</div>
-            <h2 class="s1-hdg">Обзаведи офиса си с най-доброто</h2>
+            <div class="s1-over">ЗА ДОМА, ОФИСА И ГЕЙМИНГА</div>
+            <h2 class="s1-hdg">Намери технологията, от която имаш нужда</h2>
             <div class="s1-cards">
               <button type="button" class="s1-card" data-action="openCatPage('laptops')">
                 <svg class="s1-icon" aria-hidden="true"><use href="#ic-laptop"/></svg>
@@ -2050,12 +2054,12 @@ body.compare-active{padding-bottom:90px}
               <div class="slide-price" id="slide2Price">1 012.28 € / 1 979 лв. <small>с ДДС</small></div>
               <button type="button" class="slide-btn" data-action="openProductPage(1600)">Разгледай MSI Katana →</button>
             </div>
-            <div class="slide-img-wrap"><img src="https://portal.mostbg.com/api/images/imageFileData/100502.png" alt="MSI Katana 15 gaming laptop" class="slide-product-img" width="290" height="260" loading="lazy"></div>
+            <div class="slide-img-wrap"><img src="https://portal.mostbg.com/api/images/imageFileData/100502.png" alt="MSI Katana 15 gaming laptop" class="slide-product-img" width="290" height="260" loading="eager" fetchpriority="high"></div>
           </div>
           <div class="slide slide-3">
             <div class="slide-badge">% BIG SALE</div>
             <h2 class="slide-title">До -60% на избрани продукти</h2>
-            <div class="slide-sub">Ограничено количество. Побързай!</div>
+            <div class="slide-sub">Действай сега - количествата са ограничени.</div>
             <div class="slide-price">Спести до <b>409.03 €</b> / 800 лв.</div>
             <div class="slide-countdown" id="saleCountdown"></div>
             <button type="button" class="slide-btn dark" style="color:#ff3d00;"
@@ -2184,8 +2188,8 @@ body.compare-active{padding-bottom:90px}
         <div class="sp-stat">
           <svg width="20" height="20" class="svg-ic" aria-hidden="true"><use href="#ic-shield"/></svg>
           <div class="sp-text">
-            <span class="sp-num">Официален</span>
-            <span class="sp-sub">сертифициран сервиз</span>
+            <span class="sp-num">Официален сервиз</span>
+            <span class="sp-sub">на водещи марки</span>
           </div>
         </div>
       </div>
@@ -2195,7 +2199,7 @@ body.compare-active{padding-bottom:90px}
         <div class="flash-header">
           <div>
             <h2 class="flash-title"><svg class="sh-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Светкавични оферти</h2>
-            <div class="flash-subtitle">Ограничено количество - не изпускай!</div>
+            <div class="flash-subtitle">Намалени цени, докато трае наличността</div>
           </div>
           <a href="#" class="view-all-link" data-action="openCatPage('sale')">Всички →</a>
           <div class="flash-timer" id="flashTimer" style="visibility:hidden">
@@ -3355,7 +3359,7 @@ body.compare-active{padding-bottom:90px}
           <span
             style="background:rgba(255,255,255,0.15);border-radius:4px;padding:3px 8px;font-weight:700;white-space:nowrap;width:fit-content;">©
             1990–2026</span>
-          <span style="white-space:nowrap;">👥 Доверен от над 120 000 клиента</span>
+          <span style="white-space:nowrap;">👥 Доверен от над 550 000+ клиента</span>
         </div>
         <div class="footer-social">
           <a class="social-btn" href="https://www.facebook.com/mostcomputers" target="_blank" rel="noopener noreferrer"
@@ -3462,11 +3466,11 @@ body.compare-active{padding-bottom:90px}
   </footer>
 
   <!-- Leaflet loaded on-demand: see _loadLeaflet() in pages.js -->
-  <script src="data-core.js?v=20260622" defer></script>
-  <script src="js/promotions-data.js?v=20260622" defer></script>
-  <script src="app.js?v=20260622" defer></script>
+  <script src="data-core.js?v=20260623" defer></script>
+  <script src="js/promotions-data.js?v=20260623" defer></script>
+  <script src="app.js?v=20260623" defer></script>
   <script src="js/b2b.js?v=20260602" defer></script>
-  <script src="js/careers-data.js?v=20260622" defer></script>
+  <script src="js/careers-data.js?v=20260623" defer></script>
   <script src="js/careers-page.js?v=20260605" defer></script>
   <!-- Supabase loaded lazily on first checkout attempt (~50 KiB saved on initial load) -->
 
@@ -4868,7 +4872,7 @@ body.compare-active{padding-bottom:90px}
             <div class="about-tl-year-col"><span class="about-tl-year">2024</span><div class="about-tl-dot"></div></div>
             <div class="about-tl-body">
               <div class="about-tl-heading">Нова платформа</div>
-              <p class="about-tl-text">Изцяло нова онлайн платформа с PWA поддръжка и персонализиран shopping experience. Доверен от над 120 000 клиента.</p>
+              <p class="about-tl-text">Изцяло нова онлайн платформа с PWA поддръжка и персонализиран shopping experience. Доверен от над 550 000+ клиента.</p>
             </div>
           </div>
         </div>

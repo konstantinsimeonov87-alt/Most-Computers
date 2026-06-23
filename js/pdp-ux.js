@@ -11,6 +11,7 @@ function pdpLbOpen() {
   lbImg.alt = img.alt;
   lbImg.style.setProperty('--lb-scale', '1');
   lb.style.display = 'flex';
+  document.removeEventListener('keydown', _pdpLbKey);
   document.addEventListener('keydown', _pdpLbKey);
 }
 function pdpLbClose() {
@@ -33,7 +34,7 @@ function _pdpLbKey(e) {
 (function() {
   document.addEventListener('wheel', function(e) {
     var lb = document.getElementById('pdpLightbox');
-    if (!lb || lb.style.display === 'none') return;
+    if (!lb || lb.style.display !== 'flex') return;
     e.preventDefault();
     var lbImg = document.getElementById('pdpLbImg');
     var cur = parseFloat(lbImg.style.getPropertyValue('--lb-scale') || '1');
@@ -631,7 +632,7 @@ function openProdPreview(id) {
   if (brandEl) brandEl.textContent = p.brand || '';
   if (nameEl) nameEl.textContent = p.name;
   if (ratingEl) {
-    var stars = Math.round(p.rating || 0);
+    var stars = Math.min(5, Math.round(p.rating || 0));
     ratingEl.innerHTML = '★'.repeat(stars) + '☆'.repeat(5 - stars) + ' <span style="color:var(--muted);font-size:11px;">(' + (p.reviews ? p.reviews.length : p.rv || 0) + ')</span>';
   }
   if (priceEl) priceEl.innerHTML = typeof fmtEur === 'function' ? '<strong>' + fmtEur(p.price) + '</strong>' : '<strong>' + p.price + ' €</strong>';

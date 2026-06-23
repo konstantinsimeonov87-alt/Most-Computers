@@ -1,7 +1,7 @@
 // CART
 function _prodThumb(p, size) {
   if (!p.img) return `<span style="font-size:${Math.round(size*0.65)}px;line-height:1;">${escHtml(p.emoji||'')}</span>`;
-  return `<img src="${p.img}" alt="" width="${size}" height="${size}" style="width:${size}px;height:${size}px;object-fit:contain;border-radius:4px;" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='inline'"><span style="font-size:${Math.round(size*0.65)}px;line-height:1;display:none;">${escHtml(p.emoji||'')}</span>`;
+  return `<img src="${escHtml(p.img)}" alt="" width="${size}" height="${size}" style="width:${size}px;height:${size}px;object-fit:contain;border-radius:4px;" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='inline'"><span style="font-size:${Math.round(size*0.65)}px;line-height:1;display:none;">${escHtml(p.emoji||'')}</span>`;
 }
 
 function saveCart() { try { localStorage.setItem('mc_cart', JSON.stringify(cart.map(x => ({ id: x.id, qty: x.qty })))); } catch (e) { } }
@@ -9,16 +9,42 @@ function saveCart() { try { localStorage.setItem('mc_cart', JSON.stringify(cart.
 function oosNotify(id) {
   const p = products.find(x => x.id === id);
   if (!p) return;
-  const email = prompt('Въведи имейл - ще те уведомим когато "' + p.name.substring(0, 40) + '" е на склад:');
-  if (!email || !email.includes('@')) return;
+  document.getElementById('oosModal')?.remove();
+  const modal = document.createElement('div');
+  modal.id = 'oosModal';
+  modal.style.cssText = 'position:fixed;inset:0;z-index:5000;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.5);padding:16px;';
+  const safeName = escHtml ? escHtml(p.name.substring(0, 52)) + (p.name.length > 52 ? '&hellip;' : '') : p.name.substring(0, 52);
+  modal.innerHTML = `<div style="background:var(--white,#fff);border-radius:16px;padding:24px;max-width:360px;width:100%;box-shadow:0 12px 48px rgba(0,0,0,.2);">
+    <div style="font-size:15px;font-weight:800;color:var(--text,#111);margin-bottom:6px;">Уведоми ме при наличност</div>
+    <div style="font-size:12px;color:var(--muted,#888);margin-bottom:16px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${safeName}</div>
+    <input id="oosEmail" type="email" placeholder="твоят@имейл.com" autocomplete="email" inputmode="email"
+      style="width:100%;border:1.5px solid var(--border,#e0e0e0);border-radius:10px;padding:10px 14px;font-size:14px;outline:none;box-sizing:border-box;margin-bottom:12px;font-family:inherit;">
+    <div style="display:flex;gap:8px;">
+      <button onclick="document.getElementById('oosModal').remove()" style="flex:1;padding:10px;border:1.5px solid var(--border,#e0e0e0);border-radius:10px;background:none;cursor:pointer;font-size:13px;font-weight:600;color:var(--muted,#888);">Отказ</button>
+      <button onclick="_oosSubmit(${p.id})" style="flex:2;padding:10px;border:none;border-radius:10px;background:var(--primary,#bd1105);color:#fff;cursor:pointer;font-size:13px;font-weight:700;">Уведоми ме</button>
+    </div>
+  </div>`;
+  modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
+  document.body.appendChild(modal);
+  setTimeout(() => document.getElementById('oosEmail')?.focus(), 50);
+}
+function _oosSubmit(id) {
+  const input = document.getElementById('oosEmail');
+  const email = input ? input.value.trim() : '';
+  if (!email || !email.includes('@') || !email.includes('.')) {
+    if (input) { input.style.borderColor = 'var(--primary,#bd1105)'; input.focus(); }
+    return;
+  }
+  const p = products.find(x => x.id === id);
   try {
     const notifs = JSON.parse(localStorage.getItem('mc_oos_notify') || '[]');
     if (!notifs.find(n => n.id === id && n.email === email)) {
-      notifs.push({ id: id, email: email, name: p.name, ts: Date.now() });
+      notifs.push({ id: id, email: email, name: p ? p.name : '', ts: Date.now() });
       localStorage.setItem('mc_oos_notify', JSON.stringify(notifs));
     }
   } catch(e) {}
-  showToast('🔔 Ще те уведомим на ' + email + ' при наличност!');
+  document.getElementById('oosModal')?.remove();
+  showToast('Ще те уведомим на ' + email + ' при наличност!');
 }
 function loadCart() {
   try {
@@ -346,7 +372,7 @@ function toggleCart() { const co=document.getElementById('cartOverlay'),cp=docum
 // ===== CHECKOUT & THANK YOU =====
 let ckDeliveryIdx = 0;
 let ckDeliveryCosts = (()=>{ try{const sc=JSON.parse(localStorage.getItem('mc_store_config')||'{}');return sc.deliveryCosts||[5.99,4.99,0];}catch(e){return [5.99,4.99,0];} })();
-let ckDeliveryNames = ['Еконт', 'Еконт', 'Вземи от магазин'];
+let ckDeliveryNames = ['Еконт - до адрес', 'Еконт - до офис', 'Вземи от магазин'];
 let ckPaymentType = 'card';
 let promoApplied = false;
 
@@ -397,9 +423,9 @@ function handleCheckout() {
   });
   const _pdp = document.getElementById('pdpBackdrop');
   if (_pdp && _pdp.classList.contains('open') && typeof closeProductPage === 'function') closeProductPage();
-  document.getElementById('checkoutPage').classList.add('open');
-  document.getElementById('cartPanel').classList.remove('open');
-  document.getElementById('cartOverlay').classList.remove('open');
+  document.getElementById('checkoutPage')?.classList.add('open');
+  document.getElementById('cartPanel')?.classList.remove('open');
+  document.getElementById('cartOverlay')?.classList.remove('open');
   document.documentElement.style.overflow = 'hidden';
   document.body.style.overflow = 'hidden';
   updateFloatPill();
@@ -485,7 +511,7 @@ function _startCkUpsell() {
     } else {
       el.innerHTML = `<div class="cart-upsell-title">⚡ Може да те заинтересува</div><div class="cart-upsell-items" style="transition:opacity .3s">${pair.map(p => _cuItemHtml(p)).join('')}</div>`;
     }
-    idx = (idx + 2) % pool.length;
+    if (pool.length > 2) idx = (idx + 2) % pool.length;
   };
   render();
   _ckUpsellTimer = setInterval(render, 6000);
@@ -865,7 +891,10 @@ function submitOrder() {
     // Build order data - sequential number based on existing order count
     let _prevOrders = [];
     try { _prevOrders = JSON.parse(localStorage.getItem('mc_orders') || '[]'); } catch (e) { }
-    const orderNum = 'MC-' + String(_prevOrders.length + 1).padStart(6, '0');
+    const orderNum = 'MC-' + (function() {
+      try { return crypto.randomUUID().replace(/-/g, '').slice(0, 8).toUpperCase(); } catch(e) {}
+      return Date.now().toString(36).toUpperCase().slice(-5) + Math.random().toString(36).slice(2, 5).toUpperCase();
+    })();
     const subtotal = cart.reduce((s, x) => s + x.price * x.qty, 0);
     const delivery = ckDeliveryCosts[ckDeliveryIdx];
     const codFee = ckPaymentType === 'cod' ? ((()=>{ try{return JSON.parse(localStorage.getItem('mc_store_config')||'{}').codFee||1.50;}catch(e){return 1.50;} })()) : 0;
@@ -968,7 +997,7 @@ function submitOrder() {
 
     // Show thank-you page, clear cart
     closeCheckoutPage();
-    document.getElementById('thankyouPage').classList.add('open');
+    document.getElementById('thankyouPage')?.classList.add('open');
     cart = [];
     updateCart(); saveCart();
     promoApplied = false;
@@ -1353,7 +1382,7 @@ function cpGoCheckout() {
   }
 
   function scheduleReminder() {
-    clearTimeout(_reminderTimer);
+    if (_reminderTimer) return;
     if (!cart || cart.length === 0) return;
     _reminderTimer = setTimeout(showCartReminder, 30000);
   }

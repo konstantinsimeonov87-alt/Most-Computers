@@ -1,4 +1,9 @@
 User-agent: *
 Allow: /
 
+Disallow: /*?sort=
+Disallow: /*?page=
+
+Crawl-delay: 2
+
 Sitemap: https://mostcomputers.bg/sitemap.xml

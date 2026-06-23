@@ -207,7 +207,7 @@ function renderDropdown(query) {
         : `<span>SKU: ${p.sku}</span>`;
       return `
         <div class="sd-result" data-idx="${i}" onclick="selectSearchResult(${p.id})">
-          ${p.img ? `<img class="sd-thumb" src="${p.img}" alt="" loading="lazy" onerror="this.style.display='none'">` : `<div class="sd-emoji">${p.emoji}</div>`}
+          ${p.img ? `<img class="sd-thumb" src="${escHtml(p.img)}" alt="" loading="lazy" onerror="this.style.display='none'">` : `<div class="sd-emoji">${p.emoji}</div>`}
           <div class="sd-info">
             <div class="sd-name">${highlightMatch(p.name, q)}</div>
             <div class="sd-meta">
@@ -249,7 +249,7 @@ function _sdRefresh(id) {
 }
 
 function selectSearchResult(id) {
-  saveRecentSearch(searchInput.value.trim());
+  saveRecentSearch(searchInput?.value.trim() || '');
   closeSearchDropdown();
   openProductPage(id);
 }
@@ -413,6 +413,7 @@ function _srpRestoreState(query) {
 
 function renderSRPGrid(results, query) {
   const grid = document.getElementById('srpGrid');
+  if (!grid) return;
   if (results.length === 0) {
     const popular = products.slice(0, 4);
     grid.innerHTML = `
@@ -522,7 +523,7 @@ document.addEventListener('click', e => {
     if (suggChip.classList.contains('srp-suggestion')) {
       showSearchResultsPage(q);
     } else {
-      showSearchResults(q);
+      showSearchResultsPage(q);
     }
     return;
   }

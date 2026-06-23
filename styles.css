@@ -12682,8 +12682,8 @@
 }/* ===== WISHLIST BUTTON ALWAYS VISIBLE ON MOBILE ===== */
 @media (max-width: 768px){.product-wishlist{
     opacity: 1;
-    width: 34px;
-    height: 34px;
+    width: 44px;
+    height: 44px;
   }
 }/* ===== SMALL PHONE (375px) OPTIMIZATIONS ===== */
 @media (max-width: 375px){.products-row{ gap: 6px !important; }.product-body{ padding: 8px 10px; }.product-name{ font-size: 13px; }.add-cart-btn{ font-size: 13px; }
@@ -14852,3 +14852,10 @@ body.compare-active .fcp{bottom:92px;}
 }
 
 /* ===== END DESKTOP SPRINT 2 ===== */
+
+/* Search input: force 16px on mobile to prevent iOS auto-zoom */
+@media (max-width: 768px) {
+  .search-input, #mobSearchInput {
+    font-size: 16px;
+  }
+}

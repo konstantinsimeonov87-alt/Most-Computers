@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="bg">
 <head>
   <meta charset="UTF-8">
   <script>try{if(localStorage.getItem('mc_dark')==='1')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src https://fonts.gstatic.com data:; img-src * data: blob:; connect-src 'self' https://zdwzccucqfvlsgxlspby.supabase.co https://www.google-analytics.com https://analytics.google.com https://www.googletagmanager.com; frame-src https://www.openstreetmap.org; object-src 'none'; base-uri 'self';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src https://fonts.gstatic.com data:; img-src * data: blob:; connect-src 'self' https://zdwzccucqfvlsgxlspby.supabase.co https://www.google-analytics.com https://analytics.google.com https://www.googletagmanager.com; frame-src https://www.openstreetmap.org https://www.youtube.com https://player.vimeo.com; object-src 'none'; base-uri 'self'; upgrade-insecure-requests;">
   <meta http-equiv="X-Content-Type-Options" content="nosniff">
   <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
   <meta name="theme-color" content="#bd1105">
@@ -14,13 +14,13 @@
   <meta name="apple-mobile-web-app-title" content="Most Computers">
   <meta name="application-name" content="Most Computers">
   <meta name="description"
-    content="Most Computers, магазин за електроника от 1990 г. Лаптопи, смартфони, телевизори от Samsung, ASUS, Lenovo. Безплатна доставка над 100 €. Сертифициран сервиз.">
+    content="Лаптопи, смартфони, телевизори и аксесоари от Samsung, ASUS, Lenovo. Безплатна доставка над 100 €. Most Computers - 36 г. опит в електрониката.">
   <link rel="manifest" id="pwaManifest" href="/manifest.json">
   <link rel="apple-touch-icon" id="pwaAppleIcon">
-  <title>Most Computers | Лаптопи, Телефони, Телевизори | От 1990 г.</title>
-  <meta property="og:title" content="Most Computers | Лаптопи, Телефони, Телевизори | От 1990 г.">
+  <title>Most Computers | Лаптопи, Смартфони, Телевизори | От 1990 г.</title>
+  <meta property="og:title" content="Most Computers | Лаптопи, Смартфони, Телевизори | От 1990 г.">
   <meta property="og:description"
-    content="Most Computers, специализиран магазин за електроника от 1990 г. Смартфони, лаптопи, телевизори, аудио и аксесоари от Samsung, Sony, Lenovo и още. Безплатна доставка над 100 €. Сертифициран сервиз.">
+    content="Открий топ оферти за лаптопи, смартфони, телевизори и аудио. Samsung, Sony, Lenovo и още. Безплатна доставка над 100 €. 36 г. опит. Сертифициран сервиз.">
   <meta property="og:image" content="https://mostcomputers.bg/og-default.jpg">
   <meta property="og:image:alt" content="Most Computers, магазин за електроника от 1990 г.">
   <meta property="og:image:width" content="1200">
@@ -33,7 +33,7 @@
   <meta name="twitter:site" content="@mostcomputers">
   <meta name="twitter:title" content="Most Computers | Електроника от 1990 г.">
   <meta name="twitter:description"
-    content="Лаптопи, Телефони, Телевизори, Аудио и аксесоари от Samsung, Sony, Lenovo. Безплатна доставка над 100 €.">
+    content="Топ цени на лаптопи, смартфони и телевизори. Samsung, Sony, Lenovo и още. Безплатна доставка над 100 €. 36 г. опит.">
   <meta name="twitter:image" content="https://mostcomputers.bg/og-default.jpg">
   <meta name="robots" content="index, follow">
   <meta name="author" content="Most Computers">
@@ -73,6 +73,8 @@
     function gtag(){dataLayer.push(arguments);}
     var _gtmLoaded=false;
     function _loadGTM(){
+      var consent; try { consent=localStorage.getItem('mc_cookies_set'); } catch(e) {}
+      if(!consent || consent==='essential') return; // GDPR: зареди GA само след consent
       if(_gtmLoaded)return; _gtmLoaded=true;
       var s=document.createElement('script');
       s.async=true;
@@ -81,23 +83,77 @@
       gtag('js',new Date());
       gtag('config','G-HE0YMD8BQ7',{send_page_view:true});
     }
-    // Fire on first user interaction, or after 4 seconds (whichever is sooner)
+    // Fire on first user interaction, or after 5 seconds (whichever is sooner)
     ['click','scroll','keydown','touchstart'].forEach(function(e){
       document.addEventListener(e,_loadGTM,{once:true,passive:true});
     });
-    setTimeout(_loadGTM,10000);
+    setTimeout(_loadGTM,5000);
   </script>
-  <!-- Critical CSS: hero visibility before styles.css loads (no CSS vars - avoids cascade reflow) -->
+  <!-- Critical CSS: above-the-fold content rendered before styles.css loads -->
   <style>
+    /* ── CSS Variables ── */
+    :root{
+      --primary:#bd1105;--primary-dark:#9a0e04;--primary-light:#fff5f5;
+      --accent:#ff3d00;--bg:#f8f9fa;--bg2:#f0f1f3;--white:#fff;--surface:#fff;
+      --border:#e5e7eb;--border-light:#f0f1f3;--text:#1a1a1a;--text2:#555e6d;
+      --muted:#626878;--shadow:0 1px 8px rgba(0,0,0,.06),0 2px 4px rgba(0,0,0,.04);
+      --radius:12px;--z-sticky:200;
+    }
+    html[data-theme="dark"]{
+      --bg:#0f172a;--bg2:#1e293b;--white:#1e293b;--surface:#1e293b;
+      --border:#334155;--text:#f1f5f9;--text2:#94a3b8;--muted:#8a9bb5;
+    }
+    /* ── Resets ── */
+    *{margin:0;padding:0;box-sizing:border-box}
+    html{overflow-x:hidden}
+    body{font-family:'Inter',sans-serif;overflow-x:hidden;background:#f8f9fa;color:#1a1a1a;font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+    html[data-theme="dark"] body{background:#0f172a;color:#f1f5f9}
+    a{text-decoration:none;color:inherit}
+    button{font-family:'Inter',sans-serif;cursor:pointer}
+    img{max-width:100%}
+    /* ── Skip link ── */
+    .skip-link{position:absolute;top:-100%;left:16px;z-index:99999;padding:12px 24px;background:#bd1105;color:#fff;font-weight:700;font-size:14px;border-radius:0 0 8px 8px;text-decoration:none}
+    .skip-link:focus{top:0}
+    /* ── Topbar ── */
+    .topbar{background:linear-gradient(90deg,#111 0%,#1a1a1a 50%,#111 100%);color:rgba(255,255,255,.92);padding:7px 0;font-size:12px}
+    .topbar-inner{max-width:1400px;margin:0 auto;padding:0 20px;display:flex;justify-content:space-between;align-items:center}
+    .topbar-left{display:flex;gap:20px}
+    .topbar-left a{color:rgba(255,255,255,.9)}
+    .topbar-right{display:flex;gap:16px;align-items:center}
+    .topbar-right a{color:rgba(255,255,255,.75);display:flex;align-items:center;gap:4px}
+    .topbar-phone{font-weight:700;color:#fff!important}
+    /* ── Header ── */
+    header{background:rgba(255,255,255,.95);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:200;box-shadow:0 1px 8px rgba(0,0,0,.06),0 2px 4px rgba(0,0,0,.04)}
+    html[data-theme="dark"] header{background:#0f172a;border-bottom-color:#334155}
+    .header-inner{max-width:1400px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;gap:16px;position:relative}
+    .logo-wrap{flex-shrink:0;margin-left:64px;cursor:pointer}
+    .logo-svg-light{display:inline-flex}
+    .logo-svg-dark{display:none}
+    html[data-theme="dark"] .logo-svg-light{display:none}
+    html[data-theme="dark"] .logo-svg-dark{display:inline-flex}
+    /* ── Header actions ── */
+    .header-actions{display:flex;align-items:center;gap:8px;flex-shrink:0;margin-left:auto}
+    .hdr-btn{display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 12px;background:none;border:none;color:#555e6d;font-size:11px;font-weight:500;border-radius:8px}
+    .hdr-divider{width:1px;height:40px;background:#e5e7eb}
+    /* ── Mobile hamburger ── */
+    .mob-menu-btn{display:none;background:none;border:none;font-size:26px;color:#1a1a1a;padding:4px 8px;flex-shrink:0}
+    /* ── Navbar ── */
+    .navbar{background:#fff;border-bottom:1px solid #e5e7eb;position:sticky;top:72px;z-index:190}
+    .navbar-inner{max-width:1400px;margin:0 auto;padding:0 20px;display:flex;align-items:stretch;height:46px}
+    /* ── Hero section layout ── */
+    .hero-section{display:grid;grid-template-columns:1fr 300px;gap:16px;margin-bottom:24px;min-width:0;align-items:stretch}
+    .hero-right-panel{display:flex;min-width:0}
+    /* ── Hero slider ── */
     .hero-slider{border-radius:12px;overflow:hidden;position:relative;min-height:320px}
     .slide{display:none;height:320px;border-radius:12px;padding:40px 48px;position:relative;overflow:hidden}
     .slide.active{display:flex;flex-direction:column;justify-content:center}
     .slide-1{background:linear-gradient(135deg,#bd1105 0%,#9a0e04 100%);color:#fff}
+    .slide-1.active{align-items:center;text-align:center;padding:22px 32px}
     .slide-title{font-size:32px;font-weight:900;line-height:1.1;margin-bottom:10px;letter-spacing:-1px}
     .slide-badge{display:inline-block;background:rgba(255,255,255,.2);color:#fff;padding:4px 14px;border-radius:20px;font-size:11px;font-weight:700;text-transform:uppercase;margin-bottom:14px;border:1px solid rgba(255,255,255,.3)}
     .slide-sub{font-size:14px;opacity:.85;margin-bottom:24px}
     .slide-emoji{position:absolute;right:40px;bottom:20px;font-size:100px;opacity:.18;line-height:1}
-    .slide-1.active{align-items:center;text-align:center;padding:22px 32px}
+    /* ── s1 slide content (LCP: .s1-hdg heading + cards + CTA) ── */
     .s1-over{font-size:10px;font-weight:600;letter-spacing:3px;color:#f9a09b;text-transform:uppercase;margin-bottom:8px}
     .s1-hdg{font-size:24px;font-weight:900;color:#fff;margin:0 0 14px;letter-spacing:-0.5px;line-height:1.2}
     .s1-cards{display:flex;gap:12px;margin-bottom:14px;width:100%}
@@ -108,7 +164,24 @@
     .s1-card-sub{font-size:10px;color:#f9a09b;line-height:1.3}
     .s1-cta{background:#fff;color:#ad0f03;border:none;padding:9px 28px;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;transition:transform .15s,box-shadow .15s}
     .s1-cta:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.2)}
-    /* Skeleton - hardcoded values, no CSS vars to avoid cascade recalc when styles.css loads */
+    /* ── Mobile breakpoints ── */
+    @media(max-width:900px){
+      .mob-menu-btn{display:flex;align-items:center;justify-content:center}
+      .topbar{display:none}
+      .navbar{display:none}
+    }
+    @media(max-width:768px){
+      .header-inner{flex-wrap:wrap;align-items:center;gap:0;padding:10px 14px;position:relative}
+      .mob-menu-btn{order:1;flex:0 0 auto}
+      .logo-wrap{order:2;position:absolute;left:50%;top:10px;height:44px;transform:translateX(-50%);display:flex;align-items:center;margin-left:0}
+      .logo-wrap svg{width:155px;height:34px}
+      .header-actions{order:3;flex:0 0 auto;margin-left:auto;display:flex;align-items:center;gap:0}
+      .hero-section{grid-template-columns:1fr}
+      .hero-right-panel{display:none}
+      .hero-slider{min-height:260px}
+      .slide{height:260px;padding:28px 24px}
+    }
+    /* ── Skeleton - hardcoded values, no CSS vars to avoid cascade recalc when styles.css loads ── */
     @keyframes skeleton-shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
     .skeleton{background:linear-gradient(90deg,#e5e7eb 25%,#f3f4f6 50%,#e5e7eb 75%);background-size:200% 100%;animation:skeleton-shimmer 1.4s ease infinite;border-radius:6px}
     .skeleton-card{background:#fff;border-radius:16px;padding:16px;border:1px solid #e5e7eb;overflow:hidden}
@@ -221,13 +294,6 @@
       ]
     },
     {
-      "@type": "BreadcrumbList",
-      "@id": "https://mostcomputers.bg/#breadcrumb",
-      "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "Most Computers", "item": "https://mostcomputers.bg/" }
-      ]
-    },
-    {
       "@type": "ItemList",
       "@id": "https://mostcomputers.bg/#featured-products",
       "name": "Топ продукти | Most Computers",
@@ -286,6 +352,20 @@
   ]
 }
 </script>
+<style>
+body.compare-active{padding-bottom:90px}
+@media(max-width:639px){
+  .section-header{flex-wrap:wrap;gap:8px}
+  .section-header .npc-wrap{order:3;width:100%}
+  .section-header .view-all-link{order:2;flex-shrink:0}
+  .products-row{align-items:start!important}
+  #flashGrid{align-content:start!important}
+  .product-footer{margin-top:8px!important}
+  .compare-bar{transform:translateY(calc(100% + 60px))}
+  header{border-bottom:none;box-shadow:none}
+  body.compare-active{padding-bottom:120px}
+}
+</style>
 </head>
 
 <body>
@@ -489,6 +569,14 @@
       <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
       <rect width="12" height="8" x="6" y="14" />
     </symbol>
+    <!-- Ink/Toner Cartridge -->
+    <symbol id="ic-consumables" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="7" width="18" height="10" rx="2" />
+      <path d="M7 7V5a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2" />
+      <circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none" />
+      <path d="M12 13.5V17" />
+    </symbol>
     <!-- CPU / Processor -->
     <symbol id="ic-cpu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
       stroke-linejoin="round">
@@ -658,347 +746,220 @@
       <path d="M3 5v14c0 1.66 4.03 3 9 3s9-1.34 9-3V5" />
       <path d="M3 12c0 1.66 4.03 3 9 3s9-1.34 9-3" />
     </symbol>
+    <!-- Bell / Notification -->
+    <symbol id="ic-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+      <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+    </symbol>
   </svg>
 
 
   <!-- CART OVERLAY -->
   <div class="cart-overlay" id="cartOverlay" data-action="toggleCart"></div>
 
-  <!-- MOBILE DRAWER -->
-  <div class="mob-overlay" id="mobOverlay" data-action="toggleMobMenu"></div>
+  <!-- MOB DRAWER OVERLAY -->
+  <div class="mob-drawer-overlay" id="mobOverlay" onclick="closeMobMenu()"></div>
 
-  <div class="mob-drawer" id="mobDrawer" role="dialog" aria-label="Навигационно меню" aria-modal="true">
-    <div class="mob-drawer-header">
-      <span class="mob-drawer-title">Most <span style="color:var(--primary)">Computers</span></span>
-      <button type="button" class="mob-drawer-close" data-action="toggleMobMenu" aria-label="Затвори меню"><svg width="20" height="20"
-          class="svg-ic" aria-hidden="true">
-          <use href="#ic-close" />
-        </svg></button>
-    </div>
-
-    <!-- User strip -->
-    <button type="button" class="mob-drawer-user-strip" data-action="toggleMobMenu;handleProfileClick">
-      <div class="mob-user-avatar">👤</div>
-      <div>
-        <div class="mob-user-name" id="mobUserName">Вход / Регистрация</div>
-        <div class="mob-user-sub" id="mobUserSub">Управлявай профила си</div>
-      </div>
-      <span class="mob-user-arr">›</span>
-    </button>
-
-    <!-- Trust badges -->
-    <div class="mob-drawer-trust">
-      <span class="mob-trust-badge"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true" style="display:inline-block;vertical-align:-1px;margin-right:3px"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>От 1990 г.</span>
-      <span class="mob-trust-badge">🚚 Безплатна доставка</span>
-      <span class="mob-trust-badge">↩ 14 дни връщане</span>
-    </div>
-
-    <!-- Removed redundant mob-search, we use the main live search instead --> <!-- Main nav -->
-    <div class="mob-nav-section">
-      <div class="mob-nav-title">Навигация</div>
-      <button type="button" class="mob-nav-item" data-action="toggleMobMenu;scrollToTop"><span
-          class="mi-icon">🏠</span>Начало<span class="mi-arr">›</span></button>
-      <button type="button" class="mob-nav-item hot" data-action="toggleMobMenu;filterCatScroll:new"><span
-          class="mi-icon">🔥</span>Нови продукти<span class="mi-badge">NEW</span></button>
-      <button type="button" class="mob-nav-item sale" data-action="toggleMobMenu;filterCatScroll:sale"><span
-          class="mi-icon">%</span>Намаления до -60%<span class="mi-badge"
-          style="background:var(--sale)">SALE</span></button>
-      <button type="button" class="mob-nav-item" data-action="toggleMobMenu;openAboutPage"><span
-          class="mi-icon">🏢</span>За нас<span class="mi-arr">›</span></button>
-      <button type="button" class="mob-nav-item" data-action="toggleMobMenu;openBlogPage"><span
-          class="mi-icon">📰</span>Блог<span class="mi-badge">Ново</span></button>
-      <button type="button" class="mob-nav-item" data-action="toggleMobMenu;openDeliveryPage"><span
-          class="mi-icon">🚚</span>Доставка<span class="mi-arr">›</span></button>
-      <button type="button" class="mob-nav-item" data-action="toggleMobMenu;openContactsPage"><span
-          class="mi-icon">📞</span>Контакти<span class="mi-arr">›</span></button>
-      <button type="button" class="mob-nav-item" data-action="toggleMobMenu;openServicePage"><span
-          class="mi-icon">🔧</span>Сервизен център<span class="mi-arr">›</span></button>
-      <button type="button" class="mob-nav-item" data-action="toggleMobMenu;openB2BPage"><span
-          class="mi-icon">🏢</span>B2B портал<span class="mi-arr">›</span></button>
-      <button type="button" class="mob-nav-item" data-action="toggleMobMenu;openCareersPage"><span
-          class="mi-icon">👥</span>Кариери<span class="mi-arr">›</span></button>
-    </div>
-
-    <!-- Categories - Quick Grid -->
-    <div class="mob-nav-section">
-      <div class="mob-nav-title">Категории</div>
-      <div class="mob-cats-grid">
-        <button type="button" class="mob-cat-tile" data-action="toggleMobMenu;openCatPage('phones')">
-          <span class="mob-cat-emoji">📱</span><span>Телефони</span>
-        </button>
-        <button type="button" class="mob-cat-tile" data-action="toggleMobMenu;openCatPage('laptops')">
-          <span class="mob-cat-emoji">💻</span><span>Лаптопи</span>
-        </button>
-        <button type="button" class="mob-cat-tile" data-action="toggleMobMenu;openCatPage('desktops')">
-          <span class="mob-cat-emoji">🖥</span><span>Настолни</span>
-        </button>
-        <button type="button" class="mob-cat-tile" data-action="toggleMobMenu;openCatPage('components')">
-          <span class="mob-cat-emoji">⚙️</span><span>Компоненти</span>
-        </button>
-        <button type="button" class="mob-cat-tile" data-action="toggleMobMenu;openCatPage('monitors')">
-          <span class="mob-cat-emoji">🖥️</span><span>Монитори</span>
-        </button>
-        <button type="button" class="mob-cat-tile" data-action="toggleMobMenu;openCatPage('peripherals')">
-          <span class="mob-cat-emoji">🖱</span><span>Периферия</span>
-        </button>
-        <button type="button" class="mob-cat-tile" data-action="toggleMobMenu;openCatPage('audio')">
-          <span class="mob-cat-emoji">🎧</span><span>Аудио</span>
-        </button>
-        <button type="button" class="mob-cat-tile" data-action="toggleMobMenu;openCatPage('cameras')">
-          <span class="mob-cat-emoji">📹</span><span>Камери</span>
-        </button>
-        <button type="button" class="mob-cat-tile" data-action="toggleMobMenu;openCatPage('network')">
-          <span class="mob-cat-emoji">📡</span><span>Мрежово</span>
-        </button>
-        <button type="button" class="mob-cat-tile" data-action="toggleMobMenu;openCatPage('storage')">
-          <span class="mob-cat-emoji">💾</span><span>Памет и съхранение</span>
-        </button>
-        <button type="button" class="mob-cat-tile" data-action="toggleMobMenu;openCatPage('accessories')">
-          <span class="mob-cat-emoji">🎒</span><span>Аксесоари</span>
-        </button>
-        <button type="button" class="mob-cat-tile" data-action="toggleMobMenu;openCatPage('printers')">
-          <span class="mob-cat-emoji">🖨</span><span>Принтери</span>
-        </button>
-        <button type="button" class="mob-cat-tile" data-action="toggleMobMenu;openCatPage('consumables')">
-          <span class="mob-cat-emoji">🖨️</span><span>Консумативи</span>
-        </button>
-        <button type="button" class="mob-cat-tile" data-action="toggleMobMenu;openCatPage('ups')">
-          <span class="mob-cat-emoji">⚡</span><span>UPS</span>
-        </button>
-        <button type="button" class="mob-cat-tile" data-action="toggleMobMenu;openCatPage('software')">
-          <span class="mob-cat-emoji">📀</span><span>Софтуер</span>
-        </button>
-      </div>
-    </div>
-
-    <!-- Categories - Accordion -->
-    <div class="mob-nav-section mob-accordion">
-      <button class="mob-accordion-toggle"
-        onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open');this.setAttribute('aria-expanded',this.classList.contains('open'))" type="button" aria-expanded="false">
-        <span>📦 Категории</span>
-        <span class="mob-acc-arrow">›</span>
+  <!-- MOB DRAWER -->
+  <nav class="mob-drawer" id="mobDrawer" aria-label="Мобилно меню" role="dialog" aria-modal="true">
+    <div class="mob-drawer-hdr">
+      <span class="mob-drawer-title">Most Computers</span>
+      <button type="button" class="mob-drawer-close" onclick="closeMobMenu()" aria-label="Затвори меню">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
-      <div class="mob-accordion-body">
-        <!-- LAPTOP -->
-        <div class="mob-sub-accordion">
-          <button class="mob-sub-accordion-toggle"
-            onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open');this.setAttribute('aria-expanded',this.classList.contains('open'))" type="button" aria-expanded="false">
-            <div style="display:flex;align-items:center;gap:12px;"><span class="mi-icon"><svg width="18" height="18"
-                  class="svg-ic" aria-hidden="true">
-                  <use href="#ic-laptop" />
-                </svg></span>Лаптопи</div>
-            <span class="mob-acc-arrow">›</span>
-          </button>
-          <div class="mob-sub-accordion-body">
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:laptops">Всички Лаптопи</button>
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:laptops"
-              onclick="setTimeout(()=>applySubcatById('gaming'),50)">🎮 Геймърски</button>
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:laptops"
-              onclick="setTimeout(()=>applySubcatById('ultrabook'),50)">✈ Ултрабуци</button>
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:laptops"
-              onclick="setTimeout(()=>applySubcatById('business'),50)">💼 Бизнес</button>
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:laptops"
-              onclick="setTimeout(()=>applySubcatById('convertible'),50)">🔄 2-в-1</button>
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:laptops"
-              onclick="setTimeout(()=>applySubcatById('budget'),50)">💰 Бюджетни</button>
-          </div>
-        </div>
-        <!-- MOBILE -->
-        <div class="mob-sub-accordion">
-          <button class="mob-sub-accordion-toggle"
-            onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open');this.setAttribute('aria-expanded',this.classList.contains('open'))" type="button" aria-expanded="false">
-            <div style="display:flex;align-items:center;gap:12px;"><span class="mi-icon"><svg width="18" height="18"
-                  class="svg-ic" aria-hidden="true">
-                  <use href="#ic-phone" />
-                </svg></span>Телефони</div>
-            <span class="mob-acc-arrow">›</span>
-          </button>
-          <div class="mob-sub-accordion-body">
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:phones">Всички
-              Телефони</button>
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:phones"
-              onclick="setTimeout(()=>applySubcatById('flagship'),50)">👑 Флагмани</button>
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:phones"
-              onclick="setTimeout(()=>applySubcatById('midrange'),50)">⚡ Среден клас</button>
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:phones"
-              onclick="setTimeout(()=>applySubcatById('budget'),50)">💰 Бюджетни</button>
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:phones"
-              onclick="setTimeout(()=>applySubcatById('foldable'),50)">🔄 Сгъваеми</button>
-          </div>
-        </div>
-        <!-- TABLET -->
-        <div class="mob-sub-accordion">
-          <button class="mob-sub-accordion-toggle"
-            onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open');this.setAttribute('aria-expanded',this.classList.contains('open'))" type="button" aria-expanded="false">
-            <div style="display:flex;align-items:center;gap:12px;"><span class="mi-icon"><svg width="18" height="18"
-                  class="svg-ic" aria-hidden="true">
-                  <use href="#ic-tablet" />
-                </svg></span>Таблети</div>
-            <span class="mob-acc-arrow">›</span>
-          </button>
-          <div class="mob-sub-accordion-body">
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:phones">Всички
-              Таблети</button>
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:phones"
-              onclick="setTimeout(()=>applySubcatById('pro'),50)">💼 Pro</button>
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:phones"
-              onclick="setTimeout(()=>applySubcatById('kids'),50)">👦 За деца</button>
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:phones"
-              onclick="setTimeout(()=>applySubcatById('drawing'),50)">✏ За рисуване</button>
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:phones"
-              onclick="setTimeout(()=>applySubcatById('budget'),50)">💰 Бюджетни</button>
-          </div>
-        </div>
-        <!-- AUDIO -->
-        <div class="mob-sub-accordion">
-          <button class="mob-sub-accordion-toggle"
-            onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open');this.setAttribute('aria-expanded',this.classList.contains('open'))" type="button" aria-expanded="false">
-            <div style="display:flex;align-items:center;gap:12px;"><span class="mi-icon"><svg width="18" height="18"
-                  class="svg-ic" aria-hidden="true">
-                  <use href="#ic-headphones" />
-                </svg></span>Аудио и слушалки</div>
-            <span class="mob-acc-arrow">›</span>
-          </button>
-          <div class="mob-sub-accordion-body">
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:audio">Всички
-              Слушалки</button>
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:audio"
-              onclick="setTimeout(()=>applySubcatById('hp_gaming'),50)">🎮 Gaming</button>
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:audio"
-              onclick="setTimeout(()=>applySubcatById('hp_wireless'),50)">📡 Bluetooth / Безжични</button>
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:audio"
-              onclick="setTimeout(()=>applySubcatById('hp_inear'),50)">🎧 Тапи (In-ear)</button>
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:audio"
-              onclick="setTimeout(()=>applySubcatById('hp_office'),50)">💼 Офис headset</button>
-          </div>
-        </div>
-        <!-- Cameras -->
-        <div class="mob-sub-accordion">
-          <button class="mob-sub-accordion-toggle"
-            onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open');this.setAttribute('aria-expanded',this.classList.contains('open'))" type="button" aria-expanded="false">
-            <div style="display:flex;align-items:center;gap:12px;"><span class="mi-icon"><svg width="18" height="18"
-                  class="svg-ic" aria-hidden="true">
-                  <use href="#ic-camera" />
-                </svg></span>Камери</div>
-            <span class="mob-acc-arrow">›</span>
-          </button>
-          <div class="mob-sub-accordion-body">
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:cameras">Всички камери</button>
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:cameras"
-              onclick="setTimeout(()=>applySubcatById('cam_indoor'),50)">🏠 За закрито</button>
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:cameras"
-              onclick="setTimeout(()=>applySubcatById('cam_outdoor'),50)">🌧 За открито</button>
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:cameras"
-              onclick="setTimeout(()=>applySubcatById('cam_poe'),50)">🔌 POE камери</button>
-          </div>
-        </div>
-        <!-- TV -->
-        <div class="mob-sub-accordion">
-          <button class="mob-sub-accordion-toggle"
-            onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open');this.setAttribute('aria-expanded',this.classList.contains('open'))" type="button" aria-expanded="false">
-            <div style="display:flex;align-items:center;gap:12px;"><span class="mi-icon"><svg width="18" height="18"
-                  class="svg-ic" aria-hidden="true">
-                  <use href="#ic-tv" />
-                </svg></span>Телевизори</div>
-            <span class="mob-acc-arrow">›</span>
-          </button>
-          <div class="mob-sub-accordion-body">
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:accessories">Всички
-              Телевизори</button>
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:accessories"
-              onclick="setTimeout(()=>applySubcatById('oled'),50)">✨ OLED</button>
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:accessories"
-              onclick="setTimeout(()=>applySubcatById('qled'),50)">💡 QLED</button>
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:accessories"
-              onclick="setTimeout(()=>applySubcatById('small'),50)">📺 до 43"</button>
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:accessories"
-              onclick="setTimeout(()=>applySubcatById('large'),50)">🖥 55"+</button>
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:accessories"
-              onclick="setTimeout(()=>applySubcatById('4k'),50)">4K Ultra HD</button>
-            <button type="button" class="mob-nav-subitem" data-action="toggleMobMenu;filterCat:accessories"
-              onclick="setTimeout(()=>applySubcatById('8k'),50)">8K</button>
-          </div>
-        </div>
-        <!-- OTHERS (Flat) -->
-        <button type="button" class="mob-nav-item" data-action="toggleMobMenu;filterCat:peripherals"><span
-            class="mi-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true">
-              <use href="#ic-camera" />
-            </svg></span>Фотоапарати<span class="mi-arr">›</span></button>
-        <button type="button" class="mob-nav-item" data-action="toggleMobMenu;filterCat:gaming"><span
-            class="mi-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true">
-              <use href="#ic-gamepad" />
-            </svg></span>Гейминг<span class="mi-arr">›</span></button>
-        <button type="button" class="mob-nav-item" data-action="toggleMobMenu;filterCat:accessories"><span
-            class="mi-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true">
-              <use href="#ic-watch" />
-            </svg></span>Смарт устройства<span class="mi-arr">›</span></button>
-        <button type="button" class="mob-nav-item" data-action="toggleMobMenu;filterCat:network"><span
-            class="mi-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true">
-              <use href="#ic-wifi" />
-            </svg></span>Мрежово оборудване<span class="mi-arr">›</span></button>
-        <button type="button" class="mob-nav-item" data-action="toggleMobMenu;filterCat:ups"><span
-            class="mi-icon">⚡</span>UPS устройства<span class="mi-arr">›</span></button>
-        <button type="button" class="mob-nav-item" data-action="toggleMobMenu;filterCat:components"><span
-            class="mi-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true">
-              <use href="#ic-cpu" />
-            </svg></span>Компоненти<span class="mi-arr">›</span></button>
-        <button type="button" class="mob-nav-item" data-action="toggleMobMenu;filterCat:monitors"><span
-            class="mi-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true">
-              <use href="#ic-monitor" />
-            </svg></span>Монитори<span class="mi-arr">›</span></button>
-        <button type="button" class="mob-nav-item" data-action="toggleMobMenu;filterCat:desktops"><span
-            class="mi-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true">
-              <use href="#ic-desktop" />
-            </svg></span>Настолни компютри<span class="mi-arr">›</span></button>
-        <button type="button" class="mob-nav-item" data-action="toggleMobMenu;filterCat:storage"><span
-            class="mi-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true">
-              <use href="#ic-storage" />
-            </svg></span>Памет и съхранение<span class="mi-arr">›</span></button>
-        <button type="button" class="mob-nav-item" data-action="toggleMobMenu;filterCat:printers"><span
-            class="mi-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true">
-              <use href="#ic-printer" />
-            </svg></span>Принтери<span class="mi-arr">›</span></button>
-        <button type="button" class="mob-nav-item" data-action="toggleMobMenu;filterCat:consumables"><span
-            class="mi-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true">
-              <use href="#ic-printer" />
-            </svg></span>Консумативи<span class="mi-arr">›</span></button>
+    </div>
+    <div class="mob-drawer-body">
+      <!-- Account -->
+      <div class="mob-drawer-section mob-drawer-auth">
+        <button type="button" class="mob-drawer-auth-btn" data-action="closeMobMenu;openAuth">👤 Вход / Регистрация</button>
+      </div>
+      <!-- Company navigation -->
+      <div class="mob-drawer-section">
+        <div class="mob-drawer-section-lbl">Компания</div>
+        <button type="button" class="mob-drawer-item" data-action="closeMobMenu;openAbout">📖 За нас</button>
+        <button type="button" class="mob-drawer-item" data-action="closeMobMenu;openBlog">📝 Блог</button>
+        <button type="button" class="mob-drawer-item" data-action="closeMobMenu;openDelivery">🚚 Доставка и връщане</button>
+        <button type="button" class="mob-drawer-item" data-action="closeMobMenu;openContacts">📞 Контакти</button>
+        <button type="button" class="mob-drawer-item" data-action="closeMobMenu;openService">🔧 Сервиз</button>
+      </div>
+      <div class="mob-drawer-section">
+        <button type="button" class="mob-drawer-item" data-action="closeMobMenu;openB2B">🏢 B2B партньорство</button>
+        <button type="button" class="mob-drawer-item" data-action="closeMobMenu;openCareers">💼 Кариери при нас</button>
       </div>
     </div>
+  </nav>
 
-    <!-- Account -->
-    <div class="mob-nav-section">
-      <div class="mob-nav-title">Акаунт</div>
-      <button type="button" class="mob-nav-item" data-action="toggleMobMenu;handleProfileClick"><span
-          class="mi-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true">
-            <use href="#ic-user" />
-          </svg></span>Профил<span class="mi-arr">›</span></button>
-      <button type="button" class="mob-nav-item" data-action="toggleCart;toggleMobMenu"><span class="mi-icon"><svg
-            width="18" height="18" class="svg-ic" aria-hidden="true">
-            <use href="#ic-cart" />
-          </svg></span>Кошница<span class="mi-arr">›</span></button>
-      <button type="button" class="mob-nav-item" data-action="toggleMobMenu;openWishlist"><span class="mi-icon"><svg
-            width="18" height="18" class="svg-ic" aria-hidden="true">
-            <use href="#ic-heart" />
-          </svg></span>Любими<span class="mi-arr">›</span></button>
-      <button type="button" class="mob-nav-item" data-action="toggleMobMenu;openOrderTracker:"><span
-          class="mi-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true">
-            <use href="#ic-package" />
-          </svg></span>Проследи поръчка<span class="mi-arr">›</span></button>
-    </div>
-
-    <!-- Bottom contacts -->
-    <div class="mob-drawer-bottom">
-      <button type="button" class="mob-dark-toggle" data-action="toggleDarkMode" aria-label="Превключи тъмен режим">
-        <svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-moon"/></svg>
-        <span>Тъмен режим</span>
+  <!-- CATEGORY BOTTOM SHEET -->
+  <div class="cat-sheet-overlay" id="catSheetOverlay" onclick="closeCatSheet()"></div>
+  <div class="cat-sheet" id="catSheet" role="dialog" aria-modal="true" aria-label="Категории">
+    <div class="cat-sheet-handle"></div>
+    <div class="cat-sheet-hdr">
+      <span class="cat-sheet-title">Категории</span>
+      <button type="button" class="cat-sheet-close" onclick="closeCatSheet()" aria-label="Затвори">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
-      <div class="mob-contact-row">
-        <div class="mob-contact-item">📞 Офис: <a href="tel:+35929191823">(+359 2) 91 823</a></div>
-        <div class="mob-contact-item">🔧 Сервиз: <a href="tel:+35970014411">0700 144 11</a></div>
-        <div class="mob-contact-item" style="color:#6b7280;font-size:11px;margin-top:4px;">© 1990–2026 Most
-          Computers</div>
-      </div>
     </div>
+    <div class="cat-sheet-grid">
+      <button type="button" class="cat-sheet-item" data-action="closeCatSheet;openCatPage('laptops')">
+        <span class="csi-emoji">💻</span><span class="csi-name">Лаптопи</span>
+      </button>
+      <button type="button" class="cat-sheet-item" data-action="closeCatSheet;openCatPage('phones')">
+        <span class="csi-emoji">📱</span><span class="csi-name">Телефони</span>
+      </button>
+      <button type="button" class="cat-sheet-item" data-action="closeCatSheet;openCatPage('desktops')">
+        <span class="csi-emoji">🖥️</span><span class="csi-name">Настолни</span>
+      </button>
+      <button type="button" class="cat-sheet-item" data-action="closeCatSheet;openCatPage('monitors')">
+        <span class="csi-emoji">🖥️</span><span class="csi-name">Монитори</span>
+      </button>
+      <button type="button" class="cat-sheet-item" data-action="closeCatSheet;openCatPage('components')">
+        <span class="csi-emoji">⚙️</span><span class="csi-name">Компоненти</span>
+      </button>
+      <button type="button" class="cat-sheet-item" data-action="closeCatSheet;openCatPage('gaming')">
+        <span class="csi-emoji">🎮</span><span class="csi-name">Гейминг</span>
+      </button>
+      <button type="button" class="cat-sheet-item" data-action="closeCatSheet;openCatPage('peripherals')">
+        <span class="csi-emoji">🖱️</span><span class="csi-name">Периферия</span>
+      </button>
+      <button type="button" class="cat-sheet-item" data-action="closeCatSheet;openCatPage('audio')">
+        <span class="csi-emoji">🎧</span><span class="csi-name">Аудио</span>
+      </button>
+      <button type="button" class="cat-sheet-item" data-action="closeCatSheet;openCatPage('cameras')">
+        <span class="csi-emoji">📷</span><span class="csi-name">Камери</span>
+      </button>
+      <button type="button" class="cat-sheet-item" data-action="closeCatSheet;openCatPage('network')">
+        <span class="csi-emoji">📡</span><span class="csi-name">Мрежово</span>
+      </button>
+      <button type="button" class="cat-sheet-item" data-action="closeCatSheet;openCatPage('storage')">
+        <span class="csi-emoji">💾</span><span class="csi-name">Памет</span>
+      </button>
+      <button type="button" class="cat-sheet-item" data-action="closeCatSheet;openCatPage('printers')">
+        <span class="csi-emoji">🖨️</span><span class="csi-name">Принтери</span>
+      </button>
+      <button type="button" class="cat-sheet-item" data-action="closeCatSheet;openCatPage('ups')">
+        <span class="csi-emoji">⚡</span><span class="csi-name">UPS</span>
+      </button>
+      <button type="button" class="cat-sheet-item" data-action="closeCatSheet;openCatPage('consumables')">
+        <span class="csi-emoji">🖊️</span><span class="csi-name">Консумативи</span>
+      </button>
+      <button type="button" class="cat-sheet-item" data-action="closeCatSheet;openCatPage('accessories')">
+        <span class="csi-emoji">🎒</span><span class="csi-name">Аксесоари</span>
+      </button>
+      <button type="button" class="cat-sheet-item" data-action="closeCatSheet;openCatPage('software')">
+        <span class="csi-emoji">💿</span><span class="csi-name">Софтуер</span>
+      </button>
+    </div>
+    <div class="cat-sheet-promo">
+      <button type="button" class="csp-btn csp-new" data-action="closeCatSheet;openCatPage('new')">🔥 Нови продукти</button>
+      <button type="button" class="csp-btn csp-sale" data-action="closeCatSheet;openCatPage('sale')">% Намаления</button>
+    </div>
+  </div>
+
+  <!-- MOB CATEGORIES PAGE -->
+  <div class="mob-cats-page" id="mobCatsPage" role="dialog" aria-label="Категории" aria-modal="true">
+    <!-- MCP Header -->
+    <div class="mcp-hdr">
+      <button type="button" class="mcp-back" data-action="closeMobCatsPage" aria-label="Назад">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <span class="mcp-title">Категории</span>
+      <span class="mcp-spacer"></span>
+    </div>
+    <!-- MCP Scrollable content -->
+    <div class="mcp-content">
+      <div class="mcp-promo-row">
+        <button type="button" class="mcp-promo-btn mcp-new" data-action="closeMobCatsPage;filterCatScroll:new">🔥 Нови продукти</button>
+        <button type="button" class="mcp-promo-btn mcp-sale" data-action="closeMobCatsPage;filterCatScroll:sale">% Намаления -60%</button>
+      </div>
+      <div class="mcp-grid">
+        <button type="button" class="mcp-cat mcp-laptops" data-action="closeMobCatsPage;openCatPage('laptops')">
+          <svg class="svg-ic" aria-hidden="true"><use href="#ic-laptop"/></svg>
+          <span class="mcp-cat-name">Лаптопи</span>
+          <span class="mcp-cat-cnt" data-mcp-cat="laptops"></span>
+          <span class="mcp-cat-badge">-20%</span>
+        </button>
+        <button type="button" class="mcp-cat mcp-phones" data-action="closeMobCatsPage;openCatPage('phones')">
+          <svg class="svg-ic" aria-hidden="true"><use href="#ic-phone"/></svg>
+          <span class="mcp-cat-name">Телефони</span>
+          <span class="mcp-cat-cnt" data-mcp-cat="phones"></span>
+        </button>
+        <button type="button" class="mcp-cat mcp-desktops" data-action="closeMobCatsPage;openCatPage('desktops')">
+          <svg class="svg-ic" aria-hidden="true"><use href="#ic-desktop"/></svg>
+          <span class="mcp-cat-name">Настолни</span>
+          <span class="mcp-cat-cnt" data-mcp-cat="desktops"></span>
+        </button>
+        <button type="button" class="mcp-cat mcp-components" data-action="closeMobCatsPage;openCatPage('components')">
+          <svg class="svg-ic" aria-hidden="true"><use href="#ic-cpu"/></svg>
+          <span class="mcp-cat-name">Компоненти</span>
+          <span class="mcp-cat-cnt" data-mcp-cat="components"></span>
+        </button>
+        <button type="button" class="mcp-cat mcp-monitors" data-action="closeMobCatsPage;openCatPage('monitors')">
+          <svg class="svg-ic" aria-hidden="true"><use href="#ic-monitor"/></svg>
+          <span class="mcp-cat-name">Монитори</span>
+          <span class="mcp-cat-cnt" data-mcp-cat="monitors"></span>
+        </button>
+        <button type="button" class="mcp-cat mcp-peripherals" data-action="closeMobCatsPage;openCatPage('peripherals')">
+          <svg class="svg-ic" aria-hidden="true"><use href="#ic-mouse"/></svg>
+          <span class="mcp-cat-name">Периферия</span>
+          <span class="mcp-cat-cnt" data-mcp-cat="peripherals"></span>
+        </button>
+        <button type="button" class="mcp-cat mcp-audio" data-action="closeMobCatsPage;openCatPage('audio')">
+          <svg class="svg-ic" aria-hidden="true"><use href="#ic-headphones"/></svg>
+          <span class="mcp-cat-name">Аудио</span>
+          <span class="mcp-cat-cnt" data-mcp-cat="audio"></span>
+        </button>
+        <button type="button" class="mcp-cat mcp-cameras" data-action="closeMobCatsPage;openCatPage('cameras')">
+          <svg class="svg-ic" aria-hidden="true"><use href="#ic-camera"/></svg>
+          <span class="mcp-cat-name">Камери</span>
+          <span class="mcp-cat-cnt" data-mcp-cat="cameras"></span>
+        </button>
+        <button type="button" class="mcp-cat mcp-network" data-action="closeMobCatsPage;openCatPage('network')">
+          <svg class="svg-ic" aria-hidden="true"><use href="#ic-wifi"/></svg>
+          <span class="mcp-cat-name">Мрежово</span>
+          <span class="mcp-cat-cnt" data-mcp-cat="network"></span>
+        </button>
+        <button type="button" class="mcp-cat mcp-storage" data-action="closeMobCatsPage;openCatPage('storage')">
+          <svg class="svg-ic" aria-hidden="true"><use href="#ic-storage"/></svg>
+          <span class="mcp-cat-name">Памет</span>
+          <span class="mcp-cat-cnt" data-mcp-cat="storage"></span>
+        </button>
+        <button type="button" class="mcp-cat mcp-printers" data-action="closeMobCatsPage;openCatPage('printers')">
+          <svg class="svg-ic" aria-hidden="true"><use href="#ic-printer"/></svg>
+          <span class="mcp-cat-name">Принтери</span>
+          <span class="mcp-cat-cnt" data-mcp-cat="printers"></span>
+        </button>
+        <button type="button" class="mcp-cat mcp-ups" data-action="closeMobCatsPage;openCatPage('ups')">
+          <svg class="svg-ic" aria-hidden="true"><use href="#ic-bolt"/></svg>
+          <span class="mcp-cat-name">UPS</span>
+          <span class="mcp-cat-cnt" data-mcp-cat="ups"></span>
+        </button>
+        <button type="button" class="mcp-cat mcp-consumables" data-action="closeMobCatsPage;openCatPage('consumables')">
+          <svg class="svg-ic" aria-hidden="true"><use href="#ic-consumables"/></svg>
+          <span class="mcp-cat-name">Консумативи</span>
+          <span class="mcp-cat-cnt" data-mcp-cat="consumables"></span>
+        </button>
+        <button type="button" class="mcp-cat mcp-accessories" data-action="closeMobCatsPage;openCatPage('accessories')">
+          <svg class="svg-ic" aria-hidden="true"><use href="#ic-gift"/></svg>
+          <span class="mcp-cat-name">Аксесоари</span>
+          <span class="mcp-cat-cnt" data-mcp-cat="accessories"></span>
+        </button>
+        <button type="button" class="mcp-cat mcp-software" data-action="closeMobCatsPage;openCatPage('software')">
+          <svg class="svg-ic" aria-hidden="true"><use href="#ic-tag"/></svg>
+          <span class="mcp-cat-name">Софтуер</span>
+          <span class="mcp-cat-cnt" data-mcp-cat="software"></span>
+        </button>
+      </div>
+      <div class="mcp-info">
+        <div class="mcp-info-title">Информация</div>
+        <div class="mcp-info-pills">
+          <button type="button" class="mcp-info-pill" data-action="closeMobCatsPage;openAboutPage">За нас</button>
+          <button type="button" class="mcp-info-pill" data-action="closeMobCatsPage;openDeliveryPage">Доставка</button>
+          <button type="button" class="mcp-info-pill" data-action="closeMobCatsPage;openContactsPage">Контакти</button>
+          <button type="button" class="mcp-info-pill" data-action="closeMobCatsPage;openBlogPage">Блог</button>
+          <button type="button" class="mcp-info-pill" data-action="closeMobCatsPage;openServicePage">Сервиз</button>
+        </div>
+      </div>
+    </div><!-- /mcp-content -->
   </div>
 
   <!-- PRODUCT DETAIL MODAL -->
@@ -1078,7 +1039,7 @@
       <!-- MOBILE STICKY CTA -->
       <div class="modal-sticky-cta" id="modalStickyCta">
         <div class="msc-info">
-          <div class="msc-price" id="mscPrice">0.00 лв.</div>
+          <div class="msc-price" id="mscPrice"></div>
           <div class="msc-stock">В наличност</div>
         </div>
         <button type="button" class="msc-btn" data-action="addFromModal">Купи сега</button>
@@ -1372,7 +1333,7 @@
     <div class="cart-panel-footer">
       <div class="cart-subtotal">
         <span>Общо</span>
-        <strong id="cartTotal">0.00 лв.</strong>
+        <strong id="cartTotal">0,00 €</strong>
       </div>
       <div class="cart-progress-wrap" id="cartProgressWrap">
         <div class="cart-progress-text" id="cartProgressText">Добави продукти за още <strong>100 €</strong> за <span
@@ -1383,10 +1344,10 @@
       </div>
       <div class="cart-delivery-row" id="cartDeliveryRow">
         <span>Доставка (Еконт)</span>
-        <span id="cartDeliveryVal">5.99 лв.</span>
+        <span id="cartDeliveryVal">3,07 €</span>
       </div>
-      <button type="button" class="view-cart-page-btn" onclick="openCartPage()">🛒 Виж кошницата</button>
-      <button type="button" class="checkout-btn" data-action="handleCheckout">🔒 Завърши поръчката →</button>
+      <button type="button" class="view-cart-page-btn" onclick="openCartPage()"><svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-cart"/></svg> Виж кошницата</button>
+      <button type="button" class="checkout-btn" data-action="handleCheckout"><svg width="15" height="15" class="svg-ic" aria-hidden="true"><use href="#ic-shield"/></svg> Завърши поръчката →</button>
       <div class="cart-social-proof" id="cartSocialProof" style="display:none;">
         <span class="cart-sp-dot"></span> <span id="cartSpText">47 души поръчаха днес</span>
       </div>
@@ -1492,14 +1453,10 @@
             <div class="cp-sum-header">🧾 Обобщение</div>
             <div class="cp-sum-body" id="cpSummary"></div>
             <div class="cp-sum-footer">
-              <button type="button" class="cp-checkout-btn" onclick="cpGoCheckout()">🔒 Към плащане</button>
+              <button type="button" class="cp-checkout-btn" onclick="cpGoCheckout()"><svg width="14" height="14" class="svg-ic" aria-hidden="true"><use href="#ic-shield"/></svg> Към плащане</button>
               <div class="cp-trust">
-                <div class="cp-trust-item">
-  <svg width="28" height="18" viewBox="0 0 38 24" aria-label="Visa"><rect width="38" height="24" rx="4" fill="#1A1F71"/><path d="M14.5 16.5l1.8-9h2.9l-1.8 9h-2.9zm11.3-8.8c-.6-.2-1.5-.5-2.6-.5-2.9 0-4.9 1.5-4.9 3.6 0 1.6 1.4 2.4 2.5 2.9 1.1.5 1.5.9 1.5 1.4 0 .7-.9 1.1-1.7 1.1-1.2 0-1.8-.2-2.8-.6l-.4-.2-.4 2.5c.7.3 1.9.6 3.2.6 3 0 5-1.5 5-3.7 0-1.2-.8-2.2-2.4-3-.9-.5-1.5-.8-1.5-1.3 0-.5.5-.9 1.5-.9.8 0 1.5.2 2 .4l.2.1.4-2.4z" fill="white"/></svg>
-</div>
-                <div class="cp-trust-item">
-  <svg width="28" height="18" viewBox="0 0 38 24" aria-label="Mastercard"><rect width="38" height="24" rx="4" fill="#252525"/><circle cx="15" cy="12" r="7" fill="#EB001B"/><circle cx="23" cy="12" r="7" fill="#F79E1B"/><path d="M19 7.5a7 7 0 0 1 0 9 7 7 0 0 1 0-9z" fill="#FF5F00"/></svg>
-</div>
+                <div class="cp-trust-item"><svg width="28" height="18" viewBox="0 0 38 24" aria-label="Visa"><rect width="38" height="24" rx="4" fill="#1A1F71"/><path d="M14.5 16.5l1.8-9h2.9l-1.8 9h-2.9zm11.3-8.8c-.6-.2-1.5-.5-2.6-.5-2.9 0-4.9 1.5-4.9 3.6 0 1.6 1.4 2.4 2.5 2.9 1.1.5 1.5.9 1.5 1.4 0 .7-.9 1.1-1.7 1.1-1.2 0-1.8-.2-2.8-.6l-.4-.2-.4 2.5c.7.3 1.9.6 3.2.6 3 0 5-1.5 5-3.7 0-1.2-.8-2.2-2.4-3-.9-.5-1.5-.8-1.5-1.3 0-.5.5-.9 1.5-.9.8 0 1.5.2 2 .4l.2.1.4-2.4z" fill="white"/></svg></div>
+                <div class="cp-trust-item"><svg width="28" height="18" viewBox="0 0 38 24" aria-label="Mastercard"><rect width="38" height="24" rx="4" fill="#252525"/><circle cx="15" cy="12" r="7" fill="#EB001B"/><circle cx="23" cy="12" r="7" fill="#F79E1B"/><path d="M19 7.5a7 7 0 0 1 0 9 7 7 0 0 1 0-9z" fill="#FF5F00"/></svg></div>
                 <div class="cp-trust-item"><span>🔒</span> SSL защитено плащане</div>
                 <div class="cp-trust-item"><span>🚚</span> Безплатна доставка над 100 € / 195 лв.</div>
                 <div class="cp-trust-item"><span>↩️</span> 14 дни право на връщане</div>
@@ -1528,37 +1485,23 @@
 
   <!-- MOBILE BOTTOM NAV BAR -->
   <nav class="mob-bottom-nav" id="mobBottomNav" aria-label="Мобилна навигация">
-    <button type="button" class="bn-item active" data-action="scrollToTop" id="bn-home">
-      <svg width="22" height="22" class="svg-ic" aria-hidden="true">
-        <use href="#ic-home" />
-      </svg>
+    <button type="button" class="bn-item" data-action="goHome" id="bn-home">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg>
       <span>Начало</span>
     </button>
-    <button type="button" class="bn-item" data-action="toggleMobMenu" id="bn-cats">
-      <svg width="22" height="22" class="svg-ic" aria-hidden="true">
-        <use href="#ic-filter" />
-      </svg>
-      <span>Категории</span>
+    <button type="button" class="bn-item" data-action="openCatSheet" id="bn-cats">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      <span>Каталог</span>
     </button>
-    <button type="button" class="bn-item bn-cart-btn" data-action="toggleCart" id="bn-cart" aria-label="Кошница">
-      <span class="bn-cart-wrap">
-        <svg width="24" height="24" class="svg-ic" aria-hidden="true">
-          <use href="#ic-cart" />
-        </svg>
-        <span class="bn-badge" id="bnCartBadge">0</span>
+    <button type="button" class="bn-item" data-action="openWishlist" id="bn-wish" aria-label="Любими">
+      <span class="bn-icon-wrap">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+        <span class="bn-badge" id="bnWishBadge" style="display:none">0</span>
       </span>
-      <span>Количка</span>
-    </button>
-    <button type="button" class="bn-item" data-action="focusSearch" id="bn-search" aria-label="Търсене">
-      <svg width="22" height="22" class="svg-ic" aria-hidden="true">
-        <use href="#ic-search" />
-      </svg>
-      <span>Търсене</span>
+      <span>Любими</span>
     </button>
     <button type="button" class="bn-item" data-action="handleProfileClick" id="bn-profile">
-      <svg width="22" height="22" class="svg-ic" aria-hidden="true">
-        <use href="#ic-user" />
-      </svg>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
       <span>Профил</span>
     </button>
   </nav>
@@ -1568,13 +1511,13 @@
     <div class="topbar-inner">
 
       <div class="topbar-left">
-        <span>🚚 Безплатна доставка над 100 € / 195.58 лв.</span>
-        <span>↩ 14 дни право на връщане</span>
+        <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:inline-block;vertical-align:-2px;margin-right:4px"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 5v5h-7V8z"/><circle cx="5.5" cy="18.5" r="1.5"/><circle cx="18.5" cy="18.5" r="1.5"/></svg>Безплатна доставка над 100 € / 195.58 лв.</span>
+        <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:inline-block;vertical-align:-2px;margin-right:4px"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.5"/></svg>14 дни право на връщане</span>
         <span style="color:rgba(255,255,255,0.55);"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true" style="display:inline-block;vertical-align:-1px;margin-right:4px"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>Работим от 1990 г.</span>
       </div>
 
       <div class="topbar-right">
-        <span class="topbar-phone">📞 (+359 2) 91 823</span>
+        <span class="topbar-phone"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:inline-block;vertical-align:-2px;margin-right:4px"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.91a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 16.92z"/></svg>(+359 2) 91 823</span>
         <a href="#" id="topbarLogin" data-action="openAuthModal('login');">Вход</a>
         <a href="#" id="topbarRegister" data-action="openAuthModal('register');">Регистрация</a>
       </div>
@@ -1591,9 +1534,6 @@
             height="40" aria-label="Мост Компютърс">
             <!-- Monitor icon -->
             <rect x="2" y="4" width="36" height="26" rx="3" ry="3" fill="#bd1105" />
-            <rect x="5" y="7" width="30" height="19" rx="1.5" ry="1.5" fill="#fff" opacity="0.15" />
-            <rect x="5" y="7" width="30" height="19" rx="1.5" ry="1.5" fill="none" stroke="#fff" stroke-width="0.5"
-              opacity="0.6" />
             <!-- Screen shine -->
             <path d="M8 9 L18 9 L14 14 Z" fill="#fff" opacity="0.12" />
             <!-- Stand -->
@@ -1639,14 +1579,6 @@
           </svg>
           <span>Кошница</span>
           <span class="badge" id="cartBadge" aria-live="polite" aria-atomic="true">0</span>
-        </button>
-        <div class="hdr-divider"></div>
-        <button class="hdr-btn pos-rel" type="button" data-action="openWishlist" aria-label="Отвори любими">
-          <span id="wlHdrIcon"><svg width="20" height="20" class="svg-ic" aria-hidden="true">
-              <use href="#ic-heart" />
-            </svg></span>
-          <span>Любими</span>
-          <span class="wl-badge is-hidden" id="wlHdrBadge" aria-live="polite">0</span>
         </button>
         <div class="hdr-divider"></div>
         <button class="hdr-btn hdr-dark-btn" id="dmToggle" type="button" data-action="toggleDarkMode"
@@ -1798,7 +1730,7 @@
       <span class="promo-strip-sep">✦</span>
       <span class="promo-strip-item"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true" style="display:inline-block;vertical-align:-1px;margin-right:4px"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.45 2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>Сервиз и поддръжка: 0700 144 11</span>
       <span class="promo-strip-sep">✦</span>
-      <span class="promo-strip-item"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true" style="display:inline-block;vertical-align:-1px;margin-right:4px"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>Сертифициран сервизен партньор от 1990 г.</span>
+      <span class="promo-strip-item"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true" style="display:inline-block;vertical-align:-1px;margin-right:4px"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>Сертифициран сервизен партньор</span>
       <span class="promo-strip-sep">✦</span>
       <span class="promo-strip-item"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true" style="display:inline-block;vertical-align:-1px;margin-right:4px"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Поръчай до 17:00 - изпращане същия ден</span>
       <span class="promo-strip-sep">✦</span>
@@ -1808,7 +1740,7 @@
       <span class="promo-strip-sep">✦</span>
       <span class="promo-strip-item"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true" style="display:inline-block;vertical-align:-1px;margin-right:4px"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.45 2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>Сервиз и поддръжка: 0700 144 11</span>
       <span class="promo-strip-sep">✦</span>
-      <span class="promo-strip-item"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true" style="display:inline-block;vertical-align:-1px;margin-right:4px"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>Сертифициран сервизен партньор от 1990 г.</span>
+      <span class="promo-strip-item"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true" style="display:inline-block;vertical-align:-1px;margin-right:4px"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>Сертифициран сервизен партньор</span>
       <span class="promo-strip-sep">✦</span>
       <span class="promo-strip-item"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true" style="display:inline-block;vertical-align:-1px;margin-right:4px"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Поръчай до 17:00 - изпращане същия ден</span>
       <span class="promo-strip-sep">✦</span>
@@ -1818,7 +1750,7 @@
       <span class="promo-strip-sep">✦</span>
       <span class="promo-strip-item"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true" style="display:inline-block;vertical-align:-1px;margin-right:4px"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.45 2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>Сервиз и поддръжка: 0700 144 11</span>
       <span class="promo-strip-sep">✦</span>
-      <span class="promo-strip-item"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true" style="display:inline-block;vertical-align:-1px;margin-right:4px"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>Сертифициран сервизен партньор от 1990 г.</span>
+      <span class="promo-strip-item"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true" style="display:inline-block;vertical-align:-1px;margin-right:4px"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>Сертифициран сервизен партньор</span>
       <span class="promo-strip-sep">✦</span>
       <span class="promo-strip-item"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true" style="display:inline-block;vertical-align:-1px;margin-right:4px"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Поръчай до 17:00 - изпращане същия ден</span>
       <span class="promo-strip-sep">✦</span>
@@ -1828,7 +1760,7 @@
       <span class="promo-strip-sep">✦</span>
       <span class="promo-strip-item"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true" style="display:inline-block;vertical-align:-1px;margin-right:4px"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.45 2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>Сервиз и поддръжка: 0700 144 11</span>
       <span class="promo-strip-sep">✦</span>
-      <span class="promo-strip-item"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true" style="display:inline-block;vertical-align:-1px;margin-right:4px"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>Сертифициран сервизен партньор от 1990 г.</span>
+      <span class="promo-strip-item"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true" style="display:inline-block;vertical-align:-1px;margin-right:4px"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>Сертифициран сервизен партньор</span>
       <span class="promo-strip-sep">✦</span>
       <span class="promo-strip-item"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true" style="display:inline-block;vertical-align:-1px;margin-right:4px"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Поръчай до 17:00 - изпращане същия ден</span>
       <span class="promo-strip-sep">✦</span>
@@ -1863,7 +1795,7 @@
         <div class="cat-item" role="button" tabindex="0" aria-expanded="false" onclick="toggleSidebarCat(this,'network')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleSidebarCat(this,'network')}"><span class="cat-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-wifi"/></svg></span> Мрежово оборудване <span class="cat-arrow">›</span></div>
         <div class="cat-item" role="button" tabindex="0" aria-expanded="false" onclick="toggleSidebarCat(this,'phones')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleSidebarCat(this,'phones')}"><span class="cat-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-phone"/></svg></span> Телефони и таблети <span class="cat-arrow">›</span></div>
         <div class="cat-item" role="button" tabindex="0" aria-expanded="false" onclick="toggleSidebarCat(this,'printers')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleSidebarCat(this,'printers')}"><span class="cat-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-printer"/></svg></span> Принтери <span class="cat-arrow">›</span></div>
-        <div class="cat-item" role="button" tabindex="0" aria-expanded="false" onclick="toggleSidebarCat(this,'consumables')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleSidebarCat(this,'consumables')}"><span class="cat-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-printer"/></svg></span> Консумативи <span class="cat-arrow">›</span></div>
+        <div class="cat-item" role="button" tabindex="0" aria-expanded="false" onclick="toggleSidebarCat(this,'consumables')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleSidebarCat(this,'consumables')}"><span class="cat-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-consumables"/></svg></span> Консумативи <span class="cat-arrow">›</span></div>
         <div class="cat-item" role="button" tabindex="0" aria-expanded="false" onclick="toggleSidebarCat(this,'ups')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleSidebarCat(this,'ups')}"><span class="cat-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-bolt"/></svg></span> UPS устройства <span class="cat-arrow">›</span></div>
         <div class="cat-item" role="button" tabindex="0" aria-expanded="false" onclick="toggleSidebarCat(this,'accessories')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleSidebarCat(this,'accessories')}"><span class="cat-icon"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-mouse"/></svg></span> Аксесоари <span class="cat-arrow">›</span></div>
       </div>
@@ -2061,12 +1993,39 @@
     <!-- CONTENT -->
     <div id="mainContent" class="content-area">
 
+      <!-- MOBILE HERO (mobile-only, populated by renderGrids) -->
+      <div class="mob-hp-hero" id="mobHpHero">
+        <div class="mob-hp-accent" aria-hidden="true"></div>
+        <div class="mob-hp-accent2" aria-hidden="true"></div>
+        <div class="mob-hp-em" aria-hidden="true">💻</div>
+        <div class="mob-hp-content">
+          <div class="mob-hp-badge">🔥 #1 Бестселър тази седмица</div>
+          <div class="mob-hp-title" id="mobHpTitle">Зарежда се...</div>
+          <div class="mob-hp-sub" id="mobHpSub"></div>
+          <div class="mob-hp-row">
+            <div class="mob-hp-prices">
+              <div>
+                <span class="mob-hp-price-old" id="mobHpPriceOld"></span>
+                <span class="mob-hp-price" id="mobHpPrice"></span>
+              </div>
+              <div class="mob-hp-save" id="mobHpSave"></div>
+            </div>
+            <button type="button" class="mob-hp-btn" id="mobHpBtn" data-action="scrollToSale">Виж оферти</button>
+          </div>
+        </div>
+      </div>
+      <div class="mob-hp-dots" aria-hidden="true">
+        <span class="mob-hp-dot mob-hp-dot-a"></span>
+        <span class="mob-hp-dot"></span>
+        <span class="mob-hp-dot"></span>
+      </div>
+
       <!-- HERO SLIDER -->
       <div class="hero-section">
         <div class="hero-slider">
           <div class="slide slide-1 active">
-            <div class="s1-over">ТЕХНИЧЕСКИ РЕШЕНИЯ ЗА ВСЕКИ РАБОТЕН ДЯЛ</div>
-            <h2 class="s1-hdg">Обзаведи офиса си с най-доброто</h2>
+            <div class="s1-over">ЗА ДОМА, ОФИСА И ГЕЙМИНГА</div>
+            <h2 class="s1-hdg">Намери технологията, от която имаш нужда</h2>
             <div class="s1-cards">
               <button type="button" class="s1-card" data-action="openCatPage('laptops')">
                 <svg class="s1-icon" aria-hidden="true"><use href="#ic-laptop"/></svg>
@@ -2094,12 +2053,12 @@
               <div class="slide-price" id="slide2Price">1 012.28 € / 1 979 лв. <small>с ДДС</small></div>
               <button type="button" class="slide-btn" data-action="openProductPage(1600)">Разгледай MSI Katana →</button>
             </div>
-            <div class="slide-img-wrap"><img src="https://portal.mostbg.com/api/images/imageFileData/100502.png" alt="MSI Katana 15 gaming laptop" class="slide-product-img" width="290" height="260" loading="lazy"></div>
+            <div class="slide-img-wrap"><img src="https://portal.mostbg.com/api/images/imageFileData/100502.png" alt="MSI Katana 15 gaming laptop" class="slide-product-img" width="290" height="260" loading="eager" fetchpriority="high"></div>
           </div>
           <div class="slide slide-3">
             <div class="slide-badge">% BIG SALE</div>
             <h2 class="slide-title">До -60% на избрани продукти</h2>
-            <div class="slide-sub">Ограничено количество. Побързай!</div>
+            <div class="slide-sub">Действай сега - количествата са ограничени.</div>
             <div class="slide-price">Спести до <b>409.03 €</b> / 800 лв.</div>
             <div class="slide-countdown" id="saleCountdown"></div>
             <button type="button" class="slide-btn dark" style="color:#ff3d00;"
@@ -2126,7 +2085,30 @@
         <div class="hero-right-panel" id="heroRightPanel"></div>
       </div>
 
-      <!-- TRUST BAR - immediately after hero for conversion impact -->
+
+      <!-- MOBILE TABS (mobile-only) -->
+      <div class="mob-hp-tabs-wrap">
+        <div class="mob-hp-tabs" role="tablist" aria-label="Тип оферти">
+          <button type="button" class="mob-hp-tab active" id="tab-sale" data-tab="sale" data-action="switchMobTab('sale')" role="tab" aria-selected="true" aria-controls="sale"><svg width="14" height="14" class="svg-ic" aria-hidden="true"><use href="#ic-bolt"/></svg> Оферти</button>
+          <button type="button" class="mob-hp-tab" data-tab="new" data-action="switchMobTab('new')" role="tab" aria-selected="false" aria-controls="newSection"><svg width="14" height="14" class="svg-ic" aria-hidden="true"><use href="#ic-spark"/></svg> Нови</button>
+          <button type="button" class="mob-hp-tab" data-tab="bestsellers" data-action="switchMobTab('bestsellers')" role="tab" aria-selected="false" aria-controls="bestsellersSection"><svg width="14" height="14" class="svg-ic" aria-hidden="true"><use href="#ic-star"/></svg> Bestsellers</button>
+        </div>
+        <button type="button" class="mob-hp-nav-chip" data-action="openCatPage('sale')" aria-label="Виж всички намалени продукти"><svg width="14" height="14" class="svg-ic" aria-hidden="true"><use href="#ic-tag"/></svg> Намалени <svg width="12" height="12" class="svg-ic" aria-hidden="true"><use href="#ic-arrow-right"/></svg></button>
+      </div>
+
+      <!-- MOBILE CATEGORY CHIPS (mobile-only) -->
+      <div class="mob-hp-chips-wrap">
+        <div class="mob-hp-chips">
+          <button type="button" class="mob-chip active">Всички</button>
+          <button type="button" class="mob-chip" data-action="openCatPage('laptops')">💻 Лаптопи</button>
+          <button type="button" class="mob-chip" data-action="openCatPage('monitors')">🖥️ Монитори</button>
+          <button type="button" class="mob-chip" data-action="openCatPage('peripherals','mouse')">🖱️ Мишки</button>
+          <button type="button" class="mob-chip" data-action="openCatPage('peripherals','keyboard')">⌨️ Клавиатури</button>
+          <button type="button" class="mob-chip" data-action="openCatPage('storage')">💾 Памет</button>
+        </div>
+      </div>
+
+      <!-- TRUST BAR - after chips on mobile, after hero on desktop (mob elements are hidden) -->
       <div class="trust-bar">
         <div class="trust-item">
           <svg width="22" height="22" class="svg-ic trust-icon" aria-hidden="true"><use href="#ic-truck"/></svg>
@@ -2158,15 +2140,6 @@
         </div>
       </div>
 
-      <!-- BUDGET CHIPS -->
-      <div class="budget-chips-strip">
-        <span class="budget-chips-label">Бюджет:</span>
-        <button type="button" class="budget-chip" data-action="openPriceCat(0,300)">До 300 €</button>
-        <button type="button" class="budget-chip" data-action="openPriceCat(300,600)">300 - 600 €</button>
-        <button type="button" class="budget-chip" data-action="openPriceCat(600,1200)">600 - 1 200 €</button>
-        <button type="button" class="budget-chip" data-action="openPriceCat(1200,null)">1 200+ €</button>
-      </div>
-
       <!-- CATEGORY CARDS -->
       <div class="hp-cats-section" id="hpCatsSection">
         <div class="hp-cats-header">
@@ -2190,7 +2163,7 @@
         <div class="sp-stat">
           <svg width="20" height="20" class="svg-ic" aria-hidden="true"><use href="#ic-star"/></svg>
           <div class="sp-text">
-            <span class="sp-num" id="spAvgRating">4.8</span>
+            <span class="sp-num" id="spAvgRating">4.8 <small style="font-size:0.6em;font-weight:500;opacity:0.7">от 5</small></span>
             <span class="sp-sub">средна оценка</span>
           </div>
         </div>
@@ -2206,7 +2179,7 @@
         <div class="sp-stat">
           <svg width="20" height="20" class="svg-ic" aria-hidden="true"><use href="#ic-truck"/></svg>
           <div class="sp-text">
-            <span class="sp-num">50 000+</span>
+            <span class="sp-num">550K+</span>
             <span class="sp-sub">доволни клиенти</span>
           </div>
         </div>
@@ -2214,20 +2187,20 @@
         <div class="sp-stat">
           <svg width="20" height="20" class="svg-ic" aria-hidden="true"><use href="#ic-shield"/></svg>
           <div class="sp-text">
-            <span class="sp-num">Официален</span>
-            <span class="sp-sub">сертифициран сервиз</span>
+            <span class="sp-num">Официален сервиз</span>
+            <span class="sp-sub">на водещи марки</span>
           </div>
         </div>
       </div>
 
       <!-- FLASH SALE -->
-      <div class="flash-sale-section section-wrap" id="sale">
+      <div class="flash-sale-section section-wrap" id="sale" role="tabpanel" tabindex="0" aria-labelledby="tab-sale">
         <div class="flash-header">
           <div>
             <h2 class="flash-title"><svg class="sh-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Светкавични оферти</h2>
-            <div class="flash-subtitle">Ограничено количество - не изпускай!</div>
+            <div class="flash-subtitle">Намалени цени, докато трае наличността</div>
           </div>
-          <a href="#" class="view-all-link" data-action="openCatPage('sale')">Виж всички промоции →</a>
+          <a href="#" class="view-all-link" data-action="openCatPage('sale')">Всички →</a>
           <div class="flash-timer" id="flashTimer" style="visibility:hidden">
             <div class="timer-block"><span class="timer-num" id="th">--</span><span class="timer-label">ч.</span></div>
             <span class="timer-sep">:</span>
@@ -2239,6 +2212,32 @@
           </div>
         </div>
         <div class="products-row cols5" id="flashGrid"></div>
+      </div>
+
+      <!-- MOBILE STATS STRIP (mobile-only) -->
+      <div class="mob-stats">
+        <div class="mob-stat">
+          <div class="mob-stat-num">4.8<em>★</em></div>
+          <div class="mob-stat-lbl">средна оценка</div>
+        </div>
+        <div class="mob-stat">
+          <div class="mob-stat-num">36<em>+</em></div>
+          <div class="mob-stat-lbl">год. на пазара</div>
+        </div>
+        <div class="mob-stat">
+          <div class="mob-stat-num">550K<em>+</em></div>
+          <div class="mob-stat-lbl">доволни клиенти</div>
+        </div>
+      </div>
+
+      <!-- MOBILE PROMO BANNER (mobile-only) -->
+      <div class="mob-promo">
+        <div class="mob-promo-text">
+          <div class="mob-promo-title">Нови продукти всяка седмица</div>
+          <div class="mob-promo-sub">Следи за ексклузивни оферти</div>
+          <button type="button" class="mob-promo-btn" data-action="openCatPage('new')">Разгледай новите →</button>
+        </div>
+        <div class="mob-promo-em">🚀</div>
       </div>
 
       <!-- PROMO SPLIT BANNER - Option A: RTX 5060 Dual OC + Canon MAXIFY GX2040 -->
@@ -2272,7 +2271,7 @@
       </div>
 
       <!-- НОВИ ПРОДУКТИ -->
-      <div class="section-wrap">
+      <div class="section-wrap" id="newSection">
         <div class="section-header">
           <div class="section-header-left">
             <div class="section-accent" style="background:var(--new)"></div>
@@ -2335,7 +2334,6 @@
           <span class="brand-name" data-brand="Lenovo" role="button" tabindex="0">Lenovo</span>
           <span class="brand-name" data-brand="Gigabyte" role="button" tabindex="0">Gigabyte</span>
           <span class="brand-name" data-brand="LG" role="button" tabindex="0">LG</span>
-          <span class="brand-name" data-brand="HP" role="button" tabindex="0">HP</span>
           <span class="brand-name" data-brand="ADATA" role="button" tabindex="0">ADATA</span>
           <span class="brand-name" data-brand="Sapphire" role="button" tabindex="0">Sapphire</span>
           <span class="brand-name" data-brand="Tenda" role="button" tabindex="0">Tenda</span>
@@ -2371,7 +2369,6 @@
           <span class="brand-name" data-brand="Lenovo" role="button" tabindex="-1">Lenovo</span>
           <span class="brand-name" data-brand="Gigabyte" role="button" tabindex="-1">Gigabyte</span>
           <span class="brand-name" data-brand="LG" role="button" tabindex="-1">LG</span>
-          <span class="brand-name" data-brand="HP" role="button" tabindex="-1">HP</span>
           <span class="brand-name" data-brand="ADATA" role="button" tabindex="-1">ADATA</span>
           <span class="brand-name" data-brand="Sapphire" role="button" tabindex="-1">Sapphire</span>
           <span class="brand-name" data-brand="Tenda" role="button" tabindex="-1">Tenda</span>
@@ -2408,7 +2405,7 @@
       <div class="newsletter-strip">
         <div class="newsletter-text">
           <h3><svg class="sh-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>Бъди първи при Flash Sale</h3>
-          <p>Flash Sale известия 30 мин. преди всички. Нови продукти, ексклузивни оферти. Без спам.</p>
+          <p>Flash Sale известия 30 мин. преди всички.<br>Нови продукти, ексклузивни оферти.<br>Без спам.</p>
         </div>
         <div>
           <div class="newsletter-form">
@@ -2431,9 +2428,9 @@
             <a href="/" class="checkout-bc-home" onclick="event.preventDefault();closeCheckoutPage()" aria-label="Начало">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9.5z"/><polyline points="9 21 9 12 15 12 15 21"/></svg>
             </a>
-            <span class="checkout-bc-sep">›</span>
+            <span class="checkout-bc-sep"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg></span>
             <a href="/cart" class="checkout-bc-link" onclick="event.preventDefault();closeCheckoutPage()">Кошница</a>
-            <span class="checkout-bc-sep">›</span>
+            <span class="checkout-bc-sep"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg></span>
             <span class="checkout-bc-current" id="checkoutBcCurrent">Поръчка</span>
           </nav>
           <div class="checkout-logo">Most <span>Computers</span></div>
@@ -2441,14 +2438,16 @@
             <div class="checkout-step active" id="cs1">
               <div class="cs-num" id="csn1">1</div><span>Данни</span>
             </div>
+            <div class="cs-sep"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg></div>
             <div class="checkout-step" id="cs2">
               <div class="cs-num" id="csn2">2</div><span>Доставка</span>
             </div>
+            <div class="cs-sep"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg></div>
             <div class="checkout-step" id="cs3">
               <div class="cs-num" id="csn3">3</div><span>Плащане</span>
             </div>
           </div>
-          <button type="button" class="checkout-close-btn" data-action="closeCheckoutPage">‹ Обратно към магазина</button>
+          <button type="button" class="checkout-close-btn" data-action="closeCheckoutPage"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg> Обратно към магазина</button>
         </div>
 
         <div class="checkout-body">
@@ -2471,7 +2470,7 @@
                     <div class="ck-mode-radio" id="ckModeGuestRadio"></div>
                   </div>
                   <div class="ck-mode-opt" id="ckModeLogin" onclick="selectCheckoutMode('login')" role="radio" aria-checked="false" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')selectCheckoutMode('login')">
-                    <div class="ck-mode-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+                    <div class="ck-mode-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg></div>
                     <div class="ck-mode-info">
                       <div class="ck-mode-title">Влез в профила си</div>
                       <div class="ck-mode-sub">По-бързо попълване с запазени данни</div>
@@ -2516,7 +2515,7 @@
                   </div>
                 </div>
                 <div id="ckSavedAddrNotice" style="display:none;margin-top:10px;padding:10px 14px;background:#f0f7ff;border-radius:8px;border-left:3px solid #1a6b35;font-size:13px;color:#1a4a2a;display:flex;align-items:center;gap:8px">
-                  <span>✅ Попълнено от запазените данни</span>
+                  <span style="display:inline-flex;align-items:center;gap:6px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> Попълнено от запазените данни</span>
                   <button type="button" onclick="ckClearSavedAddr()" style="margin-left:auto;background:none;border:none;color:#bd1105;font-size:12px;font-weight:600;cursor:pointer;text-decoration:underline">Не съм аз? Изчисти</button>
                 </div>
                 <div class="ck-save-row" style="margin-top:10px">
@@ -2543,7 +2542,7 @@
                 <div class="delivery-opts" role="radiogroup" aria-label="Начин на доставка">
                   <div class="delivery-opt selected" role="radio" aria-checked="true" tabindex="0" data-action="selectDeliveryCk(this, 0)">
                     <div class="delivery-opt-radio"></div>
-                    <div class="delivery-opt-icon">🏃</div>
+                    <div class="delivery-opt-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
                     <div class="delivery-opt-info">
                       <div class="delivery-opt-name">Еконт - до адрес</div>
                       <div class="delivery-opt-sub">Доставка до 1–2 работни дни <span class="ck-deliv-date"
@@ -2553,7 +2552,7 @@
                   </div>
                   <div class="delivery-opt" role="radio" aria-checked="false" tabindex="-1" data-action="selectDeliveryCk(this, 1)">
                     <div class="delivery-opt-radio"></div>
-                    <div class="delivery-opt-icon">📦</div>
+                    <div class="delivery-opt-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="21 8 21 21 3 21 3 8"/><rect x="1" y="3" width="22" height="5"/><line x1="10" y1="12" x2="14" y2="12"/></svg></div>
                     <div class="delivery-opt-info">
                       <div class="delivery-opt-name">Еконт - до офис</div>
                       <div class="delivery-opt-sub">Доставка до 1–3 работни дни <span class="ck-deliv-date"
@@ -2563,7 +2562,7 @@
                   </div>
                   <div class="delivery-opt" role="radio" aria-checked="false" tabindex="-1" data-action="selectDeliveryCk(this, 2)">
                     <div class="delivery-opt-radio"></div>
-                    <div class="delivery-opt-icon">🏪</div>
+                    <div class="delivery-opt-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
                     <div class="delivery-opt-info">
                       <div class="delivery-opt-name">Вземи от магазин</div>
                       <div class="delivery-opt-sub">бул. „Шипченски проход" бл.240, София <span class="ck-deliv-date"
@@ -2651,14 +2650,14 @@
                 <div class="payment-opts">
                   <div class="payment-opt selected" data-action="selectPayment(this,'card')">
                     <div class="payment-opt-radio"></div>
-                    <div class="payment-opt-icon">💳</div>
+                    <div class="payment-opt-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div>
                     <div class="payment-opt-info">
                       <div class="payment-opt-name">Кредитна / Дебитна карта</div>
                       <div class="payment-opt-sub">Visa, Mastercard, Maestro</div>
                     </div>
                   </div>
                   <div class="card-fields show" id="cardFields">
-                    <div style="background:#fef3c7;border:1px solid #f59e0b;border-radius:8px;padding:8px 12px;font-size:12px;color:#92400e;margin-bottom:10px;">⚠️ <strong>Тестова форма</strong> - не въвеждай реални карт данни. Плащането се обработва при вземане от магазин или наложен платеж.</div>
+                    <div style="background:#fef3c7;border:1px solid #f59e0b;border-radius:8px;padding:8px 12px;font-size:12px;color:#92400e;margin-bottom:10px;display:flex;align-items:flex-start;gap:7px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0;margin-top:1px"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><span><strong>Тестова форма</strong> - не въвеждай реални карт данни. Плащането се обработва при вземане от магазин или наложен платеж.</span></div>
                     <div class="card-icon-row">
                       <span class="card-icon">VISA</span>
                       <span class="card-icon">MC</span>
@@ -2677,7 +2676,7 @@
                   </div>
                   <div class="payment-opt" data-action="selectPayment(this,'cod')">
                     <div class="payment-opt-radio"></div>
-                    <div class="payment-opt-icon">💵</div>
+                    <div class="payment-opt-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></svg></div>
                     <div class="payment-opt-info">
                       <div class="payment-opt-name">Наложен платеж</div>
                       <div class="payment-opt-sub">Плащаш при получаване (+0.77 € / 1.50 лв. такса)</div>
@@ -2685,7 +2684,7 @@
                   </div>
                   <div class="payment-opt" data-action="selectPayment(this,'bank')">
                     <div class="payment-opt-radio"></div>
-                    <div class="payment-opt-icon">🏦</div>
+                    <div class="payment-opt-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" y1="22" x2="21" y2="22"/><line x1="6" y1="18" x2="6" y2="11"/><line x1="10" y1="18" x2="10" y2="11"/><line x1="14" y1="18" x2="14" y2="11"/><line x1="18" y1="18" x2="18" y2="11"/><polygon points="12 2 20 7 4 7"/></svg></div>
                     <div class="payment-opt-info">
                       <div class="payment-opt-name">Банков превод</div>
                       <div class="payment-opt-sub">Поръчката се обработва след потвърждение</div>
@@ -2693,11 +2692,11 @@
                   </div>
                 </div>
                 <div class="ck-payment-info">
-                  <span>💳 Карта/превод - без такса</span>
-                  <span>📦 Наложен платеж - +0.77 €</span>
+                  <span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg> Карта/превод - без такса</span>
+                  <span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2"/></svg> Наложен платеж - +0.77 €</span>
                 </div>
                 <div class="ck-promo-hint" id="ckPromoHint">
-                  🎁 Имаш промо код? <strong>MOSTCOMP10</strong> дава <strong>-10%</strong> от поръчката! Въведи го в полето вдясно.
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:3px" aria-hidden="true"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg> Имаш промо код? <strong>MOSTCOMP10</strong> дава <strong>-10%</strong> от поръчката! Въведи го в полето вдясно.
                 </div>
               </div>
             </div>
@@ -2716,7 +2715,7 @@
                   <input class="promo-input" id="promoInput" placeholder="Промо код">
                   <button type="button" class="promo-btn" data-action="applyPromo">Приложи</button>
                 </div>
-                <div class="promo-ok" id="promoOk">✓ Код MOSTCOMP10 приложен - -10%!</div>
+                <div class="promo-ok" id="promoOk"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> Код MOSTCOMP10 приложен - -10%!</div>
                 <div class="os-row"><span>Продукти</span><span id="osSubtotal">-</span></div>
                 <div class="os-row"><span>Доставка</span><span id="osDelivery">3.06 € / 5.99 лв.</span></div>
                 <div class="os-row save" id="osSaveRow" class="is-hidden"><span>Спестяваш</span><span
@@ -2726,9 +2725,9 @@
                 <div class="os-row total"><span>Общо</span><span id="osTotal">-</span></div>
               </div>
               <button type="button" class="os-submit" data-action="submitOrder">
-                🔒 Потвърди поръчката
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Потвърди поръчката
               </button>
-              <div class="os-secure"><span>🔒 SSL криптиране</span><span>↩ 14 дни връщане</span><span>🎖 Официална гаранция</span></div>
+              <div class="os-secure"><span><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> SSL криптиране</span><span><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 14 4 9 9 4"/><path d="M20 20v-7a4 4 0 0 0-4-4H4"/></svg> 14 дни връщане</span><span><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Официална гаранция</span></div>
             </div>
             <div class="cart-upsell" id="ckUpsell" style="display:none;margin-top:12px;"></div>
           </div>
@@ -2744,50 +2743,64 @@
 
           <!-- Hero -->
           <div class="ty-hero">
-            <div class="ty-check-anim">✓</div>
+            <div class="ty-check-anim">
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
             <h2>Поръчката е потвърдена!</h2>
             <p>Благодарим ти за доверието. Ще получиш имейл потвърждение скоро.</p>
-            <div class="ty-order-num">📋 Поръчка № <span id="tyOrderNum">-</span></div>
+            <div class="ty-order-num">Поръчка № <span id="tyOrderNum">-</span></div>
           </div>
 
-          <!-- 3 info cards -->
-          <div class="ty-cards">
-            <div class="ty-card">
-              <div class="ty-card-icon">📧</div>
-              <div class="ty-card-title">Имейл потвърждение</div>
-              <div class="ty-card-val" id="tyEmail">-</div>
+          <!-- 3 info pills -->
+          <div class="ty-pills">
+            <div class="ty-pill">
+              <svg class="ty-pill-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              <div class="ty-pill-text">
+                <div class="ty-pill-label">Имейл потвърждение</div>
+                <div class="ty-pill-val" id="tyEmail">-</div>
+              </div>
             </div>
-            <div class="ty-card">
-              <div class="ty-card-icon">🚚</div>
-              <div class="ty-card-title">Очаквана доставка</div>
-              <div class="ty-card-val" id="tyDeliveryDate">-</div>
+            <div class="ty-pill-sep"></div>
+            <div class="ty-pill">
+              <svg class="ty-pill-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+              <div class="ty-pill-text">
+                <div class="ty-pill-label">Очаквана доставка</div>
+                <div class="ty-pill-val" id="tyDeliveryDate">-</div>
+              </div>
             </div>
-            <div class="ty-card">
-              <div class="ty-card-icon">💳</div>
-              <div class="ty-card-title">Начин на плащане</div>
-              <div class="ty-card-val" id="tyPayment">-</div>
+            <div class="ty-pill-sep"></div>
+            <div class="ty-pill">
+              <svg class="ty-pill-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+              <div class="ty-pill-text">
+                <div class="ty-pill-label">Начин на плащане</div>
+                <div class="ty-pill-val" id="tyPayment">-</div>
+              </div>
             </div>
           </div>
 
           <!-- Order items -->
           <div class="ty-section">
-            <div class="ty-section-header">🛍 Продукти в поръчката</div>
+            <div class="ty-section-header">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+              Продукти в поръчката
+            </div>
             <div class="ty-section-body">
               <div class="ty-items" id="tyItems"></div>
               <div class="ty-totals">
                 <div class="ty-total-row"><span>Продукти</span><span id="tySubtotal">-</span></div>
                 <div class="ty-total-row"><span>Доставка</span><span id="tyDeliveryCost">-</span></div>
-                <div class="ty-total-row is-hidden" id="tyPromoRow"><span>Промо код</span><span id="tyPromoAmt"
-                    class="color-success">-</span></div>
-                <div class="ty-total-row final"><span>Платено</span><span id="tyTotal"
-                    style="color:var(--primary)">-</span></div>
+                <div class="ty-total-row is-hidden" id="tyPromoRow"><span>Промо код</span><span id="tyPromoAmt" class="color-success">-</span></div>
+                <div class="ty-total-row final"><span>Платено</span><span id="tyTotal" style="color:var(--primary)">-</span></div>
               </div>
             </div>
           </div>
 
           <!-- Delivery address -->
           <div class="ty-section">
-            <div class="ty-section-header">📍 Адрес за доставка</div>
+            <div class="ty-section-header">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              Адрес за доставка
+            </div>
             <div class="ty-section-body">
               <div class="ty-address-grid">
                 <div class="ty-addr-item">
@@ -2820,32 +2833,43 @@
 
           <!-- Status timeline -->
           <div class="ty-section">
-            <div class="ty-section-header">📦 Статус на поръчката</div>
+            <div class="ty-section-header">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Статус на поръчката
+            </div>
             <div class="ty-section-body">
               <div class="ty-timeline">
                 <div class="ty-tl-item done">
-                  <div class="ty-tl-dot">✓</div>
+                  <div class="ty-tl-dot">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                  </div>
                   <div class="ty-tl-content">
                     <div class="ty-tl-title">Поръчката е получена</div>
                     <div class="ty-tl-sub" id="tyTimestamp">-</div>
                   </div>
                 </div>
                 <div class="ty-tl-item active">
-                  <div class="ty-tl-dot">⚙</div>
+                  <div class="ty-tl-dot">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+                  </div>
                   <div class="ty-tl-content">
                     <div class="ty-tl-title">Обработва се</div>
                     <div class="ty-tl-sub">Очаквано: до 2 часа</div>
                   </div>
                 </div>
                 <div class="ty-tl-item">
-                  <div class="ty-tl-dot">📦</div>
+                  <div class="ty-tl-dot">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                  </div>
                   <div class="ty-tl-content">
                     <div class="ty-tl-title">Изпратена</div>
                     <div class="ty-tl-sub">Ще получиш товарителница по имейл</div>
                   </div>
                 </div>
                 <div class="ty-tl-item">
-                  <div class="ty-tl-dot">🏠</div>
+                  <div class="ty-tl-dot">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                  </div>
                   <div class="ty-tl-content">
                     <div class="ty-tl-title">Доставена</div>
                     <div class="ty-tl-sub" id="tyDeliveryDateLine">-</div>
@@ -2857,32 +2881,44 @@
 
           <!-- Action buttons -->
           <div class="ty-actions">
-            <button type="button" class="ty-btn-primary" data-action="closeThankyouPage">🛍 Продължи
-              пазаруването</button>
-            <button type="button" class="ty-btn-outline" data-action="closeCheckoutPageAndTrack">📦 Проследи
-              поръчката</button>
-            <button type="button" class="ty-btn-outline" data-action="printInvoice">📄 Свали фактура</button>
+            <button type="button" class="ty-btn-primary" data-action="closeThankyouPage">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+              Продължи пазаруването
+            </button>
+            <button type="button" class="ty-btn-outline" data-action="closeCheckoutPageAndTrack">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              Проследи поръчката
+            </button>
+            <button type="button" class="ty-btn-outline" data-action="printInvoice">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+              Свали фактура
+            </button>
           </div>
 
           <!-- Contact info -->
-          <div class="ty-section" style="margin-bottom:0">
-            <div class="ty-section-body" style="padding:16px 20px;">
-              <div style="display:flex;flex-wrap:wrap;gap:16px;justify-content:center;text-align:center;">
-                <a href="tel:+35929191823" style="display:flex;align-items:center;gap:8px;color:#9ca3af;text-decoration:none;font-size:13px;">📞 <span>+359 2 919 1823</span></a>
-                <span style="color:#2d3148;display:flex;align-items:center;gap:8px;font-size:13px;">📍 <span>бул. „Шипченски проход" бл.240, София</span></span>
-                <span style="color:#9ca3af;display:flex;align-items:center;gap:8px;font-size:13px;">🕐 <span>Пон–Пет 09:30–18:15</span></span>
-              </div>
-            </div>
+          <div class="ty-contact">
+            <a href="tel:+35929191823" class="ty-contact-item">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.1a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.06 6.06l.97-.97a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 17z"/></svg>
+              +359 2 919 1823
+            </a>
+            <span class="ty-contact-item">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              бул. „Шипченски проход" бл.240, София
+            </span>
+            <span class="ty-contact-item">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Пон–Пет 09:30–18:15
+            </span>
           </div>
 
           <!-- Newsletter -->
           <div class="ty-newsletter">
             <div class="ty-nl-text">
-              <div class="ty-nl-title">🎁 Получавай ексклузивни оферти!</div>
+              <div class="ty-nl-title">Получавай ексклузивни оферти</div>
               <div class="ty-nl-sub">Абонирай се и получи -5% от следващата поръчка</div>
             </div>
             <div class="ty-nl-form">
-              <input class="ty-nl-input" id="tyNlEmail" placeholder="твоя@имейл.bg">
+              <input class="ty-nl-input" id="tyNlEmail" type="email" autocomplete="email" placeholder="твоя@имейл.bg">
               <button type="button" class="ty-nl-btn" data-action="subscribeNL">Абонирай се</button>
             </div>
           </div>
@@ -3316,15 +3352,13 @@
     <div class="footer-inner">
       <div>
         <div class="footer-logo" itemprop="name">Мост <span>Компютърс</span></div>
-        <div class="footer-desc" itemprop="description">Специализиран магазин за електроника с над <strong>36 години
-            опит</strong> - основан през 1990 г. Предлагаме смартфони, лаптопи, телевизори, аудио и аксесоари от водещи
-          марки. Безплатна доставка, сертифициран сервиз и гарантирано качество за всеки клиент.</div>
+        <div class="footer-desc" itemprop="description">Специализиран магазин за електроника с над <strong>36 години опит</strong> - основан през 1990 г.<br>Предлагаме смартфони, лаптопи, телевизори, аудио и аксесоари от водещи марки.<br>Безплатна доставка, сертифициран сервиз и гарантирано качество за всеки клиент.</div>
         <div
-          style="margin-top:10px;font-size:11px;color:rgba(255,255,255,0.72);display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+          style="margin-top:16px;font-size:11px;color:rgba(255,255,255,0.72);display:flex;flex-direction:column;gap:7px;">
           <span
-            style="background:rgba(255,255,255,0.15);border-radius:4px;padding:3px 8px;font-weight:700;white-space:nowrap;">©
+            style="background:rgba(255,255,255,0.15);border-radius:4px;padding:3px 8px;font-weight:700;white-space:nowrap;width:fit-content;">©
             1990–2026</span>
-          <span style="white-space:nowrap;">👥 Доверен от над 120 000 клиента</span>
+          <span style="white-space:nowrap;">👥 Доверен от над 550 000+ клиента</span>
         </div>
         <div class="footer-social">
           <a class="social-btn" href="https://www.facebook.com/mostcomputers" target="_blank" rel="noopener noreferrer"
@@ -3378,7 +3412,7 @@
         <h3 class="footer-col-title">Контакти</h3>
         <div class="footer-contact-item" itemprop="address" itemscope itemtype="https://schema.org/PostalAddress"
           data-action="openContactsPage" style="cursor:pointer;" title="Виж на картата">
-          <span class="footer-contact-icon">📍</span>
+          <span class="footer-contact-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span>
           <span>
             <span itemprop="addressLocality" style="font-weight:700;">София</span>,
             ж.к. „Гео Милев"<br>
@@ -3387,23 +3421,23 @@
           </span>
         </div>
         <div class="footer-contact-item">
-          <span class="footer-contact-icon">📞</span>
+          <span class="footer-contact-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.91a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 16.92z"/></svg></span>
           <span><span style="font-size:11px;color:rgba(255,255,255,0.55);display:block;">Офис</span><a href="tel:+35929191823" itemprop="telephone">(+359 2) 91 823</a></span>
         </div>
         <div class="footer-contact-item">
-          <span class="footer-contact-icon">📞</span>
+          <span class="footer-contact-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.91a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 16.92z"/></svg></span>
           <span><span style="font-size:11px;color:rgba(255,255,255,0.55);display:block;">Сервизен център</span><a href="tel:+35970014411">0700 144 11</a></span>
         </div>
         <div class="footer-contact-item">
-          <span class="footer-contact-icon">✉</span>
+          <span class="footer-contact-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span>
           <span><span style="font-size:11px;color:rgba(255,255,255,0.55);display:block;">Офис имейл</span><span class="ep" data-u="info" data-d="mostbg.com" itemprop="email"></span></span>
         </div>
         <div class="footer-contact-item">
-          <span class="footer-contact-icon">✉</span>
+          <span class="footer-contact-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span>
           <span><span style="font-size:11px;color:rgba(255,255,255,0.55);display:block;">Сервизен имейл</span><span class="ep" data-u="support" data-d="mostbg.com"></span></span>
         </div>
         <div class="footer-contact-item">
-          <span class="footer-contact-icon">🕐</span>
+          <span class="footer-contact-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
           <span><span style="font-size:11px;color:rgba(255,255,255,0.55);display:block;">Работно време</span>Пон–Пет: 09:30–18:15</span>
         </div>
       </div>
@@ -3623,53 +3657,85 @@
     <div class="megamenu-body">
 
       <!-- Service cards -->
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px;margin-bottom:28px;">
-        <div class="megamenu-cat-card" style="flex-direction:row;align-items:center;text-align:left;padding:14px 16px;gap:14px;">
-          <div style="font-size:26px;flex-shrink:0;">🔧</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;margin-bottom:28px;">
+        <div class="megamenu-cat-card" style="flex-direction:row;align-items:flex-start;text-align:left;padding:18px 20px;gap:16px;">
+          <div style="width:42px;height:42px;border-radius:10px;background:var(--primary-light);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+          </div>
           <div>
-            <div style="font-size:13px;font-weight:700;margin-bottom:2px;">Ремонт и диагностика</div>
+            <div style="font-size:13px;font-weight:700;margin-bottom:3px;">Ремонт и диагностика</div>
             <div style="font-size:12px;color:var(--muted);line-height:1.5;">Лаптопи, телефони, таблети - диагностика за 24ч.</div>
-            <div style="font-size:12px;font-weight:700;color:var(--primary);margin-top:4px;">от 25 €</div>
+            <div style="font-size:12px;font-weight:700;color:var(--primary);margin-top:6px;">от 25 €</div>
           </div>
         </div>
-        <div class="megamenu-cat-card" style="flex-direction:row;align-items:center;text-align:left;padding:14px 16px;gap:14px;">
-          <div style="font-size:26px;flex-shrink:0;">💾</div>
+        <div class="megamenu-cat-card" style="flex-direction:row;align-items:flex-start;text-align:left;padding:18px 20px;gap:16px;">
+          <div style="width:42px;height:42px;border-radius:10px;background:var(--primary-light);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+          </div>
           <div>
-            <div style="font-size:13px;font-weight:700;margin-bottom:2px;">Възстановяване на данни</div>
+            <div style="font-size:13px;font-weight:700;margin-bottom:3px;">Възстановяване на данни</div>
             <div style="font-size:12px;color:var(--muted);line-height:1.5;">Изтрити файлове, повредени дискове - 95% успеваемост.</div>
-            <div style="font-size:12px;font-weight:700;color:var(--primary);margin-top:4px;">от 40 €</div>
+            <div style="font-size:12px;font-weight:700;color:var(--primary);margin-top:6px;">от 40 €</div>
           </div>
         </div>
-        <div class="megamenu-cat-card" style="flex-direction:row;align-items:center;text-align:left;padding:14px 16px;gap:14px;">
-          <div style="font-size:26px;flex-shrink:0;">🖥</div>
+        <div class="megamenu-cat-card" style="flex-direction:row;align-items:flex-start;text-align:left;padding:18px 20px;gap:16px;">
+          <div style="width:42px;height:42px;border-radius:10px;background:var(--primary-light);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </div>
           <div>
-            <div style="font-size:13px;font-weight:700;margin-bottom:2px;">Инсталация на Windows / macOS</div>
+            <div style="font-size:13px;font-weight:700;margin-bottom:3px;">Инсталация на Windows / macOS</div>
             <div style="font-size:12px;color:var(--muted);line-height:1.5;">Чиста инсталация, трансфер на данни, настройка.</div>
-            <div style="font-size:12px;font-weight:700;color:var(--primary);margin-top:4px;">от 20 €</div>
+            <div style="font-size:12px;font-weight:700;color:var(--primary);margin-top:6px;">от 20 €</div>
           </div>
         </div>
-        <div class="megamenu-cat-card" style="flex-direction:row;align-items:center;text-align:left;padding:14px 16px;gap:14px;">
-          <div style="font-size:26px;flex-shrink:0;">📡</div>
+        <div class="megamenu-cat-card" style="flex-direction:row;align-items:flex-start;text-align:left;padding:18px 20px;gap:16px;">
+          <div style="width:42px;height:42px;border-radius:10px;background:var(--primary-light);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
+          </div>
           <div>
-            <div style="font-size:13px;font-weight:700;margin-bottom:2px;">Мрежова поддръжка</div>
+            <div style="font-size:13px;font-weight:700;margin-bottom:3px;">Мрежова поддръжка</div>
             <div style="font-size:12px;color:var(--muted);line-height:1.5;">Рутери, мрежи за дома и офиса, Wi-Fi оптимизация.</div>
-            <div style="font-size:12px;font-weight:700;color:var(--primary);margin-top:4px;">от 30 €</div>
+            <div style="font-size:12px;font-weight:700;color:var(--primary);margin-top:6px;">от 30 €</div>
           </div>
         </div>
-        <div class="megamenu-cat-card" style="flex-direction:row;align-items:center;text-align:left;padding:14px 16px;gap:14px;">
-          <div style="font-size:26px;flex-shrink:0;">🔋</div>
+        <div class="megamenu-cat-card" style="flex-direction:row;align-items:flex-start;text-align:left;padding:18px 20px;gap:16px;">
+          <div style="width:42px;height:42px;border-radius:10px;background:var(--primary-light);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="2"/><line x1="10" y1="6" x2="14" y2="6"/><line x1="12" y1="18" x2="12" y2="18"/></svg>
+          </div>
           <div>
-            <div style="font-size:13px;font-weight:700;margin-bottom:2px;">Смяна на батерия</div>
+            <div style="font-size:13px;font-weight:700;margin-bottom:3px;">Смяна на батерия</div>
             <div style="font-size:12px;color:var(--muted);line-height:1.5;">Лаптопи и смартфони. Оригинални части с 3 мес. гаранция.</div>
-            <div style="font-size:12px;font-weight:700;color:var(--primary);margin-top:4px;">от 30 €</div>
+            <div style="font-size:12px;font-weight:700;color:var(--primary);margin-top:6px;">от 30 €</div>
           </div>
         </div>
-        <div class="megamenu-cat-card" style="flex-direction:row;align-items:center;text-align:left;padding:14px 16px;gap:14px;">
-          <div style="font-size:26px;flex-shrink:0;">🧹</div>
+        <div class="megamenu-cat-card" style="flex-direction:row;align-items:flex-start;text-align:left;padding:18px 20px;gap:16px;">
+          <div style="width:42px;height:42px;border-radius:10px;background:var(--primary-light);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2a10 10 0 0 1 10 10c0 5.52-4.48 10-10 10S2 17.52 2 12c0-2.76 1.12-5.26 2.93-7.07"/><path d="M4.93 4.93A10 10 0 0 1 12 2"/><polyline points="8 6 12 2 16 6"/></svg>
+          </div>
           <div>
-            <div style="font-size:13px;font-weight:700;margin-bottom:2px;">Почистване и профилактика</div>
+            <div style="font-size:13px;font-weight:700;margin-bottom:3px;">Почистване и профилактика</div>
             <div style="font-size:12px;color:var(--muted);line-height:1.5;">Термопаста, почистване от прах - по-добро охлаждане.</div>
-            <div style="font-size:12px;font-weight:700;color:var(--primary);margin-top:4px;">от 15 €</div>
+            <div style="font-size:12px;font-weight:700;color:var(--primary);margin-top:6px;">от 15 €</div>
+          </div>
+        </div>
+        <div class="megamenu-cat-card" style="flex-direction:row;align-items:flex-start;text-align:left;padding:18px 20px;gap:16px;">
+          <div style="width:42px;height:42px;border-radius:10px;background:var(--primary-light);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="6" height="6"/><path d="M9 2v2"/><path d="M15 2v2"/><path d="M9 22v-2"/><path d="M15 22v-2"/><path d="M2 9h2"/><path d="M22 9h-2"/><path d="M2 15h2"/><path d="M22 15h-2"/><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+          </div>
+          <div>
+            <div style="font-size:13px;font-weight:700;margin-bottom:3px;">Надграждане на компоненти</div>
+            <div style="font-size:12px;color:var(--muted);line-height:1.5;">Замяна на HDD с SSD, добавяне на RAM - значително по-бърза машина.</div>
+            <div style="font-size:12px;font-weight:700;color:var(--primary);margin-top:6px;">от 35 €</div>
+          </div>
+        </div>
+        <div class="megamenu-cat-card" style="flex-direction:row;align-items:flex-start;text-align:left;padding:18px 20px;gap:16px;">
+          <div style="width:42px;height:42px;border-radius:10px;background:var(--primary-light);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+          </div>
+          <div>
+            <div style="font-size:13px;font-weight:700;margin-bottom:3px;">Антивирусна защита</div>
+            <div style="font-size:12px;color:var(--muted);line-height:1.5;">Премахване на вируси, малуер, ransomware. Настройка на защита.</div>
+            <div style="font-size:12px;font-weight:700;color:var(--primary);margin-top:6px;">от 20 €</div>
           </div>
         </div>
       </div>
@@ -3682,45 +3748,47 @@
           <a href="tel:070014411"
             style="display:inline-flex;align-items:center;gap:8px;background:#fff;color:#bd1105;border:none;border-radius:24px;padding:13px 28px;font-size:15px;font-weight:800;cursor:pointer;text-decoration:none;transition:opacity .2s;"
             onmouseover="this.style.opacity='.9'" onmouseout="this.style.opacity='1'">
-            📞 Обадете се сега
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.1a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.06 6.06l.97-.97a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 17z"/></svg>
+            Обадете се сега
           </a>
           <button type="button" data-action="openContactPage();closeServicePage"
             style="display:inline-flex;align-items:center;gap:8px;background:transparent;color:#fff;border:2px solid rgba(255,255,255,.7);border-radius:24px;padding:13px 28px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Outfit',sans-serif;transition:border-color .2s;"
             onmouseover="this.style.borderColor='#fff'" onmouseout="this.style.borderColor='rgba(255,255,255,.7)'">
-            📩 Изпрати запитване
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            Изпрати запитване
           </button>
         </div>
         <div style="font-size:12px;opacity:.7;margin-top:14px;">Пон–Пет 09:30–18:15 · 0700 144 11</div>
       </div>
 
       <!-- Service center + map -->
-      <div class="megamenu-section-title">📍 Сервизен център</div>
+      <div class="megamenu-section-title" style="display:flex;align-items:center;gap:8px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Сервизен център</div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:stretch;margin-bottom:32px;">
         <div style="background:var(--white);border:1px solid var(--border);border-radius:14px;padding:28px 32px;">
           <div style="display:grid;gap:14px;">
             <div class="row-gap-14-center">
-              <span class="text-20">📍</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
               <div>
                 <div class="meta-label">Адрес</div>
                 <div class="text-14-semibold">бул. Шипченски проход 240, София</div>
               </div>
             </div>
             <div class="row-gap-14-center">
-              <span class="text-20">📞</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.1a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.06 6.06l.97-.97a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 17z"/></svg>
               <div>
                 <div class="meta-label">Телефон</div>
                 <div class="text-14-semibold"><a href="tel:070014411" style="color:inherit;text-decoration:none;">0700 144 11</a></div>
               </div>
             </div>
             <div class="row-gap-14-center">
-              <span class="text-20">⏰</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
               <div>
                 <div class="meta-label">Работно време</div>
                 <div class="text-14-semibold">Пон–Пет 09:30–18:15</div>
               </div>
             </div>
             <div class="row-gap-14-center">
-              <span class="text-20">✉️</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
               <div>
                 <div class="meta-label">Имейл</div>
                 <div class="text-14-semibold"><span class="ep" data-u="support" data-d="mostbg.com"></span></div>
@@ -3735,7 +3803,7 @@
       <details style="margin-bottom:32px;border:1px solid var(--border);border-radius:14px;overflow:hidden;">
         <summary style="padding:16px 22px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;background:var(--white);">
           <div>
-            <div style="font-size:14px;font-weight:700;">📦 Провери статус на сервизна поръчка</div>
+            <div style="font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg> Провери статус на сервизна поръчка</div>
             <div style="font-size:12px;color:var(--muted);margin-top:3px;">Въведете номер на поръчка или гаранционна карта и вижте в какъв етап е вашето устройство.</div>
           </div>
           <span style="font-size:18px;color:var(--muted);flex-shrink:0;margin-left:16px;">＋</span>
@@ -3755,7 +3823,7 @@
             </div>
             <div id="svcTrkErr" style="color:var(--primary);font-size:13px;margin-bottom:8px;display:none;">Моля, въведете поне един валиден номер (минимум 3 символа).</div>
             <button type="submit" id="svcTrkBtn"
-              style="width:100%;background:var(--primary);color:#fff;border:none;border-radius:20px;padding:11px 16px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;transition:background .2s;display:flex;align-items:center;justify-content:center;gap:8px;"
+              style="background:var(--primary);color:#fff;border:none;border-radius:8px;padding:10px 24px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;transition:background .2s;display:inline-flex;align-items:center;gap:8px;"
               onmouseover="this.style.background='var(--primary-dark)'" onmouseout="if(!this.disabled)this.style.background='var(--primary)'">
               <div class="svc-loader" id="svcTrkLoader"></div>
               <span id="svcTrkBtnTxt">🔍 Провери статус</span>
@@ -3816,7 +3884,7 @@
         </details>
         <details style="background:var(--white);border:1px solid var(--border);border-radius:12px;overflow:hidden;">
           <summary style="padding:16px 20px;font-size:14px;font-weight:700;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;">Приемате ли устройства по куриер?<span style="font-size:18px;color:var(--muted);">＋</span></summary>
-          <div style="padding:0 20px 16px;font-size:13px;color:var(--text2);line-height:1.7;">Да, приемаме от цялата страна чрез <strong>Еконт или Speedy</strong>. Изпратете запитване първо, за да уточним детайлите и да подготвим приемането.</div>
+          <div style="padding:0 20px 16px;font-size:13px;color:var(--text2);line-height:1.7;">Да, приемаме от цялата страна чрез <strong>Еконт</strong>. Изпратете запитване първо, за да уточним детайлите и да подготвим приемането.</div>
         </details>
         <details style="background:var(--white);border:1px solid var(--border);border-radius:12px;overflow:hidden;">
           <summary style="padding:16px 20px;font-size:14px;font-weight:700;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;">Не намирам заявката си в системата?<span style="font-size:18px;color:var(--muted);">＋</span></summary>
@@ -3912,7 +3980,7 @@
               <rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/><path d="m9 8 3 3 3-3"/>
             </svg>
             <div class="dlv-card-title">Доставка до офис</div>
-            <div class="dlv-card-sub">Speedy или Econt - по твой избор</div>
+            <div class="dlv-card-sub">Еконт - бърза и надеждна доставка</div>
             <div class="dlv-card-price">3.06 €<span class="dlv-price-note">Безплатна при поръчка над 100 €</span></div>
           </div>
 
@@ -4370,6 +4438,22 @@
         <nav class="pdp-mhdr-bc" id="pdpBcInner" aria-label="Breadcrumb"></nav>
       </div>
 
+      <!-- Mobile PDP header (back + wish + cart) -->
+      <div class="pdp-mob-hdr">
+        <button type="button" class="pdp-mob-back" data-action="closeProductPage" aria-label="Назад">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+          <span>Назад</span>
+        </button>
+        <div class="pdp-mob-hdr-spacer"></div>
+        <button type="button" class="pdp-mob-wish" id="pdpMobWishBtn" data-action="pdpToggleWish" aria-label="Любими">
+          <svg width="20" height="20" class="svg-ic" aria-hidden="true"><use href="#ic-heart"/></svg>
+        </button>
+        <button type="button" class="pdp-mob-cart" data-action="toggleCart" aria-label="Кошница">
+          <svg width="20" height="20" class="svg-ic" aria-hidden="true"><use href="#ic-cart"/></svg>
+          <span class="pdp-mob-cart-badge" id="pdpMobCartBadge"></span>
+        </button>
+      </div>
+
       <div class="pdp-main-grid">
 
         <!-- Gallery -->
@@ -4425,23 +4509,23 @@
           <!-- Viewers counter (QW-02) -->
           <div class="pdp-viewers" id="pdpViewers" style="display:none;"></div>
 
-          <!-- Stock -->
-          <div class="pdp-stock" id="pdpStock">
-            <div class="pdp-stock-dot"></div>
-            <span id="pdpStockTxt">В наличност</span>
-          </div>
-
-          <!-- Delivery timer -->
-          <div class="pdp-delivery" id="pdpDelivery">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <rect x="1" y="3" width="15" height="13" rx="1" />
-              <path d="M16 8h4l3 5v3h-7V8z" />
-              <circle cx="5.5" cy="18.5" r="2.5" />
-              <circle cx="18.5" cy="18.5" r="2.5" />
-            </svg>
-            <span id="pdpDeliveryMsg">Поръчай до <strong>14:00 ч.</strong> и получи <strong>утре</strong></span>
-            <span class="pdp-delivery-cd" id="pdpDeliveryCd"></span>
+          <!-- Stock + Delivery row -->
+          <div class="pdp-delivery-row">
+            <div class="pdp-stock" id="pdpStock">
+              <div class="pdp-stock-dot"></div>
+              <span id="pdpStockTxt">В наличност</span>
+            </div>
+            <div class="pdp-delivery" id="pdpDelivery">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="1" y="3" width="15" height="13" rx="1" />
+                <path d="M16 8h4l3 5v3h-7V8z" />
+                <circle cx="5.5" cy="18.5" r="2.5" />
+                <circle cx="18.5" cy="18.5" r="2.5" />
+              </svg>
+              <span id="pdpDeliveryMsg">Поръчай до <strong>14:00 ч.</strong> и получи <strong>утре</strong></span>
+              <span class="pdp-delivery-cd" id="pdpDeliveryCd"></span>
+            </div>
           </div>
 
           <!-- Quick specs -->
@@ -4460,7 +4544,6 @@
               height="20" class="svg-ic" aria-hidden="true">
               <use href="#ic-cart" />
             </svg> Добави в кошница</button>
-          <button type="button" class="pdp-phone-order-btn" id="pdpPhoneOrderBtn" data-action="openPhoneOrder">📞 Поръчай с телефон</button>
           <button type="button" class="pdp-checkout-btn" id="pdpCheckoutBtn"
             onclick="closeProductPage();handleCheckout();" style="display:none;"><svg width="18" height="18"
               class="svg-ic" aria-hidden="true">
@@ -4472,11 +4555,10 @@
             <canvas id="pdpSparkline" width="120" height="36" aria-hidden="true"></canvas>
           </div>
 
-          <button type="button" class="pdp-price-alert-btn" id="pdpPriceAlertBtn" onclick="pdpTogglePriceAlert()">
-            🔔 <span id="pdpPriceAlertLabel">При намаление</span>
-          </button>
-
+          <div class="pdp-zone-divider"></div>
           <div class="pdp-secondary-actions">
+            <button type="button" class="pdp-sec-btn" data-action="openPhoneOrder"><svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-phone"/></svg> Телефон</button>
+            <button type="button" class="pdp-sec-btn pdp-price-alert-btn" id="pdpPriceAlertBtn" onclick="pdpTogglePriceAlert()"><svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-bell"/></svg> <span id="pdpPriceAlertLabel">Намаление</span></button>
             <button type="button" class="pdp-sec-btn" id="pdpWishBtn" data-action="pdpToggleWish"><svg width="16"
                 height="16" class="svg-ic" aria-hidden="true">
                 <use href="#ic-heart" />
@@ -4491,43 +4573,6 @@
               </svg>
               Сравни
             </button>
-          </div>
-
-          <!-- Trust badges -->
-          <div class="pdp-trust">
-            <div class="pdp-trust-item">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round">
-                <rect x="1" y="3" width="15" height="13" rx="1" />
-                <path d="M16 8h4l3 5v3h-7V8z" />
-                <circle cx="5.5" cy="18.5" r="2.5" />
-                <circle cx="18.5" cy="18.5" r="2.5" />
-              </svg>
-              <span>Безплатна доставка над 100 € / 195 лв.</span>
-            </div>
-            <div class="pdp-trust-item">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round">
-                <rect x="3" y="11" width="18" height="11" rx="2" />
-                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-              </svg>
-              <span>Сигурно плащане</span>
-            </div>
-            <div class="pdp-trust-item">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="23 4 23 10 17 10" />
-                <path d="M20.49 15a9 9 0 1 1-.07-8.17" />
-              </svg>
-              <span>14 дни връщане</span>
-            </div>
-            <div class="pdp-trust-item">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-              </svg>
-              <span>Официална гаранция</span>
-            </div>
           </div>
 
           <!-- Contact strip + share -->
@@ -4713,21 +4758,22 @@
         <button type="button" class="pdp-mob-back" data-action="closeProductPage" aria-label="Назад">
           <svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-arrow-left"/></svg>
         </button>
+        <div class="pdp-sticky-thumb" id="pdpStickyThumb"></div>
         <div class="pdp-sticky-info">
           <span class="pdp-sticky-name" id="pdpStickyName"></span>
           <span class="pdp-sticky-price" id="pdpStickyPrice"></span>
         </div>
         <div class="pdp-sticky-actions">
-          <div class="pdp-qty-ctrl" style="background:var(--bg2);border-radius:8px;">
-            <button type="button" class="pdp-qty-btn" data-action="pdpChangeQty(-1)">−</button>
+          <div class="pdp-sticky-qty">
+            <button type="button" class="pdp-sticky-qty-btn" data-action="pdpChangeQty(-1)">−</button>
             <span class="pdp-qty-num" id="pdpStickyQty">1</span>
-            <button type="button" class="pdp-qty-btn" data-action="pdpChangeQty(1)">+</button>
+            <button type="button" class="pdp-sticky-qty-btn" data-action="pdpChangeQty(1)">+</button>
           </div>
           <button type="button" class="pdp-sticky-atc" data-action="pdpAddToCart">
             <svg width="16" height="16" class="svg-ic" aria-hidden="true">
               <use href="#ic-cart" />
             </svg>
-            Добави в кошница
+            Купи
           </button>
           <button type="button" class="pdp-sticky-checkout" id="pdpStickyCheckoutBtn"
             onclick="closeProductPage();handleCheckout();" style="display:none;">
@@ -4782,7 +4828,7 @@
         </div>
         <div class="about-hero-right">
           <div class="about-stat"><span class="about-stat-num">36+</span><span class="about-stat-lbl">Години опит</span></div>
-          <div class="about-stat"><span class="about-stat-num">120K+</span><span class="about-stat-lbl">Клиенти</span></div>
+          <div class="about-stat"><span class="about-stat-num">550K+</span><span class="about-stat-lbl">Клиенти</span></div>
           <div class="about-stat"><span class="about-stat-num">5 000+</span><span class="about-stat-lbl">Продукта</span></div>
           <div class="about-stat"><span class="about-stat-num">98%</span><span class="about-stat-lbl">Положителни ревюта</span></div>
         </div>
@@ -4825,7 +4871,7 @@
             <div class="about-tl-year-col"><span class="about-tl-year">2024</span><div class="about-tl-dot"></div></div>
             <div class="about-tl-body">
               <div class="about-tl-heading">Нова платформа</div>
-              <p class="about-tl-text">Изцяло нова онлайн платформа с PWA поддръжка и персонализиран shopping experience. Доверен от над 120 000 клиента.</p>
+              <p class="about-tl-text">Изцяло нова онлайн платформа с PWA поддръжка и персонализиран shopping experience. Доверен от над 550 000+ клиента.</p>
             </div>
           </div>
         </div>
@@ -4833,8 +4879,8 @@
 
       <!-- Цитат -->
       <div class="about-quote">
-        <p class="about-quote-text">„Никога не продаваме продукт, който не бихме препоръчали на собственото си семейство."</p>
-        <div class="about-quote-author">- Основател, Мост Компютърс · 1990</div>
+        <p class="about-quote-text">„От първия компютър до днес - вярваме в силата на технологиите да променят всичко."</p>
+        <div class="about-quote-author">- Most Computers · 36 години технологии</div>
       </div>
 
       <!-- Ценности -->
@@ -4903,7 +4949,7 @@
       </div>
     </div>
     <div id="cpSidebarOverlay" class="cp-sidebar-overlay" onclick="cpCloseSidebar()" role="button" tabindex="-1" aria-label="Затвори"></div>
-    <button type="button" class="cp-filter-btn" onclick="cpOpenSidebar()">&#127912; Филтри <span
+    <button type="button" class="cp-filter-btn" onclick="cpOpenSidebar()"><svg width="15" height="15" class="svg-ic" aria-hidden="true"><use href="#ic-filter"/></svg> Филтри <span
         id="cpActiveFiltersCount"></span></button>
     <div class="cat-page-inner">
       <div class="cat-page-sidebar" id="cpSidebar"></div>
@@ -4953,26 +4999,29 @@
         <div class="pp-name" id="ppName"></div>
         <div class="pp-rating" id="ppRating"></div>
         <div class="pp-price" id="ppPrice"></div>
+        <div class="pp-stock" id="ppStock"></div>
+        <div class="pp-delivery" id="ppDelivery"></div>
       </div>
     </div>
     <div class="pp-actions">
       <button type="button" class="pp-add-btn" id="ppAddBtn">🛒 Добави в кошница</button>
+      <button type="button" class="pp-quick-btn" id="ppQuickBtn">⚡ Бърза поръчка</button>
       <button type="button" class="pp-details-btn" id="ppDetailsBtn">Всички детайли →</button>
     </div>
     <div class="pdp-trust-row">
-  <span class="pdp-trust-visa">
-    <svg width="32" height="20" viewBox="0 0 38 24" aria-label="Visa"><rect width="38" height="24" rx="4" fill="#1A1F71"/><path d="M14.5 16.5l1.8-9h2.9l-1.8 9h-2.9zm11.3-8.8c-.6-.2-1.5-.5-2.6-.5-2.9 0-4.9 1.5-4.9 3.6 0 1.6 1.4 2.4 2.5 2.9 1.1.5 1.5.9 1.5 1.4 0 .7-.9 1.1-1.7 1.1-1.2 0-1.8-.2-2.8-.6l-.4-.2-.4 2.5c.7.3 1.9.6 3.2.6 3 0 5-1.5 5-3.7 0-1.2-.8-2.2-2.4-3-.9-.5-1.5-.8-1.5-1.3 0-.5.5-.9 1.5-.9.8 0 1.5.2 2 .4l.2.1.4-2.4z" fill="white"/></svg>
-  </span>
-  <span class="pdp-trust-mc">
-    <svg width="32" height="20" viewBox="0 0 38 24" aria-label="Mastercard"><rect width="38" height="24" rx="4" fill="#252525"/><circle cx="15" cy="12" r="7" fill="#EB001B"/><circle cx="23" cy="12" r="7" fill="#F79E1B"/><path d="M19 7.5a7 7 0 0 1 0 9 7 7 0 0 1 0-9z" fill="#FF5F00"/></svg>
-  </span>
-  <span class="pdp-trust-item">Наложен платеж</span>
-  <span class="pdp-trust-item">Банков превод</span>
-  <span class="pdp-trust-ssl">
-    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-    SSL
-  </span>
-</div>
+      <span class="pdp-trust-visa">
+        <svg width="32" height="20" viewBox="0 0 38 24" aria-label="Visa"><rect width="38" height="24" rx="4" fill="#1A1F71"/><path d="M14.5 16.5l1.8-9h2.9l-1.8 9h-2.9zm11.3-8.8c-.6-.2-1.5-.5-2.6-.5-2.9 0-4.9 1.5-4.9 3.6 0 1.6 1.4 2.4 2.5 2.9 1.1.5 1.5.9 1.5 1.4 0 .7-.9 1.1-1.7 1.1-1.2 0-1.8-.2-2.8-.6l-.4-.2-.4 2.5c.7.3 1.9.6 3.2.6 3 0 5-1.5 5-3.7 0-1.2-.8-2.2-2.4-3-.9-.5-1.5-.8-1.5-1.3 0-.5.5-.9 1.5-.9.8 0 1.5.2 2 .4l.2.1.4-2.4z" fill="white"/></svg>
+      </span>
+      <span class="pdp-trust-mc">
+        <svg width="32" height="20" viewBox="0 0 38 24" aria-label="Mastercard"><rect width="38" height="24" rx="4" fill="#252525"/><circle cx="15" cy="12" r="7" fill="#EB001B"/><circle cx="23" cy="12" r="7" fill="#F79E1B"/><path d="M19 7.5a7 7 0 0 1 0 9 7 7 0 0 1 0-9z" fill="#FF5F00"/></svg>
+      </span>
+      <span class="pdp-trust-item">Наложен платеж</span>
+      <span class="pdp-trust-item">Банков превод</span>
+      <span class="pdp-trust-ssl">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        SSL
+      </span>
+    </div>
   </div>
 
   <!-- SHARE FALLBACK POPUP -->
@@ -5397,7 +5446,7 @@
       <!-- Hero -->
       <div class="b2b-hero">
         <div class="b2b-hero-badge">Бизнес портал</div>
-        <h1 class="b2b-hero-title">Фирмен акаунт в Мост Компютърс</h1>
+        <h2 class="b2b-hero-title">Фирмен акаунт в Мост Компютърс</h2>
         <div class="b2b-hero-perks">
           <span class="b2b-hero-perk">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
@@ -5780,6 +5829,28 @@
         </a>
       </div>
 
+      <!-- ГАРАНЦИОННИ КАРТИ -->
+      <div style="margin-bottom:28px;background:var(--card-bg,var(--bg));border:1px solid var(--border);border-radius:12px;padding:24px 28px;position:relative;overflow:hidden;">
+        <div style="position:absolute;top:0;left:0;width:4px;height:100%;background:var(--primary);border-radius:12px 0 0 12px;"></div>
+        <div style="font-size:10.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--primary);margin-bottom:6px;">ГАРАНЦИОННИ КАРТИ</div>
+        <h3 style="font-family:'Outfit',sans-serif;font-size:18px;font-weight:700;color:var(--text,#111827);margin:0 0 6px;">Свалете своята гаранционна карта</h3>
+        <p style="font-size:13px;color:var(--muted,#6b7280);line-height:1.6;margin:0 0 20px;">Задължително условие при рекламация е представянето на <strong>четливо и изцяло попълнена гаранционна карта</strong>. Свалете шаблона за вашата марка, попълнете го и го донесете при посещение на сервизния ни център.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:12px;">
+          <a href="/docs/Acer%20Warranty%20Card.pdf" download="Garantsia_Acer.pdf"
+             style="display:inline-flex;align-items:center;gap:10px;background:var(--surface,#fff);border:2px solid var(--primary);color:var(--primary);border-radius:10px;padding:11px 22px;font-size:13.5px;font-weight:700;text-decoration:none;transition:all .15s;"
+             onmouseover="this.style.background='var(--primary)';this.style.color='#fff'" onmouseout="this.style.background='var(--surface,#fff)';this.style.color='var(--primary)'">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Гаранционна карта Acer
+          </a>
+          <a href="/docs/Lenovo%20Warranty%20Card.pdf" download="Garantsia_Lenovo.pdf"
+             style="display:inline-flex;align-items:center;gap:10px;background:var(--surface,#fff);border:2px solid var(--primary);color:var(--primary);border-radius:10px;padding:11px 22px;font-size:13.5px;font-weight:700;text-decoration:none;transition:all .15s;"
+             onmouseover="this.style.background='var(--primary)';this.style.color='#fff'" onmouseout="this.style.background='var(--surface,#fff)';this.style.color='var(--primary)'">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Гаранционна карта Lenovo
+          </a>
+        </div>
+      </div>
+
       <!-- SECTION 1: ГАРАНЦИОНЕН СРОК -->
       <div class="dlv-section">
         <div class="dlv-eyebrow">ГАРАНЦИЯ &middot; ЧЛ. 1</div>
@@ -5985,6 +6056,58 @@
 
     </div><!-- /dlv-body -->
   </div><!-- /warrantyPage -->
+
+  <!-- Floating cart pill — desktop only, shown when cart has items -->
+  <div id="floatCartPill" class="fcp" role="region" aria-label="Количка">
+    <div id="floatCartDropdown" class="fcp-dropdown">
+      <div id="floatCartItems" class="fcp-items"></div>
+      <div class="fcp-footer">
+        <button type="button" class="fcp-checkout-btn" onclick="handleCheckout()"><svg width="14" height="14" class="svg-ic" aria-hidden="true"><use href="#ic-shield"/></svg> Завърши поръчката →</button>
+      </div>
+    </div>
+    <button type="button" class="fcp-pill" id="floatCartBtn" aria-expanded="false" aria-controls="floatCartDropdown">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+      <span id="floatCartCount">0</span>&nbsp;<span class="fcp-label">продукта</span>
+      <span class="fcp-sep">|</span>
+      <span id="floatCartTotal">0.00 €</span>
+      <svg class="fcp-arrow" width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 8L6 4L10 8"/></svg>
+    </button>
+  </div>
+
+<script>
+/* Sticky bar overrides — patch pdpUpdateStickyBar to show EUR only + populate thumb */
+(function() {
+  function _patchStickyBar() {
+    if (typeof pdpUpdateStickyBar !== 'function') return;
+    if (window._stickyBarPatched) return;
+    window._stickyBarPatched = true;
+    var _orig = pdpUpdateStickyBar;
+    window.pdpUpdateStickyBar = function(p) {
+      _orig(p);
+      // Show EUR only (trim " / лв." part)
+      var priceEl = document.getElementById('pdpStickyPrice');
+      if (priceEl) {
+        var t = priceEl.textContent || '';
+        var slash = t.indexOf(' / ');
+        if (slash > -1) priceEl.textContent = t.substring(0, slash);
+      }
+      // Populate thumbnail with product image
+      var thumb = document.getElementById('pdpStickyThumb');
+      if (thumb && p && p.img) {
+        thumb.innerHTML = '<img src="' + p.img + '" alt="" width="40" height="40" loading="eager" onerror="this.style.display=\'none\'">';
+      }
+    };
+  }
+  // Poll until app-lazy defines pdpUpdateStickyBar (it loads lazily on first interaction)
+  var _t = setInterval(function() {
+    if (typeof pdpUpdateStickyBar === 'function') {
+      _patchStickyBar();
+      clearInterval(_t);
+    }
+  }, 150);
+  setTimeout(function() { clearInterval(_t); }, 30000);
+})();
+</script>
 
 </body>
 

@@ -27,7 +27,7 @@ function setupCartDOM() {
   `;
 }
 
-const { addToCart, removeFromCart, changeQty } = require('../../js/cart.js');
+const { addToCart, removeFromCart, changeQty, updateFloatPill } = require('../../js/cart.js');
 
 // ── addToCart ────────────────────────────────────────────────────────────────
 describe('addToCart', () => {
@@ -166,5 +166,105 @@ describe('FREE_SHIP_BGN = 200', () => {
     addToCart(99); // 15 лв. → трябват (195.58 - 15) / 1.95583 ≈ 92.33 €
     const rem = ((195.58 - 15) / 1.95583).toFixed(2);
     expect(document.getElementById('cartBody').innerHTML).toContain(rem + ' €');
+  });
+});
+
+// ── updateFloatPill qty controls ─────────────────────────────────────────────
+describe('updateFloatPill qty controls', () => {
+
+  function setupPillDOM() {
+    document.body.innerHTML = `
+      <span id="cartBadge"></span>
+      <span id="cartTotal"></span>
+      <span id="bnCartBadge"></span>
+      <div id="cartBody"></div>
+      <div id="cartPage" style="display:none"></div>
+      <div id="checkoutPage"></div>
+      <div id="cartPanel"></div>
+      <div id="pdpBackdrop"></div>
+      <div id="floatCartPill" class="fcp">
+        <div id="floatCartDropdown" class="fcp-dropdown">
+          <div id="floatCartItems" class="fcp-items"></div>
+          <div class="fcp-footer">
+            <button class="fcp-checkout-btn"></button>
+          </div>
+        </div>
+        <button id="floatCartBtn" class="fcp-pill" aria-expanded="false">
+          <span id="floatCartCount">0</span>
+          <span class="fcp-label">продукта</span>
+          <span id="floatCartTotal">0.00 €</span>
+          <svg class="fcp-arrow"></svg>
+        </button>
+      </div>
+      <button id="backToTop"></button>
+    `;
+  }
+
+  beforeEach(() => {
+    setupPillDOM();
+    global.products = [...PRODUCTS];
+    global.cart = [{ ...PRODUCTS[0], qty: 3 }];
+    global.changeQty = changeQty;
+    global.saveCart = jest.fn();
+  });
+
+  test('рендерира fcp-qty-btn бутони за всеки продукт', () => {
+    updateFloatPill();
+    const btns = document.querySelectorAll('.fcp-qty-btn');
+    expect(btns.length).toBe(2); // − и + за един продукт
+  });
+
+  test('показва правилното количество в fcp-qty-num', () => {
+    updateFloatPill();
+    const num = document.querySelector('.fcp-qty-num');
+    expect(num).not.toBeNull();
+    expect(num.textContent).toBe('3');
+  });
+
+  test('рендерира fcp-item-foot с qty-ctrl и price', () => {
+    updateFloatPill();
+    const foot = document.querySelector('.fcp-item-foot');
+    expect(foot).not.toBeNull();
+    expect(foot.querySelector('.fcp-item-qty-ctrl')).not.toBeNull();
+    expect(foot.querySelector('.fcp-item-price')).not.toBeNull();
+  });
+
+  test('− бутонът намалява qty при клик', () => {
+    updateFloatPill();
+    const minusBtn = document.querySelector('.fcp-qty-btn');
+    minusBtn.click();
+    expect(global.cart[0].qty).toBe(2);
+  });
+
+  test('+ бутонът увеличава qty при клик', () => {
+    updateFloatPill();
+    const plusBtn = document.querySelectorAll('.fcp-qty-btn')[1];
+    plusBtn.click();
+    expect(global.cart[0].qty).toBe(4);
+  });
+
+  test('при qty=1 клик − премахва продукта', () => {
+    global.cart = [{ ...PRODUCTS[0], qty: 1 }];
+    updateFloatPill();
+    const minusBtn = document.querySelector('.fcp-qty-btn');
+    minusBtn.click();
+    expect(global.cart).toHaveLength(0);
+  });
+
+  test('× бутонът премахва продукта директно', () => {
+    global.removeFromCart = removeFromCart;
+    updateFloatPill();
+    const removeBtn = document.querySelector('.fcp-remove-btn');
+    expect(removeBtn).not.toBeNull();
+    removeBtn.click();
+    expect(global.cart).toHaveLength(0);
+  });
+
+  test('pill показва compact формат за суми ≥ 10000', () => {
+    global.cart = [{ ...PRODUCTS[1], qty: 4 }]; // 4 × 2599 лв. = 10396 лв. → ~5316 €
+    updateFloatPill();
+    const totalText = document.getElementById('floatCartTotal').textContent;
+    expect(totalText).not.toMatch(/,\d{2} €$/); // без центове
+    expect(totalText).toMatch(/€$/);
   });
 });

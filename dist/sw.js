@@ -1,12 +1,11 @@
-// Most Computers — Service Worker 49915a6e
-const CACHE = 'mc-49915a6e';
+// Most Computers — Service Worker a6ad7bfb
+const CACHE = 'mc-a6ad7bfb';
 const PRECACHE = [
   './',
   './index.html',
   './styles.css',
-  './products.js',
   './app.js',
-  './data.js',
+  './app-lazy.js',
 ];
 
 // Install - precache shell
@@ -64,7 +63,7 @@ self.addEventListener('fetch', e => {
         }
         return res;
       })
-      .catch(() => caches.match(request).then(cached => cached || new Response('Офлайн режим - страницата не е налична.', {
+      .catch(() => caches.match(request, {ignoreSearch: true}).then(cached => cached || new Response('Офлайн режим - страницата не е налична.', {
         status: 503,
         headers: { 'Content-Type': 'text/plain; charset=utf-8' }
       })))

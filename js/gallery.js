@@ -190,8 +190,9 @@ function updateCompareBar(){
   const bar=document.getElementById('compareBar');
   const preview=document.getElementById('comparePreview');
   const cnt=document.getElementById('compareCnt');
-  if(compareList.length===0){bar.classList.remove('visible');return;}
+  if(compareList.length===0){bar.classList.remove('visible');document.body.classList.remove('compare-active');return;}
   bar.classList.add('visible');
+  document.body.classList.add('compare-active');
   if(cnt) cnt.textContent=compareList.length;
   let html='';
   for(let i=0;i<3;i++){

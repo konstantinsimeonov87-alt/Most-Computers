@@ -1,4 +1,20 @@
 // ===== PRODUCT PAGE =====
+function _sanitizeHtml(html) {
+  try {
+    const doc = new DOMParser().parseFromString(html, 'text/html');
+    ['script','iframe','object','embed','form','base','meta','link'].forEach(function(tag) {
+      doc.querySelectorAll(tag).forEach(function(el) { el.remove(); });
+    });
+    doc.querySelectorAll('*').forEach(function(el) {
+      Array.from(el.attributes).forEach(function(attr) {
+        if (/^on/i.test(attr.name) || /^javascript:/i.test((attr.value || '').trim())) {
+          el.removeAttribute(attr.name);
+        }
+      });
+    });
+    return doc.body.innerHTML;
+  } catch(e) { return ''; }
+}
 let pdpProductId = null;
 let pdpQtyVal    = 1;
 let pdpGallery   = [];
@@ -9,6 +25,7 @@ let _pdpScrollY = 0;
 function openProductPage(id) {
   const p = products.find(x => x.id === id);
   if (!p) return;
+  if (typeof closeProdPreview === 'function') closeProdPreview();
   if (document.getElementById('pdpBackdrop')?.classList.contains('open')) {
     document.getElementById('pdpStickyBar')?.classList.remove('visible');
   }
@@ -22,6 +39,13 @@ function openProductPage(id) {
   pdpProductId = id;
   pdpQtyVal = 1;
   addToRecentlyViewed(id);
+
+  // Clear PDP search input on each product page open to prevent stale/autocomplete values
+  const _pdpSI = document.getElementById('pdpSearchInput');
+  if (_pdpSI) _pdpSI.value = '';
+  const _pdpSIClear = document.getElementById('pdpShClear');
+  if (_pdpSIClear) _pdpSIClear.style.display = 'none';
+  pdpSearchDropClose();
 
   // Breadcrumb (inline - no wrapper needed)
   const _bcCatLabel = (typeof CAT_LABELS !== 'undefined' ? CAT_LABELS[p.cat] : null) || p.cat;
@@ -45,7 +69,7 @@ function openProductPage(id) {
         if (typeof applySubcatById === 'function') setTimeout(() => applySubcatById(p.subcat), 50);
         bcSet([{ label: _bcCatLabel, fn: _bcCatFn }]);
       };
-      _bcItems.push({ label: _subcatLabel, url: `https://mostcomputers.bg/?cat=${p.cat}`, fn: _bcSubFn });
+      _bcItems.push({ label: _subcatLabel, url: `https://mostcomputers.bg/?cat=${p.cat}&sub=${p.subcat}`, fn: _bcSubFn });
     }
     _bcItems.push({ label: p.name, url: `https://mostcomputers.bg/?product=${p.id}`, fn: null });
     bcSet(_bcItems);
@@ -97,6 +121,9 @@ function openProductPage(id) {
   // Brand / Name / Rating
   const _pdpB=document.getElementById('pdpBrand'); if(_pdpB){_pdpB.textContent=p.brand||'';if(p.brand){_pdpB.dataset.brandSearch=p.brand;_pdpB.style.cursor='pointer';}}
   document.getElementById('pdpName').textContent  = p.name;
+  // Sync mobile header title
+  const _mobBrand = document.getElementById('pdpMobBrand'); if (_mobBrand) _mobBrand.textContent = p.brand || '';
+  const _mobName  = document.getElementById('pdpMobName');  if (_mobName)  _mobName.textContent  = p.name  || '';
   const _hasRv = p.rv && p.rv > 0;
   const _starsEl = document.getElementById('pdpStars');
   const _rvEl    = document.getElementById('pdpRv');
@@ -209,7 +236,7 @@ function openProductPage(id) {
   const prEl = document.getElementById('pdpPrice');
   prEl.textContent = fmtEur(priceBgn);
   prEl.className   = 'pdp-price-main' + (p.badge==='sale' ? ' sale' : '');
-  document.getElementById('pdpPriceEur').textContent = `${fmtBgn(priceBgn)}`;
+  document.getElementById('pdpPriceEur').textContent = `${fmtBgn(priceBgn)} · с вкл. ДДС`;
 
   const oldRow = document.getElementById('pdpOldRow');
   if (p.old) {
@@ -293,7 +320,10 @@ function openProductPage(id) {
 
   // Wishlist btn
   const wishBtn = document.getElementById('pdpWishBtn');
-  if (wishBtn) wishBtn.innerHTML = wishlist.includes(id) ? '❤ В любими' : '♡ Добави в желания';
+  if (wishBtn) wishBtn.innerHTML = wishlist.includes(id) ? '<svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-heart-fill"/></svg> В любими' : '<svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-heart"/></svg> Добави в желания';
+  // Sync mobile header wishlist icon
+  const _mobWish = document.getElementById('pdpMobWishBtn');
+  if (_mobWish) _mobWish.innerHTML = wishlist.includes(id) ? '<svg width="20" height="20" class="svg-ic" aria-hidden="true"><use href="#ic-heart-fill"/></svg>' : '<svg width="20" height="20" class="svg-ic" aria-hidden="true"><use href="#ic-heart"/></svg>';
 
   // Meta
   document.getElementById('pdpSku').textContent     = p.sku  || '-';
@@ -326,7 +356,7 @@ function openProductPage(id) {
     let specRows = `<tr><th scope="row">SKU / Part Number</th><td style="font-family:'JetBrains Mono',monospace;font-size:12px;">${p.sku||'-'}</td></tr>`;
     if (p.ean) specRows += `<tr><th scope="row">EAN / Баркод</th><td style="font-family:'JetBrains Mono',monospace;font-size:12px;">${p.ean}</td></tr>`;
     const _se = s => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-    specRows += Object.entries(specs).map(([k,v]) => `<tr><th scope="row">${_se(k)}</th><td>${_se(v)}</td></tr>`).join('');
+    specRows += Object.entries(specs).filter(([,v]) => { const s = String(v||'').trim(); return s && s.toLowerCase() !== 'none'; }).map(([k,v]) => `<tr><th scope="row">${_se(k)}</th><td>${_se(v)}</td></tr>`).join('');
     tbody.innerHTML = specRows || '<tr><td colspan="2" style="color:var(--muted);text-align:center;padding:24px;">Няма данни за спецификации.</td></tr>';
   }
 
@@ -334,8 +364,7 @@ function openProductPage(id) {
   const htmlContent = document.getElementById('pdpHtmlContent');
   if (htmlContent) {
     if (p.htmlDesc) {
-      // htmlDesc is admin-authored HTML - kept as-is (trusted source)
-      htmlContent.innerHTML = p.htmlDesc;
+      htmlContent.innerHTML = _sanitizeHtml(p.htmlDesc);
     } else if (p.desc) {
       // p.desc may come from XML - render as plain text to prevent XSS
       htmlContent.innerHTML = '';
@@ -412,7 +441,7 @@ function openProductPage(id) {
   pdpInitZoom();
   pdpInitSwipe();
   pdpInitTabsScroll();
-  if (typeof pdpInitDeliveryTimer === 'function') pdpInitDeliveryTimer();
+  // pdpInitDeliveryTimer вече е извикан на ред 435
   // Sidebar disabled - specs already shown in main tab
   if (typeof pdpInitPinch === 'function') pdpInitPinch();
   if (typeof _pdpCompareReset === 'function') _pdpCompareReset();
@@ -421,6 +450,11 @@ function openProductPage(id) {
   _pdpEl.classList.add('open');
   document.documentElement.style.overflow = 'hidden';
   document.body.style.overflow = 'hidden';
+  if (typeof updateFloatPill === 'function') updateFloatPill();
+  if (window.innerWidth <= 768) {
+    const _sbEl = document.getElementById('pdpStickyBar');
+    if (_sbEl) _sbEl.classList.add('visible');
+  }
 
   // ── Structured Data (Product + BreadcrumbList) ──
   const _avgRating = p.rating || 0;
@@ -448,8 +482,8 @@ function openProductPage(id) {
     "offers": {
       "@type": "Offer",
       "url": `${location.origin}/?product=${p.id}`,
-      "priceCurrency": "BGN",
-      "price": p.price,
+      "priceCurrency": "EUR",
+      "price": Math.round(toEur(p.price) * 100) / 100,
       "priceValidUntil": _priceValidUntil,
       "itemCondition": "https://schema.org/NewCondition",
       "availability": p.stock === false ? "https://schema.org/OutOfStock" : "https://schema.org/InStock",
@@ -498,6 +532,8 @@ function closeProductPage() {
   document.getElementById('pdpBackdrop').classList.remove('open');
   const _sb = document.getElementById('pdpStickyBar');
   if (_sb) _sb.classList.remove('visible');
+  if (typeof pdpBsClose === 'function') pdpBsClose();
+  if (typeof updateFloatPill === 'function') updateFloatPill();
   // Keep body locked if cat-page is still open
   if (!document.getElementById('catPage')?.classList.contains('open')) {
     document.documentElement.style.overflow = '';
@@ -526,11 +562,8 @@ function closeProductPage() {
   const canonical = document.querySelector('link[rel="canonical"]');
   if (canonical) canonical.setAttribute('href', 'https://mostcomputers.bg/');
   if (typeof bcSet === 'function') {
-    if (_bcTrail.length >= 2) {
-      bcSet([_bcTrail[0]]);
-    } else {
-      bcSet([]);
-    }
+    const catOpen = document.getElementById('catPage')?.classList.contains('open');
+    bcSet(catOpen && typeof _bcTrail !== 'undefined' && _bcTrail.length >= 1 ? [_bcTrail[0]] : []);
   }
 }
 
@@ -563,6 +596,18 @@ function pdpSwitchTab(tab) {
   }
 }
 
+function pdpShowPlaceholder(el, p) {
+  const svgSrc = typeof categoryPlaceholderSvg === 'function' ? categoryPlaceholderSvg(p.cat, p.subcat) : null;
+  if (svgSrc) {
+    el.style.display = 'contents';
+    el.innerHTML = `<img src="${svgSrc}" alt="">`;
+  } else {
+    el.style.display = '';
+    el.innerHTML = '';
+    el.textContent = p.emoji || '🖥';
+  }
+}
+
 function pdpRenderGallery() {
   const mainImg   = document.getElementById('pdpMainImg');
   const mainEmoji = document.getElementById('pdpMainEmoji');
@@ -577,14 +622,12 @@ function pdpRenderGallery() {
     mainEmoji.style.display = 'none';
     mainImg.onerror = function() {
       this.style.display = 'none';
-      mainEmoji.style.display = '';
-      mainEmoji.textContent = p.emoji || '🖥';
+      pdpShowPlaceholder(mainEmoji, p);
       this.onerror = null;
     };
   } else {
     mainImg.style.display = 'none';
-    mainEmoji.style.display = '';
-    mainEmoji.textContent = p.emoji || '🖥';
+    pdpShowPlaceholder(mainEmoji, p);
   }
 
   if (pdpGallery.length > 1) {
@@ -618,12 +661,15 @@ function pdpRenderVideo(url, wrap) {
   const vmMatch = url.match(/vimeo\.com\/(\d+)/);
   if (vmMatch) embedUrl = `https://player.vimeo.com/video/${vmMatch[1]}`;
 
+  const safeEmbed = /^https:\/\/(www\.youtube\.com\/embed\/|player\.vimeo\.com\/video\/)/.test(embedUrl) ? embedUrl : null;
   const isEmbed = embedUrl !== url || url.includes('embed') || url.includes('youtube') || url.includes('vimeo');
   if (isEmbed || url.startsWith('http')) {
     if (url.match(/\.(mp4|webm|ogg)$/i)) {
-      wrap.innerHTML = `<video controls><source src="${url}"></video>`;
+      wrap.innerHTML = `<video controls><source src="${escHtml(url)}"></video>`;
+    } else if (safeEmbed) {
+      wrap.innerHTML = `<iframe src="${safeEmbed}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
     } else {
-      wrap.innerHTML = `<iframe src="${embedUrl}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+      wrap.innerHTML = `<div class="pdp-video-placeholder"><span>▶</span><div style="font-size:13px;color:var(--muted);">Невалиден видео линк.</div></div>`;
     }
   } else {
     wrap.innerHTML = `<div class="pdp-video-placeholder"><span>▶</span><div style="font-size:13px;color:var(--muted);">Невалиден видео линк.</div></div>`;
@@ -715,7 +761,9 @@ function pdpToggleWish() {
   if (!pdpProductId) return;
   toggleWishlist(pdpProductId, null);
   const wishBtn = document.getElementById('pdpWishBtn');
-  if (wishBtn) wishBtn.innerHTML = wishlist.includes(pdpProductId) ? '❤ В любими' : '♡ Добави в желания';
+  if (wishBtn) wishBtn.innerHTML = wishlist.includes(pdpProductId) ? '<svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-heart-fill"/></svg> В любими' : '<svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-heart"/></svg> Добави в желания';
+  const _mobWish = document.getElementById('pdpMobWishBtn');
+  if (_mobWish) _mobWish.innerHTML = wishlist.includes(pdpProductId) ? '<svg width="20" height="20" class="svg-ic" aria-hidden="true"><use href="#ic-heart-fill"/></svg>' : '<svg width="20" height="20" class="svg-ic" aria-hidden="true"><use href="#ic-heart"/></svg>';
 }
 
 
@@ -932,10 +980,7 @@ function submitNotifyStock() {
           const addBtn = document.getElementById('pdpAddBtn');
           if (!bar || !addBtn) { ticking = false; return; }
           const rect = addBtn.getBoundingClientRect();
-          const tabsEl = document.getElementById('pdpTabs');
-          const tabsTop = tabsEl ? tabsEl.getBoundingClientRect().top : 0;
-          const barH = bar.offsetHeight || 65;
-          const show = rect.bottom < 0 && tabsTop < (window.innerHeight - barH - 10);
+          const show = rect.bottom < 0;
           if (show !== _barWasVisible) {
             bar.classList.toggle('visible', show);
             _barWasVisible = show;
@@ -950,14 +995,16 @@ function submitNotifyStock() {
       }
     }, { passive: true });
   }
-  document.addEventListener('DOMContentLoaded', initStickyBar);
+  initStickyBar();
 })();
 
 function pdpUpdateStickyBar(p) {
   const nameEl = document.getElementById('pdpStickyName');
   const priceEl = document.getElementById('pdpStickyPrice');
+  const thumbEl = document.getElementById('pdpStickyThumb');
   if (nameEl) nameEl.textContent = p.name;
   if (priceEl) priceEl.textContent = fmtEur(p.price) + ' / ' + fmtBgn(p.price);
+  if (thumbEl && p.img) thumbEl.innerHTML = '<img src="' + (typeof _esc === 'function' ? _esc(p.img) : p.img) + '" style="width:40px;height:40px;object-fit:contain;">';
 }
 
 // QW-02: Viewers counter - seeded by product id for consistency per session
@@ -1105,7 +1152,7 @@ function _pdpSrchRender(q) {
   }
 
   drop.innerHTML = _pdpSrchResults.map((p, i) => {
-    const price = typeof formatPrice === 'function' ? formatPrice(p.price) : p.price + ' лв.';
+    const price = fmtEur(p.price);
     const img = p.img
       ? `<img src="${escHtml(p.img)}" alt="" class="pdp-drop-img" loading="lazy">`
       : `<span class="pdp-drop-emoji">${escHtml(p.emoji || '📦')}</span>`;

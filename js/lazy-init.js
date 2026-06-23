@@ -4,6 +4,7 @@
 (function () {
   if (typeof renderHeroRightPanel === 'function') renderHeroRightPanel();
   if (typeof loadCart === 'function') loadCart();
+  if (typeof _initFloatPill === 'function') _initFloatPill();
   if (typeof renderRecentlyDiscounted === 'function') {
     var el = document.getElementById('recentlyDiscountedGrid');
     if (el) renderRecentlyDiscounted();
@@ -31,6 +32,30 @@
   if (new URLSearchParams(location.search).get('admin') === '1') {
     if (typeof openAdminPage === 'function') openAdminPage();
   }
+
+  // Lazy-load product descriptions (data-details.js) after first interaction or 4s
+  (function() {
+    function _loadDesc() {
+      if (window._descLoaded) return;
+      window._descLoaded = true;
+      var s = document.createElement('script');
+      var coreTag = document.querySelector('script[src*="data-core.js"]');
+      var ver = coreTag ? (coreTag.src.match(/\?v=(\d+)/) || [])[1] || '' : '';
+      s.src = 'data-details.js' + (ver ? '?v=' + ver : '');
+      s.onload = function() {
+        if (window.productDesc && typeof products !== 'undefined') {
+          products.forEach(function(p) {
+            if (!p.desc && window.productDesc[p.id]) p.desc = window.productDesc[p.id];
+          });
+        }
+      };
+      document.head.appendChild(s);
+    }
+    setTimeout(_loadDesc, 4000);
+    ['mousemove', 'scroll', 'touchstart', 'keydown'].forEach(function(ev) {
+      document.addEventListener(ev, function h() { _loadDesc(); document.removeEventListener(ev, h); }, {once: true, passive: true});
+    });
+  }());
 
   if (typeof closeProductModalDirect === 'function' && !closeProductModalDirect._lazyPatched) {
     var _baseCloseProductModalDirect = closeProductModalDirect;

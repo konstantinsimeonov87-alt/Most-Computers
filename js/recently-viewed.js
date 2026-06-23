@@ -75,7 +75,7 @@ function clearRecentlyViewed() {
   if (wrap) wrap.style.display = 'none';
   const section = document.getElementById('recentlyViewedSection');
   if (section) section.style.display = 'none';
-  showToast('🗑 История изчистена');
+  showToast('История изчистена');
 }
 
 // renderRecentlyViewed called in main.js after DOMContentLoaded

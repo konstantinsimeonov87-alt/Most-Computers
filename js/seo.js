@@ -27,6 +27,8 @@ function bcRender() {
   }).join('');
 
   inner.innerHTML = html;
+  const wrap = document.getElementById('bcWrap');
+  if (wrap) wrap.style.display = _bcTrail.length > 0 ? '' : 'none';
 
   // Mirror into PDP subheader breadcrumb
   const pdpBc = document.getElementById('pdpBcInner');
@@ -243,8 +245,8 @@ function injectProductSchema(p) {
     "offers": {
       "@type": "Offer",
       "url": `${location.href.split('?')[0]}?product=${p.id}`,
-      "priceCurrency": "BGN",
-      "price": p.price,
+      "priceCurrency": "EUR",
+      "price": Math.round(toEur(p.price) * 100) / 100,
       "priceValidUntil": priceValidUntil,
       "itemCondition": "https://schema.org/NewCondition",
       "availability": p.stock === false ? "https://schema.org/OutOfStock" : "https://schema.org/InStock",
@@ -570,6 +572,7 @@ let cpRating = 0;
 let cpSaleOnly = false, cpNewOnly = false, cpStockOnly = false;
 let cpSpecFilters = {};
 let cpSubcat = 'all';
+let cpPage = 1;
 let _cpSubcatBrands = null; // known brand values for current subcat (to power "Other" filter)
 
 let _catPageScrollY = 0;
@@ -581,6 +584,7 @@ function openCatPage(cat, preSubcat, fromURL = false) {
   cpBrands = new Set();
   cpRating = 0; cpSaleOnly = false; cpNewOnly = false; cpStockOnly = false;
   cpSpecFilters = {};
+  cpPage = 1;
 
   cpSubcat = preSubcat || 'all';
 
@@ -618,6 +622,7 @@ function openCatPage(cat, preSubcat, fromURL = false) {
   document.getElementById('catPage').classList.add('open');
   document.documentElement.style.overflow = 'hidden';
   document.body.style.overflow = 'hidden';
+  if (typeof setBottomNavActive === 'function') setBottomNavActive('bn-cats');
   try{history.pushState({ catPage: cat, subcat: preSubcat || 'all' }, '', '?cat=' + cat + _subSuffix);}catch(e){}
   // Defer render so overflow/class paint commits before heavy grid work
   requestAnimationFrame(() => {
@@ -724,6 +729,9 @@ function buildCpSidebar(cat) {
   _cpMaxEur = maxPriceRound;
   cpPriceMax = maxPriceRound;
 
+  // ── Header ──
+  var headerHtml = '<div class="cp-sb-header"><span class="cp-sb-title">Филтри</span></div>';
+
   // ── Price block ──
   let html = `
     <div class="sidebar-filter-block" style="border-bottom:1px solid var(--border);padding:16px;">
@@ -766,7 +774,7 @@ function buildCpSidebar(cat) {
     html += `<div id="cpCatSpecWrap">`;
     specs.forEach(spec => {
       html += `<div class="sidebar-filter-block" style="border-bottom:1px solid var(--border);padding:16px;">
-        <div class="sfb-title" style="font-size:12px;font-weight:800;color:var(--text2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;">${spec.label}</div>
+        <div class="sfb-title" style="font-size:12px;font-weight:800;color:var(--text2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;">${typeof _fl==='function'?_fl(spec.label):spec.label}</div>
         <div style="display:flex;flex-direction:column;gap:4px;">`;
       spec.values.forEach(val => {
         html += `<label class="brand-filter-item" style="display:flex;align-items:center;gap:8px;cursor:pointer;">
@@ -815,12 +823,18 @@ function buildCpSidebar(cat) {
 
   // ── Reset button ──
   html += `<div style="padding:12px 16px 16px;">
-    <button type="button" onclick="cpResetFilters()" style="width:100%;background:none;border:1px solid var(--border);border-radius:8px;padding:9px;font-size:12px;font-weight:700;color:var(--text2);cursor:pointer;font-family:'Outfit',sans-serif;transition:all .18s;" onmouseover="this.style.borderColor='var(--primary)';this.style.color='var(--primary)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text2)'">
-      ✕ Изчисти всички филтри
-    </button>
+    <button type="button" onclick="cpResetFilters()" style="width:100%;background:none;border:1px solid var(--border);border-radius:8px;padding:9px;font-size:12px;font-weight:700;color:var(--text2);cursor:pointer;font-family:'Outfit',sans-serif;transition:all .18s;" onmouseover="this.style.borderColor='var(--primary)';this.style.color='var(--primary)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text2)'">Изчисти всички филтри</button>
   </div>`;
 
-  sb.innerHTML = html;
+  // ── Footer (apply button) ──
+  var footerHtml = '<div class="cp-sb-footer">' +
+    '<button type="button" class="cp-sb-apply" onclick="cpCloseSidebar()">' +
+    '<svg width="15" height="15" class="svg-ic" aria-hidden="true"><use href="#ic-check"/></svg>' +
+    'Приложи филтрите' +
+    '</button>' +
+    '</div>';
+
+  sb.innerHTML = headerHtml + html + footerHtml;
   cpUpdateSlider(true);
 }
 
@@ -843,11 +857,13 @@ function cpUpdateSlider(skipRender) {
 function cpBrandChange(cb) {
   if (cb.checked) cpBrands.add(cb.value);
   else cpBrands.delete(cb.value);
+  cpPage = 1;
   cpRenderGrid();
 }
 
 function cpRatingChange(rb) {
   cpRating = parseFloat(rb.value);
+  cpPage = 1;
   cpRenderGrid();
 }
 
@@ -856,15 +872,18 @@ function cpApplyFilters() {
   cpStockOnly = document.getElementById('cpStockToggle')?.checked || false;
   cpSaleOnly = document.getElementById('cpSaleToggle')?.checked || false;
   cpNewOnly  = document.getElementById('cpNewToggle')?.checked || false;
+  cpPage = 1;
   cpRenderGrid();
 }
 
 function cpApplySort(val) {
   cpSort = val;
+  cpPage = 1;
   cpRenderGrid();
 }
 
 function cpSpecChange(cb) {
+  cpPage = 1;
   const key = cb.dataset.specKey;
   const val = cb.value;
   if (!cpSpecFilters[key]) cpSpecFilters[key] = new Set();
@@ -912,6 +931,7 @@ function cpResetFilters() {
   const st = document.getElementById('cpSaleToggle'); if (st) st.checked = false;
   const nt = document.getElementById('cpNewToggle'); if (nt) nt.checked = false;
   cpSubcat = 'all';
+  cpPage = 1;
   cpUpdateSlider();
   cpRenderGrid();
   cpRenderSubcatBar(cpCat);
@@ -924,15 +944,16 @@ function cpRenderSubcatBar(cat) {
   const bar = document.getElementById('cpSubcatBar');
   if (!bar) return;
   const subs = typeof SUBCATS !== 'undefined' ? SUBCATS[cat] : null;
-  if (!subs || !subs.length) { bar.innerHTML = ''; bar.style.display = 'none'; return; }
+  if (!subs || !subs.length) { bar.innerHTML = ''; bar.classList.remove('visible'); return; }
   const catProds = (typeof products !== 'undefined' ? products : []).filter(p => normalizeCat(p.cat) === cat);
   const activeSubs = subs.filter(s => catProds.some(p => matchesSubcat(p, s.id)));
-  if (!activeSubs.length) { bar.innerHTML = ''; bar.style.display = 'none'; return; }
+  if (!activeSubs.length) { bar.innerHTML = ''; bar.classList.remove('visible'); return; }
   bar.style.display = '';
+  bar.classList.add('visible');
   bar.innerHTML =
     `<button type="button" class="subcat-pill active" onclick="cpApplySubcat('all',this)">Всички</button>` +
     activeSubs.map(s =>
-      `<button type="button" class="subcat-pill" onclick="cpApplySubcat('${s.id}',this)">${s.label}</button>`
+      `<button type="button" class="subcat-pill" onclick="cpApplySubcat('${s.id}',this)">${typeof _fl==='function'?_fl(s.label):s.label}</button>`
     ).join('');
 }
 
@@ -1090,7 +1111,7 @@ function cpApplySubcat(id, btn) {
     if (subcatSpecs && subcatSpecs.length) {
       cpSubcatSpecBlock.innerHTML = subcatSpecs.map(spec => `
         <div class="sidebar-filter-block" style="border-bottom:1px solid var(--border);padding:16px;">
-          <div class="sfb-title" style="font-size:12px;font-weight:800;color:var(--text2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;">${spec.label}</div>
+          <div class="sfb-title" style="font-size:12px;font-weight:800;color:var(--text2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;">${typeof _fl==='function'?_fl(spec.label):spec.label}</div>
           <div style="display:flex;flex-direction:column;gap:4px;">
             ${spec.values.map(val => `<label class="brand-filter-item" style="display:flex;align-items:center;gap:8px;cursor:pointer;">
               <input type="checkbox" data-spec-key="${spec.key}" value="${val}" onchange="cpSubcatSpecChange(this)">
@@ -1102,6 +1123,7 @@ function cpApplySubcat(id, btn) {
       cpSubcatSpecBlock.innerHTML = '';
     }
   }
+  cpPage = 1;
   cpRenderGrid();
   cpUpdateCatBreadcrumb(cpCat, id);
   setSidebarActive(cpCat, id);
@@ -1120,6 +1142,7 @@ function cpUpdateURL() {
   if (cpNewOnly) params.set('new', '1');
   if (cpStockOnly) params.set('stock', '1');
   if (cpRating > 0) params.set('rating', cpRating);
+  if (cpPage > 1) params.set('page', cpPage);
   const qs = '?' + params.toString();
   const fullUrl = 'https://mostcomputers.bg/' + qs;
   try { history.replaceState({ catPage: cpCat, subcat: cpSubcat }, '', qs); } catch(e) {}
@@ -1167,6 +1190,8 @@ function cpApplyURLFilters() {
     if (rEl) rEl.checked = true;
   }
   cpUpdateSlider(true);
+  const pageN = parseInt(params.get('page'), 10);
+  if (!isNaN(pageN) && pageN > 1) cpPage = pageN;
 }
 
 // ═══════════════════════════════════════
@@ -1792,12 +1817,17 @@ function cpUpdateFilterBadge() {
   });
 }
 
+const CP_PER_PAGE = 24;
+
 function cpRenderGrid() {
   cpUpdateFilterBadge();
   const grid = document.getElementById('cpGrid');
   const count = document.getElementById('cpResultsCount');
   if (!grid) return;
   const list = cpGetFiltered();
+  const totalPages = Math.max(1, Math.ceil(list.length / CP_PER_PAGE));
+  if (cpPage > totalPages) cpPage = totalPages;
+  if (cpPage < 1) cpPage = 1;
   if (count) count.textContent = list.length + ' продукта';
   if (list.length === 0) {
     const allInCat = products.filter(p => normalizeCat(p.cat) === cpCat);
@@ -1812,10 +1842,57 @@ function cpRenderGrid() {
         <button type="button" class="cp-empty-btn-sec" onclick="closeCatPage()">← Обратно</button>
       </div>
     </div>`;
+    _cpRenderPagination(0, 1);
     return;
   }
-  grid.innerHTML = list.map(p => makeCard(p)).join('');
+  const start = (cpPage - 1) * CP_PER_PAGE;
+  grid.innerHTML = list.slice(start, start + CP_PER_PAGE).map(p => makeCard(p)).join('');
+  _cpRenderPagination(list.length, totalPages);
   cpUpdateURL();
+}
+
+function _cpRenderPagination(total, totalPages) {
+  let el = document.getElementById('cpPagination');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'cpPagination';
+    document.getElementById('cpGrid')?.insertAdjacentElement('afterend', el);
+  }
+  if (totalPages <= 1) { el.innerHTML = ''; return; }
+  const start = (cpPage - 1) * CP_PER_PAGE + 1;
+  const end = Math.min(cpPage * CP_PER_PAGE, total);
+  const delta = 2;
+  const rangeStart = Math.max(1, cpPage - delta);
+  const rangeEnd = Math.min(totalPages, cpPage + delta);
+  let html = `<div class="cp-pagination"><span class="cp-page-info">${start}-${end} от ${total}</span><div class="cp-page-buttons">`;
+  if (cpPage > 1) {
+    html += `<button class="cp-page-btn" onclick="cpGoToPage(${cpPage - 1})" aria-label="Предишна"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg></button>`;
+  }
+  if (rangeStart > 1) {
+    html += `<button class="cp-page-btn" onclick="cpGoToPage(1)">1</button>`;
+    if (rangeStart > 2) html += `<span class="cp-page-ellipsis">...</span>`;
+  }
+  for (let p = rangeStart; p <= rangeEnd; p++) {
+    html += `<button class="cp-page-btn${p === cpPage ? ' active' : ''}" onclick="cpGoToPage(${p})">${p}</button>`;
+  }
+  if (rangeEnd < totalPages) {
+    if (rangeEnd < totalPages - 1) html += `<span class="cp-page-ellipsis">...</span>`;
+    html += `<button class="cp-page-btn" onclick="cpGoToPage(${totalPages})">${totalPages}</button>`;
+  }
+  if (cpPage < totalPages) {
+    html += `<button class="cp-page-btn" onclick="cpGoToPage(${cpPage + 1})" aria-label="Следваща"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg></button>`;
+  }
+  html += `</div></div>`;
+  el.innerHTML = html;
+}
+
+function cpGoToPage(n) {
+  const list = cpGetFiltered();
+  const totalPages = Math.max(1, Math.ceil(list.length / CP_PER_PAGE));
+  cpPage = Math.min(totalPages, Math.max(1, n));
+  cpRenderGrid();
+  const pg = document.getElementById('catPage');
+  if (pg) pg.scrollTop = 0;
 }
 
 // ═══════════════════════════════════════

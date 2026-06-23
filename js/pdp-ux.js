@@ -11,6 +11,7 @@ function pdpLbOpen() {
   lbImg.alt = img.alt;
   lbImg.style.setProperty('--lb-scale', '1');
   lb.style.display = 'flex';
+  document.removeEventListener('keydown', _pdpLbKey);
   document.addEventListener('keydown', _pdpLbKey);
 }
 function pdpLbClose() {
@@ -33,7 +34,7 @@ function _pdpLbKey(e) {
 (function() {
   document.addEventListener('wheel', function(e) {
     var lb = document.getElementById('pdpLightbox');
-    if (!lb || lb.style.display === 'none') return;
+    if (!lb || lb.style.display !== 'flex') return;
     e.preventDefault();
     var lbImg = document.getElementById('pdpLbImg');
     var cur = parseFloat(lbImg.style.getPropertyValue('--lb-scale') || '1');
@@ -180,7 +181,7 @@ function pdpInitSwipe() {
   }, { passive: true });
   wrap.addEventListener('touchend', function(e) {
     var dx = e.changedTouches[0].clientX - sx;
-    if (Math.abs(dx) > 40) {
+    if (Math.abs(dx) > 40 && pdpGallery.length > 1) {
       pdpGalleryNav(dx < 0 ? 1 : -1);
       wrap.classList.remove('swipe-bounce');
       // Double rAF restarts the animation without a forced synchronous reflow
@@ -564,35 +565,7 @@ function pdpBsClose() {
   _pdpBsVisible = false;
 }
 
-// Show bottom sheet when add button scrolls out of view (mobile only)
-(function() {
-  var backdrop = document.getElementById('pdpBackdrop');
-  if (!backdrop) return;
-  var _pdpScrollTicking = false;
-  backdrop.addEventListener('scroll', function() {
-    if (window.innerWidth > 768) return;
-    if (_pdpScrollTicking) return;
-    _pdpScrollTicking = true;
-    requestAnimationFrame(function() {
-      var addBtn = document.getElementById('pdpAddBtn');
-      if (addBtn) {
-        var rect = addBtn.getBoundingClientRect();
-        var outOfView = rect.bottom < 0 || rect.top > window.innerHeight;
-        var sheet = document.getElementById('pdpBottomSheet');
-        if (sheet) {
-          if (outOfView && !sheet.classList.contains('open')) {
-            var p = (typeof products !== 'undefined' && pdpProductId != null)
-              ? products.find(function(x) { return x.id === pdpProductId; }) : null;
-            if (p) pdpBsOpen(p);
-          } else if (!outOfView && sheet.classList.contains('open')) {
-            pdpBsClose();
-          }
-        }
-      }
-      _pdpScrollTicking = false;
-    });
-  }, { passive: true });
-})();
+// Bottom sheet is now opened/closed by openProductPage/closeProductPage directly.
 
 // Sync bottom sheet qty display
 var _origPdpChangeQty = typeof pdpChangeQty === 'function' ? pdpChangeQty : null;
@@ -659,10 +632,26 @@ function openProdPreview(id) {
   if (brandEl) brandEl.textContent = p.brand || '';
   if (nameEl) nameEl.textContent = p.name;
   if (ratingEl) {
-    var stars = Math.round(p.rating || 0);
+    var stars = Math.min(5, Math.round(p.rating || 0));
     ratingEl.innerHTML = '★'.repeat(stars) + '☆'.repeat(5 - stars) + ' <span style="color:var(--muted);font-size:11px;">(' + (p.reviews ? p.reviews.length : p.rv || 0) + ')</span>';
   }
   if (priceEl) priceEl.innerHTML = typeof fmtEur === 'function' ? '<strong>' + fmtEur(p.price) + '</strong>' : '<strong>' + p.price + ' €</strong>';
+
+  var stockEl = document.getElementById('ppStock');
+  if (stockEl) {
+    stockEl.innerHTML = p.stock === false
+      ? '<span class="pp-oos-badge">✕ Изчерпан</span>'
+      : '<span class="pp-instock-badge">✓ В наличност</span>';
+  }
+  var delivEl = document.getElementById('ppDelivery');
+  if (delivEl) delivEl.textContent = p.stock !== false
+    ? (p.badge === 'sale' ? '⚡ Бърза доставка - поръчай до 17:00' : '📦 Доставка до 2 работни дни')
+    : '';
+  var quickBtn = document.getElementById('ppQuickBtn');
+  if (quickBtn) {
+    quickBtn.style.display = p.stock === false ? 'none' : '';
+    quickBtn.onclick = function() { closeProdPreview(); if (typeof openQuickOrder === 'function') openQuickOrder(_ppProductId); };
+  }
 
   var addBtn = document.getElementById('ppAddBtn');
   if (addBtn) {

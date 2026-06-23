@@ -75,9 +75,11 @@
 })();
 
 function pwaInstall() {
+  const banner = document.getElementById('pwaBanner');
+  const iosModal = document.getElementById('pwaIosModal');
   if (window.__pwaIsIos) {
-    document.getElementById('pwaBanner').classList.remove('show');
-    document.getElementById('pwaIosModal').classList.add('open');
+    banner?.classList.remove('show');
+    iosModal?.classList.add('open');
     return;
   }
   const prompt = window.__pwaPrompt?.();
@@ -88,12 +90,11 @@ function pwaInstall() {
         try { localStorage.setItem('mc_pwa_installed', '1'); } catch(e) {}
         showToast('✓ Мост Компютърс е инсталиран!');
       }
-      document.getElementById('pwaBanner').classList.remove('show');
+      banner?.classList.remove('show');
     });
   } else {
-    // Fallback: show iOS style instructions
-    document.getElementById('pwaBanner').classList.remove('show');
-    document.getElementById('pwaIosModal').classList.add('open');
+    banner?.classList.remove('show');
+    iosModal?.classList.add('open');
   }
 }
 

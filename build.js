@@ -100,11 +100,37 @@ const tmpDataPath = path.join(ROOT, '_tmp_data_stripped.js');
   log(`data.js stripped: ${(beforeStrip/1024).toFixed(0)} KB → ${(dataContent.length/1024).toFixed(0)} KB (-${((beforeStrip-dataContent.length)/1024).toFixed(0)} KB)`);
 }
 
+// 4b. Split data.js → data-core.js (no desc) + data-details.js (id→desc map)
+console.log('\n✂️  Splitting data.js into core + details...');
+const tmpCorePath = path.join(ROOT, '_tmp_data_core.js');
+const tmpDetailsPath = path.join(ROOT, '_tmp_data_details.js');
+try {
+  const dataStr = fs.readFileSync(tmpDataPath, 'utf8');
+  // data-core.js: structurally identical to data.js, all desc fields removed via regex.
+  // This preserves cart/compareList globals, _staticProductsMap, persistProducts, restoreProducts, etc.
+  const coreJs = dataStr.replace(/,\s*desc\s*:'(?:[^'\\]|\\.)*'/g, '');
+  fs.writeFileSync(tmpCorePath, coreJs);
+  // data-details.js: id→desc map only
+  const getProds = new Function(dataStr + '\nreturn products;');
+  const prods = getProds();
+  const details = {};
+  prods.forEach(p => { if (p.desc) details[p.id] = p.desc; });
+  const detailsJs = 'var productDesc=' + JSON.stringify(details) + ';';
+  fs.writeFileSync(tmpDetailsPath, detailsJs);
+  log(`data-core.js: ${(coreJs.length/1024).toFixed(0)} KB | data-details.js: ${(detailsJs.length/1024).toFixed(0)} KB`);
+} catch(splitErr) {
+  warn('data split failed (' + splitErr.message + ') — using full data as core');
+  fs.copyFileSync(tmpDataPath, tmpCorePath);
+  fs.writeFileSync(tmpDetailsPath, 'var productDesc={};');
+}
+
 // 4. Minify JavaScript
 console.log('\n📦 Minifying JavaScript...');
 const jsFiles = [
   { src: 'products.js',   dst: 'products.js' },
   { src: '_tmp_data_stripped.js', dst: 'data.js' },
+  { src: '_tmp_data_core.js',    dst: 'data-core.js', sourceMap: true },
+  { src: '_tmp_data_details.js', dst: 'data-details.js' },
   { src: 'app.js',        dst: 'app.js' },
   { src: 'app-lazy.js',   dst: 'app-lazy.js' },
   { src: 'js/admin.js',           dst: 'js/admin.js' },
@@ -113,26 +139,51 @@ const jsFiles = [
   { src: 'js/careers-data.js',    dst: 'js/careers-data.js' },
   { src: 'js/careers-page.js',    dst: 'js/careers-page.js' },
 ];
-jsFiles.forEach(({ src, dst }) => {
+jsFiles.forEach(({ src, dst, sourceMap }) => {
   const srcPath = path.join(ROOT, src);
   const dstPath = path.join(DIST, dst);
   if (!fs.existsSync(srcPath)) { warn(`Skipping ${src} (not found)`); return; }
   const before = fs.statSync(srcPath).size;
   try {
-    execSync(`npx -y terser "${srcPath}" -o "${dstPath}" --compress --mangle`, { cwd: ROOT });
+    // When sourceMap=true, terser writes <output>.map automatically and appends
+    // //# sourceMappingURL=<basename>.map to the JS output.
+    const mapFlag = sourceMap
+      ? ` --source-map "url='${path.basename(dst)}.map'"`
+      : '';
+    execSync(`npx -y terser "${srcPath}" -o "${dstPath}" --compress --mangle${mapFlag}`, { cwd: ROOT });
     const after = fs.statSync(dstPath).size;
     const pct = Math.round((1 - after / before) * 100);
     log(`${src}: ${(before/1024).toFixed(1)} KB → ${(after/1024).toFixed(1)} KB (${pct}% smaller)`);
+    if (sourceMap) {
+      const mapPath = dstPath + '.map';
+      if (fs.existsSync(mapPath)) {
+        // Patch the map: set "file" to the JS filename and strip absolute local
+        // paths from "sources" so the map is portable and doesn't leak build paths.
+        const mapJson = JSON.parse(fs.readFileSync(mapPath, 'utf8'));
+        mapJson.file = path.basename(dst);
+        mapJson.sources = (mapJson.sources || []).map(s => path.basename(s));
+        fs.writeFileSync(mapPath, JSON.stringify(mapJson));
+        log(`${dst}.map generated (${(fs.statSync(mapPath).size/1024).toFixed(0)} KB)`);
+      }
+    }
   } catch (e) {
     warn(`Failed to minify ${src}, copying as-is`);
     fs.copyFileSync(srcPath, dstPath);
   }
 });
-// Also copy stripped data.js to root (for dev — dist version is minified)
+// Also copy stripped files to root (for dev — dist version is minified)
 fs.copyFileSync(tmpDataPath, path.join(ROOT, 'data.js'));
 log('data.js copied to root (dev, stripped)');
-// Clean up temp file
+fs.copyFileSync(tmpCorePath, path.join(ROOT, 'data-core.js'));
+// Append sourceMappingURL to root dev copy so devtools can find it
+fs.appendFileSync(path.join(ROOT, 'data-core.js'), '\n//# sourceMappingURL=data-core.js.map\n');
+log('data-core.js copied to root (dev, stripped + sourceMappingURL)');
+fs.copyFileSync(tmpDetailsPath, path.join(ROOT, 'data-details.js'));
+log('data-details.js copied to root (dev, stripped)');
+// Clean up temp files
 if (fs.existsSync(tmpDataPath)) fs.unlinkSync(tmpDataPath);
+if (fs.existsSync(tmpCorePath)) fs.unlinkSync(tmpCorePath);
+if (fs.existsSync(tmpDetailsPath)) fs.unlinkSync(tmpDetailsPath);
 
 // 4. PurgeCSS + Minify CSS
 console.log('\n🎨 Purging + Minifying CSS...');
@@ -175,6 +226,8 @@ console.log('\n📝 Processing HTML...');
   htmlSrc = htmlSrc.replace(/app\.js\?v=\d{8}/g, `app.js?v=${today}`);
   htmlSrc = htmlSrc.replace(/app-lazy\.js\?v=\d{8}/g, `app-lazy.js?v=${today}`);
   htmlSrc = htmlSrc.replace(/data\.js\?v=\d{8}/g, `data.js?v=${today}`);
+  htmlSrc = htmlSrc.replace(/data-core\.js\?v=\d{8}/g, `data-core.js?v=${today}`);
+  htmlSrc = htmlSrc.replace(/data-details\.js\?v=\d{8}/g, `data-details.js?v=${today}`);
   fs.writeFileSync(path.join(ROOT, 'index.html'), htmlSrc);
   // Minify for dist/
   const htmlDistPath = path.join(DIST, 'index.html');

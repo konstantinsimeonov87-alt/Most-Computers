@@ -24,6 +24,37 @@ function normalizeCat(cat) {
   return m[(cat||'').toLowerCase()] || 'accessories';
 }
 
+// ── SVG icon helper for filter labels ────────────────────────────────────────
+// Maps leading emoji in label strings to inline SVG <use> references.
+// All icon IDs reference symbols defined in index.html.
+const _FI = {
+  '📱':'ic-phone','💻':'ic-laptop','🖥':'ic-monitor','🖥️':'ic-monitor',
+  '🎮':'ic-gamepad','⚙️':'ic-settings','⚙':'ic-settings','🖱':'ic-mouse','🖱️':'ic-mouse',
+  '📡':'ic-wifi','💾':'ic-storage','📀':'ic-storage','🎒':'ic-bag','🖨':'ic-printer','🖨️':'ic-printer',
+  '⚡':'ic-bolt','💼':'ic-bag','🔄':'ic-return','💰':'ic-tag','📟':'ic-tablet','✈':'ic-globe',
+  '🏷':'ic-tag','🧠':'ic-cpu','🔍':'ic-search','🔩':'ic-wrench','🔌':'ic-bolt','📐':'ic-monitor',
+  '🌀':'ic-return','🌡':'ic-settings','🏭':'ic-settings','💿':'ic-storage','📦':'ic-package',
+  '🔧':'ic-wrench','📻':'ic-wifi','🌐':'ic-globe','💡':'ic-bolt','🎧':'ic-headphones',
+  '📷':'ic-camera','🎙':'ic-chat','🏆':'ic-star','⌚':'ic-watch','🎯':'ic-search',
+  '🗄':'ic-storage','❄':'ic-settings','⌨':'ic-laptop','⌨️':'ic-laptop','🎨':'ic-spark',
+  '🔗':'ic-arrow-right','📶':'ic-wifi','🏢':'ic-home','🏠':'ic-home','🪟':'ic-settings',
+  '⚖':'ic-settings','🧮':'ic-cpu','🔢':'ic-cpu','📌':'ic-pin','🛡':'ic-shield',
+  '🔀':'ic-return','🔬':'ic-search','🪑':'ic-settings','📋':'ic-package','🏔️':'ic-globe',
+  '🌙':'ic-moon','🕸️':'ic-wifi','⭐':'ic-star','🔥':'ic-bolt','🆕':'ic-spark',
+  '✓':'ic-check','🏔':'ic-globe','♾️':'ic-return','♾':'ic-return',
+};
+function _fl(label) {
+  if (!label) return label;
+  for (const em of Object.keys(_FI)) {
+    if (label.startsWith(em + ' ') || label === em) {
+      const id = _FI[em];
+      const text = label.startsWith(em + ' ') ? label.slice(em.length + 1) : '';
+      return `<svg width="12" height="12" class="svg-ic" aria-hidden="true" style="vertical-align:-1px;margin-right:3px;opacity:.75;flex-shrink:0"><use href="#${id}"/></svg>${text}`;
+    }
+  }
+  return label;
+}
+
 let _filterCache = null;
 function _invalidateFilterCache(){ _filterCache = null; }
 function getFilteredSorted(){
@@ -193,7 +224,8 @@ function renderGrids(){
   const _inStock = p => p.stock !== false;
   const _flashAll=[...products].filter(p=>_inStock(p)&&p.old&&p.pct>0);
   for(let i=_flashAll.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[_flashAll[i],_flashAll[j]]=[_flashAll[j],_flashAll[i]];}
-  const _flashProds=_flashAll.slice(0,window.innerWidth<640?2:4);
+  const _vw = (typeof _cachedInnerWidth !== 'undefined') ? _cachedInnerWidth : window.innerWidth;
+  const _flashProds=_flashAll.slice(0,_vw<640?6:4);
   const flashSection=document.getElementById('sale');
   if(flashSection) flashSection.style.display=_flashProds.length?'':'none';
   const fg=document.getElementById('flashGrid');
@@ -231,7 +263,28 @@ function renderGrids(){
   // Slide 4 - sync price from products array (id:1884 = Lenovo Legion Pro 7 RTX 5090)
   const _s4 = products.find(p=>p.id===1884);
   const _s4el = document.getElementById('slide4Price');
-  if(_s4 && _s4el) _s4el.innerHTML = `${(_s4.price/EUR_RATE).toFixed(2)} € / ${_s4.price} лв. <small>с ДДС</small>`;
+  if(_s4 && _s4el) _s4el.innerHTML = `${(_s4.price/EUR_RATE).toFixed(2)} € / ${fmtBgn(_s4.price)} <small>с ДДС</small>`;
+  // Mobile homepage hero — populate with top flash-sale product by savings
+  const _mobHeroEl = document.getElementById('mobHpHero');
+  if (_mobHeroEl && _flashAll.length) {
+    const _heroPref = ['laptops','gaming_l','convertible','monitors','gpu','headphones','audio'];
+    const _hp = ([..._flashAll].filter(p=>(p.rv||0)>0&&_heroPref.includes(p.cat)).sort((a,b)=>(b.rv||0)*b.pct-(a.rv||0)*a.pct)[0])
+              || ([..._flashAll].filter(p=>(p.rv||0)>0).sort((a,b)=>(b.rv||0)*b.pct-(a.rv||0)*a.pct)[0])
+              || [..._flashAll].sort((a,b)=>b.pct-a.pct)[0];
+    const _hpPr  = (_hp.price/EUR_RATE).toFixed(2);
+    const _hpOld = (_hp.old  /EUR_RATE).toFixed(2);
+    const _hpSv  = ((_hp.old-_hp.price)/EUR_RATE).toFixed(2);
+    const _t=document.getElementById('mobHpTitle'),_s=document.getElementById('mobHpSub'),
+          _p=document.getElementById('mobHpPrice'),_o=document.getElementById('mobHpPriceOld'),
+          _sv=document.getElementById('mobHpSave'),_b=document.getElementById('mobHpBtn');
+    if(_t) _t.textContent = _hp.name||'';
+    if(_s) _s.textContent = _hp.brand||'';
+    if(_p) _p.textContent = _hpPr+' €';
+    if(_o) _o.textContent = _hpOld+' €';
+    if(_sv) _sv.textContent = 'Спестяваш '+_hpSv+' €';
+    if(_b){ _b.dataset.action='openProductPage('+_hp.id+')'; _b.textContent='Купи сега'; }
+    _mobHeroEl.removeAttribute('aria-hidden');
+  }
   renderNewGrid(window._newPeriodDays || 14);
   initNewPeriodChips();
   // Promo strip - update free delivery threshold with current EUR rate
@@ -243,36 +296,11 @@ function renderGrids(){
       : '🚚 ';
     el.innerHTML = prefix + `Безплатна доставка над ${_freeDelEur} € / ${_freeDelBgn} лв.`;
   });
-  renderHeroPanel();
   renderPromoBanner();
   updateWishlistUI();
   if(typeof initLazyImages==='function') initLazyImages();
   if(typeof renderHpCats==='function') renderHpCats();
-}
-
-function renderHeroPanel(){
-  const panel = document.getElementById('heroRightPanel');
-  if(!panel) return;
-  const byScore = [...products].sort((a,b)=>(b.rating*(b.rv||1))-(a.rating*(a.rv||1)));
-  const picks = [
-    { p: byScore[0], label:'⭐ Препоръчано', cls:'mini-promo-recommended' },
-    { p: byScore.find(p=>p.badge==='sale'), label:'🔥 Бестселър', cls:'mini-promo-bestseller' },
-    { p: [...products].filter(p=>p.badge==='new'||p.badge==='hot')[0], label:'🆕 Ново', cls:'mini-promo-new' },
-  ];
-  panel.innerHTML = picks.filter(x=>x.p).map(({p,label,cls})=>`
-    <div class="mini-promo ${cls}">
-      ${p.img
-        ? `<img class="mini-promo-img" src="${p.img}" alt="${escHtml(p.name)}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">`
-        : ''}
-      <div class="mini-promo-emoji" style="${p.img?'display:none':''}"> ${p.emoji}</div>
-      <div class="mini-promo-text">
-        <div class="mini-promo-label">${label}</div>
-        <div class="mini-promo-name">${escHtml(p.name.length>32?p.name.slice(0,32)+'…':p.name)}</div>
-        ${p.old?`<div class="mini-promo-old">${(p.old/EUR_RATE).toFixed(2)} € / ${p.old} лв.</div>`:''}
-        <div class="mini-promo-price">${(p.price/EUR_RATE).toFixed(2)} € / ${p.price} лв.</div>
-      </div>
-      <button type="button" class="mini-promo-view" onclick="event.stopPropagation();openProductPage(${p.id})">Виж →</button>
-    </div>`).join('');
+  if(window.innerWidth<=768 && typeof switchMobTab==='function') switchMobTab('sale');
 }
 
 function renderPromoBanner(){
@@ -456,37 +484,37 @@ function updateActiveFiltersBar() {
       updateURL();
       updateActiveFiltersBar();
     });
-    active.push({ label: _catLabels[currentFilter] || currentFilter, idx });
+    active.push({ label: _fl(_catLabels[currentFilter] || currentFilter), idx });
   }
   advFilterBrands.forEach(b => {
     const idx = window._afRemove.length;
     window._afRemove.push(() => { const cb=document.querySelector(`input[type=checkbox][value="${CSS.escape(b)}"]`); if(cb) cb.checked=false; advFilterBrands.delete(b); applyAdvFilters(); });
-    active.push({ label: '🏷 '+b, idx });
+    active.push({ label: _fl('🏷 '+b), idx });
   });
   if (advFilterRating > 0) {
     const idx = window._afRemove.length;
     window._afRemove.push(() => { const r=document.querySelector('input[name="ratingFilter"][value="0"]'); if(r) r.checked=true; applyAdvFilters(); });
-    active.push({ label:`⭐ ${advFilterRating}+`, idx });
+    active.push({ label: _fl(`⭐ ${advFilterRating}+`), idx });
   }
   if (advFilterSaleOnly) {
     const idx = window._afRemove.length;
     window._afRemove.push(() => { const el=document.getElementById('saleOnlyToggle'); if(el) el.checked=false; applyAdvFilters(); });
-    active.push({ label:'🔥 Само намалени', idx });
+    active.push({ label: _fl('🔥 Само намалени'), idx });
   }
   if (advFilterNewOnly) {
     const idx = window._afRemove.length;
     window._afRemove.push(() => { const el=document.getElementById('newOnlyToggle'); if(el) el.checked=false; applyAdvFilters(); });
-    active.push({ label:'🆕 Само нови', idx });
+    active.push({ label: _fl('🆕 Само нови'), idx });
   }
   if (advFilterStockOnly) {
     const idx = window._afRemove.length;
     window._afRemove.push(() => { const el=document.getElementById('stockOnlyToggle'); if(el) el.checked=false; applyAdvFilters(); });
-    active.push({ label:'✓ В наличност', idx });
+    active.push({ label: _fl('✓ В наличност'), idx });
   }
   if (typeof advPriceMin!=='undefined' && (advPriceMin>0||advPriceMax<2000)) {
     const idx = window._afRemove.length;
     window._afRemove.push(() => { setPriceGroup(0,2000,'pg-all'); applyAdvFilters(); });
-    active.push({ label:`💰 ${advPriceMin}€–${advPriceMax}€`, idx });
+    active.push({ label: _fl(`💰 ${advPriceMin}€–${advPriceMax}€`), idx });
   }
   if (active.length === 0) { bar.classList.remove('show'); return; }
   bar.classList.add('show');
@@ -1331,7 +1359,7 @@ function renderSubcatBar(cat) {
   bar.innerHTML =
     `<button type="button" class="subcat-pill active" onclick="applySubcat('all', this)">Всички</button>` +
     subs.map(s =>
-      `<button type="button" class="subcat-pill" onclick="applySubcat('${s.id}', this)">${s.label}</button>`
+      `<button type="button" class="subcat-pill" onclick="applySubcat('${s.id}', this)">${_fl(s.label)}</button>`
     ).join('');
   currentSubcat = 'all';
 }
@@ -1366,13 +1394,13 @@ function renderCatSpecFilters(cat, subcat) {
 
   const subcatLabels = { cpu:'Процесори', gpu:'Видео карти', motherboard:'Дънни платки', ram:'RAM памет', ssd:'SSD / NVMe', hdd:'HDD дискове' };
   const titleText = (subcat && subcat !== 'all' && subcatLabels[subcat])
-    ? `⚙ ${subcatLabels[subcat]}, филтри`
-    : `⚙ ${CAT_LABELS[cat] || cat}, филтри`;
-  if (title) title.textContent = titleText;
+    ? _fl(`⚙ ${subcatLabels[subcat]}, филтри`)
+    : _fl(`⚙ ${CAT_LABELS[cat] || cat}, филтри`);
+  if (title) title.innerHTML = titleText;
 
   inner.innerHTML = specs.map(spec => `
     <div class="csf-block">
-      <div class="csf-title">${spec.label}</div>
+      <div class="csf-title">${_fl(spec.label)}</div>
       <div class="csf-options">
         ${spec.values.map(val => `
           <label class="csf-opt">
@@ -1604,6 +1632,9 @@ function matchesSubcat(p, subcat) {
     cf_card:       () => p.subcat === 'cf_card',
     card_reader:   () => p.subcat === 'card_reader',
     // Accessories
+    projector:  () => p.subcat === 'projector' || all.includes('проектор') || all.includes('projector'),
+    chair:      () => p.subcat === 'chair' || all.includes('gaming chair') || all.includes('геймърски стол') || all.includes('gaming стол'),
+    controller: () => p.subcat === 'controller' || all.includes('контролер') || all.includes('controller') || all.includes('gamepad') || all.includes('геймпад'),
     bag:           () => all.includes('чант') || all.includes('bag') || all.includes('backpack') || all.includes('case') || all.includes('sleeve'),
     cable:         () => all.includes('кабел') || all.includes('cable') || all.includes('cord') || all.includes('зарядн') || all.includes('charger'),
     hub:           () => all.includes('hub') || all.includes('хъб') || all.includes('dock') || all.includes('adapter') || all.includes('адаптер'),

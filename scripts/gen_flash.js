@@ -42,7 +42,7 @@ while ((m = productRe.exec(xml)) !== null) {
   const inStock = getVal(body, 'product_status') === 'В наличност';
   const name = getVal(body, 'name');
   const priceEUR = parseFloat(getVal(body, 'price')) || 0;
-  const priceBGN = Math.round(priceEUR * EUR_RATE * 100) / 100;
+  const priceBGN = Math.round(priceEUR * EUR_RATE * 1.2 * 100) / 100;
 
   const brandRaw = getVal(body, 'manufacturer');
   const brand = brandRaw.charAt(0).toUpperCase() + brandRaw.slice(1).toLowerCase();

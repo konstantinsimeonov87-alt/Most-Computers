@@ -27,7 +27,8 @@ new PurgeCSS().purge({
   css: [inputCss],
   safelist: {
     standard: [
-      /^(open|active|show|is-|has-|anim|fading|error|valid|dark|loading|slide|fade|sticky|fixed|collapsed|selected|disabled|checked|focused|skeleton|spin|pulse|shine|shimmer|bounce|wave|flip|zoom|rotate|img-loading)/
+      /^(open|active|show|is-|has-|anim|fading|error|valid|dark|loading|slide|fade|sticky|fixed|collapsed|selected|disabled|checked|focused|skeleton|spin|pulse|shine|shimmer|bounce|wave|flip|zoom|rotate|img-loading)/,
+      /^fcp--/
     ],
     deep: [/open$/, /active$/, /show$/, /loading$/, /error$/, /valid$/, /visible$/, /hidden$/],
     greedy: [/^anim/, /^is-/, /^has-/]

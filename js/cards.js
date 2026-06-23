@@ -23,6 +23,7 @@ const _SVG_PLACEHOLDERS = (function(){
     tablet:     enc(`<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="200" ${BG}/><rect x="18" y="52" width="164" height="110" rx="12" ${N} ${S} ${SW}="5"/><rect x="30" y="64" width="136" height="86" rx="5" ${F}/><circle cx="186" cy="107" r="6" ${N} ${S} ${SW}="3"/><circle cx="100" cy="56" r="3.5" ${N} ${S} ${SW}="2.5"/></svg>`),
     printer:    enc(`<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="200" ${BG}/><rect x="22" y="68" width="156" height="78" rx="8" ${N} ${S} ${SW}="5"/><rect x="32" y="78" width="136" height="58" rx="4" ${F}/><rect x="42" y="144" width="116" height="20" rx="4" ${N} ${S} ${SW}="4"/><rect x="42" y="50" width="116" height="20" rx="4" ${N} ${S} ${SW}="4"/><rect x="62" y="36" width="76" height="18" rx="2" ${N} ${S} ${SW}="3"/><circle cx="150" cy="98" r="6" ${N} ${S} ${SW}="3"/><circle cx="164" cy="98" r="6" ${N} ${S} ${SW}="3"/><rect x="38" y="84" width="56" height="26" rx="3" ${N} ${S} ${SW}="2.5"/></svg>`),
     tv:         enc(`<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="200" ${BG}/><rect x="14" y="28" width="172" height="114" rx="8" ${N} ${S} ${SW}="5"/><rect x="24" y="38" width="152" height="94" rx="3" ${F}/><rect x="38" y="142" width="26" height="22" rx="4" ${N} ${S} ${SW}="4"/><rect x="136" y="142" width="26" height="22" rx="4" ${N} ${S} ${SW}="4"/><rect x="28" y="162" width="46" height="8" rx="4" ${N} ${S} ${SW}="4"/><rect x="126" y="162" width="46" height="8" rx="4" ${N} ${S} ${SW}="4"/></svg>`),
+    bag:        enc(`<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="200" ${BG}/><rect x="24" y="52" width="152" height="118" rx="14" ${N} ${S} ${SW}="5"/><rect x="35" y="63" width="130" height="97" rx="8" ${F}/><path d="M80 52 Q80 34 100 34 Q120 34 120 52" ${N} ${S} ${SW}="5" stroke-linecap="round"/><line x1="38" y1="98" x2="162" y2="98" ${S} ${SW}="3.5" stroke-linecap="round"/><path d="M98 98 L96 86 L104 86 L102 98" ${N} ${S} ${SW}="3" stroke-linejoin="round"/><rect x="52" y="68" width="96" height="66" rx="5" ${N} ${S} ${SW}="2.5" stroke-dasharray="5,3"/><rect x="24" y="100" width="6" height="36" rx="3" fill="#cbd5e1"/></svg>`),
   };
 })();
 
@@ -48,6 +49,8 @@ function categoryPlaceholderSvg(cat, subcat){
   if(s==='mouse')                                       return _SVG_PLACEHOLDERS.mouse;
   if(s==='headphones')                                  return _SVG_PLACEHOLDERS.headphones;
   if(s==='webcam')                                      return _SVG_PLACEHOLDERS.webcam;
+  // Accessories
+  if(s==='bag')                                         return _SVG_PLACEHOLDERS.bag;
   // Phones
   if(s==='smartphone')                                  return _SVG_PLACEHOLDERS.phone;
   if(s==='tablet')                                      return _SVG_PLACEHOLDERS.tablet;
@@ -80,7 +83,7 @@ function makeCard(p,small=false){
   const imgHtml = safeImg
     ? `<img class="product-img-real" src="${escHtml(safeImg)}" alt="${_eName}" itemprop="image" loading="lazy" width="300" height="300" decoding="async" onload="this.classList.add('img-loaded')" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="product-img-emoji is-hidden" aria-hidden="true">${p.emoji}</span>`
     : `<img class="product-img-placeholder" src="${categoryPlaceholderSvg(p.cat,p.subcat)}" alt="" aria-hidden="true" width="200" height="200" loading="lazy">`;
-  return `<article class="product-card pos-rel${p.stock===false?' is-out-of-stock':''}" itemscope itemtype="https://schema.org/Product">
+  return `<article class="product-card pos-rel${p.stock===false?' is-out-of-stock':''}" itemscope itemtype="https://schema.org/Product" onclick="openProdPreview(${p.id})" style="cursor:pointer;">
     <div class="product-badge-wrap">
       ${p.badge==='sale'?'<span class="badge badge-sale">Промо</span>':''}
       ${p.badge==='promo'?'<span class="badge badge-promo">Промоция</span>':''}
@@ -92,12 +95,12 @@ function makeCard(p,small=false){
 
     </div>
     <button class="product-wishlist" id="wl-${p.id}" type="button" onclick="toggleWishlist(${p.id},event)" title="Добави в любими" aria-label="Добави в любими"><svg width="15" height="15" class="svg-ic" aria-hidden="true"><use href="#ic-heart"/></svg></button>
-    <a href="?product=${p.id}" class="product-img-wrap${small?' small':''}" onclick="openProdPreview(${p.id});return false;" style="cursor:pointer;" aria-label="${_eName}" itemprop="url">
+    <a href="?product=${p.id}" class="product-img-wrap${small?' small':''}" onclick="event.stopPropagation();openProdPreview(${p.id});return false;" style="cursor:pointer;" aria-label="${_eName}" itemprop="url">
       ${imgHtml}
     </a>
     <div class="product-body">
       <div class="product-brand" itemprop="brand" data-brand-search="${escHtml(p.brand)}" style="cursor:pointer;" title="Виж всички ${escHtml(p.brand)}">${escHtml(p.brand)}</div>
-      <h3 class="product-name" itemprop="name"><a href="?product=${p.id}" onclick="openProdPreview(${p.id});return false;" style="color:inherit;text-decoration:none;">${_eName}</a></h3>
+      <h3 class="product-name" itemprop="name"><a href="?product=${p.id}" onclick="event.stopPropagation();openProdPreview(${p.id});return false;" style="color:inherit;text-decoration:none;">${_eName}</a></h3>
       <div class="product-rating"><span class="stars">${starsHTML(p.rating)}</span><span class="rating-num">${p.rating} (${p.rv})</span></div>
       <div class="price-row">
         <div class="price-current${p.badge==='sale'?' sale':''}" itemprop="offers" itemscope itemtype="https://schema.org/Offer"><meta itemprop="priceCurrency" content="EUR"><link itemprop="availability" href="${p.stock===false?'https://schema.org/OutOfStock':'https://schema.org/InStock'}"><span itemprop="price" content="${p.price}">${fmtPrice(p.price, p.badge==='sale'?'sale':'')}</span></div>
@@ -106,14 +109,14 @@ function makeCard(p,small=false){
       <div class="product-footer">
         ${p.stock!==false?`<div class="card-delivery-hint">${p.badge==='sale'?'⚡ Бърза доставка - поръчай до 17:00':'📦 Доставка до 2 работни дни'}</div>`:''}
         ${p.stock===false
-          ? `<button type="button" class="add-cart-btn oos-notify-btn" onclick="oosNotify(${p.id})">🔔 Уведоми ме при наличност</button>
+          ? `<button type="button" class="add-cart-btn oos-notify-btn" onclick="event.stopPropagation();oosNotify(${p.id})">🔔 Уведоми ме при наличност</button>
           <button type="button" class="card-see-similar" onclick="event.stopPropagation();openCatPage('${p.cat}')">Виж подобни →</button>`
-          : `<button type="button" class="add-cart-btn" id="cb-${p.id}" onclick="addToCart(${p.id})"><svg width="15" height="15" class="svg-ic" aria-hidden="true"><use href="#ic-cart"/></svg> Добави в кошница</button>`
+          : `<button type="button" class="add-cart-btn" id="cb-${p.id}" onclick="event.stopPropagation();addToCart(${p.id})"><svg width="15" height="15" class="svg-ic" aria-hidden="true"><use href="#ic-cart"/></svg> Добави в кошница</button>`
         }
         <div class="row-gap-6 card-secondary-btns" style="margin-top:6px;">
-          <button type="button" class="card-sec-btn product-quick-view-btn" onclick="openProductPage(${p.id})" title="Бърз преглед"><svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-eye"/></svg><span class="card-sec-btn-label">Преглед</span></button>
-          <button type="button" class="card-sec-btn" onclick="openQuickOrder(${p.id})" title="Бърза поръчка"><svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-bolt"/></svg><span class="card-sec-btn-label">Бърза поръчка</span></button>
-          <button type="button" class="card-sec-btn" id="cmp-btn-${p.id}" onclick="toggleCompare(${p.id},!compareList.includes(${p.id}))" title="Сравни"><svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-compare"/></svg><span class="card-sec-btn-label">Сравни</span></button>
+          <button type="button" class="card-sec-btn product-quick-view-btn" onclick="event.stopPropagation();openProductPage(${p.id})" title="Бърз преглед"><svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-eye"/></svg><span class="card-sec-btn-label">Преглед</span></button>
+          <button type="button" class="card-sec-btn" onclick="event.stopPropagation();openQuickOrder(${p.id})" title="Бърза поръчка"><svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-bolt"/></svg><span class="card-sec-btn-label">Бърза поръчка</span></button>
+          <button type="button" class="card-sec-btn" id="cmp-btn-${p.id}" onclick="event.stopPropagation();toggleCompare(${p.id},!compareList.includes(${p.id}))" title="Сравни"><svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-compare"/></svg><span class="card-sec-btn-label">Сравни</span></button>
         </div>
       </div>
     </div>

@@ -7,7 +7,7 @@ function fmtEur(bgn) { return toEur(bgn).toLocaleString('de-DE', {minimumFractio
 function fmtBgn(bgn) { return bgn.toLocaleString('bg-BG', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' лв.'; }
 // Primary display: EUR bold, BGN muted below
 function fmtPrice(bgn, saleCls='') {
-  return `<span class="price-eur-main${saleCls ? ' '+saleCls : ''}">${fmtEur(bgn)}</span><span class="price-bgn-sub">${fmtBgn(bgn)}</span>`;
+  return `<span class="price-eur-main${saleCls ? ' '+saleCls : ''}">${fmtEur(bgn)}</span><span class="price-bgn-sub">${fmtBgn(bgn)} · с вкл. ДДС</span>`;
 }
 // Inline dual: "2.30 € / 4.49 лв."
 function fmtDual(bgn) { return `${fmtEur(bgn)} / ${fmtBgn(bgn)}`; }
@@ -40,6 +40,15 @@ if (typeof module !== 'undefined' && module.exports) {
   module.exports = { EUR_RATE, toEur, fmtEur, fmtBgn, fmtPrice, fmtDual, escHtml };
 }
 
+// Cache viewport width to avoid forced reflow (window.innerWidth triggers layout when DOM is dirty).
+// Read once before any DOM mutations, then update lazily on resize.
+let _cachedInnerWidth = (typeof window !== 'undefined') ? window.innerWidth : 1280;
+if (typeof window !== 'undefined') {
+  window.addEventListener('resize', function() {
+    _cachedInnerWidth = window.innerWidth;
+  }, { passive: true });
+}
+
 
 function starsHTML(r){return '★'.repeat(Math.round(r))+'☆'.repeat(5-Math.round(r));}
 
@@ -65,6 +74,7 @@ const _SVG_PLACEHOLDERS = (function(){
     tablet:     enc(`<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="200" ${BG}/><rect x="18" y="52" width="164" height="110" rx="12" ${N} ${S} ${SW}="5"/><rect x="30" y="64" width="136" height="86" rx="5" ${F}/><circle cx="186" cy="107" r="6" ${N} ${S} ${SW}="3"/><circle cx="100" cy="56" r="3.5" ${N} ${S} ${SW}="2.5"/></svg>`),
     printer:    enc(`<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="200" ${BG}/><rect x="22" y="68" width="156" height="78" rx="8" ${N} ${S} ${SW}="5"/><rect x="32" y="78" width="136" height="58" rx="4" ${F}/><rect x="42" y="144" width="116" height="20" rx="4" ${N} ${S} ${SW}="4"/><rect x="42" y="50" width="116" height="20" rx="4" ${N} ${S} ${SW}="4"/><rect x="62" y="36" width="76" height="18" rx="2" ${N} ${S} ${SW}="3"/><circle cx="150" cy="98" r="6" ${N} ${S} ${SW}="3"/><circle cx="164" cy="98" r="6" ${N} ${S} ${SW}="3"/><rect x="38" y="84" width="56" height="26" rx="3" ${N} ${S} ${SW}="2.5"/></svg>`),
     tv:         enc(`<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="200" ${BG}/><rect x="14" y="28" width="172" height="114" rx="8" ${N} ${S} ${SW}="5"/><rect x="24" y="38" width="152" height="94" rx="3" ${F}/><rect x="38" y="142" width="26" height="22" rx="4" ${N} ${S} ${SW}="4"/><rect x="136" y="142" width="26" height="22" rx="4" ${N} ${S} ${SW}="4"/><rect x="28" y="162" width="46" height="8" rx="4" ${N} ${S} ${SW}="4"/><rect x="126" y="162" width="46" height="8" rx="4" ${N} ${S} ${SW}="4"/></svg>`),
+    bag:        enc(`<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="200" ${BG}/><rect x="24" y="52" width="152" height="118" rx="14" ${N} ${S} ${SW}="5"/><rect x="35" y="63" width="130" height="97" rx="8" ${F}/><path d="M80 52 Q80 34 100 34 Q120 34 120 52" ${N} ${S} ${SW}="5" stroke-linecap="round"/><line x1="38" y1="98" x2="162" y2="98" ${S} ${SW}="3.5" stroke-linecap="round"/><path d="M98 98 L96 86 L104 86 L102 98" ${N} ${S} ${SW}="3" stroke-linejoin="round"/><rect x="52" y="68" width="96" height="66" rx="5" ${N} ${S} ${SW}="2.5" stroke-dasharray="5,3"/><rect x="24" y="100" width="6" height="36" rx="3" fill="#cbd5e1"/></svg>`),
   };
 })();
 
@@ -90,6 +100,8 @@ function categoryPlaceholderSvg(cat, subcat){
   if(s==='mouse')                                       return _SVG_PLACEHOLDERS.mouse;
   if(s==='headphones')                                  return _SVG_PLACEHOLDERS.headphones;
   if(s==='webcam')                                      return _SVG_PLACEHOLDERS.webcam;
+  // Accessories
+  if(s==='bag')                                         return _SVG_PLACEHOLDERS.bag;
   // Phones
   if(s==='smartphone')                                  return _SVG_PLACEHOLDERS.phone;
   if(s==='tablet')                                      return _SVG_PLACEHOLDERS.tablet;
@@ -122,7 +134,7 @@ function makeCard(p,small=false){
   const imgHtml = safeImg
     ? `<img class="product-img-real" src="${escHtml(safeImg)}" alt="${_eName}" itemprop="image" loading="lazy" width="300" height="300" decoding="async" onload="this.classList.add('img-loaded')" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="product-img-emoji is-hidden" aria-hidden="true">${p.emoji}</span>`
     : `<img class="product-img-placeholder" src="${categoryPlaceholderSvg(p.cat,p.subcat)}" alt="" aria-hidden="true" width="200" height="200" loading="lazy">`;
-  return `<article class="product-card pos-rel${p.stock===false?' is-out-of-stock':''}" itemscope itemtype="https://schema.org/Product">
+  return `<article class="product-card pos-rel${p.stock===false?' is-out-of-stock':''}" itemscope itemtype="https://schema.org/Product" onclick="openProdPreview(${p.id})" style="cursor:pointer;">
     <div class="product-badge-wrap">
       ${p.badge==='sale'?'<span class="badge badge-sale">Промо</span>':''}
       ${p.badge==='promo'?'<span class="badge badge-promo">Промоция</span>':''}
@@ -134,12 +146,12 @@ function makeCard(p,small=false){
 
     </div>
     <button class="product-wishlist" id="wl-${p.id}" type="button" onclick="toggleWishlist(${p.id},event)" title="Добави в любими" aria-label="Добави в любими"><svg width="15" height="15" class="svg-ic" aria-hidden="true"><use href="#ic-heart"/></svg></button>
-    <a href="?product=${p.id}" class="product-img-wrap${small?' small':''}" onclick="openProdPreview(${p.id});return false;" style="cursor:pointer;" aria-label="${_eName}" itemprop="url">
+    <a href="?product=${p.id}" class="product-img-wrap${small?' small':''}" onclick="event.stopPropagation();openProdPreview(${p.id});return false;" style="cursor:pointer;" aria-label="${_eName}" itemprop="url">
       ${imgHtml}
     </a>
     <div class="product-body">
       <div class="product-brand" itemprop="brand" data-brand-search="${escHtml(p.brand)}" style="cursor:pointer;" title="Виж всички ${escHtml(p.brand)}">${escHtml(p.brand)}</div>
-      <h3 class="product-name" itemprop="name"><a href="?product=${p.id}" onclick="openProdPreview(${p.id});return false;" style="color:inherit;text-decoration:none;">${_eName}</a></h3>
+      <h3 class="product-name" itemprop="name"><a href="?product=${p.id}" onclick="event.stopPropagation();openProdPreview(${p.id});return false;" style="color:inherit;text-decoration:none;">${_eName}</a></h3>
       <div class="product-rating"><span class="stars">${starsHTML(p.rating)}</span><span class="rating-num">${p.rating} (${p.rv})</span></div>
       <div class="price-row">
         <div class="price-current${p.badge==='sale'?' sale':''}" itemprop="offers" itemscope itemtype="https://schema.org/Offer"><meta itemprop="priceCurrency" content="EUR"><link itemprop="availability" href="${p.stock===false?'https://schema.org/OutOfStock':'https://schema.org/InStock'}"><span itemprop="price" content="${p.price}">${fmtPrice(p.price, p.badge==='sale'?'sale':'')}</span></div>
@@ -148,14 +160,14 @@ function makeCard(p,small=false){
       <div class="product-footer">
         ${p.stock!==false?`<div class="card-delivery-hint">${p.badge==='sale'?'⚡ Бърза доставка - поръчай до 17:00':'📦 Доставка до 2 работни дни'}</div>`:''}
         ${p.stock===false
-          ? `<button type="button" class="add-cart-btn oos-notify-btn" onclick="oosNotify(${p.id})">🔔 Уведоми ме при наличност</button>
+          ? `<button type="button" class="add-cart-btn oos-notify-btn" onclick="event.stopPropagation();oosNotify(${p.id})">🔔 Уведоми ме при наличност</button>
           <button type="button" class="card-see-similar" onclick="event.stopPropagation();openCatPage('${p.cat}')">Виж подобни →</button>`
-          : `<button type="button" class="add-cart-btn" id="cb-${p.id}" onclick="addToCart(${p.id})"><svg width="15" height="15" class="svg-ic" aria-hidden="true"><use href="#ic-cart"/></svg> Добави в кошница</button>`
+          : `<button type="button" class="add-cart-btn" id="cb-${p.id}" onclick="event.stopPropagation();addToCart(${p.id})"><svg width="15" height="15" class="svg-ic" aria-hidden="true"><use href="#ic-cart"/></svg> Добави в кошница</button>`
         }
         <div class="row-gap-6 card-secondary-btns" style="margin-top:6px;">
-          <button type="button" class="card-sec-btn product-quick-view-btn" onclick="openProductPage(${p.id})" title="Бърз преглед"><svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-eye"/></svg><span class="card-sec-btn-label">Преглед</span></button>
-          <button type="button" class="card-sec-btn" onclick="openQuickOrder(${p.id})" title="Бърза поръчка"><svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-bolt"/></svg><span class="card-sec-btn-label">Бърза поръчка</span></button>
-          <button type="button" class="card-sec-btn" id="cmp-btn-${p.id}" onclick="toggleCompare(${p.id},!compareList.includes(${p.id}))" title="Сравни"><svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-compare"/></svg><span class="card-sec-btn-label">Сравни</span></button>
+          <button type="button" class="card-sec-btn product-quick-view-btn" onclick="event.stopPropagation();openProductPage(${p.id})" title="Бърз преглед"><svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-eye"/></svg><span class="card-sec-btn-label">Преглед</span></button>
+          <button type="button" class="card-sec-btn" onclick="event.stopPropagation();openQuickOrder(${p.id})" title="Бърза поръчка"><svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-bolt"/></svg><span class="card-sec-btn-label">Бърза поръчка</span></button>
+          <button type="button" class="card-sec-btn" id="cmp-btn-${p.id}" onclick="event.stopPropagation();toggleCompare(${p.id},!compareList.includes(${p.id}))" title="Сравни"><svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-compare"/></svg><span class="card-sec-btn-label">Сравни</span></button>
         </div>
       </div>
     </div>
@@ -239,6 +251,22 @@ function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
 function scrollToFeatured() { document.getElementById('featured')?.scrollIntoView({ behavior: 'smooth' }); }
 function scrollToSale()     { document.getElementById('sale')?.scrollIntoView({ behavior: 'smooth' }); }
 
+function switchMobTab(tab) {
+  if (window.innerWidth > 768) return;
+  document.querySelectorAll('.mob-hp-tab').forEach(t => {
+    t.classList.toggle('active', t.dataset.tab === tab);
+    t.setAttribute('aria-selected', t.dataset.tab === tab ? 'true' : 'false');
+  });
+  const map = { sale: 'sale', new: 'newSection', bestsellers: 'bestsellersSection' };
+  const banners = [document.getElementById('promoSplitBanner'), document.getElementById('promoBanner')];
+  Object.entries(map).forEach(([key, id]) => {
+    const el = document.getElementById(id);
+    if (el) el.classList.toggle('mob-tab-hidden', key !== tab);
+  });
+  banners.forEach(el => { if (el) el.classList.toggle('mob-tab-hidden', tab !== 'sale'); });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
 function initBackToTop() {
   const btn = document.getElementById('backToTop');
   if (!btn) return;
@@ -248,22 +276,67 @@ function initBackToTop() {
   }, { passive: true });
 }
 
+// ===== FOOTER ACCORDION (MOBILE) =====
+function initFooterAccordion() {
+  if (window.innerWidth > 768) return;
+  document.querySelectorAll('.footer-col-title').forEach(title => {
+    title.addEventListener('click', () => {
+      title.closest('.footer-col').classList.toggle('expanded');
+    });
+  });
+}
+initFooterAccordion();
+window.addEventListener('resize', () => {
+  if (window.innerWidth > 768) {
+    document.querySelectorAll('.footer-col').forEach(c => c.classList.add('expanded'));
+  }
+});
+
 // ===== BOTTOM NAV =====
 function setBottomNavActive(id) {
   document.querySelectorAll('.bn-item').forEach(b => b.classList.remove('active'));
-  document.querySelectorAll('#' + id).forEach(el => el.classList.add('active'));
+  if (id) document.getElementById(id)?.classList.add('active');
 }
+window.addEventListener('popstate', () => setBottomNavActive(''));
+
+function openMobCatsPage() {
+  const el = document.getElementById('mobCatsPage');
+  if (!el) return;
+  el.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  setBottomNavActive('bn-cats');
+}
+function closeMobCatsPage() {
+  const el = document.getElementById('mobCatsPage');
+  if (!el) return;
+  el.classList.remove('open');
+  document.body.style.overflow = '';
+  setBottomNavActive('');
+}
+
 function closePagesGoHome() {
   ['wishlistPage','contactPage','searchResultsPage','checkoutPage','thankyouPage','myOrdersPage'].forEach(id => {
     document.getElementById(id)?.classList.remove('open');
   });
   document.body.style.overflow = '';
-  setBottomNavActive('bn-home');
+  setBottomNavActive('');
   window.scrollTo({top:0,behavior:'smooth'});
 }
 function focusSearch() {
   const inp = document.getElementById('searchInput');
-  if (inp) { inp.focus(); inp.scrollIntoView({behavior:'smooth',block:'center'}); }
+  if (inp) {
+    inp.scrollIntoView({behavior:'smooth',block:'center'});
+    inp.focus({ preventScroll: true });
+  }
+  document.body.classList.add('search-open');
+  let bd = document.getElementById('searchBackdrop');
+  if (!bd && window.innerWidth <= 768) {
+    bd = document.createElement('div');
+    bd.id = 'searchBackdrop';
+    document.body.appendChild(bd);
+    bd.addEventListener('click', () => { if (typeof closeSearchDropdown === 'function') closeSearchDropdown(); });
+  }
+  if (bd) bd.style.display = 'block';
   setBottomNavActive('bn-search');
 }
 // Sync bottom nav cart badge with main cart
@@ -401,6 +474,7 @@ function openMegamenu() {
   if (!catsEl) return;
   catsEl.innerHTML = megaCategories.map(c => {
     const count = products.filter(p=>p.cat===c.cat||normalizeCat(p.cat)===c.cat).length;
+    if (count === 0) return '';
     const isComp = c.cat === 'components';
     const subcatHtml = isComp ? `<div class="mega-comp-subcats" id="megaCompSubcats">${
       _compSubcats.map(s => {
@@ -416,9 +490,10 @@ function openMegamenu() {
     </div>`;
   }).join('');
 
-  // Render brands
+  // Render brands (skip brands with 0 products)
   var _el_megamenuBrands=document.getElementById('megamenuBrands'); if(_el_megamenuBrands) _el_megamenuBrands.innerHTML = megaBrands.map(b => {
     const count = products.filter(p=>p.brand===b).length;
+    if (count === 0) return '';
     return `<div class="megamenu-brand-card" onclick="megaFilterBrand('${b}')">
       <div>${b}</div>
       <div style="font-size:10px;color:var(--muted);margin-top:2px;">${count} продукта</div>
@@ -849,6 +924,69 @@ function initScrollAnimations() {
   });
 }());
 
+
+// ===== MOBILE DRAWER MENU =====
+function toggleMobMenu() {
+  const overlay = document.getElementById('mobOverlay');
+  const drawer = document.getElementById('mobDrawer');
+  if (!drawer || !overlay) return;
+  const isOpen = drawer.classList.toggle('open');
+  overlay.classList.toggle('open', isOpen);
+  setBottomNavActive(isOpen ? 'bn-menu' : '');
+  if (isOpen) {
+    document.body.dataset.scrollY = window.scrollY;
+    document.body.style.cssText += ';overflow:hidden;position:fixed;top:-' + window.scrollY + 'px;width:100%';
+  } else {
+    const scrollY = parseInt(document.body.dataset.scrollY || '0', 10);
+    document.body.style.cssText = document.body.style.cssText.replace(/overflow:[^;]+;position:fixed;top:[^;]+;width:[^;]+;?/g, '');
+    document.body.style.overflow = '';
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.width = '';
+    window.scrollTo(0, scrollY);
+  }
+}
+function closeMobMenu() {
+  const overlay = document.getElementById('mobOverlay');
+  const drawer = document.getElementById('mobDrawer');
+  if (overlay) overlay.classList.remove('open');
+  if (drawer) drawer.classList.remove('open');
+  setBottomNavActive('');
+  const scrollY = parseInt(document.body.dataset.scrollY || '0', 10);
+  document.body.style.overflow = '';
+  document.body.style.position = '';
+  document.body.style.top = '';
+  document.body.style.width = '';
+  window.scrollTo(0, scrollY);
+}
+
+// ===== CATEGORY BOTTOM SHEET =====
+function openCatSheet() {
+  const sheet = document.getElementById('catSheet');
+  const overlay = document.getElementById('catSheetOverlay');
+  if (!sheet || !overlay) return;
+  sheet.classList.add('open');
+  overlay.classList.add('open');
+  setBottomNavActive('bn-cats');
+  document.body.style.overflow = 'hidden';
+}
+function closeCatSheet() {
+  const sheet = document.getElementById('catSheet');
+  const overlay = document.getElementById('catSheetOverlay');
+  if (sheet) sheet.classList.remove('open');
+  if (overlay) overlay.classList.remove('open');
+  setBottomNavActive('');
+  document.body.style.overflow = '';
+}
+
+// ===== HOME BUTTON =====
+function goHome() {
+  closeMobMenu();
+  closeCatSheet();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  setBottomNavActive('bn-home');
+}
+
 // ===== RECENTLY VIEWED =====
 let recentlyViewed = [];
 try { recentlyViewed = JSON.parse(localStorage.getItem('mc_rv') || '[]'); } catch(e) {}
@@ -926,7 +1064,7 @@ function clearRecentlyViewed() {
   if (wrap) wrap.style.display = 'none';
   const section = document.getElementById('recentlyViewedSection');
   if (section) section.style.display = 'none';
-  showToast('🗑 История изчистена');
+  showToast('История изчистена');
 }
 
 // renderRecentlyViewed called in main.js after DOMContentLoaded
@@ -955,6 +1093,37 @@ function normalizeCat(cat) {
     new:'new',           sale:'sale',
   };
   return m[(cat||'').toLowerCase()] || 'accessories';
+}
+
+// ── SVG icon helper for filter labels ────────────────────────────────────────
+// Maps leading emoji in label strings to inline SVG <use> references.
+// All icon IDs reference symbols defined in index.html.
+const _FI = {
+  '📱':'ic-phone','💻':'ic-laptop','🖥':'ic-monitor','🖥️':'ic-monitor',
+  '🎮':'ic-gamepad','⚙️':'ic-settings','⚙':'ic-settings','🖱':'ic-mouse','🖱️':'ic-mouse',
+  '📡':'ic-wifi','💾':'ic-storage','📀':'ic-storage','🎒':'ic-bag','🖨':'ic-printer','🖨️':'ic-printer',
+  '⚡':'ic-bolt','💼':'ic-bag','🔄':'ic-return','💰':'ic-tag','📟':'ic-tablet','✈':'ic-globe',
+  '🏷':'ic-tag','🧠':'ic-cpu','🔍':'ic-search','🔩':'ic-wrench','🔌':'ic-bolt','📐':'ic-monitor',
+  '🌀':'ic-return','🌡':'ic-settings','🏭':'ic-settings','💿':'ic-storage','📦':'ic-package',
+  '🔧':'ic-wrench','📻':'ic-wifi','🌐':'ic-globe','💡':'ic-bolt','🎧':'ic-headphones',
+  '📷':'ic-camera','🎙':'ic-chat','🏆':'ic-star','⌚':'ic-watch','🎯':'ic-search',
+  '🗄':'ic-storage','❄':'ic-settings','⌨':'ic-laptop','⌨️':'ic-laptop','🎨':'ic-spark',
+  '🔗':'ic-arrow-right','📶':'ic-wifi','🏢':'ic-home','🏠':'ic-home','🪟':'ic-settings',
+  '⚖':'ic-settings','🧮':'ic-cpu','🔢':'ic-cpu','📌':'ic-pin','🛡':'ic-shield',
+  '🔀':'ic-return','🔬':'ic-search','🪑':'ic-settings','📋':'ic-package','🏔️':'ic-globe',
+  '🌙':'ic-moon','🕸️':'ic-wifi','⭐':'ic-star','🔥':'ic-bolt','🆕':'ic-spark',
+  '✓':'ic-check','🏔':'ic-globe','♾️':'ic-return','♾':'ic-return',
+};
+function _fl(label) {
+  if (!label) return label;
+  for (const em of Object.keys(_FI)) {
+    if (label.startsWith(em + ' ') || label === em) {
+      const id = _FI[em];
+      const text = label.startsWith(em + ' ') ? label.slice(em.length + 1) : '';
+      return `<svg width="12" height="12" class="svg-ic" aria-hidden="true" style="vertical-align:-1px;margin-right:3px;opacity:.75;flex-shrink:0"><use href="#${id}"/></svg>${text}`;
+    }
+  }
+  return label;
 }
 
 let _filterCache = null;
@@ -1126,7 +1295,8 @@ function renderGrids(){
   const _inStock = p => p.stock !== false;
   const _flashAll=[...products].filter(p=>_inStock(p)&&p.old&&p.pct>0);
   for(let i=_flashAll.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[_flashAll[i],_flashAll[j]]=[_flashAll[j],_flashAll[i]];}
-  const _flashProds=_flashAll.slice(0,window.innerWidth<640?2:4);
+  const _vw = (typeof _cachedInnerWidth !== 'undefined') ? _cachedInnerWidth : window.innerWidth;
+  const _flashProds=_flashAll.slice(0,_vw<640?6:4);
   const flashSection=document.getElementById('sale');
   if(flashSection) flashSection.style.display=_flashProds.length?'':'none';
   const fg=document.getElementById('flashGrid');
@@ -1164,7 +1334,28 @@ function renderGrids(){
   // Slide 4 - sync price from products array (id:1884 = Lenovo Legion Pro 7 RTX 5090)
   const _s4 = products.find(p=>p.id===1884);
   const _s4el = document.getElementById('slide4Price');
-  if(_s4 && _s4el) _s4el.innerHTML = `${(_s4.price/EUR_RATE).toFixed(2)} € / ${_s4.price} лв. <small>с ДДС</small>`;
+  if(_s4 && _s4el) _s4el.innerHTML = `${(_s4.price/EUR_RATE).toFixed(2)} € / ${fmtBgn(_s4.price)} <small>с ДДС</small>`;
+  // Mobile homepage hero — populate with top flash-sale product by savings
+  const _mobHeroEl = document.getElementById('mobHpHero');
+  if (_mobHeroEl && _flashAll.length) {
+    const _heroPref = ['laptops','gaming_l','convertible','monitors','gpu','headphones','audio'];
+    const _hp = ([..._flashAll].filter(p=>(p.rv||0)>0&&_heroPref.includes(p.cat)).sort((a,b)=>(b.rv||0)*b.pct-(a.rv||0)*a.pct)[0])
+              || ([..._flashAll].filter(p=>(p.rv||0)>0).sort((a,b)=>(b.rv||0)*b.pct-(a.rv||0)*a.pct)[0])
+              || [..._flashAll].sort((a,b)=>b.pct-a.pct)[0];
+    const _hpPr  = (_hp.price/EUR_RATE).toFixed(2);
+    const _hpOld = (_hp.old  /EUR_RATE).toFixed(2);
+    const _hpSv  = ((_hp.old-_hp.price)/EUR_RATE).toFixed(2);
+    const _t=document.getElementById('mobHpTitle'),_s=document.getElementById('mobHpSub'),
+          _p=document.getElementById('mobHpPrice'),_o=document.getElementById('mobHpPriceOld'),
+          _sv=document.getElementById('mobHpSave'),_b=document.getElementById('mobHpBtn');
+    if(_t) _t.textContent = _hp.name||'';
+    if(_s) _s.textContent = _hp.brand||'';
+    if(_p) _p.textContent = _hpPr+' €';
+    if(_o) _o.textContent = _hpOld+' €';
+    if(_sv) _sv.textContent = 'Спестяваш '+_hpSv+' €';
+    if(_b){ _b.dataset.action='openProductPage('+_hp.id+')'; _b.textContent='Купи сега'; }
+    _mobHeroEl.removeAttribute('aria-hidden');
+  }
   renderNewGrid(window._newPeriodDays || 14);
   initNewPeriodChips();
   // Promo strip - update free delivery threshold with current EUR rate
@@ -1176,36 +1367,11 @@ function renderGrids(){
       : '🚚 ';
     el.innerHTML = prefix + `Безплатна доставка над ${_freeDelEur} € / ${_freeDelBgn} лв.`;
   });
-  renderHeroPanel();
   renderPromoBanner();
   updateWishlistUI();
   if(typeof initLazyImages==='function') initLazyImages();
   if(typeof renderHpCats==='function') renderHpCats();
-}
-
-function renderHeroPanel(){
-  const panel = document.getElementById('heroRightPanel');
-  if(!panel) return;
-  const byScore = [...products].sort((a,b)=>(b.rating*(b.rv||1))-(a.rating*(a.rv||1)));
-  const picks = [
-    { p: byScore[0], label:'⭐ Препоръчано', cls:'mini-promo-recommended' },
-    { p: byScore.find(p=>p.badge==='sale'), label:'🔥 Бестселър', cls:'mini-promo-bestseller' },
-    { p: [...products].filter(p=>p.badge==='new'||p.badge==='hot')[0], label:'🆕 Ново', cls:'mini-promo-new' },
-  ];
-  panel.innerHTML = picks.filter(x=>x.p).map(({p,label,cls})=>`
-    <div class="mini-promo ${cls}">
-      ${p.img
-        ? `<img class="mini-promo-img" src="${p.img}" alt="${escHtml(p.name)}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">`
-        : ''}
-      <div class="mini-promo-emoji" style="${p.img?'display:none':''}"> ${p.emoji}</div>
-      <div class="mini-promo-text">
-        <div class="mini-promo-label">${label}</div>
-        <div class="mini-promo-name">${escHtml(p.name.length>32?p.name.slice(0,32)+'…':p.name)}</div>
-        ${p.old?`<div class="mini-promo-old">${(p.old/EUR_RATE).toFixed(2)} € / ${p.old} лв.</div>`:''}
-        <div class="mini-promo-price">${(p.price/EUR_RATE).toFixed(2)} € / ${p.price} лв.</div>
-      </div>
-      <button type="button" class="mini-promo-view" onclick="event.stopPropagation();openProductPage(${p.id})">Виж →</button>
-    </div>`).join('');
+  if(window.innerWidth<=768 && typeof switchMobTab==='function') switchMobTab('sale');
 }
 
 function renderPromoBanner(){
@@ -1389,37 +1555,37 @@ function updateActiveFiltersBar() {
       updateURL();
       updateActiveFiltersBar();
     });
-    active.push({ label: _catLabels[currentFilter] || currentFilter, idx });
+    active.push({ label: _fl(_catLabels[currentFilter] || currentFilter), idx });
   }
   advFilterBrands.forEach(b => {
     const idx = window._afRemove.length;
     window._afRemove.push(() => { const cb=document.querySelector(`input[type=checkbox][value="${CSS.escape(b)}"]`); if(cb) cb.checked=false; advFilterBrands.delete(b); applyAdvFilters(); });
-    active.push({ label: '🏷 '+b, idx });
+    active.push({ label: _fl('🏷 '+b), idx });
   });
   if (advFilterRating > 0) {
     const idx = window._afRemove.length;
     window._afRemove.push(() => { const r=document.querySelector('input[name="ratingFilter"][value="0"]'); if(r) r.checked=true; applyAdvFilters(); });
-    active.push({ label:`⭐ ${advFilterRating}+`, idx });
+    active.push({ label: _fl(`⭐ ${advFilterRating}+`), idx });
   }
   if (advFilterSaleOnly) {
     const idx = window._afRemove.length;
     window._afRemove.push(() => { const el=document.getElementById('saleOnlyToggle'); if(el) el.checked=false; applyAdvFilters(); });
-    active.push({ label:'🔥 Само намалени', idx });
+    active.push({ label: _fl('🔥 Само намалени'), idx });
   }
   if (advFilterNewOnly) {
     const idx = window._afRemove.length;
     window._afRemove.push(() => { const el=document.getElementById('newOnlyToggle'); if(el) el.checked=false; applyAdvFilters(); });
-    active.push({ label:'🆕 Само нови', idx });
+    active.push({ label: _fl('🆕 Само нови'), idx });
   }
   if (advFilterStockOnly) {
     const idx = window._afRemove.length;
     window._afRemove.push(() => { const el=document.getElementById('stockOnlyToggle'); if(el) el.checked=false; applyAdvFilters(); });
-    active.push({ label:'✓ В наличност', idx });
+    active.push({ label: _fl('✓ В наличност'), idx });
   }
   if (typeof advPriceMin!=='undefined' && (advPriceMin>0||advPriceMax<2000)) {
     const idx = window._afRemove.length;
     window._afRemove.push(() => { setPriceGroup(0,2000,'pg-all'); applyAdvFilters(); });
-    active.push({ label:`💰 ${advPriceMin}€–${advPriceMax}€`, idx });
+    active.push({ label: _fl(`💰 ${advPriceMin}€–${advPriceMax}€`), idx });
   }
   if (active.length === 0) { bar.classList.remove('show'); return; }
   bar.classList.add('show');
@@ -2264,7 +2430,7 @@ function renderSubcatBar(cat) {
   bar.innerHTML =
     `<button type="button" class="subcat-pill active" onclick="applySubcat('all', this)">Всички</button>` +
     subs.map(s =>
-      `<button type="button" class="subcat-pill" onclick="applySubcat('${s.id}', this)">${s.label}</button>`
+      `<button type="button" class="subcat-pill" onclick="applySubcat('${s.id}', this)">${_fl(s.label)}</button>`
     ).join('');
   currentSubcat = 'all';
 }
@@ -2299,13 +2465,13 @@ function renderCatSpecFilters(cat, subcat) {
 
   const subcatLabels = { cpu:'Процесори', gpu:'Видео карти', motherboard:'Дънни платки', ram:'RAM памет', ssd:'SSD / NVMe', hdd:'HDD дискове' };
   const titleText = (subcat && subcat !== 'all' && subcatLabels[subcat])
-    ? `⚙ ${subcatLabels[subcat]}, филтри`
-    : `⚙ ${CAT_LABELS[cat] || cat}, филтри`;
-  if (title) title.textContent = titleText;
+    ? _fl(`⚙ ${subcatLabels[subcat]}, филтри`)
+    : _fl(`⚙ ${CAT_LABELS[cat] || cat}, филтри`);
+  if (title) title.innerHTML = titleText;
 
   inner.innerHTML = specs.map(spec => `
     <div class="csf-block">
-      <div class="csf-title">${spec.label}</div>
+      <div class="csf-title">${_fl(spec.label)}</div>
       <div class="csf-options">
         ${spec.values.map(val => `
           <label class="csf-opt">
@@ -2537,6 +2703,9 @@ function matchesSubcat(p, subcat) {
     cf_card:       () => p.subcat === 'cf_card',
     card_reader:   () => p.subcat === 'card_reader',
     // Accessories
+    projector:  () => p.subcat === 'projector' || all.includes('проектор') || all.includes('projector'),
+    chair:      () => p.subcat === 'chair' || all.includes('gaming chair') || all.includes('геймърски стол') || all.includes('gaming стол'),
+    controller: () => p.subcat === 'controller' || all.includes('контролер') || all.includes('controller') || all.includes('gamepad') || all.includes('геймпад'),
     bag:           () => all.includes('чант') || all.includes('bag') || all.includes('backpack') || all.includes('case') || all.includes('sleeve'),
     cable:         () => all.includes('кабел') || all.includes('cable') || all.includes('cord') || all.includes('зарядн') || all.includes('charger'),
     hub:           () => all.includes('hub') || all.includes('хъб') || all.includes('dock') || all.includes('adapter') || all.includes('адаптер'),
@@ -3346,6 +3515,8 @@ function bcRender() {
   }).join('');
 
   inner.innerHTML = html;
+  const wrap = document.getElementById('bcWrap');
+  if (wrap) wrap.style.display = _bcTrail.length > 0 ? '' : 'none';
 
   // Mirror into PDP subheader breadcrumb
   const pdpBc = document.getElementById('pdpBcInner');
@@ -3562,8 +3733,8 @@ function injectProductSchema(p) {
     "offers": {
       "@type": "Offer",
       "url": `${location.href.split('?')[0]}?product=${p.id}`,
-      "priceCurrency": "BGN",
-      "price": p.price,
+      "priceCurrency": "EUR",
+      "price": Math.round(toEur(p.price) * 100) / 100,
       "priceValidUntil": priceValidUntil,
       "itemCondition": "https://schema.org/NewCondition",
       "availability": p.stock === false ? "https://schema.org/OutOfStock" : "https://schema.org/InStock",
@@ -3889,6 +4060,7 @@ let cpRating = 0;
 let cpSaleOnly = false, cpNewOnly = false, cpStockOnly = false;
 let cpSpecFilters = {};
 let cpSubcat = 'all';
+let cpPage = 1;
 let _cpSubcatBrands = null; // known brand values for current subcat (to power "Other" filter)
 
 let _catPageScrollY = 0;
@@ -3900,6 +4072,7 @@ function openCatPage(cat, preSubcat, fromURL = false) {
   cpBrands = new Set();
   cpRating = 0; cpSaleOnly = false; cpNewOnly = false; cpStockOnly = false;
   cpSpecFilters = {};
+  cpPage = 1;
 
   cpSubcat = preSubcat || 'all';
 
@@ -3937,6 +4110,7 @@ function openCatPage(cat, preSubcat, fromURL = false) {
   document.getElementById('catPage').classList.add('open');
   document.documentElement.style.overflow = 'hidden';
   document.body.style.overflow = 'hidden';
+  if (typeof setBottomNavActive === 'function') setBottomNavActive('bn-cats');
   try{history.pushState({ catPage: cat, subcat: preSubcat || 'all' }, '', '?cat=' + cat + _subSuffix);}catch(e){}
   // Defer render so overflow/class paint commits before heavy grid work
   requestAnimationFrame(() => {
@@ -4043,6 +4217,9 @@ function buildCpSidebar(cat) {
   _cpMaxEur = maxPriceRound;
   cpPriceMax = maxPriceRound;
 
+  // ── Header ──
+  var headerHtml = '<div class="cp-sb-header"><span class="cp-sb-title">Филтри</span></div>';
+
   // ── Price block ──
   let html = `
     <div class="sidebar-filter-block" style="border-bottom:1px solid var(--border);padding:16px;">
@@ -4085,7 +4262,7 @@ function buildCpSidebar(cat) {
     html += `<div id="cpCatSpecWrap">`;
     specs.forEach(spec => {
       html += `<div class="sidebar-filter-block" style="border-bottom:1px solid var(--border);padding:16px;">
-        <div class="sfb-title" style="font-size:12px;font-weight:800;color:var(--text2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;">${spec.label}</div>
+        <div class="sfb-title" style="font-size:12px;font-weight:800;color:var(--text2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;">${typeof _fl==='function'?_fl(spec.label):spec.label}</div>
         <div style="display:flex;flex-direction:column;gap:4px;">`;
       spec.values.forEach(val => {
         html += `<label class="brand-filter-item" style="display:flex;align-items:center;gap:8px;cursor:pointer;">
@@ -4134,12 +4311,18 @@ function buildCpSidebar(cat) {
 
   // ── Reset button ──
   html += `<div style="padding:12px 16px 16px;">
-    <button type="button" onclick="cpResetFilters()" style="width:100%;background:none;border:1px solid var(--border);border-radius:8px;padding:9px;font-size:12px;font-weight:700;color:var(--text2);cursor:pointer;font-family:'Outfit',sans-serif;transition:all .18s;" onmouseover="this.style.borderColor='var(--primary)';this.style.color='var(--primary)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text2)'">
-      ✕ Изчисти всички филтри
-    </button>
+    <button type="button" onclick="cpResetFilters()" style="width:100%;background:none;border:1px solid var(--border);border-radius:8px;padding:9px;font-size:12px;font-weight:700;color:var(--text2);cursor:pointer;font-family:'Outfit',sans-serif;transition:all .18s;" onmouseover="this.style.borderColor='var(--primary)';this.style.color='var(--primary)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text2)'">Изчисти всички филтри</button>
   </div>`;
 
-  sb.innerHTML = html;
+  // ── Footer (apply button) ──
+  var footerHtml = '<div class="cp-sb-footer">' +
+    '<button type="button" class="cp-sb-apply" onclick="cpCloseSidebar()">' +
+    '<svg width="15" height="15" class="svg-ic" aria-hidden="true"><use href="#ic-check"/></svg>' +
+    'Приложи филтрите' +
+    '</button>' +
+    '</div>';
+
+  sb.innerHTML = headerHtml + html + footerHtml;
   cpUpdateSlider(true);
 }
 
@@ -4162,11 +4345,13 @@ function cpUpdateSlider(skipRender) {
 function cpBrandChange(cb) {
   if (cb.checked) cpBrands.add(cb.value);
   else cpBrands.delete(cb.value);
+  cpPage = 1;
   cpRenderGrid();
 }
 
 function cpRatingChange(rb) {
   cpRating = parseFloat(rb.value);
+  cpPage = 1;
   cpRenderGrid();
 }
 
@@ -4175,15 +4360,18 @@ function cpApplyFilters() {
   cpStockOnly = document.getElementById('cpStockToggle')?.checked || false;
   cpSaleOnly = document.getElementById('cpSaleToggle')?.checked || false;
   cpNewOnly  = document.getElementById('cpNewToggle')?.checked || false;
+  cpPage = 1;
   cpRenderGrid();
 }
 
 function cpApplySort(val) {
   cpSort = val;
+  cpPage = 1;
   cpRenderGrid();
 }
 
 function cpSpecChange(cb) {
+  cpPage = 1;
   const key = cb.dataset.specKey;
   const val = cb.value;
   if (!cpSpecFilters[key]) cpSpecFilters[key] = new Set();
@@ -4231,6 +4419,7 @@ function cpResetFilters() {
   const st = document.getElementById('cpSaleToggle'); if (st) st.checked = false;
   const nt = document.getElementById('cpNewToggle'); if (nt) nt.checked = false;
   cpSubcat = 'all';
+  cpPage = 1;
   cpUpdateSlider();
   cpRenderGrid();
   cpRenderSubcatBar(cpCat);
@@ -4243,15 +4432,16 @@ function cpRenderSubcatBar(cat) {
   const bar = document.getElementById('cpSubcatBar');
   if (!bar) return;
   const subs = typeof SUBCATS !== 'undefined' ? SUBCATS[cat] : null;
-  if (!subs || !subs.length) { bar.innerHTML = ''; bar.style.display = 'none'; return; }
+  if (!subs || !subs.length) { bar.innerHTML = ''; bar.classList.remove('visible'); return; }
   const catProds = (typeof products !== 'undefined' ? products : []).filter(p => normalizeCat(p.cat) === cat);
   const activeSubs = subs.filter(s => catProds.some(p => matchesSubcat(p, s.id)));
-  if (!activeSubs.length) { bar.innerHTML = ''; bar.style.display = 'none'; return; }
+  if (!activeSubs.length) { bar.innerHTML = ''; bar.classList.remove('visible'); return; }
   bar.style.display = '';
+  bar.classList.add('visible');
   bar.innerHTML =
     `<button type="button" class="subcat-pill active" onclick="cpApplySubcat('all',this)">Всички</button>` +
     activeSubs.map(s =>
-      `<button type="button" class="subcat-pill" onclick="cpApplySubcat('${s.id}',this)">${s.label}</button>`
+      `<button type="button" class="subcat-pill" onclick="cpApplySubcat('${s.id}',this)">${typeof _fl==='function'?_fl(s.label):s.label}</button>`
     ).join('');
 }
 
@@ -4409,7 +4599,7 @@ function cpApplySubcat(id, btn) {
     if (subcatSpecs && subcatSpecs.length) {
       cpSubcatSpecBlock.innerHTML = subcatSpecs.map(spec => `
         <div class="sidebar-filter-block" style="border-bottom:1px solid var(--border);padding:16px;">
-          <div class="sfb-title" style="font-size:12px;font-weight:800;color:var(--text2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;">${spec.label}</div>
+          <div class="sfb-title" style="font-size:12px;font-weight:800;color:var(--text2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;">${typeof _fl==='function'?_fl(spec.label):spec.label}</div>
           <div style="display:flex;flex-direction:column;gap:4px;">
             ${spec.values.map(val => `<label class="brand-filter-item" style="display:flex;align-items:center;gap:8px;cursor:pointer;">
               <input type="checkbox" data-spec-key="${spec.key}" value="${val}" onchange="cpSubcatSpecChange(this)">
@@ -4421,6 +4611,7 @@ function cpApplySubcat(id, btn) {
       cpSubcatSpecBlock.innerHTML = '';
     }
   }
+  cpPage = 1;
   cpRenderGrid();
   cpUpdateCatBreadcrumb(cpCat, id);
   setSidebarActive(cpCat, id);
@@ -4439,6 +4630,7 @@ function cpUpdateURL() {
   if (cpNewOnly) params.set('new', '1');
   if (cpStockOnly) params.set('stock', '1');
   if (cpRating > 0) params.set('rating', cpRating);
+  if (cpPage > 1) params.set('page', cpPage);
   const qs = '?' + params.toString();
   const fullUrl = 'https://mostcomputers.bg/' + qs;
   try { history.replaceState({ catPage: cpCat, subcat: cpSubcat }, '', qs); } catch(e) {}
@@ -4486,6 +4678,8 @@ function cpApplyURLFilters() {
     if (rEl) rEl.checked = true;
   }
   cpUpdateSlider(true);
+  const pageN = parseInt(params.get('page'), 10);
+  if (!isNaN(pageN) && pageN > 1) cpPage = pageN;
 }
 
 // ═══════════════════════════════════════
@@ -5111,12 +5305,17 @@ function cpUpdateFilterBadge() {
   });
 }
 
+const CP_PER_PAGE = 24;
+
 function cpRenderGrid() {
   cpUpdateFilterBadge();
   const grid = document.getElementById('cpGrid');
   const count = document.getElementById('cpResultsCount');
   if (!grid) return;
   const list = cpGetFiltered();
+  const totalPages = Math.max(1, Math.ceil(list.length / CP_PER_PAGE));
+  if (cpPage > totalPages) cpPage = totalPages;
+  if (cpPage < 1) cpPage = 1;
   if (count) count.textContent = list.length + ' продукта';
   if (list.length === 0) {
     const allInCat = products.filter(p => normalizeCat(p.cat) === cpCat);
@@ -5131,10 +5330,57 @@ function cpRenderGrid() {
         <button type="button" class="cp-empty-btn-sec" onclick="closeCatPage()">← Обратно</button>
       </div>
     </div>`;
+    _cpRenderPagination(0, 1);
     return;
   }
-  grid.innerHTML = list.map(p => makeCard(p)).join('');
+  const start = (cpPage - 1) * CP_PER_PAGE;
+  grid.innerHTML = list.slice(start, start + CP_PER_PAGE).map(p => makeCard(p)).join('');
+  _cpRenderPagination(list.length, totalPages);
   cpUpdateURL();
+}
+
+function _cpRenderPagination(total, totalPages) {
+  let el = document.getElementById('cpPagination');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'cpPagination';
+    document.getElementById('cpGrid')?.insertAdjacentElement('afterend', el);
+  }
+  if (totalPages <= 1) { el.innerHTML = ''; return; }
+  const start = (cpPage - 1) * CP_PER_PAGE + 1;
+  const end = Math.min(cpPage * CP_PER_PAGE, total);
+  const delta = 2;
+  const rangeStart = Math.max(1, cpPage - delta);
+  const rangeEnd = Math.min(totalPages, cpPage + delta);
+  let html = `<div class="cp-pagination"><span class="cp-page-info">${start}-${end} от ${total}</span><div class="cp-page-buttons">`;
+  if (cpPage > 1) {
+    html += `<button class="cp-page-btn" onclick="cpGoToPage(${cpPage - 1})" aria-label="Предишна"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg></button>`;
+  }
+  if (rangeStart > 1) {
+    html += `<button class="cp-page-btn" onclick="cpGoToPage(1)">1</button>`;
+    if (rangeStart > 2) html += `<span class="cp-page-ellipsis">...</span>`;
+  }
+  for (let p = rangeStart; p <= rangeEnd; p++) {
+    html += `<button class="cp-page-btn${p === cpPage ? ' active' : ''}" onclick="cpGoToPage(${p})">${p}</button>`;
+  }
+  if (rangeEnd < totalPages) {
+    if (rangeEnd < totalPages - 1) html += `<span class="cp-page-ellipsis">...</span>`;
+    html += `<button class="cp-page-btn" onclick="cpGoToPage(${totalPages})">${totalPages}</button>`;
+  }
+  if (cpPage < totalPages) {
+    html += `<button class="cp-page-btn" onclick="cpGoToPage(${cpPage + 1})" aria-label="Следваща"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg></button>`;
+  }
+  html += `</div></div>`;
+  el.innerHTML = html;
+}
+
+function cpGoToPage(n) {
+  const list = cpGetFiltered();
+  const totalPages = Math.max(1, Math.ceil(list.length / CP_PER_PAGE));
+  cpPage = Math.min(totalPages, Math.max(1, n));
+  cpRenderGrid();
+  const pg = document.getElementById('catPage');
+  if (pg) pg.scrollTop = 0;
 }
 
 // ═══════════════════════════════════════
@@ -5972,12 +6218,13 @@ function _openInvoiceWindow(o, co) {
     const d = o.date ? new Date(o.date) : new Date();
     invDate = isNaN(d.getTime()) ? new Date().toLocaleDateString('bg-BG') : d.toLocaleDateString('bg-BG');
   } catch(e) { invDate = new Date().toLocaleDateString('bg-BG'); }
+  const _eur = (bgn) => (bgn / EUR_RATE).toFixed(2);
   const rows = (o.itemsData && o.itemsData.length)
     ? o.itemsData.map((x, i) => {
         const qty = Number(x.qty) || 1;
         const unitEx = x.price / 1.2;
         const lineEx = unitEx * qty;
-        return `<tr><td style="text-align:center;">${i+1}</td><td>${_h(x.name||'')}</td><td style="text-align:center;">бр.</td><td style="text-align:center;">${qty}</td><td style="text-align:right;">${unitEx.toFixed(2)}</td><td style="text-align:right;font-weight:700;">${lineEx.toFixed(2)}</td></tr>`;
+        return `<tr><td style="text-align:center;">${i+1}</td><td>${_h(x.name||'')}</td><td style="text-align:center;">бр.</td><td style="text-align:center;">${qty}</td><td style="text-align:right;">${_eur(unitEx)}</td><td style="text-align:right;font-weight:700;">${_eur(lineEx)}</td></tr>`;
       }).join('')
     : `<tr><td colspan="6" style="text-align:center;color:#888;padding:12px;">${_h(o.items||'-')}</td></tr>`;
   const win = window.open('', '_blank', 'width=800,height=920');
@@ -6028,17 +6275,17 @@ tbody td{border:1px solid #bbb;padding:5px 8px;vertical-align:top}
     <th>Наименование на стоката / услугата</th>
     <th style="width:42px;text-align:center;">Мярка</th>
     <th style="width:40px;text-align:center;">Кол.</th>
-    <th style="width:88px;text-align:right;">Ед. цена лв.</th>
-    <th style="width:88px;text-align:right;">Стойност лв.</th>
+    <th style="width:88px;text-align:right;">Ед. цена €</th>
+    <th style="width:88px;text-align:right;">Стойност €</th>
   </tr></thead>
   <tbody>${rows}</tbody>
 </table>
 <div class="tw"><div class="totals">
-  <div class="tr"><span>Данъчна основа</span><span>${base.toFixed(2)} лв.</span></div>
-  <div class="tr"><span>ДДС 20%</span><span>${vat.toFixed(2)} лв.</span></div>
-  <div class="tr"><span>Сума за плащане</span><span>${itemsTotal.toFixed(2)} лв.</span></div>
+  <div class="tr"><span>Данъчна основа</span><span>${_eur(base)} €</span></div>
+  <div class="tr"><span>ДДС 20%</span><span>${_eur(vat)} €</span></div>
+  <div class="tr"><span>Сума за плащане</span><span>${_eur(itemsTotal)} €</span></div>
 </div></div>
-<div class="slovom"><strong>Словом:</strong> ${_bgNumWords(itemsTotal)}</div>
+<div class="slovom"><strong>Словом:</strong> ${_bgNumWords(itemsTotal)} (${_eur(itemsTotal)} EUR)</div>
 <div class="bank"><strong>Банкова сметка:</strong> ${_h(co.bank)} &nbsp;·&nbsp; BIC: ${_h(co.bic)} &nbsp;·&nbsp; IBAN: ${_h(co.iban)}</div>
 </div></body></html>`);
   win.document.close();
@@ -6242,6 +6489,7 @@ function closeCheckoutPageAndTrack() {
 
   _stub('openProductPage');
   _stub('openProductModal');
+  _stub('openProdPreview');
   _stub('addToCart');
   _stub('openQuickOrder');
   _stub('toggleCompare');
@@ -6263,7 +6511,7 @@ function closeCheckoutPageAndTrack() {
       banner.id = 'abandonedCartBanner';
       banner.style.cssText = 'position:fixed;top:72px;left:50%;transform:translateX(-50%);z-index:3500;background:var(--primary);color:#fff;padding:11px 16px;border-radius:12px;font-size:13px;font-weight:700;display:flex;align-items:center;gap:10px;box-shadow:0 4px 20px rgba(0,0,0,.3);max-width:380px;width:calc(100% - 32px);';
       banner.innerHTML = '<span>🛒</span><span>Имаш ' + n + ' ' + (n === 1 ? 'продукт' : 'продукта') + ' в кошницата!</span>' +
-        '<button style="margin-left:auto;background:rgba(255,255,255,.25);border:none;color:#fff;border-radius:8px;padding:4px 12px;cursor:pointer;font-weight:700;white-space:nowrap;font-size:12px;" onclick="openCart();document.getElementById(\'abandonedCartBanner\').remove()">Виж →</button>' +
+        '<button style="margin-left:auto;background:rgba(255,255,255,.25);border:none;color:#fff;border-radius:8px;padding:4px 12px;cursor:pointer;font-weight:700;white-space:nowrap;font-size:12px;" onclick="openCartPage();document.getElementById(\'abandonedCartBanner\').remove()">Виж →</button>' +
         '<button style="background:none;border:none;color:rgba(255,255,255,.75);cursor:pointer;font-size:18px;padding:0 2px;line-height:1;" aria-label="Затвори" onclick="document.getElementById(\'abandonedCartBanner\').remove()">×</button>';
       document.body.appendChild(banner);
       setTimeout(function() {

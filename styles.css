@@ -14900,32 +14900,3 @@ body.compare-active .fcp{bottom:92px;}
   color: #16a34a;
   flex-shrink: 0;
 }
-
-/* ── Global Sticky Footer Bar (desktop only) ── */
-.gfb {
-  position: fixed;
-  bottom: 0; left: 0; right: 0;
-  height: 48px;
-  background: rgba(20,20,20,.88);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-top: 1px solid rgba(255,255,255,.08);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 28px;
-  z-index: 80;
-  transition: opacity .25s ease;
-}
-.gfb-copy { font-size: 11px; color: rgba(255,255,255,.4); white-space: nowrap; }
-.gfb-sep { width: 1px; height: 20px; background: rgba(255,255,255,.1); flex-shrink: 0; }
-.gfb-payments { display: flex; align-items: center; gap: 12px; }
-.gfb-pay { font-size: 11px; color: rgba(255,255,255,.45); white-space: nowrap; }
-.gfb-ssl { display: flex; align-items: center; gap: 5px; font-size: 11px; color: rgba(255,255,255,.45); }
-.gfb-ssl svg { color: #22c55e; flex-shrink: 0; }
-@media (min-width: 769px) {
-  body { padding-bottom: 48px; }
-}
-@media (max-width: 768px) {
-  .gfb { display: none; }
-}

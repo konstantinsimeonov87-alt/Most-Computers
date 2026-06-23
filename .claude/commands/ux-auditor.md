@@ -1,5 +1,6 @@
 ---
-description: 🎨 UX/UI одитор — анализира дизайна, UX потоците и визуалното качество на mostcomputers.bg
+description: 🎨 UX/UI одит — дизайн, потребителски потоци, визуално качество; стартирай с: ux одит, дизайн проверка, mobile ux, usability, user experience, visual
+model: claude-opus-4-8
 ---
 
 # 🎨 Агент: UX/UI Одитор (UX Auditor)

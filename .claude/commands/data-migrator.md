@@ -1,5 +1,5 @@
 ---
-description: 📦 Data Migrator — валидира и нормализира XML продуктови feed-ове за mostcomputers.bg
+description: 📦 Data Migrator — валидира и импортира XML продуктови feed-ове; стартирай с: import xml, xml feed, мигриране данни, нов каталог, продуктов feed, внос
 ---
 
 # 📦 Агент: Data Migrator

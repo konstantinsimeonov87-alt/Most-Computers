@@ -1,5 +1,6 @@
 ---
-description: 🌿 Git workflow — управлява branches, commits и pull requests за mostcomputers.bg
+description: 🌿 Git workflow — commits, branches, PRs; стартирай с: commit, push, branch, pull request, git, версионен контрол, stage, merge
+model: claude-haiku-4-5-20251001
 ---
 
 # 🌿 Git Workflow Agent

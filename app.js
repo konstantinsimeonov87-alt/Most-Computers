@@ -237,9 +237,7 @@ function initSectionAnimations() {
 // ===== BACK TO TOP =====
 function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
 function scrollToFeatured() { document.getElementById('featured')?.scrollIntoView({ behavior: 'smooth' }); }
-function scrollToSale()         { document.getElementById('sale')?.scrollIntoView({ behavior: 'smooth' }); }
-function scrollToNew()          { document.getElementById('newGrid')?.closest('.section-wrap')?.scrollIntoView({ behavior: 'smooth' }); }
-function scrollToBestsellers()  { document.getElementById('bestsellersSection')?.scrollIntoView({ behavior: 'smooth' }); }
+function scrollToSale()     { document.getElementById('sale')?.scrollIntoView({ behavior: 'smooth' }); }
 
 function initBackToTop() {
   const btn = document.getElementById('backToTop');
@@ -1183,7 +1181,6 @@ function renderGrids(){
   updateWishlistUI();
   if(typeof initLazyImages==='function') initLazyImages();
   if(typeof renderHpCats==='function') renderHpCats();
-  if(typeof renderSocialProof==='function') renderSocialProof();
 }
 
 function renderHeroPanel(){
@@ -3895,33 +3892,6 @@ let cpSubcat = 'all';
 let _cpSubcatBrands = null; // known brand values for current subcat (to power "Other" filter)
 
 let _catPageScrollY = 0;
-function openBrandCat(brand) {
-  openCatPage('all');
-  cpBrands.add(brand);
-  cpRenderGrid();
-}
-function openPriceCat(min, max) {
-  openCatPage('all');
-  cpPriceMin = min;
-  cpPriceMax = max !== null ? max : _cpMaxEur;
-  cpRenderGrid();
-}
-function openPopularSearch(q) {
-  if (typeof showSearchResultsPage === 'function') {
-    showSearchResultsPage(q);
-  } else {
-    const inp = document.getElementById('searchInput');
-    if (inp) { inp.value = q; inp.dispatchEvent(new Event('input', {bubbles:true})); inp.scrollIntoView({behavior:'smooth',block:'center'}); }
-  }
-}
-function renderSocialProof() {
-  const el = document.getElementById('spAvgRating');
-  if (!el || !products.length) return;
-  const rated = products.filter(p => p.rv > 0);
-  if (!rated.length) return;
-  const wavg = rated.reduce((s, p) => s + p.rating * p.rv, 0) / rated.reduce((s, p) => s + p.rv, 0);
-  el.textContent = wavg.toFixed(1);
-}
 function openCatPage(cat, preSubcat, fromURL = false) {
   _catPageScrollY = window.scrollY || document.documentElement.scrollTop;
   cpCat = cat;
@@ -6477,7 +6447,7 @@ initScrollAnimations();
   function _loadLazy() {
     if (_ll) return; _ll = true;
     var s = document.createElement('script');
-    s.src = 'app-lazy.js?v=20260609';
+    s.src = 'app-lazy.js?v=20260623';
     document.head.appendChild(s);
   }
   ['click', 'scroll', 'touchstart', 'keydown', 'mousemove'].forEach(function (ev) {

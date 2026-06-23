@@ -1,5 +1,6 @@
 ---
-description: 💰 CRO Expert — анализира и оптимизира conversion rate на mostcomputers.bg
+description: 💰 CRO Expert — conversion rate оптимизация; стартирай с: cro, conversion, friction, CTA, checkout оптимизация, A/B тест, приходи, покупки
+model: claude-opus-4-8
 ---
 
 # 💰 CRO Expert AI Agent — Most Computers

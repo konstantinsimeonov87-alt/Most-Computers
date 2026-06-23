@@ -1,5 +1,5 @@
 ---
-description: 📊 Analytics агент — добавя tracking events и conversion tracking за mostcomputers.bg
+description: 📊 Analytics — добавя tracking events и conversion tracking; стартирай с: analytics, tracking, GTM, GA4, Facebook pixel, events, фунел, conversion
 ---
 
 # 📊 Analytics Agent

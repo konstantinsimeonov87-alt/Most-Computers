@@ -330,10 +330,10 @@ function submitQuickOrder(){
 
 // SLIDER
 let currentSlide=0;
-let slides,dots;
-function goSlide(n){if(!slides||!slides.length||!slides[n])return;slides[currentSlide].classList.remove('active');if(dots&&dots[currentSlide]){dots[currentSlide].classList.remove('active');dots[currentSlide].removeAttribute('aria-current');}currentSlide=n;slides[currentSlide].classList.add('active');if(dots&&dots[currentSlide]){dots[currentSlide].classList.add('active');dots[currentSlide].setAttribute('aria-current','true');}}
+const slides=document.querySelectorAll('.slide'),dots=document.querySelectorAll('.dot');
+function goSlide(n){if(!slides.length||!slides[n])return;slides[currentSlide].classList.remove('active');dots[currentSlide].classList.remove('active');dots[currentSlide].removeAttribute('aria-current');currentSlide=n;slides[currentSlide].classList.add('active');dots[currentSlide].classList.add('active');dots[currentSlide].setAttribute('aria-current','true');}
 let _heroSliderIv=null;
-document.addEventListener('DOMContentLoaded',()=>{slides=document.querySelectorAll('.slide');dots=document.querySelectorAll('.dot');if(slides.length){if(_heroSliderIv)clearInterval(_heroSliderIv);_heroSliderIv=setInterval(()=>goSlide((currentSlide+1)%slides.length),5000);}});
+if(slides.length){if(_heroSliderIv)clearInterval(_heroSliderIv);_heroSliderIv=setInterval(()=>goSlide((currentSlide+1)%slides.length),5000);}
 
 // SALE SLIDE COUNTDOWN - counts down to end of day
 (function(){

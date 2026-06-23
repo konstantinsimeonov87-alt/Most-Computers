@@ -5954,6 +5954,7 @@
      text-align: center;
      gap: 10px;
      padding: 16px;
+     padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 64px);
    }.footer-bottom p{
      font-size: 11px;
      line-height: 1.5;
@@ -14858,4 +14859,44 @@ body.compare-active .fcp{bottom:92px;}
   .search-input, #mobSearchInput {
     font-size: 16px;
   }
+}
+
+/* ── PDP Quick-panel trust row ── */
+.pdp-trust-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 10px 16px 4px;
+  border-top: 1px solid var(--border);
+  margin-top: 4px;
+}
+.pdp-trust-visa,
+.pdp-trust-mc {
+  display: flex;
+  align-items: center;
+  line-height: 1;
+}
+.pdp-trust-visa svg,
+.pdp-trust-mc svg {
+  border-radius: 3px;
+}
+.pdp-trust-item {
+  font-size: 10px;
+  color: var(--text2);
+  font-weight: 500;
+  white-space: nowrap;
+}
+.pdp-trust-ssl {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 10px;
+  color: var(--text2);
+  font-weight: 500;
+}
+.pdp-trust-ssl svg {
+  color: #16a34a;
+  flex-shrink: 0;
 }

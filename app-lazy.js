@@ -407,7 +407,7 @@ function showToast(msg){const t=document.getElementById('toast');if(!t)return;t.
 // CART
 function _prodThumb(p, size) {
   if (!p.img) return `<span style="font-size:${Math.round(size*0.65)}px;line-height:1;">${escHtml(p.emoji||'')}</span>`;
-  return `<img src="${p.img}" alt="" width="${size}" height="${size}" style="width:${size}px;height:${size}px;object-fit:contain;border-radius:4px;" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='inline'"><span style="font-size:${Math.round(size*0.65)}px;line-height:1;display:none;">${escHtml(p.emoji||'')}</span>`;
+  return `<img src="${escHtml(p.img)}" alt="" width="${size}" height="${size}" style="width:${size}px;height:${size}px;object-fit:contain;border-radius:4px;" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='inline'"><span style="font-size:${Math.round(size*0.65)}px;line-height:1;display:none;">${escHtml(p.emoji||'')}</span>`;
 }
 
 function saveCart() { try { localStorage.setItem('mc_cart', JSON.stringify(cart.map(x => ({ id: x.id, qty: x.qty })))); } catch (e) { } }
@@ -415,16 +415,42 @@ function saveCart() { try { localStorage.setItem('mc_cart', JSON.stringify(cart.
 function oosNotify(id) {
   const p = products.find(x => x.id === id);
   if (!p) return;
-  const email = prompt('Въведи имейл - ще те уведомим когато "' + p.name.substring(0, 40) + '" е на склад:');
-  if (!email || !email.includes('@')) return;
+  document.getElementById('oosModal')?.remove();
+  const modal = document.createElement('div');
+  modal.id = 'oosModal';
+  modal.style.cssText = 'position:fixed;inset:0;z-index:5000;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.5);padding:16px;';
+  const safeName = escHtml ? escHtml(p.name.substring(0, 52)) + (p.name.length > 52 ? '&hellip;' : '') : p.name.substring(0, 52);
+  modal.innerHTML = `<div style="background:var(--white,#fff);border-radius:16px;padding:24px;max-width:360px;width:100%;box-shadow:0 12px 48px rgba(0,0,0,.2);">
+    <div style="font-size:15px;font-weight:800;color:var(--text,#111);margin-bottom:6px;">Уведоми ме при наличност</div>
+    <div style="font-size:12px;color:var(--muted,#888);margin-bottom:16px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${safeName}</div>
+    <input id="oosEmail" type="email" placeholder="твоят@имейл.com" autocomplete="email" inputmode="email"
+      style="width:100%;border:1.5px solid var(--border,#e0e0e0);border-radius:10px;padding:10px 14px;font-size:14px;outline:none;box-sizing:border-box;margin-bottom:12px;font-family:inherit;">
+    <div style="display:flex;gap:8px;">
+      <button onclick="document.getElementById('oosModal').remove()" style="flex:1;padding:10px;border:1.5px solid var(--border,#e0e0e0);border-radius:10px;background:none;cursor:pointer;font-size:13px;font-weight:600;color:var(--muted,#888);">Отказ</button>
+      <button onclick="_oosSubmit(${p.id})" style="flex:2;padding:10px;border:none;border-radius:10px;background:var(--primary,#bd1105);color:#fff;cursor:pointer;font-size:13px;font-weight:700;">Уведоми ме</button>
+    </div>
+  </div>`;
+  modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
+  document.body.appendChild(modal);
+  setTimeout(() => document.getElementById('oosEmail')?.focus(), 50);
+}
+function _oosSubmit(id) {
+  const input = document.getElementById('oosEmail');
+  const email = input ? input.value.trim() : '';
+  if (!email || !email.includes('@') || !email.includes('.')) {
+    if (input) { input.style.borderColor = 'var(--primary,#bd1105)'; input.focus(); }
+    return;
+  }
+  const p = products.find(x => x.id === id);
   try {
     const notifs = JSON.parse(localStorage.getItem('mc_oos_notify') || '[]');
     if (!notifs.find(n => n.id === id && n.email === email)) {
-      notifs.push({ id: id, email: email, name: p.name, ts: Date.now() });
+      notifs.push({ id: id, email: email, name: p ? p.name : '', ts: Date.now() });
       localStorage.setItem('mc_oos_notify', JSON.stringify(notifs));
     }
   } catch(e) {}
-  showToast('🔔 Ще те уведомим на ' + email + ' при наличност!');
+  document.getElementById('oosModal')?.remove();
+  showToast('Ще те уведомим на ' + email + ' при наличност!');
 }
 function loadCart() {
   try {
@@ -752,7 +778,7 @@ function toggleCart() { const co=document.getElementById('cartOverlay'),cp=docum
 // ===== CHECKOUT & THANK YOU =====
 let ckDeliveryIdx = 0;
 let ckDeliveryCosts = (()=>{ try{const sc=JSON.parse(localStorage.getItem('mc_store_config')||'{}');return sc.deliveryCosts||[5.99,4.99,0];}catch(e){return [5.99,4.99,0];} })();
-let ckDeliveryNames = ['Еконт', 'Еконт', 'Вземи от магазин'];
+let ckDeliveryNames = ['Еконт - до адрес', 'Еконт - до офис', 'Вземи от магазин'];
 let ckPaymentType = 'card';
 let promoApplied = false;
 
@@ -803,9 +829,9 @@ function handleCheckout() {
   });
   const _pdp = document.getElementById('pdpBackdrop');
   if (_pdp && _pdp.classList.contains('open') && typeof closeProductPage === 'function') closeProductPage();
-  document.getElementById('checkoutPage').classList.add('open');
-  document.getElementById('cartPanel').classList.remove('open');
-  document.getElementById('cartOverlay').classList.remove('open');
+  document.getElementById('checkoutPage')?.classList.add('open');
+  document.getElementById('cartPanel')?.classList.remove('open');
+  document.getElementById('cartOverlay')?.classList.remove('open');
   document.documentElement.style.overflow = 'hidden';
   document.body.style.overflow = 'hidden';
   updateFloatPill();
@@ -891,7 +917,7 @@ function _startCkUpsell() {
     } else {
       el.innerHTML = `<div class="cart-upsell-title">⚡ Може да те заинтересува</div><div class="cart-upsell-items" style="transition:opacity .3s">${pair.map(p => _cuItemHtml(p)).join('')}</div>`;
     }
-    idx = (idx + 2) % pool.length;
+    if (pool.length > 2) idx = (idx + 2) % pool.length;
   };
   render();
   _ckUpsellTimer = setInterval(render, 6000);
@@ -1271,7 +1297,10 @@ function submitOrder() {
     // Build order data - sequential number based on existing order count
     let _prevOrders = [];
     try { _prevOrders = JSON.parse(localStorage.getItem('mc_orders') || '[]'); } catch (e) { }
-    const orderNum = 'MC-' + String(_prevOrders.length + 1).padStart(6, '0');
+    const orderNum = 'MC-' + (function() {
+      try { return crypto.randomUUID().replace(/-/g, '').slice(0, 8).toUpperCase(); } catch(e) {}
+      return Date.now().toString(36).toUpperCase().slice(-5) + Math.random().toString(36).slice(2, 5).toUpperCase();
+    })();
     const subtotal = cart.reduce((s, x) => s + x.price * x.qty, 0);
     const delivery = ckDeliveryCosts[ckDeliveryIdx];
     const codFee = ckPaymentType === 'cod' ? ((()=>{ try{return JSON.parse(localStorage.getItem('mc_store_config')||'{}').codFee||1.50;}catch(e){return 1.50;} })()) : 0;
@@ -1374,7 +1403,7 @@ function submitOrder() {
 
     // Show thank-you page, clear cart
     closeCheckoutPage();
-    document.getElementById('thankyouPage').classList.add('open');
+    document.getElementById('thankyouPage')?.classList.add('open');
     cart = [];
     updateCart(); saveCart();
     promoApplied = false;
@@ -1759,7 +1788,7 @@ function cpGoCheckout() {
   }
 
   function scheduleReminder() {
-    clearTimeout(_reminderTimer);
+    if (_reminderTimer) return;
     if (!cart || cart.length === 0) return;
     _reminderTimer = setTimeout(showCartReminder, 30000);
   }
@@ -2057,7 +2086,7 @@ function renderDropdown(query) {
         : `<span>SKU: ${p.sku}</span>`;
       return `
         <div class="sd-result" data-idx="${i}" onclick="selectSearchResult(${p.id})">
-          ${p.img ? `<img class="sd-thumb" src="${p.img}" alt="" loading="lazy" onerror="this.style.display='none'">` : `<div class="sd-emoji">${p.emoji}</div>`}
+          ${p.img ? `<img class="sd-thumb" src="${escHtml(p.img)}" alt="" loading="lazy" onerror="this.style.display='none'">` : `<div class="sd-emoji">${p.emoji}</div>`}
           <div class="sd-info">
             <div class="sd-name">${highlightMatch(p.name, q)}</div>
             <div class="sd-meta">
@@ -2099,7 +2128,7 @@ function _sdRefresh(id) {
 }
 
 function selectSearchResult(id) {
-  saveRecentSearch(searchInput.value.trim());
+  saveRecentSearch(searchInput?.value.trim() || '');
   closeSearchDropdown();
   openProductPage(id);
 }
@@ -2263,6 +2292,7 @@ function _srpRestoreState(query) {
 
 function renderSRPGrid(results, query) {
   const grid = document.getElementById('srpGrid');
+  if (!grid) return;
   if (results.length === 0) {
     const popular = products.slice(0, 4);
     grid.innerHTML = `
@@ -2372,7 +2402,7 @@ document.addEventListener('click', e => {
     if (suggChip.classList.contains('srp-suggestion')) {
       showSearchResultsPage(q);
     } else {
-      showSearchResults(q);
+      showSearchResultsPage(q);
     }
     return;
   }
@@ -2418,6 +2448,22 @@ if (typeof module !== 'undefined' && module.exports) {
 
 
 // ===== PRODUCT PAGE =====
+function _sanitizeHtml(html) {
+  try {
+    const doc = new DOMParser().parseFromString(html, 'text/html');
+    ['script','iframe','object','embed','form','base','meta','link'].forEach(function(tag) {
+      doc.querySelectorAll(tag).forEach(function(el) { el.remove(); });
+    });
+    doc.querySelectorAll('*').forEach(function(el) {
+      Array.from(el.attributes).forEach(function(attr) {
+        if (/^on/i.test(attr.name) || /^javascript:/i.test((attr.value || '').trim())) {
+          el.removeAttribute(attr.name);
+        }
+      });
+    });
+    return doc.body.innerHTML;
+  } catch(e) { return ''; }
+}
 let pdpProductId = null;
 let pdpQtyVal    = 1;
 let pdpGallery   = [];
@@ -2767,8 +2813,7 @@ function openProductPage(id) {
   const htmlContent = document.getElementById('pdpHtmlContent');
   if (htmlContent) {
     if (p.htmlDesc) {
-      // htmlDesc is admin-authored HTML - kept as-is (trusted source)
-      htmlContent.innerHTML = p.htmlDesc;
+      htmlContent.innerHTML = _sanitizeHtml(p.htmlDesc);
     } else if (p.desc) {
       // p.desc may come from XML - render as plain text to prevent XSS
       htmlContent.innerHTML = '';
@@ -2845,7 +2890,7 @@ function openProductPage(id) {
   pdpInitZoom();
   pdpInitSwipe();
   pdpInitTabsScroll();
-  if (typeof pdpInitDeliveryTimer === 'function') pdpInitDeliveryTimer();
+  // pdpInitDeliveryTimer вече е извикан на ред 435
   // Sidebar disabled - specs already shown in main tab
   if (typeof pdpInitPinch === 'function') pdpInitPinch();
   if (typeof _pdpCompareReset === 'function') _pdpCompareReset();
@@ -2967,7 +3012,7 @@ function closeProductPage() {
   if (canonical) canonical.setAttribute('href', 'https://mostcomputers.bg/');
   if (typeof bcSet === 'function') {
     const catOpen = document.getElementById('catPage')?.classList.contains('open');
-    bcSet(catOpen && _bcTrail.length >= 1 ? [_bcTrail[0]] : []);
+    bcSet(catOpen && typeof _bcTrail !== 'undefined' && _bcTrail.length >= 1 ? [_bcTrail[0]] : []);
   }
 }
 
@@ -3065,12 +3110,15 @@ function pdpRenderVideo(url, wrap) {
   const vmMatch = url.match(/vimeo\.com\/(\d+)/);
   if (vmMatch) embedUrl = `https://player.vimeo.com/video/${vmMatch[1]}`;
 
+  const safeEmbed = /^https:\/\/(www\.youtube\.com\/embed\/|player\.vimeo\.com\/video\/)/.test(embedUrl) ? embedUrl : null;
   const isEmbed = embedUrl !== url || url.includes('embed') || url.includes('youtube') || url.includes('vimeo');
   if (isEmbed || url.startsWith('http')) {
     if (url.match(/\.(mp4|webm|ogg)$/i)) {
-      wrap.innerHTML = `<video controls><source src="${url}"></video>`;
+      wrap.innerHTML = `<video controls><source src="${escHtml(url)}"></video>`;
+    } else if (safeEmbed) {
+      wrap.innerHTML = `<iframe src="${safeEmbed}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
     } else {
-      wrap.innerHTML = `<iframe src="${embedUrl}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+      wrap.innerHTML = `<div class="pdp-video-placeholder"><span>▶</span><div style="font-size:13px;color:var(--muted);">Невалиден видео линк.</div></div>`;
     }
   } else {
     wrap.innerHTML = `<div class="pdp-video-placeholder"><span>▶</span><div style="font-size:13px;color:var(--muted);">Невалиден видео линк.</div></div>`;
@@ -3755,6 +3803,7 @@ function pdpLbOpen() {
   lbImg.alt = img.alt;
   lbImg.style.setProperty('--lb-scale', '1');
   lb.style.display = 'flex';
+  document.removeEventListener('keydown', _pdpLbKey);
   document.addEventListener('keydown', _pdpLbKey);
 }
 function pdpLbClose() {
@@ -3777,7 +3826,7 @@ function _pdpLbKey(e) {
 (function() {
   document.addEventListener('wheel', function(e) {
     var lb = document.getElementById('pdpLightbox');
-    if (!lb || lb.style.display === 'none') return;
+    if (!lb || lb.style.display !== 'flex') return;
     e.preventDefault();
     var lbImg = document.getElementById('pdpLbImg');
     var cur = parseFloat(lbImg.style.getPropertyValue('--lb-scale') || '1');
@@ -4375,7 +4424,7 @@ function openProdPreview(id) {
   if (brandEl) brandEl.textContent = p.brand || '';
   if (nameEl) nameEl.textContent = p.name;
   if (ratingEl) {
-    var stars = Math.round(p.rating || 0);
+    var stars = Math.min(5, Math.round(p.rating || 0));
     ratingEl.innerHTML = '★'.repeat(stars) + '☆'.repeat(5 - stars) + ' <span style="color:var(--muted);font-size:11px;">(' + (p.reviews ? p.reviews.length : p.rv || 0) + ')</span>';
   }
   if (priceEl) priceEl.innerHTML = typeof fmtEur === 'function' ? '<strong>' + fmtEur(p.price) + '</strong>' : '<strong>' + p.price + ' €</strong>';
@@ -5630,9 +5679,11 @@ if (typeof module !== 'undefined') module.exports = {
 })();
 
 function pwaInstall() {
+  const banner = document.getElementById('pwaBanner');
+  const iosModal = document.getElementById('pwaIosModal');
   if (window.__pwaIsIos) {
-    document.getElementById('pwaBanner').classList.remove('show');
-    document.getElementById('pwaIosModal').classList.add('open');
+    banner?.classList.remove('show');
+    iosModal?.classList.add('open');
     return;
   }
   const prompt = window.__pwaPrompt?.();
@@ -5643,12 +5694,11 @@ function pwaInstall() {
         try { localStorage.setItem('mc_pwa_installed', '1'); } catch(e) {}
         showToast('✓ Мост Компютърс е инсталиран!');
       }
-      document.getElementById('pwaBanner').classList.remove('show');
+      banner?.classList.remove('show');
     });
   } else {
-    // Fallback: show iOS style instructions
-    document.getElementById('pwaBanner').classList.remove('show');
-    document.getElementById('pwaIosModal').classList.add('open');
+    banner?.classList.remove('show');
+    iosModal?.classList.add('open');
   }
 }
 

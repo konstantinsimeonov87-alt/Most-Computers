@@ -2,6 +2,19 @@
 <html lang="bg">
 <head>
   <meta charset="UTF-8">
+  <script>
+    var SITE_LIVE = false; // смени на true за да пуснеш сайта
+    if (!SITE_LIVE) {
+      document.addEventListener('DOMContentLoaded', function() {
+        document.body.innerHTML = '<div style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#0f0f0f;font-family:Outfit,Inter,sans-serif;text-align:center;padding:20px">'
+          + '<svg width="48" height="48" viewBox="0 0 24 24" fill="none" style="margin-bottom:20px"><rect width="24" height="24" rx="6" fill="#bd1105"/><path d="M7 8h10M7 12h6M7 16h8" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>'
+          + '<h1 style="color:#fff;font-size:28px;font-weight:800;margin:0 0 10px">Most Computers</h1>'
+          + '<p style="color:#999;font-size:16px;margin:0 0 32px">Скоро онлайн - подготвяме нещо страхотно.</p>'
+          + '<div style="width:48px;height:3px;background:#bd1105;border-radius:2px"></div>'
+          + '</div>';
+      });
+    }
+  </script>
   <script>try{if(localStorage.getItem('mc_dark')==='1')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src https://fonts.gstatic.com data:; img-src * data: blob:; connect-src 'self' https://zdwzccucqfvlsgxlspby.supabase.co https://www.google-analytics.com https://analytics.google.com https://www.googletagmanager.com; frame-src https://www.openstreetmap.org https://www.youtube.com https://player.vimeo.com; object-src 'none'; base-uri 'self'; upgrade-insecure-requests;">

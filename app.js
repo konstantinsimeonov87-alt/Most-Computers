@@ -4409,7 +4409,7 @@ function cpResetFilters() {
   const maxEl = document.getElementById('cpPriceMaxSlider');
   cpPriceMax = maxEl ? parseFloat(maxEl.max) : _cpMaxEur;
   cpBrands = new Set();
-  cpRating = 0; cpSaleOnly = false; cpNewOnly = false;
+  cpRating = 0; cpSaleOnly = false; cpNewOnly = false; cpStockOnly = false;
   if (document.getElementById('cpPriceMinSlider')) document.getElementById('cpPriceMinSlider').value = 0;
   if (maxEl) maxEl.value = cpPriceMax;
   document.querySelectorAll('#cpBrandList input[type=checkbox]').forEach(c => c.checked = false);

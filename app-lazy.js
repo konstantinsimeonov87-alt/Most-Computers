@@ -835,6 +835,18 @@ function handleCheckout() {
   document.documentElement.style.overflow = 'hidden';
   document.body.style.overflow = 'hidden';
   updateFloatPill();
+  // Reset delivery to default (idx=0) each time checkout opens
+  ckDeliveryIdx = 0;
+  ckPaymentType = 'card';
+  document.querySelectorAll('#checkoutPage .delivery-opt').forEach((o, i) => {
+    o.classList.toggle('selected', i === 0);
+    o.setAttribute('aria-checked', i === 0 ? 'true' : 'false');
+    o.setAttribute('tabindex', i === 0 ? '0' : '-1');
+  });
+  const _ckOfficeRow = document.getElementById('ckEcontOfficeRow');
+  if (_ckOfficeRow) _ckOfficeRow.style.display = 'none';
+  const _ckAddrSection = document.getElementById('ckAddressSection');
+  if (_ckAddrSection) _ckAddrSection.style.display = '';
   showCheckoutStep(1);
   // Clear previous validation states and touched flags
   document.querySelectorAll('#checkoutPage .ck-input').forEach(el => { el.classList.remove('error', 'valid'); delete el.dataset.touched; });
@@ -1055,9 +1067,8 @@ function selectDeliveryCk(el, idx) {
   // Show/hide Econt office field and address section based on delivery type
   const officeRow = document.getElementById('ckEcontOfficeRow');
   const addrSection = document.getElementById('ckAddressSection');
-  const isPickup = idx === 2;
-  if (officeRow) officeRow.style.display = isPickup ? 'none' : '';
-  if (addrSection) addrSection.style.display = isPickup ? 'none' : '';
+  if (officeRow) officeRow.style.display = (idx === 1) ? '' : 'none';
+  if (addrSection) addrSection.style.display = (idx === 2) ? 'none' : '';
 }
 
 function selectPayment(el, type) {

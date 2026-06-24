@@ -1068,7 +1068,7 @@ function selectDeliveryCk(el, idx) {
   const officeRow = document.getElementById('ckEcontOfficeRow');
   const addrSection = document.getElementById('ckAddressSection');
   if (officeRow) officeRow.style.display = (idx === 1) ? '' : 'none';
-  if (addrSection) addrSection.style.display = (idx === 2) ? 'none' : '';
+  if (addrSection) addrSection.style.display = (idx === 0) ? '' : 'none';
 }
 
 function selectPayment(el, type) {
@@ -1203,12 +1203,12 @@ function validateCkStep(step) {
       if (!officeEl.value.trim()) { officeEl.classList.add('error'); officeEl.classList.remove('valid'); officeEl.setAttribute('aria-invalid', 'true'); valid = false; }
       else { officeEl.classList.remove('error'); officeEl.classList.add('valid'); officeEl.setAttribute('aria-invalid', 'false'); }
     }
-    ['ckCity', 'ckAddr'].forEach(id => {
+    (ckDeliveryIdx === 0 ? ['ckCity', 'ckAddr'] : []).forEach(id => {
       const el = document.getElementById(id);
       if (el && !el.value.trim()) { el.classList.add('error'); el.classList.remove('valid'); el.setAttribute('aria-invalid', 'true'); valid = false; }
       else if (el) { el.classList.remove('error'); el.setAttribute('aria-invalid', 'false'); }
     });
-    if (!valid) showToast('⚠️ Попълни адреса за доставка!');
+    if (!valid) showToast('Попълни адреса за доставка!');
     return valid;
   }
   return true;
@@ -2197,7 +2197,7 @@ function showSearchResultsPage(query) {
         const label = catLabels[c] || c;
         return `<button type="button" class="srp-filter-pill${srpCurrentCatFilter===c?' active':''}" data-cat="${escHtml(c)}" data-label="${escHtml(label)}" onclick="srpFilter(this,'${escHtml(c)}')">${escHtml(label)} <span class="pill-cnt">(${n})</span></button>`;
       }).join('') +
-      `<button type="button" class="srp-filter-pill srp-reset-btn" id="srpResetBtn" onclick="srpResetFilters()" style="display:none" aria-label="Нулирай филтрите">✕ Нулирай</button>`;
+      `<button type="button" class="srp-filter-pill srp-reset-btn" id="srpResetBtn" onclick="srpResetFilters()" style="display:none"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Нулирай</button>`;
   }
 
   // Price slider: set dynamic range

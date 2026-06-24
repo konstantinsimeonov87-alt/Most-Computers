@@ -12257,6 +12257,8 @@
     justify-content: space-around;
   }/* Push page content up so nothing hides behind the bar */body{
     padding-bottom: calc(64px + env(safe-area-inset-bottom));
+  }body.cookie-shown{
+    padding-bottom: calc(108px + env(safe-area-inset-bottom)) !important;
   }/* Ensure footer is fully visible above bottom nav */.footer{
     padding-bottom: calc(72px + env(safe-area-inset-bottom));
   }/* Each nav item */.bn-item{
@@ -12544,7 +12546,7 @@
 
   @page { margin: 1.5cm; size: A4; }
 }/* ===== CART PAGE ===== */.cp-overlay{
-  position: fixed; inset: 0; z-index: 4500;
+  position: fixed; inset: 0; z-index: 10002;
   background: #f3f4f6;
   display: flex; flex-direction: column;
   overflow-y: auto;

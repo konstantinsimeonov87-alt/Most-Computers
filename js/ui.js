@@ -19,7 +19,7 @@ function showSkeletons(containerId, count=8) {
 // ===== COOKIE BANNER =====
 function initCookies() {
   try { if (!localStorage.getItem('mc_cookies_set')) {
-    setTimeout(() => document.getElementById('cookieBanner').classList.add('show'), 1200);
+    setTimeout(() => { document.getElementById('cookieBanner').classList.add('show'); document.body.classList.add('cookie-shown'); }, 1200);
   } } catch(e) {}
 }
 function acceptCookies() {
@@ -33,6 +33,7 @@ function declineCookies() {
 }
 function hideCookieBanner() {
   document.getElementById('cookieBanner').classList.remove('show');
+  document.body.classList.remove('cookie-shown');
 }
 function openCookieSettings() {
   document.getElementById('cookieModalBackdrop').classList.add('open');

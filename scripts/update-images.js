@@ -1,26 +1,28 @@
 'use strict';
 /**
- * update-images.js — попълва липсващи снимки в js/data.js от Most BG XML gallery
+ * update-images.js — попълва снимки в js/data.js от Most BG XML gallery
  *
  * Правила:
- *  - Взима САМО <pictureUrl> от вътрешността на <gallery> секцията
+ *  - Взима ВСИЧКИ <pictureUrl> от <gallery> и ги записва в gallery:[...]
+ *  - img:'...' се попълва с първата снимка (за обратна съвместимост)
  *  - Игнорира <promo><pictureUrl> и <promoGroup>
- *  - Пропуска всяка URL, която съдържа PL_ (промо банери)
- *  - Не презаписва продукти, които вече имат img (само img:null)
+ *  - Пропуска URL-и с PL_ (промо банери)
  *
  * Употреба:
- *   node scripts/update-images.js            ← само img:null продукти
- *   node scripts/update-images.js --all      ← всички продукти (презапис)
- *   node scripts/update-images.js --dry-run  ← само показва, не записва
+ *   node scripts/update-images.js               ← само img:null продукти
+ *   node scripts/update-images.js --all         ← всички продукти (презапис img + gallery)
+ *   node scripts/update-images.js --gallery-all ← добавя/обновява gallery[] за ВСИЧКИ (img не се пипа)
+ *   node scripts/update-images.js --dry-run     ← само показва, не записва
  */
 
 const https = require('https');
 const fs    = require('fs');
 const path  = require('path');
 
-const DATA_FILE  = path.join(__dirname, '../js/data.js');
-const FORCE_ALL  = process.argv.includes('--all');
-const DRY_RUN    = process.argv.includes('--dry-run');
+const DATA_FILE    = path.join(__dirname, '../js/data.js');
+const FORCE_ALL    = process.argv.includes('--all');
+const GALLERY_ALL  = process.argv.includes('--gallery-all');
+const DRY_RUN      = process.argv.includes('--dry-run');
 
 const CATEGORIES = [
   { id: 1,  name: 'HDD/SSD' },
@@ -68,9 +70,8 @@ function isPromoUrl(url) {
 }
 
 /**
- * Builds a map: SKU/EAN/name → first valid gallery image URL
+ * Builds a map: SKU/EAN/name → string[] of all valid gallery image URLs
  * Only extracts <pictureUrl> from INSIDE <gallery>…</gallery>
- * Also indexes by product name for fallback matching (handles regional SKU variants)
  */
 function parseImageMap(xml) {
   const map = new Map();
@@ -90,52 +91,39 @@ function parseImageMap(xml) {
     const gallerySection = galleryM[1];
     const urlRe = /<pictureUrl>(.*?)<\/pictureUrl>/gi;
     let uM;
-    let firstGoodUrl = null;
+    const allGoodUrls = [];
     while ((uM = urlRe.exec(gallerySection)) !== null) {
       const url = uM[1].trim();
-      if (!isPromoUrl(url)) { firstGoodUrl = url; break; }
+      if (!isPromoUrl(url)) allGoodUrls.push(url);
     }
-    if (!firstGoodUrl) continue;
+    if (!allGoodUrls.length) continue;
 
     const sku = skuM ? skuM[1].trim() : null;
     const ean = eanM ? eanM[1].trim() : null;
 
-    if (sku)  map.set(sku, firstGoodUrl);
-    if (ean)  map.set('EAN:' + ean, firstGoodUrl);
+    if (sku)  map.set(sku, allGoodUrls);
+    if (ean)  map.set('EAN:' + ean, allGoodUrls);
     // SKU-prefix fallback: same model family, sibling variant (first-wins, 6-char prefix)
     if (sku && sku.length >= 6) {
       const pfx = sku.substring(0, 6);
-      if (!map.has('SKUPFX:' + pfx)) map.set('SKUPFX:' + pfx, firstGoodUrl);
+      if (!map.has('SKUPFX:' + pfx)) map.set('SKUPFX:' + pfx, allGoodUrls);
     }
     if (nameM) {
       const fullName = nameM[1].trim().toLowerCase();
-      map.set('NAME:' + fullName, firstGoodUrl);
-      // Index by base model name — handles two common XML name formats:
-      //   "LENOVO LOQ 15IRX10 /83JE019ABM"  → strip "/CODE"
-      //   "LENOVO LOQ 15IRX10  83JE00AABM"  → strip trailing " CODE"
+      map.set('NAME:' + fullName, allGoodUrls);
       let baseName = fullName.replace(/\s*\/\s*\S+$/, '').trim();
       if (baseName === fullName) {
-        // No slash — try stripping a trailing alphanumeric code (≥5 chars)
         baseName = fullName.replace(/\s+[a-z0-9\-]{5,}$/i, '').trim();
       }
-      if (baseName && baseName !== fullName) map.set('BASE:' + baseName, firstGoodUrl);
+      if (baseName && baseName !== fullName) map.set('BASE:' + baseName, allGoodUrls);
 
-      // Cross-variant fallback: strip all trailing dash-codes, then trailing
-      // space-separated variant code, to find the bare model family.
-      // e.g. "ASUS X1607QA-MB006W" → "asus x1607qa"
-      //      "ACER EXTENSA EX215-23" → "acer extensa ex215"
-      //      "MSI THIN 15 B12UCX-1467XBG" → "msi thin 15"
       let crossKey = fullName;
-      // Strip trailing /CODE or / CODE
       crossKey = crossKey.replace(/\s*\/\s*\S+$/, '').trim();
-      // Repeatedly strip trailing -code segments
       let prev;
       do {
         prev = crossKey;
         crossKey = crossKey.replace(/-[a-z0-9]{2,}$/gi, '').trim();
       } while (crossKey !== prev && crossKey.length > 0);
-      // Strip trailing space-separated variant token when ≥4 tokens remain
-      // (avoids stripping the model series name itself)
       const xTokens = crossKey.split(/\s+/);
       if (xTokens.length >= 4) {
         const last = xTokens[xTokens.length - 1];
@@ -143,13 +131,17 @@ function parseImageMap(xml) {
           crossKey = xTokens.slice(0, -1).join(' ').trim();
         }
       }
-      // Only set CROSS: if it meaningfully differs from full/base name and is ≥2 words
       if (crossKey && crossKey !== fullName && crossKey !== baseName && crossKey.includes(' ')) {
-        if (!map.has('CROSS:' + crossKey)) map.set('CROSS:' + crossKey, firstGoodUrl);
+        if (!map.has('CROSS:' + crossKey)) map.set('CROSS:' + crossKey, allGoodUrls);
       }
     }
   }
   return map;
+}
+
+/** Serialise a gallery array into data.js inline format */
+function serializeGallery(urls) {
+  return `gallery:[${urls.map(u => `'${u}'`).join(',')}]`;
 }
 
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
@@ -157,10 +149,11 @@ function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 async function main() {
   console.log('🖼  update-images.js — Most BG gallery image sync');
   console.log(`📅 ${new Date().toISOString()}`);
-  if (FORCE_ALL) console.log('⚡ Mode: --all (overwrite existing images)');
-  if (DRY_RUN)  console.log('🔍 Mode: --dry-run (no writes)');
+  if (FORCE_ALL)   console.log('⚡ Mode: --all (overwrite img + gallery)');
+  if (GALLERY_ALL) console.log('🖼  Mode: --gallery-all (only add/update gallery[], img unchanged)');
+  if (DRY_RUN)     console.log('🔍 Mode: --dry-run (no writes)');
 
-  // Build combined SKU/EAN → image map from all categories
+  // Build combined SKU/EAN → []urls map from all categories
   const imageMap = new Map();
   for (const cat of CATEGORIES) {
     try {
@@ -193,33 +186,66 @@ async function main() {
     const end   = i + 1 < positions.length ? positions[i + 1].start : src.length;
     const block = src.slice(start, end);
 
-    // Skip if already has a good image (unless --all)
-    // NOTE: --all truly overwrites ALL products from gallery — promo images can be
-    // stored as imageFileData URLs that isPromoUrl() cannot detect by name alone.
-    const hasImg = /\bimg:'[^']+'/.test(block);
+    const hasImg     = /\bimg:'[^']+'/.test(block);
+    const hasGallery = /\bgallery:\[/.test(block);
+
+    if (GALLERY_ALL) {
+      // --gallery-all: only update gallery[], never touch img
+      // Use exact matches only (SKU or EAN) to avoid wrong images for siblings
+      const skuM = block.match(/\bsku:'([^']+)'/);
+      const eanM = block.match(/\bean:'(\d{8,14})'/);
+      let newUrls = null;
+      if (skuM && imageMap.has(skuM[1]))              newUrls = imageMap.get(skuM[1]);
+      if (!newUrls && eanM && imageMap.has('EAN:' + eanM[1])) newUrls = imageMap.get('EAN:' + eanM[1]);
+      if (!newUrls) { notFound++; continue; }
+
+      const newGalleryStr = serializeGallery(newUrls);
+      // Check if gallery already identical
+      const existingGalleryM = block.match(/\bgallery:\[([^\]]*)\]/);
+      if (existingGalleryM && existingGalleryM[0] === newGalleryStr) { skipped++; continue; }
+
+      let newBlock = block;
+      if (hasGallery) {
+        // Replace existing gallery
+        newBlock = newBlock.replace(/\bgallery:\[[^\]]*\]/, newGalleryStr);
+      } else if (hasImg) {
+        // Insert gallery right after img:'...'
+        newBlock = newBlock.replace(/(\bimg:'[^']+')/, `$1,${newGalleryStr}`);
+      } else {
+        notFound++; continue;
+      }
+
+      if (!DRY_RUN) src = src.slice(0, start) + newBlock + src.slice(end);
+      const name = (block.match(/\bname:'([^']+)'/) || [])[1] || positions[i].id;
+      console.log(`  🖼  ${name} → ${newUrls.length} снимк${newUrls.length === 1 ? 'a' : 'и'}`);
+      updated++;
+      continue;
+    }
+
+    // Normal mode: only process img:null (or all with --all)
     if (hasImg && !FORCE_ALL) { skipped++; continue; }
 
-    // Find image via SKU, EAN, or product name (fallback for regional SKU variants)
+    // Find images via SKU, EAN, or product name
     const skuM  = block.match(/\bsku:'([^']+)'/);
     const eanM  = block.match(/\bean:'(\d{8,14})'/);
     const nameM = block.match(/\bname:'([^']+)'/);
-    let newUrl = null;
-    if (skuM && imageMap.has(skuM[1]))                newUrl = imageMap.get(skuM[1]);
-    if (!newUrl && eanM && imageMap.has('EAN:' + eanM[1])) newUrl = imageMap.get('EAN:' + eanM[1]);
-    // SKU-prefix sibling: same model family, different variant
-    if (!newUrl && skuM && skuM[1].length >= 6) {
+    let newUrls = null;
+    let isExactMatch = false;
+
+    if (skuM && imageMap.has(skuM[1]))                { newUrls = imageMap.get(skuM[1]); isExactMatch = true; }
+    if (!newUrls && eanM && imageMap.has('EAN:' + eanM[1])) { newUrls = imageMap.get('EAN:' + eanM[1]); isExactMatch = true; }
+    if (!newUrls && skuM && skuM[1].length >= 6) {
       const pfx = skuM[1].substring(0, 6);
-      if (imageMap.has('SKUPFX:' + pfx)) newUrl = imageMap.get('SKUPFX:' + pfx);
+      if (imageMap.has('SKUPFX:' + pfx)) newUrls = imageMap.get('SKUPFX:' + pfx);
     }
-    if (!newUrl && nameM) {
+    if (!newUrls && nameM) {
       const n = nameM[1].trim().toLowerCase();
-      if (imageMap.has('NAME:' + n)) newUrl = imageMap.get('NAME:' + n);
-      if (!newUrl) {
+      if (imageMap.has('NAME:' + n))                   { newUrls = imageMap.get('NAME:' + n); isExactMatch = true; }
+      if (!newUrls) {
         const base = n.replace(/\s*\/\s*\S+$/, '').trim();
-        if (base && imageMap.has('BASE:' + base)) newUrl = imageMap.get('BASE:' + base);
+        if (base && imageMap.has('BASE:' + base))       newUrls = imageMap.get('BASE:' + base);
       }
-      if (!newUrl) {
-        // Cross-variant: same model family, different variant code
+      if (!newUrls) {
         let crossKey = n.replace(/\s*\/\s*\S+$/, '').trim();
         let prev;
         do { prev = crossKey; crossKey = crossKey.replace(/-[a-z0-9]{2,}$/gi, '').trim(); }
@@ -230,28 +256,43 @@ async function main() {
           if (/^[a-z]{1,3}[0-9][a-z0-9]*$/i.test(last)) crossKey = xTok.slice(0, -1).join(' ');
         }
         if (crossKey && crossKey !== n && crossKey.includes(' ') && imageMap.has('CROSS:' + crossKey)) {
-          newUrl = imageMap.get('CROSS:' + crossKey);
+          newUrls = imageMap.get('CROSS:' + crossKey);
         }
       }
     }
 
-    if (!newUrl) { notFound++; continue; }
+    if (!newUrls) { notFound++; continue; }
 
-    // Replace img:null or img:'old-promo-url'
-    const oldImgStr = hasImg ? block.match(/\bimg:'[^']+'/) [0] : 'img:null';
-    const newImgStr = `img:'${newUrl}'`;
-    if (oldImgStr === newImgStr) { skipped++; continue; }
+    const firstUrl = newUrls[0];
 
-    const newBlock = block.replace(oldImgStr, newImgStr);
+    // Build new img string
+    const oldImgStr  = hasImg ? block.match(/\bimg:'[^']+'/) [0] : 'img:null';
+    const newImgStr  = `img:'${firstUrl}'`;
+    if (oldImgStr === newImgStr && hasGallery) { skipped++; continue; }
+
+    // Replace img field
+    let newBlock = block.replace(oldImgStr, newImgStr);
+
+    // Add/update gallery only for exact matches (not siblings/cross-variants, to avoid mixing images)
+    if (isExactMatch && newUrls.length >= 1) {
+      const newGalleryStr = serializeGallery(newUrls);
+      if (hasGallery) {
+        newBlock = newBlock.replace(/\bgallery:\[[^\]]*\]/, newGalleryStr);
+      } else {
+        newBlock = newBlock.replace(newImgStr, `${newImgStr},${newGalleryStr}`);
+      }
+    }
+
     if (!DRY_RUN) src = src.slice(0, start) + newBlock + src.slice(end);
 
     const name = (block.match(/\bname:'([^']+)'/) || [])[1] || positions[i].id;
-    console.log(`  ✅ ${name} → ${newUrl.split('/').pop()}`);
+    const galleryInfo = (isExactMatch && newUrls.length > 1) ? ` [${newUrls.length} снимки]` : '';
+    console.log(`  ✅ ${name} → ${firstUrl.split('/').pop()}${galleryInfo}`);
     updated++;
   }
 
   console.log(`\n✅ Updated: ${updated} products`);
-  console.log(`⏭  Skipped (already had image): ${skipped}`);
+  console.log(`⏭  Skipped: ${skipped}`);
   console.log(`⚪ Not found in XML: ${notFound}`);
 
   if (!DRY_RUN && updated > 0) {

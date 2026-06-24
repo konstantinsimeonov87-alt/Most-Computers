@@ -1,10 +1,6 @@
-// Most Computers — Service Worker 54b9067
+// Most Computers — Service Worker 1e8c4f89
 // Most Computers — Service Worker 2b578496
-const CACHE = 'mc-54b9067';
-=======
-// Most Computers — Service Worker f4d37160
-const CACHE = 'mc-54b9067';
->>>>>>> 408942c (feat(ux): sticky footer bar на десктоп (Вариант B - blur))
+const CACHE = 'mc-1e8c4f89';
 
 const PRECACHE = [
   './',

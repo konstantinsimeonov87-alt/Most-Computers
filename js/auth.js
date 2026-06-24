@@ -438,7 +438,7 @@ function renderWishlistGrid() {
     var _savedPrices = {};
     try { _savedPrices = JSON.parse(localStorage.getItem('mc_wishlist_prices') || '{}'); } catch(e) {}
     // Add-all + share buttons before the grid
-    const shareUrl = 'https://mostcomputers.bg/?wl=' + wishlist.join(',');
+    const shareUrl = 'https://most-computers.com/?wl=' + wishlist.join(',');
     const addAllHtml = `<div class="wl-add-all-row"><button type="button" class="wl-add-all-btn" onclick="addAllWishlistToCart()"><svg width="15" height="15" class="svg-ic" aria-hidden="true"><use href="#ic-cart"/></svg> Добави всички в кошницата (${prods.length})</button><button type="button" class="wl-share-btn" onclick="navigator.clipboard&&navigator.clipboard.writeText('${escHtml(shareUrl)}').then(()=>showToast('🔗 Линкът е копиран!')).catch(()=>{})" title="Сподели любими">🔗 Сподели</button><button type="button" class="wl-share-btn" onclick="showWishlistQR()" title="QR код">📱 QR</button></div>`;
     grid.innerHTML = addAllHtml + `<div class="wishlist-grid">${prods.map(p => {
       const save = p.old ? Math.round(((p.old-p.price)/p.old)*100) : 0;
@@ -473,7 +473,7 @@ function renderWishlistGrid() {
 
 function showWishlistQR() {
   if (!wishlist.length) return;
-  const url = 'https://mostcomputers.bg/?wl=' + wishlist.join(',');
+  const url = 'https://most-computers.com/?wl=' + wishlist.join(',');
   const qrSrc = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=' + encodeURIComponent(url);
   const modal = document.createElement('div');
   modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:9000;display:flex;align-items:center;justify-content:center;';

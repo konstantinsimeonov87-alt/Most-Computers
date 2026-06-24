@@ -1087,7 +1087,7 @@ function printInvoice(num) {
       ${_co.name} &nbsp;|&nbsp; ЕИК: ${_co.eik || '-'}<br>
       ${_co.dds ? 'ДДС №: ' + _co.dds + '<br>' : ''}
       ${_co.addr}<br>
-      тел.: ${_co.tel} &nbsp;|&nbsp; office@mostcomputers.bg
+      тел.: ${_co.tel} &nbsp;|&nbsp; office@most-computers.com
     </div>
   </div>
   <div class="hdr-right">

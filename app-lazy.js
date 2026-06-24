@@ -1493,7 +1493,7 @@ function printInvoice(num) {
       ${_co.name} &nbsp;|&nbsp; ЕИК: ${_co.eik || '-'}<br>
       ${_co.dds ? 'ДДС №: ' + _co.dds + '<br>' : ''}
       ${_co.addr}<br>
-      тел.: ${_co.tel} &nbsp;|&nbsp; office@mostcomputers.bg
+      тел.: ${_co.tel} &nbsp;|&nbsp; office@most-computers.com
     </div>
   </div>
   <div class="hdr-right">
@@ -2509,7 +2509,7 @@ function openProductPage(id) {
       return found.label.replace(/^[^\p{L}\p{N}]+\s*/u, '');
     })();
     const _bcItems = [
-      { label: _bcCatLabel, url: `https://mostcomputers.bg/?cat=${p.cat}`, fn: _bcCatFn }
+      { label: _bcCatLabel, url: `https://most-computers.com/?cat=${p.cat}`, fn: _bcCatFn }
     ];
     if (_subcatLabel) {
       const _bcSubFn = () => {
@@ -2518,9 +2518,9 @@ function openProductPage(id) {
         if (typeof applySubcatById === 'function') setTimeout(() => applySubcatById(p.subcat), 50);
         bcSet([{ label: _bcCatLabel, fn: _bcCatFn }]);
       };
-      _bcItems.push({ label: _subcatLabel, url: `https://mostcomputers.bg/?cat=${p.cat}&sub=${p.subcat}`, fn: _bcSubFn });
+      _bcItems.push({ label: _subcatLabel, url: `https://most-computers.com/?cat=${p.cat}&sub=${p.subcat}`, fn: _bcSubFn });
     }
-    _bcItems.push({ label: p.name, url: `https://mostcomputers.bg/?product=${p.id}`, fn: null });
+    _bcItems.push({ label: p.name, url: `https://most-computers.com/?product=${p.id}`, fn: null });
     bcSet(_bcItems);
   }
   document.title = p.name + ' | Most Computers';
@@ -2547,7 +2547,7 @@ function openProductPage(id) {
   }
   setOG('og:title',       p.name + ' | Most Computers');
   setOG('og:description', p.desc ? p.desc.substring(0,200) : `${p.name} от ${p.brand}. Цена: ${(p.price/EUR_RATE).toFixed(2)} €`);
-  setOG('og:image',       p.img || 'https://mostcomputers.bg/og-default.jpg');
+  setOG('og:image',       p.img || 'https://most-computers.com/og-default.jpg');
   setOG('og:url',         window.location.href);
   setOG('og:type',        'product');
   setOG('og:site_name',   'Most Computers');
@@ -2558,7 +2558,7 @@ function openProductPage(id) {
   setOGName('twitter:description', p.desc ? p.desc.substring(0,200) : `${p.brand} - ${p.name}`);
   setOGName('twitter:image',       p.img || '');
   const _canonical = document.querySelector('link[rel="canonical"]');
-  if (_canonical) _canonical.setAttribute('href', `https://mostcomputers.bg/?product=${p.id}`);
+  if (_canonical) _canonical.setAttribute('href', `https://most-computers.com/?product=${p.id}`);
 
   // Badges
   let b = '';
@@ -3005,11 +3005,11 @@ function closeProductPage() {
   const ogTitle = document.querySelector('meta[property="og:title"]');
   if (ogTitle) ogTitle.setAttribute('content', 'Most Computers | Онлайн магазин за компютри и компоненти');
   const ogImg = document.querySelector('meta[property="og:image"]');
-  if (ogImg) ogImg.setAttribute('content', 'https://mostcomputers.bg/og-default.jpg');
+  if (ogImg) ogImg.setAttribute('content', 'https://most-computers.com/og-default.jpg');
   const ogType = document.querySelector('meta[property="og:type"]');
   if (ogType) ogType.setAttribute('content', 'website');
   const canonical = document.querySelector('link[rel="canonical"]');
-  if (canonical) canonical.setAttribute('href', 'https://mostcomputers.bg/');
+  if (canonical) canonical.setAttribute('href', 'https://most-computers.com/');
   if (typeof bcSet === 'function') {
     const catOpen = document.getElementById('catPage')?.classList.contains('open');
     bcSet(catOpen && typeof _bcTrail !== 'undefined' && _bcTrail.length >= 1 ? [_bcTrail[0]] : []);
@@ -5014,9 +5014,9 @@ function openBlogPost(slug) {
   // SEO meta
   if (typeof setPageMeta === 'function') setPageMeta(post.title + ' - Most Computers', post.metaDesc);
   const canonical = document.querySelector('link[rel="canonical"]');
-  if (canonical) canonical.setAttribute('href', 'https://mostcomputers.bg/?page=blog&post=' + post.slug);
+  if (canonical) canonical.setAttribute('href', 'https://most-computers.com/?page=blog&post=' + post.slug);
   const ogUrl = document.querySelector('meta[property="og:url"]');
-  if (ogUrl) ogUrl.setAttribute('content', 'https://mostcomputers.bg/?page=blog&post=' + post.slug);
+  if (ogUrl) ogUrl.setAttribute('content', 'https://most-computers.com/?page=blog&post=' + post.slug);
   const ogType = document.querySelector('meta[property="og:type"]');
   if (ogType) ogType.setAttribute('content', 'article');
   // Article JSON-LD
@@ -5028,9 +5028,9 @@ function openBlogPost(slug) {
     headline: post.title,
     description: post.metaDesc,
     datePublished: post.dateISO,
-    author: { '@type': 'Organization', name: 'Most Computers', url: 'https://mostcomputers.bg' },
-    publisher: { '@type': 'Organization', name: 'Most Computers', url: 'https://mostcomputers.bg' },
-    mainEntityOfPage: { '@type': 'WebPage', '@id': 'https://mostcomputers.bg/?page=blog&post=' + post.slug }
+    author: { '@type': 'Organization', name: 'Most Computers', url: 'https://most-computers.com' },
+    publisher: { '@type': 'Organization', name: 'Most Computers', url: 'https://most-computers.com' },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': 'https://most-computers.com/?page=blog&post=' + post.slug }
   });
   if (!document.getElementById('blogPage').classList.contains('open')) {
     document.getElementById('blogPage').classList.add('open');

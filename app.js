@@ -3527,7 +3527,7 @@ function bcRender() {
     "@type": "ListItem",
     "position": i + 1,
     "name": c.label,
-    "item": c.url || (i === 0 ? 'https://mostcomputers.bg/' : window.location.href.split('?')[0])
+    "item": c.url || (i === 0 ? 'https://most-computers.com/' : window.location.href.split('?')[0])
   }));
   const ld = {
     "@context": "https://schema.org",
@@ -3561,7 +3561,7 @@ function bcOnFilterCat(cat) {
     bcSet([]);
   } else {
     const label = BC_CAT_LABELS[cat] || cat;
-    const url = `https://mostcomputers.bg/?cat=${cat}`;
+    const url = `https://most-computers.com/?cat=${cat}`;
     bcSet([{
       label,
       url,
@@ -3703,12 +3703,12 @@ function injectCategoryItemList(cat) {
     "@context": "https://schema.org",
     "@type": "ItemList",
     "name": (typeof CAT_LABELS !== 'undefined' && CAT_LABELS[cat]) ? CAT_LABELS[cat] + ' - Most Computers' : cat,
-    "url": `https://mostcomputers.bg/?cat=${cat}`,
+    "url": `https://most-computers.com/?cat=${cat}`,
     "numberOfItems": list.length,
     "itemListElement": list.map((p, i) => ({
       "@type": "ListItem",
       "position": i + 1,
-      "url": `https://mostcomputers.bg/?product=${p.id}`,
+      "url": `https://most-computers.com/?product=${p.id}`,
       "name": p.name
     }))
   };
@@ -3786,13 +3786,13 @@ document.addEventListener('mc:productopen', e => {
   const ogImg = document.querySelector('meta[property="og:image"]');
   if (ogImg) {
     const imgSrc = (Array.isArray(p.gallery) && p.gallery[0]) ? p.gallery[0]
-      : (p.img || 'https://mostcomputers.bg/og-default.jpg');
+      : (p.img || 'https://most-computers.com/og-default.jpg');
     ogImg.setAttribute('content', imgSrc);
   }
   const ogUrl = document.querySelector('meta[property="og:url"]');
-  if (ogUrl) ogUrl.setAttribute('content', `https://mostcomputers.bg/?product=${p.id}`);
+  if (ogUrl) ogUrl.setAttribute('content', `https://most-computers.com/?product=${p.id}`);
   const imgSrc = (Array.isArray(p.gallery) && p.gallery[0]) ? p.gallery[0]
-    : (p.img || 'https://mostcomputers.bg/og-default.jpg');
+    : (p.img || 'https://most-computers.com/og-default.jpg');
   const twImg = document.querySelector('meta[name="twitter:image"]');
   if (twImg) twImg.setAttribute('content', imgSrc);
   // og:type → product
@@ -3813,12 +3813,12 @@ document.addEventListener('mc:productopen', e => {
   }
   // Canonical URL
   const canonical = document.querySelector('link[rel="canonical"]');
-  if (canonical) canonical.setAttribute('href', `https://mostcomputers.bg/?product=${p.id}`);
+  if (canonical) canonical.setAttribute('href', `https://most-computers.com/?product=${p.id}`);
 });
 
 // ===== 6. SITEMAP GENERATOR =====
 function generateSitemap() {
-  const base = 'https://mostcomputers.bg';
+  const base = 'https://most-computers.com';
   const today = new Date().toISOString().split('T')[0];
   const staticPages = [
     { url: '/', priority: '1.0', freq: 'daily' },
@@ -4102,9 +4102,9 @@ function openCatPage(cat, preSubcat, fromURL = false) {
   setPageMeta(m.label + ' | Most Computers', _catDesc);
   const _subSuffix = (preSubcat && preSubcat !== 'all') ? '&sub=' + encodeURIComponent(preSubcat) : '';
   const ogUrl = document.querySelector('meta[property="og:url"]');
-  if (ogUrl) ogUrl.setAttribute('content', `https://mostcomputers.bg/?cat=${cat}${_subSuffix}`);
+  if (ogUrl) ogUrl.setAttribute('content', `https://most-computers.com/?cat=${cat}${_subSuffix}`);
   const canonical = document.querySelector('link[rel="canonical"]');
-  if (canonical) canonical.setAttribute('href', `https://mostcomputers.bg/?cat=${cat}${_subSuffix}`);
+  if (canonical) canonical.setAttribute('href', `https://most-computers.com/?cat=${cat}${_subSuffix}`);
 
   // Open page first so grid element is visible, then render
   document.getElementById('catPage').classList.add('open');
@@ -4139,11 +4139,11 @@ function closeCatPage() {
   const ogDesc = document.querySelector('meta[property="og:description"]');
   if (ogDesc) ogDesc.setAttribute('content', 'Most Computers - специализиран магазин за електроника от 1990 г. Смартфони, лаптопи, телевизори от Apple, Samsung, Sony. Безплатна доставка над 100 €.');
   const ogImg = document.querySelector('meta[property="og:image"]');
-  if (ogImg) ogImg.setAttribute('content', 'https://mostcomputers.bg/og-default.jpg');
+  if (ogImg) ogImg.setAttribute('content', 'https://most-computers.com/og-default.jpg');
   const ogImgAlt = document.querySelector('meta[property="og:image:alt"]');
   if (ogImgAlt) ogImgAlt.setAttribute('content', 'Most Computers - магазин за електроника от 1990 г.');
   const ogUrl = document.querySelector('meta[property="og:url"]');
-  if (ogUrl) ogUrl.setAttribute('content', 'https://mostcomputers.bg/');
+  if (ogUrl) ogUrl.setAttribute('content', 'https://most-computers.com/');
   const ogType = document.querySelector('meta[property="og:type"]');
   if (ogType) ogType.setAttribute('content', 'website');
   const twTitle = document.querySelector('meta[name="twitter:title"]');
@@ -4151,7 +4151,7 @@ function closeCatPage() {
   const twDesc = document.querySelector('meta[name="twitter:description"]');
   if (twDesc) twDesc.setAttribute('content', 'Лаптопи, Телефони, Телевизори, Аудио и аксесоари от Apple, Samsung, Sony. Безплатна доставка над 100 €.');
   const canonical = document.querySelector('link[rel="canonical"]');
-  if (canonical) canonical.setAttribute('href', 'https://mostcomputers.bg/');
+  if (canonical) canonical.setAttribute('href', 'https://most-computers.com/');
   try{history.pushState({}, '', location.pathname);}catch(e){}
   setSidebarActive(null);
   requestAnimationFrame(() => window.scrollTo(0, _catPageScrollY));
@@ -4632,7 +4632,7 @@ function cpUpdateURL() {
   if (cpRating > 0) params.set('rating', cpRating);
   if (cpPage > 1) params.set('page', cpPage);
   const qs = '?' + params.toString();
-  const fullUrl = 'https://mostcomputers.bg/' + qs;
+  const fullUrl = 'https://most-computers.com/' + qs;
   try { history.replaceState({ catPage: cpCat, subcat: cpSubcat }, '', qs); } catch(e) {}
   const can = document.querySelector('link[rel="canonical"]');
   if (can) can.setAttribute('href', fullUrl);
@@ -5968,7 +5968,7 @@ function renderWishlistGrid() {
     var _savedPrices = {};
     try { _savedPrices = JSON.parse(localStorage.getItem('mc_wishlist_prices') || '{}'); } catch(e) {}
     // Add-all + share buttons before the grid
-    const shareUrl = 'https://mostcomputers.bg/?wl=' + wishlist.join(',');
+    const shareUrl = 'https://most-computers.com/?wl=' + wishlist.join(',');
     const addAllHtml = `<div class="wl-add-all-row"><button type="button" class="wl-add-all-btn" onclick="addAllWishlistToCart()"><svg width="15" height="15" class="svg-ic" aria-hidden="true"><use href="#ic-cart"/></svg> Добави всички в кошницата (${prods.length})</button><button type="button" class="wl-share-btn" onclick="navigator.clipboard&&navigator.clipboard.writeText('${escHtml(shareUrl)}').then(()=>showToast('🔗 Линкът е копиран!')).catch(()=>{})" title="Сподели любими">🔗 Сподели</button><button type="button" class="wl-share-btn" onclick="showWishlistQR()" title="QR код">📱 QR</button></div>`;
     grid.innerHTML = addAllHtml + `<div class="wishlist-grid">${prods.map(p => {
       const save = p.old ? Math.round(((p.old-p.price)/p.old)*100) : 0;
@@ -6003,7 +6003,7 @@ function renderWishlistGrid() {
 
 function showWishlistQR() {
   if (!wishlist.length) return;
-  const url = 'https://mostcomputers.bg/?wl=' + wishlist.join(',');
+  const url = 'https://most-computers.com/?wl=' + wishlist.join(',');
   const qrSrc = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=' + encodeURIComponent(url);
   const modal = document.createElement('div');
   modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:9000;display:flex;align-items:center;justify-content:center;';

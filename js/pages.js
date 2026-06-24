@@ -531,9 +531,9 @@ function openBlogPost(slug) {
   // SEO meta
   if (typeof setPageMeta === 'function') setPageMeta(post.title + ' - Most Computers', post.metaDesc);
   const canonical = document.querySelector('link[rel="canonical"]');
-  if (canonical) canonical.setAttribute('href', 'https://mostcomputers.bg/?page=blog&post=' + post.slug);
+  if (canonical) canonical.setAttribute('href', 'https://most-computers.com/?page=blog&post=' + post.slug);
   const ogUrl = document.querySelector('meta[property="og:url"]');
-  if (ogUrl) ogUrl.setAttribute('content', 'https://mostcomputers.bg/?page=blog&post=' + post.slug);
+  if (ogUrl) ogUrl.setAttribute('content', 'https://most-computers.com/?page=blog&post=' + post.slug);
   const ogType = document.querySelector('meta[property="og:type"]');
   if (ogType) ogType.setAttribute('content', 'article');
   // Article JSON-LD
@@ -545,9 +545,9 @@ function openBlogPost(slug) {
     headline: post.title,
     description: post.metaDesc,
     datePublished: post.dateISO,
-    author: { '@type': 'Organization', name: 'Most Computers', url: 'https://mostcomputers.bg' },
-    publisher: { '@type': 'Organization', name: 'Most Computers', url: 'https://mostcomputers.bg' },
-    mainEntityOfPage: { '@type': 'WebPage', '@id': 'https://mostcomputers.bg/?page=blog&post=' + post.slug }
+    author: { '@type': 'Organization', name: 'Most Computers', url: 'https://most-computers.com' },
+    publisher: { '@type': 'Organization', name: 'Most Computers', url: 'https://most-computers.com' },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': 'https://most-computers.com/?page=blog&post=' + post.slug }
   });
   if (!document.getElementById('blogPage').classList.contains('open')) {
     document.getElementById('blogPage').classList.add('open');

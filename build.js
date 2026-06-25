@@ -100,7 +100,22 @@ const tmpDataPath = path.join(ROOT, '_tmp_data_stripped.js');
   log(`data.js stripped: ${(beforeStrip/1024).toFixed(0)} KB → ${(dataContent.length/1024).toFixed(0)} KB (-${((beforeStrip-dataContent.length)/1024).toFixed(0)} KB)`);
 }
 
-// 4b. Split data.js → data-core.js (no desc) + data-details.js (id→desc map)
+// 4b. Generate data-slim.js (strip specs, desc, gallery, ean, sku — card-only fields)
+console.log('\n✂️  Generating data-slim.js (homepage-only fields)...');
+const tmpSlimPath = path.join(ROOT, '_tmp_data_slim.js');
+{
+  const dataStr = fs.readFileSync(tmpDataPath, 'utf8');
+  let slim = dataStr
+    .replace(/,\s*specs\s*:\s*\{[^}]*\}/g, '')
+    .replace(/,\s*desc\s*:'(?:[^'\\]|\\.)*'/g, '')
+    .replace(/,\s*gallery\s*:\s*\[(?:[^\]]*)\]/g, '')
+    .replace(/,\s*ean\s*:'[^']*'/g, '')
+    .replace(/,\s*sku\s*:'[^']*'/g, '');
+  fs.writeFileSync(tmpSlimPath, slim);
+  log(`data-slim.js: ${(dataStr.length/1024).toFixed(0)} KB → ${(slim.length/1024).toFixed(0)} KB (-${((dataStr.length-slim.length)/1024).toFixed(0)} KB, ${Math.round((1-slim.length/dataStr.length)*100)}% smaller raw)`);
+}
+
+// 4c. Split data.js → data-core.js (no desc) + data-details.js (id→desc map)
 console.log('\n✂️  Splitting data.js into core + details...');
 const tmpCorePath = path.join(ROOT, '_tmp_data_core.js');
 const tmpDetailsPath = path.join(ROOT, '_tmp_data_details.js');
@@ -129,6 +144,7 @@ console.log('\n📦 Minifying JavaScript...');
 const jsFiles = [
   { src: 'products.js',   dst: 'products.js' },
   { src: '_tmp_data_stripped.js', dst: 'data.js' },
+  { src: '_tmp_data_slim.js',    dst: 'data-slim.js' },
   { src: '_tmp_data_core.js',    dst: 'data-core.js', sourceMap: true },
   { src: '_tmp_data_details.js', dst: 'data-details.js' },
   { src: 'app.js',        dst: 'app.js' },
@@ -180,10 +196,13 @@ fs.appendFileSync(path.join(ROOT, 'data-core.js'), '\n//# sourceMappingURL=data-
 log('data-core.js copied to root (dev, stripped + sourceMappingURL)');
 fs.copyFileSync(tmpDetailsPath, path.join(ROOT, 'data-details.js'));
 log('data-details.js copied to root (dev, stripped)');
+fs.copyFileSync(tmpSlimPath, path.join(ROOT, 'data-slim.js'));
+log('data-slim.js copied to root (dev, stripped — no specs/desc/gallery)');
 // Clean up temp files
 if (fs.existsSync(tmpDataPath)) fs.unlinkSync(tmpDataPath);
 if (fs.existsSync(tmpCorePath)) fs.unlinkSync(tmpCorePath);
 if (fs.existsSync(tmpDetailsPath)) fs.unlinkSync(tmpDetailsPath);
+if (fs.existsSync(tmpSlimPath)) fs.unlinkSync(tmpSlimPath);
 
 // 4. PurgeCSS + Minify CSS
 console.log('\n🎨 Purging + Minifying CSS...');

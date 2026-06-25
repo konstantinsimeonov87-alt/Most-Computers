@@ -1,6 +1,11 @@
+<<<<<<< HEAD
 // Most Computers — Service Worker f89929f
 // Most Computers — Service Worker 2b578496
 const CACHE = 'mc-f89929f';
+=======
+// Most Computers — Service Worker 3a501aaf
+// Most Computers — Service Worker 2b578496
+const CACHE = 'mc-3a501aaf';
 
 const PRECACHE = [
   './',

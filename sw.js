@@ -1,6 +1,6 @@
-// Most Computers — Service Worker cb3b2a14
+// Most Computers — Service Worker e61bc90
 // Most Computers — Service Worker 2b578496
-const CACHE = 'mc-cb3b2a14';
+const CACHE = 'mc-e61bc90';
 
 const PRECACHE = [
   './',

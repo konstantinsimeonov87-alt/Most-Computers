@@ -27,7 +27,7 @@ function setupCartDOM() {
   `;
 }
 
-const { addToCart, removeFromCart, changeQty, updateFloatPill } = require('../../js/cart.js');
+const { addToCart, removeFromCart, changeQty, updateFloatPill, loadCart, saveCart, undoRemoveCart } = require('../../js/cart.js');
 
 // ── addToCart ────────────────────────────────────────────────────────────────
 describe('addToCart', () => {
@@ -266,5 +266,90 @@ describe('updateFloatPill qty controls', () => {
     const totalText = document.getElementById('floatCartTotal').textContent;
     expect(totalText).not.toMatch(/,\d{2} €$/); // без центове
     expect(totalText).toMatch(/€$/);
+  });
+});
+
+// ── loadCart / saveCart — persistence ────────────────────────────────────────
+describe('loadCart — persistence', () => {
+  beforeEach(() => {
+    setupCartDOM();
+    global.products = [...PRODUCTS];
+    global.cart = [];
+    localStorage.clear();
+  });
+  afterEach(() => {
+    localStorage.clear();
+  });
+
+  test('зарежда запазена кошница от localStorage mc_cart', () => {
+    localStorage.setItem('mc_cart', JSON.stringify([{ id: 1, qty: 3 }]));
+    loadCart();
+    expect(global.cart).toHaveLength(1);
+    expect(global.cart[0].id).toBe(1);
+    expect(global.cart[0].qty).toBe(3);
+  });
+
+  test('игнорира продукти с несъществуващо id', () => {
+    localStorage.setItem('mc_cart', JSON.stringify([{ id: 999, qty: 1 }]));
+    loadCart();
+    expect(global.cart).toHaveLength(0);
+  });
+
+  test('при празен localStorage cart остава []', () => {
+    loadCart();
+    expect(global.cart).toHaveLength(0);
+  });
+
+  test('saveCart → loadCart запазва qty', () => {
+    global.cart = [{ ...PRODUCTS[0], qty: 5 }];
+    saveCart();
+    global.cart = [];
+    loadCart();
+    expect(global.cart[0].qty).toBe(5);
+  });
+});
+
+// ── undoRemoveCart ────────────────────────────────────────────────────────────
+describe('undoRemoveCart', () => {
+  function setupToastDOM() {
+    document.body.innerHTML = `
+      <span id="cartBadge"></span>
+      <span id="cartTotal"></span>
+      <span id="bnCartBadge"></span>
+      <div id="cartBody"></div>
+      <div id="toast" class="show"></div>
+    `;
+  }
+
+  beforeEach(() => {
+    setupToastDOM();
+    global.products = [...PRODUCTS];
+    global.cart = [];
+    jest.clearAllMocks();
+  });
+
+  test('добавя обратно премахнат продукт', () => {
+    global.cart = [];
+    const toast = document.getElementById('toast');
+    toast._undoItem = { ...PRODUCTS[0], qty: 1 };
+    undoRemoveCart();
+    expect(global.cart).toHaveLength(1);
+    expect(global.cart[0].id).toBe(PRODUCTS[0].id);
+  });
+
+  test('при qty > 1 добавя qty-те обратно', () => {
+    global.cart = [{ ...PRODUCTS[0], qty: 2 }];
+    const toast = document.getElementById('toast');
+    toast._undoItem = { ...PRODUCTS[0], qty: 3 };
+    undoRemoveCart();
+    expect(global.cart[0].qty).toBe(5);
+  });
+
+  test('без _undoItem не прави нищо', () => {
+    global.cart = [];
+    const toast = document.getElementById('toast');
+    toast._undoItem = null;
+    undoRemoveCart();
+    expect(global.cart).toHaveLength(0);
   });
 });

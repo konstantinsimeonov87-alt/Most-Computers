@@ -1,8 +1,7 @@
 // products.js — used by build.js for sitemap generation (not loaded in browser)
 // GPU Import — 2026-04-20 — categoryId=7 (Most BG) — 34 видеокарти
 var products = [
-  {id:1,name:'PowerColor Radeon RX 580 8GB GDDR5',brand:'PowerColor',cat:'components',subcat:'gpu',price:314,sku:'1A1-G003028MBG',ean:null,stock:false},
-  {id:2,name:'Palit GeForce RTX 3050 StormX 6GB GDDR6',brand:'Palit',cat:'components',subcat:'gpu',price:310,sku:'NE63050018JE-1070F',ean:null,stock:false},
+{id:2,name:'Palit GeForce RTX 3050 StormX 6GB GDDR6',brand:'Palit',cat:'components',subcat:'gpu',price:310,sku:'NE63050018JE-1070F',ean:null,stock:false},
   {id:3,name:'Palit GeForce RTX 3050 StormX 6GB GDDR6 (Box)',brand:'Palit',cat:'components',subcat:'gpu',price:375,sku:'NE63050018JE-1072F',ean:'4710562244625',stock:true},
   {id:4,name:'Palit GeForce RTX 3050 KalmX 6GB GDDR6',brand:'Palit',cat:'components',subcat:'gpu',price:333,sku:'NE63050018JE-1070H',ean:null,stock:false},
   {id:5,name:'Palit GeForce RTX 3050 StormX 8GB GDDR6',brand:'Palit',cat:'components',subcat:'gpu',price:362,sku:'NE63050018P1-1070F',ean:null,stock:false},

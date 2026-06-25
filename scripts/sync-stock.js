@@ -17,6 +17,7 @@ const CATEGORIES = [
   { id: 2,  name: 'Motherboards' },
   { id: 3,  name: 'CPU' },
   { id: 4,  name: 'RAM' },
+  { id: 7,  name: 'GPU' },
   { id: 8,  name: 'Monitors' },
   { id: 9,  name: 'Cases/PSU' },
   { id: 10, name: 'Keyboards' },

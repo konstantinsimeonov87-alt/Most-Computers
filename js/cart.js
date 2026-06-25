@@ -1476,6 +1476,7 @@ if (typeof module !== 'undefined' && module.exports) {
   module.exports = {
     addToCart, removeFromCart, changeQty, updateFloatPill,
     applyPromo, renderOrderSummary, formatCardNum, formatExpiry,
+    submitOrder, loadCart, saveCart, undoRemoveCart,
     _resetCheckout: () => { ckDeliveryIdx = 0; ckPaymentType = 'card'; promoApplied = false; },
     _setDelivery: (idx) => { ckDeliveryIdx = idx; },
     _setPayment: (type) => { ckPaymentType = type; },

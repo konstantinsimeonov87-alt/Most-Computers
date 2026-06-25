@@ -4071,7 +4071,7 @@ function openCatPage(cat, preSubcat, fromURL = false) {
   cpSort = 'bestseller';
   cpPriceMin = 0; cpPriceMax = _cpMaxEur;
   cpBrands = new Set();
-  cpRating = 0; cpSaleOnly = false; cpNewOnly = false; cpStockOnly = false;
+  cpRating = 0; cpSaleOnly = false; cpNewOnly = false; cpStockOnly = true;
   cpSpecFilters = {};
   cpPage = 1;
 
@@ -4117,6 +4117,7 @@ function openCatPage(cat, preSubcat, fromURL = false) {
   requestAnimationFrame(() => {
     if (fromURL) cpApplyURLFilters();
     else cpUpdateSlider(true); // initialize slider track/label (catPage is now open)
+    const _skEl = document.getElementById('cpStockToggle'); if (_skEl) _skEl.checked = cpStockOnly;
     cpRenderGrid();
     setSidebarActive(cat, preSubcat);
   });
@@ -4671,7 +4672,8 @@ function cpApplyURLFilters() {
   }
   if (params.get('sale') === '1') { cpSaleOnly = true; const el = document.getElementById('cpSaleToggle'); if (el) el.checked = true; }
   if (params.get('new') === '1') { cpNewOnly = true; const el = document.getElementById('cpNewToggle'); if (el) el.checked = true; }
-  if (params.get('stock') === '1') { cpStockOnly = true; const el = document.getElementById('cpStockToggle'); if (el) el.checked = true; }
+  if (params.get('stock') === '1') { cpStockOnly = true; }
+  else if (params.get('stock') === '0') { cpStockOnly = false; }
   const rating = parseFloat(params.get('rating'));
   if (!isNaN(rating) && rating > 0) {
     cpRating = rating;

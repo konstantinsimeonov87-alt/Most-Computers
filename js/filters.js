@@ -760,7 +760,7 @@ const SUBCATS = {
     { id: 'gaming_headset',  label: '🎧 Геймърски слушалки' },
   ],
   monitors: [
-    { id: 'gaming_mon',   label: '🎮 Gaming' },
+    { id: 'gaming_mon',   label: '🎮 Геймърски' },
     { id: 'qhd_mon',      label: '🔲 QHD / 2K' },
     { id: 'ultrawide',    label: '↔️ UltraWide' },
     { id: 'oled_mon',     label: '✨ OLED & QLED' },
@@ -789,7 +789,7 @@ const SUBCATS = {
     { id: 'cam_poe',      label: '🔌 POE камери' },
   ],
   audio: [
-    { id: 'hp_gaming',    label: '🎮 Gaming' },
+    { id: 'hp_gaming',    label: '🎮 Геймърски' },
     { id: 'hp_wireless',  label: '📡 Bluetooth / Безжични' },
     { id: 'hp_inear',     label: '🎧 Тапи' },
     { id: 'hp_office',    label: '💼 Офис' },
@@ -827,7 +827,7 @@ const SUBCATS = {
   accessories: [
     { id: 'projector',    label: '🎥 Проектори' },
     { id: 'smart_dev',    label: '⌚ Смарт устройства' },
-    { id: 'chair',        label: '🪑 Gaming столове' },
+    { id: 'chair',        label: '🪑 Геймърски столове' },
     { id: 'controller',   label: '🎮 Контролери' },
     { id: 'hub',          label: '🔌 USB хъбове и зарядни' },
     { id: 'bag',          label: '🎒 Чанти и калъфи' },

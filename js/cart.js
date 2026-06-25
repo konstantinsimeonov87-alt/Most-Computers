@@ -671,6 +671,15 @@ function selectPayment(el, type) {
   ckPaymentType = type;
   document.getElementById('cardFields')?.classList.toggle('show', type === 'card');
   renderOrderSummary();
+  if (typeof gtag === 'function') {
+    const _total = cart.reduce((s, x) => s + x.price * x.qty, 0);
+    const _labels = { card: 'Credit Card', cod: 'Cash on Delivery', bank: 'Bank Transfer' };
+    gtag('event', 'add_payment_info', {
+      currency: 'EUR',
+      value: +(_total / EUR_RATE).toFixed(2),
+      payment_type: _labels[type] || type,
+    });
+  }
 }
 
 function formatCardNum(el) {

@@ -1018,7 +1018,7 @@ function renderRecentlyViewed() {
           const _safeImg = p.img && isSafeImgUrl(p.img) ? escHtml(p.img) : null;
           return `<div class="sb-rv-item" onclick="openProductPage(${p.id})">
             ${_safeImg
-              ? `<img class="sb-rv-thumb" src="${_safeImg}" alt="" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="sb-rv-emoji" style="display:none">${p.emoji||''}</span>`
+              ? `<img class="sb-rv-thumb" src="${_safeImg}" alt="${_safeName}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="sb-rv-emoji" style="display:none">${p.emoji||''}</span>`
               : `<span class="sb-rv-emoji">${p.emoji||''}</span>`}
             <div class="sb-rv-info">
               <div class="sb-rv-name">${_safeName}</div>
@@ -1041,7 +1041,7 @@ function renderRecentlyViewed() {
           return `<div class="rv-card" onclick="openProductPage(${p.id})" role="button" tabindex="0" aria-label="${_safeName}">
             <div class="rv-card-img">
               ${_safeImg
-                ? `<img src="${_safeImg}" alt="" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="rv-card-emoji" style="display:none">${p.emoji||''}</span>`
+                ? `<img src="${_safeImg}" alt="${_safeName}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="rv-card-emoji" style="display:none">${p.emoji||''}</span>`
                 : `<span class="rv-card-emoji">${p.emoji||''}</span>`}
             </div>
             <div class="rv-card-name">${_safeName.length > 40 ? _safeName.substring(0,40)+'…' : _safeName}</div>

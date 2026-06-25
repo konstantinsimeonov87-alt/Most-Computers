@@ -207,7 +207,7 @@ function renderDropdown(query) {
         : `<span>SKU: ${p.sku}</span>`;
       return `
         <div class="sd-result" data-idx="${i}" onclick="selectSearchResult(${p.id})">
-          ${p.img ? `<img class="sd-thumb" src="${escHtml(p.img)}" alt="" loading="lazy" onerror="this.style.display='none'">` : `<div class="sd-emoji">${p.emoji}</div>`}
+          ${p.img ? `<img class="sd-thumb" src="${escHtml(p.img)}" alt="${escHtml(p.name)}" loading="lazy" onerror="this.style.display='none'">` : `<div class="sd-emoji">${p.emoji}</div>`}
           <div class="sd-info">
             <div class="sd-name">${highlightMatch(p.name, q)}</div>
             <div class="sd-meta">

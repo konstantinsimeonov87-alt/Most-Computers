@@ -1076,6 +1076,15 @@ function selectPayment(el, type) {
   ckPaymentType = type;
   document.getElementById('cardFields')?.classList.toggle('show', type === 'card');
   renderOrderSummary();
+  if (typeof gtag === 'function') {
+    const _total = cart.reduce((s, x) => s + x.price * x.qty, 0);
+    const _labels = { card: 'Credit Card', cod: 'Cash on Delivery', bank: 'Bank Transfer' };
+    gtag('event', 'add_payment_info', {
+      currency: 'EUR',
+      value: +(_total / EUR_RATE).toFixed(2),
+      payment_type: _labels[type] || type,
+    });
+  }
 }
 
 function formatCardNum(el) {
@@ -2097,7 +2106,7 @@ function renderDropdown(query) {
         : `<span>SKU: ${p.sku}</span>`;
       return `
         <div class="sd-result" data-idx="${i}" onclick="selectSearchResult(${p.id})">
-          ${p.img ? `<img class="sd-thumb" src="${escHtml(p.img)}" alt="" loading="lazy" onerror="this.style.display='none'">` : `<div class="sd-emoji">${p.emoji}</div>`}
+          ${p.img ? `<img class="sd-thumb" src="${escHtml(p.img)}" alt="${escHtml(p.name)}" loading="lazy" onerror="this.style.display='none'">` : `<div class="sd-emoji">${p.emoji}</div>`}
           <div class="sd-info">
             <div class="sd-name">${highlightMatch(p.name, q)}</div>
             <div class="sd-meta">

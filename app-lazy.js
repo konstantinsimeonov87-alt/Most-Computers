@@ -6253,14 +6253,33 @@ function closeAdminPage() {
       if (window._descLoaded) return;
       window._descLoaded = true;
       var s = document.createElement('script');
-      var coreTag = document.querySelector('script[src*="data-core.js"]');
+      var coreTag = document.querySelector('script[src*="data-core.js"]') || document.querySelector('script[src*="data-slim.js"]');
       var ver = coreTag ? (coreTag.src.match(/\?v=(\d+)/) || [])[1] || '' : '';
       s.src = 'data-details.js' + (ver ? '?v=' + ver : '');
       s.onload = function() {
-        if (window.productDesc && typeof products !== 'undefined') {
+        if (typeof products !== 'undefined') {
           products.forEach(function(p) {
-            if (!p.desc && window.productDesc[p.id]) p.desc = window.productDesc[p.id];
+            if (!p.desc && window.productDesc && window.productDesc[p.id]) p.desc = window.productDesc[p.id];
+            if (!p.ean && window.productEan && window.productEan[p.id]) p.ean = window.productEan[p.id];
           });
+          // If product page is already open, update description + EAN in DOM
+          if (typeof pdpProductId !== 'undefined' && pdpProductId) {
+            var _p = products.find(function(x) { return x.id === pdpProductId; });
+            if (_p) {
+              var _el = document.getElementById('pdpHtmlContent');
+              if (_p.desc && _el && _el.querySelector('p[style*="color:var(--muted)"]')) {
+                _el.innerHTML = '';
+                var _para = document.createElement('p');
+                _para.style.cssText = 'font-size:14px;line-height:1.8;color:var(--text2);';
+                _para.textContent = _p.desc;
+                _el.appendChild(_para);
+              }
+              var _eanEl = document.getElementById('pdpEan');
+              if (_p.ean && _eanEl && (_eanEl.textContent === '-' || _eanEl.textContent === _p.sku)) {
+                _eanEl.textContent = _p.ean;
+              }
+            }
+          }
         }
       };
       document.head.appendChild(s);

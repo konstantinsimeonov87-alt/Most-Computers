@@ -125,12 +125,16 @@ try {
   // This preserves cart/compareList globals, _staticProductsMap, persistProducts, restoreProducts, etc.
   const coreJs = dataStr.replace(/,\s*desc\s*:'(?:[^'\\]|\\.)*'/g, '');
   fs.writeFileSync(tmpCorePath, coreJs);
-  // data-details.js: id→desc map only
+  // data-details.js: id→desc map + id→ean map
   const getProds = new Function(dataStr + '\nreturn products;');
   const prods = getProds();
   const details = {};
-  prods.forEach(p => { if (p.desc) details[p.id] = p.desc; });
-  const detailsJs = 'var productDesc=' + JSON.stringify(details) + ';';
+  const detailsEan = {};
+  prods.forEach(p => {
+    if (p.desc) details[p.id] = p.desc;
+    if (p.ean) detailsEan[p.id] = p.ean;
+  });
+  const detailsJs = 'var productDesc=' + JSON.stringify(details) + ';var productEan=' + JSON.stringify(detailsEan) + ';';
   fs.writeFileSync(tmpDetailsPath, detailsJs);
   log(`data-core.js: ${(coreJs.length/1024).toFixed(0)} KB | data-details.js: ${(detailsJs.length/1024).toFixed(0)} KB`);
 } catch(splitErr) {

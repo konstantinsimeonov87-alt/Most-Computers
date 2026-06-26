@@ -8,7 +8,7 @@
 
   // ── Config ──────────────────────────────────────────────────────────────────
   const IS_DEV = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
-  const GA4_ID = 'G-HE0YMD8BQ7';
+  const GA4_ID = 'G-WC69D1R64C';
   const FB_PIXEL = ''; // опционален Meta Pixel ID
   const _e = (bgn) => Math.round(bgn / (typeof EUR_RATE !== 'undefined' ? EUR_RATE : 1.95583) * 100) / 100;
 

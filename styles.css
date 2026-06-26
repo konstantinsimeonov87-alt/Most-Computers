@@ -13433,6 +13433,26 @@
 .fcp-checkout-btn{width:100%;padding:9px 14px;background:var(--primary);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;transition:background .15s;font-family:inherit;}
 .fcp-checkout-btn:hover{background:var(--primary-dark);}
 html[data-theme="dark"] .fcp-pill{box-shadow:0 4px 20px rgba(189,17,5,.5),0 2px 8px rgba(0,0,0,.4);}
+
+/* ===== DARK MODE: CHECKOUT & CART PAGE ===== */
+html[data-theme="dark"] .ck-input{background:var(--white);border-color:var(--border);color:var(--text);}
+html[data-theme="dark"] .ck-input::placeholder{color:var(--muted);}
+html[data-theme="dark"] .checkout-card,
+html[data-theme="dark"] .checkout-card-header,
+html[data-theme="dark"] .checkout-topbar{background:var(--white);border-color:var(--border);color:var(--text);}
+html[data-theme="dark"] .cp-card,
+html[data-theme="dark"] .cp-summary-box,
+html[data-theme="dark"] .cp-steps-bar,
+html[data-theme="dark"] .cp-breadcrumb,
+html[data-theme="dark"] .cp-hdr,
+html[data-theme="dark"] .cp-upsell-box{background:var(--white);border-color:var(--border);color:var(--text);}
+html[data-theme="dark"] .delivery-opt{background:var(--white);border-color:var(--border);color:var(--text);}
+html[data-theme="dark"] .delivery-opt.selected{border-color:var(--primary);}
+html[data-theme="dark"] .big-toggle{background:var(--bg2);}
+html[data-theme="dark"] .mob-hp-tabs-wrap,
+html[data-theme="dark"] .mob-hp-dots span{background:var(--white);}
+html[data-theme="dark"] .flash-header{background:var(--white);border-color:var(--border);}
+
 .fcp.fcp--pdp{bottom:80px;}
 body.compare-active .fcp{bottom:92px;}
 .fcp.fcp--near-footer{opacity:0!important;pointer-events:none!important;}

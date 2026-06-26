@@ -480,7 +480,7 @@ function applyRecentSearch(q) {
 if (searchInput) {
   searchInput.addEventListener('input', () => {
     clearTimeout(searchDebounce);
-    searchDebounce = setTimeout(() => renderDropdown(searchInput.value), 180);
+    searchDebounce = setTimeout(() => renderDropdown(searchInput.value), 250);
   });
 
   searchInput.addEventListener('keydown', e => {

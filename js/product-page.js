@@ -19,7 +19,7 @@ let pdpProductId = null;
 let pdpQtyVal    = 1;
 let pdpGallery   = [];
 let pdpGalleryIdx = 0;
-
+let _pdpFromPopState = false;
 
 let _pdpScrollY = 0;
 function openProductPage(id) {
@@ -110,6 +110,8 @@ function openProductPage(id) {
   setOGName('twitter:image',       p.img || '');
   const _canonical = document.querySelector('link[rel="canonical"]');
   if (_canonical) _canonical.setAttribute('href', `https://most-computers.com/?product=${p.id}`);
+  try { if (!_pdpFromPopState) history.pushState({ pdp: id }, '', `?product=${id}`); } catch(e) {}
+  _pdpFromPopState = false;
 
   // Badges
   let b = '';

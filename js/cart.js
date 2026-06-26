@@ -1,7 +1,7 @@
 // CART
 function _prodThumb(p, size) {
   if (!p.img) return `<span style="font-size:${Math.round(size*0.65)}px;line-height:1;">${escHtml(p.emoji||'')}</span>`;
-  return `<img src="${escHtml(p.img)}" alt="" width="${size}" height="${size}" style="width:${size}px;height:${size}px;object-fit:contain;border-radius:4px;" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='inline'"><span style="font-size:${Math.round(size*0.65)}px;line-height:1;display:none;">${escHtml(p.emoji||'')}</span>`;
+  return `<img src="${escHtml(p.img)}" alt="${escHtml(p.name)}" width="${size}" height="${size}" style="width:${size}px;height:${size}px;object-fit:contain;border-radius:4px;" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='inline'"><span style="font-size:${Math.round(size*0.65)}px;line-height:1;display:none;" aria-hidden="true">${escHtml(p.emoji||'')}</span>`;
 }
 
 function saveCart() { try { localStorage.setItem('mc_cart', JSON.stringify(cart.map(x => ({ id: x.id, qty: x.qty })))); } catch (e) { } }
@@ -213,7 +213,7 @@ function updateCart() {
       <div class="ci-details">
         <div class="ci-top-row">
           <button type="button" class="ci-name-btn" onclick="openProductPage(${x.id})" title="Виж продукта">${shortName}</button>
-          <button type="button" class="ci-remove" onclick="removeFromCart(${x.id})" aria-label="Премахни">×</button>
+          <button type="button" class="ci-remove" onclick="removeFromCart(${x.id})" aria-label="Премахни ${escHtml(x.name.substring(0, 40))}">×</button>
         </div>
         <div class="ci-bottom-row">
           <div class="ci-qty"><button type="button" class="qty-btn" onclick="changeQty(${x.id},-1)">−</button><span class="qty-num">${x.qty}</span><button type="button" class="qty-btn" onclick="changeQty(${x.id},1)">+</button></div>
@@ -302,7 +302,7 @@ function updateFloatPill() {
   const extra = cart.length - MAX;
   let html = shown.map(x => {
     const shortName = x.name && x.name.length > 26 ? escHtml(x.name.substring(0, 26)) + '…' : escHtml(x.name || '');
-    return `<div class="fcp-item"><div class="fcp-item-thumb">${_prodThumb(x, 28)}</div><div class="fcp-item-body"><div class="fcp-item-name">${shortName}</div><div class="fcp-item-foot"><div class="fcp-item-qty-ctrl"><button type="button" class="fcp-qty-btn" onclick="event.stopPropagation();changeQty(${x.id},-1)" aria-label="Намали">−</button><span class="fcp-qty-num">${x.qty}</span><button type="button" class="fcp-qty-btn" onclick="event.stopPropagation();changeQty(${x.id},1)" aria-label="Увеличи">+</button></div><span class="fcp-item-price">${fmtEur(x.price * x.qty)}</span><button type="button" class="fcp-remove-btn" onclick="event.stopPropagation();removeFromCart(${x.id})" aria-label="Премахни">×</button></div></div></div>`;
+    return `<div class="fcp-item"><div class="fcp-item-thumb">${_prodThumb(x, 28)}</div><div class="fcp-item-body"><div class="fcp-item-name">${shortName}</div><div class="fcp-item-foot"><div class="fcp-item-qty-ctrl"><button type="button" class="fcp-qty-btn" onclick="event.stopPropagation();changeQty(${x.id},-1)" aria-label="Намали">−</button><span class="fcp-qty-num">${x.qty}</span><button type="button" class="fcp-qty-btn" onclick="event.stopPropagation();changeQty(${x.id},1)" aria-label="Увеличи">+</button></div><span class="fcp-item-price">${fmtEur(x.price * x.qty)}</span><button type="button" class="fcp-remove-btn" onclick="event.stopPropagation();removeFromCart(${x.id})" aria-label="Премахни ${escHtml(x.name.substring(0, 40))}">×</button></div></div></div>`;
   }).join('');
   if (extra > 0) html += `<div class="fcp-more">и още ${extra} продукт${extra === 1 ? '' : 'а'}</div>`;
   itemsEl.innerHTML = html;

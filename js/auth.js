@@ -52,8 +52,15 @@ function resetAuthForms() {
 
 function togglePwVis(inputId, btn) {
   const inp = document.getElementById(inputId);
-  if (inp.type === 'password') { inp.type = 'text'; btn.textContent = '🙈'; }
-  else { inp.type = 'password'; btn.textContent = '👁'; }
+  if (inp.type === 'password') {
+    inp.type = 'text';
+    btn.innerHTML = '<svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-eye"/></svg>';
+    btn.setAttribute('aria-label', 'Скрий парола');
+  } else {
+    inp.type = 'password';
+    btn.innerHTML = '<svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-eye"/></svg>';
+    btn.setAttribute('aria-label', 'Покажи парола');
+  }
 }
 
 function checkPwStrength(val) {

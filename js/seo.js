@@ -672,7 +672,9 @@ function closeCatPage() {
 
 // Back button support
 window.addEventListener('popstate', e => {
-  if (e.state?.catPage) {
+  if (e.state?.pdp) {
+    if (typeof openProductPage === 'function') { _pdpFromPopState = true; openProductPage(e.state.pdp); }
+  } else if (e.state?.catPage) {
     const pg = document.getElementById('catPage');
     if (pg && !pg.classList.contains('open')) {
       const _sub = e.state.subcat && e.state.subcat !== 'all' ? e.state.subcat : null;

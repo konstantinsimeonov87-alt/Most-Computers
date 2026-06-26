@@ -1,0 +1,21 @@
+const { chromium } = require('playwright');
+(async () => {
+  const br = await chromium.launch();
+  const ctx = await br.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, serviceWorkers: 'block' });
+  const page = await ctx.newPage();
+  await page.goto('http://localhost:4444/', { waitUntil: 'networkidle' });
+  await page.waitForTimeout(2000);
+  await page.evaluate(() => { const t = document.getElementById('toast'); if(t) t.style.display='none'; });
+  await page.screenshot({ path: 'menu_audit_home.png' });
+  await page.click('#bn-menu');
+  await page.waitForTimeout(800);
+  await page.screenshot({ path: 'menu_audit_drawer_top.png' });
+  await page.evaluate(() => { const b = document.querySelector('.mob-drawer-body'); if(b) b.scrollTop = 400; });
+  await page.waitForTimeout(300);
+  await page.screenshot({ path: 'menu_audit_drawer_mid.png' });
+  await page.evaluate(() => { const b = document.querySelector('.mob-drawer-body'); if(b) b.scrollTop = 900; });
+  await page.waitForTimeout(300);
+  await page.screenshot({ path: 'menu_audit_drawer_bot.png' });
+  await br.close();
+  console.log('done');
+})();

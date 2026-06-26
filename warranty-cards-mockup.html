@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Мокъп - Гаранционни карти</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary: #bd1105;
+      --text: #111827;
+      --muted: #6b7280;
+      --surface: #fff;
+      --bg: #f9fafb;
+      --border: #e5e7eb;
+      --card-bg: #f9fafb;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f3f4f6;
+      color: var(--text);
+    }
+
+    /* Layout label */
+    .mockup-label {
+      background: #1e40af;
+      color: #fff;
+      text-align: center;
+      padding: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: .06em;
+    }
+
+    .new-badge {
+      display: inline-block;
+      background: #16a34a;
+      color: #fff;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin-left: 8px;
+      vertical-align: middle;
+    }
+
+    /* ---- TOPBAR ---- */
+    .megamenu-topbar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 20px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+    }
+    .megamenu-back {
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      color: var(--text);
+      padding: 4px 8px;
+    }
+    .page-breadcrumb {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    /* ---- HERO ---- */
+    .hero-outer {
+      border-bottom: 3px solid #bd1105;
+    }
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      max-width: 900px;
+      margin: 0 auto;
+      min-height: 180px;
+      overflow: hidden;
+    }
+    .hero-left {
+      background: #bd1105;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-align: center;
+      padding: 20px;
+    }
+    .hero-left svg { opacity: .92; }
+    .hero-left .title {
+      font-size: 11px;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      line-height: 1.55;
+    }
+    .hero-left .subtitle {
+      font-size: 10.5px;
+      color: rgba(255,255,255,.6);
+      font-weight: 600;
+    }
+    .hero-right {
+      background: var(--surface);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 28px 32px;
+      gap: 10px;
+    }
+    .hero-right h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1.25;
+    }
+    .hero-right h2 span { font-size: 16px; font-weight: 600; color: #bd1105; }
+    .hero-right p {
+      font-size: 13.5px;
+      color: var(--muted);
+      line-height: 1.65;
+      max-width: 560px;
+    }
+    .hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 4px;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(189,17,5,.08);
+      color: #bd1105;
+      border: 1px solid rgba(189,17,5,.2);
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    /* ---- BODY ---- */
+    .dlv-body {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 0 60px;
+    }
+
+    /* OGU download row */
+    .ogu-row {
+      display: flex;
+      justify-content: flex-end;
+      padding: 20px 32px 0;
+    }
+    .btn-download {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--primary);
+      color: #fff;
+      border-radius: 9px;
+      padding: 10px 20px;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: opacity .15s;
+    }
+    .btn-download:hover { opacity: .85; }
+    .btn-download-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--surface);
+      color: var(--primary);
+      border: 2px solid var(--primary);
+      border-radius: 9px;
+      padding: 10px 20px;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all .15s;
+      cursor: pointer;
+    }
+    .btn-download-outline:hover {
+      background: rgba(189,17,5,.06);
+    }
+
+    /* ---- NEW SECTION ---- */
+    .warranty-cards-section {
+      margin: 24px 32px 0;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px 28px;
+      position: relative;
+    }
+    .warranty-cards-section::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 4px;
+      height: 100%;
+      background: var(--primary);
+      border-radius: 12px 0 0 12px;
+    }
+    .wcs-eyebrow {
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--primary);
+      margin-bottom: 6px;
+    }
+    .wcs-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    .wcs-desc {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+    .wcs-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .wcs-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--surface);
+      border: 2px solid var(--primary);
+      color: var(--primary);
+      border-radius: 10px;
+      padding: 12px 22px;
+      font-size: 13.5px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all .15s;
+      cursor: pointer;
+    }
+    .wcs-btn:hover {
+      background: var(--primary);
+      color: #fff;
+    }
+    .wcs-btn .brand-logo {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .04em;
+      background: var(--primary);
+      color: #fff;
+      padding: 2px 7px;
+      border-radius: 4px;
+      transition: background .15s, color .15s;
+    }
+    .wcs-btn:hover .brand-logo {
+      background: rgba(255,255,255,.25);
+      color: #fff;
+    }
+
+    /* highlight box */
+    .highlight-box {
+      margin-top: 16px;
+      padding: 10px 14px;
+      background: rgba(189,17,5,.05);
+      border-left: 3px solid rgba(189,17,5,.4);
+      border-radius: 0 6px 6px 0;
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    .highlight-box strong { color: var(--primary); }
+
+    /* ---- SECTION ---- */
+    .dlv-section {
+      padding: 48px 32px;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      margin-top: 24px;
+    }
+    .dlv-eyebrow {
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--primary);
+      margin-bottom: 10px;
+    }
+    .dlv-section-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 26px;
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: -.02em;
+      margin: 0 0 24px;
+      line-height: 1.2;
+    }
+    .wrt-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px 28px;
+      font-size: 14px;
+      color: var(--text);
+      line-height: 1.7;
+    }
+    .wrt-req-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 13.5px;
+    }
+    .wrt-req-icon {
+      flex-shrink: 0;
+      color: var(--primary);
+      font-size: 8px;
+      margin-top: 5px;
+    }
+    .fade-out {
+      position: relative;
+    }
+    .fade-out::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 60px;
+      background: linear-gradient(transparent, #f3f4f6);
+    }
+
+    @media (max-width: 600px) {
+      .hero-inner { grid-template-columns: 1fr; }
+      .hero-left { min-height: 80px; flex-direction: row; padding: 14px 20px; }
+      .warranty-cards-section { margin: 20px 16px 0; padding: 20px; }
+      .ogu-row { padding: 16px 16px 0; }
+      .dlv-section { padding: 36px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="mockup-label">
+  МОКЪП - Страница "Гаранция" &nbsp;|&nbsp; Новото: <span class="new-badge">NEW</span> секция "Гаранционни карти" след OGU бутона
+</div>
+
+<!-- TOPBAR -->
+<div class="megamenu-topbar">
+  <button class="megamenu-back">&#8592;</button>
+  <nav class="page-breadcrumb">Начало &rsaquo; Гаранция</nav>
+</div>
+
+<!-- HERO -->
+<div class="hero-outer">
+  <div class="hero-inner">
+    <div class="hero-left">
+      <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.92)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+      </svg>
+      <div class="title">Официална<br>гаранция</div>
+      <div class="subtitle">Мост Компютърс ООД</div>
+    </div>
+    <div class="hero-right">
+      <h2>Общи гаранционни условия <span>(ОГУ)</span></h2>
+      <p>Вашият продукт е защитен срещу всички производствени дефекти с безплатно гаранционно обслужване за срока, посочен в Гаранционната Ви карта.</p>
+      <div class="hero-badges">
+        <span class="badge">&#10003; Безплатен ремонт</span>
+        <span class="badge">&#10003; 34 сервизни центъра</span>
+        <span class="badge">&#10003; Защита по ЗЗП</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BODY -->
+<div class="dlv-body">
+
+  <!-- OGU DOWNLOAD (съществуващо) -->
+  <div class="ogu-row">
+    <a href="#" class="btn-download">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Свали / Принтирай ОГУ
+    </a>
+  </div>
+
+  <!-- ★НОВО: ГАРАНЦИОННИ КАРТИ ★ -->
+  <div class="warranty-cards-section">
+    <div class="wcs-eyebrow">ГАРАНЦИОННИ КАРТИ</div>
+    <div class="wcs-title">
+      Свалете своята гаранционна карта
+      <span class="new-badge">НОВО</span>
+    </div>
+    <p class="wcs-desc">
+      Задължително условие при рекламация е представянето на <strong>четливо и изцяло попълнена гаранционна карта</strong>.
+      Свалете шаблона за вашата марка, попълнете го и го донесете при посещение на сервизния ни център.
+    </p>
+    <div class="wcs-buttons">
+      <a href="#" class="wcs-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        <span class="brand-logo">Acer</span>
+        Гаранционна карта Acer
+      </a>
+      <a href="#" class="wcs-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        <span class="brand-logo">Lenovo</span>
+        Гаранционна карта Lenovo
+      </a>
+    </div>
+    <div class="highlight-box">
+      <strong>Нямате принтер?</strong> Можете да попълните картата на място в нашия сервизен офис на ул. Цар Симеон 117, Пловдив.
+    </div>
+  </div>
+
+  <!-- SECTION 1 (съществуващо - избледняващо за контекст) -->
+  <div class="dlv-section fade-out">
+    <div class="dlv-eyebrow">ГАРАНЦИЯ &middot; ЧЛ. 1</div>
+    <h2 class="dlv-section-title">Гаранционен срок</h2>
+    <div class="wrt-card">
+      <p>Гаранционният срок на стоката <strong>започва да тече от датата на продажба</strong> и важи на територията на Република България.</p>
+      <div style="margin-top:14px;display:flex;flex-direction:column;gap:8px;">
+        <div class="wrt-req-item">
+          <span class="wrt-req-icon">&#9679;</span>
+          <span>Стоката се доставя в <strong>пълна окомплектация</strong> и оригинална опаковка</span>
+        </div>
+        <div class="wrt-req-item">
+          <span class="wrt-req-icon">&#9679;</span>
+          <span>Задължително се представя <strong>четливо и изцяло попълнена, подписана и подпечатана гаранционна карта</strong></span>
+        </div>
+        <div class="wrt-req-item">
+          <span class="wrt-req-icon">&#9679;</span>
+          <span>Задължително се представя <strong>документ за покупката</strong> (фискален бон или фактура)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

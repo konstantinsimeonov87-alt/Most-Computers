@@ -1,0 +1,56 @@
+{
+  "expo": {
+    "name": "Most Computers",
+    "slug": "most-computers-app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "scheme": "mostcomputers",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#bd1105"
+    },
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "bg.mostcomputers.app",
+      "infoPlist": {
+        "NSCameraUsageDescription": "Needed for profile photo"
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#bd1105"
+      },
+      "package": "bg.mostcomputers.app",
+      "permissions": [
+        "RECEIVE_BOOT_COMPLETED",
+        "VIBRATE",
+        "INTERNET"
+      ]
+    },
+    "plugins": [
+      "expo-router",
+      "expo-secure-store",
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/notification-icon.png",
+          "color": "#bd1105"
+        }
+      ]
+    ],
+    "newArchEnabled": false,
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "1a53a959-207b-4c64-9c0e-e5dd92966a09"
+      }
+    },
+    "owner": "konstantinsimeonov87-alt"
+  }
+}

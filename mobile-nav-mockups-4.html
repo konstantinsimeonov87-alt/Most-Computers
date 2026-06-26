@@ -1,0 +1,1988 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Most Computers — Mobile Nav Mockups v4</title>
+<style>
+  :root {
+    --red: #bd1105;
+    --red-light: #f5e6e5;
+    --bg: #f0f2f5;
+    --card: #ffffff;
+    --text: #111827;
+    --muted: #6b7280;
+    --border: #e5e7eb;
+    --success: #16a34a;
+    --warning: #d97706;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,.1);
+    --shadow-md: 0 4px 16px rgba(0,0,0,.08);
+    --shadow-drawer: 0 20px 60px rgba(0,0,0,0.3);
+    --r-card: 14px;
+    --r-btn: 10px;
+    --r-nav: 20px 20px 0 0;
+    --font: system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --phone-w: 280px;
+    --phone-h: 560px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--font);
+    background: #e8eaed;
+    color: var(--text);
+    padding: 48px 24px;
+    min-width: 900px;
+  }
+
+  h1.page-title {
+    text-align: center;
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+  h1.page-title span { color: var(--red); }
+
+  .page-subtitle {
+    text-align: center;
+    color: var(--muted);
+    font-size: 15px;
+    margin-bottom: 56px;
+  }
+
+  /* SECTION */
+  .variant-section {
+    background: var(--bg);
+    border-radius: 24px;
+    padding: 36px;
+    margin-bottom: 48px;
+    border: 1px solid var(--border);
+  }
+
+  .variant-header {
+    margin-bottom: 28px;
+  }
+
+  .variant-label {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--red);
+    background: var(--red-light);
+    padding: 4px 10px;
+    border-radius: 6px;
+    margin-bottom: 8px;
+  }
+
+  .variant-title {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.3px;
+    margin-bottom: 4px;
+  }
+
+  .variant-desc {
+    font-size: 14px;
+    color: var(--muted);
+  }
+
+  /* MOCKUP ROW */
+  .mockup-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 28px;
+    margin-bottom: 28px;
+  }
+
+  /* PHONE FRAME */
+  .phone-frame {
+    width: var(--phone-w);
+    height: var(--phone-h);
+    flex-shrink: 0;
+    border: 3px solid #1a1a2e;
+    border-radius: 36px;
+    background: #fff;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.2), inset 0 0 0 1px rgba(255,255,255,0.1);
+  }
+
+  /* Notch */
+  .phone-frame::before {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 88px;
+    height: 22px;
+    background: #1a1a2e;
+    border-radius: 12px;
+    z-index: 100;
+  }
+
+  .phone-screen {
+    position: absolute;
+    inset: 0;
+    background: var(--bg);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  /* STATUS BAR */
+  .status-bar {
+    height: 44px;
+    padding: 0 18px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding-bottom: 6px;
+    background: #fff;
+    flex-shrink: 0;
+    z-index: 10;
+  }
+
+  .status-time {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    color: var(--text);
+  }
+
+  .status-icons {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .status-icons svg {
+    width: 14px;
+    height: 14px;
+    fill: var(--text);
+  }
+
+  /* APP HEADER */
+  .app-header {
+    height: 46px;
+    background: #fff;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    flex-shrink: 0;
+    z-index: 10;
+  }
+
+  .app-logo {
+    font-size: 17px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+  }
+  .app-logo .logo-red { color: var(--red); }
+  .app-logo .logo-gray { color: #9ca3af; }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .header-icon {
+    position: relative;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .header-icon svg {
+    width: 20px;
+    height: 20px;
+    stroke: var(--text);
+    fill: none;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 16px;
+    height: 16px;
+    background: var(--red);
+    border-radius: 50%;
+    font-size: 9px;
+    font-weight: 700;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1.5px solid #fff;
+  }
+
+  /* SCROLL CONTENT */
+  .scroll-content {
+    flex: 1;
+    overflow: hidden;
+    padding: 12px 12px 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  /* Search bar in content */
+  .content-search {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  .content-search svg {
+    width: 14px;
+    height: 14px;
+    stroke: var(--muted);
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    flex-shrink: 0;
+  }
+
+  .content-search span {
+    font-size: 12px;
+    color: #9ca3af;
+  }
+
+  /* Category chips */
+  .cat-chips {
+    display: flex;
+    gap: 6px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .cat-chip {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 4px 10px;
+    font-size: 10px;
+    color: var(--text);
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .cat-chip.active {
+    background: var(--red);
+    border-color: var(--red);
+    color: #fff;
+  }
+
+  /* Product grid */
+  .product-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  .product-card {
+    background: var(--card);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border);
+  }
+
+  .product-img {
+    height: 80px;
+    background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .product-img svg {
+    width: 36px;
+    height: 36px;
+    opacity: 0.25;
+  }
+
+  .product-img-laptop {
+    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+  }
+
+  .product-img-phone {
+    background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%);
+  }
+
+  .product-img-monitor {
+    background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+  }
+
+  .product-img-headphones {
+    background: linear-gradient(135deg, #ede9fe 0%, #ddd6fe 100%);
+  }
+
+  .product-badge-tag {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    background: var(--red);
+    color: #fff;
+    font-size: 8px;
+    font-weight: 700;
+    padding: 2px 5px;
+    border-radius: 4px;
+  }
+
+  .product-info {
+    padding: 8px;
+  }
+
+  .product-name {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.3;
+    margin-bottom: 6px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .product-price {
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--red);
+    margin-bottom: 2px;
+  }
+
+  .product-price-sub {
+    font-size: 8px;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+
+  .product-old {
+    font-size: 9px;
+    color: #9ca3af;
+    text-decoration: line-through;
+    margin-bottom: 6px;
+  }
+
+  .buy-btn {
+    width: 100%;
+    background: var(--red);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 5px 0;
+    font-size: 10px;
+    font-weight: 700;
+    cursor: pointer;
+    text-align: center;
+  }
+
+  /* BOTTOM NAV */
+  .bottom-nav {
+    height: 60px;
+    background: var(--card);
+    border-radius: var(--r-nav);
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    padding: 0 4px;
+    flex-shrink: 0;
+    box-shadow: 0 -2px 12px rgba(0,0,0,0.06);
+    position: relative;
+    z-index: 20;
+  }
+
+  .nav-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    height: 100%;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .nav-item svg {
+    width: 20px;
+    height: 20px;
+    stroke: var(--muted);
+    fill: none;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: stroke 0.2s;
+  }
+
+  .nav-item.active svg {
+    stroke: var(--red);
+  }
+
+  .nav-item svg.filled {
+    fill: var(--muted);
+    stroke: none;
+  }
+
+  .nav-item.active svg.filled {
+    fill: var(--red);
+  }
+
+  .nav-label {
+    font-size: 9px;
+    font-weight: 600;
+    color: var(--muted);
+    letter-spacing: 0.2px;
+  }
+
+  .nav-item.active .nav-label {
+    color: var(--red);
+  }
+
+  .nav-badge {
+    position: absolute;
+    top: 6px;
+    right: calc(50% - 18px);
+    width: 14px;
+    height: 14px;
+    background: var(--red);
+    border-radius: 50%;
+    font-size: 8px;
+    font-weight: 700;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1.5px solid #fff;
+  }
+
+  /* DRAWER */
+  .drawer-panel {
+    width: 240px;
+    background: var(--card);
+    border-radius: 14px;
+    box-shadow: var(--shadow-drawer);
+    overflow: hidden;
+    flex-shrink: 0;
+    align-self: flex-start;
+    border: 1px solid var(--border);
+  }
+
+  .drawer-header {
+    padding: 16px 16px 12px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .drawer-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .drawer-close {
+    width: 28px;
+    height: 28px;
+    background: #f3f4f6;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .drawer-close svg {
+    width: 14px;
+    height: 14px;
+    stroke: var(--muted);
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+  }
+
+  .drawer-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    border-bottom: 1px solid #f9fafb;
+    gap: 10px;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+
+  .drawer-item:hover {
+    background: #f9fafb;
+  }
+
+  .drawer-item-emoji {
+    font-size: 16px;
+    width: 24px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  .drawer-item-text {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+    flex: 1;
+  }
+
+  .drawer-item-count {
+    font-size: 11px;
+    color: var(--muted);
+    margin-right: 4px;
+  }
+
+  .drawer-chevron {
+    width: 14px;
+    height: 14px;
+    stroke: #9ca3af;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .drawer-section-label {
+    padding: 10px 16px 4px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+    background: #f9fafb;
+  }
+
+  /* PROS / CONS */
+  .pros-cons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .pros-box, .cons-box {
+    border-radius: 10px;
+    padding: 14px 16px;
+  }
+
+  .pros-box {
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+  }
+
+  .cons-box {
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+  }
+
+  .pros-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: var(--success);
+    margin-bottom: 8px;
+  }
+
+  .cons-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: var(--warning);
+    margin-bottom: 8px;
+  }
+
+  .pros-box ul, .cons-box ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .pros-box li {
+    font-size: 12px;
+    color: #166534;
+    padding-left: 14px;
+    position: relative;
+    line-height: 1.4;
+  }
+
+  .pros-box li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    font-weight: 700;
+    color: var(--success);
+    font-size: 11px;
+  }
+
+  .cons-box li {
+    font-size: 12px;
+    color: #92400e;
+    padding-left: 14px;
+    position: relative;
+    line-height: 1.4;
+  }
+
+  .cons-box li::before {
+    content: '–';
+    position: absolute;
+    left: 0;
+    font-weight: 700;
+    color: var(--warning);
+  }
+
+  /* BOTTOM SHEET */
+  .sheet-panel {
+    width: 280px;
+    background: var(--card);
+    border-radius: 20px 20px 14px 14px;
+    box-shadow: var(--shadow-drawer);
+    overflow: hidden;
+    flex-shrink: 0;
+    align-self: flex-start;
+    border: 1px solid var(--border);
+  }
+
+  .sheet-handle {
+    width: 36px;
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    margin: 10px auto 0;
+  }
+
+  /* CAT GRID */
+  .cat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    padding: 12px 14px;
+  }
+
+  .cat-grid-item {
+    background: #f9fafb;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+
+  .cat-grid-item:hover {
+    background: var(--red-light);
+    border-color: var(--red);
+  }
+
+  .cat-grid-emoji {
+    font-size: 18px;
+    line-height: 1;
+  }
+
+  .cat-grid-text {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.2;
+  }
+
+  /* CAT GRID 3-COL */
+  .cat-grid-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 6px;
+    padding: 10px 12px;
+  }
+
+  .cat-grid-3-item {
+    background: #f9fafb;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 8px 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    text-align: center;
+  }
+
+  .cat-grid-3-emoji {
+    font-size: 20px;
+    line-height: 1;
+  }
+
+  .cat-grid-3-text {
+    font-size: 9px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.2;
+  }
+
+  /* FLOATING FAB */
+  .floating-cart {
+    position: absolute;
+    bottom: 68px;
+    right: 14px;
+    width: 48px;
+    height: 48px;
+    background: var(--red);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 14px rgba(189,17,5,0.45);
+    z-index: 50;
+  }
+
+  .floating-cart svg {
+    width: 22px;
+    height: 22px;
+    stroke: #fff;
+    fill: none;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .floating-cart .badge {
+    top: -2px;
+    right: -2px;
+    width: 18px;
+    height: 18px;
+    font-size: 9px;
+  }
+
+  /* CENTRAL PILL NAV */
+  .nav-center-pill {
+    width: 56px;
+    height: 38px;
+    background: var(--red);
+    border-radius: 19px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    margin-bottom: 4px;
+    box-shadow: 0 4px 12px rgba(189,17,5,0.4);
+    position: relative;
+    top: -6px;
+  }
+
+  .nav-center-pill svg {
+    width: 18px;
+    height: 18px;
+    stroke: #fff !important;
+    fill: none;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .nav-center-pill .nav-label {
+    color: #fff !important;
+    font-size: 8px;
+  }
+
+  /* RECOMMENDATION TABLE */
+  .rec-section {
+    background: var(--card);
+    border-radius: 20px;
+    padding: 36px;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-md);
+    margin-bottom: 48px;
+  }
+
+  .rec-title {
+    font-size: 22px;
+    font-weight: 800;
+    margin-bottom: 6px;
+    letter-spacing: -0.3px;
+  }
+
+  .rec-subtitle {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 28px;
+  }
+
+  table.rec-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+
+  .rec-table th {
+    background: #f9fafb;
+    padding: 10px 14px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    border-bottom: 2px solid var(--border);
+  }
+
+  .rec-table th:first-child { border-radius: 8px 0 0 0; }
+  .rec-table th:last-child { border-radius: 0 8px 0 0; }
+
+  .rec-table td {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+    color: var(--text);
+    line-height: 1.4;
+  }
+
+  .rec-table tr:hover td {
+    background: #fafbfc;
+  }
+
+  .rec-table tr.recommended td {
+    background: #fef9f9;
+    font-weight: 500;
+  }
+
+  .rec-table tr.recommended td:first-child {
+    border-left: 3px solid var(--red);
+  }
+
+  .rec-star {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: var(--red);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 6px;
+    white-space: nowrap;
+  }
+
+  .score-dots {
+    display: flex;
+    gap: 3px;
+  }
+
+  .score-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--border);
+  }
+
+  .score-dot.filled {
+    background: var(--red);
+  }
+
+  .variant-name-cell {
+    font-weight: 700;
+    font-size: 14px;
+  }
+
+  .variant-tag-cell {
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  /* CONNECTOR LINE between phone and drawer */
+  .connector {
+    display: flex;
+    align-items: center;
+    color: var(--muted);
+    font-size: 12px;
+    padding-top: 60px;
+    flex-shrink: 0;
+  }
+
+  .conn-line {
+    width: 20px;
+    height: 2px;
+    background: linear-gradient(to right, #9ca3af, #d1d5db);
+    border-radius: 1px;
+  }
+
+  .conn-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--red);
+    flex-shrink: 0;
+  }
+
+  /* MINI PROMO BANNER */
+  .promo-banner {
+    background: linear-gradient(135deg, var(--red) 0%, #e02020 100%);
+    border-radius: 8px;
+    padding: 8px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+  }
+
+  .promo-text {
+    font-size: 10px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.3;
+  }
+
+  .promo-cta {
+    font-size: 9px;
+    font-weight: 700;
+    color: #fff;
+    background: rgba(255,255,255,0.25);
+    padding: 3px 8px;
+    border-radius: 5px;
+    white-space: nowrap;
+  }
+
+  /* Wishlist heart */
+  .nav-item svg.heart-active {
+    fill: var(--red);
+    stroke: var(--red);
+  }
+
+  /* AUTH CARD in drawer */
+  .auth-card {
+    margin: 12px;
+    background: linear-gradient(135deg, #fef2f2 0%, #fff 100%);
+    border: 1px solid #fecaca;
+    border-radius: 12px;
+    padding: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .auth-card-left {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .auth-card-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .auth-card-sub {
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  .auth-btn {
+    background: var(--red);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 6px 12px;
+    border-radius: 7px;
+    white-space: nowrap;
+  }
+
+  /* Quick links in menu */
+  .quick-links {
+    padding: 10px 14px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .quick-link {
+    background: #f3f4f6;
+    border-radius: 6px;
+    padding: 5px 10px;
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+
+  .quick-link:hover {
+    background: var(--border);
+    color: var(--text);
+  }
+
+  /* B2B row */
+  .b2b-row {
+    padding: 10px 14px;
+    display: flex;
+    gap: 8px;
+    border-top: 1px solid var(--border);
+  }
+
+  .b2b-link {
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 500;
+    padding: 4px 8px;
+    background: #f9fafb;
+    border-radius: 5px;
+    border: 1px solid var(--border);
+  }
+
+  /* Nav separator */
+  .nav-sep {
+    width: 1px;
+    height: 24px;
+    background: var(--border);
+  }
+
+  /* Drawer divider extras */
+  .drawer-extras {
+    padding: 8px 16px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .drawer-extra-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .drawer-extra-emoji {
+    font-size: 14px;
+  }
+
+  .drawer-extra-text {
+    font-size: 12px;
+    color: var(--red);
+    font-weight: 600;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    body { background: #18191c; }
+    .variant-section { background: #1e2025; border-color: #2d2f35; }
+    .rec-section { background: #1e2025; border-color: #2d2f35; }
+    .page-title, .variant-title, .rec-title { color: #f1f5f9; }
+    .page-subtitle, .variant-desc, .rec-subtitle { color: #9ca3af; }
+  }
+</style>
+</head>
+<body>
+
+<h1 class="page-title">Most <span>Computers</span> — Мобилна навигация</h1>
+<p class="page-subtitle">5 варианта · Agency-level mockups · Mobile UX Design System v4</p>
+
+<!-- ===================== ВАРИАНТ Е ===================== -->
+<div class="variant-section">
+  <div class="variant-header">
+    <div class="variant-label">ВАРИАНТ Е</div>
+    <div class="variant-title">Tab Bar Classic</div>
+    <div class="variant-desc">Apple HIG стандарт — App Store, Amazon, Booking.com · 5 равни таба + категориен drawer</div>
+  </div>
+
+  <div class="mockup-row">
+    <!-- PHONE -->
+    <div class="phone-frame">
+      <div class="phone-screen">
+        <!-- Status -->
+        <div class="status-bar">
+          <span class="status-time">9:41</span>
+          <div class="status-icons">
+            <!-- Signal -->
+            <svg viewBox="0 0 24 24"><rect x="2" y="17" width="3" height="5" rx="1"/><rect x="7" y="13" width="3" height="9" rx="1"/><rect x="12" y="9" width="3" height="13" rx="1"/><rect x="17" y="5" width="3" height="17" rx="1"/></svg>
+            <!-- WiFi -->
+            <svg viewBox="0 0 24 24"><path d="M1.5 8.5a16.5 16.5 0 0121 0M5 12a12 12 0 0114 0M8.5 15.5a7.5 7.5 0 017 0M12 19h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" style="stroke:#111827"/></svg>
+            <!-- Battery -->
+            <svg viewBox="0 0 24 24"><rect x="2" y="7" width="18" height="10" rx="2" stroke="currentColor" stroke-width="1.5" fill="none" style="stroke:#111827"/><rect x="20" y="10" width="2" height="4" rx="1" fill="#111827"/><rect x="3.5" y="8.5" width="13" height="7" rx="1.2" fill="#111827"/></svg>
+          </div>
+        </div>
+        <!-- Header -->
+        <div class="app-header">
+          <div class="app-logo"><span class="logo-red">Most</span><span class="logo-gray">Computers</span></div>
+          <div class="header-actions">
+            <div class="header-icon">
+              <svg viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+              <div class="badge">3</div>
+            </div>
+          </div>
+        </div>
+        <!-- Content -->
+        <div class="scroll-content">
+          <div class="promo-banner">
+            <div class="promo-text">Летни намаления<br>до -40%</div>
+            <div class="promo-cta">Виж всички</div>
+          </div>
+          <div class="cat-chips">
+            <div class="cat-chip active">💻 Лаптопи</div>
+            <div class="cat-chip">📱 Телефони</div>
+            <div class="cat-chip">🎮 Гейминг</div>
+          </div>
+          <div class="product-grid">
+            <div class="product-card">
+              <div class="product-img product-img-laptop">
+                <div class="product-badge-tag">-15%</div>
+                <svg viewBox="0 0 24 24" stroke="#93c5fd" fill="none" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M0 21h24"/></svg>
+              </div>
+              <div class="product-info">
+                <div class="product-name">Lenovo IdeaPad 3 15.6" FHD</div>
+                <div class="product-old">869.00 EUR</div>
+                <div class="product-price">739.00 EUR</div>
+                <div class="buy-btn">Купи</div>
+              </div>
+            </div>
+            <div class="product-card">
+              <div class="product-img product-img-phone">
+                <svg viewBox="0 0 24 24" stroke="#f9a8d4" fill="none" stroke-width="1.5"><rect x="5" y="2" width="14" height="20" rx="2"/><circle cx="12" cy="18" r="1" fill="#f9a8d4"/></svg>
+              </div>
+              <div class="product-info">
+                <div class="product-name">Samsung Galaxy A54 128GB</div>
+                <div class="product-price">429.00 EUR</div>
+                <div class="product-price-sub">~839 лв.</div>
+                <div class="buy-btn">Купи</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Bottom Nav -->
+        <div class="bottom-nav">
+          <div class="nav-item active">
+            <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            <span class="nav-label">Начало</span>
+          </div>
+          <div class="nav-item">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <span class="nav-label">Търсене</span>
+          </div>
+          <div class="nav-item">
+            <svg viewBox="0 0 24 24"><rect x="2" y="3" width="7" height="7"/><rect x="15" y="3" width="7" height="7"/><rect x="2" y="14" width="7" height="7"/><rect x="15" y="14" width="7" height="7"/></svg>
+            <span class="nav-label">Каталог</span>
+          </div>
+          <div class="nav-item" style="position:relative">
+            <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 001.95-1.57l1.65-7.43H6"/></svg>
+            <div class="nav-badge">3</div>
+            <span class="nav-label">Количка</span>
+          </div>
+          <div class="nav-item">
+            <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <span class="nav-label">Акаунт</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONNECTOR -->
+    <div class="connector">
+      <div class="conn-dot"></div>
+      <div class="conn-line"></div>
+    </div>
+
+    <!-- DRAWER -->
+    <div class="drawer-panel">
+      <div class="drawer-header">
+        <span class="drawer-title">Всички категории</span>
+        <div class="drawer-close">
+          <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </div>
+      </div>
+      <div class="drawer-item"><span class="drawer-item-emoji">💻</span><span class="drawer-item-text">Лаптопи</span><span class="drawer-item-count">1,240</span><svg class="drawer-chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+      <div class="drawer-item"><span class="drawer-item-emoji">📱</span><span class="drawer-item-text">Телефони</span><span class="drawer-item-count">890</span><svg class="drawer-chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+      <div class="drawer-item"><span class="drawer-item-emoji">🖥️</span><span class="drawer-item-text">Настолни компютри</span><span class="drawer-item-count">312</span><svg class="drawer-chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+      <div class="drawer-item"><span class="drawer-item-emoji">🖥️</span><span class="drawer-item-text">Монитори</span><span class="drawer-item-count">428</span><svg class="drawer-chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+      <div class="drawer-item"><span class="drawer-item-emoji">⚙️</span><span class="drawer-item-text">Компоненти</span><span class="drawer-item-count">2,150</span><svg class="drawer-chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+      <div class="drawer-item"><span class="drawer-item-emoji">🎮</span><span class="drawer-item-text">Гейминг</span><span class="drawer-item-count">680</span><svg class="drawer-chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+      <div class="drawer-item"><span class="drawer-item-emoji">🖱️</span><span class="drawer-item-text">Периферия</span><span class="drawer-item-count">945</span><svg class="drawer-chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+      <div class="drawer-item"><span class="drawer-item-emoji">🎧</span><span class="drawer-item-text">Аудио</span><span class="drawer-item-count">234</span><svg class="drawer-chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+      <div class="drawer-item"><span class="drawer-item-emoji">📡</span><span class="drawer-item-text">Мрежово оборудване</span><span class="drawer-item-count">156</span><svg class="drawer-chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+      <div class="drawer-item" style="border-bottom:none"><span class="drawer-item-emoji">💾</span><span class="drawer-item-text">Памет и Storage</span><span class="drawer-item-count">780</span><svg class="drawer-chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+    </div>
+  </div>
+
+  <div class="pros-cons">
+    <div class="pros-box">
+      <div class="pros-label">Предимства</div>
+      <ul>
+        <li>Познат Apple HIG стандарт — нулево обучение</li>
+        <li>Всеки таб прави едно нещо — максимална яснота</li>
+        <li>Акаунт и количка с 1 тап</li>
+        <li>Чист drawer без излишна сложност</li>
+        <li>Отлична достъпност — широки touch targets</li>
+      </ul>
+    </div>
+    <div class="cons-box">
+      <div class="cons-label">Недостатъци</div>
+      <ul>
+        <li>Каталогът изисква 2 тапвания до категория</li>
+        <li>5 таба е максималният брой — без резерв</li>
+        <li>Drawer отляво е по-малко естествен жест на iOS</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== ВАРИАНТ Ж ===================== -->
+<div class="variant-section">
+  <div class="variant-header">
+    <div class="variant-label">ВАРИАНТ Ж</div>
+    <div class="variant-title">Search Central</div>
+    <div class="variant-desc">Google Shopping pattern — централен pill бутон + bottom sheet за категории</div>
+  </div>
+
+  <div class="mockup-row">
+    <div class="phone-frame">
+      <div class="phone-screen">
+        <div class="status-bar">
+          <span class="status-time">9:41</span>
+          <div class="status-icons">
+            <svg viewBox="0 0 24 24"><rect x="2" y="17" width="3" height="5" rx="1"/><rect x="7" y="13" width="3" height="9" rx="1"/><rect x="12" y="9" width="3" height="13" rx="1"/><rect x="17" y="5" width="3" height="17" rx="1"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M1.5 8.5a16.5 16.5 0 0121 0M5 12a12 12 0 0114 0M8.5 15.5a7.5 7.5 0 017 0M12 19h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" style="stroke:#111827"/></svg>
+            <svg viewBox="0 0 24 24"><rect x="2" y="7" width="18" height="10" rx="2" stroke="currentColor" stroke-width="1.5" fill="none" style="stroke:#111827"/><rect x="20" y="10" width="2" height="4" rx="1" fill="#111827"/><rect x="3.5" y="8.5" width="13" height="7" rx="1.2" fill="#111827"/></svg>
+          </div>
+        </div>
+        <div class="app-header">
+          <div class="app-logo"><span class="logo-red">Most</span><span class="logo-gray">Computers</span></div>
+          <div class="header-actions">
+            <div class="header-icon">
+              <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="scroll-content">
+          <div class="content-search">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <span>Търсете продукти...</span>
+          </div>
+          <div class="cat-chips">
+            <div class="cat-chip active">🔥 Промоции</div>
+            <div class="cat-chip">💻 Лаптопи</div>
+            <div class="cat-chip">🎮 Гейминг</div>
+          </div>
+          <div class="product-grid">
+            <div class="product-card">
+              <div class="product-img product-img-monitor">
+                <div class="product-badge-tag">НОВО</div>
+                <svg viewBox="0 0 24 24" stroke="#34d399" fill="none" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+              </div>
+              <div class="product-info">
+                <div class="product-name">LG 27" 4K IPS 144Hz HDR</div>
+                <div class="product-old">649.00 EUR</div>
+                <div class="product-price">549.00 EUR</div>
+                <div class="buy-btn">Купи</div>
+              </div>
+            </div>
+            <div class="product-card">
+              <div class="product-img product-img-headphones">
+                <svg viewBox="0 0 24 24" stroke="#a78bfa" fill="none" stroke-width="1.5"><path d="M3 18v-6a9 9 0 0118 0v6"/><path d="M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3zM3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3z"/></svg>
+              </div>
+              <div class="product-info">
+                <div class="product-name">Sony WH-1000XM5 Wireless</div>
+                <div class="product-price">299.00 EUR</div>
+                <div class="product-price-sub">~585 лв.</div>
+                <div class="buy-btn">Купи</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Special bottom nav with central pill -->
+        <div class="bottom-nav" style="padding:0 8px; padding-bottom:2px;">
+          <div class="nav-item">
+            <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            <span class="nav-label">Начало</span>
+          </div>
+          <div class="nav-item active">
+            <svg viewBox="0 0 24 24"><rect x="2" y="3" width="7" height="7"/><rect x="15" y="3" width="7" height="7"/><rect x="2" y="14" width="7" height="7"/><rect x="15" y="14" width="7" height="7"/></svg>
+            <span class="nav-label">Каталог</span>
+          </div>
+          <!-- Central search pill -->
+          <div class="nav-item" style="flex:1.4">
+            <div class="nav-center-pill">
+              <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <span class="nav-label" style="color:#fff;font-size:8px">Търси</span>
+            </div>
+          </div>
+          <div class="nav-item" style="position:relative">
+            <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+            <span class="nav-label">Любими</span>
+          </div>
+          <div class="nav-item" style="position:relative">
+            <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 001.95-1.57l1.65-7.43H6"/></svg>
+            <div class="nav-badge">3</div>
+            <span class="nav-label">Количка</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="connector">
+      <div class="conn-dot"></div>
+      <div class="conn-line"></div>
+    </div>
+
+    <!-- BOTTOM SHEET -->
+    <div class="sheet-panel" style="width:280px">
+      <div class="sheet-handle"></div>
+      <div style="padding:10px 14px 6px;display:flex;align-items:center;justify-content:space-between">
+        <span style="font-size:15px;font-weight:700;color:var(--text)">Категории</span>
+        <div class="drawer-close"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
+      </div>
+      <div class="cat-grid">
+        <div class="cat-grid-item"><span class="cat-grid-emoji">💻</span><span class="cat-grid-text">Лаптопи</span></div>
+        <div class="cat-grid-item"><span class="cat-grid-emoji">📱</span><span class="cat-grid-text">Телефони</span></div>
+        <div class="cat-grid-item"><span class="cat-grid-emoji">🖥️</span><span class="cat-grid-text">Настолни</span></div>
+        <div class="cat-grid-item"><span class="cat-grid-emoji">🖥️</span><span class="cat-grid-text">Монитори</span></div>
+        <div class="cat-grid-item"><span class="cat-grid-emoji">⚙️</span><span class="cat-grid-text">Компоненти</span></div>
+        <div class="cat-grid-item"><span class="cat-grid-emoji">🎮</span><span class="cat-grid-text">Гейминг</span></div>
+        <div class="cat-grid-item"><span class="cat-grid-emoji">🖱️</span><span class="cat-grid-text">Периферия</span></div>
+        <div class="cat-grid-item"><span class="cat-grid-emoji">🎧</span><span class="cat-grid-text">Аудио</span></div>
+        <div class="cat-grid-item"><span class="cat-grid-emoji">📡</span><span class="cat-grid-text">Мрежово</span></div>
+        <div class="cat-grid-item"><span class="cat-grid-emoji">💾</span><span class="cat-grid-text">Памет</span></div>
+      </div>
+      <div style="padding:6px 14px 14px;border-top:1px solid var(--border);margin-top:4px">
+        <div style="display:flex;gap:8px;flex-wrap:wrap;padding-top:10px">
+          <span style="font-size:11px;background:#fef2f2;color:var(--red);padding:4px 10px;border-radius:20px;font-weight:600;border:1px solid #fecaca">🔥 Нови продукти</span>
+          <span style="font-size:11px;background:#f0fdf4;color:#16a34a;padding:4px 10px;border-radius:20px;font-weight:600;border:1px solid #bbf7d0">% Намаления</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pros-cons">
+    <div class="pros-box">
+      <div class="pros-label">Предимства</div>
+      <ul>
+        <li>Централен бутон насочва вниманието към търсенето</li>
+        <li>Bottom sheet = по-естествен жест на мобилен</li>
+        <li>Grid категории = по-бързо визуално сканиране</li>
+        <li>Известен Google Shopping pattern — висока разпознаваемост</li>
+        <li>Промоции видими директно в sheet</li>
+      </ul>
+    </div>
+    <div class="cons-box">
+      <div class="cons-label">Недостатъци</div>
+      <ul>
+        <li>Централният бутон нарушава симетрията на nav bar-а</li>
+        <li>По-малко стандартен за BG e-commerce аудитория</li>
+        <li>Акаунт е скрит — изисква допълнителен таб</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== ВАРИАНТ З ===================== -->
+<div class="variant-section">
+  <div class="variant-header">
+    <div class="variant-label">ВАРИАНТ З</div>
+    <div class="variant-title">Minimal 4-Tab</div>
+    <div class="variant-desc">Spotify / Instagram pattern — 4 широки таба + full-height Меню drawer с пълна навигация</div>
+  </div>
+
+  <div class="mockup-row">
+    <div class="phone-frame">
+      <div class="phone-screen">
+        <div class="status-bar">
+          <span class="status-time">9:41</span>
+          <div class="status-icons">
+            <svg viewBox="0 0 24 24"><rect x="2" y="17" width="3" height="5" rx="1"/><rect x="7" y="13" width="3" height="9" rx="1"/><rect x="12" y="9" width="3" height="13" rx="1"/><rect x="17" y="5" width="3" height="17" rx="1"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M1.5 8.5a16.5 16.5 0 0121 0M5 12a12 12 0 0114 0M8.5 15.5a7.5 7.5 0 017 0M12 19h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" style="stroke:#111827"/></svg>
+            <svg viewBox="0 0 24 24"><rect x="2" y="7" width="18" height="10" rx="2" stroke="currentColor" stroke-width="1.5" fill="none" style="stroke:#111827"/><rect x="20" y="10" width="2" height="4" rx="1" fill="#111827"/><rect x="3.5" y="8.5" width="13" height="7" rx="1.2" fill="#111827"/></svg>
+          </div>
+        </div>
+        <div class="app-header">
+          <div class="app-logo"><span class="logo-red">Most</span><span class="logo-gray">Computers</span></div>
+          <div class="header-actions">
+            <div class="header-icon">
+              <svg viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+              <div class="badge">3</div>
+            </div>
+          </div>
+        </div>
+        <div class="scroll-content">
+          <div class="promo-banner">
+            <div class="promo-text">🎮 Гейминг седмица<br>Топ оферти всеки ден</div>
+            <div class="promo-cta">Виж</div>
+          </div>
+          <div class="product-grid">
+            <div class="product-card">
+              <div class="product-img product-img-laptop">
+                <div class="product-badge-tag">-20%</div>
+                <svg viewBox="0 0 24 24" stroke="#93c5fd" fill="none" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M0 21h24"/></svg>
+              </div>
+              <div class="product-info">
+                <div class="product-name">ASUS ROG Strix G15 RTX 4060</div>
+                <div class="product-old">1299.00 EUR</div>
+                <div class="product-price">1039.00 EUR</div>
+                <div class="buy-btn">Купи</div>
+              </div>
+            </div>
+            <div class="product-card">
+              <div class="product-img product-img-phone">
+                <svg viewBox="0 0 24 24" stroke="#f9a8d4" fill="none" stroke-width="1.5"><rect x="5" y="2" width="14" height="20" rx="2"/><circle cx="12" cy="18" r="1" fill="#f9a8d4"/></svg>
+              </div>
+              <div class="product-info">
+                <div class="product-name">Xiaomi 14 Pro 512GB</div>
+                <div class="product-price">799.00 EUR</div>
+                <div class="product-price-sub">~1562 лв.</div>
+                <div class="buy-btn">Купи</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- 4-tab nav -->
+        <div class="bottom-nav">
+          <div class="nav-item active">
+            <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            <span class="nav-label">Начало</span>
+          </div>
+          <div class="nav-item">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <span class="nav-label">Търсене</span>
+          </div>
+          <div class="nav-item" style="position:relative">
+            <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 001.95-1.57l1.65-7.43H6"/></svg>
+            <div class="nav-badge">3</div>
+            <span class="nav-label">Количка</span>
+          </div>
+          <div class="nav-item">
+            <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+            <span class="nav-label">Меню</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="connector">
+      <div class="conn-dot"></div>
+      <div class="conn-line"></div>
+    </div>
+
+    <!-- FULL MENU DRAWER -->
+    <div class="drawer-panel" style="width:250px">
+      <!-- Auth card -->
+      <div class="auth-card">
+        <div class="auth-card-left">
+          <div class="auth-card-title">Вход / Регистрация</div>
+          <div class="auth-card-sub">Персонализирани оферти</div>
+        </div>
+        <div class="auth-btn">Влез</div>
+      </div>
+
+      <div class="drawer-section-label">МАГАЗИН</div>
+      <div class="drawer-item"><span class="drawer-item-emoji">💻</span><span class="drawer-item-text">Лаптопи</span><svg class="drawer-chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+      <div class="drawer-item"><span class="drawer-item-emoji">📱</span><span class="drawer-item-text">Телефони</span><svg class="drawer-chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+      <div class="drawer-item"><span class="drawer-item-emoji">🖥️</span><span class="drawer-item-text">Настолни</span><svg class="drawer-chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+      <div class="drawer-item"><span class="drawer-item-emoji">🎮</span><span class="drawer-item-text">Гейминг</span><svg class="drawer-chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+      <div class="drawer-item"><span class="drawer-item-emoji">⚙️</span><span class="drawer-item-text">Компоненти</span><svg class="drawer-chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+      <div class="drawer-item"><span class="drawer-item-emoji">🖱️</span><span class="drawer-item-text">Периферия</span><svg class="drawer-chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+      <div class="drawer-item"><span class="drawer-item-emoji">🎧</span><span class="drawer-item-text">Аудио</span><svg class="drawer-chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+      <div class="drawer-item"><span class="drawer-item-emoji">📡</span><span class="drawer-item-text">Мрежово</span><svg class="drawer-chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+      <div class="drawer-item"><span class="drawer-item-emoji">💾</span><span class="drawer-item-text">Памет и Storage</span><svg class="drawer-chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+      <div class="drawer-item"><span class="drawer-item-emoji">🖥️</span><span class="drawer-item-text">Монитори</span><svg class="drawer-chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+
+      <div class="drawer-section-label">КОМПАНИЯ</div>
+      <div class="quick-links">
+        <span class="quick-link">За нас</span>
+        <span class="quick-link">Блог</span>
+        <span class="quick-link">Доставка</span>
+        <span class="quick-link">Контакти</span>
+        <span class="quick-link">Сервиз</span>
+      </div>
+      <div class="b2b-row">
+        <span class="b2b-link">B2B портал</span>
+        <span class="b2b-link">Кариери</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="pros-cons">
+    <div class="pros-box">
+      <div class="pros-label">Предимства</div>
+      <ul>
+        <li>4 таба = по-широки touch targets, по-лесно докосване</li>
+        <li>Меню drawer е изчерпателен — всичко на едно място</li>
+        <li>Акаунт/вход е prominently показан в Меню</li>
+        <li>Секциите организират информацията ясно</li>
+        <li>Позна Spotify/Instagram UX — висока приемствеността</li>
+      </ul>
+    </div>
+    <div class="cons-box">
+      <div class="cons-label">Недостатъци</div>
+      <ul>
+        <li>До категориите отнема 2 тапвания (Меню + категория)</li>
+        <li>Drawer е дълъг — изисква скролиране за да видиш всичко</li>
+        <li>Без пряк достъп до Любими в nav bar-а</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== ВАРИАНТ И ===================== -->
+<div class="variant-section">
+  <div class="variant-header">
+    <div class="variant-label">ВАРИАНТ И</div>
+    <div class="variant-title">Floating Cart</div>
+    <div class="variant-desc">Shopify / ASOS pattern — 4-таб nav + плаващ FAB бутон за количката</div>
+  </div>
+
+  <div class="mockup-row">
+    <div class="phone-frame">
+      <div class="phone-screen">
+        <div class="status-bar">
+          <span class="status-time">9:41</span>
+          <div class="status-icons">
+            <svg viewBox="0 0 24 24"><rect x="2" y="17" width="3" height="5" rx="1"/><rect x="7" y="13" width="3" height="9" rx="1"/><rect x="12" y="9" width="3" height="13" rx="1"/><rect x="17" y="5" width="3" height="17" rx="1"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M1.5 8.5a16.5 16.5 0 0121 0M5 12a12 12 0 0114 0M8.5 15.5a7.5 7.5 0 017 0M12 19h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" style="stroke:#111827"/></svg>
+            <svg viewBox="0 0 24 24"><rect x="2" y="7" width="18" height="10" rx="2" stroke="currentColor" stroke-width="1.5" fill="none" style="stroke:#111827"/><rect x="20" y="10" width="2" height="4" rx="1" fill="#111827"/><rect x="3.5" y="8.5" width="13" height="7" rx="1.2" fill="#111827"/></svg>
+          </div>
+        </div>
+        <div class="app-header">
+          <div class="app-logo"><span class="logo-red">Most</span><span class="logo-gray">Computers</span></div>
+          <div class="header-actions">
+            <div class="header-icon">
+              <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="scroll-content">
+          <div class="content-search">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <span>Търсете продукти...</span>
+          </div>
+          <div class="product-grid">
+            <div class="product-card">
+              <div class="product-img product-img-laptop">
+                <div class="product-badge-tag">ХИТ</div>
+                <svg viewBox="0 0 24 24" stroke="#93c5fd" fill="none" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M0 21h24"/></svg>
+              </div>
+              <div class="product-info">
+                <div class="product-name">HP Pavilion 15 i5-1335U 16GB</div>
+                <div class="product-price">699.00 EUR</div>
+                <div class="product-price-sub">~1367 лв.</div>
+                <div class="buy-btn">Купи</div>
+              </div>
+            </div>
+            <div class="product-card">
+              <div class="product-img product-img-headphones">
+                <svg viewBox="0 0 24 24" stroke="#a78bfa" fill="none" stroke-width="1.5"><path d="M3 18v-6a9 9 0 0118 0v6"/><path d="M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3zM3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3z"/></svg>
+              </div>
+              <div class="product-info">
+                <div class="product-name">Logitech G Pro X Superlight 2</div>
+                <div class="product-old">159.00 EUR</div>
+                <div class="product-price">129.00 EUR</div>
+                <div class="buy-btn">Купи</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Floating cart FAB -->
+        <div class="floating-cart">
+          <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 001.95-1.57l1.65-7.43H6"/></svg>
+          <div class="badge">3</div>
+        </div>
+        <!-- 4-tab nav (no cart) -->
+        <div class="bottom-nav">
+          <div class="nav-item active">
+            <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            <span class="nav-label">Начало</span>
+          </div>
+          <div class="nav-item">
+            <svg viewBox="0 0 24 24"><rect x="2" y="3" width="7" height="7"/><rect x="15" y="3" width="7" height="7"/><rect x="2" y="14" width="7" height="7"/><rect x="15" y="14" width="7" height="7"/></svg>
+            <span class="nav-label">Каталог</span>
+          </div>
+          <div class="nav-item">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <span class="nav-label">Търсене</span>
+          </div>
+          <div class="nav-item">
+            <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <span class="nav-label">Профил</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="connector">
+      <div class="conn-dot"></div>
+      <div class="conn-line"></div>
+    </div>
+
+    <!-- CATALOG DRAWER -->
+    <div class="drawer-panel">
+      <div class="drawer-header">
+        <div>
+          <span class="drawer-title">Категории</span>
+          <div style="font-size:11px;color:var(--muted);margin-top:2px">7,815 продукта</div>
+        </div>
+        <div class="drawer-close">
+          <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </div>
+      </div>
+      <div class="drawer-item"><span class="drawer-item-emoji">💻</span><span class="drawer-item-text">Лаптопи</span><span class="drawer-item-count">1,240</span><svg class="drawer-chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+      <div class="drawer-item"><span class="drawer-item-emoji">📱</span><span class="drawer-item-text">Телефони</span><span class="drawer-item-count">890</span><svg class="drawer-chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+      <div class="drawer-item"><span class="drawer-item-emoji">🖥️</span><span class="drawer-item-text">Настолни компютри</span><span class="drawer-item-count">312</span><svg class="drawer-chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+      <div class="drawer-item"><span class="drawer-item-emoji">🖥️</span><span class="drawer-item-text">Монитори</span><span class="drawer-item-count">428</span><svg class="drawer-chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+      <div class="drawer-item"><span class="drawer-item-emoji">⚙️</span><span class="drawer-item-text">Компоненти</span><span class="drawer-item-count">2,150</span><svg class="drawer-chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+      <div class="drawer-item"><span class="drawer-item-emoji">🎮</span><span class="drawer-item-text">Гейминг</span><span class="drawer-item-count">680</span><svg class="drawer-chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+      <div class="drawer-item"><span class="drawer-item-emoji">🖱️</span><span class="drawer-item-text">Периферия</span><span class="drawer-item-count">945</span><svg class="drawer-chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+      <div class="drawer-item"><span class="drawer-item-emoji">🎧</span><span class="drawer-item-text">Аудио</span><span class="drawer-item-count">234</span><svg class="drawer-chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+      <div class="drawer-item"><span class="drawer-item-emoji">📡</span><span class="drawer-item-text">Мрежово</span><span class="drawer-item-count">156</span><svg class="drawer-chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+      <div class="drawer-item" style="border-bottom:none"><span class="drawer-item-emoji">💾</span><span class="drawer-item-text">Памет и Storage</span><span class="drawer-item-count">780</span><svg class="drawer-chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+      <div class="drawer-extras">
+        <div class="drawer-extra-item"><span class="drawer-extra-emoji">🔥</span><span class="drawer-extra-text">Нови продукти</span></div>
+        <div class="drawer-extra-item"><span class="drawer-extra-emoji">%</span><span class="drawer-extra-text">Намаления и разпродажби</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pros-cons">
+    <div class="pros-box">
+      <div class="pros-label">Предимства</div>
+      <ul>
+        <li>Количката е винаги видима и достъпна с 1 тап</li>
+        <li>Чист nav bar без претрупване от 5 елемента</li>
+        <li>FAB пулсира при добавяне — отлична visual feedback</li>
+        <li>Висока конверсия — моделът е проверен от Shopify</li>
+        <li>Бройките в drawer добавят credibility</li>
+      </ul>
+    </div>
+    <div class="cons-box">
+      <div class="cons-label">Недостатъци</div>
+      <ul>
+        <li>FAB може да покрие съдържание при скролиране</li>
+        <li>По-малко познат pattern за BG потребители</li>
+        <li>Любими не са в nav bar — по-трудно достъпни</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== ВАРИАНТ К ===================== -->
+<div class="variant-section">
+  <div class="variant-header">
+    <div class="variant-label">ВАРИАНТ К</div>
+    <div class="variant-title">Progressive Disclosure</div>
+    <div class="variant-desc">Airbnb / Uber super-app pattern — 5-таб nav + bottom sheet Меню с 3-колонен категориен grid</div>
+  </div>
+
+  <div class="mockup-row">
+    <div class="phone-frame">
+      <div class="phone-screen">
+        <div class="status-bar">
+          <span class="status-time">9:41</span>
+          <div class="status-icons">
+            <svg viewBox="0 0 24 24"><rect x="2" y="17" width="3" height="5" rx="1"/><rect x="7" y="13" width="3" height="9" rx="1"/><rect x="12" y="9" width="3" height="13" rx="1"/><rect x="17" y="5" width="3" height="17" rx="1"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M1.5 8.5a16.5 16.5 0 0121 0M5 12a12 12 0 0114 0M8.5 15.5a7.5 7.5 0 017 0M12 19h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" style="stroke:#111827"/></svg>
+            <svg viewBox="0 0 24 24"><rect x="2" y="7" width="18" height="10" rx="2" stroke="currentColor" stroke-width="1.5" fill="none" style="stroke:#111827"/><rect x="20" y="10" width="2" height="4" rx="1" fill="#111827"/><rect x="3.5" y="8.5" width="13" height="7" rx="1.2" fill="#111827"/></svg>
+          </div>
+        </div>
+        <div class="app-header">
+          <div class="app-logo"><span class="logo-red">Most</span><span class="logo-gray">Computers</span></div>
+          <div class="header-actions">
+            <div class="header-icon">
+              <svg viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+              <div class="badge">2</div>
+            </div>
+          </div>
+        </div>
+        <div class="scroll-content">
+          <div class="content-search">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <span>Търсете продукти...</span>
+          </div>
+          <div class="product-grid">
+            <div class="product-card">
+              <div class="product-img product-img-monitor">
+                <div class="product-badge-tag">-25%</div>
+                <svg viewBox="0 0 24 24" stroke="#34d399" fill="none" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+              </div>
+              <div class="product-info">
+                <div class="product-name">Samsung Odyssey G5 27" QHD</div>
+                <div class="product-old">399.00 EUR</div>
+                <div class="product-price">299.00 EUR</div>
+                <div class="buy-btn">Купи</div>
+              </div>
+            </div>
+            <div class="product-card">
+              <div class="product-img product-img-laptop">
+                <svg viewBox="0 0 24 24" stroke="#93c5fd" fill="none" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M0 21h24"/></svg>
+              </div>
+              <div class="product-info">
+                <div class="product-name">Acer Aspire 5 i7-1255U 16GB</div>
+                <div class="product-price">849.00 EUR</div>
+                <div class="product-price-sub">~1660 лв.</div>
+                <div class="buy-btn">Купи</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- 5-tab nav -->
+        <div class="bottom-nav">
+          <div class="nav-item active">
+            <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            <span class="nav-label">Начало</span>
+          </div>
+          <div class="nav-item">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <span class="nav-label">Търсене</span>
+          </div>
+          <div class="nav-item" style="position:relative">
+            <svg viewBox="0 0 24 24" style="stroke:var(--red)"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 001.95-1.57l1.65-7.43H6"/></svg>
+            <div class="nav-badge">2</div>
+            <span class="nav-label" style="color:var(--red)">Количка</span>
+          </div>
+          <div class="nav-item">
+            <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+            <span class="nav-label">Любими</span>
+          </div>
+          <div class="nav-item">
+            <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+            <span class="nav-label">Меню</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="connector">
+      <div class="conn-dot"></div>
+      <div class="conn-line"></div>
+    </div>
+
+    <!-- BOTTOM SHEET MENU -->
+    <div class="sheet-panel" style="width:280px">
+      <div class="sheet-handle"></div>
+
+      <!-- Auth card -->
+      <div style="padding:12px 12px 8px">
+        <div style="background:linear-gradient(135deg,#fef2f2,#fff);border:1px solid #fecaca;border-radius:12px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px">
+          <div>
+            <div style="font-size:13px;font-weight:700;color:var(--text)">Вход / Регистрация</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:2px">Персонализирани оферти и история</div>
+          </div>
+          <div style="color:#fff;background:var(--red);padding:6px 12px;border-radius:7px;font-size:11px;font-weight:700;white-space:nowrap">Влез →</div>
+        </div>
+      </div>
+
+      <!-- Section: Категории -->
+      <div style="padding:4px 12px 2px;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted)">КАТЕГОРИИ</div>
+
+      <div class="cat-grid-3">
+        <div class="cat-grid-3-item"><span class="cat-grid-3-emoji">💻</span><span class="cat-grid-3-text">Лаптопи</span></div>
+        <div class="cat-grid-3-item"><span class="cat-grid-3-emoji">📱</span><span class="cat-grid-3-text">Телефони</span></div>
+        <div class="cat-grid-3-item"><span class="cat-grid-3-emoji">🖥️</span><span class="cat-grid-3-text">Настолни</span></div>
+        <div class="cat-grid-3-item"><span class="cat-grid-3-emoji">🖥️</span><span class="cat-grid-3-text">Монитори</span></div>
+        <div class="cat-grid-3-item"><span class="cat-grid-3-emoji">⚙️</span><span class="cat-grid-3-text">Компоненти</span></div>
+        <div class="cat-grid-3-item"><span class="cat-grid-3-emoji">🎮</span><span class="cat-grid-3-text">Гейминг</span></div>
+        <div class="cat-grid-3-item"><span class="cat-grid-3-emoji">🖱️</span><span class="cat-grid-3-text">Периферия</span></div>
+        <div class="cat-grid-3-item"><span class="cat-grid-3-emoji">🎧</span><span class="cat-grid-3-text">Аудио</span></div>
+        <div class="cat-grid-3-item"><span class="cat-grid-3-emoji">📡</span><span class="cat-grid-3-text">Мрежово</span></div>
+        <div class="cat-grid-3-item"><span class="cat-grid-3-emoji">💾</span><span class="cat-grid-3-text">Памет</span></div>
+      </div>
+
+      <!-- Section: Бързи линкове -->
+      <div style="padding:8px 12px 2px;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);border-top:1px solid var(--border);margin-top:6px">БЪРЗИ ЛИНКОВЕ</div>
+      <div style="padding:8px 12px 14px;display:flex;flex-wrap:wrap;gap:6px">
+        <span class="quick-link">За нас</span>
+        <span class="quick-link">Блог</span>
+        <span class="quick-link">Доставка</span>
+        <span class="quick-link">Контакти</span>
+        <span class="quick-link">Сервиз</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="pros-cons">
+    <div class="pros-box">
+      <div class="pros-label">Предимства</div>
+      <ul>
+        <li>Bottom sheet = най-естествен мобилен жест</li>
+        <li>3-колонен grid = по-бързо визуално сканиране на категории</li>
+        <li>Количка и Любими директно в nav bar-а</li>
+        <li>Auth card е prominently показана на топ позиция</li>
+        <li>Всичко достъпно с 2 тапвания максимум</li>
+      </ul>
+    </div>
+    <div class="cons-box">
+      <div class="cons-label">Недостатъци</div>
+      <ul>
+        <li>5 таба = по-тесни touch targets</li>
+        <li>Меню таб е по-абстрактен от "Каталог"</li>
+        <li>Sheet изисква по-внимателен drag gesture</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== ПРЕПОРЪКА ===================== -->
+<div class="rec-section">
+  <div class="rec-title">Препоръка и сравнение</div>
+  <div class="rec-subtitle">Оценка на всички 5 варианта по ключови UX метрики — Most Computers e-commerce контекст</div>
+
+  <table class="rec-table">
+    <thead>
+      <tr>
+        <th>Вариант</th>
+        <th>Интуитивност</th>
+        <th>Достъп до категории</th>
+        <th>Тапвания до продукт</th>
+        <th>Подходящ за</th>
+        <th>Сложност</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="recommended">
+        <td>
+          <div class="variant-name-cell">Е — Tab Bar Classic</div>
+          <div class="variant-tag-cell">Apple HIG · 5 таба</div>
+          <div style="margin-top:6px"><span class="rec-star">ПРЕПОРЪЧАН</span></div>
+        </td>
+        <td>
+          <div class="score-dots">
+            <div class="score-dot filled"></div><div class="score-dot filled"></div><div class="score-dot filled"></div><div class="score-dot filled"></div><div class="score-dot filled"></div>
+          </div>
+          <div style="font-size:11px;color:var(--muted);margin-top:4px">Максимална</div>
+        </td>
+        <td>
+          <div class="score-dots">
+            <div class="score-dot filled"></div><div class="score-dot filled"></div><div class="score-dot filled"></div><div class="score-dot filled"></div><div class="score-dot"></div>
+          </div>
+          <div style="font-size:11px;color:var(--muted);margin-top:4px">2 тапвания</div>
+        </td>
+        <td style="font-size:13px;font-weight:700;color:var(--text)">3 тапвания</td>
+        <td style="font-size:12px">Широка аудитория, нови потребители, iOS/Android</td>
+        <td><span style="background:#d1fae5;color:#065f46;padding:3px 8px;border-radius:5px;font-size:11px;font-weight:600">Ниска</span></td>
+      </tr>
+      <tr>
+        <td>
+          <div class="variant-name-cell">Ж — Search Central</div>
+          <div class="variant-tag-cell">Google Shopping · Централен pill</div>
+        </td>
+        <td>
+          <div class="score-dots">
+            <div class="score-dot filled"></div><div class="score-dot filled"></div><div class="score-dot filled"></div><div class="score-dot filled"></div><div class="score-dot"></div>
+          </div>
+          <div style="font-size:11px;color:var(--muted);margin-top:4px">Висока</div>
+        </td>
+        <td>
+          <div class="score-dots">
+            <div class="score-dot filled"></div><div class="score-dot filled"></div><div class="score-dot filled"></div><div class="score-dot filled"></div><div class="score-dot filled"></div>
+          </div>
+          <div style="font-size:11px;color:var(--muted);margin-top:4px">Bottom sheet (бързо)</div>
+        </td>
+        <td style="font-size:13px;font-weight:700;color:var(--text)">2-3 тапвания</td>
+        <td style="font-size:12px">Потребители фокусирани върху търсене, exploration</td>
+        <td><span style="background:#fef3c7;color:#92400e;padding:3px 8px;border-radius:5px;font-size:11px;font-weight:600">Средна</span></td>
+      </tr>
+      <tr>
+        <td>
+          <div class="variant-name-cell">З — Minimal 4-Tab</div>
+          <div class="variant-tag-cell">Spotify / Instagram · 4 таба</div>
+        </td>
+        <td>
+          <div class="score-dots">
+            <div class="score-dot filled"></div><div class="score-dot filled"></div><div class="score-dot filled"></div><div class="score-dot filled"></div><div class="score-dot"></div>
+          </div>
+          <div style="font-size:11px;color:var(--muted);margin-top:4px">Висока</div>
+        </td>
+        <td>
+          <div class="score-dots">
+            <div class="score-dot filled"></div><div class="score-dot filled"></div><div class="score-dot filled"></div><div class="score-dot"></div><div class="score-dot"></div>
+          </div>
+          <div style="font-size:11px;color:var(--muted);margin-top:4px">3 тапвания</div>
+        </td>
+        <td style="font-size:13px;font-weight:700;color:var(--text)">4 тапвания</td>
+        <td style="font-size:12px">Потребители, разглеждащи много категории</td>
+        <td><span style="background:#d1fae5;color:#065f46;padding:3px 8px;border-radius:5px;font-size:11px;font-weight:600">Ниска</span></td>
+      </tr>
+      <tr>
+        <td>
+          <div class="variant-name-cell">И — Floating Cart</div>
+          <div class="variant-tag-cell">Shopify / ASOS · FAB бутон</div>
+        </td>
+        <td>
+          <div class="score-dots">
+            <div class="score-dot filled"></div><div class="score-dot filled"></div><div class="score-dot filled"></div><div class="score-dot"></div><div class="score-dot"></div>
+          </div>
+          <div style="font-size:11px;color:var(--muted);margin-top:4px">Средна</div>
+        </td>
+        <td>
+          <div class="score-dots">
+            <div class="score-dot filled"></div><div class="score-dot filled"></div><div class="score-dot filled"></div><div class="score-dot filled"></div><div class="score-dot"></div>
+          </div>
+          <div style="font-size:11px;color:var(--muted);margin-top:4px">2 тапвания</div>
+        </td>
+        <td style="font-size:13px;font-weight:700;color:var(--text)">3 тапвания</td>
+        <td style="font-size:12px">Conversion-focused, потребители с висок intent</td>
+        <td><span style="background:#fef3c7;color:#92400e;padding:3px 8px;border-radius:5px;font-size:11px;font-weight:600">Средна</span></td>
+      </tr>
+      <tr class="recommended">
+        <td>
+          <div class="variant-name-cell">К — Progressive Disclosure</div>
+          <div class="variant-tag-cell">Airbnb / Uber · Bottom sheet</div>
+          <div style="margin-top:6px"><span class="rec-star">ПРЕПОРЪЧАН</span></div>
+        </td>
+        <td>
+          <div class="score-dots">
+            <div class="score-dot filled"></div><div class="score-dot filled"></div><div class="score-dot filled"></div><div class="score-dot filled"></div><div class="score-dot"></div>
+          </div>
+          <div style="font-size:11px;color:var(--muted);margin-top:4px">Висока</div>
+        </td>
+        <td>
+          <div class="score-dots">
+            <div class="score-dot filled"></div><div class="score-dot filled"></div><div class="score-dot filled"></div><div class="score-dot filled"></div><div class="score-dot filled"></div>
+          </div>
+          <div style="font-size:11px;color:var(--muted);margin-top:4px">2 тапвания + grid</div>
+        </td>
+        <td style="font-size:13px;font-weight:700;color:var(--text)">3 тапвания</td>
+        <td style="font-size:12px">Tech-savvy потребители, returning customers</td>
+        <td><span style="background:#fef3c7;color:#92400e;padding:3px 8px;border-radius:5px;font-size:11px;font-weight:600">Средна</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div style="margin-top:28px;padding:20px;background:#f9fafb;border-radius:12px;border:1px solid var(--border)">
+    <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:8px">Крайна препоръка</div>
+    <p style="font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:10px">
+      <strong style="color:var(--text)">Вариант Е (Tab Bar Classic)</strong> е безопасният избор — максимална разпознаваемост, нулево обучение и перфектна достъпност за всяка демографска група. Подходящ за старт.
+    </p>
+    <p style="font-size:13px;color:var(--muted);line-height:1.6">
+      <strong style="color:var(--text)">Вариант К (Progressive Disclosure)</strong> е по-амбициозният избор — bottom sheet жестовете са бъдещето на мобилния UX, категорийният grid е по-бърз за сканиране, а количката и любимите са директно достъпни. Препоръчан при цел за по-висок engagement и конверсия сред tech-savvy аудитория.
+    </p>
+  </div>
+</div>
+
+</body>
+</html>

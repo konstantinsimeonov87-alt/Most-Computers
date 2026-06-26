@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Design F — Нови цветове</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:-apple-system,'SF Pro Display','Segoe UI',sans-serif; background:#e8e8e8; }
+
+.page { padding:40px 36px; }
+h1 { font-size:26px; font-weight:900; color:#111; margin-bottom:6px; }
+.subtitle { color:#888; font-size:14px; margin-bottom:36px; }
+
+.tabs { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:40px; }
+.tab { padding:10px 22px; border-radius:24px; border:2px solid #ddd; background:#fff; cursor:pointer; font-size:13px; font-weight:700; color:#666; transition:all .2s; }
+.tab.active { background:#1a1a1a; border-color:#1a1a1a; color:#fff; }
+
+.showcase { display:flex; gap:56px; flex-wrap:wrap; justify-content:flex-start; align-items:flex-start; }
+
+.phone-wrap { text-align:center; }
+.vlabel { font-size:10px; font-weight:800; color:#888; text-transform:uppercase; letter-spacing:1.2px; margin-bottom:16px; }
+
+/* Phone shell */
+.phone {
+  width:375px; height:812px; background:#fff; border-radius:52px;
+  box-shadow: 0 0 0 2px #e0e0e0, 0 0 0 11px #ccc, 0 0 0 13px #bbb,
+              0 40px 100px rgba(0,0,0,.22);
+  overflow:hidden; position:relative; display:inline-block;
+}
+.phone::before {
+  content:''; position:absolute; top:0; left:50%; transform:translateX(-50%);
+  width:130px; height:36px; background:#1a1a1a; border-radius:0 0 22px 22px; z-index:100;
+}
+
+/* Status */
+.sb { height:56px; display:flex; align-items:flex-end; padding:0 28px 10px;
+      justify-content:space-between; }
+.sb-t { font-size:15px; font-weight:800; }
+.sb-r { font-size:11px; font-weight:700; }
+
+/* ── TWO-ROW HEADER ── */
+.hdr {
+  border-bottom:1px solid #f0f0f0;
+}
+.hdr-row1 {
+  height:52px; display:flex; align-items:center; padding:0 18px;
+  position:relative; justify-content:center;
+}
+.logo { font-weight:900; font-size:17px; text-align:center; }
+.logo em { color:#bd1105; font-style:normal; }
+.hdr-icons { display:flex; align-items:center; gap:14px; position:absolute; right:18px; }
+.cart-wrap { position:relative; }
+.cart-badge {
+  position:absolute; top:-4px; right:-4px; width:16px; height:16px;
+  background:#bd1105; border-radius:50%; font-size:9px; font-weight:800;
+  color:#fff; display:flex; align-items:center; justify-content:center;
+}
+.hdr-row2 { padding:0 14px 12px; }
+.search-bar {
+  width:100%; height:40px; border-radius:20px;
+  display:flex; align-items:center; padding:0 16px; gap:10px;
+  font-size:13px; color:#aaa; border:none;
+}
+
+/* Content area */
+.content { height:562px; overflow-y:auto; }
+
+/* Bottom nav */
+.bnav {
+  position:absolute; bottom:0; left:0; right:0; height:84px;
+  border-top:1px solid #f0f0f0; display:flex; align-items:flex-start;
+  padding-top:10px;
+}
+.bn { flex:1; display:flex; flex-direction:column; align-items:center; gap:3px; }
+.bn svg { width:22px; height:22px; }
+.bn span { font-size:10px; font-weight:600; }
+.bn.on svg, .bn.on span { color:#bd1105; }
+.bn:not(.on) svg, .bn:not(.on) span { color:#c0c0c0; }
+
+/* Category grid */
+.cat-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; padding:14px; }
+.cat { border-radius:18px; height:130px; position:relative; overflow:hidden; cursor:pointer; }
+.cat-inner { width:100%; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; }
+.cat-icon { width:48px; height:48px; }
+.cat-name { font-size:13px; font-weight:800; }
+.cat-cnt  { font-size:10px; opacity:.7; }
+.cat-pin  { position:absolute; top:9px; right:9px; font-size:9px; font-weight:800; padding:3px 8px; border-radius:10px; }
+
+.info-block { margin:0 14px 14px; border-radius:16px; padding:14px 16px; }
+.info-title { font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:.7px; margin-bottom:9px; }
+.info-pills { display:flex; flex-wrap:nowrap; gap:5px; }
+.info-pill { flex:1; text-align:center; font-size:10px; padding:5px 4px; white-space:nowrap; border-radius:18px; }
+
+/* Sale banner */
+.sale { margin:14px 14px 0; border-radius:16px; padding:16px 18px; display:flex; justify-content:space-between; align-items:center; }
+.sale-left .s-tag   { font-size:9px; text-transform:uppercase; letter-spacing:1px; font-weight:700; }
+.sale-left .s-title { font-size:18px; font-weight:900; margin-top:4px; }
+.sale-left .s-sub   { font-size:11px; margin-top:3px; }
+.sale-btn { border-radius:20px; padding:9px 16px; font-size:12px; font-weight:800; flex-shrink:0; }
+
+.design { display:none; }
+.design.active { display:block; }
+
+/* ══ VERDICT ══ */
+.verdict { margin-top:18px; max-width:375px; background:#fff; border-radius:14px; padding:14px 16px; text-align:left; border:1px solid #e5e7eb; }
+.vt { font-size:10px; font-weight:800; color:#111; text-transform:uppercase; letter-spacing:.5px; margin-bottom:8px; }
+.verdict ul { font-size:12px; padding-left:14px; line-height:2.2; }
+.pro { color:#15803d; }
+.con { color:#bd1105; }
+.note { color:#7c3aed; }
+
+/* ════════════════════════
+   A — DEEP TECH (тъмни наситени, бял текст)
+   Карти: тъмносини, зелени, бордо, лилави
+   Страница: #f8f9fa бял
+════════════════════════ */
+.a-page  { background:#f8f9fa; }
+.a-sb    { background:#fff; }
+.a-sb .sb-t, .a-sb .sb-r { color:#111; }
+.a-hdr   { background:#fff; }
+.a-logo  { color:#1a1a1a; }
+.a-search{ background:#f0f2f5; }
+.a-bnav  { background:#fff; }
+
+.a-sale  { background:linear-gradient(135deg,#bd1105,#7f0d04); }
+.a-sale .s-tag,.a-sale .s-title,.a-sale .s-sub { color:#fff; }
+.a-sale .sale-btn { background:rgba(255,255,255,.15); color:#fff; border:1px solid rgba(255,255,255,.25); }
+
+/* Deep tech cat colors */
+.a-lap  { background:linear-gradient(145deg,#1e3a8a,#1d4ed8); }
+.a-pho  { background:linear-gradient(145deg,#1e293b,#334155); }
+.a-des  { background:linear-gradient(145deg,#14532d,#166534); }
+.a-cpu  { background:linear-gradient(145deg,#7f1d1d,#991b1b); }
+.a-mon  { background:linear-gradient(145deg,#312e81,#3730a3); }
+.a-per  { background:linear-gradient(145deg,#064e3b,#065f46); }
+.a-aud  { background:linear-gradient(145deg,#581c87,#6b21a8); }
+.a-cam  { background:linear-gradient(145deg,#78350f,#92400e); }
+
+.a-cat .cat-icon { color:rgba(255,255,255,.95); filter:drop-shadow(0 2px 10px rgba(0,0,0,.3)); }
+.a-cat .cat-name { color:#fff; }
+.a-cat .cat-cnt  { color:rgba(255,255,255,.65); }
+.a-cat .cat-pin.discount { background:rgba(255,255,255,.15); color:#fff; border:1px solid rgba(255,255,255,.25); }
+.a-cat .cat-pin.new-tag { background:#fff; color:#1d4ed8; }
+
+.a-info { background:#fff; }
+.a-info .info-title { color:#9ca3af; }
+.a-info .info-pill  { background:#f3f4f6; color:#6b7280; }
+
+/* ════════════════════════
+   B — NEON OUTLINE (бели карти, цветен outline)
+   Карти: бели с bold цветен border
+   Страница: #f5f5f5
+════════════════════════ */
+.b-page  { background:#f5f5f5; }
+.b-sb    { background:#fff; }
+.b-sb .sb-t, .b-sb .sb-r { color:#111; }
+.b-hdr   { background:#fff; }
+.b-logo  { color:#1a1a1a; }
+.b-search{ background:#f3f4f6; }
+.b-bnav  { background:#fff; }
+
+.b-sale  { background:linear-gradient(135deg,#bd1105,#7f0d04); }
+.b-sale .s-tag,.b-sale .s-title,.b-sale .s-sub { color:#fff; }
+.b-sale .sale-btn { background:rgba(255,255,255,.15); color:#fff; border:1px solid rgba(255,255,255,.25); }
+
+.b-cat-base {
+  background:#fff; border:2.5px solid transparent;
+  box-shadow:0 2px 8px rgba(0,0,0,.06);
+}
+.b-lap { border-color:#1d4ed8; }
+.b-pho { border-color:#475569; }
+.b-des { border-color:#16a34a; }
+.b-cpu { border-color:#bd1105; }
+.b-mon { border-color:#4f46e5; }
+.b-per { border-color:#059669; }
+.b-aud { border-color:#9333ea; }
+.b-cam { border-color:#d97706; }
+
+.b-cat .cat-icon { filter:drop-shadow(0 1px 6px rgba(0,0,0,.12)); }
+.b-cat .cat-name { color:#111; }
+.b-cat .cat-cnt  { color:#9ca3af; }
+.b-cat .cat-pin.discount { background:#fef2f2; color:#bd1105; border:1px solid #fecaca; }
+.b-cat .cat-pin.new-tag  { background:#eff6ff; color:#1d4ed8; }
+
+/* Neon icon colors */
+.bic-lap { color:#1d4ed8; }
+.bic-pho { color:#475569; }
+.bic-des { color:#16a34a; }
+.bic-cpu { color:#bd1105; }
+.bic-mon { color:#4f46e5; }
+.bic-per { color:#059669; }
+.bic-aud { color:#9333ea; }
+.bic-cam { color:#d97706; }
+
+.b-info { background:#fff; }
+.b-info .info-title { color:#9ca3af; }
+.b-info .info-pill  { background:#f3f4f6; color:#6b7280; }
+
+/* ════════════════════════
+   C — WARM EARTH (топли земни тонове)
+   Карти: Terracotta, Rust, Olive, Ochre
+   Страница: #faf8f5 (кремав)
+════════════════════════ */
+.c-page  { background:#faf8f5; }
+.c-sb    { background:#faf8f5; }
+.c-sb .sb-t, .c-sb .sb-r { color:#2d1b0e; }
+.c-hdr   { background:#faf8f5; border-color:#ede8e1 !important; }
+.c-logo  { color:#2d1b0e; }
+.c-search{ background:#f0ece5; }
+.c-bnav  { background:#faf8f5; border-color:#ede8e1 !important; }
+
+.c-sale  { background:linear-gradient(135deg,#9a1e0c,#c0392b); }
+.c-sale .s-tag,.c-sale .s-title,.c-sale .s-sub { color:#fff; }
+.c-sale .sale-btn { background:rgba(255,255,255,.15); color:#fff; border:1px solid rgba(255,255,255,.25); }
+
+.c-lap  { background:linear-gradient(145deg,#7c3a1e,#9a4a2a); }
+.c-pho  { background:linear-gradient(145deg,#3d2b1f,#5c3d2e); }
+.c-des  { background:linear-gradient(145deg,#4a5c2a,#5c7a30); }
+.c-cpu  { background:linear-gradient(145deg,#7a1a0a,#9a2510); }
+.c-mon  { background:linear-gradient(145deg,#2a3d5c,#3a5073); }
+.c-per  { background:linear-gradient(145deg,#2d5a3a,#3a7050); }
+.c-aud  { background:linear-gradient(145deg,#4a2d5c,#5c3a73); }
+.c-cam  { background:linear-gradient(145deg,#7c5c1a,#9a7220); }
+
+.c-cat .cat-icon { color:rgba(255,255,255,.9); filter:drop-shadow(0 2px 10px rgba(0,0,0,.25)); }
+.c-cat .cat-name { color:#fff; }
+.c-cat .cat-cnt  { color:rgba(255,255,255,.6); }
+.c-cat .cat-pin.discount { background:rgba(255,220,180,.2); color:#ffe4c4; border:1px solid rgba(255,220,180,.3); }
+.c-cat .cat-pin.new-tag  { background:#fff8ec; color:#7c5c1a; }
+
+.c-info { background:#fff; border:1px solid #ede8e1; }
+.c-info .info-title { color:#b8a090; }
+.c-info .info-pill  { background:#f5f0ea; color:#7c6050; }
+
+/* ════════════════════════
+   D — ZINC/SLATE + RED (неутрален с 1 акцент)
+   Карти: shades of zinc/slate + red само за промо
+   Страница: #f9fafb
+════════════════════════ */
+.d-page  { background:#f9fafb; }
+.d-sb    { background:#fff; }
+.d-sb .sb-t, .d-sb .sb-r { color:#111; }
+.d-hdr   { background:#fff; }
+.d-logo  { color:#111; }
+.d-search{ background:#f3f4f6; }
+.d-bnav  { background:#fff; }
+
+.d-sale  { background:linear-gradient(135deg,#bd1105,#7f0d04); }
+.d-sale .s-tag,.d-sale .s-title,.d-sale .s-sub { color:#fff; }
+.d-sale .sale-btn { background:rgba(255,255,255,.15); color:#fff; border:1px solid rgba(255,255,255,.25); }
+
+.d-lap  { background:linear-gradient(145deg,#18181b,#27272a); }
+.d-pho  { background:linear-gradient(145deg,#1c1917,#292524); }
+.d-des  { background:linear-gradient(145deg,#1e293b,#334155); }
+.d-cpu  { background:linear-gradient(145deg,#7f1d1d,#991b1b); }
+.d-mon  { background:linear-gradient(145deg,#1e1b4b,#312e81); }
+.d-per  { background:linear-gradient(145deg,#14532d,#166534); }
+.d-aud  { background:linear-gradient(145deg,#3b0764,#4c1d95); }
+.d-cam  { background:linear-gradient(145deg,#431407,#7c2d12); }
+
+.d-cat .cat-icon { color:rgba(255,255,255,.9); filter:drop-shadow(0 2px 12px rgba(0,0,0,.35)); }
+.d-cat .cat-name { color:#fff; }
+.d-cat .cat-cnt  { color:rgba(255,255,255,.5); }
+.d-cat .cat-pin.discount { background:#bd1105; color:#fff; }
+.d-cat .cat-pin.new-tag  { background:#fff; color:#18181b; }
+
+.d-info { background:#fff; }
+.d-info .info-title { color:#9ca3af; }
+.d-info .info-pill  { background:#f3f4f6; color:#6b7280; }
+
+</style>
+</head>
+<body>
+
+<!-- SVG Sprite -->
+<svg style="display:none" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="ic-laptop"     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 16V7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v9m16 0H4m16 0 1.28 2.55a1 1 0 0 1-.9 1.45H3.62a1 1 0 0 1-.9-1.45L4 16"/></symbol>
+  <symbol id="ic-phone"      viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></symbol>
+  <symbol id="ic-desktop"    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="3" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/></symbol>
+  <symbol id="ic-cpu"        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 2v2M15 2v2M9 20v2M15 20v2M2 9h2M2 15h2M20 9h2M20 15h2"/></symbol>
+  <symbol id="ic-monitor"    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="3" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/></symbol>
+  <symbol id="ic-mouse"      viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="7"/><path d="M12 6v4"/></symbol>
+  <symbol id="ic-headphones" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3"/></symbol>
+  <symbol id="ic-camera"     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3z"/><circle cx="12" cy="13" r="3"/></symbol>
+<symbol id="ic-cart"       viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"    stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></symbol>
+  <symbol id="ic-search"     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"    stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
+  <symbol id="ic-user"       viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"    stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+  <symbol id="ic-home"       viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"    stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></symbol>
+  <symbol id="ic-grid"       viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"    stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></symbol>
+</svg>
+
+<div class="page">
+  <h1>Design F — Нови цветове + Търсачка на отделен ред</h1>
+  <p class="subtitle">4 нови цветови схеми — Header винаги е двуредов (Logo / Search)</p>
+
+  <div class="tabs">
+    <div class="tab active" onclick="show('a')">A — Deep Tech</div>
+    <div class="tab" onclick="show('b')">B — Outline Bold</div>
+    <div class="tab" onclick="show('c')">C — Warm Earth</div>
+    <div class="tab" onclick="show('d')">D — Zinc + Red</div>
+  </div>
+
+
+<!-- ══════════════════════════════════
+     A — DEEP TECH
+══════════════════════════════════ -->
+<div id="design-a" class="design active">
+  <div class="showcase">
+    <div class="phone-wrap">
+      <div class="vlabel">A — Deep Tech &nbsp;·&nbsp; Тъмни наситени карти, бял фон</div>
+      <div class="phone">
+        <div class="sb a-sb"><span class="sb-t">13:32</span><span class="sb-r">●●●● WiFi 62%</span></div>
+        <div class="hdr a-hdr">
+          <div class="hdr-row1">
+            <div class="logo a-logo">MOST <em>COMPUTERS</em></div>
+            <div class="hdr-icons">
+              <svg width="22" height="22" style="color:#6b7280;"><use href="#ic-user"/></svg>
+              <div class="cart-wrap">
+                <svg width="22" height="22" style="color:#374151;"><use href="#ic-cart"/></svg>
+                <div class="cart-badge">3</div>
+              </div>
+            </div>
+          </div>
+          <div class="hdr-row2">
+            <div class="search-bar a-search">
+              <svg width="16" height="16" style="color:#9ca3af;flex-shrink:0;"><use href="#ic-search"/></svg>
+              <span>Търси продукти...</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="content a-page">
+          <div class="sale a-sale">
+            <div class="sale-left">
+              <div class="s-tag">🔥 Ограничено</div>
+              <div class="s-title">Sale до -60%</div>
+              <div class="s-sub">Тази седмица</div>
+            </div>
+            <div class="sale-btn a-sale">Виж →</div>
+          </div>
+
+          <div class="cat-grid">
+            <div class="cat a-lap a-cat">
+              <div class="cat-inner">
+                <svg class="cat-icon"><use href="#ic-laptop"/></svg>
+                <div class="cat-name">Лаптопи</div>
+                <div class="cat-cnt">324 продукта</div>
+              </div>
+              <div class="cat-pin discount">-20%</div>
+            </div>
+            <div class="cat a-pho a-cat">
+              <div class="cat-inner">
+                <svg class="cat-icon"><use href="#ic-phone"/></svg>
+                <div class="cat-name">Телефони</div>
+                <div class="cat-cnt">148 продукта</div>
+              </div>
+            </div>
+            <div class="cat a-des a-cat">
+              <div class="cat-inner">
+                <svg class="cat-icon"><use href="#ic-desktop"/></svg>
+                <div class="cat-name">Настолни</div>
+                <div class="cat-cnt">87 продукта</div>
+              </div>
+            </div>
+            <div class="cat a-cpu a-cat">
+              <div class="cat-inner">
+                <svg class="cat-icon"><use href="#ic-cpu"/></svg>
+                <div class="cat-name">Компоненти</div>
+                <div class="cat-cnt">210 продукта</div>
+              </div>
+              <div class="cat-pin new-tag">Ново</div>
+            </div>
+            <div class="cat a-mon a-cat">
+              <div class="cat-inner">
+                <svg class="cat-icon"><use href="#ic-monitor"/></svg>
+                <div class="cat-name">Монитори</div>
+                <div class="cat-cnt">95 продукта</div>
+              </div>
+            </div>
+            <div class="cat a-per a-cat">
+              <div class="cat-inner">
+                <svg class="cat-icon"><use href="#ic-mouse"/></svg>
+                <div class="cat-name">Периферия</div>
+                <div class="cat-cnt">180 продукта</div>
+              </div>
+            </div>
+            <div class="cat a-aud a-cat">
+              <div class="cat-inner">
+                <svg class="cat-icon"><use href="#ic-headphones"/></svg>
+                <div class="cat-name">Аудио</div>
+                <div class="cat-cnt">62 продукта</div>
+              </div>
+            </div>
+            <div class="cat a-cam a-cat">
+              <div class="cat-inner">
+                <svg class="cat-icon"><use href="#ic-camera"/></svg>
+                <div class="cat-name">Камери</div>
+                <div class="cat-cnt">44 продукта</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-block a-info">
+            <div class="info-title">Информация</div>
+            <div class="info-pills">
+              <span class="info-pill a-info">За нас</span>
+              <span class="info-pill a-info">Доставка</span>
+              <span class="info-pill a-info">Контакти</span>
+              <span class="info-pill a-info">Блог</span>
+              <span class="info-pill a-info">Сервиз</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bnav a-bnav">
+          <div class="bn"><svg style="color:#c0c0c0"><use href="#ic-home"/></svg><span style="color:#c0c0c0">Начало</span></div>
+          <div class="bn on"><svg><use href="#ic-grid"/></svg><span>Категории</span></div>
+          <div class="bn"><svg style="color:#c0c0c0"><use href="#ic-cart"/></svg><span style="color:#c0c0c0">Количка</span></div>
+          <div class="bn"><svg style="color:#c0c0c0"><use href="#ic-search"/></svg><span style="color:#c0c0c0">Търсене</span></div>
+          <div class="bn"><svg style="color:#c0c0c0"><use href="#ic-user"/></svg><span style="color:#c0c0c0">Профил</span></div>
+        </div>
+      </div>
+
+      <div class="verdict">
+        <div class="vt">A — Deep Tech</div>
+        <ul>
+          <li class="pro">✓ Наситени тъмни цветове — всяка категория е уникална</li>
+          <li class="pro">✓ Бялата икона и текст контрастират максимално</li>
+          <li class="pro">✓ Страницата е светла — не уморява окото</li>
+          <li class="note">→ Bluetooth синьо, Slate черно, Бордо, Тъмно лилаво</li>
+          <li class="con">– По-плътен вид — подходящ за tech-ориентирана аудитория</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════
+     B — OUTLINE BOLD
+══════════════════════════════════ -->
+<div id="design-b" class="design">
+  <div class="showcase">
+    <div class="phone-wrap">
+      <div class="vlabel">B — Outline Bold &nbsp;·&nbsp; Бели карти с цветен border</div>
+      <div class="phone">
+        <div class="sb b-sb"><span class="sb-t">13:32</span><span class="sb-r">●●●● WiFi 62%</span></div>
+        <div class="hdr b-hdr">
+          <div class="hdr-row1">
+            <div class="logo b-logo">MOST <em>COMPUTERS</em></div>
+            <div class="hdr-icons">
+              <svg width="22" height="22" style="color:#6b7280;"><use href="#ic-user"/></svg>
+              <div class="cart-wrap">
+                <svg width="22" height="22" style="color:#374151;"><use href="#ic-cart"/></svg>
+                <div class="cart-badge">3</div>
+              </div>
+            </div>
+          </div>
+          <div class="hdr-row2">
+            <div class="search-bar b-search">
+              <svg width="16" height="16" style="color:#9ca3af;flex-shrink:0;"><use href="#ic-search"/></svg>
+              <span>Търси продукти...</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="content b-page">
+          <div class="sale b-sale">
+            <div class="sale-left">
+              <div class="s-tag">🔥 Ограничено</div>
+              <div class="s-title">Sale до -60%</div>
+              <div class="s-sub">Тази седмица</div>
+            </div>
+            <div class="sale-btn b-sale">Виж →</div>
+          </div>
+
+          <div class="cat-grid">
+            <div class="cat b-cat-base b-lap b-cat">
+              <div class="cat-inner">
+                <svg class="cat-icon bic-lap"><use href="#ic-laptop"/></svg>
+                <div class="cat-name">Лаптопи</div>
+                <div class="cat-cnt">324 продукта</div>
+              </div>
+              <div class="cat-pin discount">-20%</div>
+            </div>
+            <div class="cat b-cat-base b-pho b-cat">
+              <div class="cat-inner">
+                <svg class="cat-icon bic-pho"><use href="#ic-phone"/></svg>
+                <div class="cat-name">Телефони</div>
+                <div class="cat-cnt">148 продукта</div>
+              </div>
+            </div>
+            <div class="cat b-cat-base b-des b-cat">
+              <div class="cat-inner">
+                <svg class="cat-icon bic-des"><use href="#ic-desktop"/></svg>
+                <div class="cat-name">Настолни</div>
+                <div class="cat-cnt">87 продукта</div>
+              </div>
+            </div>
+            <div class="cat b-cat-base b-cpu b-cat">
+              <div class="cat-inner">
+                <svg class="cat-icon bic-cpu"><use href="#ic-cpu"/></svg>
+                <div class="cat-name">Компоненти</div>
+                <div class="cat-cnt">210 продукта</div>
+              </div>
+              <div class="cat-pin new-tag">Ново</div>
+            </div>
+            <div class="cat b-cat-base b-mon b-cat">
+              <div class="cat-inner">
+                <svg class="cat-icon bic-mon"><use href="#ic-monitor"/></svg>
+                <div class="cat-name">Монитори</div>
+                <div class="cat-cnt">95 продукта</div>
+              </div>
+            </div>
+            <div class="cat b-cat-base b-per b-cat">
+              <div class="cat-inner">
+                <svg class="cat-icon bic-per"><use href="#ic-mouse"/></svg>
+                <div class="cat-name">Периферия</div>
+                <div class="cat-cnt">180 продукта</div>
+              </div>
+            </div>
+            <div class="cat b-cat-base b-aud b-cat">
+              <div class="cat-inner">
+                <svg class="cat-icon bic-aud"><use href="#ic-headphones"/></svg>
+                <div class="cat-name">Аудио</div>
+                <div class="cat-cnt">62 продукта</div>
+              </div>
+            </div>
+            <div class="cat b-cat-base b-cam b-cat">
+              <div class="cat-inner">
+                <svg class="cat-icon bic-cam"><use href="#ic-camera"/></svg>
+                <div class="cat-name">Камери</div>
+                <div class="cat-cnt">44 продукта</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-block b-info">
+            <div class="info-title">Информация</div>
+            <div class="info-pills">
+              <span class="info-pill b-info">За нас</span>
+              <span class="info-pill b-info">Доставка</span>
+              <span class="info-pill b-info">Контакти</span>
+              <span class="info-pill b-info">Блог</span>
+              <span class="info-pill b-info">Сервиз</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bnav b-bnav">
+          <div class="bn"><svg style="color:#c0c0c0"><use href="#ic-home"/></svg><span style="color:#c0c0c0">Начало</span></div>
+          <div class="bn on"><svg><use href="#ic-grid"/></svg><span>Категории</span></div>
+          <div class="bn"><svg style="color:#c0c0c0"><use href="#ic-cart"/></svg><span style="color:#c0c0c0">Количка</span></div>
+          <div class="bn"><svg style="color:#c0c0c0"><use href="#ic-search"/></svg><span style="color:#c0c0c0">Търсене</span></div>
+          <div class="bn"><svg style="color:#c0c0c0"><use href="#ic-user"/></svg><span style="color:#c0c0c0">Профил</span></div>
+        </div>
+      </div>
+
+      <div class="verdict">
+        <div class="vt">B — Outline Bold</div>
+        <ul>
+          <li class="pro">✓ Бял card = максимална четимост, никакви компромиси</li>
+          <li class="pro">✓ 2.5px цветен border = силна category identity</li>
+          <li class="pro">✓ Цветната икона = бърза ориентация</li>
+          <li class="note">→ Много изчистен, "Apple-esque" вид</li>
+          <li class="con">– По-малко "характерен" от A и D</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════
+     C — WARM EARTH
+══════════════════════════════════ -->
+<div id="design-c" class="design">
+  <div class="showcase">
+    <div class="phone-wrap">
+      <div class="vlabel">C — Warm Earth &nbsp;·&nbsp; Terracotta, Rust, Olive, Ochre</div>
+      <div class="phone">
+        <div class="sb c-sb"><span class="sb-t" style="color:#2d1b0e;">13:32</span><span class="sb-r" style="color:#2d1b0e;">●●●● WiFi 62%</span></div>
+        <div class="hdr c-hdr">
+          <div class="hdr-row1">
+            <div class="logo c-logo">MOST <em>COMPUTERS</em></div>
+            <div class="hdr-icons">
+              <svg width="22" height="22" style="color:#7c6050;"><use href="#ic-user"/></svg>
+              <div class="cart-wrap">
+                <svg width="22" height="22" style="color:#4a3020;"><use href="#ic-cart"/></svg>
+                <div class="cart-badge">3</div>
+              </div>
+            </div>
+          </div>
+          <div class="hdr-row2">
+            <div class="search-bar c-search">
+              <svg width="16" height="16" style="color:#b8a090;flex-shrink:0;"><use href="#ic-search"/></svg>
+              <span style="color:#b8a090;">Търси продукти...</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="content c-page">
+          <div class="sale c-sale">
+            <div class="sale-left">
+              <div class="s-tag">🔥 Ограничено</div>
+              <div class="s-title">Sale до -60%</div>
+              <div class="s-sub">Тази седмица</div>
+            </div>
+            <div class="sale-btn c-sale">Виж →</div>
+          </div>
+
+          <div class="cat-grid">
+            <div class="cat c-lap c-cat">
+              <div class="cat-inner">
+                <svg class="cat-icon"><use href="#ic-laptop"/></svg>
+                <div class="cat-name">Лаптопи</div>
+                <div class="cat-cnt">324 продукта</div>
+              </div>
+              <div class="cat-pin discount">-20%</div>
+            </div>
+            <div class="cat c-pho c-cat">
+              <div class="cat-inner">
+                <svg class="cat-icon"><use href="#ic-phone"/></svg>
+                <div class="cat-name">Телефони</div>
+                <div class="cat-cnt">148 продукта</div>
+              </div>
+            </div>
+            <div class="cat c-des c-cat">
+              <div class="cat-inner">
+                <svg class="cat-icon"><use href="#ic-desktop"/></svg>
+                <div class="cat-name">Настолни</div>
+                <div class="cat-cnt">87 продукта</div>
+              </div>
+            </div>
+            <div class="cat c-cpu c-cat">
+              <div class="cat-inner">
+                <svg class="cat-icon"><use href="#ic-cpu"/></svg>
+                <div class="cat-name">Компоненти</div>
+                <div class="cat-cnt">210 продукта</div>
+              </div>
+              <div class="cat-pin new-tag">Ново</div>
+            </div>
+            <div class="cat c-mon c-cat">
+              <div class="cat-inner">
+                <svg class="cat-icon"><use href="#ic-monitor"/></svg>
+                <div class="cat-name">Монитори</div>
+                <div class="cat-cnt">95 продукта</div>
+              </div>
+            </div>
+            <div class="cat c-per c-cat">
+              <div class="cat-inner">
+                <svg class="cat-icon"><use href="#ic-mouse"/></svg>
+                <div class="cat-name">Периферия</div>
+                <div class="cat-cnt">180 продукта</div>
+              </div>
+            </div>
+            <div class="cat c-aud c-cat">
+              <div class="cat-inner">
+                <svg class="cat-icon"><use href="#ic-headphones"/></svg>
+                <div class="cat-name">Аудио</div>
+                <div class="cat-cnt">62 продукта</div>
+              </div>
+            </div>
+            <div class="cat c-cam c-cat">
+              <div class="cat-inner">
+                <svg class="cat-icon"><use href="#ic-camera"/></svg>
+                <div class="cat-name">Камери</div>
+                <div class="cat-cnt">44 продукта</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-block c-info">
+            <div class="info-title">Информация</div>
+            <div class="info-pills">
+              <span class="info-pill c-info">За нас</span>
+              <span class="info-pill c-info">Доставка</span>
+              <span class="info-pill c-info">Контакти</span>
+              <span class="info-pill c-info">Блог</span>
+              <span class="info-pill c-info">Сервиз</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bnav c-bnav">
+          <div class="bn"><svg style="color:#c0b0a0"><use href="#ic-home"/></svg><span style="color:#c0b0a0">Начало</span></div>
+          <div class="bn on"><svg><use href="#ic-grid"/></svg><span>Категории</span></div>
+          <div class="bn"><svg style="color:#c0b0a0"><use href="#ic-cart"/></svg><span style="color:#c0b0a0">Количка</span></div>
+          <div class="bn"><svg style="color:#c0b0a0"><use href="#ic-search"/></svg><span style="color:#c0b0a0">Търсене</span></div>
+          <div class="bn"><svg style="color:#c0b0a0"><use href="#ic-user"/></svg><span style="color:#c0b0a0">Профил</span></div>
+        </div>
+      </div>
+
+      <div class="verdict">
+        <div class="vt">C — Warm Earth</div>
+        <ul>
+          <li class="pro">✓ Топли тонове = уникален вид, трудно се среща в tech</li>
+          <li class="pro">✓ Terracotta + Rust + Olive = коherent earth palette</li>
+          <li class="note">→ По-луксозно, lifestyle-brand усещане</li>
+          <li class="con">– Може да се усеща "нетехнологично" за part от аудиторията</li>
+          <li class="con">– По-рискован избор — ако не работи, тежко се оправя</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════
+     D — ZINC + RED
+══════════════════════════════════ -->
+<div id="design-d" class="design">
+  <div class="showcase">
+    <div class="phone-wrap">
+      <div class="vlabel">D — Zinc + Red &nbsp;·&nbsp; Тъмни монохромни карти, само 1 акцентен цвят</div>
+      <div class="phone">
+        <div class="sb d-sb"><span class="sb-t">13:32</span><span class="sb-r">●●●● WiFi 62%</span></div>
+        <div class="hdr d-hdr">
+          <div class="hdr-row1">
+            <div class="logo d-logo">MOST <em>COMPUTERS</em></div>
+            <div class="hdr-icons">
+              <svg width="22" height="22" style="color:#6b7280;"><use href="#ic-user"/></svg>
+              <div class="cart-wrap">
+                <svg width="22" height="22" style="color:#374151;"><use href="#ic-cart"/></svg>
+                <div class="cart-badge">3</div>
+              </div>
+            </div>
+          </div>
+          <div class="hdr-row2">
+            <div class="search-bar d-search">
+              <svg width="16" height="16" style="color:#9ca3af;flex-shrink:0;"><use href="#ic-search"/></svg>
+              <span>Търси продукти...</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="content d-page">
+          <div class="sale d-sale">
+            <div class="sale-left">
+              <div class="s-tag">🔥 Ограничено</div>
+              <div class="s-title">Sale до -60%</div>
+              <div class="s-sub">Тази седмица</div>
+            </div>
+            <div class="sale-btn d-sale">Виж →</div>
+          </div>
+
+          <div class="cat-grid">
+            <div class="cat d-lap d-cat">
+              <div class="cat-inner">
+                <svg class="cat-icon"><use href="#ic-laptop"/></svg>
+                <div class="cat-name">Лаптопи</div>
+                <div class="cat-cnt">324 продукта</div>
+              </div>
+              <div class="cat-pin discount">-20%</div>
+            </div>
+            <div class="cat d-pho d-cat">
+              <div class="cat-inner">
+                <svg class="cat-icon"><use href="#ic-phone"/></svg>
+                <div class="cat-name">Телефони</div>
+                <div class="cat-cnt">148 продукта</div>
+              </div>
+            </div>
+            <div class="cat d-des d-cat">
+              <div class="cat-inner">
+                <svg class="cat-icon"><use href="#ic-desktop"/></svg>
+                <div class="cat-name">Настолни</div>
+                <div class="cat-cnt">87 продукта</div>
+              </div>
+            </div>
+            <div class="cat d-cpu d-cat">
+              <div class="cat-inner">
+                <svg class="cat-icon"><use href="#ic-cpu"/></svg>
+                <div class="cat-name">Компоненти</div>
+                <div class="cat-cnt">210 продукта</div>
+              </div>
+              <div class="cat-pin new-tag">Ново</div>
+            </div>
+            <div class="cat d-mon d-cat">
+              <div class="cat-inner">
+                <svg class="cat-icon"><use href="#ic-monitor"/></svg>
+                <div class="cat-name">Монитори</div>
+                <div class="cat-cnt">95 продукта</div>
+              </div>
+            </div>
+            <div class="cat d-per d-cat">
+              <div class="cat-inner">
+                <svg class="cat-icon"><use href="#ic-mouse"/></svg>
+                <div class="cat-name">Периферия</div>
+                <div class="cat-cnt">180 продукта</div>
+              </div>
+            </div>
+            <div class="cat d-aud d-cat">
+              <div class="cat-inner">
+                <svg class="cat-icon"><use href="#ic-headphones"/></svg>
+                <div class="cat-name">Аудио</div>
+                <div class="cat-cnt">62 продукта</div>
+              </div>
+            </div>
+            <div class="cat d-cam d-cat">
+              <div class="cat-inner">
+                <svg class="cat-icon"><use href="#ic-camera"/></svg>
+                <div class="cat-name">Камери</div>
+                <div class="cat-cnt">44 продукта</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-block d-info">
+            <div class="info-title">Информация</div>
+            <div class="info-pills">
+              <span class="info-pill d-info">За нас</span>
+              <span class="info-pill d-info">Доставка</span>
+              <span class="info-pill d-info">Контакти</span>
+              <span class="info-pill d-info">Блог</span>
+              <span class="info-pill d-info">Сервиз</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bnav d-bnav">
+          <div class="bn"><svg style="color:#c0c0c0"><use href="#ic-home"/></svg><span style="color:#c0c0c0">Начало</span></div>
+          <div class="bn on"><svg><use href="#ic-grid"/></svg><span>Категории</span></div>
+          <div class="bn"><svg style="color:#c0c0c0"><use href="#ic-cart"/></svg><span style="color:#c0c0c0">Количка</span></div>
+          <div class="bn"><svg style="color:#c0c0c0"><use href="#ic-search"/></svg><span style="color:#c0c0c0">Търсене</span></div>
+          <div class="bn"><svg style="color:#c0c0c0"><use href="#ic-user"/></svg><span style="color:#c0c0c0">Профил</span></div>
+        </div>
+      </div>
+
+      <div class="verdict">
+        <div class="vt">D — Zinc + Red</div>
+        <ul>
+          <li class="pro">✓ Zinc/near-black карти = силен contrast срещу бяла страница</li>
+          <li class="pro">✓ Само #bd1105 е "цветен" — всичко останало е neutral</li>
+          <li class="pro">✓ Много premium, editorial усещане</li>
+          <li class="note">→ Подходящ ако искаш сайтът да изглежда по-серозен/premium</li>
+          <li class="con">– Картите изглеждат почти еднакво — разчита на иконата за идентификация</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /page -->
+
+<script>
+function show(id) {
+  document.querySelectorAll('.design').forEach(d => d.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('design-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
+</body>
+</html>

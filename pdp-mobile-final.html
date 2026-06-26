@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PDP Mobile — Mix Final</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #e5e7eb; }
+
+  .page { display: flex; flex-direction: column; align-items: center; padding: 32px 16px 48px; gap: 48px; }
+
+  h1 { font-size: 22px; font-weight: 800; color: #111; text-align: center; }
+  .subtitle { font-size: 14px; color: #6b7280; text-align: center; margin-top: 4px; }
+
+  /* Phone frame */
+  .phone-wrap { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+  .variant-chip {
+    font-size: 12px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase;
+    color: #fff; padding: 5px 16px; border-radius: 20px; display: inline-block;
+  }
+  .phone-frame {
+    width: 390px;
+    background: #f9fafb;
+    border-radius: 32px;
+    overflow: hidden;
+    box-shadow: 0 12px 48px rgba(0,0,0,.2), 0 0 0 8px #1f2937;
+    position: relative;
+  }
+  .phone-bar {
+    height: 44px; background: #fff; display: flex; align-items: center;
+    justify-content: space-between; padding: 0 18px; border-bottom: 1px solid #f3f4f6;
+    font-size: 13px; font-weight: 600; color: #374151;
+  }
+
+  /* ---- Image hero ---- */
+  .hero-img {
+    height: 300px; background: #fff;
+    display: flex; align-items: center; justify-content: center; position: relative;
+  }
+  .hero-img img { width: 100%; height: 100%; object-fit: contain; padding: 20px; }
+  .badge-pct {
+    position: absolute; top: 12px; right: 12px;
+    background: #bd1105; color: #fff; font-size: 12px; font-weight: 800;
+    padding: 4px 10px; border-radius: 8px;
+  }
+  .thumb-dots {
+    background: #fff; display: flex; justify-content: center; gap: 6px;
+    padding: 8px 0 12px;
+  }
+  .dot { width: 6px; height: 6px; border-radius: 50%; background: #d1d5db; transition: width .2s; }
+  .dot.on { background: #bd1105; width: 18px; border-radius: 4px; }
+
+  /* ---- BUY ZONE (white bg) ---- */
+  .buy-zone { background: #fff; padding: 16px 14px 18px; display: flex; flex-direction: column; gap: 12px; }
+
+  /* inline chips */
+  .chips { display: flex; gap: 6px; flex-wrap: wrap; }
+  .chip { font-size: 10px; font-weight: 800; padding: 3px 9px; border-radius: 20px; letter-spacing: .03em; }
+  .chip-promo { background: #fef2f2; color: #bd1105; border: 1px solid #fecaca; }
+  .chip-stock { background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; }
+  .chip-new   { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
+
+  /* title block */
+  .brand { font-size: 11px; font-weight: 700; color: #9ca3af; letter-spacing: .06em; margin-bottom: 2px; }
+  .title { font-size: 19px; font-weight: 800; line-height: 1.25; color: #111; }
+  .rating-row { margin-top: 5px; display: flex; align-items: center; gap: 6px; }
+  .stars { color: #f59e0b; font-size: 14px; letter-spacing: 1px; }
+  .rating-num { font-size: 12px; color: #6b7280; text-decoration: underline; }
+
+  /* price */
+  .price-block { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+  .price-eur { font-size: 30px; font-weight: 800; color: #bd1105; line-height: 1; }
+  .price-old { font-size: 13px; color: #9ca3af; text-decoration: line-through; }
+  .price-bgn { font-size: 12px; color: #6b7280; margin-top: 2px; }
+
+  /* ATC */
+  .btn-atc {
+    width: 100%; height: 56px; background: #bd1105; color: #fff; border: none;
+    border-radius: 16px; font-size: 17px; font-weight: 800; letter-spacing: .01em;
+    display: flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer;
+    box-shadow: 0 4px 16px rgba(189,17,5,.3);
+  }
+  .btn-atc svg { width: 22px; height: 22px; }
+
+  /* delivery row */
+  .delivery-row { display: flex; gap: 8px; }
+  .d-card {
+    flex: 1; border-radius: 10px; padding: 9px 10px; font-size: 12px;
+    border: 1px solid #bbf7d0; background: #f0fdf4; color: #166534;
+    display: flex; align-items: center; gap: 6px; line-height: 1.4;
+  }
+  .d-card svg { width: 16px; height: 16px; flex-shrink: 0; }
+  .d-card strong { font-weight: 700; }
+
+  /* ---- DIVIDER ---- */
+  .zone-divider { height: 8px; background: #f3f4f6; }
+
+  /* ---- EXPLORE ZONE (gray bg) ---- */
+  .explore-zone { background: #f9fafb; padding: 14px; display: flex; flex-direction: column; gap: 12px; }
+
+  /* 5-icon row */
+  .action-row { display: flex; gap: 6px; }
+  .icon-btn {
+    flex: 1; display: flex; flex-direction: column; align-items: center; gap: 5px;
+    background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 10px 4px 8px;
+    cursor: pointer; font-size: 10px; font-weight: 600; color: #374151;
+    white-space: nowrap; overflow: hidden;
+  }
+  .icon-btn svg { width: 20px; height: 20px; color: #374151; }
+  .icon-btn.active svg { color: #bd1105; }
+  .icon-btn.active { border-color: #fecaca; background: #fef2f2; color: #bd1105; }
+
+  /* trust strip */
+  .trust-strip { display: flex; gap: 6px; }
+  .trust-item {
+    flex: 1; background: #fff; border: 1px solid #e5e7eb; border-radius: 10px;
+    padding: 8px 4px; display: flex; flex-direction: column; align-items: center; gap: 4px;
+    font-size: 9.5px; color: #4b5563; text-align: center; font-weight: 500; line-height: 1.3;
+  }
+  .trust-item svg { width: 18px; height: 18px; color: #bd1105; }
+
+  /* tabs */
+  .tabs-card { background: #fff; border-radius: 14px; overflow: hidden; border: 1px solid #e5e7eb; }
+  .tabs-bar {
+    display: flex; border-bottom: 2px solid #f3f4f6;
+    overflow-x: auto; scrollbar-width: none;
+    -webkit-mask-image: linear-gradient(to right, black 80%, transparent 100%);
+    mask-image: linear-gradient(to right, black 80%, transparent 100%);
+  }
+  .tabs-bar::-webkit-scrollbar { display: none; }
+  .tab {
+    flex-shrink: 0; padding: 11px 16px; font-size: 13px; font-weight: 600; color: #9ca3af;
+    border-bottom: 2px solid transparent; margin-bottom: -2px; white-space: nowrap; cursor: pointer;
+  }
+  .tab.on { color: #bd1105; border-bottom-color: #bd1105; }
+  .spec-row { display: flex; padding: 9px 14px; border-bottom: 1px solid #f9fafb; font-size: 13px; }
+  .spec-row:last-child { border-bottom: none; }
+  .spec-key { width: 90px; color: #9ca3af; flex-shrink: 0; }
+  .spec-val { color: #111827; font-weight: 500; }
+
+  /* recs */
+  .recs-card { background: #fff; border-radius: 14px; padding: 12px; border: 1px solid #e5e7eb; }
+  .recs-head { font-size: 10px; font-weight: 800; color: #bd1105; letter-spacing: .07em; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+  .recs-scroll { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; -webkit-mask-image: linear-gradient(to right, black 80%, transparent 100%); }
+  .rec-card { flex-shrink: 0; width: 100px; }
+  .rec-img { width: 100%; aspect-ratio: 1; background: #f3f4f6; border-radius: 8px; display:flex; align-items:center; justify-content:center; }
+  .rec-name { font-size: 10px; color: #374151; margin-top: 5px; line-height: 1.3; }
+  .rec-price { font-size: 11px; font-weight: 700; color: #bd1105; margin-top: 2px; }
+  .rec-add { width: 24px; height: 24px; background: #bd1105; border-radius: 50%; display:flex;align-items:center;justify-content:center; float: right; margin-top: -20px; }
+  .rec-add svg { width: 14px; height: 14px; color: #fff; }
+
+  /* sticky bar */
+  .sticky-bar {
+    background: #fff; border-top: 2px solid #f3f4f6;
+    padding: 10px 14px 14px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .sticky-thumb { width: 40px; height: 40px; background: #f3f4f6; border-radius: 8px; flex-shrink: 0; display:flex;align-items:center;justify-content:center; }
+  .sticky-thumb svg { width: 22px; height: 22px; color: #9ca3af; }
+  .sticky-info { flex: 1; min-width: 0; }
+  .sticky-name { font-size: 11px; color: #6b7280; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .sticky-price { font-size: 15px; font-weight: 800; color: #bd1105; }
+  .sticky-qty { display: flex; align-items: center; border: 1.5px solid #e5e7eb; border-radius: 10px; overflow: hidden; flex-shrink: 0; }
+  .s-q-btn { width: 36px; height: 36px; background: #f9fafb; border: none; font-size: 16px; color: #374151; cursor:pointer; display:flex;align-items:center;justify-content:center; font-weight: 700; }
+  .s-q-val { width: 28px; text-align: center; font-size: 14px; font-weight: 700; }
+  .sticky-atc {
+    background: #bd1105; color: #fff; border: none; border-radius: 12px;
+    padding: 10px 18px; font-size: 14px; font-weight: 700; flex-shrink: 0;
+    display: flex; align-items: center; gap: 6px; cursor: pointer;
+  }
+  .sticky-atc svg { width: 16px; height: 16px; }
+
+  /* annotation */
+  .annot { background: #fff; border-radius: 16px; padding: 16px 18px; max-width: 390px; border: 1px solid #e5e7eb; }
+  .annot h3 { font-size: 15px; font-weight: 800; color: #111; margin-bottom: 10px; }
+  .annot ul { padding-left: 18px; display: flex; flex-direction: column; gap: 7px; }
+  .annot li { font-size: 13px; color: #374151; line-height: 1.5; }
+  .annot li strong { color: #111; }
+  .annot .from-a { color: #2563eb; font-weight: 700; font-size: 11px; }
+  .annot .from-b { color: #059669; font-weight: 700; font-size: 11px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div style="text-align:center">
+    <h1>PDP Mobile — Микс</h1>
+    <p class="subtitle">Най-доброто от Вариант A + Вариант B</p>
+  </div>
+
+  <!-- ANNOTATION -->
+  <div class="annot">
+    <h3>Какво взимаме от всяко</h3>
+    <ul>
+      <li><span class="from-b">от B</span> — <strong>Голяма снимка 300px</strong>, няма gap след нея</li>
+      <li><span class="from-a">от A</span> — <strong>ПРОМО + В наличност chips</strong> веднага под снимката</li>
+      <li><span class="from-a">od A</span> — <strong>Стара цена</strong> зачеркната в същия ред до новата</li>
+      <li><span class="from-b">от B</span> — <strong>ATC бутон full-width 56px</strong> — максимален thumb target</li>
+      <li><span class="from-b">от B</span> — <strong>Доставка в 2 компактни карти</strong> веднага след ATC</li>
+      <li><span class="from-b">от B</span> — <strong>Бял "buy zone" / сив "explore zone"</strong> разделение</li>
+      <li><span class="from-a">от A</span> — <strong>5 иконни бутона</strong> за secondary действия (компактно)</li>
+      <li><span class="from-a">от A</span> — <strong>4-елемент trust strip</strong> в 1 хоризонтален ред</li>
+      <li><span class="from-b">от B</span> — <strong>QTY само в sticky бара</strong> — страницата е изчистена</li>
+      <li><span class="from-a">от A</span> <span class="from-b">+ B</span> — <strong>Specs tabs</strong> веднага след trust</li>
+    </ul>
+  </div>
+
+  <!-- THE MIX MOCKUP -->
+  <div class="phone-wrap">
+    <span class="variant-chip" style="background:linear-gradient(135deg,#2563eb,#059669)">Микс — Финален</span>
+
+    <div class="phone-frame">
+      <div class="phone-bar">
+        <span style="font-size:12px">9:41</span>
+        <span style="font-weight:700">Most Computers</span>
+        <span style="font-size:18px">←</span>
+      </div>
+
+      <!-- HERO IMAGE — large, from B -->
+      <div class="hero-img">
+        <img src="https://placehold.co/320x260/f3f4f6/374151?text=Lenovo+ThinkPad+E16" alt="Lenovo ThinkPad E16 G3">
+        <span class="badge-pct">-13%</span>
+      </div>
+      <!-- Thumb dots — immediately, no gap, from A -->
+      <div class="thumb-dots">
+        <div class="dot on"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+
+      <!-- ===== BUY ZONE ===== -->
+      <div class="buy-zone">
+
+        <!-- Chips: ПРОМО + В наличност — from A -->
+        <div class="chips">
+          <span class="chip chip-promo">ПРОМО</span>
+          <span class="chip chip-stock">В наличност</span>
+        </div>
+
+        <!-- Brand + Title + Rating -->
+        <div>
+          <div class="brand">LENOVO</div>
+          <div class="title">Lenovo ThinkPad E16 G3 / 21ST0053BM</div>
+          <div class="rating-row">
+            <span class="stars">★★★★★</span>
+            <span class="rating-num">4.6 (29 ревюта)</span>
+          </div>
+        </div>
+
+        <!-- Price — old + new in same row, from A; large from B -->
+        <div>
+          <div class="price-block">
+            <div class="price-eur">989,04 €</div>
+            <div class="price-old">1.140,00 €</div>
+          </div>
+          <div class="price-bgn">1 934,40 лв. · с вкл. ДДС</div>
+        </div>
+
+        <!-- ATC — full width 56px, from B -->
+        <button class="btn-atc">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/>
+            <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
+          </svg>
+          Добави в кошница
+        </button>
+
+        <!-- Delivery 2-card row, from B -->
+        <div class="delivery-row">
+          <div class="d-card" style="flex:0 0 auto;padding:9px 12px">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+            </svg>
+            <div>В наличност</div>
+          </div>
+          <div class="d-card" style="flex:1">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/>
+              <path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/>
+              <circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/>
+            </svg>
+            <div>Поръчай до <strong>16:30</strong> → <strong>утре</strong></div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ZONE DIVIDER — from B -->
+      <div class="zone-divider"></div>
+
+      <!-- ===== EXPLORE ZONE ===== -->
+      <div class="explore-zone">
+
+        <!-- 5 icon buttons, from A -->
+        <div class="action-row">
+          <button class="icon-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+            </svg>
+            Желания
+          </button>
+          <button class="icon-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect width="14" height="20" x="5" y="2" rx="2"/><path d="M12 18h.01"/>
+            </svg>
+            Телефон
+          </button>
+          <button class="icon-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+            </svg>
+            Намаление
+          </button>
+          <button class="icon-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+            </svg>
+            Сподели
+          </button>
+          <button class="icon-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"/>
+            </svg>
+            Сравни
+          </button>
+        </div>
+
+        <!-- Trust 4-item horizontal, from A -->
+        <div class="trust-strip">
+          <div class="trust-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/>
+              <path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/>
+              <circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/>
+            </svg>
+            Безплатна доставка 100€+
+          </div>
+          <div class="trust-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+            Сигурно плащане
+          </div>
+          <div class="trust-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/>
+            </svg>
+            14 дни връщане
+          </div>
+          <div class="trust-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+            Офиц. гаранция
+          </div>
+        </div>
+
+        <!-- Specs tabs — immediately -->
+        <div class="tabs-card">
+          <div class="tabs-bar">
+            <div class="tab on">Характеристики</div>
+            <div class="tab">Описание</div>
+            <div class="tab">Видео</div>
+            <div class="tab">Ревюта (29)</div>
+          </div>
+          <div class="spec-row"><div class="spec-key">Процесор</div><div class="spec-val">AMD Ryzen 5 220, 3.2GHz, 12T</div></div>
+          <div class="spec-row"><div class="spec-key">RAM</div><div class="spec-val">32GB SODIMM DDR5-5600</div></div>
+          <div class="spec-row"><div class="spec-key">SSD</div><div class="spec-val">512GB NVMe</div></div>
+          <div class="spec-row"><div class="spec-key">Екран</div><div class="spec-val">16", 1920×1200, IPS, 300nit</div></div>
+          <div class="spec-row"><div class="spec-key">GPU</div><div class="spec-val">AMD Radeon 740M</div></div>
+          <div class="spec-row" style="border:0"><div class="spec-key">Тегло</div><div class="spec-val">1.71 kg</div></div>
+        </div>
+
+        <!-- Recs widget -->
+        <div class="recs-card">
+          <div class="recs-head">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg>
+            МОЖЕ ДА ТЕ ЗАИНТЕРЕСУВА
+          </div>
+          <div class="recs-scroll">
+            <div class="rec-card">
+              <div class="rec-img">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.5"><rect x="2" y="4" width="20" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg>
+              </div>
+              <div class="rec-name">Logitech BT Audio</div>
+              <div class="rec-price">38,65 €</div>
+            </div>
+            <div class="rec-card">
+              <div class="rec-img">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.5"><path d="M20 16V7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v9"/><path d="M2 16h20"/><path d="M12 19v2"/></svg>
+              </div>
+              <div class="rec-name">HP USB-C Hub</div>
+              <div class="rec-price">24,90 €</div>
+            </div>
+            <div class="rec-card">
+              <div class="rec-img">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.5"><rect x="5" y="2" width="14" height="20" rx="7"/><path d="M12 6v4"/></svg>
+              </div>
+              <div class="rec-name">Razer DeathAdder</div>
+              <div class="rec-price">52,00 €</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- STICKY BAR — qty here, from B -->
+      <div class="sticky-bar">
+        <div class="sticky-thumb">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M20 16V7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v9"/><path d="M2 16h20"/><path d="M12 19v2"/>
+          </svg>
+        </div>
+        <div class="sticky-info">
+          <div class="sticky-name">Lenovo TP E16 G3</div>
+          <div class="sticky-price">989,04 €</div>
+        </div>
+        <div class="sticky-qty">
+          <button class="s-q-btn">−</button>
+          <div class="s-q-val">1</div>
+          <button class="s-q-btn">+</button>
+        </div>
+        <button class="sticky-atc">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/>
+            <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
+          </svg>
+          Купи
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <div style="text-align:center;font-size:12px;color:#9ca3af;max-width:390px;line-height:1.7">
+    Most Computers PWA · PDP Mobile Mix · 2026-06-19<br>
+    Кажи "имплементирай" и прилагаме тези промени.
+  </div>
+
+</div>
+</body>
+</html>

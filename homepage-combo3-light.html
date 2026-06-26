@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Комбо 3 — Светъл вариант</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #111; }
+
+.page-header { padding: 32px 24px 16px; text-align: center; background: #1a1a1a; border-bottom: 1px solid #333; }
+.page-header h1 { font-size: 22px; font-weight: 700; color: #fff; }
+.page-header p { font-size: 13px; color: #888; margin-top: 6px; }
+
+.page-body { display: flex; gap: 40px; padding: 40px 32px; justify-content: center; align-items: flex-start; flex-wrap: wrap; }
+
+.phone-wrap { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+.phone-label { font-size: 11px; font-weight: 700; color: #aaa; text-transform: uppercase; letter-spacing: 1px; }
+.phone-sublabel { font-size: 12px; color: #666; text-align: center; max-width: 320px; line-height: 1.5; }
+
+.phone-frame { width: 390px; height: 780px; border-radius: 40px; border: 3px solid #333; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
+.phone-screen { width: 100%; height: 100%; overflow-y: auto; overflow-x: hidden; scrollbar-width: none; background: #f5f5f7; }
+.phone-screen::-webkit-scrollbar { display: none; }
+
+/* ============================================================
+   COMBO 3 LIGHT
+   Full bleed hero → бели табове → светъл tab-hero → sort →
+   светли tinted product cards → trust
+   ============================================================ */
+
+/* Overlay header */
+.hdr {
+  position: absolute; top: 0; left: 0; right: 0; z-index: 10;
+  padding: 14px 16px;
+  display: flex; align-items: center; justify-content: space-between;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.65), transparent);
+}
+.logo { font-size: 16px; font-weight: 800; color: #fff; }
+.logo em { color: #bd1105; font-style: normal; }
+.hdr-right { display: flex; gap: 8px; }
+.hdr-btn { width: 36px; height: 36px; background: rgba(0,0,0,0.28); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 17px; backdrop-filter: blur(6px); position: relative; }
+.hdr-badge { position: absolute; top: -3px; right: -3px; background: #bd1105; color: #fff; font-size: 9px; font-weight: 800; width: 15px; height: 15px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+
+/* Full bleed hero - stays dark for visual impact */
+.hero {
+  position: relative; height: 270px;
+  background: linear-gradient(140deg, #0f0f1a 0%, #1a1035 40%, #2d1256 70%, #7c3aed 150%);
+  overflow: hidden;
+}
+.hero-bg { position: absolute; right: -10px; top: 20px; font-size: 148px; opacity: 0.09; line-height: 1; }
+.hero-glow { position: absolute; bottom: -30px; left: 35%; width: 160px; height: 80px; background: rgba(124,58,237,0.25); border-radius: 50%; filter: blur(25px); }
+.hero-content {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: 18px 16px 14px;
+  background: linear-gradient(to top, rgba(15,15,25,0.88) 0%, transparent 100%);
+}
+.hero-badge { display: inline-block; background: #7c3aed; color: #fff; font-size: 9px; font-weight: 700; padding: 3px 10px; border-radius: 20px; margin-bottom: 7px; }
+.hero-title { font-size: 22px; font-weight: 800; color: #fff; line-height: 1.2; margin-bottom: 4px; }
+.hero-sub { font-size: 11px; color: rgba(255,255,255,0.5); margin-bottom: 11px; }
+.hero-row { display: flex; align-items: center; justify-content: space-between; }
+.hero-price { font-size: 20px; font-weight: 800; color: #fff; }
+.hero-price small { font-size: 11px; opacity: 0.55; font-weight: 400; }
+.hero-btn { background: #bd1105; color: #fff; border: none; border-radius: 10px; padding: 10px 18px; font-size: 12px; font-weight: 800; cursor: pointer; }
+.hero-inds { position: absolute; right: 14px; bottom: 68px; display: flex; flex-direction: column; gap: 4px; }
+.ind { width: 4px; height: 4px; border-radius: 2px; background: rgba(255,255,255,0.28); }
+.ind.a { height: 16px; background: #fff; }
+
+/* White body starts here */
+.white-body { background: #fff; }
+
+/* Search */
+.search { padding: 12px 16px; background: #fff; border-bottom: 1px solid #efefef; }
+.search-box { background: #f3f4f6; border-radius: 12px; padding: 11px 14px; display: flex; align-items: center; gap: 8px; color: #9ca3af; font-size: 13px; }
+
+/* Light tabs */
+.tabs { background: #fff; display: flex; overflow-x: auto; scrollbar-width: none; border-bottom: 2px solid #efefef; padding: 0 16px; }
+.tabs::-webkit-scrollbar { display: none; }
+.tab { flex: 0 0 auto; padding: 10px 13px; font-size: 12px; font-weight: 700; color: #bbb; border-bottom: 2px solid transparent; margin-bottom: -2px; white-space: nowrap; }
+.tab.sel { color: #bd1105; border-bottom-color: #bd1105; }
+
+/* Tab hero - светъл, с цветен акцент */
+.tab-hero {
+  margin: 14px 16px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #fdf2f8, #fce7f3);
+  border: 1px solid #f9a8d4;
+  padding: 16px;
+  display: flex; align-items: center; justify-content: space-between;
+  overflow: hidden; position: relative;
+  min-height: 130px;
+}
+.tab-hero::before { content: ''; position: absolute; right: -20px; top: -20px; width: 120px; height: 120px; background: rgba(219,39,119,0.07); border-radius: 50%; }
+.tab-hero-text { z-index: 1; }
+.tab-hero-badge { font-size: 9px; font-weight: 700; color: #be185d; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 5px; }
+.tab-hero-title { font-size: 17px; font-weight: 800; color: #1a1a1a; line-height: 1.2; margin-bottom: 6px; max-width: 185px; }
+.tab-hero-price { font-size: 16px; font-weight: 800; color: #bd1105; margin-bottom: 10px; }
+.tab-hero-price span { font-size: 10px; color: #bbb; text-decoration: line-through; margin-left: 4px; font-weight: 400; }
+.tab-hero-btn { background: #1a1a1a; color: #fff; border: none; border-radius: 8px; padding: 8px 16px; font-size: 12px; font-weight: 800; cursor: pointer; }
+.tab-hero-em { font-size: 75px; z-index: 1; flex: 0 0 auto; }
+
+/* Sort row */
+.sort-row { background: #fff; padding: 8px 16px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #efefef; }
+.sort-label { font-size: 11px; color: #aaa; font-weight: 600; }
+.sort-btns { display: flex; gap: 5px; }
+.sort-btn { padding: 4px 10px; background: #f5f5f5; border-radius: 6px; font-size: 10px; font-weight: 700; color: #888; }
+.sort-btn.sel { background: #1a1a1a; color: #fff; }
+
+/* LIGHT tinted product cards */
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 12px 16px 16px; background: #f5f5f7; }
+
+.card { border-radius: 18px; padding: 12px; display: flex; flex-direction: column; gap: 5px; }
+
+/* Light tinted backgrounds - pastel but distinctive */
+.g1 { background: #eef2ff; border: 1px solid #c7d2fe; }  /* indigo tint */
+.g2 { background: #f0fdf4; border: 1px solid #bbf7d0; }  /* green tint */
+.g3 { background: #fff7ed; border: 1px solid #fed7aa; }  /* amber tint */
+.g4 { background: #fdf4ff; border: 1px solid #e9d5ff; }  /* purple tint */
+
+.card-img { width: 100%; aspect-ratio: 1; background: rgba(255,255,255,0.7); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 50px; position: relative; margin-bottom: 4px; }
+.card-badge { position: absolute; top: 6px; left: 6px; background: #bd1105; color: #fff; font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 4px; }
+.card-badge.t { background: #7c3aed; }
+.card-badge.n { background: #059669; }
+.card-name { font-size: 11px; font-weight: 700; color: #1a1a1a; line-height: 1.3; }
+.card-rating { font-size: 10px; color: #f59e0b; }
+.card-rating span { color: #999; font-size: 9px; }
+.card-price { font-size: 14px; font-weight: 800; color: #bd1105; }
+.card-old { font-size: 10px; color: #bbb; text-decoration: line-through; }
+.card-add { background: #1a1a1a; color: #fff; border: none; border-radius: 8px; padding: 8px; font-size: 11px; font-weight: 700; cursor: pointer; margin-top: 3px; }
+
+/* Trust 2x2 light */
+.trust { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: #ebebeb; margin-top: 0; }
+.trust-item { background: #fff; padding: 10px 12px; display: flex; align-items: center; gap: 8px; }
+.trust-icon { font-size: 18px; }
+.trust-text { font-size: 10px; font-weight: 700; color: #333; }
+.trust-sub { font-size: 9px; color: #999; }
+
+/* Bottom nav */
+.bn { position: sticky; bottom: 0; background: #fff; border-top: 1px solid #efefef; display: grid; grid-template-columns: repeat(5,1fr); padding: 6px 0 8px; }
+.bn-btn { display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 9px; font-weight: 600; color: #bbb; background: none; border: none; cursor: pointer; padding: 4px 0; }
+.bn-btn.on { color: #bd1105; }
+.bn-icon { font-size: 20px; }
+
+/* Пояснение */
+.explainer { padding: 28px 24px; background: #1a1a1a; border-top: 1px solid #333; max-width: 500px; margin: 0 auto; }
+.explainer h2 { font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 16px; }
+.exp-row { display: flex; gap: 10px; margin-bottom: 10px; align-items: flex-start; }
+.exp-tag { flex: 0 0 auto; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 5px; background: #bd1105; color: #fff; margin-top: 1px; }
+.exp-text { font-size: 12px; color: #888; line-height: 1.5; }
+.exp-text strong { color: #fff; }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>Комбо 3 — Светъл вариант</h1>
+  <p>I + K + H · Full bleed hero · Табове · Tinted светли карти</p>
+</div>
+
+<div class="page-body">
+
+  <div class="phone-wrap">
+    <div class="phone-label">Комбо 3 Light</div>
+    <div class="phone-frame">
+      <div class="phone-screen">
+
+        <!-- Overlay header + full bleed hero -->
+        <div style="position:relative;">
+          <div class="hdr">
+            <div class="logo">MOST <em>Computers</em></div>
+            <div class="hdr-right">
+              <div class="hdr-btn">❤️</div>
+              <div class="hdr-btn">🛒<span class="hdr-badge">3</span></div>
+            </div>
+          </div>
+          <div class="hero">
+            <div class="hero-bg">💻</div>
+            <div class="hero-glow"></div>
+            <div class="hero-content">
+              <div class="hero-badge">🏆 Флагман</div>
+              <div class="hero-title">Lenovo Legion Pro 7 RTX 5090</div>
+              <div class="hero-sub">Core Ultra 9 · 64GB DDR5 · 2TB SSD</div>
+              <div class="hero-row">
+                <div class="hero-price">4 632 € <small>с ДДС</small></div>
+                <button class="hero-btn">Купи →</button>
+              </div>
+            </div>
+            <div class="hero-inds">
+              <div class="ind a"></div>
+              <div class="ind"></div>
+              <div class="ind"></div>
+              <div class="ind"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- White body -->
+        <div class="white-body">
+
+          <!-- Search -->
+          <div class="search">
+            <div class="search-box">🔍 Търси продукт, марка...</div>
+          </div>
+
+          <!-- Tabs -->
+          <div class="tabs">
+            <div class="tab sel">⚡ Оферти</div>
+            <div class="tab">💻 Лаптопи</div>
+            <div class="tab">🖥️ Монитори</div>
+            <div class="tab">🖨️ Принтери</div>
+            <div class="tab">💾 Памет</div>
+            <div class="tab">🖱️ Мишки</div>
+          </div>
+
+          <!-- Tab hero - light card -->
+          <div class="tab-hero">
+            <div class="tab-hero-text">
+              <div class="tab-hero-badge">⚡ Светкавична оферта</div>
+              <div class="tab-hero-title">Acer Nitro V15 RTX 4050 144Hz</div>
+              <div class="tab-hero-price">609 € <span>871 €</span></div>
+              <button class="tab-hero-btn">Купи сега →</button>
+            </div>
+            <div class="tab-hero-em">💻</div>
+          </div>
+
+          <!-- Sort row -->
+          <div class="sort-row">
+            <span class="sort-label">247 продукта</span>
+            <div class="sort-btns">
+              <div class="sort-btn sel">Цена ↑</div>
+              <div class="sort-btn">Нови</div>
+              <div class="sort-btn">Топ</div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Tinted light cards -->
+        <div class="grid">
+          <div class="card g1">
+            <div class="card-img">💻<span class="card-badge">-30%</span></div>
+            <div class="card-name">Acer Nitro V15 RTX 4050</div>
+            <div class="card-rating">★★★★☆ <span>(124)</span></div>
+            <div class="card-old">871 €</div>
+            <div class="card-price">609 €</div>
+            <button class="card-add">+ Добави</button>
+          </div>
+          <div class="card g2">
+            <div class="card-img">💻<span class="card-badge t">Топ</span></div>
+            <div class="card-name">Lenovo IdeaPad 5 16AHP9</div>
+            <div class="card-rating">★★★★★ <span>(76)</span></div>
+            <div class="card-price">739 €</div>
+            <button class="card-add">+ Добави</button>
+          </div>
+          <div class="card g3">
+            <div class="card-img">💻<span class="card-badge">-15%</span></div>
+            <div class="card-name">ASUS VivoBook 15 OLED</div>
+            <div class="card-rating">★★★★☆ <span>(52)</span></div>
+            <div class="card-old">659 €</div>
+            <div class="card-price">559 €</div>
+            <button class="card-add">+ Добави</button>
+          </div>
+          <div class="card g4">
+            <div class="card-img">💻<span class="card-badge n">Нов</span></div>
+            <div class="card-name">MSI Katana 15 B13VGK</div>
+            <div class="card-rating">★★★★★ <span>(33)</span></div>
+            <div class="card-price">1 012 €</div>
+            <button class="card-add">+ Добави</button>
+          </div>
+          <div class="card g1">
+            <div class="card-img">🖥️<span class="card-badge">-20%</span></div>
+            <div class="card-name">Samsung 27" 144Hz IPS</div>
+            <div class="card-rating">★★★★★ <span>(88)</span></div>
+            <div class="card-old">306 €</div>
+            <div class="card-price">245 €</div>
+            <button class="card-add">+ Добави</button>
+          </div>
+          <div class="card g3">
+            <div class="card-img">🖱️<span class="card-badge">-15%</span></div>
+            <div class="card-name">ASUS ROG Strix Impact III</div>
+            <div class="card-rating">★★★★★ <span>(200)</span></div>
+            <div class="card-old">59 €</div>
+            <div class="card-price">49 €</div>
+            <button class="card-add">+ Добави</button>
+          </div>
+        </div>
+
+        <!-- Trust -->
+        <div class="trust">
+          <div class="trust-item"><span class="trust-icon">🚚</span><div><div class="trust-text">Безплатна доставка</div><div class="trust-sub">над 100 €</div></div></div>
+          <div class="trust-item"><span class="trust-icon">🛡️</span><div><div class="trust-text">24м. гаранция</div><div class="trust-sub">официален сервиз</div></div></div>
+          <div class="trust-item"><span class="trust-icon">↩️</span><div><div class="trust-text">14 дни връщане</div><div class="trust-sub">без въпроси</div></div></div>
+          <div class="trust-item"><span class="trust-icon">💳</span><div><div class="trust-text">Сигурно плащане</div><div class="trust-sub">карта / наложен</div></div></div>
+        </div>
+
+        <!-- Bottom nav -->
+        <div class="bn">
+          <button class="bn-btn on"><span class="bn-icon">🏠</span>Начало</button>
+          <button class="bn-btn"><span class="bn-icon">🗂️</span>Категории</button>
+          <button class="bn-btn"><span class="bn-icon">🔍</span>Търсене</button>
+          <button class="bn-btn"><span class="bn-icon">❤️</span>Любими</button>
+          <button class="bn-btn"><span class="bn-icon">👤</span>Акаунт</button>
+        </div>
+
+      </div>
+    </div>
+    <div class="phone-sublabel">Превърти надолу в телефона за повече продукти</div>
+  </div>
+
+</div>
+
+<div class="explainer">
+  <h2>Елементи от кое идват</h2>
+  <div class="exp-row"><span class="exp-tag">I</span><div class="exp-text"><strong>Full bleed hero</strong> — overlay header, пълноширок тъмен слайд с gradient, вертикални slide dots</div></div>
+  <div class="exp-row"><span class="exp-tag">K</span><div class="exp-text"><strong>Категорийни табове</strong> — хоризонтален скрол под search, активен таб сменя hero картата и продуктите</div></div>
+  <div class="exp-row"><span class="exp-tag">K</span><div class="exp-text"><strong>Tab hero карта</strong> — показва топ продукт от избраната категория с цена и бутон</div></div>
+  <div class="exp-row"><span class="exp-tag">K</span><div class="exp-text"><strong>Sort row</strong> — брой продукти + сортиране по цена / нови / топ</div></div>
+  <div class="exp-row"><span class="exp-tag">H</span><div class="exp-text"><strong>Tinted cards</strong> — светъл вариант на gradient картите: индиго / зелено / кехлибар / лилаво — всяка карта различна, но в пастелни тонове</div></div>
+  <div class="exp-row"><span class="exp-tag">A</span><div class="exp-text"><strong>Trust 2x2</strong> — гаранция, доставка, връщане, плащане</div></div>
+  <div class="exp-row"><span class="exp-tag">G</span><div class="exp-text"><strong>Star ratings</strong> — ★★★★☆ с брой отзиви под всеки продукт</div></div>
+</div>
+
+</body>
+</html>

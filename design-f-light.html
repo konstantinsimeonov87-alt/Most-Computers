@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Design F — Light Version</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:-apple-system,'SF Pro Display','Segoe UI',sans-serif; background:#f0f0f0; }
+
+.page { padding:40px 32px; }
+h1 { font-size:26px; font-weight:900; color:#111; margin-bottom:6px; }
+.subtitle { color:#888; font-size:14px; margin-bottom:36px; }
+
+/* ── Tabs ── */
+.tabs { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:36px; }
+.tab { padding:9px 20px; border-radius:22px; border:1.5px solid #ddd; background:#fff; cursor:pointer; font-size:13px; font-weight:600; color:#666; transition:all .2s; }
+.tab.active { background:#bd1105; border-color:#bd1105; color:#fff; }
+
+/* ── Phone ── */
+.showcase { display:flex; gap:48px; flex-wrap:wrap; justify-content:center; align-items:flex-start; }
+.phone-wrap { text-align:center; }
+.label { font-size:11px; font-weight:800; color:#888; text-transform:uppercase; letter-spacing:1px; margin-bottom:14px; }
+.badge { display:inline-block; font-size:10px; padding:3px 9px; border-radius:12px; margin-left:6px; font-weight:700; vertical-align:middle; border:1px solid; }
+.b-pastel { background:#f0fdf4; color:#15803d; border-color:#bbf7d0; }
+.b-outline { background:#fff7ed; color:#c2410c; border-color:#fed7aa; }
+.b-mixed  { background:#fdf4ff; color:#9333ea; border-color:#e9d5ff; }
+
+.phone {
+  width:375px; height:812px; background:#f8f9fa; border-radius:50px;
+  box-shadow: 0 0 0 2px #e0e0e0, 0 0 0 10px #d0d0d0, 0 0 0 12px #c0c0c0, 0 40px 80px rgba(0,0,0,.2);
+  overflow:hidden; position:relative; display:inline-block;
+}
+.phone::before {
+  content:''; position:absolute; top:0; left:50%; transform:translateX(-50%);
+  width:126px; height:34px; background:#1a1a1a; border-radius:0 0 20px 20px; z-index:100;
+}
+
+/* ── Status bar ── */
+.sb { height:54px; display:flex; align-items:flex-end; padding:0 28px 10px; background:#fff; }
+.sb-time { font-size:15px; font-weight:800; color:#111; flex:1; }
+.sb-right { font-size:11px; font-weight:700; color:#111; }
+
+/* ── Header ── */
+.hdr { height:60px; background:#fff; display:flex; align-items:center; padding:0 18px; gap:12px; border-bottom:1px solid #f0f0f0; }
+.logo { font-weight:900; font-size:17px; color:#1a1a1a; }
+.logo span { color:#bd1105; }
+.search-pill { flex:1; height:38px; background:#f5f5f5; border-radius:19px; display:flex; align-items:center; padding:0 14px; gap:8px; font-size:13px; color:#aaa; }
+.cart-wrap { position:relative; }
+.cart-badge { position:absolute; top:-3px; right:-3px; width:16px; height:16px; background:#bd1105; border-radius:50%; font-size:9px; font-weight:800; color:#fff; display:flex; align-items:center; justify-content:center; }
+
+/* ── Page header ── */
+.page-hdr { background:#fff; padding:14px 18px 12px; border-bottom:1px solid #f0f0f0; }
+.page-hdr-title { font-size:22px; font-weight:900; color:#111; }
+.page-hdr-sub { font-size:12px; color:#9ca3af; margin-top:2px; }
+
+/* ── Content ── */
+.content { height:596px; overflow-y:auto; background:#f5f6f8; padding:14px; }
+
+/* ── Sale banner ── */
+.sale-banner { border-radius:18px; padding:18px 20px; margin-bottom:12px; display:flex; align-items:center; justify-content:space-between; }
+.sb-text .tag { font-size:10px; text-transform:uppercase; letter-spacing:1px; font-weight:700; }
+.sb-text .title { font-size:20px; font-weight:900; margin-top:3px; }
+.sb-text .sub { font-size:12px; margin-top:4px; }
+.sb-cta { border-radius:22px; padding:9px 16px; font-size:13px; font-weight:700; flex-shrink:0; }
+
+/* ── Bottom nav ── */
+.bnav { position:absolute; bottom:0; left:0; right:0; height:84px; background:#fff; border-top:1px solid #f0f0f0; display:flex; align-items:flex-start; padding-top:10px; }
+.bn { flex:1; display:flex; flex-direction:column; align-items:center; gap:3px; }
+.bn svg { width:22px; height:22px; }
+.bn span { font-size:10px; font-weight:600; }
+.bn.on svg, .bn.on span { color:#bd1105; }
+.bn:not(.on) svg, .bn:not(.on) span { color:#c0c0c0; }
+
+/* ── Design show/hide ── */
+.design { display:none; }
+.design.active { display:block; }
+
+/* ── Verdict ── */
+.verdict { margin-top:20px; max-width:375px; background:#fff; border-radius:16px; padding:16px 18px; border:1px solid #e5e7eb; text-align:left; }
+.verdict-title { font-size:11px; font-weight:800; color:#111; margin-bottom:8px; text-transform:uppercase; letter-spacing:.5px; }
+.verdict ul { font-size:12px; padding-left:14px; line-height:2.1; }
+.pro  { color:#15803d; }
+.con  { color:#bd1105; }
+.note { color:#9333ea; }
+
+/* ════════════════════════════════════
+   L1 — SOFT PASTEL CARDS
+   Пастелни градиенти, цветни SVG икони
+════════════════════════════════════ */
+.grid-pastel { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+
+.cat-pastel {
+  border-radius:18px; overflow:hidden; height:136px;
+  position:relative; cursor:pointer;
+}
+.cp-bg {
+  width:100%; height:100%; display:flex; align-items:center; justify-content:center;
+}
+/* Soft pastel gradients */
+.p-laptops    { background:linear-gradient(145deg, #dbeafe 0%, #bfdbfe 100%); }
+.p-phones     { background:linear-gradient(145deg, #f1f5f9 0%, #e2e8f0 100%); }
+.p-desktops   { background:linear-gradient(145deg, #dcfce7 0%, #bbf7d0 100%); }
+.p-components { background:linear-gradient(145deg, #fee2e2 0%, #fecaca 100%); }
+.p-monitors   { background:linear-gradient(145deg, #e0e7ff 0%, #c7d2fe 100%); }
+.p-peripherals{ background:linear-gradient(145deg, #d1fae5 0%, #a7f3d0 100%); }
+.p-audio      { background:linear-gradient(145deg, #ede9fe 0%, #ddd6fe 100%); }
+.p-cameras    { background:linear-gradient(145deg, #fef3c7 0%, #fde68a 100%); }
+.p-network    { background:linear-gradient(145deg, #cffafe 0%, #a5f3fc 100%); }
+.p-storage    { background:linear-gradient(145deg, #fce7f3 0%, #fbcfe8 100%); }
+.p-printers   { background:linear-gradient(145deg, #f0fdf4 0%, #dcfce7 100%); }
+.p-ups        { background:linear-gradient(145deg, #fff7ed 0%, #fed7aa 100%); }
+
+.cp-icon { width:52px; height:52px; filter:drop-shadow(0 2px 8px rgba(0,0,0,.08)); }
+/* Icon colors per category */
+.ic-laptops    { color:#1d4ed8; }
+.ic-phones     { color:#334155; }
+.ic-desktops   { color:#15803d; }
+.ic-components { color:#bd1105; }
+.ic-monitors   { color:#4338ca; }
+.ic-peripherals{ color:#047857; }
+.ic-audio      { color:#7c3aed; }
+.ic-cameras    { color:#b45309; }
+.ic-network    { color:#0e7490; }
+.ic-storage    { color:#be185d; }
+.ic-printers   { color:#166534; }
+.ic-ups        { color:#c2410c; }
+
+.cp-label {
+  position:absolute; bottom:0; left:0; right:0;
+  background:linear-gradient(to top, rgba(255,255,255,.85) 0%, transparent 100%);
+  padding:20px 14px 11px;
+}
+.cp-name  { font-size:13px; font-weight:800; color:#111; }
+.cp-count { font-size:10px; color:#6b7280; margin-top:1px; }
+.cp-badge { position:absolute; top:10px; right:10px; font-size:9px; font-weight:800; padding:3px 8px; border-radius:10px; }
+.b-red  { background:#fef2f2; color:#bd1105; border:1px solid #fecaca; }
+.b-green{ background:#f0fdf4; color:#15803d; border:1px solid #bbf7d0; }
+
+/* ════════════════════════════════════
+   L2 — OUTLINED CARDS
+   Бели карти с цветен border + голяма SVG
+════════════════════════════════════ */
+.grid-outline { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+
+.cat-outline {
+  border-radius:18px; background:#fff; height:136px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:10px; cursor:pointer; border:2px solid transparent;
+  transition:all .2s; position:relative;
+  box-shadow:0 1px 4px rgba(0,0,0,.06);
+}
+.co-icon { width:44px; height:44px; }
+.co-text { text-align:center; }
+.co-name { font-size:13px; font-weight:800; color:#111; }
+.co-count { font-size:10px; color:#9ca3af; margin-top:2px; }
+.co-badge { position:absolute; top:10px; right:10px; font-size:9px; font-weight:800; padding:3px 8px; border-radius:10px; }
+
+/* Outline colors per category */
+.o-laptops:hover    { border-color:#bfdbfe; }
+.o-phones:hover     { border-color:#e2e8f0; }
+.o-desktops:hover   { border-color:#bbf7d0; }
+.o-components:hover { border-color:#fecaca; }
+.o-monitors:hover   { border-color:#c7d2fe; }
+.o-peripherals:hover{ border-color:#a7f3d0; }
+.o-audio:hover      { border-color:#ddd6fe; }
+.o-cameras:hover    { border-color:#fde68a; }
+
+/* Top accent line */
+.accent-line { position:absolute; top:0; left:18px; right:18px; height:3px; border-radius:0 0 3px 3px; }
+.al-blue   { background:#3b82f6; }
+.al-slate  { background:#64748b; }
+.al-green  { background:#22c55e; }
+.al-red    { background:#bd1105; }
+.al-indigo { background:#6366f1; }
+.al-emerald{ background:#10b981; }
+.al-purple { background:#a855f7; }
+.al-amber  { background:#f59e0b; }
+
+/* ════════════════════════════════════
+   L3 — MIXED: Big featured + small grid
+   Premiere category + compact others
+════════════════════════════════════ */
+.featured-card {
+  border-radius:18px; height:150px; margin-bottom:10px;
+  display:flex; align-items:center; gap:20px; padding:0 22px;
+  background:linear-gradient(135deg, #1d4ed8 0%, #1e3a8a 100%);
+  position:relative; overflow:hidden; cursor:pointer;
+}
+.fc-icon { width:72px; height:72px; color:rgba(255,255,255,.9); flex-shrink:0; filter:drop-shadow(0 4px 16px rgba(0,0,0,.2)); }
+.fc-text .fc-tag { font-size:10px; color:rgba(255,255,255,.6); text-transform:uppercase; letter-spacing:1px; font-weight:700; }
+.fc-text .fc-title { font-size:22px; font-weight:900; color:#fff; margin-top:3px; }
+.fc-text .fc-count { font-size:12px; color:rgba(255,255,255,.7); margin-top:4px; }
+.fc-text .fc-badge { display:inline-block; background:rgba(255,255,255,.15); color:#fff; font-size:10px; font-weight:700; padding:3px 10px; border-radius:12px; margin-top:8px; border:1px solid rgba(255,255,255,.2); }
+.fc-shimmer { position:absolute; top:-30px; right:-30px; width:160px; height:160px; background:radial-gradient(circle, rgba(255,255,255,.08) 0%, transparent 70%); }
+
+.grid-mixed-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; }
+.cat-mixed {
+  border-radius:14px; background:#fff; padding:12px 8px;
+  display:flex; flex-direction:column; align-items:center; gap:7px;
+  box-shadow:0 1px 4px rgba(0,0,0,.06); cursor:pointer;
+}
+.cm-icon-wrap { width:42px; height:42px; border-radius:12px; display:flex; align-items:center; justify-content:center; }
+.cm-icon { width:22px; height:22px; }
+.cm-name { font-size:11px; font-weight:800; color:#1f2937; text-align:center; line-height:1.2; }
+.cm-count { font-size:9px; color:#9ca3af; }
+
+/* Grid for 2nd row in L3 */
+.grid-mixed-2 { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:8px; }
+.cat-mixed-h {
+  border-radius:14px; overflow:hidden; height:90px;
+  position:relative; cursor:pointer;
+}
+.cmh-bg { width:100%; height:100%; display:flex; align-items:center; justify-content:center; }
+.cmh-icon { width:32px; height:32px; color:rgba(255,255,255,.9); }
+.cmh-label { position:absolute; bottom:0; left:0; right:0; background:linear-gradient(to top, rgba(0,0,0,.5) 0%, transparent 100%); padding:12px 10px 8px; }
+.cmh-name { font-size:12px; font-weight:800; color:#fff; }
+</style>
+</head>
+<body>
+
+<!-- SVG Sprite -->
+<svg style="display:none" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="ic-laptop" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 16V7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v9m16 0H4m16 0 1.28 2.55a1 1 0 0 1-.9 1.45H3.62a1 1 0 0 1-.9-1.45L4 16"/></symbol>
+  <symbol id="ic-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></symbol>
+  <symbol id="ic-desktop" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="18" x="5" y="3" rx="2"/><path d="M12 8v4"/><path d="M10 14h4"/></symbol>
+  <symbol id="ic-cpu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 2v2M15 2v2M9 20v2M15 20v2M2 9h2M2 15h2M20 9h2M20 15h2"/></symbol>
+  <symbol id="ic-monitor" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="3" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/></symbol>
+  <symbol id="ic-mouse" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="7"/><path d="M12 6v4"/></symbol>
+  <symbol id="ic-headphones" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3"/></symbol>
+  <symbol id="ic-camera" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3z"/><circle cx="12" cy="13" r="3"/></symbol>
+  <symbol id="ic-wifi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" x2="12.01" y1="20" y2="20"/></symbol>
+  <symbol id="ic-storage" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4.03 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4.03 3 9 3s9-1.34 9-3"/></symbol>
+  <symbol id="ic-printer" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect width="12" height="8" x="6" y="14"/></symbol>
+  <symbol id="ic-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></symbol>
+  <symbol id="ic-package" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"/><path d="M12 22V12"/><path d="m3.3 7 7.703 4.734a2 2 0 0 0 1.994 0L20.7 7"/><path d="m7.5 4.27 9 5.15"/></symbol>
+  <symbol id="ic-cart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></symbol>
+  <symbol id="ic-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
+  <symbol id="ic-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+  <symbol id="ic-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></symbol>
+  <symbol id="ic-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></symbol>
+  <symbol id="ic-heart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></symbol>
+</svg>
+
+<div class="page">
+  <h1>Design F — Светъл фон</h1>
+  <p class="subtitle">3 варианта само за светлата тема, с цветовете от предишните мокъпи</p>
+
+  <div class="tabs">
+    <div class="tab active" onclick="show('l1')">L1 — Пастел</div>
+    <div class="tab" onclick="show('l2')">L2 — Outline</div>
+    <div class="tab" onclick="show('l3')">L3 — Featured + Grid</div>
+    <div class="tab" onclick="show('all')">Сравнение</div>
+  </div>
+
+  <!-- ══════ L1: PASTEL ══════ -->
+  <div id="design-l1" class="design active">
+    <div class="showcase">
+      <div class="phone-wrap">
+        <div class="label">L1 — Soft Pastel <span class="badge b-pastel">Нежен, модерен</span></div>
+        <div class="phone">
+          <div class="sb"><span class="sb-time">13:32</span><span class="sb-right">●●●● WiFi 62%</span></div>
+          <div class="hdr">
+            <div class="logo">MOST <span>COMPUTERS</span></div>
+            <div class="search-pill"><svg width="14" height="14"><use href="#ic-search"/></svg> Търси...</div>
+            <div class="cart-wrap"><svg width="22" height="22" style="color:#374151"><use href="#ic-cart"/></svg><div class="cart-badge">3</div></div>
+          </div>
+          <div class="page-hdr">
+            <div class="page-hdr-title">Категории</div>
+            <div class="page-hdr-sub">15 категории · 2 400+ продукта</div>
+          </div>
+          <div class="content">
+            <!-- Sale banner -->
+            <div class="sale-banner" style="background:linear-gradient(135deg,#bd1105,#8b0a04);margin-bottom:10px;">
+              <div class="sb-text">
+                <div class="tag" style="color:rgba(255,255,255,.6);">🔥 Ограничено</div>
+                <div class="title" style="color:#fff;">Sale до -60%</div>
+                <div class="sub" style="color:rgba(255,255,255,.75);">Тази седмица</div>
+              </div>
+              <div class="sb-cta" style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);color:#fff;">Виж →</div>
+            </div>
+
+            <div class="grid-pastel">
+              <div class="cat-pastel"><div class="cp-bg p-laptops"><svg class="cp-icon ic-laptops"><use href="#ic-laptop"/></svg><div class="cp-label"><div class="cp-name">Лаптопи</div><div class="cp-count">324 продукта</div></div><div class="cp-badge b-red">-20%</div></div></div>
+              <div class="cat-pastel"><div class="cp-bg p-phones"><svg class="cp-icon ic-phones"><use href="#ic-phone"/></svg><div class="cp-label"><div class="cp-name">Телефони</div><div class="cp-count">148 продукта</div></div></div></div>
+              <div class="cat-pastel"><div class="cp-bg p-desktops"><svg class="cp-icon ic-desktops"><use href="#ic-desktop"/></svg><div class="cp-label"><div class="cp-name">Настолни</div><div class="cp-count">87 продукта</div></div></div></div>
+              <div class="cat-pastel"><div class="cp-bg p-components"><svg class="cp-icon ic-components"><use href="#ic-cpu"/></svg><div class="cp-label"><div class="cp-name">Компоненти</div><div class="cp-count">210 продукта</div></div><div class="cp-badge b-green">Ново</div></div></div>
+              <div class="cat-pastel"><div class="cp-bg p-monitors"><svg class="cp-icon ic-monitors"><use href="#ic-monitor"/></svg><div class="cp-label"><div class="cp-name">Монитори</div><div class="cp-count">95 продукта</div></div></div></div>
+              <div class="cat-pastel"><div class="cp-bg p-peripherals"><svg class="cp-icon ic-peripherals"><use href="#ic-mouse"/></svg><div class="cp-label"><div class="cp-name">Периферия</div><div class="cp-count">180 продукта</div></div></div></div>
+              <div class="cat-pastel"><div class="cp-bg p-audio"><svg class="cp-icon ic-audio"><use href="#ic-headphones"/></svg><div class="cp-label"><div class="cp-name">Аудио</div><div class="cp-count">62 продукта</div></div></div></div>
+              <div class="cat-pastel"><div class="cp-bg p-cameras"><svg class="cp-icon ic-cameras"><use href="#ic-camera"/></svg><div class="cp-label"><div class="cp-name">Камери</div><div class="cp-count">44 продукта</div></div></div></div>
+            </div>
+
+            <div style="margin-top:10px;background:#fff;border-radius:14px;padding:14px 16px;box-shadow:0 1px 4px rgba(0,0,0,.05);">
+              <div style="font-size:11px;font-weight:800;color:#9ca3af;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;">Информация</div>
+              <div style="display:flex;flex-wrap:wrap;gap:7px;">
+                <span style="font-size:12px;color:#6b7280;background:#f5f5f5;padding:5px 12px;border-radius:20px;">За нас</span>
+                <span style="font-size:12px;color:#6b7280;background:#f5f5f5;padding:5px 12px;border-radius:20px;">Доставка</span>
+                <span style="font-size:12px;color:#6b7280;background:#f5f5f5;padding:5px 12px;border-radius:20px;">Контакти</span>
+                <span style="font-size:12px;color:#6b7280;background:#f5f5f5;padding:5px 12px;border-radius:20px;">Блог</span>
+                <span style="font-size:12px;color:#6b7280;background:#f5f5f5;padding:5px 12px;border-radius:20px;">Сервиз</span>
+              </div>
+            </div>
+          </div>
+          <div class="bnav">
+            <div class="bn"><svg style="color:#c0c0c0"><use href="#ic-home"/></svg><span style="color:#c0c0c0">Начало</span></div>
+            <div class="bn on"><svg><use href="#ic-grid"/></svg><span>Категории</span></div>
+            <div class="bn"><svg style="color:#c0c0c0"><use href="#ic-cart"/></svg><span style="color:#c0c0c0">Количка</span></div>
+            <div class="bn"><svg style="color:#c0c0c0"><use href="#ic-search"/></svg><span style="color:#c0c0c0">Търсене</span></div>
+            <div class="bn"><svg style="color:#c0c0c0"><use href="#ic-user"/></svg><span style="color:#c0c0c0">Профил</span></div>
+          </div>
+        </div>
+        <div class="verdict">
+          <div class="verdict-title">L1 — Soft Pastel</div>
+          <ul>
+            <li class="pro">✓ Пастелните цветове са меки — не уморяват окото</li>
+            <li class="pro">✓ Цветната SVG икона = бърза идентификация</li>
+            <li class="pro">✓ Градиентът дава дълбочина без тъмен фон</li>
+            <li class="pro">✓ Работи перфектно на light mode телефони</li>
+            <li class="con">– По-малко "tech" усещане от тъмните варианти</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════ L2: OUTLINE ══════ -->
+  <div id="design-l2" class="design">
+    <div class="showcase">
+      <div class="phone-wrap">
+        <div class="label">L2 — Outline Cards <span class="badge b-outline">Изчистен</span></div>
+        <div class="phone">
+          <div class="sb"><span class="sb-time">13:32</span><span class="sb-right">●●●● WiFi 62%</span></div>
+          <div class="hdr">
+            <div class="logo">MOST <span>COMPUTERS</span></div>
+            <div class="search-pill"><svg width="14" height="14"><use href="#ic-search"/></svg> Търси...</div>
+            <div class="cart-wrap"><svg width="22" height="22" style="color:#374151"><use href="#ic-cart"/></svg><div class="cart-badge">3</div></div>
+          </div>
+          <div class="page-hdr">
+            <div class="page-hdr-title">Категории</div>
+            <div class="page-hdr-sub">15 категории · 2 400+ продукта</div>
+          </div>
+          <div class="content">
+            <div class="sale-banner" style="background:linear-gradient(135deg,#bd1105,#8b0a04);margin-bottom:10px;">
+              <div class="sb-text">
+                <div class="tag" style="color:rgba(255,255,255,.6);">🔥 Ограничено</div>
+                <div class="title" style="color:#fff;">Sale до -60%</div>
+                <div class="sub" style="color:rgba(255,255,255,.75);">Тази седмица</div>
+              </div>
+              <div class="sb-cta" style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);color:#fff;">Виж →</div>
+            </div>
+
+            <div class="grid-outline">
+              <div class="cat-outline o-laptops">
+                <div class="accent-line al-blue"></div>
+                <svg class="co-icon ic-laptops"><use href="#ic-laptop"/></svg>
+                <div class="co-text"><div class="co-name">Лаптопи</div><div class="co-count">324 продукта</div></div>
+                <div class="co-badge b-red">-20%</div>
+              </div>
+              <div class="cat-outline o-phones">
+                <div class="accent-line al-slate"></div>
+                <svg class="co-icon ic-phones"><use href="#ic-phone"/></svg>
+                <div class="co-text"><div class="co-name">Телефони</div><div class="co-count">148 продукта</div></div>
+              </div>
+              <div class="cat-outline o-desktops">
+                <div class="accent-line al-green"></div>
+                <svg class="co-icon ic-desktops"><use href="#ic-desktop"/></svg>
+                <div class="co-text"><div class="co-name">Настолни</div><div class="co-count">87 продукта</div></div>
+              </div>
+              <div class="cat-outline o-components">
+                <div class="accent-line al-red"></div>
+                <svg class="co-icon ic-components"><use href="#ic-cpu"/></svg>
+                <div class="co-text"><div class="co-name">Компоненти</div><div class="co-count">210 продукта</div></div>
+                <div class="co-badge b-green">Ново</div>
+              </div>
+              <div class="cat-outline o-monitors">
+                <div class="accent-line al-indigo"></div>
+                <svg class="co-icon ic-monitors"><use href="#ic-monitor"/></svg>
+                <div class="co-text"><div class="co-name">Монитори</div><div class="co-count">95 продукта</div></div>
+              </div>
+              <div class="cat-outline o-peripherals">
+                <div class="accent-line al-emerald"></div>
+                <svg class="co-icon ic-peripherals"><use href="#ic-mouse"/></svg>
+                <div class="co-text"><div class="co-name">Периферия</div><div class="co-count">180 продукта</div></div>
+              </div>
+              <div class="cat-outline o-audio">
+                <div class="accent-line al-purple"></div>
+                <svg class="co-icon ic-audio"><use href="#ic-headphones"/></svg>
+                <div class="co-text"><div class="co-name">Аудио</div><div class="co-count">62 продукта</div></div>
+              </div>
+              <div class="cat-outline o-cameras">
+                <div class="accent-line al-amber"></div>
+                <svg class="co-icon ic-cameras"><use href="#ic-camera"/></svg>
+                <div class="co-text"><div class="co-name">Камери</div><div class="co-count">44 продукта</div></div>
+              </div>
+            </div>
+
+            <div style="margin-top:10px;background:#fff;border-radius:14px;padding:14px 16px;box-shadow:0 1px 4px rgba(0,0,0,.05);">
+              <div style="font-size:11px;font-weight:800;color:#9ca3af;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;">Информация</div>
+              <div style="display:flex;flex-wrap:wrap;gap:7px;">
+                <span style="font-size:12px;color:#6b7280;background:#f5f5f5;padding:5px 12px;border-radius:20px;">За нас</span>
+                <span style="font-size:12px;color:#6b7280;background:#f5f5f5;padding:5px 12px;border-radius:20px;">Доставка</span>
+                <span style="font-size:12px;color:#6b7280;background:#f5f5f5;padding:5px 12px;border-radius:20px;">Контакти</span>
+                <span style="font-size:12px;color:#6b7280;background:#f5f5f5;padding:5px 12px;border-radius:20px;">Блог</span>
+                <span style="font-size:12px;color:#6b7280;background:#f5f5f5;padding:5px 12px;border-radius:20px;">Сервиз</span>
+              </div>
+            </div>
+          </div>
+          <div class="bnav">
+            <div class="bn"><svg style="color:#c0c0c0"><use href="#ic-home"/></svg><span style="color:#c0c0c0">Начало</span></div>
+            <div class="bn on"><svg><use href="#ic-grid"/></svg><span>Категории</span></div>
+            <div class="bn"><svg style="color:#c0c0c0"><use href="#ic-cart"/></svg><span style="color:#c0c0c0">Количка</span></div>
+            <div class="bn"><svg style="color:#c0c0c0"><use href="#ic-search"/></svg><span style="color:#c0c0c0">Търсене</span></div>
+            <div class="bn"><svg style="color:#c0c0c0"><use href="#ic-user"/></svg><span style="color:#c0c0c0">Профил</span></div>
+          </div>
+        </div>
+        <div class="verdict">
+          <div class="verdict-title">L2 — Outline Cards</div>
+          <ul>
+            <li class="pro">✓ Тънката цветна линия горе = категорията се разпознава</li>
+            <li class="pro">✓ Изчистен, без шум — иконата доминира</li>
+            <li class="pro">✓ Hover ефектът с border = тактилно усещане</li>
+            <li class="pro">✓ Най-лесен за имплементация от трите</li>
+            <li class="note">→ Подходящ ако искаш много чист, "enterprise" вид</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════ L3: FEATURED + GRID ══════ -->
+  <div id="design-l3" class="design">
+    <div class="showcase">
+      <div class="phone-wrap">
+        <div class="label">L3 — Featured + Grid <span class="badge b-mixed">Хибрид</span></div>
+        <div class="phone">
+          <div class="sb"><span class="sb-time">13:32</span><span class="sb-right">●●●● WiFi 62%</span></div>
+          <div class="hdr">
+            <div class="logo">MOST <span>COMPUTERS</span></div>
+            <div class="search-pill"><svg width="14" height="14"><use href="#ic-search"/></svg> Търси...</div>
+            <div class="cart-wrap"><svg width="22" height="22" style="color:#374151"><use href="#ic-cart"/></svg><div class="cart-badge">3</div></div>
+          </div>
+          <div class="page-hdr" style="display:flex;align-items:center;justify-content:space-between;padding:12px 18px;">
+            <div>
+              <div class="page-hdr-title">Категории</div>
+              <div class="page-hdr-sub">2 400+ продукта</div>
+            </div>
+            <div style="background:#fef2f2;color:#bd1105;font-size:11px;font-weight:800;padding:6px 12px;border-radius:20px;border:1px solid #fecaca;">🔥 Sale -60%</div>
+          </div>
+          <div class="content" style="padding:12px;">
+
+            <!-- Featured card: Laptops (top category) -->
+            <div class="featured-card">
+              <div class="fc-shimmer"></div>
+              <svg class="fc-icon"><use href="#ic-laptop"/></svg>
+              <div class="fc-text">
+                <div class="fc-tag">#1 категория</div>
+                <div class="fc-title">Лаптопи</div>
+                <div class="fc-count">324 продукта · от 299 €</div>
+                <div class="fc-badge">-20% тази седмица</div>
+              </div>
+            </div>
+
+            <!-- 3-column grid for next 6 -->
+            <div class="grid-mixed-3">
+              <div class="cat-mixed">
+                <div class="cm-icon-wrap" style="background:#eaecee;"><svg class="cm-icon" style="color:#334155;"><use href="#ic-phone"/></svg></div>
+                <div class="cm-name">Телефони</div>
+                <div class="cm-count">148 бр.</div>
+              </div>
+              <div class="cat-mixed">
+                <div class="cm-icon-wrap" style="background:#dcfce7;"><svg class="cm-icon" style="color:#15803d;"><use href="#ic-desktop"/></svg></div>
+                <div class="cm-name">Настолни</div>
+                <div class="cm-count">87 бр.</div>
+              </div>
+              <div class="cat-mixed">
+                <div class="cm-icon-wrap" style="background:#fee2e2;"><svg class="cm-icon" style="color:#bd1105;"><use href="#ic-cpu"/></svg></div>
+                <div class="cm-name">Компоненти</div>
+                <div class="cm-count">210 бр.</div>
+              </div>
+              <div class="cat-mixed">
+                <div class="cm-icon-wrap" style="background:#e0e7ff;"><svg class="cm-icon" style="color:#4338ca;"><use href="#ic-monitor"/></svg></div>
+                <div class="cm-name">Монитори</div>
+                <div class="cm-count">95 бр.</div>
+              </div>
+              <div class="cat-mixed">
+                <div class="cm-icon-wrap" style="background:#d1fae5;"><svg class="cm-icon" style="color:#047857;"><use href="#ic-mouse"/></svg></div>
+                <div class="cm-name">Периферия</div>
+                <div class="cm-count">180 бр.</div>
+              </div>
+              <div class="cat-mixed">
+                <div class="cm-icon-wrap" style="background:#ede9fe;"><svg class="cm-icon" style="color:#7c3aed;"><use href="#ic-headphones"/></svg></div>
+                <div class="cm-name">Аудио</div>
+                <div class="cm-count">62 бр.</div>
+              </div>
+            </div>
+
+            <!-- 2-column small for remaining -->
+            <div class="grid-mixed-2">
+              <div class="cat-mixed-h">
+                <div class="cmh-bg" style="background:linear-gradient(135deg,#0e7490,#06b6d4);"><svg class="cmh-icon"><use href="#ic-wifi"/></svg></div>
+                <div class="cmh-label"><div class="cmh-name">Мрежово</div></div>
+              </div>
+              <div class="cat-mixed-h">
+                <div class="cmh-bg" style="background:linear-gradient(135deg,#be185d,#ec4899);"><svg class="cmh-icon"><use href="#ic-storage"/></svg></div>
+                <div class="cmh-label"><div class="cmh-name">Памет</div></div>
+              </div>
+            </div>
+
+            <div style="margin-top:8px;background:#fff;border-radius:14px;padding:12px 14px;box-shadow:0 1px 4px rgba(0,0,0,.05);">
+              <div style="font-size:11px;font-weight:800;color:#9ca3af;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;">Информация</div>
+              <div style="display:flex;flex-wrap:wrap;gap:6px;">
+                <span style="font-size:11px;color:#6b7280;background:#f5f5f5;padding:4px 10px;border-radius:16px;">За нас</span>
+                <span style="font-size:11px;color:#6b7280;background:#f5f5f5;padding:4px 10px;border-radius:16px;">Доставка</span>
+                <span style="font-size:11px;color:#6b7280;background:#f5f5f5;padding:4px 10px;border-radius:16px;">Контакти</span>
+                <span style="font-size:11px;color:#6b7280;background:#f5f5f5;padding:4px 10px;border-radius:16px;">Блог</span>
+                <span style="font-size:11px;color:#6b7280;background:#f5f5f5;padding:4px 10px;border-radius:16px;">Сервиз</span>
+              </div>
+            </div>
+          </div>
+          <div class="bnav">
+            <div class="bn"><svg style="color:#c0c0c0"><use href="#ic-home"/></svg><span style="color:#c0c0c0">Начало</span></div>
+            <div class="bn on"><svg><use href="#ic-grid"/></svg><span>Категории</span></div>
+            <div class="bn"><svg style="color:#c0c0c0"><use href="#ic-cart"/></svg><span style="color:#c0c0c0">Количка</span></div>
+            <div class="bn"><svg style="color:#c0c0c0"><use href="#ic-search"/></svg><span style="color:#c0c0c0">Търсене</span></div>
+            <div class="bn"><svg style="color:#c0c0c0"><use href="#ic-user"/></svg><span style="color:#c0c0c0">Профил</span></div>
+          </div>
+        </div>
+        <div class="verdict">
+          <div class="verdict-title">L3 — Featured + Grid</div>
+          <ul>
+            <li class="pro">✓ "Лаптопи" featured = насочва трафика към топ категория</li>
+            <li class="pro">✓ 3 различни card размера = визуална йерархия</li>
+            <li class="pro">✓ Пълно покритие на всички 15 категории на екрана</li>
+            <li class="note">→ Най-интересен layout от светлите варианти</li>
+            <li class="con">– Featured категорията трябва да се управлява от CMS</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════ ALL THREE ══════ -->
+  <div id="design-all" class="design">
+    <div class="showcase" style="gap:28px;">
+
+      <!-- Mini L1 -->
+      <div style="text-align:center;">
+        <div class="label" style="font-size:10px;">L1 — Пастел</div>
+        <div style="width:200px;height:440px;background:#f8f9fa;border-radius:30px;box-shadow:0 0 0 6px #d0d0d0,0 0 0 7px #c0c0c0,0 20px 50px rgba(0,0,0,.2);overflow:hidden;position:relative;display:inline-block;">
+          <div style="height:28px;background:#fff;display:flex;align-items:flex-end;padding:0 14px 6px;justify-content:space-between;"><span style="font-size:11px;font-weight:800;">13:32</span><span style="font-size:9px;">62%</span></div>
+          <div style="background:#fff;padding:7px 10px;display:flex;align-items:center;gap:6px;border-bottom:1px solid #f0f0f0;"><span style="font-size:10px;font-weight:900;">MOST <span style="color:#bd1105;">C.</span></span><div style="flex:1;height:24px;background:#f5f5f5;border-radius:12px;"></div></div>
+          <div style="padding:7px 10px;border-bottom:1px solid #f0f0f0;"><div style="font-size:12px;font-weight:900;">Категории</div></div>
+          <div style="background:#f5f6f8;padding:7px;height:310px;overflow:hidden;">
+            <div style="background:linear-gradient(135deg,#bd1105,#8b0a04);border-radius:10px;padding:10px;color:#fff;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;"><div><div style="font-size:8px;opacity:.7;">🔥 Sale</div><div style="font-size:12px;font-weight:900;">до -60%</div></div><div style="background:rgba(255,255,255,.15);border-radius:10px;padding:4px 8px;font-size:8px;font-weight:700;">Виж →</div></div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;">
+              <div style="border-radius:10px;height:72px;background:linear-gradient(145deg,#dbeafe,#bfdbfe);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;position:relative;">
+                <svg width="22" height="22" style="color:#1d4ed8;"><use href="#ic-laptop"/></svg>
+                <span style="font-size:8px;font-weight:800;color:#111;">Лаптопи</span>
+                <div style="position:absolute;top:5px;right:5px;background:#fef2f2;color:#bd1105;border:1px solid #fecaca;font-size:7px;font-weight:800;padding:1px 5px;border-radius:6px;">-20%</div>
+              </div>
+              <div style="border-radius:10px;height:72px;background:linear-gradient(145deg,#f1f5f9,#e2e8f0);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;">
+                <svg width="22" height="22" style="color:#334155;"><use href="#ic-phone"/></svg>
+                <span style="font-size:8px;font-weight:800;color:#111;">Телефони</span>
+              </div>
+              <div style="border-radius:10px;height:72px;background:linear-gradient(145deg,#dcfce7,#bbf7d0);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;">
+                <svg width="22" height="22" style="color:#15803d;"><use href="#ic-desktop"/></svg>
+                <span style="font-size:8px;font-weight:800;color:#111;">Настолни</span>
+              </div>
+              <div style="border-radius:10px;height:72px;background:linear-gradient(145deg,#fee2e2,#fecaca);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;">
+                <svg width="22" height="22" style="color:#bd1105;"><use href="#ic-cpu"/></svg>
+                <span style="font-size:8px;font-weight:800;color:#111;">Компоненти</span>
+              </div>
+            </div>
+          </div>
+          <div style="position:absolute;bottom:0;left:0;right:0;height:46px;background:#fff;border-top:1px solid #f0f0f0;display:flex;justify-content:space-around;align-items:center;padding-top:4px;">
+            <div style="text-align:center;font-size:7px;color:#ccc;">🏠<br>Начало</div>
+            <div style="text-align:center;font-size:7px;color:#bd1105;font-weight:700;">⊞<br>Катег.</div>
+            <div style="text-align:center;font-size:7px;color:#ccc;">🛒<br>Кошница</div>
+            <div style="text-align:center;font-size:7px;color:#ccc;">🔍<br>Търсене</div>
+            <div style="text-align:center;font-size:7px;color:#ccc;">👤<br>Профил</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mini L2 -->
+      <div style="text-align:center;">
+        <div class="label" style="font-size:10px;">L2 — Outline</div>
+        <div style="width:200px;height:440px;background:#f8f9fa;border-radius:30px;box-shadow:0 0 0 6px #d0d0d0,0 0 0 7px #c0c0c0,0 20px 50px rgba(0,0,0,.2);overflow:hidden;position:relative;display:inline-block;">
+          <div style="height:28px;background:#fff;display:flex;align-items:flex-end;padding:0 14px 6px;justify-content:space-between;"><span style="font-size:11px;font-weight:800;">13:32</span><span style="font-size:9px;">62%</span></div>
+          <div style="background:#fff;padding:7px 10px;display:flex;align-items:center;gap:6px;border-bottom:1px solid #f0f0f0;"><span style="font-size:10px;font-weight:900;">MOST <span style="color:#bd1105;">C.</span></span><div style="flex:1;height:24px;background:#f5f5f5;border-radius:12px;"></div></div>
+          <div style="padding:7px 10px;border-bottom:1px solid #f0f0f0;"><div style="font-size:12px;font-weight:900;">Категории</div></div>
+          <div style="background:#f5f6f8;padding:7px;height:310px;overflow:hidden;">
+            <div style="background:linear-gradient(135deg,#bd1105,#8b0a04);border-radius:10px;padding:10px;color:#fff;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;"><div><div style="font-size:8px;opacity:.7;">🔥 Sale</div><div style="font-size:12px;font-weight:900;">до -60%</div></div><div style="background:rgba(255,255,255,.15);border-radius:10px;padding:4px 8px;font-size:8px;font-weight:700;">Виж →</div></div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;">
+              <div style="border-radius:10px;height:72px;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.06);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;position:relative;overflow:hidden;">
+                <div style="position:absolute;top:0;left:10px;right:10px;height:2.5px;background:#3b82f6;border-radius:0 0 2px 2px;"></div>
+                <svg width="22" height="22" style="color:#1d4ed8;"><use href="#ic-laptop"/></svg>
+                <span style="font-size:8px;font-weight:800;color:#111;">Лаптопи</span>
+              </div>
+              <div style="border-radius:10px;height:72px;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.06);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;position:relative;overflow:hidden;">
+                <div style="position:absolute;top:0;left:10px;right:10px;height:2.5px;background:#64748b;border-radius:0 0 2px 2px;"></div>
+                <svg width="22" height="22" style="color:#334155;"><use href="#ic-phone"/></svg>
+                <span style="font-size:8px;font-weight:800;color:#111;">Телефони</span>
+              </div>
+              <div style="border-radius:10px;height:72px;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.06);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;position:relative;overflow:hidden;">
+                <div style="position:absolute;top:0;left:10px;right:10px;height:2.5px;background:#22c55e;border-radius:0 0 2px 2px;"></div>
+                <svg width="22" height="22" style="color:#15803d;"><use href="#ic-desktop"/></svg>
+                <span style="font-size:8px;font-weight:800;color:#111;">Настолни</span>
+              </div>
+              <div style="border-radius:10px;height:72px;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.06);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;position:relative;overflow:hidden;">
+                <div style="position:absolute;top:0;left:10px;right:10px;height:2.5px;background:#bd1105;border-radius:0 0 2px 2px;"></div>
+                <svg width="22" height="22" style="color:#bd1105;"><use href="#ic-cpu"/></svg>
+                <span style="font-size:8px;font-weight:800;color:#111;">Компоненти</span>
+              </div>
+            </div>
+          </div>
+          <div style="position:absolute;bottom:0;left:0;right:0;height:46px;background:#fff;border-top:1px solid #f0f0f0;display:flex;justify-content:space-around;align-items:center;padding-top:4px;">
+            <div style="text-align:center;font-size:7px;color:#ccc;">🏠<br>Начало</div>
+            <div style="text-align:center;font-size:7px;color:#bd1105;font-weight:700;">⊞<br>Катег.</div>
+            <div style="text-align:center;font-size:7px;color:#ccc;">🛒<br>Кошница</div>
+            <div style="text-align:center;font-size:7px;color:#ccc;">🔍<br>Търсене</div>
+            <div style="text-align:center;font-size:7px;color:#ccc;">👤<br>Профил</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mini L3 -->
+      <div style="text-align:center;">
+        <div class="label" style="font-size:10px;">L3 — Featured</div>
+        <div style="width:200px;height:440px;background:#f8f9fa;border-radius:30px;box-shadow:0 0 0 6px #d0d0d0,0 0 0 7px #c0c0c0,0 20px 50px rgba(0,0,0,.2);overflow:hidden;position:relative;display:inline-block;">
+          <div style="height:28px;background:#fff;display:flex;align-items:flex-end;padding:0 14px 6px;justify-content:space-between;"><span style="font-size:11px;font-weight:800;">13:32</span><span style="font-size:9px;">62%</span></div>
+          <div style="background:#fff;padding:7px 10px;display:flex;align-items:center;gap:6px;border-bottom:1px solid #f0f0f0;"><span style="font-size:10px;font-weight:900;">MOST <span style="color:#bd1105;">C.</span></span><div style="flex:1;height:24px;background:#f5f5f5;border-radius:12px;"></div></div>
+          <div style="padding:7px 10px;border-bottom:1px solid #f0f0f0;display:flex;align-items:center;justify-content:space-between;"><div style="font-size:12px;font-weight:900;">Категории</div><div style="font-size:7px;font-weight:800;background:#fef2f2;color:#bd1105;padding:2px 6px;border-radius:8px;border:1px solid #fecaca;">🔥 -60%</div></div>
+          <div style="background:#f5f6f8;padding:7px;height:310px;overflow:hidden;">
+            <!-- Featured -->
+            <div style="border-radius:10px;height:72px;background:linear-gradient(135deg,#1d4ed8,#1e3a8a);margin-bottom:6px;display:flex;align-items:center;padding:0 12px;gap:10px;position:relative;overflow:hidden;">
+              <div style="position:absolute;top:-20px;right:-20px;width:80px;height:80px;background:radial-gradient(circle,rgba(255,255,255,.08),transparent 70%);"></div>
+              <svg width="32" height="32" style="color:rgba(255,255,255,.9);flex-shrink:0;"><use href="#ic-laptop"/></svg>
+              <div><div style="font-size:7px;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.5px;">#1 категория</div><div style="font-size:12px;font-weight:900;color:#fff;">Лаптопи</div><div style="font-size:7px;color:rgba(255,255,255,.7);margin-top:1px;">324 продукта</div></div>
+            </div>
+            <!-- 3-col grid -->
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;margin-bottom:5px;">
+              <div style="border-radius:8px;background:#fff;padding:8px 4px;display:flex;flex-direction:column;align-items:center;gap:4px;box-shadow:0 1px 2px rgba(0,0,0,.06);">
+                <div style="width:28px;height:28px;background:#eaecee;border-radius:8px;display:flex;align-items:center;justify-content:center;"><svg width="14" height="14" style="color:#334155;"><use href="#ic-phone"/></svg></div>
+                <span style="font-size:7px;font-weight:800;color:#111;text-align:center;">Телефони</span>
+              </div>
+              <div style="border-radius:8px;background:#fff;padding:8px 4px;display:flex;flex-direction:column;align-items:center;gap:4px;box-shadow:0 1px 2px rgba(0,0,0,.06);">
+                <div style="width:28px;height:28px;background:#dcfce7;border-radius:8px;display:flex;align-items:center;justify-content:center;"><svg width="14" height="14" style="color:#15803d;"><use href="#ic-desktop"/></svg></div>
+                <span style="font-size:7px;font-weight:800;color:#111;text-align:center;">Настолни</span>
+              </div>
+              <div style="border-radius:8px;background:#fff;padding:8px 4px;display:flex;flex-direction:column;align-items:center;gap:4px;box-shadow:0 1px 2px rgba(0,0,0,.06);">
+                <div style="width:28px;height:28px;background:#fee2e2;border-radius:8px;display:flex;align-items:center;justify-content:center;"><svg width="14" height="14" style="color:#bd1105;"><use href="#ic-cpu"/></svg></div>
+                <span style="font-size:7px;font-weight:800;color:#111;text-align:center;">Компоненти</span>
+              </div>
+              <div style="border-radius:8px;background:#fff;padding:8px 4px;display:flex;flex-direction:column;align-items:center;gap:4px;box-shadow:0 1px 2px rgba(0,0,0,.06);">
+                <div style="width:28px;height:28px;background:#e0e7ff;border-radius:8px;display:flex;align-items:center;justify-content:center;"><svg width="14" height="14" style="color:#4338ca;"><use href="#ic-monitor"/></svg></div>
+                <span style="font-size:7px;font-weight:800;color:#111;text-align:center;">Монитори</span>
+              </div>
+              <div style="border-radius:8px;background:#fff;padding:8px 4px;display:flex;flex-direction:column;align-items:center;gap:4px;box-shadow:0 1px 2px rgba(0,0,0,.06);">
+                <div style="width:28px;height:28px;background:#d1fae5;border-radius:8px;display:flex;align-items:center;justify-content:center;"><svg width="14" height="14" style="color:#047857;"><use href="#ic-mouse"/></svg></div>
+                <span style="font-size:7px;font-weight:800;color:#111;text-align:center;">Периферия</span>
+              </div>
+              <div style="border-radius:8px;background:#fff;padding:8px 4px;display:flex;flex-direction:column;align-items:center;gap:4px;box-shadow:0 1px 2px rgba(0,0,0,.06);">
+                <div style="width:28px;height:28px;background:#ede9fe;border-radius:8px;display:flex;align-items:center;justify-content:center;"><svg width="14" height="14" style="color:#7c3aed;"><use href="#ic-headphones"/></svg></div>
+                <span style="font-size:7px;font-weight:800;color:#111;text-align:center;">Аудио</span>
+              </div>
+            </div>
+            <!-- 2-col small -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;">
+              <div style="border-radius:8px;height:42px;background:linear-gradient(135deg,#0e7490,#06b6d4);display:flex;align-items:center;gap:6px;padding:0 10px;">
+                <svg width="14" height="14" style="color:#fff;"><use href="#ic-wifi"/></svg>
+                <span style="font-size:8px;font-weight:800;color:#fff;">Мрежово</span>
+              </div>
+              <div style="border-radius:8px;height:42px;background:linear-gradient(135deg,#be185d,#ec4899);display:flex;align-items:center;gap:6px;padding:0 10px;">
+                <svg width="14" height="14" style="color:#fff;"><use href="#ic-storage"/></svg>
+                <span style="font-size:8px;font-weight:800;color:#fff;">Памет</span>
+              </div>
+            </div>
+          </div>
+          <div style="position:absolute;bottom:0;left:0;right:0;height:46px;background:#fff;border-top:1px solid #f0f0f0;display:flex;justify-content:space-around;align-items:center;padding-top:4px;">
+            <div style="text-align:center;font-size:7px;color:#ccc;">🏠<br>Начало</div>
+            <div style="text-align:center;font-size:7px;color:#bd1105;font-weight:700;">⊞<br>Катег.</div>
+            <div style="text-align:center;font-size:7px;color:#ccc;">🛒<br>Кошница</div>
+            <div style="text-align:center;font-size:7px;color:#ccc;">🔍<br>Търсене</div>
+            <div style="text-align:center;font-size:7px;color:#ccc;">👤<br>Профил</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+function show(id) {
+  document.querySelectorAll('.design').forEach(d => d.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('design-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
+</body>
+</html>

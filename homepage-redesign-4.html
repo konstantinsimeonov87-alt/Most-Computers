@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Homepage Redesign - Варианти M-P</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #111; }
+
+.page-header {
+  padding: 32px 24px 16px; text-align: center;
+  background: #1a1a1a; border-bottom: 1px solid #333;
+}
+.page-header h1 { font-size: 24px; font-weight: 700; color: #fff; }
+.page-header p { font-size: 14px; color: #888; margin-top: 6px; }
+
+.variants-container {
+  display: flex; gap: 24px; padding: 32px 24px;
+  justify-content: center; flex-wrap: wrap;
+}
+.variant-wrap { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.variant-label { font-size: 13px; font-weight: 700; color: #ccc; text-transform: uppercase; letter-spacing: 1px; }
+.variant-name { font-size: 18px; font-weight: 700; color: #fff; }
+.variant-desc { font-size: 12px; color: #888; text-align: center; max-width: 300px; line-height: 1.5; }
+.variant-tag { font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.5px; }
+.tag-m { background: #bd1105; color: #fff; }
+.tag-n { background: #6d28d9; color: #fff; }
+.tag-o { background: #0891b2; color: #fff; }
+.tag-p { background: #059669; color: #fff; }
+
+.phone-frame { width: 390px; height: 780px; border-radius: 40px; border: 3px solid #333; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
+.phone-screen { width: 100%; height: 100%; overflow-y: auto; overflow-x: hidden; scrollbar-width: none; }
+.phone-screen::-webkit-scrollbar { display: none; }
+
+
+/* =====================================================================
+   M — като A, но с по-силен hero (split image + текст) и цветни cat chips
+   Светъл фон, 2-col grid, продуктова снимка в hero
+   ===================================================================== */
+.vm { background: #fff; }
+
+.vm-hdr {
+  background: #fff; padding: 12px 16px;
+  display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 1px solid #f0f0f0;
+  position: sticky; top: 0; z-index: 10;
+}
+.vm-logo { font-size: 17px; font-weight: 900; color: #1a1a1a; letter-spacing: -0.5px; }
+.vm-logo em { color: #bd1105; font-style: normal; }
+.vm-hdr-right { display: flex; gap: 8px; }
+.vm-hdr-btn {
+  width: 36px; height: 36px; background: #f5f5f5; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center; font-size: 17px; position: relative;
+}
+.vm-badge { position: absolute; top: -3px; right: -3px; background: #bd1105; color: #fff; font-size: 9px; font-weight: 800; width: 15px; height: 15px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+
+.vm-search { padding: 10px 16px; background: #fff; border-bottom: 1px solid #f0f0f0; }
+.vm-search-box { background: #f5f5f5; border-radius: 12px; padding: 11px 14px; display: flex; align-items: center; gap: 8px; color: #9ca3af; font-size: 13px; }
+
+/* Hero M - карта с изображение вдясно, текст вляво */
+.vm-hero {
+  margin: 12px 16px;
+  border-radius: 20px;
+  background: #1a1a1a;
+  padding: 20px;
+  display: flex; align-items: flex-end; justify-content: space-between;
+  min-height: 175px; overflow: hidden; position: relative;
+}
+.vm-hero::after {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at right bottom, rgba(189,17,5,0.35), transparent 60%);
+}
+.vm-hero-left { z-index: 1; }
+.vm-hero-badge { display: inline-block; background: #bd1105; color: #fff; font-size: 9px; font-weight: 700; padding: 3px 10px; border-radius: 20px; margin-bottom: 8px; }
+.vm-hero-title { font-size: 20px; font-weight: 800; color: #fff; line-height: 1.2; margin-bottom: 6px; max-width: 195px; }
+.vm-hero-price { font-size: 19px; font-weight: 800; color: #fff; margin-bottom: 12px; }
+.vm-hero-price small { font-size: 11px; opacity: 0.55; font-weight: 400; }
+.vm-hero-btn { background: #bd1105; color: #fff; border: none; border-radius: 10px; padding: 10px 18px; font-size: 12px; font-weight: 800; cursor: pointer; }
+.vm-hero-img { font-size: 110px; line-height: 1; z-index: 1; margin-right: -8px; margin-bottom: -12px; }
+
+/* Hero dots */
+.vm-dots { display: flex; gap: 5px; justify-content: center; padding: 10px 0 2px; }
+.vm-dot { width: 6px; height: 6px; border-radius: 3px; background: #e0e0e0; }
+.vm-dot.a { width: 20px; background: #bd1105; }
+
+/* Category chips - colorful */
+.vm-cats { padding: 12px 16px; border-bottom: 1px solid #f0f0f0; }
+.vm-cats-label { font-size: 10px; font-weight: 700; color: #aaa; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; }
+.vm-cats-row { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; }
+.vm-cats-row::-webkit-scrollbar { display: none; }
+.vm-cat {
+  flex: 0 0 auto; padding: 7px 14px; border-radius: 20px;
+  font-size: 12px; font-weight: 700; white-space: nowrap;
+  display: flex; align-items: center; gap: 5px;
+}
+.vmc0 { background: #fff0ef; color: #bd1105; }
+.vmc1 { background: #f5f5f5; color: #333; }
+.vmc2 { background: #eff6ff; color: #2563eb; }
+.vmc3 { background: #f0fdf4; color: #16a34a; }
+.vmc4 { background: #faf5ff; color: #7c3aed; }
+.vmc5 { background: #fefce8; color: #ca8a04; }
+
+/* Flash header */
+.vm-flash-hdr {
+  padding: 12px 16px 8px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.vm-flash-title { font-size: 15px; font-weight: 800; color: #1a1a1a; display: flex; align-items: center; gap: 5px; }
+.vm-timer { display: flex; gap: 3px; align-items: center; background: #1a1a1a; border-radius: 8px; padding: 5px 10px; }
+.vm-timer-num { font-size: 13px; font-weight: 800; color: #fff; }
+.vm-timer-sep { color: #bd1105; font-weight: 800; }
+
+/* 2-col product grid */
+.vm-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: #ebebeb; }
+.vm-card { background: #fff; padding: 12px; display: flex; flex-direction: column; gap: 5px; }
+.vm-card-img { width: 100%; aspect-ratio: 1; background: #f8f8f8; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 52px; position: relative; margin-bottom: 4px; }
+.vm-card-badge { position: absolute; top: 6px; left: 6px; background: #bd1105; color: #fff; font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 4px; }
+.vm-card-badge.n { background: #059669; }
+.vm-card-name { font-size: 11px; font-weight: 600; color: #1a1a1a; line-height: 1.3; }
+.vm-card-prices { display: flex; align-items: baseline; gap: 5px; }
+.vm-card-price { font-size: 14px; font-weight: 800; color: #bd1105; }
+.vm-card-old { font-size: 10px; color: #bbb; text-decoration: line-through; }
+.vm-card-add { background: #1a1a1a; color: #fff; border: none; border-radius: 8px; padding: 8px; font-size: 11px; font-weight: 700; cursor: pointer; margin-top: 2px; }
+
+/* Trust 2x2 */
+.vm-trust { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: #ebebeb; margin-top: 1px; }
+.vm-trust-item { background: #f9f9f9; padding: 10px 12px; display: flex; align-items: center; gap: 8px; }
+.vm-trust-icon { font-size: 18px; }
+.vm-trust-text { font-size: 10px; font-weight: 700; color: #333; line-height: 1.3; }
+.vm-trust-sub { font-size: 9px; color: #999; font-weight: 400; }
+
+.vm-bn { position: sticky; bottom: 0; background: #fff; border-top: 1px solid #f0f0f0; display: grid; grid-template-columns: repeat(5,1fr); padding: 6px 0 8px; }
+.vm-bn-btn { display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 9px; font-weight: 600; color: #bbb; background: none; border: none; cursor: pointer; padding: 4px 0; }
+.vm-bn-btn.on { color: #bd1105; }
+.vm-bn-icon { font-size: 20px; }
+
+
+/* =====================================================================
+   N — като H (gradient cards) + I (full bleed hero) комбиниран
+   Пълноширок gradient hero с overlay, после gradient продуктови карти
+   ===================================================================== */
+.vn { background: #0a0a12; }
+
+.vn-hdr {
+  position: absolute; top: 0; left: 0; right: 0; z-index: 10;
+  padding: 14px 16px;
+  display: flex; align-items: center; justify-content: space-between;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.7), transparent);
+}
+.vn-logo { font-size: 16px; font-weight: 800; color: #fff; }
+.vn-logo em { color: #e879f9; font-style: normal; }
+.vn-hdr-right { display: flex; gap: 8px; }
+.vn-hdr-btn { width: 36px; height: 36px; background: rgba(255,255,255,0.12); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 17px; backdrop-filter: blur(8px); position: relative; }
+.vn-badge { position: absolute; top: -3px; right: -3px; background: #e879f9; color: #fff; font-size: 9px; font-weight: 800; width: 15px; height: 15px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+
+/* Full bleed gradient hero */
+.vn-hero {
+  position: relative; height: 300px;
+  background: linear-gradient(135deg, #1a0533 0%, #2d1256 40%, #4c1d95 70%, #e879f9 150%);
+  overflow: hidden;
+}
+.vn-hero-bg-em { position: absolute; right: -10px; top: 20px; font-size: 160px; opacity: 0.12; }
+.vn-hero-glow { position: absolute; bottom: -40px; left: 50%; transform: translateX(-50%); width: 200px; height: 100px; background: rgba(232,121,249,0.2); border-radius: 50%; filter: blur(30px); }
+.vn-hero-content { position: absolute; bottom: 0; left: 0; right: 0; padding: 20px 16px 18px; background: linear-gradient(to top, rgba(10,10,18,0.9) 0%, transparent 100%); }
+.vn-hero-badge { display: inline-block; background: #e879f9; color: #fff; font-size: 9px; font-weight: 700; padding: 3px 10px; border-radius: 20px; margin-bottom: 8px; }
+.vn-hero-title { font-size: 23px; font-weight: 800; color: #fff; line-height: 1.2; margin-bottom: 5px; }
+.vn-hero-sub { font-size: 12px; color: rgba(255,255,255,0.55); margin-bottom: 12px; }
+.vn-hero-row { display: flex; align-items: center; justify-content: space-between; }
+.vn-hero-price { font-size: 21px; font-weight: 800; color: #fff; }
+.vn-hero-price small { font-size: 11px; opacity: 0.55; font-weight: 400; }
+.vn-hero-btn { background: #e879f9; color: #fff; border: none; border-radius: 10px; padding: 10px 18px; font-size: 12px; font-weight: 800; cursor: pointer; }
+.vn-inds { position: absolute; bottom: 90px; right: 16px; display: flex; flex-direction: column; gap: 4px; }
+.vn-ind { width: 4px; height: 4px; border-radius: 2px; background: rgba(255,255,255,0.35); }
+.vn-ind.a { height: 14px; background: #e879f9; }
+
+/* Search dark */
+.vn-search { padding: 12px 16px; background: #0a0a12; }
+.vn-search-box { background: rgba(255,255,255,0.07); border-radius: 12px; padding: 11px 14px; display: flex; align-items: center; gap: 8px; color: rgba(255,255,255,0.35); font-size: 13px; border: 1px solid rgba(255,255,255,0.1); }
+
+/* Category pills dark */
+.vn-cats { padding: 0 16px 14px; background: #0a0a12; display: flex; gap: 7px; overflow-x: auto; scrollbar-width: none; }
+.vn-cats::-webkit-scrollbar { display: none; }
+.vn-cat { flex: 0 0 auto; padding: 7px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; white-space: nowrap; }
+.vnc-hot { background: #bd1105; color: #fff; }
+.vnc-off { background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.65); border: 1px solid rgba(255,255,255,0.12); }
+
+/* Section header */
+.vn-sec-hdr { padding: 0 16px 12px; display: flex; justify-content: space-between; align-items: center; }
+.vn-sec-title { font-size: 15px; font-weight: 800; color: #fff; }
+.vn-sec-link { font-size: 12px; color: #e879f9; font-weight: 600; }
+
+/* Gradient product cards */
+.vn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 0 16px 16px; }
+.vn-card { border-radius: 18px; padding: 12px; display: flex; flex-direction: column; gap: 5px; }
+.vn-g1 { background: linear-gradient(135deg, #1e1b4b, #3730a3); }
+.vn-g2 { background: linear-gradient(135deg, #1a1033, #4c1d95); }
+.vn-g3 { background: linear-gradient(135deg, #042f2e, #065f46); }
+.vn-g4 { background: linear-gradient(135deg, #27140a, #7c2d12); }
+.vn-card-img { width: 100%; aspect-ratio: 1; background: rgba(255,255,255,0.07); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 50px; position: relative; margin-bottom: 4px; }
+.vn-card-badge { position: absolute; top: 6px; left: 6px; background: #e879f9; color: #fff; font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 4px; }
+.vn-card-badge.s { background: #f97316; }
+.vn-card-name { font-size: 11px; font-weight: 600; color: rgba(255,255,255,0.85); line-height: 1.3; }
+.vn-card-price { font-size: 14px; font-weight: 800; color: #fff; }
+.vn-card-old { font-size: 10px; color: rgba(255,255,255,0.35); text-decoration: line-through; }
+.vn-card-add { background: rgba(255,255,255,0.12); color: #fff; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 8px; font-size: 11px; font-weight: 700; cursor: pointer; margin-top: 3px; }
+
+.vn-bn { position: sticky; bottom: 0; background: #111118; border-top: 1px solid rgba(255,255,255,0.08); display: grid; grid-template-columns: repeat(5,1fr); padding: 8px 0 10px; }
+.vn-bn-btn { display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 9px; font-weight: 600; color: rgba(255,255,255,0.3); background: none; border: none; cursor: pointer; padding: 4px 0; }
+.vn-bn-btn.on { color: #e879f9; }
+.vn-bn-icon { font-size: 20px; }
+
+
+/* =====================================================================
+   O — като K (tab hero) + H (gradient palette) комбиниран
+   Тъмен фон, категорийни табове, hero се сменя, gradient product cards
+   ===================================================================== */
+.vo { background: #0f0f0f; }
+
+.vo-hdr { background: #0f0f0f; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; }
+.vo-logo { font-size: 17px; font-weight: 800; color: #fff; }
+.vo-logo em { color: #bd1105; font-style: normal; }
+.vo-hdr-right { display: flex; gap: 8px; }
+.vo-hdr-btn { width: 36px; height: 36px; background: #1e1e1e; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 17px; position: relative; }
+.vo-badge { position: absolute; top: -3px; right: -3px; background: #bd1105; color: #fff; font-size: 9px; font-weight: 800; width: 15px; height: 15px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+
+.vo-search { padding: 0 16px 12px; background: #0f0f0f; }
+.vo-search-box { background: #1e1e1e; border-radius: 12px; padding: 11px 14px; display: flex; align-items: center; gap: 8px; color: rgba(255,255,255,0.3); font-size: 13px; }
+
+/* Tabs */
+.vo-tabs { display: flex; overflow-x: auto; scrollbar-width: none; background: #0f0f0f; border-bottom: 1px solid #222; padding: 0 16px; }
+.vo-tabs::-webkit-scrollbar { display: none; }
+.vo-tab { flex: 0 0 auto; padding: 10px 14px; font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.4); border-bottom: 2px solid transparent; margin-bottom: -1px; white-space: nowrap; }
+.vo-tab.sel { color: #bd1105; border-bottom-color: #bd1105; }
+
+/* Hero O - gradient za category */
+.vo-hero {
+  margin: 14px 16px; border-radius: 18px;
+  background: linear-gradient(135deg, #1a0000, #4a0f0a, #bd1105);
+  padding: 18px; min-height: 150px;
+  display: flex; align-items: center; justify-content: space-between;
+  overflow: hidden; position: relative;
+}
+.vo-hero::before { content: ''; position: absolute; right: -20px; top: -20px; width: 130px; height: 130px; background: rgba(255,255,255,0.07); border-radius: 50%; }
+.vo-hero-text { z-index: 1; }
+.vo-hero-badge { font-size: 9px; font-weight: 700; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+.vo-hero-title { font-size: 19px; font-weight: 800; color: #fff; line-height: 1.2; margin-bottom: 8px; max-width: 190px; }
+.vo-hero-price { font-size: 17px; font-weight: 800; color: #fff; margin-bottom: 10px; }
+.vo-hero-btn { background: #fff; color: #bd1105; border: none; border-radius: 8px; padding: 8px 16px; font-size: 12px; font-weight: 800; cursor: pointer; }
+.vo-hero-em { font-size: 80px; z-index: 1; flex: 0 0 auto; }
+
+/* Category context bar */
+.vo-context { padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; }
+.vo-context-label { font-size: 11px; color: rgba(255,255,255,0.4); }
+.vo-sort-btns { display: flex; gap: 5px; }
+.vo-sort-btn { padding: 4px 10px; background: #1e1e1e; border-radius: 6px; font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.5); }
+.vo-sort-btn.sel { background: #bd1105; color: #fff; }
+
+/* Gradient product cards dark */
+.vo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 0 16px 16px; }
+.vo-card { border-radius: 16px; padding: 12px; display: flex; flex-direction: column; gap: 5px; }
+.vo-g1 { background: linear-gradient(135deg, #1c0e2a, #3b1f6a); }
+.vo-g2 { background: linear-gradient(135deg, #0d1f12, #14532d); }
+.vo-g3 { background: linear-gradient(135deg, #1a1000, #713f12); }
+.vo-g4 { background: linear-gradient(135deg, #0f172a, #1e3a5f); }
+.vo-card-img { width: 100%; aspect-ratio: 1; background: rgba(255,255,255,0.06); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 50px; position: relative; margin-bottom: 4px; }
+.vo-card-badge { position: absolute; top: 6px; left: 6px; background: #bd1105; color: #fff; font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 4px; }
+.vo-card-badge.t { background: #7c3aed; }
+.vo-card-name { font-size: 11px; font-weight: 600; color: rgba(255,255,255,0.8); line-height: 1.3; }
+.vo-card-stars { font-size: 10px; color: #f59e0b; }
+.vo-card-price { font-size: 14px; font-weight: 800; color: #fff; }
+.vo-card-old { font-size: 10px; color: rgba(255,255,255,0.3); text-decoration: line-through; }
+.vo-card-add { background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 8px; font-size: 11px; font-weight: 700; cursor: pointer; margin-top: 3px; }
+
+.vo-bn { position: sticky; bottom: 0; background: #1a1a1a; border-top: 1px solid #2a2a2a; display: grid; grid-template-columns: repeat(5,1fr); padding: 8px 0 10px; }
+.vo-bn-btn { display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 9px; font-weight: 600; color: #555; background: none; border: none; cursor: pointer; padding: 4px 0; }
+.vo-bn-btn.on { color: #bd1105; }
+.vo-bn-icon { font-size: 20px; }
+
+
+/* =====================================================================
+   P — като I (full bleed) + A (clean white) + цветни категорийни карти
+   Full bleed тъмен hero → бял layout с цветни cat карти → 2-col grid
+   ===================================================================== */
+.vp { background: #fff; }
+
+.vp-hdr {
+  position: absolute; top: 0; left: 0; right: 0; z-index: 10;
+  padding: 14px 16px;
+  display: flex; align-items: center; justify-content: space-between;
+  background: linear-gradient(to bottom, rgba(26,26,26,0.8), transparent);
+}
+.vp-logo { font-size: 16px; font-weight: 800; color: #fff; }
+.vp-logo em { color: #bd1105; font-style: normal; }
+.vp-hdr-right { display: flex; gap: 8px; }
+.vp-hdr-btn { width: 36px; height: 36px; background: rgba(0,0,0,0.3); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 17px; backdrop-filter: blur(6px); position: relative; }
+.vp-badge { position: absolute; top: -3px; right: -3px; background: #bd1105; color: #fff; font-size: 9px; font-weight: 800; width: 15px; height: 15px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+
+/* Full bleed hero */
+.vp-hero {
+  position: relative; height: 260px;
+  background: linear-gradient(140deg, #1a1a1a 0%, #2d1810 55%, #bd1105 130%);
+  overflow: hidden;
+}
+.vp-hero-bg-em { position: absolute; right: -15px; top: 30px; font-size: 150px; opacity: 0.1; }
+.vp-hero-content { position: absolute; bottom: 0; left: 0; right: 0; padding: 20px 16px 16px; background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 100%); }
+.vp-hero-badge { display: inline-block; background: rgba(255,255,255,0.18); color: #fff; font-size: 9px; font-weight: 700; padding: 3px 10px; border-radius: 20px; margin-bottom: 7px; border: 1px solid rgba(255,255,255,0.25); }
+.vp-hero-title { font-size: 22px; font-weight: 800; color: #fff; line-height: 1.2; margin-bottom: 4px; }
+.vp-hero-sub { font-size: 11px; color: rgba(255,255,255,0.6); margin-bottom: 12px; }
+.vp-hero-row { display: flex; align-items: center; justify-content: space-between; }
+.vp-hero-price { font-size: 20px; font-weight: 800; color: #fff; }
+.vp-hero-price small { font-size: 11px; opacity: 0.55; font-weight: 400; }
+.vp-hero-btn { background: #bd1105; color: #fff; border: none; border-radius: 10px; padding: 10px 18px; font-size: 12px; font-weight: 800; cursor: pointer; }
+.vp-inds { position: absolute; bottom: 80px; right: 14px; display: flex; flex-direction: column; gap: 4px; }
+.vp-ind { width: 4px; height: 4px; border-radius: 2px; background: rgba(255,255,255,0.3); }
+.vp-ind.a { height: 16px; background: #fff; }
+
+/* White section below hero */
+.vp-white { background: #fff; }
+
+.vp-search { padding: 12px 16px; }
+.vp-search-box { background: #f5f5f5; border-radius: 12px; padding: 11px 14px; display: flex; align-items: center; gap: 8px; color: #9ca3af; font-size: 13px; }
+
+/* Colored category cards */
+.vp-cats { padding: 4px 16px 14px; }
+.vp-cats-title { font-size: 11px; font-weight: 700; color: #999; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; }
+.vp-cats-row { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; }
+.vp-cats-row::-webkit-scrollbar { display: none; }
+.vp-cat-card {
+  flex: 0 0 auto; border-radius: 14px; padding: 10px 14px;
+  display: flex; align-items: center; gap: 8px;
+  min-width: 110px;
+}
+.vpc1 { background: #fff0ef; }
+.vpc2 { background: #eff6ff; }
+.vpc3 { background: #f0fdf4; }
+.vpc4 { background: #faf5ff; }
+.vpc5 { background: #fefce8; }
+.vpc6 { background: #ecfdf5; }
+.vp-cat-icon { font-size: 22px; }
+.vp-cat-body { }
+.vp-cat-name { font-size: 12px; font-weight: 700; color: #1a1a1a; white-space: nowrap; }
+.vp-cat-count { font-size: 10px; color: #888; }
+
+/* Flash sale header */
+.vp-flash-hdr { padding: 12px 16px 8px; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid #f0f0f0; }
+.vp-flash-title { font-size: 15px; font-weight: 800; color: #1a1a1a; }
+.vp-timer { background: #1a1a1a; border-radius: 8px; padding: 5px 10px; display: flex; gap: 3px; align-items: center; }
+.vp-timer-num { font-size: 13px; font-weight: 800; color: #fff; }
+.vp-timer-sep { color: #bd1105; font-weight: 800; }
+
+/* 2-col grid */
+.vp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: #ebebeb; }
+.vp-card { background: #fff; padding: 12px; display: flex; flex-direction: column; gap: 5px; }
+.vp-card-img { width: 100%; aspect-ratio: 1; background: #f8f8f8; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 52px; position: relative; margin-bottom: 4px; }
+.vp-card-badge { position: absolute; top: 6px; left: 6px; background: #bd1105; color: #fff; font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 4px; }
+.vp-card-badge.n { background: #059669; }
+.vp-card-name { font-size: 11px; font-weight: 600; color: #1a1a1a; line-height: 1.3; }
+.vp-card-prices { display: flex; align-items: baseline; gap: 5px; }
+.vp-card-price { font-size: 14px; font-weight: 800; color: #bd1105; }
+.vp-card-old { font-size: 10px; color: #bbb; text-decoration: line-through; }
+.vp-card-add { background: #1a1a1a; color: #fff; border: none; border-radius: 8px; padding: 8px; font-size: 11px; font-weight: 700; cursor: pointer; margin-top: 2px; }
+
+.vp-bn { position: sticky; bottom: 0; background: #fff; border-top: 1px solid #f0f0f0; display: grid; grid-template-columns: repeat(5,1fr); padding: 6px 0 8px; }
+.vp-bn-btn { display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 9px; font-weight: 600; color: #bbb; background: none; border: none; cursor: pointer; padding: 4px 0; }
+.vp-bn-btn.on { color: #bd1105; }
+.vp-bn-icon { font-size: 20px; }
+
+
+/* Legend */
+.legend { padding: 32px 24px; background: #1a1a1a; border-top: 1px solid #333; }
+.legend h2 { font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 20px; text-align: center; }
+.legend-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap: 16px; max-width: 1200px; margin: 0 auto; }
+.legend-card { background: #222; border-radius: 12px; padding: 18px; }
+.legend-card h3 { font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+.legend-card p { font-size: 11px; color: #666; margin-bottom: 8px; }
+.legend-card ul { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+.legend-card li { font-size: 12px; color: #6ee7b7; line-height: 1.4; padding-left: 14px; position: relative; }
+.legend-card li::before { content: '•'; position: absolute; left: 0; color: #059669; }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>Homepage Redesign - Варианти M, N, O, P</h1>
+  <p>Еволюции на A, H, K, I — Most Computers | 390px</p>
+</div>
+
+<div class="variants-container">
+
+  <!-- ====== M ====== -->
+  <div class="variant-wrap">
+    <div class="variant-label">Вариант M</div>
+    <div class="variant-name">A — по-силен hero</div>
+    <div class="variant-tag tag-m">Като A</div>
+    <div class="variant-desc">Светъл фон като A, но hero е голяма тъмна карта с емоджи изображение вдясно. Цветни category chips.</div>
+    <div class="phone-frame">
+      <div class="phone-screen vm">
+
+        <div class="vm-hdr">
+          <div class="vm-logo">MOST <em>Computers</em></div>
+          <div class="vm-hdr-right">
+            <div class="vm-hdr-btn">🔍</div>
+            <div class="vm-hdr-btn">🛒<span class="vm-badge">3</span></div>
+          </div>
+        </div>
+        <div class="vm-search"><div class="vm-search-box">🔍 Търси продукт, марка...</div></div>
+
+        <div class="vm-hero">
+          <div class="vm-hero-left">
+            <div class="vm-hero-badge">🎮 Gaming</div>
+            <div class="vm-hero-title">MSI Katana 15 RTX 4050</div>
+            <div class="vm-hero-price">1 012 € <small>с ДДС</small></div>
+            <button class="vm-hero-btn">Разгледай →</button>
+          </div>
+          <div class="vm-hero-img">💻</div>
+        </div>
+        <div class="vm-dots">
+          <div class="vm-dot a"></div><div class="vm-dot"></div><div class="vm-dot"></div><div class="vm-dot"></div>
+        </div>
+
+        <div class="vm-cats">
+          <div class="vm-cats-label">Разгледай</div>
+          <div class="vm-cats-row">
+            <div class="vm-cat vmc0">🔥 Намаления</div>
+            <div class="vm-cat vmc1">💻 Лаптопи</div>
+            <div class="vm-cat vmc2">🖥️ Монитори</div>
+            <div class="vm-cat vmc3">🖨️ Принтери</div>
+            <div class="vm-cat vmc4">💾 Памет</div>
+            <div class="vm-cat vmc5">🎧 Слушалки</div>
+          </div>
+        </div>
+
+        <div class="vm-flash-hdr">
+          <div class="vm-flash-title">⚡ Светкавични оферти</div>
+          <div class="vm-timer">
+            <span class="vm-timer-num">02</span><span class="vm-timer-sep">:</span>
+            <span class="vm-timer-num">47</span><span class="vm-timer-sep">:</span>
+            <span class="vm-timer-num">19</span>
+          </div>
+        </div>
+
+        <div class="vm-grid">
+          <div class="vm-card"><div class="vm-card-img">💻<span class="vm-card-badge">-30%</span></div><div class="vm-card-name">Acer Nitro V15 RTX 4050</div><div class="vm-card-prices"><span class="vm-card-price">609 €</span><span class="vm-card-old">871 €</span></div><button class="vm-card-add">+ Добави</button></div>
+          <div class="vm-card"><div class="vm-card-img">🖥️<span class="vm-card-badge">-20%</span></div><div class="vm-card-name">Samsung 27" 144Hz IPS</div><div class="vm-card-prices"><span class="vm-card-price">245 €</span><span class="vm-card-old">306 €</span></div><button class="vm-card-add">+ Добави</button></div>
+          <div class="vm-card"><div class="vm-card-img">⌨️<span class="vm-card-badge n">НОВО</span></div><div class="vm-card-name">Fnatic STREAK65 LP</div><div class="vm-card-prices"><span class="vm-card-price">89 €</span></div><button class="vm-card-add">+ Добави</button></div>
+          <div class="vm-card"><div class="vm-card-img">🖱️<span class="vm-card-badge">-15%</span></div><div class="vm-card-name">ASUS ROG Strix Impact III</div><div class="vm-card-prices"><span class="vm-card-price">49 €</span><span class="vm-card-old">59 €</span></div><button class="vm-card-add">+ Добави</button></div>
+        </div>
+
+        <div class="vm-trust">
+          <div class="vm-trust-item"><span class="vm-trust-icon">🚚</span><div><div class="vm-trust-text">Безплатна доставка</div><div class="vm-trust-sub">над 100 €</div></div></div>
+          <div class="vm-trust-item"><span class="vm-trust-icon">🛡️</span><div><div class="vm-trust-text">24м. гаранция</div><div class="vm-trust-sub">официален сервиз</div></div></div>
+          <div class="vm-trust-item"><span class="vm-trust-icon">↩️</span><div><div class="vm-trust-text">14 дни връщане</div><div class="vm-trust-sub">без въпроси</div></div></div>
+          <div class="vm-trust-item"><span class="vm-trust-icon">💳</span><div><div class="vm-trust-text">Сигурно плащане</div><div class="vm-trust-sub">карта / наложен</div></div></div>
+        </div>
+
+        <div class="vm-bn">
+          <button class="vm-bn-btn on"><span class="vm-bn-icon">🏠</span>Начало</button>
+          <button class="vm-bn-btn"><span class="vm-bn-icon">🗂️</span>Категории</button>
+          <button class="vm-bn-btn"><span class="vm-bn-icon">🔍</span>Търсене</button>
+          <button class="vm-bn-btn"><span class="vm-bn-icon">❤️</span>Любими</button>
+          <button class="vm-bn-btn"><span class="vm-bn-icon">👤</span>Акаунт</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== N ====== -->
+  <div class="variant-wrap">
+    <div class="variant-label">Вариант N</div>
+    <div class="variant-name">H + I комбиниран</div>
+    <div class="variant-tag tag-n">Като H и I</div>
+    <div class="variant-desc">Full bleed лилав gradient hero (I стил), след него тъмен фон с gradient product cards (H стил). Лилав/розов акцент.</div>
+    <div class="phone-frame">
+      <div class="phone-screen vn">
+
+        <div style="position:relative;">
+          <div class="vn-hdr">
+            <div class="vn-logo">MOST <em>Computers</em></div>
+            <div class="vn-hdr-right">
+              <div class="vn-hdr-btn">❤️</div>
+              <div class="vn-hdr-btn">🛒<span class="vn-badge">3</span></div>
+            </div>
+          </div>
+          <div class="vn-hero">
+            <div class="vn-hero-bg-em">💻</div>
+            <div class="vn-hero-glow"></div>
+            <div class="vn-hero-content">
+              <div class="vn-hero-badge">🏆 Флагман</div>
+              <div class="vn-hero-title">Lenovo Legion Pro 7 RTX 5090</div>
+              <div class="vn-hero-sub">Core Ultra 9 · 64GB DDR5 · 2TB SSD</div>
+              <div class="vn-hero-row">
+                <div class="vn-hero-price">4 632 € <small>с ДДС</small></div>
+                <button class="vn-hero-btn">Купи →</button>
+              </div>
+            </div>
+            <div class="vn-inds">
+              <div class="vn-ind a"></div><div class="vn-ind"></div><div class="vn-ind"></div><div class="vn-ind"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="vn-search"><div class="vn-search-box">🔍 Търси продукт, марка...</div></div>
+
+        <div class="vn-cats">
+          <div class="vn-cat vnc-hot">🔥 Намаления</div>
+          <div class="vn-cat vnc-off">💻 Лаптопи</div>
+          <div class="vn-cat vnc-off">🖥️ Монитори</div>
+          <div class="vn-cat vnc-off">🖨️ Принтери</div>
+          <div class="vn-cat vnc-off">💾 Памет</div>
+        </div>
+
+        <div class="vn-sec-hdr">
+          <span class="vn-sec-title">⚡ Оферти</span>
+          <span class="vn-sec-link">Всички →</span>
+        </div>
+
+        <div class="vn-grid">
+          <div class="vn-card vn-g1"><div class="vn-card-img">💻<span class="vn-card-badge s">-30%</span></div><div class="vn-card-name">Acer Nitro V15 RTX 4050</div><div class="vn-card-old">871 €</div><div class="vn-card-price">609 €</div><button class="vn-card-add">+ Добави</button></div>
+          <div class="vn-card vn-g2"><div class="vn-card-img">🖥️<span class="vn-card-badge s">-20%</span></div><div class="vn-card-name">Samsung 27" 144Hz IPS</div><div class="vn-card-old">306 €</div><div class="vn-card-price">245 €</div><button class="vn-card-add">+ Добави</button></div>
+          <div class="vn-card vn-g3"><div class="vn-card-img">⌨️</div><div class="vn-card-name">Fnatic STREAK65 LP Mech.</div><div class="vn-card-price">89 €</div><button class="vn-card-add">+ Добави</button></div>
+          <div class="vn-card vn-g4"><div class="vn-card-img">🖱️<span class="vn-card-badge s">-15%</span></div><div class="vn-card-name">ASUS ROG Strix Impact III</div><div class="vn-card-old">59 €</div><div class="vn-card-price">49 €</div><button class="vn-card-add">+ Добави</button></div>
+        </div>
+
+        <div class="vn-bn">
+          <button class="vn-bn-btn on"><span class="vn-bn-icon">🏠</span>Начало</button>
+          <button class="vn-bn-btn"><span class="vn-bn-icon">🗂️</span>Категории</button>
+          <button class="vn-bn-btn"><span class="vn-bn-icon">🔍</span>Търсене</button>
+          <button class="vn-bn-btn"><span class="vn-bn-icon">❤️</span>Любими</button>
+          <button class="vn-bn-btn"><span class="vn-bn-icon">👤</span>Акаунт</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== O ====== -->
+  <div class="variant-wrap">
+    <div class="variant-label">Вариант O</div>
+    <div class="variant-name">K + H комбиниран</div>
+    <div class="variant-tag tag-o">Като K и H</div>
+    <div class="variant-desc">K-таб системата + H-gradient cards. Тъмен фон, категорийни табове, hero gradient карта, gradient продукти.</div>
+    <div class="phone-frame">
+      <div class="phone-screen vo">
+
+        <div class="vo-hdr">
+          <div class="vo-logo">MOST <em>Computers</em></div>
+          <div class="vo-hdr-right">
+            <div class="vo-hdr-btn">❤️</div>
+            <div class="vo-hdr-btn">🛒<span class="vo-badge">3</span></div>
+          </div>
+        </div>
+        <div class="vo-search"><div class="vo-search-box">🔍 Търси продукт, марка...</div></div>
+
+        <div class="vo-tabs">
+          <div class="vo-tab sel">⚡ Оферти</div>
+          <div class="vo-tab">💻 Лаптопи</div>
+          <div class="vo-tab">🖥️ Монитори</div>
+          <div class="vo-tab">🖨️ Принтери</div>
+          <div class="vo-tab">💾 Памет</div>
+        </div>
+
+        <div class="vo-hero">
+          <div class="vo-hero-text">
+            <div class="vo-hero-badge">⚡ Светкавична оферта</div>
+            <div class="vo-hero-title">Acer Nitro V15 RTX 4050 144Hz</div>
+            <div class="vo-hero-price">609 € <span style="font-size:11px;opacity:0.5;text-decoration:line-through">871 €</span></div>
+            <button class="vo-hero-btn">Купи сега →</button>
+          </div>
+          <div class="vo-hero-em">💻</div>
+        </div>
+
+        <div class="vo-context">
+          <span class="vo-context-label">4 продукта в категорията</span>
+          <div class="vo-sort-btns">
+            <div class="vo-sort-btn sel">Цена ↑</div>
+            <div class="vo-sort-btn">Нови</div>
+            <div class="vo-sort-btn">Топ</div>
+          </div>
+        </div>
+
+        <div class="vo-grid">
+          <div class="vo-card vo-g1"><div class="vo-card-img">💻<span class="vo-card-badge">-30%</span></div><div class="vo-card-name">Acer Nitro V15 RTX 4050</div><div class="vo-card-stars">★★★★☆</div><div class="vo-card-old">871 €</div><div class="vo-card-price">609 €</div><button class="vo-card-add">+ Добави</button></div>
+          <div class="vo-card vo-g2"><div class="vo-card-img">💻<span class="vo-card-badge t">Топ</span></div><div class="vo-card-name">Lenovo IdeaPad 5 16AHP9</div><div class="vo-card-stars">★★★★★</div><div class="vo-card-price">739 €</div><button class="vo-card-add">+ Добави</button></div>
+          <div class="vo-card vo-g3"><div class="vo-card-img">💻<span class="vo-card-badge">-15%</span></div><div class="vo-card-name">ASUS VivoBook 15 OLED</div><div class="vo-card-stars">★★★★☆</div><div class="vo-card-old">659 €</div><div class="vo-card-price">559 €</div><button class="vo-card-add">+ Добави</button></div>
+          <div class="vo-card vo-g4"><div class="vo-card-img">💻<span class="vo-card-badge t">Нов</span></div><div class="vo-card-name">MSI Katana 15 RTX 4050</div><div class="vo-card-stars">★★★★★</div><div class="vo-card-price">1 012 €</div><button class="vo-card-add">+ Добави</button></div>
+        </div>
+
+        <div class="vo-bn">
+          <button class="vo-bn-btn on"><span class="vo-bn-icon">🏠</span>Начало</button>
+          <button class="vo-bn-btn"><span class="vo-bn-icon">🗂️</span>Категории</button>
+          <button class="vo-bn-btn"><span class="vo-bn-icon">🔍</span>Търсене</button>
+          <button class="vo-bn-btn"><span class="vo-bn-icon">❤️</span>Любими</button>
+          <button class="vo-bn-btn"><span class="vo-bn-icon">👤</span>Акаунт</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== P ====== -->
+  <div class="variant-wrap">
+    <div class="variant-label">Вариант P</div>
+    <div class="variant-name">I + A комбиниран</div>
+    <div class="variant-tag tag-p">Като I и A</div>
+    <div class="variant-desc">Full bleed тъмен hero (I стил) → чисто бял layout (A стил). Цветни category cards, flash sale, 2-col grid.</div>
+    <div class="phone-frame">
+      <div class="phone-screen vp">
+
+        <div style="position:relative;">
+          <div class="vp-hdr">
+            <div class="vp-logo">MOST <em>Computers</em></div>
+            <div class="vp-hdr-right">
+              <div class="vp-hdr-btn">❤️</div>
+              <div class="vp-hdr-btn">🛒<span class="vp-badge">3</span></div>
+            </div>
+          </div>
+          <div class="vp-hero">
+            <div class="vp-hero-bg-em">💻</div>
+            <div class="vp-hero-content">
+              <div class="vp-hero-badge">🎮 Gaming</div>
+              <div class="vp-hero-title">MSI Katana 15 RTX 4050</div>
+              <div class="vp-hero-sub">Intel Core i7 · 16GB RAM · 1TB SSD · 144Hz</div>
+              <div class="vp-hero-row">
+                <div class="vp-hero-price">1 012 € <small>с ДДС</small></div>
+                <button class="vp-hero-btn">Купи →</button>
+              </div>
+            </div>
+            <div class="vp-inds">
+              <div class="vp-ind a"></div><div class="vp-ind"></div><div class="vp-ind"></div><div class="vp-ind"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="vp-white">
+          <div class="vp-search"><div class="vp-search-box">🔍 Търси продукт, марка...</div></div>
+
+          <div class="vp-cats">
+            <div class="vp-cats-title">Категории</div>
+            <div class="vp-cats-row">
+              <div class="vp-cat-card vpc1"><span class="vp-cat-icon">💻</span><div class="vp-cat-body"><div class="vp-cat-name">Лаптопи</div><div class="vp-cat-count">247 продукта</div></div></div>
+              <div class="vp-cat-card vpc2"><span class="vp-cat-icon">🖥️</span><div class="vp-cat-body"><div class="vp-cat-name">Монитори</div><div class="vp-cat-count">183 продукта</div></div></div>
+              <div class="vp-cat-card vpc3"><span class="vp-cat-icon">🖨️</span><div class="vp-cat-body"><div class="vp-cat-name">Принтери</div><div class="vp-cat-count">94 продукта</div></div></div>
+              <div class="vp-cat-card vpc4"><span class="vp-cat-icon">💾</span><div class="vp-cat-body"><div class="vp-cat-name">Памет</div><div class="vp-cat-count">156 продукта</div></div></div>
+              <div class="vp-cat-card vpc5"><span class="vp-cat-icon">🎧</span><div class="vp-cat-body"><div class="vp-cat-name">Слушалки</div><div class="vp-cat-count">72 продукта</div></div></div>
+            </div>
+          </div>
+
+          <div class="vp-flash-hdr">
+            <span class="vp-flash-title">⚡ Светкавични оферти</span>
+            <div class="vp-timer">
+              <span class="vp-timer-num">02</span><span class="vp-timer-sep">:</span>
+              <span class="vp-timer-num">47</span><span class="vp-timer-sep">:</span>
+              <span class="vp-timer-num">19</span>
+            </div>
+          </div>
+
+          <div class="vp-grid">
+            <div class="vp-card"><div class="vp-card-img">💻<span class="vp-card-badge">-30%</span></div><div class="vp-card-name">Acer Nitro V15 RTX 4050</div><div class="vp-card-prices"><span class="vp-card-price">609 €</span><span class="vp-card-old">871 €</span></div><button class="vp-card-add">+ Добави</button></div>
+            <div class="vp-card"><div class="vp-card-img">🖥️<span class="vp-card-badge">-20%</span></div><div class="vp-card-name">Samsung 27" 144Hz IPS</div><div class="vp-card-prices"><span class="vp-card-price">245 €</span><span class="vp-card-old">306 €</span></div><button class="vp-card-add">+ Добави</button></div>
+            <div class="vp-card"><div class="vp-card-img">⌨️<span class="vp-card-badge n">НОВО</span></div><div class="vp-card-name">Fnatic STREAK65 LP Mech.</div><div class="vp-card-prices"><span class="vp-card-price">89 €</span></div><button class="vp-card-add">+ Добави</button></div>
+            <div class="vp-card"><div class="vp-card-img">🖱️<span class="vp-card-badge">-15%</span></div><div class="vp-card-name">ASUS ROG Strix Impact III</div><div class="vp-card-prices"><span class="vp-card-price">49 €</span><span class="vp-card-old">59 €</span></div><button class="vp-card-add">+ Добави</button></div>
+          </div>
+        </div>
+
+        <div class="vp-bn">
+          <button class="vp-bn-btn on"><span class="vp-bn-icon">🏠</span>Начало</button>
+          <button class="vp-bn-btn"><span class="vp-bn-icon">🗂️</span>Категории</button>
+          <button class="vp-bn-btn"><span class="vp-bn-icon">🔍</span>Търсене</button>
+          <button class="vp-bn-btn"><span class="vp-bn-icon">❤️</span>Любими</button>
+          <button class="vp-bn-btn"><span class="vp-bn-icon">👤</span>Акаунт</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="legend">
+  <h2>Еволюции на A, H, K, I</h2>
+  <div class="legend-grid">
+    <div class="legend-card">
+      <h3>M — A с по-силен hero</h3>
+      <p style="color:#666;font-size:11px;">Светъл A фон + тъмна hero карта с product image вдясно</p>
+      <ul><li>По-впечатляващ hero от оригинален A</li><li>Цветни category chips за по-бърз visual scan</li><li>Trust row 2x2 вътре</li><li>Познат e-commerce feel - нисък learning curve</li></ul>
+    </div>
+    <div class="legend-card">
+      <h3>N — H + I fusion</h3>
+      <p style="color:#666;font-size:11px;">Full bleed лилав hero от I + gradient product cards от H</p>
+      <ul><li>Максимален visual impact при отваряне</li><li>Цялостна тъмна/лилава палитра - premium feel</li><li>Gradient cards - всеки продукт изглежда уникален</li><li>Лилав/розов акцент - tech/gaming позициониране</li></ul>
+    </div>
+    <div class="legend-card">
+      <h3>O — K + H fusion</h3>
+      <p style="color:#666;font-size:11px;">Tab hero от K + gradient product cards от H, тъмен фон</p>
+      <ul><li>Табовете организират продуктите по категория</li><li>Gradient hero се адаптира при смяна на таб</li><li>Gradient cards - по-атрактивен от стандартния K</li><li>Sort row - функционален за по-взискателни потребители</li></ul>
+    </div>
+    <div class="legend-card">
+      <h3>P — I + A fusion</h3>
+      <p style="color:#666;font-size:11px;">Full bleed dark hero от I + чист бял layout от A</p>
+      <ul><li>Контрастен преход тъмно → бяло - запомнящо се</li><li>Category cards с брой продукти - практична информация</li><li>Flash sale с таймер веднага след категориите</li><li>2-col grid в чист бял контейнер - максимална четимост</li></ul>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

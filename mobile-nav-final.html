@@ -1,0 +1,1412 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Most Computers — Финална мобилна навигация</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #f0f2f5;
+    color: #111827;
+    min-height: 100vh;
+  }
+
+  /* ═══════════════════════════════════════════
+     PAGE LAYOUT
+  ═══════════════════════════════════════════ */
+  .page-wrapper {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 40px 32px 80px;
+  }
+
+  .page-title {
+    font-size: 28px;
+    font-weight: 800;
+    color: #111827;
+    margin-bottom: 6px;
+    letter-spacing: -0.5px;
+  }
+  .page-title span { color: #bd1105; }
+  .page-subtitle {
+    font-size: 15px;
+    color: #6b7280;
+    margin-bottom: 48px;
+    line-height: 1.6;
+  }
+  .page-subtitle strong { color: #374151; }
+
+  .section {
+    margin-bottom: 64px;
+  }
+  .section-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #bd1105;
+    display: inline-block;
+  }
+  .section-desc {
+    font-size: 13px;
+    color: #6b7280;
+    margin-top: 6px;
+    margin-bottom: 28px;
+  }
+
+  .phones-row {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+  .phone-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+  .phone-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .phone-label.active-label {
+    color: #bd1105;
+  }
+
+  /* ═══════════════════════════════════════════
+     PHONE FRAME
+  ═══════════════════════════════════════════ */
+  .phone {
+    width: 300px;
+    height: 620px;
+    background: #ffffff;
+    border: 2.5px solid #1c1c2e;
+    border-radius: 40px;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.25), inset 0 0 0 1px rgba(255,255,255,0.1);
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+  }
+
+  /* ═══════════════════════════════════════════
+     STATUS BAR
+  ═══════════════════════════════════════════ */
+  .status-bar {
+    height: 44px;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    flex-shrink: 0;
+  }
+  .status-time {
+    font-size: 15px;
+    font-weight: 700;
+    color: #111827;
+  }
+  .status-icons {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* ═══════════════════════════════════════════
+     APP HEADER
+  ═══════════════════════════════════════════ */
+  .app-header {
+    height: 52px;
+    background: white;
+    border-bottom: 1px solid #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 14px;
+    flex-shrink: 0;
+  }
+  .header-logo {
+    display: flex;
+    align-items: baseline;
+    gap: 3px;
+    font-size: 17px;
+    letter-spacing: -0.3px;
+  }
+  .logo-most {
+    font-weight: 800;
+    color: #bd1105;
+  }
+  .logo-computers {
+    font-weight: 300;
+    color: #9ca3af;
+    font-size: 15px;
+  }
+  .header-left, .header-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .icon-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    background: transparent;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #6b7280;
+  }
+
+  /* ═══════════════════════════════════════════
+     SCROLL CONTENT AREA
+  ═══════════════════════════════════════════ */
+  .phone-content {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background: #f8f9fb;
+    scrollbar-width: none;
+  }
+  .phone-content::-webkit-scrollbar { display: none; }
+
+  /* Search bar */
+  .search-bar {
+    margin: 12px 12px 10px;
+    background: #f3f4f6;
+    border-radius: 12px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    gap: 8px;
+    color: #9ca3af;
+    font-size: 13px;
+  }
+
+  /* Hero banner */
+  .hero-banner {
+    margin: 0 12px 12px;
+    background: linear-gradient(135deg, #bd1105 0%, #8b0000 100%);
+    border-radius: 14px;
+    padding: 16px;
+    color: white;
+    min-height: 90px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .hero-label {
+    font-size: 11px;
+    font-weight: 600;
+    opacity: 0.8;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+  }
+  .hero-title {
+    font-size: 18px;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+  .hero-cta {
+    background: rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,0.4);
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    color: white;
+    display: inline-block;
+    width: fit-content;
+  }
+
+  /* Category chips */
+  .chips-row {
+    display: flex;
+    gap: 8px;
+    padding: 0 12px 12px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    flex-shrink: 0;
+  }
+  .chips-row::-webkit-scrollbar { display: none; }
+  .chip {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 20px;
+    padding: 5px 12px;
+    font-size: 11px;
+    font-weight: 500;
+    color: #374151;
+    white-space: nowrap;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .chip.active-chip {
+    background: #bd1105;
+    border-color: #bd1105;
+    color: white;
+    font-weight: 600;
+  }
+
+  /* Product grid */
+  .product-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    padding: 0 12px 12px;
+  }
+  .product-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #f0f0f0;
+    position: relative;
+  }
+  .product-img {
+    height: 90px;
+    background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #9ca3af;
+    font-size: 28px;
+  }
+  .wishlist-btn {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 26px;
+    height: 26px;
+    background: rgba(255,255,255,0.9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .product-info {
+    padding: 8px 8px 10px;
+  }
+  .product-name {
+    font-size: 11px;
+    font-weight: 600;
+    color: #374151;
+    line-height: 1.4;
+    margin-bottom: 6px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .product-price {
+    font-size: 13px;
+    font-weight: 800;
+    color: #bd1105;
+    margin-bottom: 2px;
+  }
+  .product-old-price {
+    font-size: 10px;
+    color: #9ca3af;
+    text-decoration: line-through;
+    margin-bottom: 8px;
+  }
+  .buy-btn {
+    background: #bd1105;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 6px 0;
+    width: 100%;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 0.2px;
+  }
+
+  /* ═══════════════════════════════════════════
+     BOTTOM NAV
+  ═══════════════════════════════════════════ */
+  .bottom-nav {
+    height: 60px;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid #f0f0f0;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
+    display: flex;
+    align-items: stretch;
+    padding-bottom: 0;
+    flex-shrink: 0;
+    position: relative;
+  }
+  .nav-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    cursor: pointer;
+    position: relative;
+    padding-top: 2px;
+  }
+  .nav-item.active::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 28px;
+    height: 2px;
+    background: #bd1105;
+    border-radius: 0 0 2px 2px;
+  }
+  .nav-item svg {
+    width: 22px;
+    height: 22px;
+    color: #9ca3af;
+  }
+  .nav-item.active svg { color: #bd1105; }
+  .nav-item span {
+    font-size: 10px;
+    font-weight: 500;
+    color: #9ca3af;
+    line-height: 1;
+  }
+  .nav-item.active span {
+    color: #bd1105;
+    font-weight: 700;
+  }
+
+  /* Central Search Button */
+  .nav-search {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  .nav-search-pill {
+    background: #bd1105;
+    border-radius: 28px;
+    padding: 8px 16px;
+    margin-top: -16px;
+    box-shadow: 0 4px 16px rgba(189,17,5,0.4);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    min-width: 62px;
+  }
+  .nav-search-pill svg {
+    width: 20px;
+    height: 20px;
+    color: white;
+  }
+  .nav-search-pill span {
+    font-size: 9px;
+    font-weight: 700;
+    color: white;
+    letter-spacing: 0.2px;
+  }
+
+  /* ═══════════════════════════════════════════
+     BOTTOM SHEET — CATEGORY
+  ═══════════════════════════════════════════ */
+  .phone-with-sheet {
+    position: relative;
+    width: 300px;
+    height: 620px;
+    flex-shrink: 0;
+  }
+  .phone-with-sheet .phone {
+    width: 300px;
+    height: 620px;
+  }
+  .bottom-sheet {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    border-radius: 20px 20px 0 0;
+    z-index: 10;
+    box-shadow: 0 -8px 40px rgba(0,0,0,0.15);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .sheet-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.35);
+    z-index: 9;
+    border-radius: 38px;
+  }
+  .drag-handle {
+    width: 32px;
+    height: 4px;
+    background: #d1d5db;
+    border-radius: 2px;
+    margin: 10px auto 0;
+    flex-shrink: 0;
+  }
+  .sheet-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px 10px;
+    flex-shrink: 0;
+  }
+  .sheet-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: #111827;
+  }
+  .sheet-close {
+    width: 28px;
+    height: 28px;
+    background: #f3f4f6;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #6b7280;
+    flex-shrink: 0;
+  }
+  .cat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    padding: 0 12px 10px;
+    overflow-y: auto;
+    scrollbar-width: none;
+  }
+  .cat-grid::-webkit-scrollbar { display: none; }
+  .cat-card {
+    background: white;
+    border: 1px solid #f0f0f0;
+    border-radius: 12px;
+    padding: 10px 10px 8px;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .cat-emoji {
+    font-size: 24px;
+    margin-bottom: 5px;
+    display: block;
+    line-height: 1;
+  }
+  .cat-name {
+    font-size: 12px;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 2px;
+  }
+  .cat-count {
+    font-size: 10px;
+    color: #9ca3af;
+  }
+  .promo-row {
+    display: flex;
+    gap: 8px;
+    padding: 0 12px 14px;
+    flex-shrink: 0;
+  }
+  .promo-pill {
+    flex: 1;
+    background: #fff5f5;
+    border: 1px solid #fecaca;
+    border-radius: 20px;
+    padding: 8px 10px;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 600;
+    color: #bd1105;
+    cursor: pointer;
+  }
+
+  /* ═══════════════════════════════════════════
+     PROFILE SHEET
+  ═══════════════════════════════════════════ */
+  .profile-sheet {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    border-radius: 20px 20px 0 0;
+    z-index: 10;
+    box-shadow: 0 -8px 40px rgba(0,0,0,0.15);
+    overflow: hidden;
+  }
+  .auth-content {
+    padding: 8px 16px 20px;
+  }
+  .auth-heading {
+    font-size: 15px;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 4px;
+  }
+  .auth-sub {
+    font-size: 12px;
+    color: #9ca3af;
+    margin-bottom: 16px;
+  }
+  .auth-btn {
+    width: 100%;
+    padding: 11px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    border: none;
+    margin-bottom: 8px;
+  }
+  .auth-btn-primary {
+    background: #bd1105;
+    color: white;
+  }
+  .auth-btn-outline {
+    background: white;
+    color: #374151;
+    border: 1.5px solid #e5e7eb !important;
+    border: none;
+  }
+  .auth-divider {
+    text-align: center;
+    color: #9ca3af;
+    font-size: 11px;
+    margin: 8px 0;
+    position: relative;
+  }
+  .auth-divider::before, .auth-divider::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 38%;
+    height: 1px;
+    background: #e5e7eb;
+  }
+  .auth-divider::before { left: 0; }
+  .auth-divider::after { right: 0; }
+  .auth-guest {
+    width: 100%;
+    padding: 9px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    background: #f9fafb;
+    color: #6b7280;
+  }
+
+  /* Logged-in profile */
+  .profile-user-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 4px 16px 16px;
+  }
+  .avatar {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #bd1105, #8b0000);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 18px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .profile-name {
+    font-size: 15px;
+    font-weight: 700;
+    color: #111827;
+  }
+  .profile-email {
+    font-size: 11px;
+    color: #9ca3af;
+    margin-top: 1px;
+  }
+  .profile-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 16px;
+    border-top: 1px solid #f9fafb;
+    cursor: pointer;
+  }
+  .profile-menu-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    flex-shrink: 0;
+  }
+  .profile-menu-text {
+    flex: 1;
+    font-size: 13px;
+    font-weight: 600;
+    color: #374151;
+  }
+  .profile-menu-arrow {
+    color: #d1d5db;
+    font-size: 16px;
+  }
+
+  /* ═══════════════════════════════════════════
+     SIDE DRAWER
+  ═══════════════════════════════════════════ */
+  .phone-drawer-wrapper {
+    position: relative;
+    width: 300px;
+    height: 620px;
+    flex-shrink: 0;
+  }
+  .phone-drawer-wrapper .phone {
+    width: 300px;
+    height: 620px;
+  }
+  .side-drawer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 80%;
+    height: 100%;
+    background: white;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    border-radius: 38px 0 0 38px;
+    overflow: hidden;
+    box-shadow: 4px 0 24px rgba(0,0,0,0.15);
+  }
+  .drawer-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 9;
+    border-radius: 38px;
+  }
+  .drawer-header {
+    height: 96px;
+    background: linear-gradient(135deg, #1c1c2e 0%, #2d2d42 100%);
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding: 12px 14px;
+    flex-shrink: 0;
+  }
+  .drawer-logo {
+    display: flex;
+    align-items: baseline;
+    gap: 3px;
+    font-size: 17px;
+  }
+  .drawer-logo .logo-most {
+    color: #ff3d2e;
+    font-weight: 800;
+  }
+  .drawer-logo .logo-computers {
+    color: rgba(255,255,255,0.6);
+    font-weight: 300;
+    font-size: 14px;
+  }
+  .drawer-close {
+    width: 28px;
+    height: 28px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255,255,255,0.8);
+    cursor: pointer;
+    flex-shrink: 0;
+    font-size: 16px;
+    font-weight: 300;
+  }
+  .drawer-content {
+    flex: 1;
+    overflow-y: auto;
+    scrollbar-width: none;
+    padding: 8px 0;
+  }
+  .drawer-section-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: #9ca3af;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    padding: 12px 16px 6px;
+  }
+  .drawer-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 16px;
+    cursor: pointer;
+  }
+  .drawer-item:hover { background: #f9fafb; }
+  .drawer-icon {
+    font-size: 16px;
+    width: 22px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+  .drawer-text {
+    font-size: 13px;
+    font-weight: 500;
+    color: #374151;
+    line-height: 1;
+  }
+  .drawer-sep {
+    height: 1px;
+    background: #f0f0f0;
+    margin: 8px 16px;
+  }
+  .drawer-footer {
+    padding: 12px 16px;
+    border-top: 1px solid #f0f0f0;
+    flex-shrink: 0;
+  }
+  .drawer-footer-text {
+    font-size: 10px;
+    color: #d1d5db;
+    line-height: 1.6;
+  }
+
+  /* ═══════════════════════════════════════════
+     SECTION 4 — REASONS TABLE
+  ═══════════════════════════════════════════ */
+  .reasons-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+    margin-top: 8px;
+  }
+  .reason-card {
+    background: white;
+    border-radius: 14px;
+    padding: 20px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.04);
+  }
+  .reason-icon {
+    font-size: 24px;
+    margin-bottom: 10px;
+    display: block;
+  }
+  .reason-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 6px;
+  }
+  .reason-desc {
+    font-size: 13px;
+    color: #6b7280;
+    line-height: 1.55;
+  }
+  .reason-badge {
+    display: inline-block;
+    background: #fff5f5;
+    color: #bd1105;
+    border-radius: 6px;
+    padding: 2px 8px;
+    font-size: 11px;
+    font-weight: 700;
+    margin-top: 8px;
+  }
+
+  /* Section 1 layout */
+  .sec1-layout {
+    display: flex;
+    gap: 48px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+  .sec1-phones {
+    display: flex;
+    gap: 32px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+  .sec1-info {
+    flex: 1;
+    min-width: 260px;
+    max-width: 420px;
+    padding-top: 8px;
+  }
+  .info-heading {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  .info-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .info-list li {
+    display: flex;
+    gap: 10px;
+    font-size: 13px;
+    color: #374151;
+    line-height: 1.5;
+  }
+  .info-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #bd1105;
+    margin-top: 6px;
+    flex-shrink: 0;
+  }
+  .info-list strong { color: #111827; }
+
+  /* divider */
+  .section-divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, #e5e7eb 20%, #e5e7eb 80%, transparent);
+    margin: 0 0 64px;
+  }
+</style>
+</head>
+<body>
+<div class="page-wrapper">
+
+  <!-- PAGE HEADER -->
+  <h1 class="page-title">Финална комбинация — <span>Best of All</span></h1>
+  <p class="page-subtitle">
+    <strong>Bottom nav</strong> с 5 таба (индустриален стандарт) &bull;
+    <strong>Централен search pill</strong> за главното действие &bull;
+    <strong>Category bottom sheet</strong> за естествен mobile жест &bull;
+    <strong>Drawer</strong> само за компания/навигация (не замърсява nav) &bull;
+    <strong>Profile sheet</strong> за директен достъп до акаунт
+  </p>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!--   SECTION 1: Home state + Category sheet   -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div class="section">
+    <span class="section-title">Секция 1 — Основен дизайн</span>
+    <p class="section-desc">Ляво: Home state с видим bottom nav. Дясно: Category bottom sheet отворен.</p>
+
+    <div class="sec1-layout">
+      <div class="sec1-phones">
+
+        <!-- PHONE 1: Home state -->
+        <div class="phone-group">
+          <span class="phone-label active-label">Home State</span>
+          <div class="phone">
+            <!-- Status bar -->
+            <div class="status-bar">
+              <span class="status-time">09:41</span>
+              <div class="status-icons">
+                <svg width="17" height="12" viewBox="0 0 17 12" fill="#111827"><rect x="0" y="4" width="3" height="8" rx="1"/><rect x="4.5" y="2.5" width="3" height="9.5" rx="1"/><rect x="9" y="1" width="3" height="11" rx="1"/><rect x="13.5" y="0" width="3" height="12" rx="1"/></svg>
+                <svg width="16" height="12" viewBox="0 0 16 12" fill="#111827"><path d="M8 3.5C9.8 3.5 11.4 4.3 12.5 5.5L14 4C12.5 2.4 10.4 1.5 8 1.5S3.5 2.4 2 4l1.5 1.5C4.6 4.3 6.2 3.5 8 3.5z"/><path d="M8 6.5c1 0 1.9.4 2.6 1L12 6C10.9 4.8 9.5 4 8 4S5.1 4.8 4 6l1.4 1.5C6.1 6.9 7 6.5 8 6.5z"/><circle cx="8" cy="10" r="1.5"/></svg>
+                <svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x="0.5" y="0.5" width="21" height="11" rx="3.5" stroke="#111827" stroke-opacity="0.35"/><rect x="2" y="2" width="16" height="8" rx="2" fill="#111827"/><path d="M23 4.5v3a1.5 1.5 0 000-3z" fill="#111827" fill-opacity="0.4"/></svg>
+              </div>
+            </div>
+            <!-- App Header -->
+            <div class="app-header">
+              <div class="header-left">
+                <button class="icon-btn">
+                  <svg width="18" height="14" viewBox="0 0 18 14" fill="none" stroke="#6b7280" stroke-width="2" stroke-linecap="round"><line x1="0" y1="1" x2="18" y2="1"/><line x1="0" y1="7" x2="18" y2="7"/><line x1="0" y1="13" x2="18" y2="13"/></svg>
+                </button>
+              </div>
+              <div class="header-logo">
+                <span class="logo-most">Most</span>
+                <span class="logo-computers">Computers</span>
+              </div>
+              <div class="header-right">
+                <button class="icon-btn">
+                  <svg width="18" height="20" viewBox="0 0 18 20" fill="none" stroke="#6b7280" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 0C9 0 3 4 3 11H15C15 4 9 0 9 0z"/><rect x="2" y="11" width="14" height="2.5" rx="1.25"/><path d="M7 13.5a2 2 0 004 0"/></svg>
+                </button>
+                <button class="icon-btn">
+                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8" stroke="#6b7280" stroke-width="1.8"/><path d="M6 7l3-3 3 3M9 4v6" stroke="#6b7280" stroke-width="1.6" stroke-linecap="round"/><circle cx="9" cy="14" r="1" fill="#6b7280"/></svg>
+                </button>
+              </div>
+            </div>
+            <!-- Content -->
+            <div class="phone-content">
+              <div class="search-bar">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="#9ca3af" stroke-width="2" stroke-linecap="round"><circle cx="6" cy="6" r="5"/><line x1="10" y1="10" x2="13" y2="13"/></svg>
+                Търси продукти...
+              </div>
+              <div class="hero-banner">
+                <div class="hero-label">Флаш разпродажба</div>
+                <div class="hero-title">До -40%<br>на Лаптопи</div>
+                <div class="hero-cta">Виж офертите</div>
+              </div>
+              <div class="chips-row">
+                <div class="chip active-chip">Всички</div>
+                <div class="chip">💻 Лаптопи</div>
+                <div class="chip">🎮 Гейминг</div>
+                <div class="chip">📱 Телефони</div>
+                <div class="chip">🖥 Монитори</div>
+              </div>
+              <div class="product-grid">
+                <div class="product-card">
+                  <div class="product-img">💻
+                    <div class="wishlist-btn">
+                      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="#9ca3af" stroke-width="1.8"><path d="M6 10.5S1 7.5 1 4a2.5 2.5 0 015 0 2.5 2.5 0 015 0c0 3.5-5 6.5-5 6.5z"/></svg>
+                    </div>
+                  </div>
+                  <div class="product-info">
+                    <div class="product-name">ASUS VivoBook 15 Intel Core i5</div>
+                    <div class="product-price">1 299,00 €</div>
+                    <div class="product-old-price">1 499,00 €</div>
+                    <button class="buy-btn">Купи</button>
+                  </div>
+                </div>
+                <div class="product-card">
+                  <div class="product-img" style="background:linear-gradient(135deg,#dbeafe,#bfdbfe)">🎮
+                    <div class="wishlist-btn">
+                      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="#9ca3af" stroke-width="1.8"><path d="M6 10.5S1 7.5 1 4a2.5 2.5 0 015 0 2.5 2.5 0 015 0c0 3.5-5 6.5-5 6.5z"/></svg>
+                    </div>
+                  </div>
+                  <div class="product-info">
+                    <div class="product-name">MSI GF63 Thin RTX 4050 Gaming</div>
+                    <div class="product-price">899,00 €</div>
+                    <div class="product-old-price">1 099,00 €</div>
+                    <button class="buy-btn">Купи</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Bottom Nav -->
+            <div class="bottom-nav">
+              <div class="nav-item active">
+                <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+                <span>Начало</span>
+              </div>
+              <div class="nav-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                <span>Каталог</span>
+              </div>
+              <div class="nav-search">
+                <div class="nav-search-pill">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                  <span>Търсене</span>
+                </div>
+              </div>
+              <div class="nav-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+                <span>Количка</span>
+              </div>
+              <div class="nav-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                <span>Профил</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PHONE 2: Category Sheet open -->
+        <div class="phone-group">
+          <span class="phone-label active-label">Каталог - Bottom Sheet</span>
+          <div class="phone-with-sheet">
+            <div class="phone">
+              <div class="status-bar">
+                <span class="status-time">09:41</span>
+                <div class="status-icons">
+                  <svg width="17" height="12" viewBox="0 0 17 12" fill="#111827"><rect x="0" y="4" width="3" height="8" rx="1"/><rect x="4.5" y="2.5" width="3" height="9.5" rx="1"/><rect x="9" y="1" width="3" height="11" rx="1"/><rect x="13.5" y="0" width="3" height="12" rx="1"/></svg>
+                  <svg width="16" height="12" viewBox="0 0 16 12" fill="#111827"><path d="M8 3.5C9.8 3.5 11.4 4.3 12.5 5.5L14 4C12.5 2.4 10.4 1.5 8 1.5S3.5 2.4 2 4l1.5 1.5C4.6 4.3 6.2 3.5 8 3.5z"/><path d="M8 6.5c1 0 1.9.4 2.6 1L12 6C10.9 4.8 9.5 4 8 4S5.1 4.8 4 6l1.4 1.5C6.1 6.9 7 6.5 8 6.5z"/><circle cx="8" cy="10" r="1.5"/></svg>
+                  <svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x="0.5" y="0.5" width="21" height="11" rx="3.5" stroke="#111827" stroke-opacity="0.35"/><rect x="2" y="2" width="16" height="8" rx="2" fill="#111827"/><path d="M23 4.5v3a1.5 1.5 0 000-3z" fill="#111827" fill-opacity="0.4"/></svg>
+                </div>
+              </div>
+              <div class="app-header">
+                <div class="header-left">
+                  <button class="icon-btn">
+                    <svg width="18" height="14" viewBox="0 0 18 14" fill="none" stroke="#6b7280" stroke-width="2" stroke-linecap="round"><line x1="0" y1="1" x2="18" y2="1"/><line x1="0" y1="7" x2="18" y2="7"/><line x1="0" y1="13" x2="18" y2="13"/></svg>
+                  </button>
+                </div>
+                <div class="header-logo"><span class="logo-most">Most</span><span class="logo-computers">Computers</span></div>
+                <div class="header-right">
+                  <button class="icon-btn"><svg width="18" height="20" viewBox="0 0 18 20" fill="none" stroke="#6b7280" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 0C9 0 3 4 3 11H15C15 4 9 0 9 0z"/><rect x="2" y="11" width="14" height="2.5" rx="1.25"/><path d="M7 13.5a2 2 0 004 0"/></svg></button>
+                </div>
+              </div>
+              <div class="phone-content">
+                <div class="search-bar"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="#9ca3af" stroke-width="2" stroke-linecap="round"><circle cx="6" cy="6" r="5"/><line x1="10" y1="10" x2="13" y2="13"/></svg>Търси продукти...</div>
+                <div class="hero-banner"><div class="hero-label">Флаш разпродажба</div><div class="hero-title">До -40%<br>на Лаптопи</div><div class="hero-cta">Виж офертите</div></div>
+              </div>
+              <div class="bottom-nav">
+                <div class="nav-item">
+                  <svg viewBox="0 0 24 24" fill="currentColor" stroke="none" style="color:#9ca3af"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+                  <span>Начало</span>
+                </div>
+                <div class="nav-item active">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                  <span>Каталог</span>
+                </div>
+                <div class="nav-search"><div class="nav-search-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><span>Търсене</span></div></div>
+                <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg><span>Количка</span></div>
+                <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Профил</span></div>
+              </div>
+            </div>
+            <!-- Overlay -->
+            <div class="sheet-overlay"></div>
+            <!-- Category Sheet -->
+            <div class="bottom-sheet" style="height:75%;">
+              <div class="drag-handle"></div>
+              <div class="sheet-header">
+                <span class="sheet-title">Категории</span>
+                <div class="sheet-close">
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="1" y1="1" x2="11" y2="11"/><line x1="11" y1="1" x2="1" y2="11"/></svg>
+                </div>
+              </div>
+              <div class="cat-grid">
+                <div class="cat-card"><span class="cat-emoji">💻</span><div class="cat-name">Лаптопи</div><div class="cat-count">284 продукта</div></div>
+                <div class="cat-card"><span class="cat-emoji">📱</span><div class="cat-name">Телефони</div><div class="cat-count">156 продукта</div></div>
+                <div class="cat-card"><span class="cat-emoji">🖥️</span><div class="cat-name">Настолни</div><div class="cat-count">98 продукта</div></div>
+                <div class="cat-card"><span class="cat-emoji">🖥️</span><div class="cat-name">Монитори</div><div class="cat-count">203 продукта</div></div>
+                <div class="cat-card"><span class="cat-emoji">⚙️</span><div class="cat-name">Компоненти</div><div class="cat-count">445 продукта</div></div>
+                <div class="cat-card"><span class="cat-emoji">🎮</span><div class="cat-name">Гейминг</div><div class="cat-count">312 продукта</div></div>
+                <div class="cat-card"><span class="cat-emoji">🖱️</span><div class="cat-name">Периферия</div><div class="cat-count">267 продукта</div></div>
+                <div class="cat-card"><span class="cat-emoji">🎧</span><div class="cat-name">Аудио</div><div class="cat-count">89 продукта</div></div>
+                <div class="cat-card"><span class="cat-emoji">📡</span><div class="cat-name">Мрежово</div><div class="cat-count">134 продукта</div></div>
+                <div class="cat-card"><span class="cat-emoji">💾</span><div class="cat-name">Памет</div><div class="cat-count">178 продукта</div></div>
+              </div>
+              <div class="promo-row">
+                <div class="promo-pill">🔥 Нови продукти</div>
+                <div class="promo-pill">% Намаления</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /sec1-phones -->
+
+      <!-- Right side info panel -->
+      <div class="sec1-info">
+        <p class="info-heading">Взето от кои варианти</p>
+        <ul class="info-list">
+          <li><div class="info-dot"></div><div><strong>Bottom nav с 5 таба</strong> - индустриален стандарт (Apple, Google, Amazon); всеки таб = едно действие</div></li>
+          <li><div class="info-dot"></div><div><strong>Централен search pill</strong> - издигнат над navbar, #bd1105 background; търсенето е главното действие в B2C eCommerce</div></li>
+          <li><div class="info-dot"></div><div><strong>Active indicator</strong> - 2px червена линия горе + bold label; ясно визуално feedback без overloading</div></li>
+          <li><div class="info-dot"></div><div><strong>Category bottom sheet</strong> - слайд от долу; по-естествен mobile жест, по-бързо от пълна страница</div></li>
+          <li><div class="info-dot"></div><div><strong>2x5 grid в sheet</strong> - emoji + name + count; скенируемо, ясно, информативно</div></li>
+          <li><div class="info-dot"></div><div><strong>Promo row</strong> - 🔥 Нови + % Намаления; директен достъп до двете ключови секции</div></li>
+          <li><div class="info-dot"></div><div><strong>Glassmorphism nav</strong> - rgba + backdrop-filter; модерен look без да скрива съдържанието</div></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!--   SECTION 2: Три state-а                   -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div class="section">
+    <span class="section-title">Секция 2 — Три state-а на Bottom Nav</span>
+    <p class="section-desc">Home активен | Каталог + category sheet | Профил (не логнат и логнат)</p>
+
+    <div class="phones-row">
+
+      <!-- Phone A: Home active -->
+      <div class="phone-group">
+        <div class="phone-label active-label">Phone 1 — Home активен</div>
+        <div class="phone">
+          <div class="status-bar"><span class="status-time">09:41</span><div class="status-icons"><svg width="17" height="12" viewBox="0 0 17 12" fill="#111827"><rect x="0" y="4" width="3" height="8" rx="1"/><rect x="4.5" y="2.5" width="3" height="9.5" rx="1"/><rect x="9" y="1" width="3" height="11" rx="1"/><rect x="13.5" y="0" width="3" height="12" rx="1"/></svg><svg width="16" height="12" viewBox="0 0 16 12" fill="#111827"><path d="M8 3.5C9.8 3.5 11.4 4.3 12.5 5.5L14 4C12.5 2.4 10.4 1.5 8 1.5S3.5 2.4 2 4l1.5 1.5C4.6 4.3 6.2 3.5 8 3.5z"/><path d="M8 6.5c1 0 1.9.4 2.6 1L12 6C10.9 4.8 9.5 4 8 4S5.1 4.8 4 6l1.4 1.5C6.1 6.9 7 6.5 8 6.5z"/><circle cx="8" cy="10" r="1.5"/></svg><svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x="0.5" y="0.5" width="21" height="11" rx="3.5" stroke="#111827" stroke-opacity="0.35"/><rect x="2" y="2" width="16" height="8" rx="2" fill="#111827"/><path d="M23 4.5v3a1.5 1.5 0 000-3z" fill="#111827" fill-opacity="0.4"/></svg></div></div>
+          <div class="app-header">
+            <div class="header-left"><button class="icon-btn"><svg width="18" height="14" viewBox="0 0 18 14" fill="none" stroke="#6b7280" stroke-width="2" stroke-linecap="round"><line x1="0" y1="1" x2="18" y2="1"/><line x1="0" y1="7" x2="18" y2="7"/><line x1="0" y1="13" x2="18" y2="13"/></svg></button></div>
+            <div class="header-logo"><span class="logo-most">Most</span><span class="logo-computers">Computers</span></div>
+            <div class="header-right"><button class="icon-btn"><svg width="18" height="20" viewBox="0 0 18 20" fill="none" stroke="#6b7280" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 0C9 0 3 4 3 11H15C15 4 9 0 9 0z"/><rect x="2" y="11" width="14" height="2.5" rx="1.25"/><path d="M7 13.5a2 2 0 004 0"/></svg></button></div>
+          </div>
+          <div class="phone-content">
+            <div class="search-bar"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="#9ca3af" stroke-width="2" stroke-linecap="round"><circle cx="6" cy="6" r="5"/><line x1="10" y1="10" x2="13" y2="13"/></svg>Търси продукти...</div>
+            <div class="hero-banner"><div class="hero-label">Флаш разпродажба</div><div class="hero-title">До -40%<br>на Лаптопи</div><div class="hero-cta">Виж офертите</div></div>
+            <div class="chips-row"><div class="chip active-chip">Всички</div><div class="chip">💻 Лаптопи</div><div class="chip">🎮 Гейминг</div><div class="chip">📱 Телефони</div></div>
+            <div class="product-grid">
+              <div class="product-card"><div class="product-img">💻<div class="wishlist-btn"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="#9ca3af" stroke-width="1.8"><path d="M6 10.5S1 7.5 1 4a2.5 2.5 0 015 0 2.5 2.5 0 015 0c0 3.5-5 6.5-5 6.5z"/></svg></div></div><div class="product-info"><div class="product-name">ASUS VivoBook 15 Intel Core i5</div><div class="product-price">1 299,00 €</div><div class="product-old-price">1 499,00 €</div><button class="buy-btn">Купи</button></div></div>
+              <div class="product-card"><div class="product-img" style="background:linear-gradient(135deg,#dbeafe,#bfdbfe)">🎮<div class="wishlist-btn"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="#9ca3af" stroke-width="1.8"><path d="M6 10.5S1 7.5 1 4a2.5 2.5 0 015 0 2.5 2.5 0 015 0c0 3.5-5 6.5-5 6.5z"/></svg></div></div><div class="product-info"><div class="product-name">MSI GF63 RTX 4050 Gaming</div><div class="product-price">899,00 €</div><div class="product-old-price">1 099,00 €</div><button class="buy-btn">Купи</button></div></div>
+            </div>
+          </div>
+          <div class="bottom-nav">
+            <div class="nav-item active"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span>Начало</span></div>
+            <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg><span>Каталог</span></div>
+            <div class="nav-search"><div class="nav-search-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><span>Търсене</span></div></div>
+            <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg><span>Количка</span></div>
+            <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Профил</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phone B: Catalog + sheet -->
+      <div class="phone-group">
+        <div class="phone-label active-label">Phone 2 — Каталог + Sheet</div>
+        <div class="phone-with-sheet">
+          <div class="phone">
+            <div class="status-bar"><span class="status-time">09:41</span><div class="status-icons"><svg width="17" height="12" viewBox="0 0 17 12" fill="#111827"><rect x="0" y="4" width="3" height="8" rx="1"/><rect x="4.5" y="2.5" width="3" height="9.5" rx="1"/><rect x="9" y="1" width="3" height="11" rx="1"/><rect x="13.5" y="0" width="3" height="12" rx="1"/></svg><svg width="16" height="12" viewBox="0 0 16 12" fill="#111827"><path d="M8 3.5C9.8 3.5 11.4 4.3 12.5 5.5L14 4C12.5 2.4 10.4 1.5 8 1.5S3.5 2.4 2 4l1.5 1.5C4.6 4.3 6.2 3.5 8 3.5z"/><path d="M8 6.5c1 0 1.9.4 2.6 1L12 6C10.9 4.8 9.5 4 8 4S5.1 4.8 4 6l1.4 1.5C6.1 6.9 7 6.5 8 6.5z"/><circle cx="8" cy="10" r="1.5"/></svg><svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x="0.5" y="0.5" width="21" height="11" rx="3.5" stroke="#111827" stroke-opacity="0.35"/><rect x="2" y="2" width="16" height="8" rx="2" fill="#111827"/><path d="M23 4.5v3a1.5 1.5 0 000-3z" fill="#111827" fill-opacity="0.4"/></svg></div></div>
+            <div class="app-header"><div class="header-left"><button class="icon-btn"><svg width="18" height="14" viewBox="0 0 18 14" fill="none" stroke="#6b7280" stroke-width="2" stroke-linecap="round"><line x1="0" y1="1" x2="18" y2="1"/><line x1="0" y1="7" x2="18" y2="7"/><line x1="0" y1="13" x2="18" y2="13"/></svg></button></div><div class="header-logo"><span class="logo-most">Most</span><span class="logo-computers">Computers</span></div><div class="header-right"></div></div>
+            <div class="phone-content"><div class="hero-banner" style="margin:12px 12px 0"><div class="hero-label">Флаш разпродажба</div><div class="hero-title">До -40%<br>на Лаптопи</div></div></div>
+            <div class="bottom-nav">
+              <div class="nav-item"><svg viewBox="0 0 24 24" fill="currentColor" style="color:#9ca3af"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span>Начало</span></div>
+              <div class="nav-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg><span>Каталог</span></div>
+              <div class="nav-search"><div class="nav-search-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><span>Търсене</span></div></div>
+              <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg><span>Количка</span></div>
+              <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Профил</span></div>
+            </div>
+          </div>
+          <div class="sheet-overlay"></div>
+          <div class="bottom-sheet" style="height:78%;">
+            <div class="drag-handle"></div>
+            <div class="sheet-header"><span class="sheet-title">Категории</span><div class="sheet-close"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="1" y1="1" x2="11" y2="11"/><line x1="11" y1="1" x2="1" y2="11"/></svg></div></div>
+            <div class="cat-grid">
+              <div class="cat-card"><span class="cat-emoji">💻</span><div class="cat-name">Лаптопи</div><div class="cat-count">284 продукта</div></div>
+              <div class="cat-card"><span class="cat-emoji">📱</span><div class="cat-name">Телефони</div><div class="cat-count">156 продукта</div></div>
+              <div class="cat-card"><span class="cat-emoji">🖥️</span><div class="cat-name">Настолни</div><div class="cat-count">98 продукта</div></div>
+              <div class="cat-card"><span class="cat-emoji">🖥️</span><div class="cat-name">Монитори</div><div class="cat-count">203 продукта</div></div>
+              <div class="cat-card"><span class="cat-emoji">⚙️</span><div class="cat-name">Компоненти</div><div class="cat-count">445 продукта</div></div>
+              <div class="cat-card"><span class="cat-emoji">🎮</span><div class="cat-name">Гейминг</div><div class="cat-count">312 продукта</div></div>
+              <div class="cat-card"><span class="cat-emoji">🖱️</span><div class="cat-name">Периферия</div><div class="cat-count">267 продукта</div></div>
+              <div class="cat-card"><span class="cat-emoji">🎧</span><div class="cat-name">Аудио</div><div class="cat-count">89 продукта</div></div>
+              <div class="cat-card"><span class="cat-emoji">📡</span><div class="cat-name">Мрежово</div><div class="cat-count">134 продукта</div></div>
+              <div class="cat-card"><span class="cat-emoji">💾</span><div class="cat-name">Памет</div><div class="cat-count">178 продукта</div></div>
+            </div>
+            <div class="promo-row"><div class="promo-pill">🔥 Нови продукти</div><div class="promo-pill">% Намаления</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phone C: Profile - not logged in -->
+      <div class="phone-group">
+        <div class="phone-label">Phone 3a — Профил (не логнат)</div>
+        <div class="phone-with-sheet">
+          <div class="phone">
+            <div class="status-bar"><span class="status-time">09:41</span><div class="status-icons"><svg width="17" height="12" viewBox="0 0 17 12" fill="#111827"><rect x="0" y="4" width="3" height="8" rx="1"/><rect x="4.5" y="2.5" width="3" height="9.5" rx="1"/><rect x="9" y="1" width="3" height="11" rx="1"/><rect x="13.5" y="0" width="3" height="12" rx="1"/></svg><svg width="16" height="12" viewBox="0 0 16 12" fill="#111827"><path d="M8 3.5C9.8 3.5 11.4 4.3 12.5 5.5L14 4C12.5 2.4 10.4 1.5 8 1.5S3.5 2.4 2 4l1.5 1.5C4.6 4.3 6.2 3.5 8 3.5z"/><path d="M8 6.5c1 0 1.9.4 2.6 1L12 6C10.9 4.8 9.5 4 8 4S5.1 4.8 4 6l1.4 1.5C6.1 6.9 7 6.5 8 6.5z"/><circle cx="8" cy="10" r="1.5"/></svg><svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x="0.5" y="0.5" width="21" height="11" rx="3.5" stroke="#111827" stroke-opacity="0.35"/><rect x="2" y="2" width="16" height="8" rx="2" fill="#111827"/><path d="M23 4.5v3a1.5 1.5 0 000-3z" fill="#111827" fill-opacity="0.4"/></svg></div></div>
+            <div class="app-header"><div class="header-left"><button class="icon-btn"><svg width="18" height="14" viewBox="0 0 18 14" fill="none" stroke="#6b7280" stroke-width="2" stroke-linecap="round"><line x1="0" y1="1" x2="18" y2="1"/><line x1="0" y1="7" x2="18" y2="7"/><line x1="0" y1="13" x2="18" y2="13"/></svg></button></div><div class="header-logo"><span class="logo-most">Most</span><span class="logo-computers">Computers</span></div><div class="header-right"></div></div>
+            <div class="phone-content"><div class="hero-banner" style="margin:12px"><div class="hero-title">До -40%<br>на Лаптопи</div></div></div>
+            <div class="bottom-nav">
+              <div class="nav-item"><svg viewBox="0 0 24 24" fill="currentColor" style="color:#9ca3af"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span>Начало</span></div>
+              <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg><span>Каталог</span></div>
+              <div class="nav-search"><div class="nav-search-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><span>Търсене</span></div></div>
+              <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg><span>Количка</span></div>
+              <div class="nav-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Профил</span></div>
+            </div>
+          </div>
+          <div class="sheet-overlay"></div>
+          <div class="profile-sheet" style="height:52%;">
+            <div class="drag-handle"></div>
+            <div class="sheet-header"><span class="sheet-title">Моят акаунт</span><div class="sheet-close"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="1" y1="1" x2="11" y2="11"/><line x1="11" y1="1" x2="1" y2="11"/></svg></div></div>
+            <div class="auth-content">
+              <div class="auth-heading">Добре дошли!</div>
+              <div class="auth-sub">Влезте, за да видите поръчките и любимите си</div>
+              <button class="auth-btn auth-btn-primary">Вход в акаунта</button>
+              <button class="auth-btn auth-btn-outline" style="border:1.5px solid #e5e7eb">Регистрация</button>
+              <div class="auth-divider">или</div>
+              <button class="auth-guest">Продължи като гост</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phone D: Profile - logged in -->
+      <div class="phone-group">
+        <div class="phone-label active-label">Phone 3b — Профил (логнат)</div>
+        <div class="phone-with-sheet">
+          <div class="phone">
+            <div class="status-bar"><span class="status-time">09:41</span><div class="status-icons"><svg width="17" height="12" viewBox="0 0 17 12" fill="#111827"><rect x="0" y="4" width="3" height="8" rx="1"/><rect x="4.5" y="2.5" width="3" height="9.5" rx="1"/><rect x="9" y="1" width="3" height="11" rx="1"/><rect x="13.5" y="0" width="3" height="12" rx="1"/></svg><svg width="16" height="12" viewBox="0 0 16 12" fill="#111827"><path d="M8 3.5C9.8 3.5 11.4 4.3 12.5 5.5L14 4C12.5 2.4 10.4 1.5 8 1.5S3.5 2.4 2 4l1.5 1.5C4.6 4.3 6.2 3.5 8 3.5z"/><path d="M8 6.5c1 0 1.9.4 2.6 1L12 6C10.9 4.8 9.5 4 8 4S5.1 4.8 4 6l1.4 1.5C6.1 6.9 7 6.5 8 6.5z"/><circle cx="8" cy="10" r="1.5"/></svg><svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x="0.5" y="0.5" width="21" height="11" rx="3.5" stroke="#111827" stroke-opacity="0.35"/><rect x="2" y="2" width="16" height="8" rx="2" fill="#111827"/><path d="M23 4.5v3a1.5 1.5 0 000-3z" fill="#111827" fill-opacity="0.4"/></svg></div></div>
+            <div class="app-header"><div class="header-left"><button class="icon-btn"><svg width="18" height="14" viewBox="0 0 18 14" fill="none" stroke="#6b7280" stroke-width="2" stroke-linecap="round"><line x1="0" y1="1" x2="18" y2="1"/><line x1="0" y1="7" x2="18" y2="7"/><line x1="0" y1="13" x2="18" y2="13"/></svg></button></div><div class="header-logo"><span class="logo-most">Most</span><span class="logo-computers">Computers</span></div><div class="header-right"></div></div>
+            <div class="phone-content"><div class="hero-banner" style="margin:12px"><div class="hero-title">До -40%<br>на Лаптопи</div></div></div>
+            <div class="bottom-nav">
+              <div class="nav-item"><svg viewBox="0 0 24 24" fill="currentColor" style="color:#9ca3af"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span>Начало</span></div>
+              <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg><span>Каталог</span></div>
+              <div class="nav-search"><div class="nav-search-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><span>Търсене</span></div></div>
+              <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg><span>Количка</span></div>
+              <div class="nav-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Профил</span></div>
+            </div>
+          </div>
+          <div class="sheet-overlay"></div>
+          <div class="profile-sheet" style="height:58%;">
+            <div class="drag-handle"></div>
+            <div class="sheet-header"><span class="sheet-title">Моят акаунт</span><div class="sheet-close"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="1" y1="1" x2="11" y2="11"/><line x1="11" y1="1" x2="1" y2="11"/></svg></div></div>
+            <div class="profile-user-row">
+              <div class="avatar">К</div>
+              <div>
+                <div class="profile-name">Здравей, Константин</div>
+                <div class="profile-email">konstantinsimeonov87@gmail.com</div>
+              </div>
+            </div>
+            <div class="profile-menu-item"><div class="profile-menu-icon" style="background:#fff5f5">📦</div><div class="profile-menu-text">Моите поръчки</div><div class="profile-menu-arrow">›</div></div>
+            <div class="profile-menu-item"><div class="profile-menu-icon" style="background:#fff5f5">♡</div><div class="profile-menu-text">Любими (Wishlist)</div><div class="profile-menu-arrow">›</div></div>
+            <div class="profile-menu-item"><div class="profile-menu-icon" style="background:#f0fdf4">⚙️</div><div class="profile-menu-text">Настройки</div><div class="profile-menu-arrow">›</div></div>
+            <div class="profile-menu-item" style="border-top:1px solid #fee2e2"><div class="profile-menu-icon" style="background:#fff5f5">🚪</div><div class="profile-menu-text" style="color:#bd1105">Изход</div></div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /phones-row -->
+  </div><!-- /section -->
+
+  <div class="section-divider"></div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!--   SECTION 3: Side Drawer                   -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div class="section">
+    <span class="section-title">Секция 3 — Drawer навигация (☰)</span>
+    <p class="section-desc">Отваря се от ляво при натискане на hamburger бутона. Съдържа само компания/навигация.</p>
+
+    <div class="phones-row">
+      <div class="phone-group">
+        <div class="phone-label active-label">Side Drawer отворен</div>
+        <div class="phone-drawer-wrapper">
+          <div class="phone">
+            <div class="status-bar"><span class="status-time">09:41</span><div class="status-icons"><svg width="17" height="12" viewBox="0 0 17 12" fill="#111827"><rect x="0" y="4" width="3" height="8" rx="1"/><rect x="4.5" y="2.5" width="3" height="9.5" rx="1"/><rect x="9" y="1" width="3" height="11" rx="1"/><rect x="13.5" y="0" width="3" height="12" rx="1"/></svg><svg width="16" height="12" viewBox="0 0 16 12" fill="#111827"><path d="M8 3.5C9.8 3.5 11.4 4.3 12.5 5.5L14 4C12.5 2.4 10.4 1.5 8 1.5S3.5 2.4 2 4l1.5 1.5C4.6 4.3 6.2 3.5 8 3.5z"/><path d="M8 6.5c1 0 1.9.4 2.6 1L12 6C10.9 4.8 9.5 4 8 4S5.1 4.8 4 6l1.4 1.5C6.1 6.9 7 6.5 8 6.5z"/><circle cx="8" cy="10" r="1.5"/></svg><svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x="0.5" y="0.5" width="21" height="11" rx="3.5" stroke="#111827" stroke-opacity="0.35"/><rect x="2" y="2" width="16" height="8" rx="2" fill="#111827"/><path d="M23 4.5v3a1.5 1.5 0 000-3z" fill="#111827" fill-opacity="0.4"/></svg></div></div>
+            <div class="app-header"><div class="header-left"><button class="icon-btn"><svg width="18" height="14" viewBox="0 0 18 14" fill="none" stroke="#bd1105" stroke-width="2" stroke-linecap="round"><line x1="0" y1="1" x2="18" y2="1"/><line x1="0" y1="7" x2="18" y2="7"/><line x1="0" y1="13" x2="18" y2="13"/></svg></button></div><div class="header-logo"><span class="logo-most">Most</span><span class="logo-computers">Computers</span></div><div class="header-right"></div></div>
+            <div class="phone-content"><div class="hero-banner" style="margin:12px"><div class="hero-label">Флаш разпродажба</div><div class="hero-title">До -40%<br>на Лаптопи</div><div class="hero-cta">Виж офертите</div></div><div class="product-grid"><div class="product-card"><div class="product-img">💻</div><div class="product-info"><div class="product-name">ASUS VivoBook 15</div><div class="product-price">1 299,00 €</div><div class="product-old-price">1 499,00 €</div><button class="buy-btn">Купи</button></div></div><div class="product-card"><div class="product-img" style="background:linear-gradient(135deg,#dbeafe,#bfdbfe)">🎮</div><div class="product-info"><div class="product-name">MSI GF63 Gaming</div><div class="product-price">899,00 €</div><div class="product-old-price">1 099,00 €</div><button class="buy-btn">Купи</button></div></div></div></div>
+            <div class="bottom-nav">
+              <div class="nav-item active"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span>Начало</span></div>
+              <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg><span>Каталог</span></div>
+              <div class="nav-search"><div class="nav-search-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><span>Търсене</span></div></div>
+              <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg><span>Количка</span></div>
+              <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Профил</span></div>
+            </div>
+          </div>
+          <!-- Overlay -->
+          <div class="drawer-overlay"></div>
+          <!-- Side drawer -->
+          <div class="side-drawer">
+            <div class="drawer-header">
+              <div class="drawer-logo"><span class="logo-most">Most</span><span class="logo-computers">Computers</span></div>
+              <div class="drawer-close">✕</div>
+            </div>
+            <div class="drawer-content">
+              <div class="drawer-section-label">Компания</div>
+              <div class="drawer-item"><div class="drawer-icon">📖</div><div class="drawer-text">За нас</div></div>
+              <div class="drawer-item"><div class="drawer-icon">📝</div><div class="drawer-text">Блог</div></div>
+              <div class="drawer-item"><div class="drawer-icon">🚚</div><div class="drawer-text">Доставка и връщане</div></div>
+              <div class="drawer-item"><div class="drawer-icon">📞</div><div class="drawer-text">Контакти</div></div>
+              <div class="drawer-item"><div class="drawer-icon">🔧</div><div class="drawer-text">Сервиз</div></div>
+              <div class="drawer-sep"></div>
+              <div class="drawer-item"><div class="drawer-icon">🏢</div><div class="drawer-text">B2B партньорство</div></div>
+              <div class="drawer-item"><div class="drawer-icon">💼</div><div class="drawer-text">Кариери при нас</div></div>
+            </div>
+            <div class="drawer-footer">
+              <div class="drawer-footer-text">Most Computers v2.4.1<br>© 2024 Most Computers Ltd.<br>Всички права запазени.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Drawer closed state for comparison -->
+      <div class="phone-group">
+        <div class="phone-label">Drawer затворен (за сравнение)</div>
+        <div class="phone">
+          <div class="status-bar"><span class="status-time">09:41</span><div class="status-icons"><svg width="17" height="12" viewBox="0 0 17 12" fill="#111827"><rect x="0" y="4" width="3" height="8" rx="1"/><rect x="4.5" y="2.5" width="3" height="9.5" rx="1"/><rect x="9" y="1" width="3" height="11" rx="1"/><rect x="13.5" y="0" width="3" height="12" rx="1"/></svg><svg width="16" height="12" viewBox="0 0 16 12" fill="#111827"><path d="M8 3.5C9.8 3.5 11.4 4.3 12.5 5.5L14 4C12.5 2.4 10.4 1.5 8 1.5S3.5 2.4 2 4l1.5 1.5C4.6 4.3 6.2 3.5 8 3.5z"/><path d="M8 6.5c1 0 1.9.4 2.6 1L12 6C10.9 4.8 9.5 4 8 4S5.1 4.8 4 6l1.4 1.5C6.1 6.9 7 6.5 8 6.5z"/><circle cx="8" cy="10" r="1.5"/></svg><svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x="0.5" y="0.5" width="21" height="11" rx="3.5" stroke="#111827" stroke-opacity="0.35"/><rect x="2" y="2" width="16" height="8" rx="2" fill="#111827"/><path d="M23 4.5v3a1.5 1.5 0 000-3z" fill="#111827" fill-opacity="0.4"/></svg></div></div>
+          <div class="app-header"><div class="header-left"><button class="icon-btn"><svg width="18" height="14" viewBox="0 0 18 14" fill="none" stroke="#6b7280" stroke-width="2" stroke-linecap="round"><line x1="0" y1="1" x2="18" y2="1"/><line x1="0" y1="7" x2="18" y2="7"/><line x1="0" y1="13" x2="18" y2="13"/></svg></button></div><div class="header-logo"><span class="logo-most">Most</span><span class="logo-computers">Computers</span></div><div class="header-right"><button class="icon-btn"><svg width="18" height="20" viewBox="0 0 18 20" fill="none" stroke="#6b7280" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 0C9 0 3 4 3 11H15C15 4 9 0 9 0z"/><rect x="2" y="11" width="14" height="2.5" rx="1.25"/><path d="M7 13.5a2 2 0 004 0"/></svg></button></div></div>
+          <div class="phone-content">
+            <div class="search-bar"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="#9ca3af" stroke-width="2" stroke-linecap="round"><circle cx="6" cy="6" r="5"/><line x1="10" y1="10" x2="13" y2="13"/></svg>Търси продукти...</div>
+            <div class="hero-banner"><div class="hero-label">Флаш разпродажба</div><div class="hero-title">До -40%<br>на Лаптопи</div><div class="hero-cta">Виж офертите</div></div>
+            <div class="chips-row"><div class="chip active-chip">Всички</div><div class="chip">💻 Лаптопи</div><div class="chip">🎮 Гейминг</div></div>
+            <div class="product-grid">
+              <div class="product-card"><div class="product-img">💻<div class="wishlist-btn"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="#9ca3af" stroke-width="1.8"><path d="M6 10.5S1 7.5 1 4a2.5 2.5 0 015 0 2.5 2.5 0 015 0c0 3.5-5 6.5-5 6.5z"/></svg></div></div><div class="product-info"><div class="product-name">ASUS VivoBook 15 Intel i5</div><div class="product-price">1 299,00 €</div><div class="product-old-price">1 499,00 €</div><button class="buy-btn">Купи</button></div></div>
+              <div class="product-card"><div class="product-img" style="background:linear-gradient(135deg,#dbeafe,#bfdbfe)">🎮<div class="wishlist-btn"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="#9ca3af" stroke-width="1.8"><path d="M6 10.5S1 7.5 1 4a2.5 2.5 0 015 0 2.5 2.5 0 015 0c0 3.5-5 6.5-5 6.5z"/></svg></div></div><div class="product-info"><div class="product-name">MSI GF63 RTX 4050</div><div class="product-price">899,00 €</div><div class="product-old-price">1 099,00 €</div><button class="buy-btn">Купи</button></div></div>
+            </div>
+          </div>
+          <div class="bottom-nav">
+            <div class="nav-item active"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span>Начало</span></div>
+            <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg><span>Каталог</span></div>
+            <div class="nav-search"><div class="nav-search-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><span>Търсене</span></div></div>
+            <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg><span>Количка</span></div>
+            <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Профил</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!--   SECTION 4: Защо тази комбинация?         -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div class="section">
+    <span class="section-title">Секция 4 — Защо тази комбинация?</span>
+    <p class="section-desc">UX обосновка за всяко дизайн решение</p>
+
+    <div class="reasons-grid">
+      <div class="reason-card">
+        <span class="reason-icon">🔍</span>
+        <div class="reason-title">Търсенето е централен бутон</div>
+        <div class="reason-desc">В B2C eCommerce търсенето е основното действие за 60-70% от потребителите. Централната позиция + pill форма го прави невъзможно за пропускане. Издигнатият дизайн (-12px) го отличава визуално от останалите табове.</div>
+        <span class="reason-badge">Industry standard: Amazon, Zalando</span>
+      </div>
+      <div class="reason-card">
+        <span class="reason-icon">📂</span>
+        <div class="reason-title">Каталог като bottom sheet</div>
+        <div class="reason-desc">Bottom sheet се отваря с естествен жест от долу — по-интуитивно от full-page navigation. Drag handle + overlay позволяват лесно затваряне. 2x5 grid показва всичко наведнъж без scroll. Thumb-reachable зона.</div>
+        <span class="reason-badge">Pattern: Google Maps, Spotify</span>
+      </div>
+      <div class="reason-card">
+        <span class="reason-icon">👤</span>
+        <div class="reason-title">Профил директно в nav bar</div>
+        <div class="reason-desc">Директен достъп до акаунта от всяка страница. Два state-а (не логнат / логнат) в един sheet. Потребителят не трябва да "търси" как да влезе. При логнат показва персонализирано greeting + quick actions.</div>
+        <span class="reason-badge">Conversion boost: +15-25% login rate</span>
+      </div>
+      <div class="reason-card">
+        <span class="reason-icon">☰</span>
+        <div class="reason-title">Навигация само в drawer</div>
+        <div class="reason-desc">Nav bar-ът е за core actions (купуване). Компания, Блог, Сервиз, B2B са secondary content — не заслужават ценно пространство в nav. Drawer-ът ги "крие" без да ги елиминира. Тъмен header на drawer-а дава hierarchy.</div>
+        <span class="reason-badge">Separation of concerns</span>
+      </div>
+      <div class="reason-card">
+        <span class="reason-icon">5️⃣</span>
+        <div class="reason-title">Точно 5 таба е стандартът</div>
+        <div class="reason-desc">Apple HIG и Material Design препоръчват 3-5 таба. При 5 всеки таб е едно ясно действие: Начало, Каталог, Търсене, Количка, Профил. По-малко = губим функционалност. Повече = когнитивно претоварване.</div>
+        <span class="reason-badge">Apple HIG + Material Design 3</span>
+      </div>
+      <div class="reason-card">
+        <span class="reason-icon">🎨</span>
+        <div class="reason-title">Glassmorphism nav bar</div>
+        <div class="reason-desc">rgba(255,255,255,0.95) + backdrop-filter:blur(10px) дава модерен "floating" ефект. Съдържанието се вижда под nav bar-а при scroll. Box-shadow нагоре разделя визуално от съдържанието без hard border.</div>
+        <span class="reason-badge">iOS 15+ native pattern</span>
+      </div>
+      <div class="reason-card">
+        <span class="reason-icon">🔴</span>
+        <div class="reason-title">Active indicator — тънка 2px линия</div>
+        <div class="reason-desc">По-финален и премиум от filled background. Линията горе (не долу) е по-четима при thumb navigation. #bd1105 brand color = ясна visual language. Bold label при active добавя втора dimention на feedback.</div>
+        <span class="reason-badge">Subtlety = perceived quality</span>
+      </div>
+      <div class="reason-card">
+        <span class="reason-icon">🛒</span>
+        <div class="reason-title">Количката в nav bar</div>
+        <div class="reason-desc">Директен достъп до количката от всяка страница е критичен за конверсия. В мобилен eCommerce потребителите добавят продукти и веднага искат да видят кошницата. Badge с брой продукти може да се добави при имплементация.</div>
+        <span class="reason-badge">1-click to checkout intent</span>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /page-wrapper -->
+</body>
+</html>

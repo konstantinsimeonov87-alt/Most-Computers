@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hero Slider — Нови банери v2</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:-apple-system,'Outfit','Inter','Segoe UI',sans-serif; background:#e8e8e8; padding:40px 32px; }
+h1 { font-size:22px; font-weight:900; color:#111; margin-bottom:4px; }
+.subtitle { color:#888; font-size:13px; margin-bottom:40px; }
+.slides-grid { display:flex; flex-direction:column; gap:48px; }
+.slide-preview { background:#fff; border-radius:20px; padding:28px; box-shadow:0 4px 24px rgba(0,0,0,.08); }
+.slide-label { font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.12em; color:#888; margin-bottom:12px; }
+.slide-label span { color:#bd1105; margin-right:6px; }
+
+/* BASE SLIDE */
+.slide { width:100%; height:320px; border-radius:12px; overflow:hidden; position:relative; display:flex; align-items:center; }
+.bg-canvas { position:absolute; inset:0; width:100%; height:100%; z-index:0; }
+
+.slide-a { background:#070d1b; padding:40px 48px; flex-direction:row; }
+.slide-a::after { content:''; position:absolute; top:-50px; right:50px; width:340px; height:340px;
+  background:radial-gradient(circle,rgba(56,130,255,.16) 0%,transparent 65%); pointer-events:none; z-index:1; }
+
+.slide-b { background:#060606; padding:40px 48px; flex-direction:row; }
+.slide-b::after { content:''; position:absolute; bottom:-60px; right:28%; width:260px; height:260px;
+  background:radial-gradient(circle,rgba(189,17,5,.22) 0%,transparent 65%); pointer-events:none; z-index:1; }
+
+.slide-c { background:#050e07; padding:40px 48px; flex-direction:row; }
+.slide-c::before { content:'-30%'; position:absolute; right:-10px; top:-20px; font-size:180px; font-weight:900;
+  color:rgba(255,255,255,.025); letter-spacing:-8px; line-height:1; pointer-events:none; z-index:1; white-space:nowrap; }
+.slide-c::after { content:''; position:absolute; bottom:-40px; left:35%; width:280px; height:280px;
+  background:radial-gradient(circle,rgba(34,197,94,.1) 0%,transparent 65%); pointer-events:none; z-index:1; }
+
+.slide-d { background:#0c0800; padding:40px 48px; flex-direction:row; }
+.slide-d::after { content:''; position:absolute; top:-60px; left:-20px; width:360px; height:360px;
+  background:radial-gradient(circle,rgba(251,146,60,.12) 0%,transparent 60%); pointer-events:none; z-index:1; }
+
+.sa-text,.sa-visual,.sb-text,.sb-visual,.sc-text,.sc-visual,.sd-text,.sd-visual { position:relative; z-index:2; }
+
+/* Slide A */
+.sa-text { flex:0 0 52%; }
+.sa-tag { display:inline-flex; align-items:center; gap:6px; background:rgba(56,130,255,.15); border:1px solid rgba(56,130,255,.35);
+  color:#6db3ff; padding:4px 12px; border-radius:20px; font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; margin-bottom:16px; }
+.sa-dot { width:6px; height:6px; border-radius:50%; background:#3882ff; }
+.sa-h1 { font-size:34px; font-weight:900; color:#fff; line-height:1.08; letter-spacing:-1px; margin-bottom:10px; }
+.sa-h1 em { color:#3882ff; font-style:normal; }
+.sa-sub { font-size:13px; color:rgba(255,255,255,.6); margin-bottom:24px; line-height:1.5; max-width:300px; }
+.sa-btn { display:inline-flex; align-items:center; gap:8px; background:#3882ff; color:#fff; border-radius:8px;
+  padding:12px 22px; font-size:14px; font-weight:700; border:none; cursor:pointer; text-decoration:none; }
+.sa-visual { flex:1; display:flex; align-items:center; justify-content:center; }
+.sa-cards { display:grid; grid-template-columns:1fr 1fr; gap:10px; width:230px; }
+.sa-card { background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1); border-radius:10px; padding:14px 12px; text-align:center; }
+.sa-card-icon { width:36px; height:36px; border-radius:8px; background:rgba(56,130,255,.2); margin:0 auto 8px;
+  display:flex; align-items:center; justify-content:center; }
+.sa-card-name { font-size:11px; font-weight:700; color:#fff; }
+.sa-card-price { font-size:10px; color:rgba(255,255,255,.5); }
+
+/* Slide B */
+.sb-text { flex:0 0 50%; }
+.sb-tag { display:inline-block; font-size:10px; font-weight:800; letter-spacing:.15em; text-transform:uppercase; color:rgba(255,255,255,.4); margin-bottom:18px; }
+.sb-tag-line { display:inline-block; width:24px; height:2px; background:#bd1105; vertical-align:middle; margin-right:8px; border-radius:2px; }
+.sb-h1 { font-size:36px; font-weight:900; color:#fff; line-height:1.05; letter-spacing:-1.5px; margin-bottom:8px; }
+.sb-accent { color:#bd1105; }
+.sb-specs { display:flex; gap:16px; margin-bottom:24px; }
+.sb-spec-val { font-size:20px; font-weight:900; color:#fff; line-height:1; margin-bottom:2px; }
+.sb-spec-key { font-size:10px; color:rgba(255,255,255,.4); text-transform:uppercase; letter-spacing:.08em; }
+.sb-sep { width:1px; background:rgba(255,255,255,.1); align-self:stretch; margin:2px 0; }
+.sb-btn { display:inline-flex; align-items:center; gap:8px; background:#bd1105; color:#fff; border-radius:8px;
+  padding:12px 22px; font-size:14px; font-weight:700; border:none; cursor:pointer; text-decoration:none; }
+.sb-visual { flex:1; display:flex; align-items:center; justify-content:center; }
+.css-monitor-screen { width:210px; height:130px; border:3px solid rgba(255,255,255,.12); border-radius:8px 8px 0 0;
+  background:linear-gradient(135deg,#0d1b2e 0%,#1a2a40 100%); display:flex; align-items:center; justify-content:center; overflow:hidden; position:relative; }
+.css-monitor-screen::before { content:''; position:absolute; inset:0; background:linear-gradient(135deg,rgba(189,17,5,.05),rgba(56,130,255,.08)); }
+.css-monitor-screen::after { content:''; position:absolute; top:8px; left:8px; right:8px; bottom:8px; border:1px solid rgba(255,255,255,.05); border-radius:4px; }
+.monitor-inner-text { font-size:9px; font-weight:700; color:rgba(255,255,255,.3); letter-spacing:.1em; text-transform:uppercase; position:relative; z-index:2; }
+.css-monitor-neck { width:24px; height:16px; background:rgba(255,255,255,.06); margin:0 auto; }
+.css-monitor-base { width:70px; height:6px; background:rgba(255,255,255,.08); border-radius:0 0 4px 4px; margin:0 auto; }
+.monitor-label { font-size:11px; font-weight:700; color:rgba(255,255,255,.5); text-align:center; margin-top:10px; }
+
+/* Slide C */
+.sc-text { flex:0 0 55%; }
+.sc-tag { display:inline-flex; align-items:center; gap:6px; background:rgba(34,197,94,.15); border:1px solid rgba(34,197,94,.3);
+  color:#4ade80; padding:4px 12px; border-radius:20px; font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; margin-bottom:16px; }
+.sc-h1 { font-size:34px; font-weight:900; color:#fff; line-height:1.08; letter-spacing:-1px; margin-bottom:6px; }
+.sc-h1 em { color:#4ade80; font-style:normal; }
+.sc-sub { font-size:13px; color:rgba(255,255,255,.55); margin-bottom:20px; line-height:1.5; }
+.sc-chips { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:22px; }
+.sc-chip { background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.12); color:rgba(255,255,255,.75);
+  padding:5px 12px; border-radius:20px; font-size:12px; font-weight:600; }
+.sc-chip.active { background:rgba(34,197,94,.2); border-color:rgba(34,197,94,.4); color:#4ade80; }
+.sc-btn { display:inline-flex; align-items:center; gap:8px; background:#22c55e; color:#fff; border-radius:8px;
+  padding:12px 22px; font-size:14px; font-weight:700; border:none; cursor:pointer; text-decoration:none; }
+.sc-visual { flex:1; display:flex; align-items:center; justify-content:center; }
+.sc-stack { position:relative; width:200px; height:200px; }
+.sc-stack-card { position:absolute; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1);
+  border-radius:12px; padding:16px; width:140px; }
+.sc-stack-card:nth-child(1) { top:0; left:0; transform:rotate(-4deg); z-index:1; }
+.sc-stack-card:nth-child(2) { top:20px; left:30px; transform:rotate(1deg); z-index:2; }
+.sc-stack-card:nth-child(3) { top:40px; left:60px; transform:rotate(5deg); z-index:3; }
+.sc-stack-icon { width:32px; height:32px; background:rgba(34,197,94,.15); border-radius:8px; margin-bottom:8px;
+  display:flex; align-items:center; justify-content:center; }
+.sc-stack-name { font-size:11px; font-weight:700; color:#fff; }
+.sc-stack-price { font-size:10px; color:#4ade80; font-weight:700; }
+.sc-stack-old { font-size:10px; color:rgba(255,255,255,.35); text-decoration:line-through; }
+
+/* Slide D */
+.sd-text { flex:0 0 54%; }
+.sd-tag { display:inline-flex; align-items:center; gap:6px; background:rgba(251,146,60,.12); border:1px solid rgba(251,146,60,.3);
+  color:#fb923c; padding:4px 12px; border-radius:20px; font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; margin-bottom:16px; }
+.sd-h1 { font-size:34px; font-weight:900; color:#fff; line-height:1.08; letter-spacing:-1px; margin-bottom:8px; }
+.sd-h1 em { color:#fb923c; font-style:normal; }
+.sd-sub { font-size:13px; color:rgba(255,255,255,.5); margin-bottom:20px; line-height:1.5; }
+.sd-stats { display:flex; gap:24px; margin-bottom:24px; }
+.sd-stat-val { font-size:28px; font-weight:900; color:#fb923c; line-height:1; }
+.sd-stat-key { font-size:11px; color:rgba(255,255,255,.4); text-transform:uppercase; letter-spacing:.08em; }
+.sd-sep { width:1px; background:rgba(255,255,255,.08); }
+.sd-btn { display:inline-flex; align-items:center; gap:8px; background:#fb923c; color:#fff; border-radius:8px;
+  padding:12px 22px; font-size:14px; font-weight:700; border:none; cursor:pointer; text-decoration:none; }
+.sd-visual { flex:1; display:flex; align-items:center; justify-content:center; }
+.sd-hex-grid { position:relative; width:200px; height:200px; }
+.sd-hex { position:absolute; width:56px; height:56px; background:rgba(251,146,60,.08); border:1px solid rgba(251,146,60,.2);
+  border-radius:12px; display:flex; align-items:center; justify-content:center; }
+.sd-hex.glow { background:rgba(251,146,60,.18); border-color:rgba(251,146,60,.5); box-shadow:0 0 20px rgba(251,146,60,.2); }
+.sd-hex svg { width:22px; height:22px; fill:none; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+.sd-hex.glow svg { stroke:#fb923c; }
+.sd-hex:not(.glow) svg { stroke:rgba(251,146,60,.4); }
+
+/* Notes */
+.slide-notes { margin-top:16px; padding:14px 16px; background:#f8f9fa; border-radius:10px; display:flex; gap:24px; flex-wrap:wrap; }
+.note { font-size:12px; color:#555; }
+.note strong { color:#111; }
+
+/* Mobile */
+.mobile-row { display:flex; gap:20px; margin-top:16px; overflow-x:auto; padding-bottom:4px; }
+.mobile-wrap { flex-shrink:0; }
+.mobile-label { font-size:10px; font-weight:700; color:#aaa; text-transform:uppercase; letter-spacing:.1em; text-align:center; margin-bottom:6px; }
+.slide-mobile { width:375px !important; height:220px !important; }
+.slide-mobile .sa-visual,.slide-mobile .sb-visual,.slide-mobile .sc-visual,.slide-mobile .sd-visual { display:none; }
+.slide-mobile .sa-text,.slide-mobile .sb-text,.slide-mobile .sc-text,.slide-mobile .sd-text { flex:1; max-width:100%; }
+.slide-mobile .sa-h1,.slide-mobile .sb-h1,.slide-mobile .sc-h1,.slide-mobile .sd-h1 { font-size:22px; letter-spacing:-.5px; }
+.slide-mobile .sa-sub,.slide-mobile .sc-sub,.slide-mobile .sd-sub { display:none; }
+</style>
+</head>
+<body>
+
+<h1>Hero Slider — 4 нови банера v2</h1>
+<p class="subtitle">Абстрактни технологични беграунди: circuit board · hexagonal grid · topology lines · isometric diamond</p>
+
+<div class="slides-grid">
+
+<!-- ═══ A: Circuit Board ═══ -->
+<div class="slide-preview">
+  <div class="slide-label"><span>A</span> "Изгради своя PC" - Circuit Board (Electric Blue)</div>
+  <div class="slide slide-a">
+    <canvas class="bg-canvas" data-pattern="circuit" data-color="56,130,255"></canvas>
+    <div class="sa-text">
+      <div class="sa-tag"><span class="sa-dot"></span>Компонентен хардуер</div>
+      <h2 class="sa-h1">Изгради своя<br><em>перфектен PC</em></h2>
+      <p class="sa-sub">Процесори, видеокарти, RAM и SSD на склад. Конфигурирай сам или се довери на нас.</p>
+      <a href="#" class="sa-btn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        Разгледай компонентите
+      </a>
+    </div>
+    <div class="sa-visual">
+      <div class="sa-cards">
+        <div class="sa-card">
+          <div class="sa-card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6db3ff" stroke-width="1.8" stroke-linecap="round"><rect x="4" y="4" width="16" height="16" rx="2"/><line x1="9" y1="4" x2="9" y2="20"/><line x1="15" y1="4" x2="15" y2="20"/><line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/></svg></div>
+          <div class="sa-card-name">Процесори</div><div class="sa-card-price">от 79 €</div>
+        </div>
+        <div class="sa-card">
+          <div class="sa-card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6db3ff" stroke-width="1.8" stroke-linecap="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M6 9h12M6 15h12"/></svg></div>
+          <div class="sa-card-name">Видеокарти</div><div class="sa-card-price">от 189 €</div>
+        </div>
+        <div class="sa-card">
+          <div class="sa-card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6db3ff" stroke-width="1.8" stroke-linecap="round"><rect x="2" y="7" width="20" height="10" rx="2"/><line x1="6" y1="7" x2="6" y2="17"/><line x1="10" y1="7" x2="10" y2="17"/><line x1="14" y1="7" x2="14" y2="17"/><line x1="18" y1="7" x2="18" y2="17"/></svg></div>
+          <div class="sa-card-name">Памет / RAM</div><div class="sa-card-price">от 34 €</div>
+        </div>
+        <div class="sa-card">
+          <div class="sa-card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6db3ff" stroke-width="1.8" stroke-linecap="round"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg></div>
+          <div class="sa-card-name">SSD дискове</div><div class="sa-card-price">от 44 €</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-notes">
+    <div class="note"><strong>Беграунд:</strong> PCB traces - L-paths + corner vias + component pads</div>
+    <div class="note"><strong>Акцент:</strong> Electric Blue #3882ff</div>
+    <div class="note"><strong>CTA:</strong> openCatPage('components')</div>
+  </div>
+  <div class="mobile-row"><div class="mobile-wrap">
+    <div class="mobile-label">Mobile 375px</div>
+    <div class="slide slide-a slide-mobile">
+      <canvas class="bg-canvas" data-pattern="circuit" data-color="56,130,255"></canvas>
+      <div class="sa-text">
+        <div class="sa-tag"><span class="sa-dot"></span>Компоненти</div>
+        <h2 class="sa-h1">Изгради своя<br><em>перфектен PC</em></h2>
+        <a href="#" class="sa-btn" style="margin-top:14px;font-size:13px;padding:10px 18px;">Разгледай →</a>
+      </div>
+    </div>
+  </div></div>
+</div>
+
+<!-- ═══ B: Hexagonal Grid ═══ -->
+<div class="slide-preview">
+  <div class="slide-label"><span>B</span> "Монитори" - Hexagonal Grid (Carbon + Red)</div>
+  <div class="slide slide-b">
+    <canvas class="bg-canvas" data-pattern="hex" data-color="189,17,5"></canvas>
+    <div class="sb-text">
+      <div class="sb-tag"><span class="sb-tag-line"></span>Professional Display</div>
+      <h2 class="sb-h1">Виж всичко<br>с <span class="sb-accent">нова яснота</span></h2>
+      <div class="sb-specs">
+        <div class="sb-spec"><div class="sb-spec-val">4K</div><div class="sb-spec-key">Резолюция</div></div>
+        <div class="sb-sep"></div>
+        <div class="sb-spec"><div class="sb-spec-val">165Hz</div><div class="sb-spec-key">Refresh</div></div>
+        <div class="sb-sep"></div>
+        <div class="sb-spec"><div class="sb-spec-val">1ms</div><div class="sb-spec-key">Response</div></div>
+        <div class="sb-sep"></div>
+        <div class="sb-spec"><div class="sb-spec-val">от 149€</div><div class="sb-spec-key">Цена</div></div>
+      </div>
+      <a href="#" class="sb-btn">Разгледай монитори →</a>
+    </div>
+    <div class="sb-visual">
+      <div class="css-monitor">
+        <div class="css-monitor-screen"><span class="monitor-inner-text">MOST COMPUTERS</span></div>
+        <div class="css-monitor-neck"></div>
+        <div class="css-monitor-base"></div>
+        <div class="monitor-label">IPS · 4K · 165Hz</div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-notes">
+    <div class="note"><strong>Беграунд:</strong> Pointy-top hexagon tessellation с proximity glow</div>
+    <div class="note"><strong>Акцент:</strong> Brand Red #bd1105</div>
+    <div class="note"><strong>CTA:</strong> openCatPage('monitors')</div>
+  </div>
+  <div class="mobile-row"><div class="mobile-wrap">
+    <div class="mobile-label">Mobile 375px</div>
+    <div class="slide slide-b slide-mobile">
+      <canvas class="bg-canvas" data-pattern="hex" data-color="189,17,5"></canvas>
+      <div class="sb-text">
+        <div class="sb-tag"><span class="sb-tag-line"></span>Professional Display</div>
+        <h2 class="sb-h1">Виж с <span class="sb-accent">нова яснота</span></h2>
+        <div class="sb-specs" style="margin-bottom:14px;">
+          <div class="sb-spec"><div class="sb-spec-val" style="font-size:16px;">4K</div><div class="sb-spec-key">UHD</div></div>
+          <div class="sb-sep"></div>
+          <div class="sb-spec"><div class="sb-spec-val" style="font-size:16px;">165Hz</div><div class="sb-spec-key">Refresh</div></div>
+        </div>
+        <a href="#" class="sb-btn" style="font-size:13px;padding:10px 18px;">Виж монитори →</a>
+      </div>
+    </div>
+  </div></div>
+</div>
+
+<!-- ═══ C: Topology Lines ═══ -->
+<div class="slide-preview">
+  <div class="slide-label"><span>C</span> "Back to School" - Topology Contour Lines (Forest Green)</div>
+  <div class="slide slide-c">
+    <canvas class="bg-canvas" data-pattern="topo" data-color="34,197,94"></canvas>
+    <div class="sc-text">
+      <div class="sc-tag">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+        Back to School 2026
+      </div>
+      <h2 class="sc-h1">Готов за<br><em>учебната година</em></h2>
+      <p class="sc-sub">Лаптопи, принтери и аксесоари за ученици и студенти. Безплатна доставка над 100 €.</p>
+      <div class="sc-chips">
+        <div class="sc-chip active">Лаптопи</div>
+        <div class="sc-chip">Принтери</div>
+        <div class="sc-chip">Мишки</div>
+        <div class="sc-chip">Клавиатури</div>
+      </div>
+      <a href="#" class="sc-btn">Виж Back to School →</a>
+    </div>
+    <div class="sc-visual">
+      <div class="sc-stack">
+        <div class="sc-stack-card">
+          <div class="sc-stack-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="12" rx="2"/><line x1="2" y1="20" x2="22" y2="20"/></svg></div>
+          <div class="sc-stack-name">Lenovo IdeaPad 3</div>
+          <div style="display:flex;gap:8px;align-items:center;"><span class="sc-stack-price">459 €</span><span class="sc-stack-old">549 €</span></div>
+        </div>
+        <div class="sc-stack-card">
+          <div class="sc-stack-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2" stroke-linecap="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg></div>
+          <div class="sc-stack-name">Canon PIXMA G2430</div>
+          <div style="display:flex;gap:8px;align-items:center;"><span class="sc-stack-price">129 €</span><span class="sc-stack-old">149 €</span></div>
+        </div>
+        <div class="sc-stack-card">
+          <div class="sc-stack-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2" stroke-linecap="round"><rect x="2" y="7" width="20" height="13" rx="2"/><polyline points="16 2 12 6 8 2"/></svg></div>
+          <div class="sc-stack-name">Logitech MK295</div>
+          <div style="display:flex;gap:8px;align-items:center;"><span class="sc-stack-price">39 €</span><span class="sc-stack-old">49 €</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-notes">
+    <div class="note"><strong>Беграунд:</strong> Multi-frequency sine wave contour lines - топографски ефект</div>
+    <div class="note"><strong>Акцент:</strong> Emerald Green #22c55e</div>
+    <div class="note"><strong>CTA:</strong> openCatPage('laptops')</div>
+  </div>
+  <div class="mobile-row"><div class="mobile-wrap">
+    <div class="mobile-label">Mobile 375px</div>
+    <div class="slide slide-c slide-mobile">
+      <canvas class="bg-canvas" data-pattern="topo" data-color="34,197,94"></canvas>
+      <div class="sc-text">
+        <div class="sc-tag">Back to School 2026</div>
+        <h2 class="sc-h1">Готов за<br><em>учебната година</em></h2>
+        <div class="sc-chips" style="margin-bottom:14px;">
+          <div class="sc-chip active">Лаптопи</div>
+          <div class="sc-chip">Принтери</div>
+        </div>
+        <a href="#" class="sc-btn" style="font-size:13px;padding:10px 18px;">Виж офертите →</a>
+      </div>
+    </div>
+  </div></div>
+</div>
+
+<!-- ═══ D: Isometric Grid ═══ -->
+<div class="slide-preview">
+  <div class="slide-label"><span>D</span> "Upgrade системата" - Isometric Diamond Grid (Amber)</div>
+  <div class="slide slide-d">
+    <canvas class="bg-canvas" data-pattern="iso" data-color="251,146,60"></canvas>
+    <div class="sd-text">
+      <div class="sd-tag">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        Performance Upgrade
+      </div>
+      <h2 class="sd-h1">Надгради<br><em>системата си</em></h2>
+      <p class="sd-sub">Мощни SSD-та, повече RAM и по-бърз процесор. Усети разликата от първия старт.</p>
+      <div class="sd-stats">
+        <div><div class="sd-stat-val">3x</div><div class="sd-stat-key">По-бърз старт</div></div>
+        <div class="sd-sep"></div>
+        <div><div class="sd-stat-val">+60%</div><div class="sd-stat-key">FPS Gaming</div></div>
+        <div class="sd-sep"></div>
+        <div><div class="sd-stat-val">от 34€</div><div class="sd-stat-key">Цена</div></div>
+      </div>
+      <a href="#" class="sd-btn">Разгледай Upgrade →</a>
+    </div>
+    <div class="sd-visual">
+      <div class="sd-hex-grid">
+        <div class="sd-hex glow" style="top:0;left:72px;"><svg viewBox="0 0 24 24" fill="none" stroke="#fb923c" stroke-width="1.8" stroke-linecap="round"><rect x="4" y="4" width="16" height="16" rx="1"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="1" y1="9" x2="4" y2="9"/></svg></div>
+        <div class="sd-hex" style="top:66px;left:0;"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(251,146,60,.4)" stroke-width="1.8" stroke-linecap="round"><rect x="2" y="7" width="20" height="10" rx="1"/><line x1="6" y1="7" x2="6" y2="17"/><line x1="10" y1="7" x2="10" y2="17"/><line x1="14" y1="7" x2="14" y2="17"/><line x1="18" y1="7" x2="18" y2="17"/></svg></div>
+        <div class="sd-hex glow" style="top:66px;left:72px;"><svg viewBox="0 0 24 24" fill="none" stroke="#fb923c" stroke-width="1.8" stroke-linecap="round"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg></div>
+        <div class="sd-hex" style="top:66px;left:144px;"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(251,146,60,.4)" stroke-width="1.8" stroke-linecap="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M6 9h12M6 15h12"/></svg></div>
+        <div class="sd-hex" style="top:132px;left:72px;"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(251,146,60,.4)" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/></svg></div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-notes">
+    <div class="note"><strong>Беграунд:</strong> Isometric diamond grid - линии +30deg / -30deg + хоризонтални</div>
+    <div class="note"><strong>Акцент:</strong> Amber #fb923c</div>
+    <div class="note"><strong>CTA:</strong> openCatPage('components')</div>
+  </div>
+  <div class="mobile-row"><div class="mobile-wrap">
+    <div class="mobile-label">Mobile 375px</div>
+    <div class="slide slide-d slide-mobile">
+      <canvas class="bg-canvas" data-pattern="iso" data-color="251,146,60"></canvas>
+      <div class="sd-text">
+        <div class="sd-tag">Performance Upgrade</div>
+        <h2 class="sd-h1">Надгради<br><em>системата си</em></h2>
+        <div class="sd-stats" style="margin-bottom:14px;">
+          <div><div class="sd-stat-val" style="font-size:20px;">3x</div><div class="sd-stat-key">По-бърз</div></div>
+          <div class="sd-sep"></div>
+          <div><div class="sd-stat-val" style="font-size:20px;">+60%</div><div class="sd-stat-key">FPS</div></div>
+        </div>
+        <a href="#" class="sd-btn" style="font-size:13px;padding:10px 18px;">Ъпгрейд сега →</a>
+      </div>
+    </div>
+  </div></div>
+</div>
+
+</div>
+
+<script>
+window.addEventListener('DOMContentLoaded', function() {
+  requestAnimationFrame(function() {
+    document.querySelectorAll('.bg-canvas').forEach(function(c) {
+      var p = c.parentElement;
+      c.width  = p.offsetWidth;
+      c.height = p.offsetHeight;
+      var ctx = c.getContext('2d');
+      var pat = c.dataset.pattern;
+      var rgb = c.dataset.color;
+      if (pat === 'circuit') drawCircuit(ctx, c.width, c.height, rgb);
+      else if (pat === 'hex')  drawHex(ctx, c.width, c.height, rgb);
+      else if (pat === 'topo') drawTopo(ctx, c.width, c.height, rgb);
+      else if (pat === 'iso')  drawIso(ctx, c.width, c.height, rgb);
+    });
+  });
+});
+
+/* ── CIRCUIT BOARD ── */
+function drawCircuit(ctx, W, H, rgb) {
+  var gr = ctx.createRadialGradient(W*.83, H*.15, 0, W*.83, H*.15, W*.46);
+  gr.addColorStop(0, 'rgba('+rgb+',.10)'); gr.addColorStop(1, 'transparent');
+  ctx.fillStyle = gr; ctx.fillRect(0, 0, W, H);
+
+  var TW = 88, TH = 66;
+  ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+
+  for (var row = -1; row * TH < H + TH; row++) {
+    for (var col = -1; col * TW < W + TW; col++) {
+      var x = col * TW, y = row * TH;
+      var v   = (((row * 3 + col * 7 + row * col * 2) % 5) + 5) % 5;
+      var rnd = ((row * 13 + col * 7 + 100) % 8);
+      var a   = 0.07 + rnd * 0.013;
+      ctx.strokeStyle = 'rgba('+rgb+','+a+')';
+      ctx.lineWidth = 1.5;
+
+      var jx = 0, jy = 0;
+      ctx.beginPath();
+      if (v === 0) {
+        jx = x + TW*.62; jy = y + TH*.42;
+        ctx.moveTo(x, jy); ctx.lineTo(jx, jy); ctx.lineTo(jx, y + TH);
+      } else if (v === 1) {
+        jx = x + TW*.32; jy = y + TH*.65;
+        ctx.moveTo(jx, y); ctx.lineTo(jx, jy); ctx.lineTo(x + TW, jy);
+      } else if (v === 2) {
+        jx = x + TW*.56; jy = y + TH*.68;
+        ctx.moveTo(x, jy); ctx.lineTo(jx, jy); ctx.lineTo(jx, y);
+      } else if (v === 3) {
+        jx = x + TW*.5; jy = y + TH*.48;
+        ctx.moveTo(x, jy); ctx.lineTo(x + TW, jy);
+      } else {
+        jx = x + TW*.52; jy = y + TH*.5;
+        ctx.moveTo(jx, y); ctx.lineTo(jx, y + TH);
+      }
+      ctx.stroke();
+
+      /* via */
+      ctx.fillStyle = 'rgba('+rgb+','+Math.min(a*2.2, .55)+')';
+      ctx.beginPath(); ctx.arc(jx, jy, 3, 0, Math.PI*2); ctx.fill();
+
+      /* annular ring */
+      if ((row + col + 100) % 4 === 0) {
+        ctx.strokeStyle = 'rgba('+rgb+','+a*1.3+')';
+        ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.arc(jx, jy, 5.5, 0, Math.PI*2); ctx.stroke();
+      }
+
+      /* component pad */
+      if ((row * 7 + col * 11 + 200) % 9 === 0) {
+        var px = x + 8 + (col % 4) * 14, py = y + 8 + (row % 3) * 16;
+        if (px + 12 < x + TW && py + 7 < y + TH) {
+          ctx.fillStyle = 'rgba('+rgb+','+a*.7+')';
+          ctx.strokeStyle = 'rgba('+rgb+','+a*1.6+')';
+          ctx.lineWidth = 0.8;
+          rrect(ctx, px, py, 12, 6, 1.5); ctx.fill(); ctx.stroke();
+        }
+      }
+    }
+  }
+}
+
+/* ── HEX GRID ── */
+function drawHex(ctx, W, H, rgb) {
+  var gr = ctx.createRadialGradient(W*.68, H*.92, 0, W*.68, H*.92, W*.52);
+  gr.addColorStop(0, 'rgba('+rgb+',.11)'); gr.addColorStop(1, 'transparent');
+  ctx.fillStyle = gr; ctx.fillRect(0, 0, W, H);
+
+  var r = 26, hexW = r * Math.sqrt(3), rowH = r * 1.5;
+
+  for (var row = -1; row * rowH < H + r*2; row++) {
+    for (var col = -1; col * hexW < W + hexW; col++) {
+      var cx = col * hexW + (row % 2 !== 0 ? hexW*.5 : 0);
+      var cy = row * rowH;
+      var dx = cx - W*.68, dy = cy - H*.85;
+      var prox = Math.max(0, 1 - Math.sqrt(dx*dx + dy*dy) / (W*.55));
+      var seed = ((row * 17 + col * 13 + 300) % 10);
+      var a = 0.06 + prox*.14 + seed*.006;
+      var filled = (row * 5 + col * 7 + 400) % 13 === 0;
+
+      ctx.strokeStyle = 'rgba('+rgb+','+a+')';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      for (var i = 0; i < 6; i++) {
+        var ang = (i * 60 - 90) * Math.PI / 180;
+        var hx = cx + r * Math.cos(ang), hy = cy + r * Math.sin(ang);
+        i === 0 ? ctx.moveTo(hx, hy) : ctx.lineTo(hx, hy);
+      }
+      ctx.closePath(); ctx.stroke();
+      if (filled) { ctx.fillStyle = 'rgba('+rgb+','+a*.35+')'; ctx.fill(); }
+    }
+  }
+
+  /* a few highlighted hexes near glow */
+  [[W*.72, H*.75],[W*.65, H*.55],[W*.80, H*.60]].forEach(function(h) {
+    ctx.strokeStyle = 'rgba('+rgb+',.28)'; ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    for (var i = 0; i < 6; i++) {
+      var ang = (i * 60 - 90) * Math.PI / 180;
+      i === 0 ? ctx.moveTo(h[0]+26*Math.cos(ang), h[1]+26*Math.sin(ang))
+              : ctx.lineTo(h[0]+26*Math.cos(ang), h[1]+26*Math.sin(ang));
+    }
+    ctx.closePath(); ctx.stroke();
+    ctx.fillStyle = 'rgba('+rgb+',.06)'; ctx.fill();
+  });
+}
+
+/* ── TOPOLOGY LINES ── */
+function drawTopo(ctx, W, H, rgb) {
+  var gr = ctx.createRadialGradient(W*.28, H*.52, 0, W*.28, H*.52, W*.5);
+  gr.addColorStop(0, 'rgba('+rgb+',.08)'); gr.addColorStop(1, 'transparent');
+  ctx.fillStyle = gr; ctx.fillRect(0, 0, W, H);
+
+  ctx.lineCap = 'round';
+  var N = 16;
+  for (var i = 0; i < N; i++) {
+    var yBase = (i / (N-1)) * (H * 1.5) - H * .25;
+    var f1 = 1.2 + (i%5)*.35, f2 = 2.5 + (i%4)*.55, f3 = 0.7 + (i%3)*.4;
+    var a1 = 18 + (i%6)*7,    a2 = 10 + (i%5)*5,    a3 = 6 + (i%4)*3;
+    var ph = i * .65;
+    var accent = (i%4 === 1);
+    var a = accent ? .14 : .07 + (i%3)*.015;
+    ctx.strokeStyle = 'rgba('+rgb+','+a+')';
+    ctx.lineWidth = accent ? 1.5 : 1;
+    ctx.beginPath();
+    for (var s = 0; s <= 60; s++) {
+      var t = s/60, px = t*W;
+      var py = yBase + Math.sin(t*f1*Math.PI+ph)*a1
+                     + Math.sin(t*f2*Math.PI+ph*1.4)*a2
+                     + Math.sin(t*f3*Math.PI+ph*.8)*a3;
+      s === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
+    }
+    ctx.stroke();
+    if (accent) {
+      ctx.fillStyle = 'rgba('+rgb+','+a*1.8+')';
+      for (var d = 1; d < 5; d++) {
+        var t = d/5, px = t*W;
+        var py = yBase + Math.sin(t*f1*Math.PI+ph)*a1
+                       + Math.sin(t*f2*Math.PI+ph*1.4)*a2
+                       + Math.sin(t*f3*Math.PI+ph*.8)*a3;
+        ctx.beginPath(); ctx.arc(px, py, 2.5, 0, Math.PI*2); ctx.fill();
+      }
+    }
+  }
+}
+
+/* ── ISOMETRIC GRID ── */
+function drawIso(ctx, W, H, rgb) {
+  var gr = ctx.createRadialGradient(W*.14, H*.22, 0, W*.14, H*.22, W*.55);
+  gr.addColorStop(0, 'rgba('+rgb+',.10)'); gr.addColorStop(1, 'transparent');
+  ctx.fillStyle = gr; ctx.fillRect(0, 0, W, H);
+
+  var sp = 46, t30 = Math.tan(30 * Math.PI/180);
+  var cnt = Math.ceil((W + H * t30) / sp) + 3;
+
+  for (var i = -2; i < cnt; i++) {
+    var x0 = i * sp, maj = (i%3===0);
+    ctx.strokeStyle = 'rgba('+rgb+','+(maj?.10:.05)+')';
+    ctx.lineWidth = maj ? 1 : .7;
+    ctx.beginPath(); ctx.moveTo(x0, 0); ctx.lineTo(x0 + H*t30, H); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(x0+W, 0); ctx.lineTo(x0+W - H*t30, H); ctx.stroke();
+  }
+
+  var rowH = sp * Math.cos(30 * Math.PI/180);
+  for (var y = 0; y <= H + rowH; y += rowH) {
+    var maj = (Math.round(y/rowH) % 3 === 0);
+    ctx.strokeStyle = 'rgba('+rgb+','+(maj?.07:.03)+')';
+    ctx.lineWidth = .7;
+    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+  }
+
+  /* highlighted diamond cells near glow */
+  var hs = sp*.5;
+  [[W*.10, H*.22],[W*.20, H*.46],[W*.28, H*.18]].forEach(function(c) {
+    ctx.fillStyle = 'rgba('+rgb+',.07)'; ctx.strokeStyle = 'rgba('+rgb+',.22)'; ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(c[0], c[1]-hs); ctx.lineTo(c[0]+hs*t30*2, c[1]);
+    ctx.lineTo(c[0], c[1]+hs); ctx.lineTo(c[0]-hs*t30*2, c[1]);
+    ctx.closePath(); ctx.fill(); ctx.stroke();
+  });
+}
+
+/* ── rounded rect helper ── */
+function rrect(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x+r, y); ctx.lineTo(x+w-r, y); ctx.arcTo(x+w, y, x+w, y+r, r);
+  ctx.lineTo(x+w, y+h-r); ctx.arcTo(x+w, y+h, x+w-r, y+h, r);
+  ctx.lineTo(x+r, y+h); ctx.arcTo(x, y+h, x, y+h-r, r);
+  ctx.lineTo(x, y+r); ctx.arcTo(x, y, x+r, y, r);
+  ctx.closePath();
+}
+</script>
+</body>
+</html>

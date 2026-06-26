@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mobile Nav — Дизайн v2</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: -apple-system, 'SF Pro Display', 'Segoe UI', sans-serif; background:#0f0f0f; color:#111; }
+
+/* ── Page layout ── */
+.page { padding:40px 32px; }
+h1 { font-size:28px; font-weight:900; color:#fff; margin-bottom:6px; letter-spacing:-0.5px; }
+.subtitle { color:#666; font-size:15px; margin-bottom:36px; }
+
+/* ── Tabs ── */
+.tabs { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:36px; }
+.tab {
+  padding:9px 20px; border-radius:22px; border:1.5px solid #333;
+  background:transparent; cursor:pointer; font-size:13px; font-weight:600;
+  color:#888; transition:all .2s;
+}
+.tab:hover { border-color:#555; color:#ccc; }
+.tab.active { background:#bd1105; border-color:#bd1105; color:#fff; }
+
+/* ── Phone frame ── */
+.showcase { display:flex; gap:48px; flex-wrap:wrap; justify-content:center; align-items:flex-start; }
+.phone-wrap { text-align:center; }
+.design-label {
+  font-size:12px; font-weight:800; color:#888; margin-bottom:12px;
+  text-transform:uppercase; letter-spacing:1px;
+}
+.badge {
+  display:inline-block; font-size:10px; padding:3px 9px; border-radius:12px;
+  margin-left:6px; font-weight:700; vertical-align:middle; letter-spacing:.3px;
+}
+.b-premium { background:#1a1a2e; color:#818cf8; border:1px solid #3730a3; }
+.b-popular { background:#1c1917; color:#fb923c; border:1px solid #9a3412; }
+.b-unique  { background:#0d1117; color:#34d399; border:1px solid #065f46; }
+.b-bold    { background:#1e1b4b; color:#c084fc; border:1px solid #6d28d9; }
+.b-smart   { background:#0c1a2e; color:#38bdf8; border:1px solid #0369a1; }
+
+.phone {
+  width:375px; height:812px; background:#fff; border-radius:50px;
+  box-shadow:
+    0 0 0 2px #2a2a2a,
+    0 0 0 10px #1a1a1a,
+    0 0 0 12px #0a0a0a,
+    0 40px 100px rgba(0,0,0,.7),
+    inset 0 0 0 1px rgba(255,255,255,.05);
+  overflow:hidden; position:relative; display:inline-block;
+}
+.phone::before {
+  content:''; position:absolute; top:0; left:50%; transform:translateX(-50%);
+  width:126px; height:34px; background:#1a1a1a; border-radius:0 0 20px 20px;
+  z-index:100;
+}
+
+/* ── Status bar ── */
+.sb {
+  height:54px; display:flex; align-items:flex-end; padding:0 28px 10px;
+  background:#fff; position:relative; z-index:50;
+}
+.sb-time { font-size:15px; font-weight:800; color:#111; flex:1; }
+.sb-icons { display:flex; gap:5px; align-items:center; }
+.sb-icons svg { width:15px; height:15px; color:#111; }
+
+/* ── Verdict ── */
+.verdict {
+  margin-top:20px; max-width:375px; text-align:left;
+  background:#1a1a1a; border-radius:16px; padding:16px 18px;
+  border:1px solid #2a2a2a;
+}
+.verdict-title { font-size:12px; font-weight:800; color:#fff; margin-bottom:8px; text-transform:uppercase; letter-spacing:.5px; }
+.verdict ul { font-size:12px; padding-left:14px; line-height:2; }
+.pro { color:#4ade80; }
+.con { color:#f87171; }
+
+/* ══════════════════════════════════════
+   E — HORIZONTAL CATEGORY PILLS
+   (AliExpress / eBay style)
+══════════════════════════════════════ */
+.e-header {
+  background:#fff; border-bottom:1px solid #f0f0f0;
+  padding:12px 16px 0;
+}
+.e-header-top {
+  display:flex; align-items:center; gap:10px; margin-bottom:12px;
+}
+.e-logo { font-weight:900; font-size:18px; color:#1a1a1a; }
+.e-logo span { color:#bd1105; }
+.e-search {
+  flex:1; height:38px; background:#f5f5f5; border-radius:19px;
+  display:flex; align-items:center; padding:0 14px; gap:8px;
+  font-size:13px; color:#aaa;
+}
+.e-cart-ico { position:relative; padding:6px; }
+.e-badge { position:absolute; top:0; right:0; width:16px; height:16px; background:#bd1105; border-radius:50%; font-size:9px; font-weight:800; color:#fff; display:flex; align-items:center; justify-content:center; }
+
+.e-pills-bar {
+  display:flex; gap:8px; overflow-x:auto; padding-bottom:12px;
+  scrollbar-width:none;
+}
+.e-pills-bar::-webkit-scrollbar { display:none; }
+.e-pill {
+  flex-shrink:0; height:32px; padding:0 14px; border-radius:16px;
+  font-size:12px; font-weight:700; display:flex; align-items:center; gap:6px;
+  white-space:nowrap; cursor:pointer;
+}
+.e-pill.active { background:#bd1105; color:#fff; }
+.e-pill:not(.active) { background:#f5f5f5; color:#374151; }
+.e-pill-ico { font-size:14px; }
+
+.e-content { background:#f5f5f5; height:606px; overflow-y:auto; padding:14px; }
+.e-section-title { font-size:12px; font-weight:800; color:#6b7280; text-transform:uppercase; letter-spacing:.5px; margin-bottom:10px; }
+
+.e-promo-row { display:flex; gap:8px; margin-bottom:14px; }
+.e-promo-card {
+  flex:1; border-radius:14px; padding:14px; display:flex; flex-direction:column; gap:4px;
+}
+.e-promo-card.new-card { background:linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%); }
+.e-promo-card.sale-card { background:linear-gradient(135deg, #bd1105 0%, #e02020 100%); }
+.epc-label { font-size:10px; color:rgba(255,255,255,.6); font-weight:700; text-transform:uppercase; }
+.epc-title { font-size:15px; font-weight:900; color:#fff; }
+.epc-sub { font-size:11px; color:rgba(255,255,255,.7); }
+.epc-btn { margin-top:6px; background:rgba(255,255,255,.15); color:#fff; border-radius:20px; padding:5px 12px; font-size:11px; font-weight:700; width:fit-content; }
+
+.e-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; }
+.e-grid-tile {
+  background:#fff; border-radius:12px; padding:12px 8px;
+  display:flex; flex-direction:column; align-items:center; gap:5px;
+  box-shadow:0 1px 3px rgba(0,0,0,.06);
+}
+.e-grid-tile .ico { font-size:24px; }
+.e-grid-tile .nm { font-size:11px; font-weight:700; color:#1f2937; text-align:center; line-height:1.2; }
+.e-grid-tile .cnt { font-size:10px; color:#9ca3af; }
+
+/* ── Bottom nav shared ── */
+.bnav {
+  position:absolute; bottom:0; left:0; right:0; height:84px;
+  background:#fff; border-top:1px solid #f0f0f0;
+  display:flex; align-items:flex-start; padding-top:10px;
+  box-shadow:0 -4px 20px rgba(0,0,0,.06);
+}
+.bn-i { flex:1; display:flex; flex-direction:column; align-items:center; gap:3px; }
+.bn-i svg { width:22px; height:22px; }
+.bn-i span { font-size:10px; font-weight:600; }
+.bn-i.on svg, .bn-i.on span { color:#bd1105; }
+.bn-i:not(.on) svg, .bn-i:not(.on) span { color:#b0b0b0; }
+
+/* ══════════════════════════════════════
+   F — VISUAL CARD GRID (full-screen)
+   (ASOS / Nike App style)
+══════════════════════════════════════ */
+.f-header {
+  height:60px; background:#fff; display:flex; align-items:center;
+  padding:0 18px; gap:12px; border-bottom:1px solid #f0f0f0;
+}
+.f-logo { font-weight:900; font-size:18px; color:#1a1a1a; }
+.f-logo span { color:#bd1105; }
+.f-search-pill {
+  flex:1; height:38px; background:#f5f5f5; border-radius:19px;
+  display:flex; align-items:center; padding:0 14px; gap:8px;
+  font-size:13px; color:#aaa;
+}
+.f-cart { position:relative; }
+.f-badge { position:absolute; top:-3px; right:-3px; width:16px; height:16px; background:#bd1105; border-radius:50%; font-size:9px; font-weight:800; color:#fff; display:flex; align-items:center; justify-content:center; }
+
+.f-page-header {
+  background:#fff; padding:14px 18px 10px;
+  display:flex; align-items:center; justify-content:space-between;
+}
+.f-page-title { font-size:22px; font-weight:900; color:#111; }
+.f-page-sub { font-size:12px; color:#9ca3af; margin-top:2px; }
+.f-sort { display:flex; align-items:center; gap:4px; font-size:12px; color:#374151; font-weight:600; background:#f5f5f5; padding:6px 12px; border-radius:20px; }
+
+.f-content { height:636px; overflow-y:auto; background:#f5f5f5; padding:14px; }
+
+.f-featured { border-radius:20px; overflow:hidden; margin-bottom:12px; position:relative; height:160px; }
+.f-featured-bg { width:100%; height:100%; object-fit:cover; }
+.f-featured-overlay {
+  position:absolute; inset:0;
+  background:linear-gradient(135deg, rgba(189,17,5,.95) 0%, rgba(100,5,0,.8) 100%);
+  display:flex; align-items:center; justify-content:space-between; padding:20px;
+}
+.ffo-text .tag { font-size:10px; color:rgba(255,255,255,.7); text-transform:uppercase; letter-spacing:1px; font-weight:700; }
+.ffo-text .title { font-size:22px; font-weight:900; color:#fff; margin-top:4px; line-height:1.1; }
+.ffo-text .sub { font-size:12px; color:rgba(255,255,255,.8); margin-top:6px; }
+.ffo-btn { background:#fff; color:#bd1105; border-radius:30px; padding:10px 18px; font-size:13px; font-weight:800; white-space:nowrap; flex-shrink:0; }
+
+.f-grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.f-cat-card {
+  border-radius:16px; overflow:hidden; position:relative;
+  height:130px; cursor:pointer;
+}
+.f-cat-bg { width:100%; height:100%; display:flex; align-items:center; justify-content:center; font-size:50px; }
+.f-cat-bg.laptops { background:linear-gradient(135deg, #1e3a5f 0%, #2d6a9f 100%); }
+.f-cat-bg.phones { background:linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); }
+.f-cat-bg.desktops { background:linear-gradient(135deg, #134e4a 0%, #0f766e 100%); }
+.f-cat-bg.components { background:linear-gradient(135deg, #4a1942 0%, #7c3aed 100%); }
+.f-cat-bg.monitors { background:linear-gradient(135deg, #1c1917 0%, #44403c 100%); }
+.f-cat-bg.peripherals { background:linear-gradient(135deg, #064e3b 0%, #047857 100%); }
+.f-cat-label {
+  position:absolute; bottom:0; left:0; right:0;
+  background:linear-gradient(to top, rgba(0,0,0,.75) 0%, transparent 100%);
+  padding:20px 12px 12px;
+}
+.f-cat-name { font-size:14px; font-weight:800; color:#fff; }
+.f-cat-count { font-size:11px; color:rgba(255,255,255,.7); margin-top:1px; }
+.f-cat-badge { position:absolute; top:10px; right:10px; background:#bd1105; color:#fff; font-size:9px; font-weight:800; padding:3px 7px; border-radius:10px; }
+
+/* ══════════════════════════════════════
+   G — SEARCH DOMINANT
+   (Google Shopping / Bol.com style)
+══════════════════════════════════════ */
+.g-header {
+  background:#fff; padding:14px 16px;
+  box-shadow:0 2px 8px rgba(0,0,0,.06);
+}
+.g-logo { font-weight:900; font-size:16px; color:#1a1a1a; margin-bottom:10px; }
+.g-logo span { color:#bd1105; }
+.g-search-bar {
+  height:48px; background:#f5f5f5; border-radius:24px;
+  display:flex; align-items:center; padding:0 16px; gap:10px;
+  border:2px solid transparent; transition:border .2s;
+}
+.g-search-bar.focused { background:#fff; border-color:#bd1105; }
+.g-search-input { flex:1; font-size:16px; color:#374151; background:transparent; border:none; outline:none; }
+.g-search-ico { color:#9ca3af; }
+.g-voice-btn { width:36px; height:36px; background:#bd1105; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+
+.g-content { height:646px; overflow-y:auto; background:#f8f8f8; }
+
+.g-suggestions {
+  background:#fff; border-radius:0 0 24px 24px;
+  box-shadow:0 4px 20px rgba(0,0,0,.08); margin-bottom:12px;
+  overflow:hidden;
+}
+.g-sugg-header { padding:12px 16px 6px; font-size:11px; font-weight:800; color:#9ca3af; text-transform:uppercase; letter-spacing:.5px; }
+.g-sugg-item {
+  display:flex; align-items:center; gap:12px; padding:11px 16px;
+  border-top:1px solid #f9f9f9;
+}
+.g-sugg-ico { width:36px; height:36px; background:#f5f5f5; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:16px; flex-shrink:0; }
+.g-sugg-text { flex:1; }
+.g-sugg-name { font-size:15px; font-weight:600; color:#111; }
+.g-sugg-sub { font-size:12px; color:#9ca3af; margin-top:1px; }
+.g-sugg-arrow { color:#d1d5db; font-size:16px; }
+
+.g-trending { padding:14px 16px; }
+.g-trend-title { font-size:12px; font-weight:800; color:#6b7280; text-transform:uppercase; letter-spacing:.5px; margin-bottom:10px; }
+.g-trend-chips { display:flex; flex-wrap:wrap; gap:8px; }
+.g-chip {
+  padding:7px 14px; background:#fff; border-radius:20px;
+  font-size:12px; font-weight:600; color:#374151;
+  box-shadow:0 1px 3px rgba(0,0,0,.1); cursor:pointer;
+}
+.g-chip:first-child { background:#fef2f2; color:#bd1105; border:1px solid #fecaca; }
+
+.g-recent-products { padding:0 14px; }
+.g-product-row {
+  display:flex; align-items:center; gap:12px; background:#fff;
+  border-radius:12px; padding:12px; margin-bottom:8px;
+  box-shadow:0 1px 3px rgba(0,0,0,.06);
+}
+.gpr-img { width:52px; height:52px; background:#f5f5f5; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:24px; flex-shrink:0; }
+.gpr-info { flex:1; }
+.gpr-name { font-size:13px; font-weight:700; color:#111; }
+.gpr-brand { font-size:11px; color:#9ca3af; margin-top:2px; }
+.gpr-price { font-size:15px; font-weight:800; color:#bd1105; }
+
+/* ══════════════════════════════════════
+   H — CONTEXTUAL FLOATING DOCK
+   (unique — floating category strip)
+══════════════════════════════════════ */
+.h-header {
+  height:60px; background:#fff; display:flex; align-items:center;
+  padding:0 16px; gap:12px; border-bottom:1px solid #f0f0f0;
+}
+.h-logo { font-weight:900; font-size:18px; }
+.h-logo span { color:#bd1105; }
+.h-search { flex:1; height:38px; background:#f5f5f5; border-radius:19px; display:flex; align-items:center; padding:0 12px; gap:8px; font-size:13px; color:#aaa; }
+.h-cart { position:relative; }
+.h-cbadge { position:absolute; top:-3px; right:-3px; width:16px; height:16px; background:#bd1105; border-radius:50%; font-size:9px; font-weight:800; color:#fff; display:flex; align-items:center; justify-content:center; }
+
+.h-content { height:560px; overflow-y:auto; background:#f5f5f5; padding:14px; }
+.h-hero {
+  border-radius:18px; overflow:hidden; margin-bottom:12px;
+  background:linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%);
+  padding:22px 18px; display:flex; justify-content:space-between; align-items:center;
+}
+.h-hero-text .tag { font-size:10px; color:rgba(255,255,255,.5); text-transform:uppercase; letter-spacing:1px; font-weight:700; }
+.h-hero-text .title { font-size:20px; font-weight:900; color:#fff; margin-top:4px; line-height:1.2; }
+.h-hero-text .price { font-size:14px; color:#60a5fa; font-weight:700; margin-top:8px; }
+.h-hero-ico { font-size:56px; opacity:.8; }
+
+.h-mini-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:12px; }
+.h-mini-card {
+  background:#fff; border-radius:12px; padding:14px;
+  display:flex; align-items:center; gap:10px;
+  box-shadow:0 1px 3px rgba(0,0,0,.06);
+}
+.hmc-ico { font-size:22px; }
+.hmc-info .title { font-size:13px; font-weight:700; color:#111; }
+.hmc-info .cnt { font-size:11px; color:#9ca3af; margin-top:1px; }
+.hmc-arr { color:#d1d5db; margin-left:auto; font-size:14px; }
+
+/* Floating dock */
+.h-dock {
+  position:absolute; bottom:94px; left:12px; right:12px;
+  background:rgba(20,20,20,.92); backdrop-filter:blur(16px) saturate(1.8);
+  border-radius:20px; border:1px solid rgba(255,255,255,.08);
+  padding:12px 8px; box-shadow:0 8px 40px rgba(0,0,0,.4);
+}
+.h-dock-title { font-size:10px; font-weight:800; color:rgba(255,255,255,.4); text-transform:uppercase; letter-spacing:1px; padding:0 8px 8px; }
+.h-dock-row { display:flex; justify-content:space-between; padding:0 4px; }
+.h-dock-item { display:flex; flex-direction:column; align-items:center; gap:5px; padding:6px 8px; border-radius:12px; cursor:pointer; flex:1; }
+.h-dock-item:hover { background:rgba(255,255,255,.08); }
+.h-dock-ico { font-size:20px; }
+.h-dock-label { font-size:9px; font-weight:700; color:rgba(255,255,255,.7); text-align:center; line-height:1.2; }
+.h-dock-more {
+  margin-top:10px; border-top:1px solid rgba(255,255,255,.06);
+  padding-top:8px; display:flex; justify-content:center;
+  gap:8px; flex-wrap:wrap; padding-left:8px; padding-right:8px;
+}
+.h-dock-chip { font-size:10px; color:rgba(255,255,255,.5); background:rgba(255,255,255,.06); padding:4px 10px; border-radius:12px; }
+
+/* ══════════════════════════════════════
+   I — TWO-PANEL SPLIT (Landscape-ish)
+   Split: left thin category list, right content
+══════════════════════════════════════ */
+.i-header {
+  height:56px; background:#fff; display:flex; align-items:center;
+  padding:0 14px; gap:10px; border-bottom:1px solid #f0f0f0;
+}
+.i-logo { font-weight:900; font-size:16px; }
+.i-logo span { color:#bd1105; }
+.i-search { flex:1; height:36px; background:#f5f5f5; border-radius:18px; display:flex; align-items:center; padding:0 12px; gap:6px; font-size:12px; color:#aaa; }
+
+.i-body { display:flex; height:668px; }
+
+/* Left panel */
+.i-left {
+  width:72px; background:#fff; border-right:1px solid #f0f0f0;
+  overflow-y:auto; flex-shrink:0;
+  scrollbar-width:none;
+}
+.i-left::-webkit-scrollbar { display:none; }
+.i-cat-btn {
+  width:100%; padding:14px 0 10px; display:flex; flex-direction:column;
+  align-items:center; gap:4px; cursor:pointer; border-left:3px solid transparent;
+  transition:all .15s;
+}
+.i-cat-btn.active {
+  border-left-color:#bd1105; background:#fef2f2;
+}
+.i-cat-btn .em { font-size:20px; }
+.i-cat-btn .nm {
+  font-size:9px; font-weight:700; color:#374151; text-align:center;
+  padding:0 4px; line-height:1.2;
+}
+.i-cat-btn.active .nm { color:#bd1105; }
+
+/* Right panel */
+.i-right { flex:1; background:#f5f5f5; overflow-y:auto; }
+.i-right-header {
+  background:#fff; padding:14px; border-bottom:1px solid #f0f0f0;
+  display:flex; align-items:center; justify-content:space-between;
+}
+.irh-title { font-size:17px; font-weight:900; color:#111; }
+.irh-count { font-size:12px; color:#9ca3af; }
+.irh-sort { font-size:11px; color:#374151; font-weight:600; background:#f5f5f5; padding:5px 10px; border-radius:16px; }
+
+.i-subcats { padding:10px; display:flex; flex-wrap:wrap; gap:6px; }
+.i-subcat {
+  padding:6px 12px; border-radius:16px; font-size:11px; font-weight:700;
+  cursor:pointer;
+}
+.i-subcat.active { background:#bd1105; color:#fff; }
+.i-subcat:not(.active) { background:#fff; color:#374151; box-shadow:0 1px 3px rgba(0,0,0,.08); }
+
+.i-products { padding:0 10px 10px; display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.i-product-card {
+  background:#fff; border-radius:12px; overflow:hidden;
+  box-shadow:0 1px 3px rgba(0,0,0,.06);
+}
+.ipc-img { height:90px; background:#f5f5f5; display:flex; align-items:center; justify-content:center; font-size:36px; }
+.ipc-img.lap { background:linear-gradient(135deg, #e8f4fd, #f0f8ff); }
+.ipc-img.mon { background:linear-gradient(135deg, #f0f0f0, #e8e8e8); }
+.ipc-body { padding:8px; }
+.ipc-name { font-size:11px; font-weight:700; color:#1f2937; line-height:1.3; }
+.ipc-brand { font-size:10px; color:#9ca3af; margin-top:1px; }
+.ipc-price { font-size:13px; font-weight:800; color:#bd1105; margin-top:5px; }
+.ipc-sale { font-size:9px; color:#6b7280; text-decoration:line-through; }
+
+/* ── Bottom nav (hidden on design I due to bottom nav bar - shown differently) ── */
+.bnav-i {
+  position:absolute; bottom:0; left:0; right:0; height:84px;
+  background:#fff; border-top:1px solid #f0f0f0;
+  display:flex; align-items:flex-start; padding-top:10px;
+}
+
+/* ── All designs view ── */
+.all-grid {
+  display:flex; gap:24px; flex-wrap:wrap; justify-content:center;
+}
+.mini-phone {
+  width:185px; height:400px; background:#fff; border-radius:30px;
+  box-shadow:0 0 0 6px #1a1a1a, 0 0 0 7px #0a0a0a, 0 20px 50px rgba(0,0,0,.6);
+  overflow:hidden; position:relative; display:inline-block;
+}
+.mini-phone::before {
+  content:''; position:absolute; top:0; left:50%; transform:translateX(-50%);
+  width:70px; height:20px; background:#1a1a1a; border-radius:0 0 12px 12px;
+  z-index:100;
+}
+
+/* ── Show/hide ── */
+.design { display:none; }
+.design.active { display:block; }
+</style>
+</head>
+<body>
+<div class="page">
+  <h1>Mobile Nav — Дизайни v2</h1>
+  <p class="subtitle">5 нови концепции за навигация без drawer меню</p>
+
+  <div class="tabs">
+    <div class="tab active" onclick="show('e')">E — Category Pills</div>
+    <div class="tab" onclick="show('f')">F — Visual Cards</div>
+    <div class="tab" onclick="show('g')">G — Search First</div>
+    <div class="tab" onclick="show('h')">H — Floating Dock</div>
+    <div class="tab" onclick="show('i')">I — Split Panel</div>
+    <div class="tab" onclick="show('all')">Всички</div>
+  </div>
+
+  <!-- ══════════════ E ══════════════ -->
+  <div id="design-e" class="design active">
+    <div class="showcase">
+      <div class="phone-wrap">
+        <div class="design-label">E — Horizontal Pill Bar <span class="badge b-popular">AliExpress / eBay</span></div>
+        <div class="phone">
+          <div class="sb">
+            <span class="sb-time">13:32</span>
+            <div class="sb-icons">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M1.5 8.5a13 13 0 0 1 21 0M5 12a10 10 0 0 1 14 0M8.5 15.5a6 6 0 0 1 7 0M12 19h.01" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="11" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>
+              <span style="font-size:12px;font-weight:700;">62%</span>
+            </div>
+          </div>
+
+          <div class="e-header">
+            <div class="e-header-top">
+              <div class="e-logo">MOST <span>COMP.</span></div>
+              <div class="e-search">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                Търси продукт...
+              </div>
+              <div class="e-cart-ico">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="2"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
+                <div class="e-badge">3</div>
+              </div>
+            </div>
+            <div class="e-pills-bar">
+              <div class="e-pill active"><span class="e-pill-ico">🔥</span>Нови</div>
+              <div class="e-pill"><span class="e-pill-ico">💻</span>Лаптопи</div>
+              <div class="e-pill"><span class="e-pill-ico">📱</span>Телефони</div>
+              <div class="e-pill"><span class="e-pill-ico">🖥️</span>Настолни</div>
+              <div class="e-pill"><span class="e-pill-ico">⚙️</span>Компоненти</div>
+              <div class="e-pill"><span class="e-pill-ico">🖥</span>Монитори</div>
+              <div class="e-pill"><span class="e-pill-ico">%</span>Намаления</div>
+              <div class="e-pill"><span class="e-pill-ico">⋯</span>Още</div>
+            </div>
+          </div>
+
+          <div class="e-content">
+            <div class="e-section-title">Нови постъпления</div>
+            <div class="e-promo-row">
+              <div class="e-promo-card new-card">
+                <div class="epc-label">Тази седмица</div>
+                <div class="epc-title">Лаптопи 2025</div>
+                <div class="epc-sub">12 нови модела</div>
+                <div class="epc-btn">Разгледай →</div>
+              </div>
+              <div class="e-promo-card sale-card">
+                <div class="epc-label">Ограничено</div>
+                <div class="epc-title">-60% Sale</div>
+                <div class="epc-sub">24 часа</div>
+                <div class="epc-btn">Пазарувай →</div>
+              </div>
+            </div>
+
+            <div class="e-section-title" style="margin-top:4px;">Всички категории</div>
+            <div class="e-grid">
+              <div class="e-grid-tile"><div class="ico">💻</div><div class="nm">Лаптопи</div><div class="cnt">324 бр.</div></div>
+              <div class="e-grid-tile"><div class="ico">📱</div><div class="nm">Телефони</div><div class="cnt">148 бр.</div></div>
+              <div class="e-grid-tile"><div class="ico">🖥️</div><div class="nm">Настолни</div><div class="cnt">87 бр.</div></div>
+              <div class="e-grid-tile"><div class="ico">⚙️</div><div class="nm">Компоненти</div><div class="cnt">210 бр.</div></div>
+              <div class="e-grid-tile"><div class="ico">🖥</div><div class="nm">Монитори</div><div class="cnt">95 бр.</div></div>
+              <div class="e-grid-tile"><div class="ico">🖱</div><div class="nm">Периферия</div><div class="cnt">180 бр.</div></div>
+            </div>
+          </div>
+
+          <div class="bnav">
+            <div class="bn-i on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Начало</span></div>
+            <div class="bn-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg><span>Любими</span></div>
+            <div class="bn-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg><span>Количка</span></div>
+            <div class="bn-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg><span>Търсене</span></div>
+            <div class="bn-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Профил</span></div>
+          </div>
+        </div>
+
+        <div class="verdict">
+          <div class="verdict-title">Как работи</div>
+          <ul>
+            <li class="pro">✓ Категориите са ВИНАГИ видими — без tap</li>
+            <li class="pro">✓ Pill-ите scroll-ват хоризонтално с пръст</li>
+            <li class="pro">✓ Active pill = филтрира съдържанието отдолу</li>
+            <li class="pro">✓ Нови / Намаления = dedicated pills горе</li>
+            <li class="con">– 15 категории = много scroll на pills bar-а</li>
+            <li class="con">– Header-ът е малко по-висок от стандарт</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ F ══════════════ -->
+  <div id="design-f" class="design">
+    <div class="showcase">
+      <div class="phone-wrap">
+        <div class="design-label">F — Visual Category Cards <span class="badge b-premium">ASOS / Nike Style</span></div>
+        <div class="phone">
+          <div class="sb">
+            <span class="sb-time">13:32</span>
+            <div class="sb-icons"><span style="font-size:12px;font-weight:700;">●●●● WiFi 62%</span></div>
+          </div>
+
+          <div class="f-header">
+            <div class="f-logo">MOST <span>COMPUTERS</span></div>
+            <div class="f-search-pill">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              Търси...
+            </div>
+            <div class="f-cart">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="2"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
+              <div class="f-badge">3</div>
+            </div>
+          </div>
+
+          <div class="f-page-header">
+            <div>
+              <div class="f-page-title">Категории</div>
+              <div class="f-page-sub">15 категории · 2 400+ продукта</div>
+            </div>
+          </div>
+
+          <div class="f-content">
+            <div class="f-featured">
+              <div class="f-featured-overlay">
+                <div class="ffo-text">
+                  <div class="tag">🔥 Топ оферти</div>
+                  <div class="title">Намаления<br>до -60%</div>
+                  <div class="sub">Ограничено количество</div>
+                </div>
+                <div class="ffo-btn">SALE →</div>
+              </div>
+            </div>
+
+            <div class="f-grid-2">
+              <div class="f-cat-card">
+                <div class="f-cat-bg laptops">💻</div>
+                <div class="f-cat-label">
+                  <div class="f-cat-name">Лаптопи</div>
+                  <div class="f-cat-count">324 продукта</div>
+                </div>
+                <div class="f-cat-badge">-20%</div>
+              </div>
+              <div class="f-cat-card">
+                <div class="f-cat-bg phones">📱</div>
+                <div class="f-cat-label">
+                  <div class="f-cat-name">Телефони</div>
+                  <div class="f-cat-count">148 продукта</div>
+                </div>
+              </div>
+              <div class="f-cat-card">
+                <div class="f-cat-bg desktops">🖥️</div>
+                <div class="f-cat-label">
+                  <div class="f-cat-name">Настолни</div>
+                  <div class="f-cat-count">87 продукта</div>
+                </div>
+              </div>
+              <div class="f-cat-card">
+                <div class="f-cat-bg components">⚙️</div>
+                <div class="f-cat-label">
+                  <div class="f-cat-name">Компоненти</div>
+                  <div class="f-cat-count">210 продукта</div>
+                </div>
+              </div>
+              <div class="f-cat-card">
+                <div class="f-cat-bg monitors">🖥</div>
+                <div class="f-cat-label">
+                  <div class="f-cat-name">Монитори</div>
+                  <div class="f-cat-count">95 продукта</div>
+                </div>
+              </div>
+              <div class="f-cat-card">
+                <div class="f-cat-bg peripherals">🖱</div>
+                <div class="f-cat-label">
+                  <div class="f-cat-name">Периферия</div>
+                  <div class="f-cat-count">180 продукта</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bnav">
+            <div class="bn-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Начало</span></div>
+            <div class="bn-i on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg><span>Категории</span></div>
+            <div class="bn-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg><span>Количка</span></div>
+            <div class="bn-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg><span>Търсене</span></div>
+            <div class="bn-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Профил</span></div>
+          </div>
+        </div>
+
+        <div class="verdict">
+          <div class="verdict-title">Как работи</div>
+          <ul>
+            <li class="pro">✓ Най-визуален дизайн от всички 9</li>
+            <li class="pro">✓ Категорийните карти с цветен фон = brand feeling</li>
+            <li class="pro">✓ Промо банер горе = instant conversion</li>
+            <li class="pro">✓ "Категории" таб в bottom nav = full screen page</li>
+            <li class="con">– Нужни са реални product images за cards</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ G ══════════════ -->
+  <div id="design-g" class="design">
+    <div class="showcase">
+      <div class="phone-wrap">
+        <div class="design-label">G — Search-First <span class="badge b-smart">Google Shopping</span></div>
+        <div class="phone">
+          <div class="sb">
+            <span class="sb-time">13:32</span>
+            <div class="sb-icons"><span style="font-size:12px;font-weight:700;">●●●● WiFi 62%</span></div>
+          </div>
+
+          <div style="background:#fff;padding:12px 16px 14px;box-shadow:0 2px 12px rgba(0,0,0,.08);">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+              <div class="g-logo">MOST <span>COMPUTERS</span></div>
+              <div style="display:flex;gap:8px;align-items:center;">
+                <div style="position:relative;">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="2"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
+                  <div class="e-badge" style="background:#bd1105;">3</div>
+                </div>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              </div>
+            </div>
+            <div class="g-search-bar focused">
+              <svg class="g-search-ico" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              <span style="flex:1;font-size:15px;color:#9ca3af;">Търси лаптоп, телефон...</span>
+              <div class="g-voice-btn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+              </div>
+            </div>
+          </div>
+
+          <div class="g-content">
+            <div class="g-suggestions">
+              <div class="g-sugg-header">Категории</div>
+              <div class="g-sugg-item">
+                <div class="g-sugg-ico">💻</div>
+                <div class="g-sugg-text">
+                  <div class="g-sugg-name">Лаптопи</div>
+                  <div class="g-sugg-sub">324 продукта · от 299 €</div>
+                </div>
+                <div class="g-sugg-arrow">›</div>
+              </div>
+              <div class="g-sugg-item">
+                <div class="g-sugg-ico">📱</div>
+                <div class="g-sugg-text">
+                  <div class="g-sugg-name">Телефони</div>
+                  <div class="g-sugg-sub">148 продукта · от 89 €</div>
+                </div>
+                <div class="g-sugg-arrow">›</div>
+              </div>
+              <div class="g-sugg-item">
+                <div class="g-sugg-ico">⚙️</div>
+                <div class="g-sugg-text">
+                  <div class="g-sugg-name">Компоненти</div>
+                  <div class="g-sugg-sub">210 продукта · от 12 €</div>
+                </div>
+                <div class="g-sugg-arrow">›</div>
+              </div>
+              <div class="g-sugg-item">
+                <div class="g-sugg-ico" style="background:#fef2f2;">🔥</div>
+                <div class="g-sugg-text">
+                  <div class="g-sugg-name" style="color:#bd1105;">Нови продукти</div>
+                  <div class="g-sugg-sub">12 нови тази седмица</div>
+                </div>
+                <div class="g-sugg-arrow" style="color:#bd1105;">›</div>
+              </div>
+            </div>
+
+            <div class="g-trending">
+              <div class="g-trend-title">Популярни търсения</div>
+              <div class="g-trend-chips">
+                <div class="g-chip">🔥 RTX 5080</div>
+                <div class="g-chip">Gaming лаптоп</div>
+                <div class="g-chip">iPhone 16</div>
+                <div class="g-chip">Механична клавиатура</div>
+                <div class="g-chip">Гейминг монитор</div>
+                <div class="g-chip">SSD 2TB</div>
+              </div>
+            </div>
+
+            <div class="g-recent-products">
+              <div class="g-trend-title">Наскоро разгледани</div>
+              <div class="g-product-row">
+                <div class="gpr-img">💻</div>
+                <div class="gpr-info">
+                  <div class="gpr-name">MSI Katana 15 HX B14VGK</div>
+                  <div class="gpr-brand">MSI · Геймърски лаптоп</div>
+                </div>
+                <div class="gpr-price">1 074 €</div>
+              </div>
+              <div class="g-product-row">
+                <div class="gpr-img">📱</div>
+                <div class="gpr-info">
+                  <div class="gpr-name">Samsung Galaxy S25 Ultra</div>
+                  <div class="gpr-brand">Samsung · Флагман</div>
+                </div>
+                <div class="gpr-price">1 299 €</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bnav">
+            <div class="bn-i on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Начало</span></div>
+            <div class="bn-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg><span>Категории</span></div>
+            <div class="bn-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg><span>Количка</span></div>
+            <div class="bn-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg><span>Търсене</span></div>
+            <div class="bn-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Профил</span></div>
+          </div>
+        </div>
+
+        <div class="verdict">
+          <div class="verdict-title">Как работи</div>
+          <ul>
+            <li class="pro">✓ Tap на търсачката → suggestion list с категории</li>
+            <li class="pro">✓ Популярни търсения = discovery без browse</li>
+            <li class="pro">✓ "Наскоро разгледани" = instant re-engage</li>
+            <li class="pro">✓ Работи перфектно за tech е-commerce</li>
+            <li class="con">– Категориите изискват tap на search bar</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ H ══════════════ -->
+  <div id="design-h" class="design">
+    <div class="showcase">
+      <div class="phone-wrap">
+        <div class="design-label">H — Floating Dark Dock <span class="badge b-unique">Уникален</span></div>
+        <div class="phone">
+          <div class="sb">
+            <span class="sb-time">13:32</span>
+            <div class="sb-icons"><span style="font-size:12px;font-weight:700;">●●●● WiFi 62%</span></div>
+          </div>
+
+          <div class="h-header">
+            <div class="h-logo">MOST <span>COMPUTERS</span></div>
+            <div class="h-search">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              Търси...
+            </div>
+            <div class="h-cart">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="2"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
+              <div class="h-cbadge">3</div>
+            </div>
+          </div>
+
+          <div class="h-content">
+            <div class="h-hero">
+              <div class="h-hero-text">
+                <div class="tag">Топ оферта</div>
+                <div class="title">Lenovo<br>Legion 5</div>
+                <div class="price">от 1 498 €</div>
+              </div>
+              <div class="h-hero-ico">💻</div>
+            </div>
+
+            <div class="h-mini-grid">
+              <div class="h-mini-card">
+                <div class="hmc-ico">🔥</div>
+                <div class="hmc-info">
+                  <div class="title">Нови</div>
+                  <div class="cnt">12 тази седмица</div>
+                </div>
+                <div class="hmc-arr">›</div>
+              </div>
+              <div class="h-mini-card">
+                <div class="hmc-ico">%</div>
+                <div class="hmc-info">
+                  <div class="title">Sale</div>
+                  <div class="cnt">до -60%</div>
+                </div>
+                <div class="hmc-arr" style="color:#bd1105;">›</div>
+              </div>
+            </div>
+
+            <div style="background:#fff;border-radius:14px;padding:14px;box-shadow:0 1px 3px rgba(0,0,0,.06);">
+              <div style="font-size:12px;font-weight:800;color:#6b7280;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;">Топ продукти</div>
+              <div style="font-size:13px;color:#374151;display:flex;flex-direction:column;gap:8px;">
+                <div style="display:flex;align-items:center;gap:10px;"><span style="font-size:22px;">💻</span><span style="flex:1;font-weight:600;">MSI Katana 15</span><span style="font-weight:800;color:#bd1105;">1 074€</span></div>
+                <div style="display:flex;align-items:center;gap:10px;"><span style="font-size:22px;">📱</span><span style="flex:1;font-weight:600;">Samsung S25</span><span style="font-weight:800;color:#bd1105;">1 299€</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Floating Dock -->
+          <div class="h-dock">
+            <div class="h-dock-title">Бърз достъп</div>
+            <div class="h-dock-row">
+              <div class="h-dock-item">
+                <div class="h-dock-ico">💻</div>
+                <div class="h-dock-label">Лаптопи</div>
+              </div>
+              <div class="h-dock-item">
+                <div class="h-dock-ico">📱</div>
+                <div class="h-dock-label">Телефони</div>
+              </div>
+              <div class="h-dock-item">
+                <div class="h-dock-ico">🖥️</div>
+                <div class="h-dock-label">Настолни</div>
+              </div>
+              <div class="h-dock-item">
+                <div class="h-dock-ico">⚙️</div>
+                <div class="h-dock-label">Компоненти</div>
+              </div>
+              <div class="h-dock-item">
+                <div class="h-dock-ico">⋯</div>
+                <div class="h-dock-label">Всички</div>
+              </div>
+            </div>
+            <div class="h-dock-more">
+              <span class="h-dock-chip">За нас</span>
+              <span class="h-dock-chip">Доставка</span>
+              <span class="h-dock-chip">Контакти</span>
+              <span class="h-dock-chip">Сервиз</span>
+            </div>
+          </div>
+
+          <div class="bnav">
+            <div class="bn-i on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Начало</span></div>
+            <div class="bn-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg><span>Любими</span></div>
+            <div class="bn-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg><span>Количка</span></div>
+            <div class="bn-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg><span>Търсене</span></div>
+            <div class="bn-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Профил</span></div>
+          </div>
+        </div>
+
+        <div class="verdict">
+          <div class="verdict-title">Как работи</div>
+          <ul>
+            <li class="pro">✓ Floating dark dock = уникален visual identity</li>
+            <li class="pro">✓ 5 top категории постоянно достъпни</li>
+            <li class="pro">✓ Вторичните links (За нас...) = малки chips в dock</li>
+            <li class="pro">✓ Dock може да се свива при scroll надолу</li>
+            <li class="con">– Dock заема ~180px от content зоната</li>
+            <li class="con">– Тъмен елемент на светъл фон = контраст</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ I ══════════════ -->
+  <div id="design-i" class="design">
+    <div class="showcase">
+      <div class="phone-wrap">
+        <div class="design-label">I — Split Panel <span class="badge b-bold">Taobao / JD.com</span></div>
+        <div class="phone">
+          <div class="sb">
+            <span class="sb-time">13:32</span>
+            <div class="sb-icons"><span style="font-size:12px;font-weight:700;">●●●● WiFi 62%</span></div>
+          </div>
+
+          <div class="i-header">
+            <div class="i-logo">MOST <span>COMP.</span></div>
+            <div class="i-search">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              Търси...
+            </div>
+            <div style="position:relative;margin-left:6px;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="2"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
+              <div style="position:absolute;top:-3px;right:-3px;width:14px;height:14px;background:#bd1105;border-radius:50%;font-size:8px;font-weight:800;color:#fff;display:flex;align-items:center;justify-content:center;">3</div>
+            </div>
+          </div>
+
+          <div class="i-body">
+            <!-- Left: thin category list -->
+            <div class="i-left">
+              <div class="i-cat-btn">
+                <div class="em" style="font-size:18px;">🔥</div>
+                <div class="nm">Нови</div>
+              </div>
+              <div class="i-cat-btn">
+                <div class="em" style="font-size:18px;">%</div>
+                <div class="nm">Sale</div>
+              </div>
+              <div class="i-cat-btn active">
+                <div class="em" style="font-size:18px;">💻</div>
+                <div class="nm">Лаптопи</div>
+              </div>
+              <div class="i-cat-btn">
+                <div class="em" style="font-size:18px;">📱</div>
+                <div class="nm">Телефони</div>
+              </div>
+              <div class="i-cat-btn">
+                <div class="em" style="font-size:18px;">🖥️</div>
+                <div class="nm">Настолни</div>
+              </div>
+              <div class="i-cat-btn">
+                <div class="em" style="font-size:18px;">⚙️</div>
+                <div class="nm">Компоненти</div>
+              </div>
+              <div class="i-cat-btn">
+                <div class="em" style="font-size:18px;">🖥</div>
+                <div class="nm">Монитори</div>
+              </div>
+              <div class="i-cat-btn">
+                <div class="em" style="font-size:18px;">🖱</div>
+                <div class="nm">Периферия</div>
+              </div>
+              <div class="i-cat-btn">
+                <div class="em" style="font-size:18px;">🎧</div>
+                <div class="nm">Аудио</div>
+              </div>
+              <div class="i-cat-btn">
+                <div class="em" style="font-size:18px;">📹</div>
+                <div class="nm">Камери</div>
+              </div>
+              <div class="i-cat-btn">
+                <div class="em" style="font-size:18px;">📡</div>
+                <div class="nm">Мрежово</div>
+              </div>
+              <div class="i-cat-btn">
+                <div class="em" style="font-size:18px;">💾</div>
+                <div class="nm">Памет</div>
+              </div>
+            </div>
+
+            <!-- Right: content -->
+            <div class="i-right">
+              <div class="i-right-header">
+                <div>
+                  <div class="irh-title">Лаптопи</div>
+                  <div class="irh-count">324 продукта</div>
+                </div>
+                <div class="irh-sort">Сортирай ↓</div>
+              </div>
+
+              <div class="i-subcats">
+                <div class="i-subcat active">Всички</div>
+                <div class="i-subcat">🎮 Геймърски</div>
+                <div class="i-subcat">✈ Ултрабуци</div>
+                <div class="i-subcat">💼 Бизнес</div>
+                <div class="i-subcat">💰 Бюджетни</div>
+              </div>
+
+              <div class="i-products">
+                <div class="i-product-card">
+                  <div class="ipc-img lap">💻</div>
+                  <div class="ipc-body">
+                    <div class="ipc-name">MSI Katana 15 HX</div>
+                    <div class="ipc-brand">MSI · Gaming</div>
+                    <div class="ipc-sale">1 200 €</div>
+                    <div class="ipc-price">1 074 €</div>
+                  </div>
+                </div>
+                <div class="i-product-card">
+                  <div class="ipc-img lap">💻</div>
+                  <div class="ipc-body">
+                    <div class="ipc-name">Lenovo Legion 5</div>
+                    <div class="ipc-brand">Lenovo · Gaming</div>
+                    <div class="ipc-price">1 498 €</div>
+                  </div>
+                </div>
+                <div class="i-product-card">
+                  <div class="ipc-img lap">💻</div>
+                  <div class="ipc-body">
+                    <div class="ipc-name">ASUS ROG Strix</div>
+                    <div class="ipc-brand">ASUS · Gaming</div>
+                    <div class="ipc-sale">2 000 €</div>
+                    <div class="ipc-price">1 799 €</div>
+                  </div>
+                </div>
+                <div class="i-product-card">
+                  <div class="ipc-img lap">💻</div>
+                  <div class="ipc-body">
+                    <div class="ipc-name">HP OMEN 16</div>
+                    <div class="ipc-brand">HP · Gaming</div>
+                    <div class="ipc-price">1 349 €</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bnav-i">
+            <div class="bn-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Начало</span></div>
+            <div class="bn-i on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg><span>Категории</span></div>
+            <div class="bn-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg><span>Количка</span></div>
+            <div class="bn-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg><span>Търсене</span></div>
+            <div class="bn-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Профил</span></div>
+          </div>
+        </div>
+
+        <div class="verdict">
+          <div class="verdict-title">Как работи</div>
+          <ul>
+            <li class="pro">✓ Всички категории видими наведнъж — без scroll</li>
+            <li class="pro">✓ Tap вляво → продукти вдясно се обновяват</li>
+            <li class="pro">✓ Subcategory chips горе = drill-down без нов screen</li>
+            <li class="pro">✓ Taobao / JD.com използват точно това — доказано</li>
+            <li class="con">– Дясното съдържание е тясно (303px)</li>
+            <li class="con">– Не е типично за EUR пазара, може да изненада</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ ALL ══════════════ -->
+  <div id="design-all" class="design">
+    <div class="all-grid">
+
+      <!-- Mini E -->
+      <div class="phone-wrap">
+        <div class="design-label" style="color:#888;font-size:10px;letter-spacing:.5px;">E — Pills</div>
+        <div class="mini-phone" style="height:400px;">
+          <div style="height:28px;background:#fff;display:flex;align-items:flex-end;padding:0 16px 6px;justify-content:space-between;">
+            <span style="font-size:11px;font-weight:800;">13:32</span><span style="font-size:9px;">62%</span>
+          </div>
+          <div style="background:#fff;padding:8px 10px 0;">
+            <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px;">
+              <span style="font-size:11px;font-weight:900;">MOST <span style="color:#bd1105;">C.</span></span>
+              <div style="flex:1;height:26px;background:#f5f5f5;border-radius:13px;display:flex;align-items:center;padding:0 10px;font-size:10px;color:#aaa;">Търси...</div>
+            </div>
+            <div style="display:flex;gap:5px;overflow:hidden;padding-bottom:8px;">
+              <span style="background:#bd1105;color:#fff;border-radius:12px;padding:4px 9px;font-size:9px;font-weight:700;flex-shrink:0;">🔥 Нови</span>
+              <span style="background:#f5f5f5;color:#374151;border-radius:12px;padding:4px 9px;font-size:9px;font-weight:700;flex-shrink:0;">💻 Лаптопи</span>
+              <span style="background:#f5f5f5;color:#374151;border-radius:12px;padding:4px 9px;font-size:9px;font-weight:700;flex-shrink:0;">📱 Телефони</span>
+            </div>
+          </div>
+          <div style="background:#f5f5f5;padding:8px;flex:1;height:260px;overflow:hidden;">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:6px;">
+              <div style="background:linear-gradient(135deg,#1a1a1a,#333);border-radius:10px;padding:10px;color:#fff;font-size:9px;font-weight:800;">Лаптопи 2025</div>
+              <div style="background:linear-gradient(135deg,#bd1105,#e82b1a);border-radius:10px;padding:10px;color:#fff;font-size:9px;font-weight:800;">-60% Sale</div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;">
+              <div style="background:#fff;border-radius:8px;padding:8px 4px;text-align:center;font-size:9px;">💻<br><strong>Лаптопи</strong></div>
+              <div style="background:#fff;border-radius:8px;padding:8px 4px;text-align:center;font-size:9px;">📱<br><strong>Телефони</strong></div>
+              <div style="background:#fff;border-radius:8px;padding:8px 4px;text-align:center;font-size:9px;">🖥️<br><strong>Настолни</strong></div>
+            </div>
+          </div>
+          <div style="position:absolute;bottom:0;left:0;right:0;height:48px;background:#fff;border-top:1px solid #f0f0f0;display:flex;justify-content:space-around;align-items:center;padding-top:4px;">
+            <div style="text-align:center;font-size:7px;color:#bd1105;font-weight:700;">🏠<br>Начало</div>
+            <div style="text-align:center;font-size:7px;color:#bbb;">♡<br>Любими</div>
+            <div style="text-align:center;font-size:7px;color:#bbb;">🛒<br>Количка</div>
+            <div style="text-align:center;font-size:7px;color:#bbb;">🔍<br>Търсене</div>
+            <div style="text-align:center;font-size:7px;color:#bbb;">👤<br>Профил</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mini F -->
+      <div class="phone-wrap">
+        <div class="design-label" style="color:#888;font-size:10px;letter-spacing:.5px;">F — Visual Cards</div>
+        <div class="mini-phone">
+          <div style="height:28px;background:#fff;display:flex;align-items:flex-end;padding:0 16px 6px;justify-content:space-between;">
+            <span style="font-size:11px;font-weight:800;">13:32</span><span style="font-size:9px;">62%</span>
+          </div>
+          <div style="background:#fff;padding:8px 10px;display:flex;align-items:center;gap:6px;border-bottom:1px solid #f0f0f0;">
+            <span style="font-size:11px;font-weight:900;">MOST <span style="color:#bd1105;">C.</span></span>
+            <div style="flex:1;height:26px;background:#f5f5f5;border-radius:13px;"></div>
+          </div>
+          <div style="padding:8px;height:310px;overflow:hidden;background:#f5f5f5;">
+            <div style="background:linear-gradient(135deg,#bd1105,#e82b1a);border-radius:12px;padding:14px;color:#fff;display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+              <div><div style="font-size:8px;opacity:.7;text-transform:uppercase;">Sale</div><div style="font-size:14px;font-weight:900;">-60%</div></div>
+              <div style="background:rgba(255,255,255,.2);padding:5px 10px;border-radius:12px;font-size:9px;font-weight:700;">SALE →</div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+              <div style="border-radius:10px;overflow:hidden;position:relative;height:75px;"><div style="background:linear-gradient(135deg,#1e3a5f,#2d6a9f);height:100%;display:flex;align-items:center;justify-content:center;font-size:28px;">💻</div><div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top,rgba(0,0,0,.7),transparent);padding:5px 7px;"><div style="font-size:9px;font-weight:800;color:#fff;">Лаптопи</div></div></div>
+              <div style="border-radius:10px;overflow:hidden;position:relative;height:75px;"><div style="background:linear-gradient(135deg,#1a1a2e,#16213e);height:100%;display:flex;align-items:center;justify-content:center;font-size:28px;">📱</div><div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top,rgba(0,0,0,.7),transparent);padding:5px 7px;"><div style="font-size:9px;font-weight:800;color:#fff;">Телефони</div></div></div>
+              <div style="border-radius:10px;overflow:hidden;position:relative;height:75px;"><div style="background:linear-gradient(135deg,#134e4a,#0f766e);height:100%;display:flex;align-items:center;justify-content:center;font-size:28px;">🖥️</div><div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top,rgba(0,0,0,.7),transparent);padding:5px 7px;"><div style="font-size:9px;font-weight:800;color:#fff;">Настолни</div></div></div>
+              <div style="border-radius:10px;overflow:hidden;position:relative;height:75px;"><div style="background:linear-gradient(135deg,#4a1942,#7c3aed);height:100%;display:flex;align-items:center;justify-content:center;font-size:28px;">⚙️</div><div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top,rgba(0,0,0,.7),transparent);padding:5px 7px;"><div style="font-size:9px;font-weight:800;color:#fff;">Компоненти</div></div></div>
+            </div>
+          </div>
+          <div style="position:absolute;bottom:0;left:0;right:0;height:48px;background:#fff;border-top:1px solid #f0f0f0;display:flex;justify-content:space-around;align-items:center;padding-top:4px;">
+            <div style="text-align:center;font-size:7px;color:#bbb;">🏠<br>Начало</div>
+            <div style="text-align:center;font-size:7px;color:#bd1105;font-weight:700;">⊞<br>Категории</div>
+            <div style="text-align:center;font-size:7px;color:#bbb;">🛒<br>Количка</div>
+            <div style="text-align:center;font-size:7px;color:#bbb;">🔍<br>Търсене</div>
+            <div style="text-align:center;font-size:7px;color:#bbb;">👤<br>Профил</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mini G -->
+      <div class="phone-wrap">
+        <div class="design-label" style="color:#888;font-size:10px;letter-spacing:.5px;">G — Search First</div>
+        <div class="mini-phone">
+          <div style="height:28px;background:#fff;display:flex;align-items:flex-end;padding:0 16px 6px;justify-content:space-between;">
+            <span style="font-size:11px;font-weight:800;">13:32</span><span style="font-size:9px;">62%</span>
+          </div>
+          <div style="background:#fff;padding:8px 10px 12px;box-shadow:0 2px 8px rgba(0,0,0,.06);">
+            <div style="font-size:11px;font-weight:900;margin-bottom:8px;">MOST <span style="color:#bd1105;">COMPUTERS</span></div>
+            <div style="height:34px;background:#f5f5f5;border-radius:17px;display:flex;align-items:center;padding:0 12px;gap:8px;border:1.5px solid #bd1105;background:#fff;">
+              <span style="font-size:10px;color:#aaa;">🔍 Търси лаптоп, телефон...</span>
+              <div style="width:26px;height:26px;background:#bd1105;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-left:auto;flex-shrink:0;font-size:10px;">🎙</div>
+            </div>
+          </div>
+          <div style="background:#fff;border-radius:0 0 16px 16px;box-shadow:0 4px 12px rgba(0,0,0,.08);padding:6px 0;height:220px;overflow:hidden;">
+            <div style="font-size:7px;font-weight:800;color:#9ca3af;text-transform:uppercase;padding:4px 10px 4px;">Категории</div>
+            <div style="display:flex;align-items:center;gap:6px;padding:7px 10px;border-top:1px solid #f9f9f9;"><div style="width:22px;height:22px;background:#f5f5f5;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;">💻</div><div style="font-size:10px;font-weight:700;flex:1;">Лаптопи <span style="color:#9ca3af;font-weight:400;">324 бр.</span></div><span style="color:#d1d5db;font-size:11px;">›</span></div>
+            <div style="display:flex;align-items:center;gap:6px;padding:7px 10px;border-top:1px solid #f9f9f9;"><div style="width:22px;height:22px;background:#f5f5f5;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;">📱</div><div style="font-size:10px;font-weight:700;flex:1;">Телефони <span style="color:#9ca3af;font-weight:400;">148 бр.</span></div><span style="color:#d1d5db;font-size:11px;">›</span></div>
+            <div style="display:flex;align-items:center;gap:6px;padding:7px 10px;border-top:1px solid #f9f9f9;"><div style="width:22px;height:22px;background:#fef2f2;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;">🔥</div><div style="font-size:10px;font-weight:700;color:#bd1105;flex:1;">Нови продукти</div><span style="color:#bd1105;font-size:11px;">›</span></div>
+            <div style="padding:8px 10px;display:flex;flex-wrap:wrap;gap:5px;border-top:1px solid #f9f9f9;">
+              <span style="background:#fef2f2;color:#bd1105;border-radius:10px;padding:3px 8px;font-size:8px;font-weight:700;">RTX 5080</span>
+              <span style="background:#f5f5f5;color:#374151;border-radius:10px;padding:3px 8px;font-size:8px;font-weight:600;">Gaming лаптоп</span>
+              <span style="background:#f5f5f5;color:#374151;border-radius:10px;padding:3px 8px;font-size:8px;font-weight:600;">iPhone 16</span>
+            </div>
+          </div>
+          <div style="position:absolute;bottom:0;left:0;right:0;height:48px;background:#fff;border-top:1px solid #f0f0f0;display:flex;justify-content:space-around;align-items:center;padding-top:4px;">
+            <div style="text-align:center;font-size:7px;color:#bd1105;font-weight:700;">🏠<br>Начало</div>
+            <div style="text-align:center;font-size:7px;color:#bbb;">⊞<br>Категории</div>
+            <div style="text-align:center;font-size:7px;color:#bbb;">🛒<br>Количка</div>
+            <div style="text-align:center;font-size:7px;color:#bbb;">🔍<br>Търсене</div>
+            <div style="text-align:center;font-size:7px;color:#bbb;">👤<br>Профил</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mini H -->
+      <div class="phone-wrap">
+        <div class="design-label" style="color:#888;font-size:10px;letter-spacing:.5px;">H — Floating Dock</div>
+        <div class="mini-phone">
+          <div style="height:28px;background:#fff;display:flex;align-items:flex-end;padding:0 16px 6px;justify-content:space-between;">
+            <span style="font-size:11px;font-weight:800;">13:32</span><span style="font-size:9px;">62%</span>
+          </div>
+          <div style="background:#fff;padding:8px 10px;display:flex;align-items:center;gap:6px;border-bottom:1px solid #f0f0f0;">
+            <span style="font-size:11px;font-weight:900;">MOST <span style="color:#bd1105;">C.</span></span>
+            <div style="flex:1;height:26px;background:#f5f5f5;border-radius:13px;"></div>
+          </div>
+          <div style="padding:8px;height:220px;overflow:hidden;background:#f5f5f5;">
+            <div style="background:linear-gradient(135deg,#0f172a,#1e3a5f);border-radius:12px;padding:14px;display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+              <div><div style="font-size:8px;color:rgba(255,255,255,.5);">Топ оферта</div><div style="font-size:14px;font-weight:900;color:#fff;">Lenovo Legion 5</div><div style="font-size:9px;color:#60a5fa;">от 1 498 €</div></div>
+              <span style="font-size:40px;opacity:.8;">💻</span>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;">
+              <div style="background:#fff;border-radius:8px;padding:8px;display:flex;align-items:center;gap:6px;"><span style="font-size:14px;">🔥</span><div style="font-size:9px;font-weight:700;">Нови<br><span style="color:#9ca3af;font-weight:400;">12 бр.</span></div></div>
+              <div style="background:#fff;border-radius:8px;padding:8px;display:flex;align-items:center;gap:6px;"><span style="font-size:14px;">%</span><div style="font-size:9px;font-weight:700;">Sale<br><span style="color:#bd1105;font-weight:400;">-60%</span></div></div>
+            </div>
+          </div>
+          <!-- dock -->
+          <div style="position:absolute;bottom:54px;left:8px;right:8px;background:rgba(20,20,20,.92);border-radius:14px;padding:8px;border:1px solid rgba(255,255,255,.08);">
+            <div style="font-size:7px;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.5px;padding:0 4px 5px;font-weight:800;">Бърз достъп</div>
+            <div style="display:flex;justify-content:space-around;">
+              <div style="text-align:center;"><div style="font-size:16px;">💻</div><div style="font-size:7px;color:rgba(255,255,255,.6);margin-top:3px;font-weight:600;">Лаптопи</div></div>
+              <div style="text-align:center;"><div style="font-size:16px;">📱</div><div style="font-size:7px;color:rgba(255,255,255,.6);margin-top:3px;font-weight:600;">Телефони</div></div>
+              <div style="text-align:center;"><div style="font-size:16px;">⚙️</div><div style="font-size:7px;color:rgba(255,255,255,.6);margin-top:3px;font-weight:600;">Компоненти</div></div>
+              <div style="text-align:center;"><div style="font-size:16px;">🖥️</div><div style="font-size:7px;color:rgba(255,255,255,.6);margin-top:3px;font-weight:600;">Настолни</div></div>
+              <div style="text-align:center;"><div style="font-size:16px;">⋯</div><div style="font-size:7px;color:rgba(255,255,255,.6);margin-top:3px;font-weight:600;">Още</div></div>
+            </div>
+          </div>
+          <div style="position:absolute;bottom:0;left:0;right:0;height:48px;background:#fff;border-top:1px solid #f0f0f0;display:flex;justify-content:space-around;align-items:center;padding-top:4px;">
+            <div style="text-align:center;font-size:7px;color:#bd1105;font-weight:700;">🏠<br>Начало</div>
+            <div style="text-align:center;font-size:7px;color:#bbb;">♡<br>Любими</div>
+            <div style="text-align:center;font-size:7px;color:#bbb;">🛒<br>Количка</div>
+            <div style="text-align:center;font-size:7px;color:#bbb;">🔍<br>Търсене</div>
+            <div style="text-align:center;font-size:7px;color:#bbb;">👤<br>Профил</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mini I -->
+      <div class="phone-wrap">
+        <div class="design-label" style="color:#888;font-size:10px;letter-spacing:.5px;">I — Split Panel</div>
+        <div class="mini-phone">
+          <div style="height:28px;background:#fff;display:flex;align-items:flex-end;padding:0 16px 6px;justify-content:space-between;">
+            <span style="font-size:11px;font-weight:800;">13:32</span><span style="font-size:9px;">62%</span>
+          </div>
+          <div style="background:#fff;padding:6px 8px;display:flex;align-items:center;gap:6px;border-bottom:1px solid #f0f0f0;">
+            <span style="font-size:10px;font-weight:900;">MOST <span style="color:#bd1105;">C.</span></span>
+            <div style="flex:1;height:22px;background:#f5f5f5;border-radius:11px;"></div>
+          </div>
+          <div style="display:flex;height:320px;overflow:hidden;">
+            <div style="width:52px;background:#fff;border-right:1px solid #f0f0f0;overflow:hidden;">
+              <div style="padding:8px 0;text-align:center;font-size:8px;color:#bbb;"><div style="font-size:14px;">🔥</div>Нови</div>
+              <div style="padding:8px 0;text-align:center;font-size:8px;color:#bbb;"><div style="font-size:14px;">%</div>Sale</div>
+              <div style="padding:8px 0;text-align:center;font-size:8px;color:#bd1105;font-weight:700;border-left:2px solid #bd1105;background:#fef2f2;"><div style="font-size:14px;">💻</div>Лаптопи</div>
+              <div style="padding:8px 0;text-align:center;font-size:8px;color:#bbb;"><div style="font-size:14px;">📱</div>Телефони</div>
+              <div style="padding:8px 0;text-align:center;font-size:8px;color:#bbb;"><div style="font-size:14px;">🖥️</div>Настолни</div>
+              <div style="padding:8px 0;text-align:center;font-size:8px;color:#bbb;"><div style="font-size:14px;">⚙️</div>Компон.</div>
+            </div>
+            <div style="flex:1;background:#f5f5f5;overflow:hidden;padding:6px;">
+              <div style="background:#fff;border-radius:6px;padding:6px;margin-bottom:5px;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:11px;font-weight:900;">Лаптопи</span><span style="font-size:8px;color:#aaa;">324 бр.</span></div>
+              <div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:5px;">
+                <span style="background:#bd1105;color:#fff;border-radius:8px;padding:2px 6px;font-size:7px;font-weight:700;">Всички</span>
+                <span style="background:#fff;color:#374151;border-radius:8px;padding:2px 6px;font-size:7px;font-weight:600;">🎮 Gaming</span>
+                <span style="background:#fff;color:#374151;border-radius:8px;padding:2px 6px;font-size:7px;font-weight:600;">✈ Ултра</span>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;">
+                <div style="background:#fff;border-radius:8px;overflow:hidden;"><div style="height:50px;background:#e8f4fd;display:flex;align-items:center;justify-content:center;font-size:22px;">💻</div><div style="padding:5px 5px;"><div style="font-size:8px;font-weight:700;line-height:1.2;">MSI Katana</div><div style="font-size:9px;font-weight:800;color:#bd1105;margin-top:2px;">1 074€</div></div></div>
+                <div style="background:#fff;border-radius:8px;overflow:hidden;"><div style="height:50px;background:#e8f4fd;display:flex;align-items:center;justify-content:center;font-size:22px;">💻</div><div style="padding:5px 5px;"><div style="font-size:8px;font-weight:700;line-height:1.2;">Lenovo L5</div><div style="font-size:9px;font-weight:800;color:#bd1105;margin-top:2px;">1 498€</div></div></div>
+              </div>
+            </div>
+          </div>
+          <div style="position:absolute;bottom:0;left:0;right:0;height:48px;background:#fff;border-top:1px solid #f0f0f0;display:flex;justify-content:space-around;align-items:center;padding-top:4px;">
+            <div style="text-align:center;font-size:7px;color:#bbb;">🏠<br>Начало</div>
+            <div style="text-align:center;font-size:7px;color:#bd1105;font-weight:700;">⊞<br>Категории</div>
+            <div style="text-align:center;font-size:7px;color:#bbb;">🛒<br>Количка</div>
+            <div style="text-align:center;font-size:7px;color:#bbb;">🔍<br>Търсене</div>
+            <div style="text-align:center;font-size:7px;color:#bbb;">👤<br>Профил</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+function show(id) {
+  document.querySelectorAll('.design').forEach(d => d.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('design-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
+</body>
+</html>

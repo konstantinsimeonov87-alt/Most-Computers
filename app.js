@@ -203,6 +203,7 @@ function acceptCookies() {
   try { localStorage.setItem('mc_cookies_set', 'all'); } catch(e) {}
   hideCookieBanner();
   showToast('🍪 Бисквитките са приети');
+  if (typeof _loadGTM === 'function') _loadGTM();
 }
 function declineCookies() {
   try { localStorage.setItem('mc_cookies_set', 'essential'); } catch(e) {}
@@ -231,6 +232,7 @@ function saveCookieSettings() {
   closeCookieSettingsDirect();
   hideCookieBanner();
   showToast('⚙ Настройките са запазени');
+  if (prefs.analytics && typeof _loadGTM === 'function') _loadGTM();
 }
 
 // ===== SCROLL ANIMATIONS =====
@@ -1832,7 +1834,7 @@ const SUBCATS = {
     { id: 'gaming_headset',  label: '🎧 Геймърски слушалки' },
   ],
   monitors: [
-    { id: 'gaming_mon',   label: '🎮 Gaming' },
+    { id: 'gaming_mon',   label: '🎮 Геймърски' },
     { id: 'qhd_mon',      label: '🔲 QHD / 2K' },
     { id: 'ultrawide',    label: '↔️ UltraWide' },
     { id: 'oled_mon',     label: '✨ OLED & QLED' },
@@ -1861,7 +1863,7 @@ const SUBCATS = {
     { id: 'cam_poe',      label: '🔌 POE камери' },
   ],
   audio: [
-    { id: 'hp_gaming',    label: '🎮 Gaming' },
+    { id: 'hp_gaming',    label: '🎮 Геймърски' },
     { id: 'hp_wireless',  label: '📡 Bluetooth / Безжични' },
     { id: 'hp_inear',     label: '🎧 Тапи' },
     { id: 'hp_office',    label: '💼 Офис' },
@@ -1899,7 +1901,7 @@ const SUBCATS = {
   accessories: [
     { id: 'projector',    label: '🎥 Проектори' },
     { id: 'smart_dev',    label: '⌚ Смарт устройства' },
-    { id: 'chair',        label: '🪑 Gaming столове' },
+    { id: 'chair',        label: '🪑 Геймърски столове' },
     { id: 'controller',   label: '🎮 Контролери' },
     { id: 'hub',          label: '🔌 USB хъбове и зарядни' },
     { id: 'bag',          label: '🎒 Чанти и калъфи' },
@@ -4161,7 +4163,9 @@ function closeCatPage() {
 
 // Back button support
 window.addEventListener('popstate', e => {
-  if (e.state?.catPage) {
+  if (e.state?.pdp) {
+    if (typeof openProductPage === 'function') { _pdpFromPopState = true; openProductPage(e.state.pdp); }
+  } else if (e.state?.catPage) {
     const pg = document.getElementById('catPage');
     if (pg && !pg.classList.contains('open')) {
       const _sub = e.state.subcat && e.state.subcat !== 'all' ? e.state.subcat : null;
@@ -5585,8 +5589,15 @@ function resetAuthForms() {
 
 function togglePwVis(inputId, btn) {
   const inp = document.getElementById(inputId);
-  if (inp.type === 'password') { inp.type = 'text'; btn.textContent = '🙈'; }
-  else { inp.type = 'password'; btn.textContent = '👁'; }
+  if (inp.type === 'password') {
+    inp.type = 'text';
+    btn.innerHTML = '<svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-eye"/></svg>';
+    btn.setAttribute('aria-label', 'Скрий парола');
+  } else {
+    inp.type = 'password';
+    btn.innerHTML = '<svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-eye"/></svg>';
+    btn.setAttribute('aria-label', 'Покажи парола');
+  }
 }
 
 function checkPwStrength(val) {
@@ -6699,7 +6710,7 @@ initScrollAnimations();
   function _loadLazy() {
     if (_ll) return; _ll = true;
     var s = document.createElement('script');
-    s.src = 'app-lazy.js?v=20260625';
+    s.src = 'app-lazy.js?v=20260626';
     document.head.appendChild(s);
   }
   ['click', 'scroll', 'touchstart', 'keydown', 'mousemove'].forEach(function (ev) {

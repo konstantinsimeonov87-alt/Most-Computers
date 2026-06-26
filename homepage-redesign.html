@@ -1,0 +1,1886 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Homepage Redesign - Mobile Variants</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #111; color: #fff; }
+
+.page-header {
+  padding: 32px 24px 16px;
+  text-align: center;
+  background: #1a1a1a;
+  border-bottom: 1px solid #333;
+}
+.page-header h1 { font-size: 24px; font-weight: 700; color: #fff; }
+.page-header p { font-size: 14px; color: #888; margin-top: 6px; }
+
+.variants-container {
+  display: flex;
+  gap: 24px;
+  padding: 32px 24px;
+  overflow-x: auto;
+  align-items: flex-start;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.variant-wrap {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+.variant-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: #ccc;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.variant-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
+  text-align: center;
+}
+.variant-desc {
+  font-size: 12px;
+  color: #888;
+  text-align: center;
+  max-width: 300px;
+  line-height: 1.5;
+}
+.variant-tag {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.tag-bold { background: #bd1105; color: #fff; }
+.tag-clean { background: #1d4ed8; color: #fff; }
+.tag-editorial { background: #7c3aed; color: #fff; }
+.tag-minimal { background: #059669; color: #fff; }
+
+/* PHONE FRAME */
+.phone-frame {
+  width: 390px;
+  height: 780px;
+  border-radius: 40px;
+  border: 3px solid #333;
+  overflow: hidden;
+  position: relative;
+  background: #f5f5f5;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+.phone-screen {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: #f0f0f0;
+  scrollbar-width: none;
+}
+.phone-screen::-webkit-scrollbar { display: none; }
+
+/* ======================== VARIANT A - Bold Focus ======================== */
+.va { background: #fff; }
+
+.va .mob-header {
+  background: #1a1a1a;
+  padding: 12px 16px 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.va .mob-logo {
+  font-size: 17px;
+  font-weight: 800;
+  color: #fff;
+  flex: 1;
+  letter-spacing: -0.5px;
+}
+.va .mob-logo span { color: #bd1105; }
+.va .mob-hdr-icons { display: flex; gap: 12px; align-items: center; }
+.va .mob-hdr-icon {
+  width: 34px; height: 34px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+  font-size: 16px;
+  position: relative;
+}
+.va .mob-hdr-icon .badge {
+  position: absolute; top: -2px; right: -2px;
+  background: #bd1105; color: #fff;
+  font-size: 9px; font-weight: 700;
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid #1a1a1a;
+}
+
+/* Search bar */
+.va .mob-search-bar {
+  background: #1a1a1a;
+  padding: 0 16px 12px;
+}
+.va .mob-search-input {
+  background: #fff;
+  border-radius: 10px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #999;
+  font-size: 14px;
+}
+.va .mob-search-input span { color: #bbb; }
+
+/* Hero A - single bold promo */
+.va .hero-a {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d1810 60%, #bd1105 100%);
+  padding: 20px 16px;
+  position: relative;
+  overflow: hidden;
+  min-height: 170px;
+}
+.va .hero-a::before {
+  content: '';
+  position: absolute;
+  right: -10px; top: -10px;
+  width: 160px; height: 160px;
+  background: rgba(189,17,5,0.15);
+  border-radius: 50%;
+}
+.va .hero-a-badge {
+  display: inline-block;
+  background: #bd1105;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 20px;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+.va .hero-a-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.2;
+  margin-bottom: 6px;
+  max-width: 60%;
+}
+.va .hero-a-sub {
+  font-size: 12px;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 14px;
+  max-width: 60%;
+}
+.va .hero-a-price {
+  font-size: 20px;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 12px;
+}
+.va .hero-a-price small { font-size: 12px; font-weight: 400; opacity: 0.7; }
+.va .hero-a-btn {
+  background: #bd1105;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 18px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.va .hero-a-img {
+  position: absolute;
+  right: 8px;
+  bottom: 0;
+  width: 140px;
+  height: 140px;
+  object-fit: contain;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  font-size: 80px;
+}
+
+/* Slider dots */
+.va .hero-dots {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  padding: 8px 0 0;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d1810 60%, #bd1105 100%);
+}
+.va .hero-dot { width: 6px; height: 6px; border-radius: 3px; background: rgba(255,255,255,0.35); }
+.va .hero-dot.active { width: 18px; background: #fff; }
+
+/* Quick cats - horizontal scroll */
+.va .quick-cats {
+  background: #fff;
+  padding: 14px 16px 10px;
+  border-bottom: 1px solid #f0f0f0;
+}
+.va .qc-title { font-size: 11px; font-weight: 700; color: #999; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; }
+.va .qc-row {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: 4px;
+}
+.va .qc-row::-webkit-scrollbar { display: none; }
+.va .qc-chip {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 12px;
+  background: #f5f5f5;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #333;
+  white-space: nowrap;
+}
+.va .qc-chip .qc-icon { font-size: 20px; }
+.va .qc-chip.active { background: #1a1a1a; color: #fff; }
+.va .qc-chip.red { background: #fff0ef; color: #bd1105; }
+
+/* Trust bar */
+.va .trust-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: #e8e8e8;
+  border-top: 1px solid #e8e8e8;
+  border-bottom: 1px solid #e8e8e8;
+}
+.va .trust-item {
+  background: #fff;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.va .trust-icon { font-size: 18px; }
+.va .trust-text { font-size: 10px; font-weight: 600; color: #333; line-height: 1.3; }
+.va .trust-sub { font-size: 9px; color: #888; font-weight: 400; }
+
+/* Section header */
+.va .sec-hdr {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 16px 10px;
+  background: #fff;
+}
+.va .sec-title { font-size: 15px; font-weight: 800; color: #1a1a1a; }
+.va .sec-link { font-size: 12px; color: #bd1105; font-weight: 600; }
+
+/* Flash sale */
+.va .flash-sec { background: #fff; border-top: 3px solid #bd1105; }
+.va .flash-hdr {
+  padding: 12px 16px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.va .flash-title-row { display: flex; align-items: center; gap: 6px; }
+.va .flash-icon { font-size: 16px; }
+.va .flash-title { font-size: 15px; font-weight: 800; color: #1a1a1a; }
+.va .flash-timer {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  background: #1a1a1a;
+  border-radius: 8px;
+  padding: 5px 10px;
+}
+.va .timer-num { font-size: 14px; font-weight: 800; color: #fff; }
+.va .timer-sep { color: #bd1105; font-weight: 800; font-size: 14px; }
+
+/* Product grid - 2 cols */
+.va .prod-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: #e8e8e8;
+  padding-bottom: 1px;
+}
+.va .prod-card {
+  background: #fff;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.va .prod-img {
+  width: 100%;
+  aspect-ratio: 1;
+  background: #f8f8f8;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 50px;
+  margin-bottom: 4px;
+  position: relative;
+}
+.va .prod-badge {
+  position: absolute; top: 6px; left: 6px;
+  background: #bd1105; color: #fff;
+  font-size: 9px; font-weight: 700;
+  padding: 2px 6px; border-radius: 4px;
+}
+.va .prod-badge.new { background: #059669; }
+.va .prod-name { font-size: 12px; font-weight: 600; color: #1a1a1a; line-height: 1.3; }
+.va .prod-rating { font-size: 10px; color: #f59e0b; }
+.va .prod-price { font-size: 14px; font-weight: 800; color: #bd1105; }
+.va .prod-price-old { font-size: 11px; color: #999; text-decoration: line-through; }
+.va .prod-add {
+  background: #1a1a1a;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  text-align: center;
+}
+
+/* Promo banner */
+.va .promo-banner {
+  margin: 12px 16px;
+  background: linear-gradient(135deg, #1d4ed8, #7c3aed);
+  border-radius: 14px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  overflow: hidden;
+  position: relative;
+}
+.va .promo-text h3 { font-size: 16px; font-weight: 800; color: #fff; }
+.va .promo-text p { font-size: 11px; color: rgba(255,255,255,0.7); margin-top: 4px; }
+.va .promo-text .promo-btn {
+  margin-top: 10px;
+  display: inline-block;
+  background: #fff;
+  color: #1d4ed8;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 7px 14px;
+  border-radius: 8px;
+}
+.va .promo-emoji { font-size: 52px; opacity: 0.8; }
+
+/* Bottom nav */
+.va .bottom-nav {
+  position: sticky;
+  bottom: 0;
+  background: #fff;
+  border-top: 1px solid #e8e8e8;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  padding: 6px 0 8px;
+}
+.va .bn-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  font-size: 9px;
+  font-weight: 600;
+  color: #999;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 0;
+}
+.va .bn-btn.active { color: #bd1105; }
+.va .bn-icon { font-size: 20px; }
+
+
+/* ======================== VARIANT B - App Native ======================== */
+.vb { background: #0f0f0f; }
+
+.vb .mob-header {
+  background: #0f0f0f;
+  padding: 14px 16px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.vb .mob-logo { font-size: 16px; font-weight: 800; color: #fff; }
+.vb .mob-logo span { color: #bd1105; }
+.vb .mob-hdr-right { display: flex; gap: 10px; align-items: center; }
+.vb .mob-hdr-icon {
+  width: 36px; height: 36px;
+  background: #1e1e1e;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 17px;
+  position: relative;
+}
+.vb .badge {
+  position: absolute; top: -4px; right: -4px;
+  background: #bd1105; color: #fff;
+  font-size: 9px; font-weight: 700;
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.vb .mob-search {
+  padding: 0 16px 14px;
+  background: #0f0f0f;
+}
+.vb .mob-search-box {
+  background: #1e1e1e;
+  border-radius: 12px;
+  padding: 11px 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #555;
+  font-size: 14px;
+}
+.vb .mob-search-box span { font-size: 16px; }
+
+/* Hero B - stories/cards row */
+.vb .hero-stories {
+  padding: 0 16px 16px;
+  background: #0f0f0f;
+}
+.vb .stories-row {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: 2px;
+}
+.vb .stories-row::-webkit-scrollbar { display: none; }
+.vb .story-card {
+  flex: 0 0 auto;
+  width: 130px;
+  height: 170px;
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 12px;
+}
+.vb .story-card.s1 { background: linear-gradient(160deg, #bd1105, #7c1003); }
+.vb .story-card.s2 { background: linear-gradient(160deg, #1d4ed8, #1e3a8a); }
+.vb .story-card.s3 { background: linear-gradient(160deg, #059669, #047857); }
+.vb .story-card.s4 { background: linear-gradient(160deg, #7c3aed, #5b21b6); }
+.vb .story-badge {
+  font-size: 9px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.7);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+.vb .story-title { font-size: 13px; font-weight: 800; color: #fff; line-height: 1.2; }
+.vb .story-price { font-size: 12px; color: rgba(255,255,255,0.7); margin-top: 4px; }
+.vb .story-emoji { font-size: 40px; position: absolute; top: 12px; right: 10px; }
+
+/* Quick actions */
+.vb .quick-actions {
+  padding: 4px 16px 16px;
+  background: #0f0f0f;
+}
+.vb .qa-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+.vb .qa-btn {
+  background: #1e1e1e;
+  border-radius: 12px;
+  padding: 12px 8px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+.vb .qa-icon { font-size: 22px; }
+.vb .qa-label { font-size: 10px; font-weight: 600; color: #ccc; }
+.vb .qa-btn.highlight { background: #bd1105; }
+.vb .qa-btn.highlight .qa-label { color: #fff; }
+
+/* Section B */
+.vb .sec-hdr {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 16px 12px;
+}
+.vb .sec-title { font-size: 16px; font-weight: 800; color: #fff; }
+.vb .sec-link { font-size: 12px; color: #bd1105; font-weight: 600; }
+
+/* Product grid - dark 2col */
+.vb .prod-section { padding: 16px 16px 0; background: #0f0f0f; }
+.vb .prod-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.vb .prod-card {
+  background: #1e1e1e;
+  border-radius: 14px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.vb .prod-img {
+  width: 100%;
+  aspect-ratio: 1;
+  background: #2a2a2a;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 50px;
+  margin-bottom: 4px;
+  position: relative;
+}
+.vb .prod-badge {
+  position: absolute; top: 6px; left: 6px;
+  background: #bd1105; color: #fff;
+  font-size: 9px; font-weight: 700;
+  padding: 2px 6px; border-radius: 4px;
+}
+.vb .prod-name { font-size: 11px; font-weight: 600; color: #ddd; line-height: 1.3; }
+.vb .prod-price { font-size: 14px; font-weight: 800; color: #fff; margin-top: 2px; }
+.vb .prod-price-old { font-size: 10px; color: #555; text-decoration: line-through; }
+.vb .prod-add {
+  background: #bd1105;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  text-align: center;
+  margin-top: 2px;
+}
+
+/* Scroll to see more */
+.vb .see-more {
+  text-align: center;
+  padding: 14px;
+  background: #0f0f0f;
+  color: #555;
+  font-size: 11px;
+}
+
+/* Bottom nav dark */
+.vb .bottom-nav {
+  position: sticky;
+  bottom: 0;
+  background: #1e1e1e;
+  border-top: 1px solid #2a2a2a;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  padding: 8px 0 10px;
+}
+.vb .bn-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  font-size: 9px;
+  font-weight: 600;
+  color: #555;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 0;
+}
+.vb .bn-btn.active { color: #bd1105; }
+.vb .bn-icon { font-size: 20px; }
+
+/* cat pills */
+.vb .cat-pills-wrap {
+  padding: 0 16px 16px;
+  background: #0f0f0f;
+}
+.vb .cat-pills {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: 2px;
+}
+.vb .cat-pills::-webkit-scrollbar { display: none; }
+.vb .cat-pill {
+  flex: 0 0 auto;
+  padding: 7px 14px;
+  background: #1e1e1e;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #ccc;
+  white-space: nowrap;
+}
+.vb .cat-pill.active { background: #bd1105; color: #fff; }
+
+
+/* ======================== VARIANT C - Editorial ======================== */
+.vc { background: #fafafa; }
+
+.vc .mob-header {
+  background: #fff;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #f0f0f0;
+}
+.vc .mob-logo { font-size: 16px; font-weight: 800; color: #1a1a1a; }
+.vc .mob-logo span { color: #bd1105; }
+.vc .mob-hdr-icons { display: flex; gap: 8px; }
+.vc .mob-hdr-icon {
+  width: 36px; height: 36px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+  color: #333;
+  position: relative;
+}
+.vc .badge {
+  position: absolute; top: 0; right: 0;
+  background: #bd1105; color: #fff;
+  font-size: 9px; font-weight: 700;
+  width: 15px; height: 15px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.vc .mob-search {
+  padding: 10px 16px;
+  background: #fff;
+  border-bottom: 1px solid #f0f0f0;
+}
+.vc .mob-search-box {
+  background: #f5f5f5;
+  border-radius: 12px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #999;
+  font-size: 13px;
+}
+
+/* Hero C - full bleed editorial */
+.vc .hero-c {
+  width: 100%;
+  aspect-ratio: 16/9;
+  background: linear-gradient(135deg, #1a1a1a 30%, #bd1105 130%);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px 16px 16px;
+  overflow: hidden;
+}
+.vc .hero-c::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%);
+}
+.vc .hero-bg-text {
+  position: absolute;
+  top: 50%;
+  right: -10px;
+  transform: translateY(-50%);
+  font-size: 100px;
+  opacity: 0.1;
+  user-select: none;
+}
+.vc .hero-c-badge {
+  position: relative;
+  z-index: 1;
+  display: inline-block;
+  background: #bd1105;
+  color: #fff;
+  font-size: 10px; font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 20px;
+  margin-bottom: 8px;
+  width: fit-content;
+}
+.vc .hero-c-title {
+  position: relative; z-index: 1;
+  font-size: 21px;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.2;
+  margin-bottom: 10px;
+}
+.vc .hero-c-actions {
+  position: relative; z-index: 1;
+  display: flex;
+  gap: 8px;
+}
+.vc .hero-btn {
+  padding: 9px 16px;
+  border-radius: 8px;
+  font-size: 12px; font-weight: 700;
+  border: none; cursor: pointer;
+}
+.vc .hero-btn.primary { background: #bd1105; color: #fff; }
+.vc .hero-btn.secondary { background: rgba(255,255,255,0.15); color: #fff; border: 1px solid rgba(255,255,255,0.3); }
+
+/* Category scroll */
+.vc .cat-scroll-wrap {
+  padding: 16px 0 0;
+  background: #fff;
+}
+.vc .cat-scroll-title {
+  font-size: 13px; font-weight: 800; color: #1a1a1a;
+  padding: 0 16px 10px;
+}
+.vc .cat-scroll {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding: 0 16px 16px;
+  scrollbar-width: none;
+}
+.vc .cat-scroll::-webkit-scrollbar { display: none; }
+.vc .cat-card {
+  flex: 0 0 auto;
+  width: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.vc .cat-card-icon {
+  width: 64px; height: 64px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+}
+.vc .ci-1 { background: #fff0ef; }
+.vc .ci-2 { background: #eff6ff; }
+.vc .ci-3 { background: #f0fdf4; }
+.vc .ci-4 { background: #faf5ff; }
+.vc .ci-5 { background: #fefce8; }
+.vc .ci-6 { background: #ecfdf5; }
+.vc .cat-card-name { font-size: 10px; font-weight: 600; color: #444; text-align: center; }
+
+/* Sale strip */
+.vc .sale-strip {
+  margin: 0;
+  background: #bd1105;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.vc .sale-strip-left { color: #fff; }
+.vc .sale-strip-left h3 { font-size: 15px; font-weight: 800; }
+.vc .sale-strip-left p { font-size: 11px; opacity: 0.8; margin-top: 2px; }
+.vc .sale-timer {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+.vc .st-block {
+  background: rgba(0,0,0,0.25);
+  border-radius: 6px;
+  padding: 5px 7px;
+  text-align: center;
+}
+.vc .st-num { font-size: 16px; font-weight: 800; color: #fff; display: block; }
+.vc .st-label { font-size: 8px; color: rgba(255,255,255,0.7); }
+.vc .st-sep { color: rgba(255,255,255,0.5); font-size: 16px; font-weight: 800; }
+
+/* Product grid C - card style */
+.vc .prod-section {
+  padding: 16px;
+  background: #fafafa;
+}
+.vc .sec-hdr {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.vc .sec-title { font-size: 15px; font-weight: 800; color: #1a1a1a; }
+.vc .sec-link { font-size: 12px; color: #bd1105; font-weight: 600; }
+.vc .prod-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.vc .prod-card {
+  background: #fff;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+.vc .prod-img {
+  width: 100%;
+  aspect-ratio: 1;
+  background: #f5f5f5;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 52px;
+  position: relative;
+}
+.vc .prod-badge {
+  position: absolute; top: 8px; left: 8px;
+  background: #bd1105; color: #fff;
+  font-size: 9px; font-weight: 700;
+  padding: 3px 7px; border-radius: 4px;
+}
+.vc .prod-badge.new { background: #059669; }
+.vc .prod-body { padding: 10px; }
+.vc .prod-name { font-size: 12px; font-weight: 600; color: #1a1a1a; line-height: 1.3; margin-bottom: 4px; }
+.vc .prod-price-row { display: flex; align-items: baseline; gap: 5px; margin-bottom: 8px; }
+.vc .prod-price { font-size: 14px; font-weight: 800; color: #bd1105; }
+.vc .prod-price-old { font-size: 10px; color: #bbb; text-decoration: line-through; }
+.vc .prod-add {
+  width: 100%;
+  background: #1a1a1a;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px;
+  font-size: 11px; font-weight: 700;
+  cursor: pointer;
+  text-align: center;
+}
+
+.vc .bottom-nav {
+  position: sticky; bottom: 0;
+  background: #fff;
+  border-top: 1px solid #e8e8e8;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  padding: 6px 0 8px;
+}
+.vc .bn-btn {
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  font-size: 9px; font-weight: 600; color: #999;
+  background: none; border: none; cursor: pointer; padding: 4px 0;
+}
+.vc .bn-btn.active { color: #bd1105; }
+.vc .bn-icon { font-size: 20px; }
+
+/* ======================== VARIANT D - Minimal Conversion ======================== */
+.vd { background: #fff; }
+
+.vd .mob-header {
+  background: #bd1105;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.vd .mob-logo { font-size: 17px; font-weight: 800; color: #fff; }
+.vd .mob-hdr-icons { display: flex; gap: 10px; }
+.vd .mob-hdr-icon {
+  width: 34px; height: 34px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; color: #fff;
+  position: relative;
+}
+.vd .badge {
+  position: absolute; top: -2px; right: -2px;
+  background: #fff; color: #bd1105;
+  font-size: 9px; font-weight: 800;
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.vd .mob-search {
+  background: #bd1105;
+  padding: 0 16px 14px;
+}
+.vd .mob-search-box {
+  background: rgba(0,0,0,0.2);
+  border-radius: 10px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: rgba(255,255,255,0.6);
+  font-size: 13px;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+/* Promo row D */
+.vd .promo-chips {
+  background: #fff;
+  padding: 12px 16px;
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  border-bottom: 1px solid #f0f0f0;
+}
+.vd .promo-chips::-webkit-scrollbar { display: none; }
+.vd .promo-chip {
+  flex: 0 0 auto;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 12px; font-weight: 700;
+  display: flex; align-items: center; gap: 5px;
+  white-space: nowrap;
+}
+.vd .pc-sale { background: #fff0ef; color: #bd1105; }
+.vd .pc-new { background: #ecfdf5; color: #059669; }
+.vd .pc-best { background: #f5f3ff; color: #7c3aed; }
+.vd .pc-all { background: #f5f5f5; color: #333; }
+
+/* Hero D - compact conversion */
+.vd .hero-d {
+  background: linear-gradient(to right, #1a1a1a, #2d2d2d);
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 130px;
+}
+.vd .hero-d-text {}
+.vd .hero-d-badge {
+  display: inline-block;
+  background: #bd1105;
+  color: #fff;
+  font-size: 9px; font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 20px;
+  margin-bottom: 6px;
+}
+.vd .hero-d-title { font-size: 18px; font-weight: 800; color: #fff; line-height: 1.2; max-width: 180px; }
+.vd .hero-d-price { font-size: 16px; font-weight: 800; color: #fff; margin-top: 6px; }
+.vd .hero-d-price small { font-size: 11px; opacity: 0.6; }
+.vd .hero-d-btn {
+  display: block;
+  margin-top: 10px;
+  background: #bd1105;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 12px; font-weight: 700;
+  cursor: pointer;
+}
+.vd .hero-d-img {
+  font-size: 72px;
+  flex: 0 0 auto;
+}
+
+/* Dots D */
+.vd .hero-dots {
+  background: linear-gradient(to right, #1a1a1a, #2d2d2d);
+  display: flex; justify-content: center; gap: 5px;
+  padding: 6px 0 10px;
+}
+.vd .hero-dot { width: 6px; height: 6px; border-radius: 3px; background: rgba(255,255,255,0.3); }
+.vd .hero-dot.active { width: 18px; background: #bd1105; }
+
+/* Cat horizontal scroll */
+.vd .cat-row-wrap {
+  padding: 14px 0 0;
+  background: #fff;
+  border-bottom: 1px solid #f0f0f0;
+}
+.vd .cat-row-title {
+  font-size: 11px; font-weight: 700; color: #999;
+  text-transform: uppercase; letter-spacing: 0.5px;
+  padding: 0 16px 8px;
+}
+.vd .cat-row {
+  display: flex; gap: 8px;
+  overflow-x: auto;
+  padding: 0 16px 14px;
+  scrollbar-width: none;
+}
+.vd .cat-row::-webkit-scrollbar { display: none; }
+.vd .cat-item {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  min-width: 60px;
+}
+.vd .cat-icon {
+  width: 52px; height: 52px;
+  border-radius: 14px;
+  background: #f5f5f5;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px;
+  border: 2px solid transparent;
+}
+.vd .cat-icon.sel { border-color: #bd1105; background: #fff0ef; }
+.vd .cat-label { font-size: 10px; font-weight: 600; color: #555; text-align: center; }
+
+/* Trust strip D */
+.vd .trust-strip {
+  background: #f9f9f9;
+  border-bottom: 1px solid #f0f0f0;
+  display: flex;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.vd .trust-strip::-webkit-scrollbar { display: none; }
+.vd .trust-item {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 14px;
+  border-right: 1px solid #f0f0f0;
+}
+.vd .trust-icon { font-size: 16px; }
+.vd .trust-text { font-size: 10px; font-weight: 700; color: #333; white-space: nowrap; }
+
+/* Flash D */
+.vd .flash-header {
+  background: #1a1a1a;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.vd .flash-title { font-size: 14px; font-weight: 800; color: #fff; display: flex; align-items: center; gap: 5px; }
+.vd .flash-timer {
+  display: flex; gap: 3px; align-items: center;
+}
+.vd .ft-block {
+  background: #bd1105;
+  border-radius: 4px;
+  padding: 4px 6px;
+  text-align: center;
+}
+.vd .ft-num { font-size: 13px; font-weight: 800; color: #fff; display: block; }
+.vd .ft-sep { color: #bd1105; font-weight: 800; }
+
+/* Product grid D - 2 col */
+.vd .prod-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: #e8e8e8;
+}
+.vd .prod-card {
+  background: #fff;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+}
+.vd .prod-img {
+  width: 100%;
+  aspect-ratio: 1;
+  background: #f8f8f8;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 52px;
+  margin-bottom: 8px;
+  position: relative;
+}
+.vd .prod-badge {
+  position: absolute; top: 6px; left: 6px;
+  background: #bd1105; color: #fff;
+  font-size: 9px; font-weight: 700;
+  padding: 2px 6px; border-radius: 4px;
+}
+.vd .prod-name { font-size: 11px; font-weight: 600; color: #333; line-height: 1.3; flex: 1; }
+.vd .prod-price-row { display: flex; justify-content: space-between; align-items: baseline; margin-top: 6px; margin-bottom: 8px; }
+.vd .prod-price { font-size: 14px; font-weight: 800; color: #1a1a1a; }
+.vd .prod-price-old { font-size: 10px; color: #bbb; text-decoration: line-through; }
+.vd .prod-add {
+  background: #bd1105;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 9px;
+  font-size: 12px; font-weight: 700;
+  cursor: pointer;
+  text-align: center;
+}
+
+.vd .bottom-nav {
+  position: sticky; bottom: 0;
+  background: #fff;
+  border-top: 2px solid #bd1105;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  padding: 6px 0 8px;
+}
+.vd .bn-btn {
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  font-size: 9px; font-weight: 600; color: #bbb;
+  background: none; border: none; cursor: pointer; padding: 4px 0;
+}
+.vd .bn-btn.active { color: #bd1105; }
+.vd .bn-icon { font-size: 20px; }
+
+/* Legend */
+.legend {
+  padding: 32px 24px;
+  background: #1a1a1a;
+  border-top: 1px solid #333;
+}
+.legend h2 { font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 20px; text-align: center; }
+.legend-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.legend-card {
+  background: #222;
+  border-radius: 12px;
+  padding: 18px;
+}
+.legend-card h3 { font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+.legend-card ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+.legend-card li { font-size: 12px; color: #888; line-height: 1.4; padding-left: 14px; position: relative; }
+.legend-card li::before { content: '•'; position: absolute; left: 0; color: #bd1105; }
+.legend-pros li { color: #6ee7b7; }
+.legend-pros li::before { color: #059669; }
+.legend-cons li { color: #fca5a5; }
+.legend-cons li::before { color: #bd1105; }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>Homepage Redesign - Mobile Variants</h1>
+  <p>Most Computers | 390px viewport | 4 design variants</p>
+</div>
+
+<div class="variants-container">
+
+  <!-- ============ VARIANT A ============ -->
+  <div class="variant-wrap">
+    <div class="variant-label">Вариант A</div>
+    <div class="variant-name">Clean & Bold</div>
+    <div class="variant-tag tag-bold">Препоръчан</div>
+    <div class="variant-desc">Светъл фон, 2-колонна продуктова мрежа, хоризонтален скрол за категории, компактен hero</div>
+    <div class="phone-frame">
+      <div class="phone-screen va">
+
+        <!-- Header -->
+        <div class="mob-header">
+          <div class="mob-logo">MOST <span>Computers</span></div>
+          <div class="mob-hdr-icons">
+            <div class="mob-hdr-icon">🔍</div>
+            <div class="mob-hdr-icon">❤️</div>
+            <div class="mob-hdr-icon">🛒<span class="badge">3</span></div>
+          </div>
+        </div>
+
+        <!-- Search -->
+        <div class="mob-search-bar">
+          <div class="mob-search-input">
+            <span>🔍</span>
+            Търси продукт, марка...
+          </div>
+        </div>
+
+        <!-- Hero -->
+        <div class="hero-a">
+          <div class="hero-a-badge">🎮 Gaming</div>
+          <div class="hero-a-title">MSI Katana 15<br>RTX 4050</div>
+          <div class="hero-a-sub">Intel Core i7 · 16GB · 1TB SSD</div>
+          <div class="hero-a-price">1 012 € <small>с ДДС</small></div>
+          <button class="hero-a-btn">Разгледай →</button>
+          <div class="hero-a-img">💻</div>
+        </div>
+        <div class="hero-dots">
+          <div class="hero-dot active"></div>
+          <div class="hero-dot"></div>
+          <div class="hero-dot"></div>
+          <div class="hero-dot"></div>
+        </div>
+
+        <!-- Quick categories -->
+        <div class="quick-cats">
+          <div class="qc-title">Категории</div>
+          <div class="qc-row">
+            <div class="qc-chip red">🔥<span>Намаления</span></div>
+            <div class="qc-chip active">💻<span>Лаптопи</span></div>
+            <div class="qc-chip">🖥️<span>Монитори</span></div>
+            <div class="qc-chip">🖨️<span>Принтери</span></div>
+            <div class="qc-chip">🖱️<span>Мишки</span></div>
+            <div class="qc-chip">💾<span>Памет</span></div>
+          </div>
+        </div>
+
+        <!-- Trust -->
+        <div class="trust-row">
+          <div class="trust-item">
+            <span class="trust-icon">🚚</span>
+            <div>
+              <div class="trust-text">Безплатна доставка</div>
+              <div class="trust-sub">над 100 €</div>
+            </div>
+          </div>
+          <div class="trust-item">
+            <span class="trust-icon">🛡️</span>
+            <div>
+              <div class="trust-text">24м. гаранция</div>
+              <div class="trust-sub">официален сервиз</div>
+            </div>
+          </div>
+          <div class="trust-item">
+            <span class="trust-icon">↩️</span>
+            <div>
+              <div class="trust-text">14 дни връщане</div>
+              <div class="trust-sub">без въпроси</div>
+            </div>
+          </div>
+          <div class="trust-item">
+            <span class="trust-icon">💳</span>
+            <div>
+              <div class="trust-text">Сигурно плащане</div>
+              <div class="trust-sub">карта / наложен</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Flash sale -->
+        <div class="flash-sec">
+          <div class="flash-hdr">
+            <div class="flash-title-row">
+              <span class="flash-icon">⚡</span>
+              <span class="flash-title">Светкавични оферти</span>
+            </div>
+            <div class="flash-timer">
+              <span class="timer-num">02</span>
+              <span class="timer-sep">:</span>
+              <span class="timer-num">47</span>
+              <span class="timer-sep">:</span>
+              <span class="timer-num">19</span>
+            </div>
+          </div>
+          <div class="prod-grid">
+            <div class="prod-card">
+              <div class="prod-img">💻<span class="prod-badge">-30%</span></div>
+              <div class="prod-name">Acer Nitro V15 ANV15-51</div>
+              <div class="prod-rating">★★★★☆ (124)</div>
+              <div class="prod-price-old">871 €</div>
+              <div class="prod-price">609 €</div>
+              <button class="prod-add">+ Добави</button>
+            </div>
+            <div class="prod-card">
+              <div class="prod-img">🖥️<span class="prod-badge">-20%</span></div>
+              <div class="prod-name">Samsung 27" IPS 144Hz</div>
+              <div class="prod-rating">★★★★★ (88)</div>
+              <div class="prod-price-old">306 €</div>
+              <div class="prod-price">245 €</div>
+              <button class="prod-add">+ Добави</button>
+            </div>
+            <div class="prod-card">
+              <div class="prod-img">⌨️<span class="prod-badge new">НОВО</span></div>
+              <div class="prod-name">Fnatic STREAK65 LP Mechanical</div>
+              <div class="prod-rating">★★★★☆ (41)</div>
+              <div class="prod-price">89 €</div>
+              <button class="prod-add">+ Добави</button>
+            </div>
+            <div class="prod-card">
+              <div class="prod-img">🖱️<span class="prod-badge">-15%</span></div>
+              <div class="prod-name">ASUS ROG Strix Impact III</div>
+              <div class="prod-rating">★★★★★ (200)</div>
+              <div class="prod-price-old">59 €</div>
+              <div class="prod-price">49 €</div>
+              <button class="prod-add">+ Добави</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Promo banner -->
+        <div class="promo-banner">
+          <div class="promo-text">
+            <h3>До -60% намаления</h3>
+            <p>Ограничено количество!<br>Побързай.</p>
+            <span class="promo-btn">Виж всички →</span>
+          </div>
+          <div class="promo-emoji">🏷️</div>
+        </div>
+
+        <!-- Bottom nav -->
+        <div class="bottom-nav">
+          <button class="bn-btn active"><span class="bn-icon">🏠</span>Начало</button>
+          <button class="bn-btn"><span class="bn-icon">🗂️</span>Категории</button>
+          <button class="bn-btn"><span class="bn-icon">🔍</span>Търсене</button>
+          <button class="bn-btn"><span class="bn-icon">❤️</span>Любими</button>
+          <button class="bn-btn"><span class="bn-icon">👤</span>Акаунт</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ VARIANT B ============ -->
+  <div class="variant-wrap">
+    <div class="variant-label">Вариант B</div>
+    <div class="variant-name">Dark App</div>
+    <div class="variant-tag tag-clean">Native App</div>
+    <div class="variant-desc">Тъмен фон, "stories" hero с хоризонтален скрол, бързи action бутони, premium feel</div>
+    <div class="phone-frame">
+      <div class="phone-screen vb">
+
+        <!-- Header -->
+        <div class="mob-header">
+          <div class="mob-logo">MOST <span>Computers</span></div>
+          <div class="mob-hdr-right">
+            <div class="mob-hdr-icon">❤️</div>
+            <div class="mob-hdr-icon">🛒<span class="badge">3</span></div>
+          </div>
+        </div>
+
+        <!-- Search -->
+        <div class="mob-search">
+          <div class="mob-search-box">
+            <span>🔍</span>
+            Търси продукт, марка...
+          </div>
+        </div>
+
+        <!-- Hero Stories -->
+        <div class="hero-stories">
+          <div class="stories-row">
+            <div class="story-card s1">
+              <div class="story-emoji">💻</div>
+              <div class="story-badge">Gaming</div>
+              <div class="story-title">MSI Katana RTX 4050</div>
+              <div class="story-price">1 012 €</div>
+            </div>
+            <div class="story-card s2">
+              <div class="story-emoji">🏆</div>
+              <div class="story-badge">Флагман</div>
+              <div class="story-title">Lenovo Legion Pro 7</div>
+              <div class="story-price">4 632 €</div>
+            </div>
+            <div class="story-card s3">
+              <div class="story-emoji">🏷️</div>
+              <div class="story-badge">BIG SALE</div>
+              <div class="story-title">До -60% намаления</div>
+              <div class="story-price">Спести до 409 €</div>
+            </div>
+            <div class="story-card s4">
+              <div class="story-emoji">🆕</div>
+              <div class="story-badge">Ново</div>
+              <div class="story-title">RTX 5060 Dual OC</div>
+              <div class="story-price">299 €</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick actions -->
+        <div class="quick-actions">
+          <div class="qa-row">
+            <div class="qa-btn highlight">
+              <div class="qa-icon">⚡</div>
+              <div class="qa-label">Оферти</div>
+            </div>
+            <div class="qa-btn">
+              <div class="qa-icon">🆕</div>
+              <div class="qa-label">Нови</div>
+            </div>
+            <div class="qa-btn">
+              <div class="qa-icon">🏆</div>
+              <div class="qa-label">Топ продажби</div>
+            </div>
+            <div class="qa-btn">
+              <div class="qa-icon">🗂️</div>
+              <div class="qa-label">Всички</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Category pills -->
+        <div class="cat-pills-wrap">
+          <div class="cat-pills">
+            <div class="cat-pill active">Всички</div>
+            <div class="cat-pill">💻 Лаптопи</div>
+            <div class="cat-pill">🖥️ Монитори</div>
+            <div class="cat-pill">🖨️ Принтери</div>
+            <div class="cat-pill">💾 Памет</div>
+            <div class="cat-pill">🖱️ Мишки</div>
+          </div>
+        </div>
+
+        <!-- Products -->
+        <div class="prod-section">
+          <div class="sec-hdr">
+            <span class="sec-title">⚡ Светкавични оферти</span>
+            <span class="sec-link">Виж всички →</span>
+          </div>
+          <div class="prod-grid">
+            <div class="prod-card">
+              <div class="prod-img">💻<span class="prod-badge">-30%</span></div>
+              <div class="prod-name">Acer Nitro V15 RTX 4050</div>
+              <div class="prod-price-old">871 €</div>
+              <div class="prod-price">609 €</div>
+              <button class="prod-add">+ Добави</button>
+            </div>
+            <div class="prod-card">
+              <div class="prod-img">🖥️<span class="prod-badge">-20%</span></div>
+              <div class="prod-name">Samsung 27" 144Hz IPS</div>
+              <div class="prod-price-old">306 €</div>
+              <div class="prod-price">245 €</div>
+              <button class="prod-add">+ Добави</button>
+            </div>
+            <div class="prod-card">
+              <div class="prod-img">🎧</div>
+              <div class="prod-name">Sony WH-1000XM5 BT</div>
+              <div class="prod-price">299 €</div>
+              <button class="prod-add">+ Добави</button>
+            </div>
+            <div class="prod-card">
+              <div class="prod-img">💾<span class="prod-badge">-25%</span></div>
+              <div class="prod-name">Samsung 870 EVO SSD 1TB</div>
+              <div class="prod-price-old">112 €</div>
+              <div class="prod-price">84 €</div>
+              <button class="prod-add">+ Добави</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="see-more">Превърти надолу за още продукти...</div>
+
+        <!-- Bottom nav -->
+        <div class="bottom-nav">
+          <button class="bn-btn active"><span class="bn-icon">🏠</span>Начало</button>
+          <button class="bn-btn"><span class="bn-icon">🗂️</span>Категории</button>
+          <button class="bn-btn"><span class="bn-icon">🔍</span>Търсене</button>
+          <button class="bn-btn"><span class="bn-icon">❤️</span>Любими</button>
+          <button class="bn-btn"><span class="bn-icon">👤</span>Акаунт</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ VARIANT C ============ -->
+  <div class="variant-wrap">
+    <div class="variant-label">Вариант C</div>
+    <div class="variant-name">Editorial</div>
+    <div class="variant-tag tag-editorial">Premium</div>
+    <div class="variant-desc">Пълноширок hero с overlay текст, категории като икони с цветни фонове, card-базирана продуктова мрежа</div>
+    <div class="phone-frame">
+      <div class="phone-screen vc">
+
+        <!-- Header -->
+        <div class="mob-header">
+          <div class="mob-logo">MOST <span style="color:#bd1105">Computers</span></div>
+          <div class="mob-hdr-icons">
+            <div class="mob-hdr-icon">❤️</div>
+            <div class="mob-hdr-icon">🛒<span class="badge">3</span></div>
+          </div>
+        </div>
+
+        <!-- Search -->
+        <div class="mob-search">
+          <div class="mob-search-box">
+            <span>🔍</span>
+            Търси продукт, марка...
+          </div>
+        </div>
+
+        <!-- Hero C -->
+        <div class="hero-c">
+          <div class="hero-bg-text">💻</div>
+          <div class="hero-c-badge">🏆 Флагман на месеца</div>
+          <div class="hero-c-title">Lenovo Legion Pro 7<br>RTX 5090 · 16″</div>
+          <div class="hero-c-actions">
+            <button class="hero-btn primary">Разгледай →</button>
+            <button class="hero-btn secondary">4 632 €</button>
+          </div>
+        </div>
+
+        <!-- Category icons -->
+        <div class="cat-scroll-wrap">
+          <div class="cat-scroll-title">Разгледай по категории</div>
+          <div class="cat-scroll">
+            <div class="cat-card">
+              <div class="cat-card-icon ci-1">💻</div>
+              <div class="cat-card-name">Лаптопи</div>
+            </div>
+            <div class="cat-card">
+              <div class="cat-card-icon ci-2">🖥️</div>
+              <div class="cat-card-name">Монитори</div>
+            </div>
+            <div class="cat-card">
+              <div class="cat-card-icon ci-3">🖨️</div>
+              <div class="cat-card-name">Принтери</div>
+            </div>
+            <div class="cat-card">
+              <div class="cat-card-icon ci-4">💾</div>
+              <div class="cat-card-name">Памет</div>
+            </div>
+            <div class="cat-card">
+              <div class="cat-card-icon ci-5">🎧</div>
+              <div class="cat-card-name">Слушалки</div>
+            </div>
+            <div class="cat-card">
+              <div class="cat-card-icon ci-6">📷</div>
+              <div class="cat-card-name">Камери</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sale strip -->
+        <div class="sale-strip">
+          <div class="sale-strip-left">
+            <h3>⚡ Светкавични оферти</h3>
+            <p>Ограничено количество!</p>
+          </div>
+          <div class="sale-timer">
+            <div class="st-block"><span class="st-num">02</span><span class="st-label">ч.</span></div>
+            <span class="st-sep">:</span>
+            <div class="st-block"><span class="st-num">47</span><span class="st-label">мин.</span></div>
+            <span class="st-sep">:</span>
+            <div class="st-block"><span class="st-num">19</span><span class="st-label">сек.</span></div>
+          </div>
+        </div>
+
+        <!-- Products C -->
+        <div class="prod-section">
+          <div class="sec-hdr">
+            <span class="sec-title">Топ оферти</span>
+            <span class="sec-link">Виж всички →</span>
+          </div>
+          <div class="prod-grid">
+            <div class="prod-card">
+              <div class="prod-img">💻<span class="prod-badge">-30%</span></div>
+              <div class="prod-body">
+                <div class="prod-name">Acer Nitro V15 RTX 4050</div>
+                <div class="prod-price-row">
+                  <span class="prod-price">609 €</span>
+                  <span class="prod-price-old">871 €</span>
+                </div>
+                <button class="prod-add">+ Добави в кошница</button>
+              </div>
+            </div>
+            <div class="prod-card">
+              <div class="prod-img">🖥️<span class="prod-badge">-20%</span></div>
+              <div class="prod-body">
+                <div class="prod-name">Samsung 27" 144Hz IPS</div>
+                <div class="prod-price-row">
+                  <span class="prod-price">245 €</span>
+                  <span class="prod-price-old">306 €</span>
+                </div>
+                <button class="prod-add">+ Добави в кошница</button>
+              </div>
+            </div>
+            <div class="prod-card">
+              <div class="prod-img">🖱️<span class="prod-badge new">НОВО</span></div>
+              <div class="prod-body">
+                <div class="prod-name">ASUS ROG Strix Impact III</div>
+                <div class="prod-price-row">
+                  <span class="prod-price">49 €</span>
+                  <span class="prod-price-old">59 €</span>
+                </div>
+                <button class="prod-add">+ Добави в кошница</button>
+              </div>
+            </div>
+            <div class="prod-card">
+              <div class="prod-img">💾</div>
+              <div class="prod-body">
+                <div class="prod-name">Samsung 870 EVO 1TB SSD</div>
+                <div class="prod-price-row">
+                  <span class="prod-price">84 €</span>
+                  <span class="prod-price-old">112 €</span>
+                </div>
+                <button class="prod-add">+ Добави в кошница</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom nav -->
+        <div class="bottom-nav">
+          <button class="bn-btn active"><span class="bn-icon">🏠</span>Начало</button>
+          <button class="bn-btn"><span class="bn-icon">🗂️</span>Категории</button>
+          <button class="bn-btn"><span class="bn-icon">🔍</span>Търсене</button>
+          <button class="bn-btn"><span class="bn-icon">❤️</span>Любими</button>
+          <button class="bn-btn"><span class="bn-icon">👤</span>Акаунт</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ VARIANT D ============ -->
+  <div class="variant-wrap">
+    <div class="variant-label">Вариант D</div>
+    <div class="variant-name">Red & Convert</div>
+    <div class="variant-tag tag-minimal">Конверсия</div>
+    <div class="variant-desc">Червен header (бранд цвят), компактен hero, тяхни категории като иконки, фокус върху "добави в кошница"</div>
+    <div class="phone-frame">
+      <div class="phone-screen vd">
+
+        <!-- Header -->
+        <div class="mob-header">
+          <div class="mob-logo">MOST Computers</div>
+          <div class="mob-hdr-icons">
+            <div class="mob-hdr-icon">🔍</div>
+            <div class="mob-hdr-icon">🛒<span class="badge">3</span></div>
+          </div>
+        </div>
+
+        <!-- Search on red -->
+        <div class="mob-search">
+          <div class="mob-search-box">
+            <span>🔍</span>
+            Търси продукт, марка...
+          </div>
+        </div>
+
+        <!-- Promo chips -->
+        <div class="promo-chips">
+          <div class="promo-chip pc-sale">🔥 Намаления -60%</div>
+          <div class="promo-chip pc-new">🆕 Нови продукти</div>
+          <div class="promo-chip pc-best">🏆 Топ продажби</div>
+          <div class="promo-chip pc-all">🗂️ Всички</div>
+        </div>
+
+        <!-- Hero D - compact -->
+        <div class="hero-d">
+          <div class="hero-d-text">
+            <div class="hero-d-badge">🎮 Gaming</div>
+            <div class="hero-d-title">MSI Katana 15 RTX 4050</div>
+            <div class="hero-d-price">1 012 € <small>с ДДС</small></div>
+            <button class="hero-d-btn">Разгледай →</button>
+          </div>
+          <div class="hero-d-img">💻</div>
+        </div>
+        <div class="hero-dots">
+          <div class="hero-dot active"></div>
+          <div class="hero-dot"></div>
+          <div class="hero-dot"></div>
+          <div class="hero-dot"></div>
+        </div>
+
+        <!-- Category row -->
+        <div class="cat-row-wrap">
+          <div class="cat-row-title">Категории</div>
+          <div class="cat-row">
+            <div class="cat-item">
+              <div class="cat-icon sel">💻</div>
+              <div class="cat-label">Лаптопи</div>
+            </div>
+            <div class="cat-item">
+              <div class="cat-icon">🖥️</div>
+              <div class="cat-label">Монитори</div>
+            </div>
+            <div class="cat-item">
+              <div class="cat-icon">🖨️</div>
+              <div class="cat-label">Принтери</div>
+            </div>
+            <div class="cat-item">
+              <div class="cat-icon">💾</div>
+              <div class="cat-label">Памет</div>
+            </div>
+            <div class="cat-item">
+              <div class="cat-icon">🖱️</div>
+              <div class="cat-label">Мишки</div>
+            </div>
+            <div class="cat-item">
+              <div class="cat-icon">🎧</div>
+              <div class="cat-label">Слушалки</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Trust strip -->
+        <div class="trust-strip">
+          <div class="trust-item">
+            <span class="trust-icon">🚚</span>
+            <div class="trust-text">Безплатна доставка над 100 €</div>
+          </div>
+          <div class="trust-item">
+            <span class="trust-icon">🛡️</span>
+            <div class="trust-text">24м. гаранция</div>
+          </div>
+          <div class="trust-item">
+            <span class="trust-icon">↩️</span>
+            <div class="trust-text">14 дни връщане</div>
+          </div>
+          <div class="trust-item">
+            <span class="trust-icon">💳</span>
+            <div class="trust-text">Сигурно плащане</div>
+          </div>
+        </div>
+
+        <!-- Flash header -->
+        <div class="flash-header">
+          <div class="flash-title">⚡ Светкавични оферти</div>
+          <div class="flash-timer">
+            <div class="ft-block"><span class="ft-num">02</span></div>
+            <span class="ft-sep">:</span>
+            <div class="ft-block"><span class="ft-num">47</span></div>
+            <span class="ft-sep">:</span>
+            <div class="ft-block"><span class="ft-num">19</span></div>
+          </div>
+        </div>
+
+        <!-- Products D -->
+        <div class="prod-grid">
+          <div class="prod-card">
+            <div class="prod-img">💻<span class="prod-badge">-30%</span></div>
+            <div class="prod-name">Acer Nitro V15 RTX 4050 144Hz</div>
+            <div class="prod-price-row">
+              <span class="prod-price">609 €</span>
+              <span class="prod-price-old">871 €</span>
+            </div>
+            <button class="prod-add">+ Добави в кошница</button>
+          </div>
+          <div class="prod-card">
+            <div class="prod-img">🖥️<span class="prod-badge">-20%</span></div>
+            <div class="prod-name">Samsung 27" IPS 144Hz</div>
+            <div class="prod-price-row">
+              <span class="prod-price">245 €</span>
+              <span class="prod-price-old">306 €</span>
+            </div>
+            <button class="prod-add">+ Добави в кошница</button>
+          </div>
+          <div class="prod-card">
+            <div class="prod-img">⌨️</div>
+            <div class="prod-name">Fnatic STREAK65 LP Mechanical</div>
+            <div class="prod-price-row">
+              <span class="prod-price">89 €</span>
+            </div>
+            <button class="prod-add">+ Добави в кошница</button>
+          </div>
+          <div class="prod-card">
+            <div class="prod-img">🖱️<span class="prod-badge">-15%</span></div>
+            <div class="prod-name">ASUS ROG Strix Impact III</div>
+            <div class="prod-price-row">
+              <span class="prod-price">49 €</span>
+              <span class="prod-price-old">59 €</span>
+            </div>
+            <button class="prod-add">+ Добави в кошница</button>
+          </div>
+        </div>
+
+        <!-- Bottom nav -->
+        <div class="bottom-nav">
+          <button class="bn-btn active"><span class="bn-icon">🏠</span>Начало</button>
+          <button class="bn-btn"><span class="bn-icon">🗂️</span>Категории</button>
+          <button class="bn-btn"><span class="bn-icon">🔍</span>Търсене</button>
+          <button class="bn-btn"><span class="bn-icon">❤️</span>Любими</button>
+          <button class="bn-btn"><span class="bn-icon">👤</span>Акаунт</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Legend -->
+<div class="legend">
+  <h2>Сравнение на вариантите</h2>
+  <div class="legend-grid">
+
+    <div class="legend-card">
+      <h3>Вариант A - Clean &amp; Bold (Препоръчан)</h3>
+      <ul class="legend-pros">
+        <li>Светъл, познат e-commerce вид</li>
+        <li>2-колонна мрежа - оптимален размер за мобилен</li>
+        <li>Хоризонтален скрол за категории - не губи място</li>
+        <li>Trust badges - видими веднага след hero</li>
+        <li>Компактен hero - повече продукти на екрана</li>
+      </ul>
+      <ul class="legend-cons" style="margin-top:8px">
+        <li>По-малко "wow" фактор от B</li>
+        <li>Search field се показва 2 пъти (header + бар)</li>
+      </ul>
+    </div>
+
+    <div class="legend-card">
+      <h3>Вариант B - Dark App</h3>
+      <ul class="legend-pros">
+        <li>Premium, native app усещане</li>
+        <li>"Stories" hero - 4 оферти видими наведнъж</li>
+        <li>Категорийни pills за бърз филтър</li>
+        <li>Тъмен фон - по-добри OLED батерии</li>
+      </ul>
+      <ul class="legend-cons" style="margin-top:8px">
+        <li>Нетипично за BG пазар - риск от объркване</li>
+        <li>По-малка четимост на продуктовите имена</li>
+        <li>По-трудна поддръжка на два цветови режима</li>
+      </ul>
+    </div>
+
+    <div class="legend-card">
+      <h3>Вариант C - Editorial</h3>
+      <ul class="legend-pros">
+        <li>Визуално впечатляващ hero</li>
+        <li>Категории с цветни иконки - интуитивна навигация</li>
+        <li>Card-базирана мрежа - ясна йерархия</li>
+        <li>Sale strip - urgency директно под hero</li>
+      </ul>
+      <ul class="legend-cons" style="margin-top:8px">
+        <li>Hero заема много място, малко продукти видими</li>
+        <li>Нужни са реални product снимки за hero</li>
+      </ul>
+    </div>
+
+    <div class="legend-card">
+      <h3>Вариант D - Red &amp; Convert</h3>
+      <ul class="legend-pros">
+        <li>Бранд идентичност - червен header, незабравим</li>
+        <li>Promo chips - веднага ясно какво предлагаме</li>
+        <li>"Добави в кошница" бутон - червен, видим</li>
+        <li>Trust strip - хоризонтален, не губи места</li>
+      </ul>
+      <ul class="legend-cons" style="margin-top:8px">
+        <li>Червен header може да е твърде агресивен</li>
+        <li>Search на червен фон - по-трудно се чете</li>
+      </ul>
+    </div>
+
+    <div class="legend-card" style="grid-column:1/-1; background:#1a1a1a; border:1px solid #bd1105;">
+      <h3 style="color:#bd1105">Ключови UX подобрения спрямо сегашния вид</h3>
+      <ul>
+        <li><strong style="color:#fff">2-колонна мрежа вместо 5-колонна</strong> - продуктите са четими и touch-friendly</li>
+        <li><strong style="color:#fff">Хоризонтален скрол за категории</strong> - без нужда от пълна категорийна страница при scroll</li>
+        <li><strong style="color:#fff">Компактен hero</strong> - повече продукти fold-above без скролиране</li>
+        <li><strong style="color:#fff">Обединени trust badges</strong> - 2x2 grid вместо 4 реда</li>
+        <li><strong style="color:#fff">Таймер за flash sale</strong> - urgency, видим веднага след categories</li>
+        <li><strong style="color:#fff">Search bar - постоянно видим</strong> - вместо скрит зад лупа</li>
+        <li><strong style="color:#fff">Bottom nav - 5 бутона</strong> - запазен, оптимизиран</li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

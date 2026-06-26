@@ -26,6 +26,7 @@ function acceptCookies() {
   try { localStorage.setItem('mc_cookies_set', 'all'); } catch(e) {}
   hideCookieBanner();
   showToast('🍪 Бисквитките са приети');
+  if (typeof _loadGTM === 'function') _loadGTM();
 }
 function declineCookies() {
   try { localStorage.setItem('mc_cookies_set', 'essential'); } catch(e) {}
@@ -54,6 +55,7 @@ function saveCookieSettings() {
   closeCookieSettingsDirect();
   hideCookieBanner();
   showToast('⚙ Настройките са запазени');
+  if (prefs.analytics && typeof _loadGTM === 'function') _loadGTM();
 }
 
 // ===== SCROLL ANIMATIONS =====

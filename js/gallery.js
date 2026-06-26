@@ -330,8 +330,8 @@ function submitQuickOrder(){
 
 // SLIDER
 let currentSlide=0,slides=[],dots=[],_heroSliderIv=null;
-function goSlide(n){if(!slides.length||!slides[n])return;slides[currentSlide].classList.remove('active');dots[currentSlide].classList.remove('active');dots[currentSlide].removeAttribute('aria-current');currentSlide=n;slides[currentSlide].classList.add('active');dots[currentSlide].classList.add('active');dots[currentSlide].setAttribute('aria-current','true');}
-function _initHeroSlider(){slides=Array.from(document.querySelectorAll('.slide'));dots=Array.from(document.querySelectorAll('.dot'));if(slides.length){if(_heroSliderIv)clearInterval(_heroSliderIv);_heroSliderIv=setInterval(()=>goSlide((currentSlide+1)%slides.length),5000);}}
+function goSlide(n){if(!slides.length||!slides[n])return;slides[currentSlide].classList.remove('active');slides[currentSlide].setAttribute('aria-hidden','true');dots[currentSlide].classList.remove('active');dots[currentSlide].removeAttribute('aria-current');currentSlide=n;slides[currentSlide].classList.add('active');slides[currentSlide].removeAttribute('aria-hidden');dots[currentSlide].classList.add('active');dots[currentSlide].setAttribute('aria-current','true');}
+function _initHeroSlider(){slides=Array.from(document.querySelectorAll('.slide'));dots=Array.from(document.querySelectorAll('.dot'));if(slides.length){slides.forEach((s,i)=>{if(i!==currentSlide)s.setAttribute('aria-hidden','true');});if(_heroSliderIv)clearInterval(_heroSliderIv);_heroSliderIv=setInterval(()=>goSlide((currentSlide+1)%slides.length),5000);}}
 if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',_initHeroSlider);}else{_initHeroSlider();}
 
 // SALE SLIDE COUNTDOWN - counts down to end of day

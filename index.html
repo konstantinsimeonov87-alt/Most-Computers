@@ -1222,7 +1222,7 @@ body.compare-active{padding-bottom:90px}
             <label for="loginPassword">Парола</label>
             <div class="auth-input-wrap">
               <input type="password" class="auth-input" id="loginPassword" placeholder="••••••••" autocomplete="current-password" aria-describedby="loginPassword-err">
-              <button type="button" class="auth-eye" data-action="togglePwVis:loginPassword,this" aria-label="Покажи/скрий паролата">👁</button>
+              <button type="button" class="auth-eye" data-action="togglePwVis:loginPassword,this" aria-label="Покажи парола"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-eye"/></svg></button>
             </div>
             <span class="auth-field-error" id="loginPassword-err" role="alert"></span>
           </div>
@@ -1265,7 +1265,7 @@ body.compare-active{padding-bottom:90px}
             <div class="auth-input-wrap">
               <input type="password" class="auth-input" id="regPassword" placeholder="Мин. 6 символа"
                 oninput="checkPwStrength(this.value)" autocomplete="new-password" aria-describedby="regPassword-err">
-              <button type="button" class="auth-eye" data-action="togglePwVis:regPassword,this" aria-label="Покажи/скрий паролата">👁</button>
+              <button type="button" class="auth-eye" data-action="togglePwVis:regPassword,this" aria-label="Покажи парола"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-eye"/></svg></button>
             </div>
             <div class="pw-strength">
               <div class="pw-strength-bar">
@@ -1279,7 +1279,7 @@ body.compare-active{padding-bottom:90px}
             <label for="regPassword2">Потвърди парола</label>
             <div class="auth-input-wrap">
               <input type="password" class="auth-input" id="regPassword2" placeholder="Повтори паролата" autocomplete="new-password" aria-describedby="regPassword2-err">
-              <button type="button" class="auth-eye" data-action="togglePwVis:regPassword2,this" aria-label="Покажи/скрий паролата">👁</button>
+              <button type="button" class="auth-eye" data-action="togglePwVis:regPassword2,this" aria-label="Покажи парола"><svg width="18" height="18" class="svg-ic" aria-hidden="true"><use href="#ic-eye"/></svg></button>
             </div>
             <span class="auth-field-error" id="regPassword2-err" role="alert"></span>
           </div>
@@ -1359,6 +1359,7 @@ body.compare-active{padding-bottom:90px}
       </div>
       <button type="button" class="view-cart-page-btn" onclick="openCartPage()"><svg width="16" height="16" class="svg-ic" aria-hidden="true"><use href="#ic-cart"/></svg> Виж кошницата</button>
       <button type="button" class="checkout-btn" data-action="handleCheckout"><svg width="15" height="15" class="svg-ic" aria-hidden="true"><use href="#ic-shield"/></svg> Завърши поръчката →</button>
+      <p class="ck-trust"><svg width="11" height="11" class="svg-ic" aria-hidden="true"><use href="#ic-shield"/></svg> Сигурно плащане - SSL криптиране</p>
       <div class="cart-social-proof" id="cartSocialProof" style="display:none;">
         <span class="cart-sp-dot"></span> <span id="cartSpText">47 души поръчаха днес</span>
       </div>

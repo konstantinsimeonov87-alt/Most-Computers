@@ -4007,7 +4007,7 @@ var products = [
    specs:{'Manufacturer':'AMD','Сокет':'AM5','Ядра':'12','Нишки':'24','Честота':'Max. Boost Clock: Up to 5.6 GHz;Base Clock: 4.4 GHz','Кеш':'L1 Cache: 960 KB;L2 Cache: 12 MB;L3 Cache: 64 MB','Max. PCI Express Lanes':'Total 28 /Usable 24','Памет':'System Memory Type: DDR5;Memory Channels: 2;Max. Memory: 192 GB;System Memory Subtype: UDIMM;Max Mem','Fan':'Not included','Tray':'Yes','Интегрирана графика':'AMD Radeon™ Graphics 2 2200 MHz;USB Type-C® DisplayPort™ Alternate Mode','TDP':'120W'},
    rating:4.5,rv:0,reviews:[],
    desc:'AMD AMD RYZEN 9 9900X TRAY - сокет AM5, 12 ядра, TDP 120W.',
-   img:'./images/products/45883.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/45883.png'],stock:true},
+   img:'./images/products/45883.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/45883.png'],stock:false},
 
   {id:573,name:'AMD RYZEN 9 PRO 9945 MPK',brand:'AMD',cat:'components',subcat:'cpu',
    price:984,old:null,pct:null,badge:null,added:'2026-04-20',emoji:'🔴',sku:'100-100001407MPK',ean:'8592978670740',

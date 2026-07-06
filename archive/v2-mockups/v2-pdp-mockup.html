@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Мост Компютърс V2 — PDP Mockup</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  darkMode: 'class',
+  theme: { extend: { colors: { brand: '#bd1105' }, fontFamily: { sans: ['Inter','system-ui','sans-serif'] } } }
+}
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+* { font-family: 'Inter', system-ui, sans-serif; }
+@keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.tinner{animation:tick 35s linear infinite;display:flex;width:max-content;white-space:nowrap}
+.thumb-active { border-color: #bd1105 !important; }
+.tab-active { color: #bd1105; border-bottom-color: #bd1105; }
+</style>
+<script>
+function toggleDark() {
+  document.documentElement.classList.toggle('dark');
+  document.getElementById('darkBtn').textContent = document.documentElement.classList.contains('dark') ? '☀ Light' : '🌙 Dark';
+}
+function setTab(id) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.add('hidden'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('tab-active','border-[#bd1105]','text-[#bd1105]'));
+  document.getElementById(id).classList.remove('hidden');
+  event.currentTarget.classList.add('tab-active','border-[#bd1105]','text-[#bd1105]');
+}
+function setThumb(el, idx) {
+  document.querySelectorAll('.thumb').forEach(t => t.classList.remove('thumb-active'));
+  el.classList.add('thumb-active');
+}
+</script>
+</head>
+<body class="bg-neutral-100 dark:bg-neutral-950 transition-colors duration-200">
+
+<!-- CONTROLS -->
+<div class="fixed top-0 left-0 right-0 z-[999] bg-neutral-900 text-white px-4 py-2.5 flex items-center justify-between">
+  <div class="flex items-center gap-2">
+    <div class="w-2 h-2 rounded-full bg-[#bd1105]"></div>
+    <span class="text-sm font-bold">V2 Mockup</span>
+    <span class="text-neutral-500 text-xs">/ Product Page (PDP)</span>
+  </div>
+  <button onclick="toggleDark()" id="darkBtn" class="text-xs bg-neutral-700 hover:bg-neutral-600 px-3 py-1.5 rounded-lg font-medium transition">🌙 Dark</button>
+</div>
+
+<div class="pt-14 pb-16">
+<div class="bg-white dark:bg-neutral-900 min-h-screen">
+
+  <!-- TOP BAR -->
+  <div class="bg-[#bd1105] text-white text-xs flex justify-between items-center px-8 py-2">
+    <div class="flex items-center gap-3 text-white/80">
+      <span>+359 2 91 823</span><span class="text-white/30">|</span>
+      <span>Пон-Пет: 09:30-18:15</span><span class="text-white/30">|</span>
+      <a class="hover:text-white cursor-pointer">Проследи поръчка</a>
+    </div>
+    <div class="flex items-center gap-3 text-white/80">
+      <a class="hover:text-white cursor-pointer">B2B партньор</a><span class="text-white/30">|</span>
+      <a class="hover:text-white cursor-pointer">Вход</a><span class="text-white/30">|</span>
+      <a class="bg-white text-[#bd1105] px-2.5 py-0.5 rounded font-semibold cursor-pointer">Регистрация</a>
+    </div>
+  </div>
+
+  <!-- HEADER -->
+  <header class="border-b border-neutral-100 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-6 py-3 flex items-center gap-4 sticky top-10 z-40">
+    <a class="text-[#bd1105] font-black text-[22px] tracking-tight whitespace-nowrap cursor-pointer shrink-0">Most<br><span class="text-neutral-900 dark:text-white">Computers</span></a>
+    <div class="flex-1 max-w-2xl relative">
+      <div class="flex items-stretch border border-neutral-200 dark:border-neutral-700 rounded-xl overflow-hidden">
+        <input type="text" value="ASUS VivoBook 15" class="flex-1 text-sm px-4 py-2.5 outline-none bg-white dark:bg-neutral-900 text-neutral-800 dark:text-neutral-200">
+        <button class="bg-[#bd1105] px-5 flex items-center justify-center shrink-0">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="flex items-center gap-1 ml-auto shrink-0">
+      <button class="relative flex flex-col items-center gap-0.5 px-3 py-2 text-neutral-500 dark:text-neutral-400 hover:text-[#bd1105] transition">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        <span class="absolute top-1.5 right-2 w-4 h-4 bg-[#bd1105] text-white text-[9px] font-bold rounded-full flex items-center justify-center">4</span>
+        <span class="text-[10px] font-medium">Желания</span>
+      </button>
+      <button class="flex flex-col items-center gap-0.5 px-3 py-2 text-neutral-500 dark:text-neutral-400 hover:text-[#bd1105] transition">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <span class="text-[10px] font-medium">Акаунт</span>
+      </button>
+      <button class="flex items-center gap-2 bg-[#bd1105] hover:bg-red-700 text-white px-4 py-2.5 rounded-xl text-sm font-bold relative ml-1 transition">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        <div class="text-left">
+          <div class="text-[10px] font-normal opacity-80 leading-none">Кошница</div>
+          <div class="text-sm font-bold leading-tight">847 евр.</div>
+        </div>
+        <span class="absolute -top-1.5 -right-1.5 w-5 h-5 bg-neutral-900 text-white text-[10px] font-bold rounded-full flex items-center justify-center">1</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- TICKER -->
+  <div class="bg-[#bd1105] text-white text-xs font-medium py-1.5 overflow-hidden">
+    <div class="tinner gap-12 px-6">
+      <span>Безплатна доставка при поръчки над 200 евр.</span><span>&#8226;</span>
+      <span>Официален сервиз и гаранция</span><span>&#8226;</span>
+      <span>36 години опит в продажбата на електроника</span><span>&#8226;</span>
+      <span>Над 550 000 доволни клиента</span><span>&#8226;</span>
+      <span>Безплатна доставка при поръчки над 200 евр.</span><span>&#8226;</span>
+      <span>Официален сервиз и гаранция</span><span>&#8226;</span>
+    </div>
+  </div>
+
+  <!-- MAIN NAV -->
+  <nav class="border-b border-neutral-100 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-6 flex items-center">
+    <a class="px-4 py-3 text-sm font-medium text-neutral-600 dark:text-neutral-400 hover:text-[#bd1105] cursor-pointer transition border-b-2 border-transparent hover:border-[#bd1105]">Начало</a>
+    <a class="px-4 py-3 text-sm font-medium text-neutral-600 dark:text-neutral-400 cursor-pointer transition border-b-2 border-transparent flex items-center gap-1.5">Промоции <span class="bg-[#bd1105] text-white text-[9px] font-bold px-1.5 py-0.5 rounded uppercase">Hot</span></a>
+    <a class="px-4 py-3 text-sm font-medium text-neutral-600 dark:text-neutral-400 cursor-pointer transition border-b-2 border-transparent flex items-center gap-1.5">Нови продукти <span class="bg-green-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded uppercase">New</span></a>
+    <a class="px-4 py-3 text-sm font-medium text-neutral-600 dark:text-neutral-400 cursor-pointer transition border-b-2 border-transparent">За нас</a>
+    <a class="px-4 py-3 text-sm font-medium text-neutral-600 dark:text-neutral-400 cursor-pointer transition border-b-2 border-transparent">Сервиз</a>
+    <a class="px-4 py-3 text-sm font-medium text-neutral-600 dark:text-neutral-400 cursor-pointer transition border-b-2 border-transparent">Контакти</a>
+    <a class="ml-auto px-4 py-3 text-sm font-bold text-[#bd1105] cursor-pointer">B2B Портал</a>
+  </nav>
+
+  <!-- BREADCRUMB -->
+  <div class="bg-neutral-50 dark:bg-neutral-950 border-b border-neutral-100 dark:border-neutral-800 px-8 py-2.5">
+    <div class="max-w-7xl mx-auto flex items-center gap-1.5 text-[12px] text-neutral-500 dark:text-neutral-400">
+      <a class="hover:text-[#bd1105] cursor-pointer transition">Начало</a>
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+      <a class="hover:text-[#bd1105] cursor-pointer transition">Лаптопи</a>
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+      <a class="hover:text-[#bd1105] cursor-pointer transition">ASUS</a>
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+      <span class="text-neutral-700 dark:text-neutral-300 font-medium">VivoBook 15 D1503QA-L1271W</span>
+    </div>
+  </div>
+
+  <!-- MAIN PRODUCT SECTION -->
+  <div class="max-w-7xl mx-auto px-8 py-8">
+    <div class="grid grid-cols-[1fr_480px] gap-10">
+
+      <!-- LEFT: IMAGE GALLERY -->
+      <div>
+        <!-- Main Image -->
+        <div class="relative bg-neutral-50 dark:bg-neutral-800 rounded-2xl overflow-hidden flex items-center justify-center border border-neutral-100 dark:border-neutral-700" style="height:420px">
+          <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.5" class="text-neutral-300 dark:text-neutral-600"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><line x1="2" y1="7" x2="22" y2="7"/></svg>
+          <!-- Badges -->
+          <div class="absolute top-4 left-4 flex flex-col gap-2">
+            <span class="bg-[#bd1105] text-white text-xs font-bold px-2.5 py-1 rounded-lg">-25%</span>
+          </div>
+          <!-- Zoom hint -->
+          <div class="absolute bottom-4 right-4 bg-white/80 dark:bg-neutral-700/80 backdrop-blur-sm text-neutral-600 dark:text-neutral-300 text-[11px] font-medium px-2.5 py-1.5 rounded-lg flex items-center gap-1.5">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg>
+            Увеличи
+          </div>
+          <!-- Nav arrows -->
+          <button class="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 bg-white dark:bg-neutral-700 shadow-md rounded-full flex items-center justify-center text-neutral-600 dark:text-neutral-300 hover:shadow-lg transition">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m15 18-6-6 6-6"/></svg>
+          </button>
+          <button class="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 bg-white dark:bg-neutral-700 shadow-md rounded-full flex items-center justify-center text-neutral-600 dark:text-neutral-300 hover:shadow-lg transition">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg>
+          </button>
+        </div>
+        <!-- Thumbnails -->
+        <div class="flex gap-2.5 mt-3">
+          <button onclick="setThumb(this,0)" class="thumb thumb-active w-[78px] h-[60px] rounded-xl border-2 border-[#bd1105] bg-neutral-50 dark:bg-neutral-800 flex items-center justify-center shrink-0 transition overflow-hidden">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.6" class="text-neutral-400"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          </button>
+          <button onclick="setThumb(this,1)" class="thumb w-[78px] h-[60px] rounded-xl border-2 border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 flex items-center justify-center shrink-0 hover:border-neutral-400 transition">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.6" class="text-neutral-400"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="2" y1="7" x2="22" y2="7"/></svg>
+          </button>
+          <button onclick="setThumb(this,2)" class="thumb w-[78px] h-[60px] rounded-xl border-2 border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 flex items-center justify-center shrink-0 hover:border-neutral-400 transition">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.6" class="text-neutral-400"><rect x="2" y="3" width="20" height="14" rx="2"/><circle cx="12" cy="11" r="3"/></svg>
+          </button>
+          <button onclick="setThumb(this,3)" class="thumb w-[78px] h-[60px] rounded-xl border-2 border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 flex items-center justify-center shrink-0 hover:border-neutral-400 transition">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.6" class="text-neutral-400"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 7h8"/></svg>
+          </button>
+          <button onclick="setThumb(this,4)" class="thumb w-[78px] h-[60px] rounded-xl border-2 border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 flex items-center justify-center shrink-0 hover:border-neutral-400 transition">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.6" class="text-neutral-400"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M6 7h12M6 11h6"/></svg>
+          </button>
+        </div>
+        <!-- Delivery + Trust strip -->
+        <div class="mt-6 grid grid-cols-3 gap-3">
+          <div class="flex items-center gap-2.5 bg-neutral-50 dark:bg-neutral-800 rounded-xl px-3.5 py-3 border border-neutral-100 dark:border-neutral-700">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="1.8" stroke-linecap="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+            <div>
+              <p class="text-[11px] font-bold text-neutral-800 dark:text-neutral-200">Бърза доставка</p>
+              <p class="text-[10px] text-neutral-500">1-2 работни дни</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-2.5 bg-neutral-50 dark:bg-neutral-800 rounded-xl px-3.5 py-3 border border-neutral-100 dark:border-neutral-700">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="1.8" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <div>
+              <p class="text-[11px] font-bold text-neutral-800 dark:text-neutral-200">Официална гаранция</p>
+              <p class="text-[10px] text-neutral-500">24 месеца</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-2.5 bg-neutral-50 dark:bg-neutral-800 rounded-xl px-3.5 py-3 border border-neutral-100 dark:border-neutral-700">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="1.8" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            <div>
+              <p class="text-[11px] font-bold text-neutral-800 dark:text-neutral-200">Сервизен център</p>
+              <p class="text-[10px] text-neutral-500">в офиса в София</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: PRODUCT INFO -->
+      <div>
+        <!-- Brand + badges -->
+        <div class="flex items-center gap-2 mb-2">
+          <span class="text-[11px] font-black text-[#bd1105] uppercase tracking-widest">ASUS</span>
+          <span class="bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 text-[10px] font-bold px-2 py-0.5 rounded-md uppercase tracking-wide">Лаптоп</span>
+          <span class="bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-[10px] font-bold px-2 py-0.5 rounded-md flex items-center gap-1">
+            <span class="w-1.5 h-1.5 rounded-full bg-green-500 inline-block"></span>В наличност
+          </span>
+        </div>
+
+        <!-- Product name -->
+        <h1 class="text-[22px] font-black text-neutral-900 dark:text-white leading-snug mb-2">ASUS VivoBook 15 D1503QA-L1271W<br><span class="text-neutral-500 dark:text-neutral-400 font-semibold text-[16px]">Ryzen 5 5600H / 8GB / 512GB / 15.6" OLED</span></h1>
+
+        <!-- Stars + EAN -->
+        <div class="flex items-center gap-3 mb-1">
+          <div class="flex items-center gap-1.5">
+            <span style="color:#f59e0b;letter-spacing:2px;font-size:14px">★★★★★</span>
+            <span class="text-[13px] font-bold text-neutral-700 dark:text-neutral-300">4.8</span>
+          </div>
+          <a class="text-[12px] text-[#bd1105] hover:underline cursor-pointer font-medium">47 ревюта</a>
+          <span class="text-neutral-300 dark:text-neutral-600">|</span>
+          <a class="text-[12px] text-neutral-500 hover:text-[#bd1105] cursor-pointer transition">Напиши ревю</a>
+        </div>
+        <p class="text-[11px] text-neutral-400 mb-4">EAN: <span class="font-mono font-medium text-neutral-500">4711387380680</span> &nbsp;|&nbsp; Арт. №: <span class="font-mono font-medium text-neutral-500">D1503QA-L1271W</span></p>
+
+        <!-- Price block -->
+        <div class="bg-neutral-50 dark:bg-neutral-800 rounded-2xl p-4 mb-4 border border-neutral-100 dark:border-neutral-700">
+          <div class="flex items-end gap-3 mb-1.5">
+            <p class="text-[36px] font-black text-[#bd1105] leading-none">849,00</p>
+            <p class="text-[18px] font-bold text-[#bd1105] leading-none mb-1">евр.</p>
+            <div class="flex flex-col items-start ml-1 mb-1">
+              <p class="text-[13px] text-neutral-500 line-through leading-none">1 129,00 евр.</p>
+              <span class="bg-[#bd1105] text-white text-[10px] font-bold px-1.5 py-0.5 rounded mt-0.5">-25%</span>
+            </div>
+          </div>
+          <p class="text-[12px] text-green-600 dark:text-green-400 font-semibold flex items-center gap-1">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            Спестяваш 280,00 евр. при тази поръчка
+          </p>
+          <div class="mt-2.5 pt-2.5 border-t border-neutral-200 dark:border-neutral-700 flex items-center gap-4 text-[11px] text-neutral-500">
+            <span class="flex items-center gap-1"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>Без лихва на изплащане</span>
+            <span class="flex items-center gap-1"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Защитено SSL плащане</span>
+          </div>
+        </div>
+
+        <!-- Delivery info -->
+        <div class="flex items-center gap-2 mb-4 px-1">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2" stroke-linecap="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          <p class="text-[13px] text-neutral-700 dark:text-neutral-300">Доставка <span class="font-bold text-green-600 dark:text-green-400">утре до 18:00</span> при поръчка до 14:00 днес</p>
+        </div>
+
+        <!-- Quantity + Add to cart -->
+        <div class="flex items-stretch gap-3 mb-3">
+          <div class="flex items-center border border-neutral-200 dark:border-neutral-700 rounded-xl overflow-hidden bg-white dark:bg-neutral-800 shrink-0">
+            <button class="w-11 h-11 flex items-center justify-center text-neutral-600 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition text-lg font-bold">-</button>
+            <input type="text" value="1" class="w-10 text-center text-sm font-bold outline-none bg-transparent text-neutral-800 dark:text-white">
+            <button class="w-11 h-11 flex items-center justify-center text-neutral-600 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition text-lg font-bold">+</button>
+          </div>
+          <button class="flex-1 bg-[#bd1105] hover:bg-red-700 text-white font-black text-[15px] py-3 rounded-xl flex items-center justify-center gap-2 transition shadow-lg shadow-[#bd1105]/20">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+            Добави в кошница
+          </button>
+        </div>
+
+        <!-- Secondary actions -->
+        <div class="flex gap-2 mb-5">
+          <button class="flex-1 flex items-center justify-center gap-2 border border-neutral-200 dark:border-neutral-700 text-neutral-600 dark:text-neutral-400 hover:border-[#bd1105] hover:text-[#bd1105] text-[13px] font-semibold py-2.5 rounded-xl transition bg-white dark:bg-neutral-800">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            Добави в любими
+          </button>
+          <button class="flex-1 flex items-center justify-center gap-2 border border-neutral-200 dark:border-neutral-700 text-neutral-600 dark:text-neutral-400 hover:border-neutral-400 text-[13px] font-semibold py-2.5 rounded-xl transition bg-white dark:bg-neutral-800">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
+            Добави за сравнение
+          </button>
+          <button class="w-11 h-11 flex items-center justify-center border border-neutral-200 dark:border-neutral-700 text-neutral-500 dark:text-neutral-400 hover:border-neutral-400 rounded-xl transition bg-white dark:bg-neutral-800 shrink-0">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+          </button>
+        </div>
+
+        <!-- Quick Specs -->
+        <div class="border border-neutral-100 dark:border-neutral-700 rounded-2xl overflow-hidden">
+          <div class="bg-neutral-50 dark:bg-neutral-800 px-4 py-2.5 border-b border-neutral-100 dark:border-neutral-700">
+            <p class="text-[11px] font-bold text-neutral-500 uppercase tracking-wider">Основни характеристики</p>
+          </div>
+          <div class="divide-y divide-neutral-100 dark:divide-neutral-700">
+            <div class="flex items-center px-4 py-2.5 gap-3">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#bd1105" stroke-width="1.8"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/></svg>
+              <span class="text-[12px] text-neutral-500 w-28 shrink-0">Процесор</span>
+              <span class="text-[13px] font-semibold text-neutral-800 dark:text-neutral-200">AMD Ryzen 5 5600H, 6 ядра, до 4.2 GHz</span>
+            </div>
+            <div class="flex items-center px-4 py-2.5 gap-3">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#bd1105" stroke-width="1.8"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4.03 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4.03 3 9 3s9-1.34 9-3"/></svg>
+              <span class="text-[12px] text-neutral-500 w-28 shrink-0">Оперативна памет</span>
+              <span class="text-[13px] font-semibold text-neutral-800 dark:text-neutral-200">8GB DDR4 3200MHz</span>
+            </div>
+            <div class="flex items-center px-4 py-2.5 gap-3">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#bd1105" stroke-width="1.8"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 3h-8M12 3v4"/></svg>
+              <span class="text-[12px] text-neutral-500 w-28 shrink-0">Дисплей</span>
+              <span class="text-[13px] font-semibold text-neutral-800 dark:text-neutral-200">15.6" OLED FHD, 600 nits</span>
+            </div>
+            <div class="flex items-center px-4 py-2.5 gap-3">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#bd1105" stroke-width="1.8"><ellipse cx="12" cy="12" rx="10" ry="7"/><ellipse cx="12" cy="12" rx="4" ry="3"/></svg>
+              <span class="text-[12px] text-neutral-500 w-28 shrink-0">Съхранение</span>
+              <span class="text-[13px] font-semibold text-neutral-800 dark:text-neutral-200">512GB NVMe SSD</span>
+            </div>
+            <div class="flex items-center px-4 py-2.5 gap-3">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#bd1105" stroke-width="1.8"><rect x="2" y="2" width="14" height="14" rx="2"/><path d="M8 16v4M8 20h4M18 16a4 4 0 0 0 0-8h-4"/></svg>
+              <span class="text-[12px] text-neutral-500 w-28 shrink-0">Видеокарта</span>
+              <span class="text-[13px] font-semibold text-neutral-800 dark:text-neutral-200">AMD Radeon Graphics (споделена)</span>
+            </div>
+          </div>
+          <div class="bg-neutral-50 dark:bg-neutral-800 px-4 py-2 border-t border-neutral-100 dark:border-neutral-700">
+            <a class="text-[12px] text-[#bd1105] font-semibold cursor-pointer hover:underline flex items-center gap-1">Виж пълните характеристики <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg></a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="border-t border-neutral-100 dark:border-neutral-800 bg-white dark:bg-neutral-900">
+    <div class="max-w-7xl mx-auto px-8">
+
+      <!-- Tab headers -->
+      <div class="flex border-b border-neutral-100 dark:border-neutral-800">
+        <button onclick="setTab('tab-specs')" class="tab-btn tab-active border-b-2 border-[#bd1105] text-[#bd1105] text-[14px] font-semibold px-6 py-4 transition">
+          Характеристики
+        </button>
+        <button onclick="setTab('tab-desc')" class="tab-btn border-b-2 border-transparent text-neutral-500 dark:text-neutral-400 hover:text-neutral-800 dark:hover:text-neutral-200 text-[14px] font-semibold px-6 py-4 transition">
+          Описание
+        </button>
+        <button onclick="setTab('tab-reviews')" class="tab-btn border-b-2 border-transparent text-neutral-500 dark:text-neutral-400 hover:text-neutral-800 dark:hover:text-neutral-200 text-[14px] font-semibold px-6 py-4 transition flex items-center gap-2">
+          Ревюта
+          <span class="bg-neutral-100 dark:bg-neutral-700 text-neutral-600 dark:text-neutral-300 text-[11px] font-bold px-1.5 py-0.5 rounded-md">47</span>
+        </button>
+      </div>
+
+      <!-- SPECS TAB -->
+      <div id="tab-specs" class="tab-panel py-6">
+        <div class="grid grid-cols-2 gap-x-12 gap-y-0">
+
+          <div>
+            <h3 class="text-[11px] font-black uppercase tracking-widest text-[#bd1105] mb-3">Процесор</h3>
+            <table class="w-full text-sm mb-6">
+              <tbody class="divide-y divide-neutral-100 dark:divide-neutral-800">
+                <tr><td class="py-2 text-neutral-500 dark:text-neutral-400 w-44 shrink-0">Модел</td><td class="py-2 font-medium text-neutral-800 dark:text-neutral-200">AMD Ryzen 5 5600H</td></tr>
+                <tr><td class="py-2 text-neutral-500 dark:text-neutral-400">Честота</td><td class="py-2 font-medium text-neutral-800 dark:text-neutral-200">3.3 GHz (до 4.2 GHz Boost)</td></tr>
+                <tr><td class="py-2 text-neutral-500 dark:text-neutral-400">Ядра / Нишки</td><td class="py-2 font-medium text-neutral-800 dark:text-neutral-200">6 ядра / 12 нишки</td></tr>
+                <tr><td class="py-2 text-neutral-500 dark:text-neutral-400">Кеш</td><td class="py-2 font-medium text-neutral-800 dark:text-neutral-200">16MB L3 Cache</td></tr>
+                <tr><td class="py-2 text-neutral-500 dark:text-neutral-400">TDP</td><td class="py-2 font-medium text-neutral-800 dark:text-neutral-200">45W</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="text-[11px] font-black uppercase tracking-widest text-[#bd1105] mb-3">Дисплей</h3>
+            <table class="w-full text-sm mb-6">
+              <tbody class="divide-y divide-neutral-100 dark:divide-neutral-800">
+                <tr><td class="py-2 text-neutral-500 dark:text-neutral-400 w-44">Диагонал</td><td class="py-2 font-medium text-neutral-800 dark:text-neutral-200">15.6 инча</td></tr>
+                <tr><td class="py-2 text-neutral-500 dark:text-neutral-400">Резолюция</td><td class="py-2 font-medium text-neutral-800 dark:text-neutral-200">1920 x 1080 (FHD)</td></tr>
+                <tr><td class="py-2 text-neutral-500 dark:text-neutral-400">Тип</td><td class="py-2 font-medium text-neutral-800 dark:text-neutral-200">OLED, Anti-glare</td></tr>
+                <tr><td class="py-2 text-neutral-500 dark:text-neutral-400">Честота</td><td class="py-2 font-medium text-neutral-800 dark:text-neutral-200">60 Hz</td></tr>
+                <tr><td class="py-2 text-neutral-500 dark:text-neutral-400">Яркост</td><td class="py-2 font-medium text-neutral-800 dark:text-neutral-200">600 nits (HDR)</td></tr>
+                <tr><td class="py-2 text-neutral-500 dark:text-neutral-400">Touch</td><td class="py-2 font-medium text-neutral-800 dark:text-neutral-200">Не</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="text-[11px] font-black uppercase tracking-widest text-[#bd1105] mb-3">Памет и съхранение</h3>
+            <table class="w-full text-sm mb-6">
+              <tbody class="divide-y divide-neutral-100 dark:divide-neutral-800">
+                <tr><td class="py-2 text-neutral-500 dark:text-neutral-400 w-44">RAM</td><td class="py-2 font-medium text-neutral-800 dark:text-neutral-200">8GB</td></tr>
+                <tr><td class="py-2 text-neutral-500 dark:text-neutral-400">Тип RAM</td><td class="py-2 font-medium text-neutral-800 dark:text-neutral-200">DDR4 3200MHz</td></tr>
+                <tr><td class="py-2 text-neutral-500 dark:text-neutral-400">RAM слотове</td><td class="py-2 font-medium text-neutral-800 dark:text-neutral-200">2 (1 зает, 1 свободен)</td></tr>
+                <tr><td class="py-2 text-neutral-500 dark:text-neutral-400">SSD</td><td class="py-2 font-medium text-neutral-800 dark:text-neutral-200">512GB M.2 PCIe NVMe</td></tr>
+                <tr><td class="py-2 text-neutral-500 dark:text-neutral-400">M.2 слотове</td><td class="py-2 font-medium text-neutral-800 dark:text-neutral-200">1 (зает)</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div>
+            <h3 class="text-[11px] font-black uppercase tracking-widest text-[#bd1105] mb-3">Видеокарта</h3>
+            <table class="w-full text-sm mb-6">
+              <tbody class="divide-y divide-neutral-100 dark:divide-neutral-800">
+                <tr><td class="py-2 text-neutral-500 dark:text-neutral-400 w-44">Модел</td><td class="py-2 font-medium text-neutral-800 dark:text-neutral-200">AMD Radeon Graphics</td></tr>
+                <tr><td class="py-2 text-neutral-500 dark:text-neutral-400">Памет</td><td class="py-2 font-medium text-neutral-800 dark:text-neutral-200">Споделена (до 2GB)</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="text-[11px] font-black uppercase tracking-widest text-[#bd1105] mb-3">Свързаност</h3>
+            <table class="w-full text-sm mb-6">
+              <tbody class="divide-y divide-neutral-100 dark:divide-neutral-800">
+                <tr><td class="py-2 text-neutral-500 dark:text-neutral-400 w-44">Wi-Fi</td><td class="py-2 font-medium text-neutral-800 dark:text-neutral-200">Wi-Fi 6 (802.11ax)</td></tr>
+                <tr><td class="py-2 text-neutral-500 dark:text-neutral-400">Bluetooth</td><td class="py-2 font-medium text-neutral-800 dark:text-neutral-200">5.0</td></tr>
+                <tr><td class="py-2 text-neutral-500 dark:text-neutral-400">USB-A</td><td class="py-2 font-medium text-neutral-800 dark:text-neutral-200">2x USB 3.2 Gen 1</td></tr>
+                <tr><td class="py-2 text-neutral-500 dark:text-neutral-400">USB-C</td><td class="py-2 font-medium text-neutral-800 dark:text-neutral-200">1x USB-C 3.2 (no PD)</td></tr>
+                <tr><td class="py-2 text-neutral-500 dark:text-neutral-400">HDMI</td><td class="py-2 font-medium text-neutral-800 dark:text-neutral-200">1x HDMI 1.4</td></tr>
+                <tr><td class="py-2 text-neutral-500 dark:text-neutral-400">Card Reader</td><td class="py-2 font-medium text-neutral-800 dark:text-neutral-200">MicroSD</td></tr>
+                <tr><td class="py-2 text-neutral-500 dark:text-neutral-400">Audio</td><td class="py-2 font-medium text-neutral-800 dark:text-neutral-200">3.5mm Combo Jack</td></tr>
+              </tbody>
+            </table>
+
+            <h3 class="text-[11px] font-black uppercase tracking-widest text-[#bd1105] mb-3">Физически параметри</h3>
+            <table class="w-full text-sm mb-6">
+              <tbody class="divide-y divide-neutral-100 dark:divide-neutral-800">
+                <tr><td class="py-2 text-neutral-500 dark:text-neutral-400 w-44">Тегло</td><td class="py-2 font-medium text-neutral-800 dark:text-neutral-200">1.70 кг</td></tr>
+                <tr><td class="py-2 text-neutral-500 dark:text-neutral-400">Дебелина</td><td class="py-2 font-medium text-neutral-800 dark:text-neutral-200">17.9 мм</td></tr>
+                <tr><td class="py-2 text-neutral-500 dark:text-neutral-400">Батерия</td><td class="py-2 font-medium text-neutral-800 dark:text-neutral-200">50Wh, до 8 часа</td></tr>
+                <tr><td class="py-2 text-neutral-500 dark:text-neutral-400">Цвят</td><td class="py-2 font-medium text-neutral-800 dark:text-neutral-200">Indie Black</td></tr>
+                <tr><td class="py-2 text-neutral-500 dark:text-neutral-400">ОС</td><td class="py-2 font-medium text-neutral-800 dark:text-neutral-200">Windows 11 Home</td></tr>
+                <tr><td class="py-2 text-neutral-500 dark:text-neutral-400">Гаранция</td><td class="py-2 font-medium text-neutral-800 dark:text-neutral-200">24 месеца</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- DESC TAB -->
+      <div id="tab-desc" class="tab-panel hidden py-6">
+        <div class="max-w-3xl prose prose-neutral dark:prose-invert">
+          <p class="text-neutral-700 dark:text-neutral-300 leading-relaxed text-[14px] mb-4">ASUS VivoBook 15 D1503QA е тънък и лек лаптоп, проектиран за ежедневна употреба, мултимедия и лека работа. Захранван от процесора AMD Ryzen 5 5600H с 6 ядра, той предлага отлично многозадачно изпълнение при компактни размери.</p>
+          <p class="text-neutral-700 dark:text-neutral-300 leading-relaxed text-[14px] mb-4">OLED дисплеят от 15.6 инча с Full HD резолюция осигурява ярки цветове, дълбоко черно и широк зрителен ъгъл, правейки го отличен за работа с изображения, видео и стрийминг. Яркостта от 600 nits позволява комфортна работа дори при по-ярко осветление.</p>
+          <p class="text-neutral-700 dark:text-neutral-300 leading-relaxed text-[14px]">С тегло от само 1.7 кг и дебелина от 17.9 мм, VivoBook 15 е удобен за носене навсякъде. Батерията с капацитет 50Wh осигурява до 8 часа автономност при ежедневна употреба.</p>
+        </div>
+      </div>
+
+      <!-- REVIEWS TAB -->
+      <div id="tab-reviews" class="tab-panel hidden py-6">
+        <div class="grid grid-cols-[200px_1fr] gap-8">
+          <!-- Rating summary -->
+          <div class="text-center">
+            <p class="text-[60px] font-black text-neutral-900 dark:text-white leading-none">4.8</p>
+            <span style="color:#f59e0b;font-size:22px;letter-spacing:3px">★★★★★</span>
+            <p class="text-[12px] text-neutral-500 mt-1">47 ревюта</p>
+            <div class="mt-4 space-y-1.5 text-left">
+              <div class="flex items-center gap-2"><span class="text-[11px] text-neutral-500 w-4">5</span><div class="flex-1 h-1.5 bg-neutral-100 dark:bg-neutral-700 rounded-full overflow-hidden"><div class="h-full bg-[#f59e0b] rounded-full" style="width:82%"></div></div><span class="text-[11px] text-neutral-500 w-5">38</span></div>
+              <div class="flex items-center gap-2"><span class="text-[11px] text-neutral-500 w-4">4</span><div class="flex-1 h-1.5 bg-neutral-100 dark:bg-neutral-700 rounded-full overflow-hidden"><div class="h-full bg-[#f59e0b] rounded-full" style="width:13%"></div></div><span class="text-[11px] text-neutral-500 w-5">6</span></div>
+              <div class="flex items-center gap-2"><span class="text-[11px] text-neutral-500 w-4">3</span><div class="flex-1 h-1.5 bg-neutral-100 dark:bg-neutral-700 rounded-full overflow-hidden"><div class="h-full bg-[#f59e0b] rounded-full" style="width:4%"></div></div><span class="text-[11px] text-neutral-500 w-5">2</span></div>
+              <div class="flex items-center gap-2"><span class="text-[11px] text-neutral-500 w-4">2</span><div class="flex-1 h-1.5 bg-neutral-100 dark:bg-neutral-700 rounded-full overflow-hidden"><div class="h-full bg-[#f59e0b] rounded-full" style="width:2%"></div></div><span class="text-[11px] text-neutral-500 w-5">1</span></div>
+              <div class="flex items-center gap-2"><span class="text-[11px] text-neutral-500 w-4">1</span><div class="flex-1 h-1.5 bg-neutral-100 dark:bg-neutral-700 rounded-full overflow-hidden"><div class="h-full bg-[#f59e0b] rounded-full" style="width:0%"></div></div><span class="text-[11px] text-neutral-500 w-5">0</span></div>
+            </div>
+            <button class="mt-5 w-full bg-[#bd1105] text-white text-[12px] font-bold py-2.5 rounded-xl hover:bg-red-700 transition">Напиши ревю</button>
+          </div>
+          <!-- Review list -->
+          <div class="space-y-4">
+            <div class="border border-neutral-100 dark:border-neutral-700 rounded-2xl p-4">
+              <div class="flex items-start justify-between mb-1.5">
+                <div>
+                  <p class="text-[13px] font-bold text-neutral-900 dark:text-white">Мартин Д.</p>
+                  <span style="color:#f59e0b;font-size:12px;letter-spacing:2px">★★★★★</span>
+                </div>
+                <span class="text-[11px] text-neutral-400">18 юни 2026</span>
+              </div>
+              <p class="text-[13px] font-semibold text-neutral-800 dark:text-neutral-200 mb-1">Страхотен дисплей, бърза доставка</p>
+              <p class="text-[13px] text-neutral-600 dark:text-neutral-400 leading-relaxed">OLED екранът е невероятен - цветовете са живи, контрастът е перфектен. Лаптопът е бърз за ежедневни задачи. Доставката пристигна за следващия ден. Препоръчвам!</p>
+            </div>
+            <div class="border border-neutral-100 dark:border-neutral-700 rounded-2xl p-4">
+              <div class="flex items-start justify-between mb-1.5">
+                <div>
+                  <p class="text-[13px] font-bold text-neutral-900 dark:text-white">Елена С.</p>
+                  <span style="color:#f59e0b;font-size:12px;letter-spacing:2px">★★★★★</span>
+                </div>
+                <span class="text-[11px] text-neutral-400">5 юни 2026</span>
+              </div>
+              <p class="text-[13px] font-semibold text-neutral-800 dark:text-neutral-200 mb-1">Идеален за студенти</p>
+              <p class="text-[13px] text-neutral-600 dark:text-neutral-400 leading-relaxed">Купих го за учене и работа с документи. Много лек и удобен. Батерията издържа целия ден. Единственото, което бих искала е малко повече RAM, но иначе е отличен за цената.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- RELATED PRODUCTS -->
+  <div class="border-t border-neutral-100 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-950 px-8 py-8">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex items-center justify-between mb-5">
+        <div class="flex items-center gap-2.5">
+          <div class="w-1 h-5 bg-[#bd1105] rounded-full"></div>
+          <h2 class="text-[18px] font-black text-neutral-900 dark:text-white">Подобни продукти</h2>
+        </div>
+        <a class="text-[13px] font-semibold text-neutral-500 hover:text-[#bd1105] cursor-pointer transition flex items-center gap-1">Всички лаптопи <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></a>
+      </div>
+      <div class="grid grid-cols-5 gap-4">
+
+        <div class="bg-white dark:bg-neutral-800 rounded-2xl overflow-hidden flex flex-col cursor-pointer group border border-neutral-100 dark:border-neutral-700 hover:shadow-lg hover:border-neutral-200 dark:hover:border-neutral-600 transition">
+          <div class="relative h-[140px] bg-neutral-50 dark:bg-neutral-700 flex items-center justify-center overflow-hidden">
+            <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.6" class="text-neutral-300 dark:text-neutral-500 group-hover:scale-105 transition"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          </div>
+          <div class="p-3.5 flex flex-col flex-1">
+            <p class="text-[10px] text-[#bd1105] font-bold uppercase mb-0.5">ASUS</p>
+            <p class="text-[13px] text-neutral-800 dark:text-neutral-200 font-medium leading-snug flex-1 min-h-[36px]">VivoBook 15 i5-12500H 16GB 512GB</p>
+            <div class="flex items-center gap-1 my-1.5"><span style="color:#f59e0b;letter-spacing:1px;font-size:11px">★★★★★</span><span class="text-[10px] text-neutral-400">(31)</span></div>
+            <div class="flex items-end gap-2">
+              <p class="text-[16px] font-black text-neutral-900 dark:text-white">999 евр.</p>
+              <p class="text-[11px] text-neutral-400 line-through mb-0.5">1 299</p>
+            </div>
+            <button class="mt-2.5 w-full bg-[#bd1105] text-white text-[11px] font-bold py-2 rounded-xl">Добави в кошница</button>
+          </div>
+        </div>
+
+        <div class="bg-white dark:bg-neutral-800 rounded-2xl overflow-hidden flex flex-col cursor-pointer group border border-neutral-100 dark:border-neutral-700 hover:shadow-lg hover:border-neutral-200 dark:hover:border-neutral-600 transition">
+          <div class="relative h-[140px] bg-neutral-50 dark:bg-neutral-700 flex items-center justify-center overflow-hidden">
+            <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.6" class="text-neutral-300 dark:text-neutral-500 group-hover:scale-105 transition"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          </div>
+          <div class="p-3.5 flex flex-col flex-1">
+            <p class="text-[10px] text-[#bd1105] font-bold uppercase mb-0.5">Lenovo</p>
+            <p class="text-[13px] text-neutral-800 dark:text-neutral-200 font-medium leading-snug flex-1 min-h-[36px]">IdeaPad 5 Ryzen 7 5700U 16GB 512GB</p>
+            <div class="flex items-center gap-1 my-1.5"><span style="color:#f59e0b;letter-spacing:1px;font-size:11px">★★★★★</span><span class="text-[10px] text-neutral-400">(24)</span></div>
+            <p class="text-[16px] font-black text-neutral-900 dark:text-white">879 евр.</p>
+            <button class="mt-2.5 w-full bg-[#bd1105] text-white text-[11px] font-bold py-2 rounded-xl">Добави в кошница</button>
+          </div>
+        </div>
+
+        <div class="bg-white dark:bg-neutral-800 rounded-2xl overflow-hidden flex flex-col cursor-pointer group border border-neutral-100 dark:border-neutral-700 hover:shadow-lg hover:border-neutral-200 dark:hover:border-neutral-600 transition">
+          <div class="relative h-[140px] bg-neutral-50 dark:bg-neutral-700 flex items-center justify-center overflow-hidden">
+            <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.6" class="text-neutral-300 dark:text-neutral-500 group-hover:scale-105 transition"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          </div>
+          <div class="p-3.5 flex flex-col flex-1">
+            <p class="text-[10px] text-[#bd1105] font-bold uppercase mb-0.5">Acer</p>
+            <p class="text-[13px] text-neutral-800 dark:text-neutral-200 font-medium leading-snug flex-1 min-h-[36px]">Aspire 5 A515 i5-1235U 8GB 512GB</p>
+            <div class="flex items-center gap-1 my-1.5"><span style="color:#f59e0b;letter-spacing:1px;font-size:11px">★★★★☆</span><span class="text-[10px] text-neutral-400">(18)</span></div>
+            <div class="flex items-end gap-2">
+              <p class="text-[16px] font-black text-neutral-900 dark:text-white">749 евр.</p>
+              <p class="text-[11px] text-neutral-400 line-through mb-0.5">899</p>
+            </div>
+            <button class="mt-2.5 w-full bg-[#bd1105] text-white text-[11px] font-bold py-2 rounded-xl">Добави в кошница</button>
+          </div>
+        </div>
+
+        <div class="bg-white dark:bg-neutral-800 rounded-2xl overflow-hidden flex flex-col cursor-pointer group border border-neutral-100 dark:border-neutral-700 hover:shadow-lg hover:border-neutral-200 dark:hover:border-neutral-600 transition">
+          <div class="relative h-[140px] bg-neutral-50 dark:bg-neutral-700 flex items-center justify-center overflow-hidden">
+            <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.6" class="text-neutral-300 dark:text-neutral-500 group-hover:scale-105 transition"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          </div>
+          <div class="p-3.5 flex flex-col flex-1">
+            <p class="text-[10px] text-[#bd1105] font-bold uppercase mb-0.5">MSI</p>
+            <p class="text-[13px] text-neutral-800 dark:text-neutral-200 font-medium leading-snug flex-1 min-h-[36px]">Modern 15 i5-1235U 16GB 512GB</p>
+            <div class="flex items-center gap-1 my-1.5"><span style="color:#f59e0b;letter-spacing:1px;font-size:11px">★★★★★</span><span class="text-[10px] text-neutral-400">(9)</span></div>
+            <p class="text-[16px] font-black text-neutral-900 dark:text-white">1 099 евр.</p>
+            <button class="mt-2.5 w-full bg-[#bd1105] text-white text-[11px] font-bold py-2 rounded-xl">Добави в кошница</button>
+          </div>
+        </div>
+
+        <div class="bg-white dark:bg-neutral-800 rounded-2xl overflow-hidden flex flex-col cursor-pointer group border border-neutral-100 dark:border-neutral-700 hover:shadow-lg hover:border-neutral-200 dark:hover:border-neutral-600 transition">
+          <div class="relative h-[140px] bg-neutral-50 dark:bg-neutral-700 flex items-center justify-center overflow-hidden">
+            <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.6" class="text-neutral-300 dark:text-neutral-500 group-hover:scale-105 transition"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          </div>
+          <div class="p-3.5 flex flex-col flex-1">
+            <p class="text-[10px] text-[#bd1105] font-bold uppercase mb-0.5">Lenovo</p>
+            <p class="text-[13px] text-neutral-800 dark:text-neutral-200 font-medium leading-snug flex-1 min-h-[36px]">ThinkPad E15 Gen 4 Ryzen 5 8GB 256GB</p>
+            <div class="flex items-center gap-1 my-1.5"><span style="color:#f59e0b;letter-spacing:1px;font-size:11px">★★★★★</span><span class="text-[10px] text-neutral-400">(14)</span></div>
+            <div class="flex items-end gap-2">
+              <p class="text-[16px] font-black text-neutral-900 dark:text-white">929 евр.</p>
+              <p class="text-[11px] text-neutral-400 line-through mb-0.5">1 099</p>
+            </div>
+            <button class="mt-2.5 w-full bg-[#bd1105] text-white text-[11px] font-bold py-2 rounded-xl">Добави в кошница</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="bg-neutral-900 text-white px-8 pt-12 pb-6">
+    <div class="max-w-7xl mx-auto grid grid-cols-6 gap-8 mb-10">
+      <div class="col-span-2">
+        <div class="text-xl font-black tracking-tight mb-3">Мост <span class="text-[#bd1105]">Компютърс</span></div>
+        <p class="text-neutral-400 text-[13px] leading-relaxed">Специализиран магазин за електроника с над <strong class="text-white">36 години опит</strong>. Официален сервиз, гаранция и безплатна доставка.</p>
+      </div>
+      <div>
+        <h4 class="font-bold text-xs uppercase tracking-wider text-neutral-400 mb-4">Магазин</h4>
+        <ul class="space-y-2.5 text-sm text-neutral-400">
+          <li><a class="hover:text-white cursor-pointer transition">Всички продукти</a></li>
+          <li><a class="hover:text-white cursor-pointer transition">Промоции</a></li>
+          <li><a class="hover:text-white cursor-pointer transition">Нови продукти</a></li>
+          <li><a class="hover:text-white cursor-pointer transition">Най-продавани</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-bold text-xs uppercase tracking-wider text-neutral-400 mb-4">За нас</h4>
+        <ul class="space-y-2.5 text-sm text-neutral-400">
+          <li><a class="hover:text-white cursor-pointer transition">За компанията</a></li>
+          <li><a class="hover:text-white cursor-pointer transition">Блог</a></li>
+          <li><a class="hover:text-white cursor-pointer transition">Сервизен център</a></li>
+          <li><a class="hover:text-white cursor-pointer transition">Контакти</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-bold text-xs uppercase tracking-wider text-neutral-400 mb-4">Информация</h4>
+        <ul class="space-y-2.5 text-sm text-neutral-400">
+          <li><a class="hover:text-white cursor-pointer transition">Доставка</a></li>
+          <li><a class="hover:text-white cursor-pointer transition">Връщане на стока</a></li>
+          <li><a class="hover:text-white cursor-pointer transition">Гаранция</a></li>
+          <li><a class="hover:text-white cursor-pointer transition">Условия за ползване</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-bold text-xs uppercase tracking-wider text-neutral-400 mb-4">Контакти</h4>
+        <ul class="space-y-2.5 text-[12px] text-neutral-400">
+          <li class="flex items-start gap-2"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#bd1105" stroke-width="2" class="mt-0.5 shrink-0"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>жк. Гео Милев, бл.240</li>
+          <li class="flex items-start gap-2"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#bd1105" stroke-width="2" class="mt-0.5 shrink-0"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.42 2 2 0 0 1 3.6 1.24h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 16.92z"/></svg>(+359 2) 91 823</li>
+          <li class="flex items-start gap-2"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#bd1105" stroke-width="2" class="mt-0.5 shrink-0"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Пон-Пет: 09:30-18:15</li>
+        </ul>
+      </div>
+    </div>
+    <div class="border-t border-neutral-800 py-5 flex justify-between items-center">
+      <p class="text-[12px] text-neutral-500">© 1990-2026 Most Computers. Всички права запазени.</p>
+      <div class="flex items-center gap-3">
+        <div class="bg-neutral-800 rounded-md px-2.5 py-1.5"><svg width="32" height="11" viewBox="0 0 32 11" fill="none"><text x="0" y="9" font-family="Arial" font-weight="800" font-size="11" fill="white" letter-spacing="-0.5">VISA</text></svg></div>
+        <div class="bg-neutral-800 rounded-md px-2 py-1.5 flex items-center gap-0.5"><div class="w-5 h-5 rounded-full bg-red-500 opacity-90"></div><div class="w-5 h-5 rounded-full bg-yellow-400 opacity-90 -ml-2.5"></div></div>
+        <div class="bg-neutral-800 rounded-md px-3 py-1.5 flex items-center gap-1.5"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><span class="text-[11px] text-neutral-400 font-medium">Защитено SSL</span></div>
+      </div>
+    </div>
+  </footer>
+
+</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Most Computers V2 — Admin Panel Mockup</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  darkMode: 'class',
+  theme: {
+    extend: {
+      colors: { brand: '#bd1105' },
+      fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] }
+    }
+  }
+}
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --color-brand: #bd1105;
+  --color-brand-light: #fff5f5;
+  --admin-sidebar-bg: #111827;
+  --admin-sidebar-border: #1f2937;
+  --admin-text-muted: #9ca3af;
+}
+* { font-family: 'Inter', system-ui, sans-serif; }
+
+/* ===== Admin shell (mirrors src/routes/admin/+layout@.svelte, colors routed through tokens) ===== */
+.adm-shell { display: flex; min-height: 100vh; background: #f3f4f6; }
+.adm-sidebar { width: 210px; flex-shrink: 0; background: var(--admin-sidebar-bg); display: flex; flex-direction: column; position: sticky; top: 0; height: 100vh; }
+.adm-logo { display: flex; align-items: center; gap: 10px; padding: 20px 18px 16px; border-bottom: 1px solid var(--admin-sidebar-border); font-size: 14px; font-weight: 800; color: #f9fafb; letter-spacing: -0.01em; }
+.adm-nav { flex: 1; padding: 12px 10px; display: flex; flex-direction: column; gap: 2px; overflow-y: auto; }
+.adm-nav-group { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--admin-text-muted); padding: 14px 10px 4px; }
+.adm-nav-group:first-child { padding-top: 4px; }
+.adm-nav-link { display: flex; align-items: center; gap: 10px; padding: 9px 10px; border-radius: 8px; font-size: 13px; font-weight: 500; color: var(--admin-text-muted); text-decoration: none; transition: background 0.12s, color 0.12s; cursor: pointer; border: none; background: none; width: 100%; text-align: left; }
+.adm-nav-link:hover { background: var(--admin-sidebar-border); color: #f9fafb; }
+.adm-nav-link.active { background: var(--color-brand); color: #fff; font-weight: 700; }
+.adm-sidebar-foot { padding: 14px 14px 18px; border-top: 1px solid var(--admin-sidebar-border); }
+.adm-email { font-size: 11px; color: var(--admin-text-muted); margin-bottom: 8px; word-break: break-all; }
+.adm-logout { background: var(--admin-sidebar-border); color: var(--admin-text-muted); border: none; border-radius: 6px; padding: 6px 12px; font-size: 12px; font-weight: 600; cursor: pointer; font-family: inherit; }
+.adm-main { flex: 1; min-width: 0; padding: 28px 32px; }
+
+/* ===== Page chrome (mirrors tabla/produkti/porachki +page.svelte) ===== */
+.adm-page-head { margin-bottom: 20px; }
+.adm-page-title { font-size: 20px; font-weight: 800; color: #111827; margin: 0; display: flex; align-items: center; gap: 10px; }
+.count-badge { background: #f3f4f6; color: #6b7280; font-size: 13px; font-weight: 600; padding: 2px 8px; border-radius: 20px; }
+
+.stat-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin-bottom: 24px; }
+.stat-card { background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 18px 20px; display: flex; align-items: center; gap: 14px; }
+.stat-icon { width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.stat-icon--red { background: var(--color-brand-light); color: var(--color-brand); }
+.stat-icon--green { background: #f0fdf4; color: #16a34a; }
+.stat-icon--blue { background: #eff6ff; color: #2563eb; }
+.stat-icon--purple { background: #f5f3ff; color: #7c3aed; }
+.stat-icon--amber { background: #fffbeb; color: #b45309; }
+.stat-value { font-size: 20px; font-weight: 800; color: #111827; line-height: 1.2; }
+.stat-label { font-size: 11.5px; color: #6b7280; margin-top: 2px; }
+
+.chart-row { display: grid; grid-template-columns: 1.6fr 1fr; gap: 16px; margin-bottom: 24px; }
+.adm-card { background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; overflow: hidden; }
+.adm-card-pad { padding: 18px 20px; }
+.adm-card-head { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; border-bottom: 1px solid #e5e7eb; }
+.adm-card-title { font-size: 14px; font-weight: 700; color: #111827; margin: 0; }
+.adm-link-btn { font-size: 12px; font-weight: 700; color: var(--color-brand); text-decoration: none; }
+.adm-link-btn:hover { text-decoration: underline; }
+
+.adm-table-wrap { overflow-x: auto; }
+.adm-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.adm-table th { padding: 10px 14px; text-align: left; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #6b7280; border-bottom: 1px solid #e5e7eb; white-space: nowrap; }
+.adm-table td { padding: 10px 14px; border-bottom: 1px solid #f3f4f6; color: #374151; vertical-align: middle; }
+.adm-table tr:last-child td { border-bottom: none; }
+.adm-table tr:hover td { background: #f9fafb; }
+.mono { font-family: 'Courier New', monospace; font-size: 12px; }
+.nowrap { white-space: nowrap; }
+.adm-row-link { font-size: 12px; font-weight: 700; color: var(--color-brand); text-decoration: none; white-space: nowrap; }
+.adm-row-link:hover { text-decoration: underline; }
+
+.status-badge { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+.badge-new { background: #dbeafe; color: #1d4ed8; }
+.badge-proc { background: #fef9c3; color: #854d0e; }
+.badge-ship { background: #f3e8ff; color: #7e22ce; }
+.badge-done { background: #dcfce7; color: #166534; }
+.badge-cancel { background: #f3f4f6; color: #6b7280; }
+.status-select { border: none; border-radius: 20px; font-size: 11px; font-weight: 700; padding: 3px 22px 3px 10px; cursor: pointer; font-family: inherit; appearance: none; background-repeat: no-repeat; background-position: right 6px center; background-size: 10px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='3'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E"); }
+.status-select--new { background-color: #dbeafe; color: #1d4ed8; }
+.status-select--proc { background-color: #fef9c3; color: #854d0e; }
+.status-select--ship { background-color: #f3e8ff; color: #7e22ce; }
+.status-select--done { background-color: #dcfce7; color: #166534; }
+.status-select--cancel { background-color: #f3f4f6; color: #6b7280; }
+.order-check { accent-color: #bd1105; vertical-align: middle; cursor: pointer; }
+.firma-badge { display: inline-flex; align-items: center; gap: 4px; background: var(--color-brand-light); color: var(--color-brand); font-size: 10.5px; font-weight: 700; padding: 2px 7px; border-radius: 6px; }
+
+.controls-row { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+.adm-search { width: 100%; max-width: 340px; padding: 8px 14px; border: 1px solid #e5e7eb; border-radius: 8px; font-size: 13px; font-family: inherit; background: #fff; color: #111827; }
+.adm-search:focus { outline: none; border-color: var(--color-brand); }
+.cat-tabs, .filter-tabs { display: flex; gap: 4px; flex-wrap: wrap; }
+.cat-tab, .filter-tab { padding: 5px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; text-decoration: none; border: 1px solid #e5e7eb; background: #fff; color: #6b7280; cursor: pointer; transition: background 0.12s; }
+.cat-tab:hover, .filter-tab:hover { background: #f3f4f6; color: #111827; }
+.cat-tab.active, .filter-tab.active { background: var(--color-brand); border-color: var(--color-brand); color: #fff; }
+
+.price-btn { background: none; border: 1px solid transparent; border-radius: 6px; padding: 3px 8px; font-size: 12px; font-family: 'Courier New', monospace; color: #374151; cursor: pointer; }
+.price-btn:hover { border-color: var(--color-brand); color: var(--color-brand); }
+.toggle-btn { padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; border: none; cursor: pointer; font-family: inherit; }
+.toggle-on { background: #dcfce7; color: #166534; }
+.toggle-off { background: #f3f4f6; color: #6b7280; }
+.edit-link { font-size: 12px; font-weight: 600; color: var(--color-brand); text-decoration: none; white-space: nowrap; }
+.edit-link:hover { text-decoration: underline; }
+.pagination { display: flex; align-items: center; gap: 12px; justify-content: center; margin-top: 16px; }
+.pg-btn { padding: 7px 16px; border: 1px solid #e5e7eb; border-radius: 8px; font-size: 13px; font-weight: 600; text-decoration: none; color: #374151; background: #fff; cursor: pointer; }
+.pg-btn:hover { background: #f3f4f6; }
+.pg-info { font-size: 12px; color: #6b7280; }
+.adm-empty { text-align: center; color: #4b5563; padding: 32px; }
+
+/* Focus states - WCAG 2.1 AA (mirrors storefront layout.css convention) */
+.adm-nav-link:focus-visible,
+.cat-tab:focus-visible,
+.filter-tab:focus-visible,
+.price-btn:focus-visible,
+.toggle-btn:focus-visible,
+.edit-link:focus-visible,
+.adm-row-link:focus-visible,
+.adm-link-btn:focus-visible,
+.adm-logout:focus-visible,
+.adm-search:focus-visible,
+button:focus-visible,
+a:focus-visible {
+  outline: 3px solid var(--color-brand);
+  outline-offset: 2px;
+}
+
+/* Mobile: hide lower-priority table columns instead of forcing wide horizontal scroll */
+@media (max-width: 480px) {
+  .mobile-hide { display: none; }
+  .adm-table { font-size: 12px; }
+  .adm-table th, .adm-table td { padding: 7px 8px; }
+}
+
+@media (max-width: 768px) {
+  .adm-shell { flex-direction: column; }
+  .adm-sidebar { width: 100%; height: auto; position: static; flex-direction: row; flex-wrap: wrap; }
+  .adm-nav { flex-direction: row; padding: 8px; flex-wrap: wrap; }
+  .adm-nav-group { display: none; }
+  .adm-main { padding: 16px; }
+  .stat-grid { grid-template-columns: repeat(2, 1fr); }
+  .chart-row { grid-template-columns: 1fr; }
+}
+</style>
+<script>
+function goView(n) {
+  ['tabla','produkti','porachki','nalichnosti'].forEach((id, i) => {
+    document.getElementById('view-' + id).classList.toggle('hidden', i !== n);
+  });
+  document.querySelectorAll('.adm-nav-link[data-view]').forEach(el => {
+    el.classList.toggle('active', Number(el.dataset.view) === n);
+  });
+  document.querySelectorAll('.ctrl-btn[data-view]').forEach(el => {
+    el.classList.toggle('bg-brand', Number(el.dataset.view) === n);
+    el.classList.toggle('bg-neutral-700', Number(el.dataset.view) !== n);
+  });
+  window.scrollTo(0, 0);
+}
+function toggleMobile() {
+  const wrap = document.getElementById('shell-wrap');
+  wrap.classList.toggle('mobile-frame');
+  document.getElementById('mobileBtn').classList.toggle('bg-brand');
+}
+function startEditPrice(btnId, formId) {
+  document.getElementById(btnId).classList.add('hidden');
+  document.getElementById(formId).classList.remove('hidden');
+}
+function toggleAllOrders(master) {
+  document.querySelectorAll('.order-check').forEach(cb => cb.checked = master.checked);
+  updateBulkBar();
+}
+function updateBulkBar() {
+  const checked = document.querySelectorAll('.order-check:checked').length;
+  const bar = document.getElementById('bulk-bar');
+  bar.classList.toggle('hidden', checked === 0);
+  bar.style.display = checked === 0 ? 'none' : 'flex';
+  document.getElementById('bulk-count').textContent = checked;
+}
+function clearBulkSelection() {
+  document.querySelectorAll('.order-check').forEach(cb => cb.checked = false);
+  updateBulkBar();
+}
+let emptyShown = false;
+function toggleEmptyState() {
+  const tbody = document.getElementById('produkti-tbody');
+  emptyShown = !emptyShown;
+  if (emptyShown) {
+    tbody.dataset.saved = tbody.innerHTML;
+    tbody.innerHTML = '<tr><td colspan="8" class="adm-empty">Няма продукти, отговарящи на търсенето.</td></tr>';
+    document.getElementById('emptyBtn').textContent = 'Покажи резултати';
+  } else {
+    tbody.innerHTML = tbody.dataset.saved;
+    document.getElementById('emptyBtn').textContent = 'Тест: без резултати';
+  }
+}
+window.onload = () => goView(0);
+</script>
+</head>
+<body class="bg-neutral-200">
+
+<!-- CONTROLS -->
+<div class="fixed top-0 left-0 right-0 z-[999] bg-neutral-900 text-white px-4 py-2.5 flex items-center justify-between">
+  <div class="flex items-center gap-3">
+    <div class="w-2 h-2 rounded-full bg-brand"></div>
+    <span class="text-sm font-bold">V2 Mockup</span>
+    <span class="text-neutral-500 text-xs">/ Admin Panel</span>
+    <span class="text-neutral-600 text-xs">|</span>
+    <span class="text-neutral-400 text-xs">Изглед:</span>
+    <button onclick="goView(0)" data-view="0" class="ctrl-btn text-xs bg-brand px-2.5 py-1 rounded-lg font-medium transition">Табло</button>
+    <button onclick="goView(1)" data-view="1" class="ctrl-btn text-xs bg-neutral-700 hover:bg-neutral-600 px-2.5 py-1 rounded-lg font-medium transition">Продукти</button>
+    <button onclick="goView(2)" data-view="2" class="ctrl-btn text-xs bg-neutral-700 hover:bg-neutral-600 px-2.5 py-1 rounded-lg font-medium transition">Поръчки</button>
+    <button onclick="goView(3)" data-view="3" class="ctrl-btn text-xs bg-neutral-700 hover:bg-neutral-600 px-2.5 py-1 rounded-lg font-medium transition">Наличности</button>
+  </div>
+  <button onclick="toggleMobile()" id="mobileBtn" class="text-xs bg-neutral-700 hover:bg-neutral-600 px-3 py-1.5 rounded-lg font-medium transition">📱 Мобилен изглед</button>
+</div>
+
+<!-- NOTE: this control bar and the "Мобилен изглед" toggle are mockup-only affordances for reviewing the design; they are not part of the real admin scope (no light/dark toggle ships in admin per plan). -->
+
+<div class="pt-14 pb-10 px-0 flex justify-center">
+<div id="shell-wrap" style="width:100%; max-width:1440px; transition: max-width 0.3s;">
+<div class="adm-shell rounded-2xl overflow-hidden shadow-2xl" style="min-height:auto;">
+
+  <!-- ============ SIDEBAR ============ -->
+  <aside class="adm-sidebar">
+    <div class="adm-logo">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#bd1105" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+      <span>Admin</span>
+    </div>
+
+    <nav class="adm-nav">
+      <div class="adm-nav-group">Основни</div>
+      <button class="adm-nav-link active" data-view="0" onclick="goView(0)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+        Табло
+      </button>
+      <button class="adm-nav-link" data-view="2" onclick="goView(2)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+        Поръчки
+      </button>
+      <button class="adm-nav-link" data-view="1" onclick="goView(1)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+        Продукти
+      </button>
+      <a class="adm-nav-link" href="#" onclick="return false">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
+        Категории
+      </a>
+      <a class="adm-nav-link" href="#" onclick="return false">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+        Внос XML
+      </a>
+      <a class="adm-nav-link" href="#" onclick="return false">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        Въпроси
+      </a>
+      <a class="adm-nav-link" href="#" onclick="return false">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+        Кошници
+      </a>
+
+      <div class="adm-nav-group">Нови модули</div>
+      <button class="adm-nav-link" data-view="3" onclick="goView(3)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.91 8.84L8.56 21.19a2 2 0 01-2.83 0l-4.94-4.94a2 2 0 010-2.83L13.16 1.09a2 2 0 012.83 0l4.94 4.94a2 2 0 01-.02 2.81z"/><path d="M13 5l7 7"/></svg>
+        Наличности
+      </button>
+      <a class="adm-nav-link" href="#" onclick="return false">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+        Клиенти
+      </a>
+      <a class="adm-nav-link" href="#" onclick="return false">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+        Купони
+      </a>
+      <a class="adm-nav-link" href="#" onclick="return false">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg>
+        Фактури
+      </a>
+      <a class="adm-nav-link" href="#" onclick="return false">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.5-7 8-7s8 3 8 7"/></svg>
+        Потребители
+      </a>
+    </nav>
+
+    <div class="adm-sidebar-foot">
+      <div class="adm-email">admin@mostcomputers.bg</div>
+      <button class="adm-logout">Изход</button>
+    </div>
+  </aside>
+
+  <!-- ============ MAIN ============ -->
+  <main class="adm-main">
+
+    <!-- ===================== VIEW: ТАБЛО ===================== -->
+    <div id="view-tabla">
+      <div class="adm-page-head">
+        <h1 class="adm-page-title">Табло</h1>
+      </div>
+
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="stat-icon stat-icon--red">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+          </div>
+          <div><div class="stat-value">18</div><div class="stat-label">Нови поръчки</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon stat-icon--green">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+          </div>
+          <div><div class="stat-value">4 218,50 €</div><div class="stat-label">Приход днес (12 поръчки)</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon stat-icon--blue">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <div><div class="stat-value">3 942</div><div class="stat-label">Общо поръчки</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon stat-icon--purple">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+          </div>
+          <div><div class="stat-value">6</div><div class="stat-label">Активни купони</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon stat-icon--amber">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          </div>
+          <div><div class="stat-value">3</div><div class="stat-label">Чакащи фактури</div></div>
+        </div>
+      </div>
+
+      <!-- Charts -->
+      <div class="chart-row">
+        <div class="adm-card">
+          <div class="adm-card-head"><h2 class="adm-card-title">Приход - последните 14 дни</h2></div>
+          <div class="adm-card-pad">
+            <svg viewBox="0 0 300 100" class="w-full" style="height:140px" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="revGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#bd1105" stop-opacity="0.25"/>
+                  <stop offset="100%" stop-color="#bd1105" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <path d="M0,55 L23,40 L46,60 L69,35 L92,50 L115,20 L138,35 L161,55 L184,30 L207,15 L230,40 L253,10 L276,25 L300,5 L300,100 L0,100 Z" fill="url(#revGrad)"/>
+              <path d="M0,55 L23,40 L46,60 L69,35 L92,50 L115,20 L138,35 L161,55 L184,30 L207,15 L230,40 L253,10 L276,25 L300,5" fill="none" stroke="#bd1105" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="adm-card">
+          <div class="adm-card-head"><h2 class="adm-card-title">Поръчки по статус</h2></div>
+          <div class="adm-card-pad flex items-center gap-5">
+            <svg viewBox="0 0 140 140" width="110" height="110">
+              <g transform="rotate(-90 70 70)">
+                <circle cx="70" cy="70" r="54" fill="none" stroke="#dbeafe" stroke-width="18"/>
+                <circle cx="70" cy="70" r="54" fill="none" stroke="#1d4ed8" stroke-width="18" stroke-dasharray="61.1 278.2" stroke-dashoffset="0"/>
+                <circle cx="70" cy="70" r="54" fill="none" stroke="#854d0e" stroke-width="18" stroke-dasharray="81.4 257.9" stroke-dashoffset="-61.1"/>
+                <circle cx="70" cy="70" r="54" fill="none" stroke="#7e22ce" stroke-width="18" stroke-dasharray="47.5 291.8" stroke-dashoffset="-142.5"/>
+                <circle cx="70" cy="70" r="54" fill="none" stroke="#166534" stroke-width="18" stroke-dasharray="128.9 210.4" stroke-dashoffset="-190"/>
+                <circle cx="70" cy="70" r="54" fill="none" stroke="#9ca3af" stroke-width="18" stroke-dasharray="20.4 318.9" stroke-dashoffset="-318.9"/>
+              </g>
+              <text x="70" y="66" text-anchor="middle" font-size="20" font-weight="800" fill="#111827">3942</text>
+              <text x="70" y="82" text-anchor="middle" font-size="10" fill="#9ca3af">поръчки</text>
+            </svg>
+            <div class="space-y-1.5 text-[11.5px]">
+              <div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full inline-block" style="background:#1d4ed8"></span>Нови - 18%</div>
+              <div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full inline-block" style="background:#854d0e"></span>Обработват се - 24%</div>
+              <div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full inline-block" style="background:#7e22ce"></span>Изпратени - 14%</div>
+              <div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full inline-block" style="background:#166534"></span>Доставени - 38%</div>
+              <div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full inline-block" style="background:#9ca3af"></span>Отказани - 6%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent orders -->
+      <div class="adm-card">
+        <div class="adm-card-head">
+          <h2 class="adm-card-title">Последни поръчки</h2>
+          <a class="adm-link-btn" href="#" onclick="goView(2); return false">Всички поръчки</a>
+        </div>
+        <div class="adm-table-wrap">
+          <table class="adm-table">
+            <thead><tr><th>№</th><th>Дата</th><th>Клиент</th><th>Общо</th><th>Статус</th><th></th></tr></thead>
+            <tbody>
+              <tr><td class="mono">MC-26-08472</td><td>02 юли 2026</td><td>Иван Петров</td><td class="mono">1 249,00 €</td><td><span class="status-badge badge-new">Нова</span></td><td><a class="adm-row-link" href="#" onclick="return false">Детайл</a></td></tr>
+              <tr><td class="mono">MC-26-08471</td><td>02 юли 2026</td><td>Мария Стоянова <span class="firma-badge">Фирма</span></td><td class="mono">3 680,00 €</td><td><span class="status-badge badge-proc">Обработва се</span></td><td><a class="adm-row-link" href="#" onclick="return false">Детайл</a></td></tr>
+              <tr><td class="mono">MC-26-08470</td><td>01 юли 2026</td><td>Георги Димитров</td><td class="mono">459,00 €</td><td><span class="status-badge badge-ship">Изпратена</span></td><td><a class="adm-row-link" href="#" onclick="return false">Детайл</a></td></tr>
+              <tr><td class="mono">MC-26-08469</td><td>01 юли 2026</td><td>Елена Николова</td><td class="mono">899,00 €</td><td><span class="status-badge badge-done">Доставена</span></td><td><a class="adm-row-link" href="#" onclick="return false">Детайл</a></td></tr>
+              <tr><td class="mono">MC-26-08468</td><td>30 юни 2026</td><td>Тодор Ангелов ООД <span class="firma-badge">Фирма</span></td><td class="mono">7 120,00 €</td><td><span class="status-badge badge-done">Доставена</span></td><td><a class="adm-row-link" href="#" onclick="return false">Детайл</a></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== VIEW: ПРОДУКТИ ===================== -->
+    <div id="view-produkti" class="hidden">
+      <div class="adm-page-head">
+        <h1 class="adm-page-title">Продукти <span class="count-badge">1 284</span></h1>
+      </div>
+
+      <div class="controls-row">
+        <input type="search" placeholder="Търси по име или марка..." class="adm-search">
+        <div class="cat-tabs">
+          <button type="button" class="cat-tab active">Всички</button>
+          <button type="button" class="cat-tab">Лаптопи</button>
+          <button type="button" class="cat-tab">Монитори</button>
+          <button type="button" class="cat-tab">Компютри</button>
+          <button type="button" class="cat-tab">Периферия</button>
+          <button type="button" class="cat-tab">Компоненти</button>
+          <button type="button" class="cat-tab" style="margin-left:auto" onclick="toggleEmptyState()" id="emptyBtn">Тест: без резултати</button>
+        </div>
+      </div>
+
+      <div class="adm-card">
+        <div class="adm-table-wrap">
+          <table class="adm-table">
+            <thead><tr><th>Продукт</th><th>Марка</th><th class="mobile-hide">Категория</th><th>Цена</th><th>Наличност</th><th class="mobile-hide">Намаление</th><th class="mobile-hide">Ново</th><th></th></tr></thead>
+            <tbody id="produkti-tbody">
+              <tr>
+                <td>ASUS VivoBook 15 D1503QA-L1271W Ryzen 5 8GB 512GB OLED</td>
+                <td>ASUS</td><td class="mobile-hide">Лаптопи</td>
+                <td>
+                  <button id="pbtn1" class="price-btn" onclick="startEditPrice('pbtn1','pform1')">849,00 €</button>
+                  <span id="pform1" class="hidden" style="display:inline-flex; gap:4px; align-items:center">
+                    <input type="number" value="849.00" step="0.01" style="width:80px; padding:3px 6px; border:1px solid #bd1105; border-radius:6px; font-size:12px; font-family:'Courier New',monospace">
+                    <button style="background:#bd1105; color:#fff; border:none; border-radius:5px; padding:3px 7px; font-size:11px; font-weight:700">OK</button>
+                  </span>
+                </td>
+                <td><span class="toggle-btn toggle-on">Да</span></td>
+                <td class="mobile-hide"><span class="toggle-btn toggle-on">Да</span></td>
+                <td class="mobile-hide"><span class="toggle-btn toggle-off">Не</span></td>
+                <td><a class="edit-link" href="#" onclick="return false">Редактирай</a></td>
+              </tr>
+              <tr>
+                <td>Sony WH-1000XM5 Wireless Noise Cancelling Headphones</td>
+                <td>Sony</td><td class="mobile-hide">Аудио</td>
+                <td><button class="price-btn">329,00 €</button></td>
+                <td><span class="toggle-btn toggle-on">Да</span></td>
+                <td class="mobile-hide"><span class="toggle-btn toggle-off">Не</span></td>
+                <td class="mobile-hide"><span class="toggle-btn toggle-off">Не</span></td>
+                <td><a class="edit-link" href="#" onclick="return false">Редактирай</a></td>
+              </tr>
+              <tr>
+                <td>Lenovo ThinkPad E16 Gen 2 Core i5 16GB 512GB</td>
+                <td>Lenovo</td><td class="mobile-hide">Лаптопи</td>
+                <td><button class="price-btn">1 099,00 €</button></td>
+                <td><span class="toggle-btn toggle-on">Да</span></td>
+                <td class="mobile-hide"><span class="toggle-btn toggle-off">Не</span></td>
+                <td class="mobile-hide"><span class="toggle-btn toggle-on">Да</span></td>
+                <td><a class="edit-link" href="#" onclick="return false">Редактирай</a></td>
+              </tr>
+              <tr>
+                <td>MSI Optix MAG274QRF-QD 27" 2K 165Hz</td>
+                <td>MSI</td><td class="mobile-hide">Монитори</td>
+                <td><button class="price-btn">399,00 €</button></td>
+                <td><span class="toggle-btn toggle-off">Не</span></td>
+                <td class="mobile-hide"><span class="toggle-btn toggle-off">Не</span></td>
+                <td class="mobile-hide"><span class="toggle-btn toggle-off">Не</span></td>
+                <td><a class="edit-link" href="#" onclick="return false">Редактирай</a></td>
+              </tr>
+              <tr>
+                <td>Logitech MX Master 3S безжична мишка</td>
+                <td>Logitech</td><td class="mobile-hide">Периферия</td>
+                <td><button class="price-btn">99,00 €</button></td>
+                <td><span class="toggle-btn toggle-on">Да</span></td>
+                <td class="mobile-hide"><span class="toggle-btn toggle-on">Да</span></td>
+                <td class="mobile-hide"><span class="toggle-btn toggle-off">Не</span></td>
+                <td><a class="edit-link" href="#" onclick="return false">Редактирай</a></td>
+              </tr>
+              <tr>
+                <td>Kingston FURY Beast 32GB DDR5 6000MHz</td>
+                <td>Kingston</td><td class="mobile-hide">Компоненти</td>
+                <td><button class="price-btn">139,00 €</button></td>
+                <td><span class="toggle-btn toggle-on">Да</span></td>
+                <td class="mobile-hide"><span class="toggle-btn toggle-off">Не</span></td>
+                <td class="mobile-hide"><span class="toggle-btn toggle-on">Да</span></td>
+                <td><a class="edit-link" href="#" onclick="return false">Редактирай</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="pagination">
+        <span class="pg-btn" style="opacity:0.4; cursor:default">Предишна</span>
+        <span class="pg-info">Стр. 1 / 26 (1 284 продукта)</span>
+        <button type="button" class="pg-btn">Следваща</button>
+      </div>
+    </div>
+
+    <!-- ===================== VIEW: ПОРЪЧКИ ===================== -->
+    <div id="view-porachki" class="hidden">
+      <div class="adm-page-head"><h1 class="adm-page-title">Поръчки</h1></div>
+
+      <div class="filter-tabs">
+        <button type="button" class="filter-tab active">Всички</button>
+        <button type="button" class="filter-tab">Нови</button>
+        <button type="button" class="filter-tab">Обработват се</button>
+        <button type="button" class="filter-tab">Изпратени</button>
+        <button type="button" class="filter-tab">Доставени</button>
+        <button type="button" class="filter-tab">Отказани</button>
+      </div>
+
+      <!-- Bulk action bar - появява се при 1+ избрани поръчки -->
+      <div id="bulk-bar" class="hidden" style="align-items:center; gap:10px; background:#111827; border-radius:10px; padding:10px 16px; margin-bottom:12px;">
+        <span style="color:#fff; font-size:12.5px; font-weight:600"><span id="bulk-count">0</span> избрани</span>
+        <select id="bulk-status" style="font-size:12.5px; padding:5px 10px; border-radius:6px; border:none; font-family:inherit">
+          <option value="processing">Обработва се</option>
+          <option value="shipped">Изпратена</option>
+          <option value="delivered">Доставена</option>
+          <option value="cancelled">Отказана</option>
+        </select>
+        <button type="button" class="pg-btn" style="background:#bd1105; border-color:#bd1105; color:#fff; padding:5px 14px">Приложи на избраните</button>
+        <button type="button" class="pg-btn" style="margin-left:auto; padding:5px 14px" onclick="clearBulkSelection()">Отказ</button>
+      </div>
+
+      <div class="adm-card">
+        <div class="adm-table-wrap">
+          <table class="adm-table">
+            <thead><tr><th style="width:32px"><input type="checkbox" onchange="toggleAllOrders(this)" aria-label="Избери всички поръчки"></th><th class="mobile-hide">Дата</th><th>Клиент</th><th class="mobile-hide">Телефон</th><th>Общо</th><th class="mobile-hide">Доставка</th><th>Статус</th><th></th><th></th></tr></thead>
+            <tbody>
+              <tr>
+                <td><input type="checkbox" class="order-check" onchange="updateBulkBar()" aria-label="Избери поръчка MC-26-08472"><span class="mono" style="margin-left:6px">MC-26-08472</span></td><td class="nowrap mobile-hide">02 юли 2026, 14:20</td>
+                <td>Иван Петров</td><td class="mono mobile-hide">+359 88 812 3456</td><td class="mono">1 249,00 €</td>
+                <td class="mobile-hide">Speedy адрес</td>
+                <td><select class="status-select status-select--new" aria-label="Статус на поръчка MC-26-08472"><option selected>Нова</option><option>Обработва се</option><option>Изпратена</option><option>Доставена</option><option>Отказана</option></select></td>
+                <td></td>
+                <td><a class="adm-row-link" href="#" onclick="return false">Детайл</a></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" class="order-check" onchange="updateBulkBar()" aria-label="Избери поръчка MC-26-08471"><span class="mono" style="margin-left:6px">MC-26-08471</span></td><td class="nowrap mobile-hide">02 юли 2026, 11:05</td>
+                <td>Мария Стоянова <span class="firma-badge">Фирма</span></td><td class="mono mobile-hide">+359 89 700 1122</td><td class="mono">3 680,00 €</td>
+                <td class="mobile-hide">Еконт</td>
+                <td><select class="status-select status-select--proc" aria-label="Статус на поръчка MC-26-08471"><option>Нова</option><option selected>Обработва се</option><option>Изпратена</option><option>Доставена</option><option>Отказана</option></select></td>
+                <td><a class="edit-link" href="#" onclick="return false">Издай фактура</a></td>
+                <td><a class="adm-row-link" href="#" onclick="return false">Детайл</a></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" class="order-check" onchange="updateBulkBar()" aria-label="Избери поръчка MC-26-08470"><span class="mono" style="margin-left:6px">MC-26-08470</span></td><td class="nowrap mobile-hide">01 юли 2026, 17:42</td>
+                <td>Георги Димитров</td><td class="mono mobile-hide">+359 87 654 3210</td><td class="mono">459,00 €</td>
+                <td class="mobile-hide">Speedy офис</td>
+                <td><select class="status-select status-select--ship" aria-label="Статус на поръчка MC-26-08470"><option>Нова</option><option>Обработва се</option><option selected>Изпратена</option><option>Доставена</option><option>Отказана</option></select></td>
+                <td></td>
+                <td><a class="adm-row-link" href="#" onclick="return false">Детайл</a></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" class="order-check" onchange="updateBulkBar()" aria-label="Избери поръчка MC-26-08469"><span class="mono" style="margin-left:6px">MC-26-08469</span></td><td class="nowrap mobile-hide">01 юли 2026, 09:15</td>
+                <td>Елена Николова</td><td class="mono mobile-hide">+359 88 222 9911</td><td class="mono">899,00 €</td>
+                <td class="mobile-hide">Вземане от магазина</td>
+                <td><select class="status-select status-select--done" aria-label="Статус на поръчка MC-26-08469"><option>Нова</option><option>Обработва се</option><option>Изпратена</option><option selected>Доставена</option><option>Отказана</option></select></td>
+                <td></td>
+                <td><a class="adm-row-link" href="#" onclick="return false">Детайл</a></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" class="order-check" onchange="updateBulkBar()" aria-label="Избери поръчка MC-26-08468"><span class="mono" style="margin-left:6px">MC-26-08468</span></td><td class="nowrap mobile-hide">30 юни 2026, 16:30</td>
+                <td>Тодор Ангелов ООД <span class="firma-badge">Фирма</span></td><td class="mono mobile-hide">+359 2 981 4477</td><td class="mono">7 120,00 €</td>
+                <td class="mobile-hide">Speedy адрес</td>
+                <td><select class="status-select status-select--done" aria-label="Статус на поръчка MC-26-08468"><option>Нова</option><option>Обработва се</option><option>Изпратена</option><option selected>Доставена</option><option>Отказана</option></select></td>
+                <td><a class="edit-link" href="#" onclick="return false">Виж фактура</a></td>
+                <td><a class="adm-row-link" href="#" onclick="return false">Детайл</a></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" class="order-check" onchange="updateBulkBar()" aria-label="Избери поръчка MC-26-08467"><span class="mono" style="margin-left:6px">MC-26-08467</span></td><td class="nowrap mobile-hide">30 юни 2026, 10:02</td>
+                <td>Петя Колева</td><td class="mono mobile-hide">+359 87 111 2233</td><td class="mono">219,00 €</td>
+                <td class="mobile-hide">Еконт</td>
+                <td><select class="status-select status-select--cancel" aria-label="Статус на поръчка MC-26-08467"><option>Нова</option><option>Обработва се</option><option>Изпратена</option><option>Доставена</option><option selected>Отказана</option></select></td>
+                <td></td>
+                <td><a class="adm-row-link" href="#" onclick="return false">Детайл</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="pagination">
+        <span class="pg-btn" style="opacity:0.4; cursor:default">Предишна</span>
+        <span class="pg-info">Стр. 1 / 198 (3 942 поръчки)</span>
+        <button type="button" class="pg-btn">Следваща</button>
+      </div>
+    </div>
+
+    <!-- ===================== VIEW: НАЛИЧНОСТИ ===================== -->
+    <div id="view-nalichnosti" class="hidden">
+      <div class="adm-page-head"><h1 class="adm-page-title">Наличности</h1></div>
+
+      <div class="stat-grid" style="grid-template-columns: repeat(3, 1fr);">
+        <div class="stat-card">
+          <div class="stat-icon stat-icon--amber">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          </div>
+          <div><div class="stat-value">14</div><div class="stat-label">Изчерпани от доставчик</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon stat-icon--blue">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.91 8.84L8.56 21.19a2 2 0 01-2.83 0l-4.94-4.94a2 2 0 010-2.83L13.16 1.09a2 2 0 012.83 0l4.94 4.94a2 2 0 01-.02 2.81z"/></svg>
+          </div>
+          <div><div class="stat-value">37</div><div class="stat-label">Продукти със собствена наличност</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon stat-icon--red">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </div>
+          <div><div class="stat-value">4</div><div class="stat-label">Ниска наличност (≤3 бр.)</div></div>
+        </div>
+      </div>
+
+      <!-- Feed-driven out of stock -->
+      <div class="adm-card" style="margin-bottom:20px">
+        <div class="adm-card-head">
+          <h2 class="adm-card-title">Изчерпани от доставчик</h2>
+          <span style="font-size:11px; color:#9ca3af">Синхронизирано от XML фийда - последно: 02 юли 2026, 06:00</span>
+        </div>
+        <div class="adm-table-wrap">
+          <table class="adm-table">
+            <thead><tr><th>Продукт</th><th>Марка</th><th class="mobile-hide">SKU</th><th>Статус</th><th></th></tr></thead>
+            <tbody>
+              <tr>
+                <td>MSI Optix MAG274QRF-QD 27" 2K 165Hz</td><td>MSI</td><td class="mobile-hide mono">MSI-MAG274-QD</td>
+                <td><span class="status-badge badge-cancel">Изчерпан</span></td>
+                <td><a class="edit-link" href="#" onclick="return false">Виж продукт</a></td>
+              </tr>
+              <tr>
+                <td>Canon PIXMA G3420 мастиленоструен принтер</td><td>Canon</td><td class="mobile-hide mono">CAN-G3420</td>
+                <td><span class="status-badge badge-cancel">Изчерпан</span></td>
+                <td><a class="edit-link" href="#" onclick="return false">Виж продукт</a></td>
+              </tr>
+              <tr>
+                <td>TP-Link Archer AX55 Wi-Fi 6 рутер</td><td>TP-Link</td><td class="mobile-hide mono">TPL-AX55</td>
+                <td><span class="status-badge badge-cancel">Изчерпан</span></td>
+                <td><a class="edit-link" href="#" onclick="return false">Виж продукт</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div style="padding:10px 20px; font-size:11.5px; color:#9ca3af; border-top:1px solid #f3f4f6">Тези продукти се управляват от доставчика - статусът се обновява автоматично при следваща синхронизация. Ръчна промяна е възможна от екрана Продукти.</div>
+      </div>
+
+      <!-- Own physical stock -->
+      <div class="adm-card">
+        <div class="adm-card-head">
+          <h2 class="adm-card-title">Собствена наличност (шоурум)</h2>
+        </div>
+        <div class="adm-table-wrap">
+          <table class="adm-table">
+            <thead><tr><th>Продукт</th><th class="mobile-hide">SKU</th><th>Количество</th><th>Статус</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>Logitech MX Master 3S безжична мишка</td><td class="mobile-hide mono">LOG-MXM3S</td>
+                <td>
+                  <span id="qbtn1" class="price-btn" onclick="startEditPrice('qbtn1','qform1')">12 бр.</span>
+                  <span id="qform1" class="hidden" style="display:inline-flex; gap:4px; align-items:center">
+                    <input type="number" value="12" min="0" style="width:64px; padding:3px 6px; border:1px solid #bd1105; border-radius:6px; font-size:12px; font-family:'Courier New',monospace">
+                    <button style="background:#bd1105; color:#fff; border:none; border-radius:5px; padding:3px 7px; font-size:11px; font-weight:700">OK</button>
+                  </span>
+                </td>
+                <td><span class="toggle-btn toggle-on">В наличност</span></td>
+              </tr>
+              <tr>
+                <td>Kingston FURY Beast 32GB DDR5 6000MHz</td><td class="mobile-hide mono">KIN-FB32-6000</td>
+                <td><span class="price-btn">3 бр.</span></td>
+                <td><span class="status-badge" style="background:#fef9c3; color:#854d0e">Ниска наличност</span></td>
+              </tr>
+              <tr>
+                <td>Anker 737 PowerBank 24000mAh</td><td class="mobile-hide mono">ANK-737-PB</td>
+                <td><span class="price-btn">0 бр.</span></td>
+                <td><span class="status-badge badge-cancel">Изчерпан</span></td>
+              </tr>
+              <tr>
+                <td>Sony WH-1000XM5 Wireless Noise Cancelling Headphones</td><td class="mobile-hide mono">SNY-WH1000XM5</td>
+                <td><span class="price-btn">8 бр.</span></td>
+                <td><span class="toggle-btn toggle-on">В наличност</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div style="padding:10px 20px; font-size:11.5px; color:#9ca3af; border-top:1px solid #f3f4f6">Количеството се намалява автоматично при нова поръчка и се редактира ръчно тук след доставка/продажба на място.</div>
+      </div>
+    </div>
+
+  </main>
+</div>
+</div>
+</div>
+
+<style>
+.mobile-frame { max-width: 420px !important; }
+</style>
+
+</body>
+</html>

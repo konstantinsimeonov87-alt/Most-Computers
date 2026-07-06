@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Мост Компютърс V2 — Category Mockup</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  darkMode: 'class',
+  theme: { extend: { colors: { brand: '#bd1105' }, fontFamily: { sans: ['Inter','system-ui','sans-serif'] } } }
+}
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+* { font-family: 'Inter', system-ui, sans-serif; }
+@keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.tinner{animation:tick 35s linear infinite;display:flex;width:max-content;white-space:nowrap}
+details summary { list-style: none; }
+details summary::-webkit-details-marker { display: none; }
+details[open] .chevron { transform: rotate(180deg); }
+.chevron { transition: transform 0.2s; }
+.cb-item input[type=checkbox]:checked + span { color: #bd1105; font-weight: 600; }
+.cb-item input[type=checkbox]:checked { accent-color: #bd1105; }
+.view-btn-active { background: #bd1105; color: white; }
+</style>
+<script>
+function toggleDark() {
+  document.documentElement.classList.toggle('dark');
+  document.getElementById('darkBtn').textContent = document.documentElement.classList.contains('dark') ? '☀ Light' : '🌙 Dark';
+}
+function removeChip(el) { el.parentElement.remove(); }
+function setView(v) {
+  document.getElementById('grid-view').classList.toggle('hidden', v !== 'grid');
+  document.getElementById('list-view').classList.toggle('hidden', v !== 'list');
+  document.getElementById('btn-grid').className = v === 'grid' ? 'view-btn-active px-2.5 py-1.5 rounded-lg text-[12px] font-semibold flex items-center gap-1.5 transition' : 'px-2.5 py-1.5 rounded-lg text-[12px] font-medium text-neutral-500 hover:bg-neutral-100 dark:hover:bg-neutral-700 flex items-center gap-1.5 transition';
+  document.getElementById('btn-list').className = v === 'list' ? 'view-btn-active px-2.5 py-1.5 rounded-lg text-[12px] font-semibold flex items-center gap-1.5 transition' : 'px-2.5 py-1.5 rounded-lg text-[12px] font-medium text-neutral-500 hover:bg-neutral-100 dark:hover:bg-neutral-700 flex items-center gap-1.5 transition';
+}
+</script>
+</head>
+<body class="bg-neutral-100 dark:bg-neutral-950 transition-colors duration-200">
+
+<!-- CONTROLS -->
+<div class="fixed top-0 left-0 right-0 z-[999] bg-neutral-900 text-white px-4 py-2.5 flex items-center justify-between">
+  <div class="flex items-center gap-2">
+    <div class="w-2 h-2 rounded-full bg-[#bd1105]"></div>
+    <span class="text-sm font-bold">V2 Mockup</span>
+    <span class="text-neutral-500 text-xs">/ Category Listing (Лаптопи)</span>
+  </div>
+  <button onclick="toggleDark()" id="darkBtn" class="text-xs bg-neutral-700 hover:bg-neutral-600 px-3 py-1.5 rounded-lg font-medium transition">🌙 Dark</button>
+</div>
+
+<div class="pt-14 pb-16">
+<div class="bg-white dark:bg-neutral-900 min-h-screen">
+
+  <!-- TOP BAR -->
+  <div class="bg-[#bd1105] text-white text-xs flex justify-between items-center px-8 py-2">
+    <div class="flex items-center gap-3 text-white/80">
+      <span>+359 2 91 823</span><span class="text-white/30">|</span>
+      <span>Пон-Пет: 09:30-18:15</span><span class="text-white/30">|</span>
+      <a class="hover:text-white cursor-pointer">Проследи поръчка</a>
+    </div>
+    <div class="flex items-center gap-3 text-white/80">
+      <a class="hover:text-white cursor-pointer">B2B партньор</a><span class="text-white/30">|</span>
+      <a class="hover:text-white cursor-pointer">Вход</a><span class="text-white/30">|</span>
+      <a class="bg-white text-[#bd1105] px-2.5 py-0.5 rounded font-semibold cursor-pointer">Регистрация</a>
+    </div>
+  </div>
+
+  <!-- HEADER -->
+  <header class="border-b border-neutral-100 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-6 py-3 flex items-center gap-4 sticky top-10 z-40">
+    <a class="text-[#bd1105] font-black text-[22px] tracking-tight whitespace-nowrap cursor-pointer shrink-0">Most<br><span class="text-neutral-900 dark:text-white">Computers</span></a>
+    <div class="flex-1 max-w-2xl relative">
+      <div class="flex items-stretch border border-neutral-200 dark:border-neutral-700 rounded-xl overflow-hidden">
+        <input type="text" placeholder="Търси продукти, марки, EAN..." class="flex-1 text-sm px-4 py-2.5 outline-none bg-white dark:bg-neutral-900 text-neutral-800 dark:text-neutral-200 placeholder-neutral-400">
+        <button class="bg-[#bd1105] px-5 flex items-center justify-center shrink-0">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="flex items-center gap-1 ml-auto shrink-0">
+      <button class="relative flex flex-col items-center gap-0.5 px-3 py-2 text-neutral-500 dark:text-neutral-400 hover:text-[#bd1105] transition">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        <span class="absolute top-1.5 right-2 w-4 h-4 bg-[#bd1105] text-white text-[9px] font-bold rounded-full flex items-center justify-center">4</span>
+        <span class="text-[10px] font-medium">Желания</span>
+      </button>
+      <button class="flex flex-col items-center gap-0.5 px-3 py-2 text-neutral-500 dark:text-neutral-400 hover:text-[#bd1105] transition">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <span class="text-[10px] font-medium">Акаунт</span>
+      </button>
+      <button class="flex items-center gap-2 bg-[#bd1105] hover:bg-red-700 text-white px-4 py-2.5 rounded-xl text-sm font-bold relative ml-1 transition">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        <div class="text-left"><div class="text-[10px] font-normal opacity-80 leading-none">Кошница</div><div class="text-sm font-bold leading-tight">847 евр.</div></div>
+        <span class="absolute -top-1.5 -right-1.5 w-5 h-5 bg-neutral-900 text-white text-[10px] font-bold rounded-full flex items-center justify-center">1</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- TICKER -->
+  <div class="bg-[#bd1105] text-white text-xs font-medium py-1.5 overflow-hidden">
+    <div class="tinner gap-12 px-6">
+      <span>Безплатна доставка при поръчки над 200 евр.</span><span>&#8226;</span>
+      <span>Официален сервиз и гаранция</span><span>&#8226;</span>
+      <span>36 години опит в продажбата на електроника</span><span>&#8226;</span>
+      <span>Над 550 000 доволни клиента</span><span>&#8226;</span>
+      <span>Безплатна доставка при поръчки над 200 евр.</span><span>&#8226;</span>
+      <span>Официален сервиз и гаранция</span><span>&#8226;</span>
+    </div>
+  </div>
+
+  <!-- MAIN NAV -->
+  <nav class="border-b border-neutral-100 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-6 flex items-center">
+    <a class="px-4 py-3 text-sm font-medium text-neutral-600 dark:text-neutral-400 hover:text-[#bd1105] cursor-pointer transition border-b-2 border-transparent hover:border-[#bd1105]">Начало</a>
+    <a class="px-4 py-3 text-sm font-medium text-neutral-600 dark:text-neutral-400 cursor-pointer transition border-b-2 border-transparent flex items-center gap-1.5">Промоции<span class="bg-[#bd1105] text-white text-[9px] font-bold px-1.5 py-0.5 rounded uppercase">Hot</span></a>
+    <a class="px-4 py-3 text-sm font-medium text-neutral-600 dark:text-neutral-400 cursor-pointer transition border-b-2 border-transparent flex items-center gap-1.5">Нови продукти<span class="bg-green-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded uppercase">New</span></a>
+    <a class="px-4 py-3 text-sm font-medium text-neutral-600 dark:text-neutral-400 cursor-pointer transition border-b-2 border-transparent">За нас</a>
+    <a class="px-4 py-3 text-sm font-medium text-neutral-600 dark:text-neutral-400 cursor-pointer transition border-b-2 border-transparent">Сервиз</a>
+    <a class="px-4 py-3 text-sm font-medium text-neutral-600 dark:text-neutral-400 cursor-pointer transition border-b-2 border-transparent">Контакти</a>
+    <a class="ml-auto px-4 py-3 text-sm font-bold text-[#bd1105] cursor-pointer">B2B Портал</a>
+  </nav>
+
+  <!-- BREADCRUMB -->
+  <div class="bg-neutral-50 dark:bg-neutral-950 border-b border-neutral-100 dark:border-neutral-800 px-8 py-2.5">
+    <div class="max-w-7xl mx-auto flex items-center gap-1.5 text-[12px] text-neutral-500 dark:text-neutral-400">
+      <a class="hover:text-[#bd1105] cursor-pointer transition">Начало</a>
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+      <span class="text-neutral-700 dark:text-neutral-300 font-medium">Лаптопи</span>
+    </div>
+  </div>
+
+  <!-- PAGE HEADER -->
+  <div class="max-w-7xl mx-auto px-8 pt-6 pb-4 flex items-end justify-between">
+    <div>
+      <h1 class="text-[26px] font-black text-neutral-900 dark:text-white">Лаптопи</h1>
+      <p class="text-[13px] text-neutral-500 dark:text-neutral-400 mt-0.5">Намерени <span class="font-semibold text-neutral-700 dark:text-neutral-300">89 продукта</span></p>
+    </div>
+    <!-- Sub-category chips -->
+    <div class="flex gap-2">
+      <a class="px-3.5 py-1.5 rounded-full text-[12px] font-semibold bg-[#bd1105] text-white cursor-pointer">Всички</a>
+      <a class="px-3.5 py-1.5 rounded-full text-[12px] font-medium bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-300 hover:bg-neutral-200 dark:hover:bg-neutral-700 cursor-pointer transition">Ултрабуци</a>
+      <a class="px-3.5 py-1.5 rounded-full text-[12px] font-medium bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-300 hover:bg-neutral-200 dark:hover:bg-neutral-700 cursor-pointer transition">Геймърски</a>
+      <a class="px-3.5 py-1.5 rounded-full text-[12px] font-medium bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-300 hover:bg-neutral-200 dark:hover:bg-neutral-700 cursor-pointer transition">Бизнес</a>
+      <a class="px-3.5 py-1.5 rounded-full text-[12px] font-medium bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-300 hover:bg-neutral-200 dark:hover:bg-neutral-700 cursor-pointer transition">2-в-1</a>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT: Sidebar + Grid -->
+  <div class="max-w-7xl mx-auto px-8 pb-10 flex gap-6 items-start">
+
+    <!-- SIDEBAR -->
+    <aside class="w-[228px] shrink-0 sticky top-[148px]">
+
+      <!-- Active filters -->
+      <div class="mb-4">
+        <div class="flex items-center justify-between mb-2">
+          <p class="text-[11px] font-black uppercase tracking-widest text-neutral-500 dark:text-neutral-400">Активни филтри</p>
+          <button class="text-[11px] text-[#bd1105] font-semibold hover:underline cursor-pointer">Изчисти всички</button>
+        </div>
+        <div class="flex flex-wrap gap-1.5" id="chips">
+          <span class="inline-flex items-center gap-1 bg-[#bd1105]/10 text-[#bd1105] text-[11px] font-semibold px-2.5 py-1 rounded-full">ASUS<button onclick="removeChip(this)" class="hover:text-red-700 ml-0.5 leading-none">×</button></span>
+          <span class="inline-flex items-center gap-1 bg-[#bd1105]/10 text-[#bd1105] text-[11px] font-semibold px-2.5 py-1 rounded-full">Lenovo<button onclick="removeChip(this)" class="hover:text-red-700 ml-0.5 leading-none">×</button></span>
+          <span class="inline-flex items-center gap-1 bg-[#bd1105]/10 text-[#bd1105] text-[11px] font-semibold px-2.5 py-1 rounded-full">8GB<button onclick="removeChip(this)" class="hover:text-red-700 ml-0.5 leading-none">×</button></span>
+          <span class="inline-flex items-center gap-1 bg-[#bd1105]/10 text-[#bd1105] text-[11px] font-semibold px-2.5 py-1 rounded-full">до 1 500 евр.<button onclick="removeChip(this)" class="hover:text-red-700 ml-0.5 leading-none">×</button></span>
+        </div>
+      </div>
+
+      <div class="space-y-0 border border-neutral-100 dark:border-neutral-700 rounded-2xl overflow-hidden">
+
+        <!-- ЦЕНА -->
+        <details open class="border-b border-neutral-100 dark:border-neutral-700 last:border-b-0">
+          <summary class="flex items-center justify-between px-4 py-3 cursor-pointer hover:bg-neutral-50 dark:hover:bg-neutral-800 transition select-none">
+            <span class="text-[12px] font-bold text-neutral-800 dark:text-neutral-200">Цена (евр.)</span>
+            <svg class="chevron w-4 h-4 text-neutral-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+          </summary>
+          <div class="px-4 pb-4 bg-white dark:bg-neutral-900">
+            <div class="flex items-center gap-2 mb-3">
+              <div class="flex-1">
+                <label class="text-[10px] text-neutral-500 block mb-1">От</label>
+                <input type="number" value="200" class="w-full border border-neutral-200 dark:border-neutral-600 rounded-lg px-2.5 py-1.5 text-[12px] font-medium outline-none bg-white dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200 focus:border-[#bd1105]">
+              </div>
+              <span class="text-neutral-300 mt-4">-</span>
+              <div class="flex-1">
+                <label class="text-[10px] text-neutral-500 block mb-1">До</label>
+                <input type="number" value="1500" class="w-full border border-neutral-200 dark:border-neutral-600 rounded-lg px-2.5 py-1.5 text-[12px] font-medium outline-none bg-white dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200 focus:border-[#bd1105]">
+              </div>
+            </div>
+            <!-- Range bar visual -->
+            <div class="relative h-1.5 bg-neutral-200 dark:bg-neutral-700 rounded-full mx-1">
+              <div class="absolute h-1.5 bg-[#bd1105] rounded-full" style="left:12%;right:30%"></div>
+              <div class="absolute w-3.5 h-3.5 bg-white border-2 border-[#bd1105] rounded-full -top-1 cursor-pointer shadow-sm" style="left:calc(12% - 7px)"></div>
+              <div class="absolute w-3.5 h-3.5 bg-white border-2 border-[#bd1105] rounded-full -top-1 cursor-pointer shadow-sm" style="left:calc(70% - 7px)"></div>
+            </div>
+          </div>
+        </details>
+
+        <!-- МАРКА -->
+        <details open class="border-b border-neutral-100 dark:border-neutral-700 last:border-b-0">
+          <summary class="flex items-center justify-between px-4 py-3 cursor-pointer hover:bg-neutral-50 dark:hover:bg-neutral-800 transition select-none">
+            <span class="text-[12px] font-bold text-neutral-800 dark:text-neutral-200">Марка</span>
+            <svg class="chevron w-4 h-4 text-neutral-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+          </summary>
+          <div class="px-4 pb-3 bg-white dark:bg-neutral-900 space-y-2">
+            <label class="cb-item flex items-center gap-2.5 cursor-pointer"><input type="checkbox" checked class="rounded"><span class="text-[12px] text-[#bd1105] font-semibold flex-1">ASUS</span><span class="text-[10px] text-neutral-400">34</span></label>
+            <label class="cb-item flex items-center gap-2.5 cursor-pointer"><input type="checkbox" checked class="rounded"><span class="text-[12px] text-[#bd1105] font-semibold flex-1">Lenovo</span><span class="text-[10px] text-neutral-400">28</span></label>
+            <label class="cb-item flex items-center gap-2.5 cursor-pointer"><input type="checkbox" class="rounded"><span class="text-[12px] text-neutral-700 dark:text-neutral-300 flex-1">Acer</span><span class="text-[10px] text-neutral-400">19</span></label>
+            <label class="cb-item flex items-center gap-2.5 cursor-pointer"><input type="checkbox" class="rounded"><span class="text-[12px] text-neutral-700 dark:text-neutral-300 flex-1">MSI</span><span class="text-[10px] text-neutral-400">11</span></label>
+            <label class="cb-item flex items-center gap-2.5 cursor-pointer"><input type="checkbox" class="rounded"><span class="text-[12px] text-neutral-700 dark:text-neutral-300 flex-1">Samsung</span><span class="text-[10px] text-neutral-400">7</span></label>
+          </div>
+        </details>
+
+        <!-- ПРОЦЕСОР -->
+        <details open class="border-b border-neutral-100 dark:border-neutral-700 last:border-b-0">
+          <summary class="flex items-center justify-between px-4 py-3 cursor-pointer hover:bg-neutral-50 dark:hover:bg-neutral-800 transition select-none">
+            <span class="text-[12px] font-bold text-neutral-800 dark:text-neutral-200">Процесор</span>
+            <svg class="chevron w-4 h-4 text-neutral-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+          </summary>
+          <div class="px-4 pb-3 bg-white dark:bg-neutral-900 space-y-2">
+            <label class="cb-item flex items-center gap-2.5 cursor-pointer"><input type="checkbox" class="rounded"><span class="text-[12px] text-neutral-700 dark:text-neutral-300 flex-1">Intel Core i5</span><span class="text-[10px] text-neutral-400">31</span></label>
+            <label class="cb-item flex items-center gap-2.5 cursor-pointer"><input type="checkbox" class="rounded"><span class="text-[12px] text-neutral-700 dark:text-neutral-300 flex-1">Intel Core i7</span><span class="text-[10px] text-neutral-400">18</span></label>
+            <label class="cb-item flex items-center gap-2.5 cursor-pointer"><input type="checkbox" class="rounded"><span class="text-[12px] text-neutral-700 dark:text-neutral-300 flex-1">AMD Ryzen 5</span><span class="text-[10px] text-neutral-400">22</span></label>
+            <label class="cb-item flex items-center gap-2.5 cursor-pointer"><input type="checkbox" class="rounded"><span class="text-[12px] text-neutral-700 dark:text-neutral-300 flex-1">AMD Ryzen 7</span><span class="text-[10px] text-neutral-400">14</span></label>
+            <label class="cb-item flex items-center gap-2.5 cursor-pointer"><input type="checkbox" class="rounded"><span class="text-[12px] text-neutral-700 dark:text-neutral-300 flex-1">Intel Core i3</span><span class="text-[10px] text-neutral-400">4</span></label>
+          </div>
+        </details>
+
+        <!-- ОПЕРАТИВНА ПАМЕТ -->
+        <details open class="border-b border-neutral-100 dark:border-neutral-700 last:border-b-0">
+          <summary class="flex items-center justify-between px-4 py-3 cursor-pointer hover:bg-neutral-50 dark:hover:bg-neutral-800 transition select-none">
+            <span class="text-[12px] font-bold text-neutral-800 dark:text-neutral-200">Оперативна памет</span>
+            <svg class="chevron w-4 h-4 text-neutral-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+          </summary>
+          <div class="px-4 pb-3 bg-white dark:bg-neutral-900 space-y-2">
+            <label class="cb-item flex items-center gap-2.5 cursor-pointer"><input type="checkbox" checked class="rounded"><span class="text-[12px] text-[#bd1105] font-semibold flex-1">8GB</span><span class="text-[10px] text-neutral-400">38</span></label>
+            <label class="cb-item flex items-center gap-2.5 cursor-pointer"><input type="checkbox" class="rounded"><span class="text-[12px] text-neutral-700 dark:text-neutral-300 flex-1">16GB</span><span class="text-[10px] text-neutral-400">42</span></label>
+            <label class="cb-item flex items-center gap-2.5 cursor-pointer"><input type="checkbox" class="rounded"><span class="text-[12px] text-neutral-700 dark:text-neutral-300 flex-1">32GB</span><span class="text-[10px] text-neutral-400">9</span></label>
+          </div>
+        </details>
+
+        <!-- СЪХРАНЕНИЕ -->
+        <details class="border-b border-neutral-100 dark:border-neutral-700 last:border-b-0">
+          <summary class="flex items-center justify-between px-4 py-3 cursor-pointer hover:bg-neutral-50 dark:hover:bg-neutral-800 transition select-none">
+            <span class="text-[12px] font-bold text-neutral-800 dark:text-neutral-200">Съхранение</span>
+            <svg class="chevron w-4 h-4 text-neutral-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+          </summary>
+          <div class="px-4 pb-3 bg-white dark:bg-neutral-900 space-y-2">
+            <label class="cb-item flex items-center gap-2.5 cursor-pointer"><input type="checkbox" class="rounded"><span class="text-[12px] text-neutral-700 dark:text-neutral-300 flex-1">256GB SSD</span><span class="text-[10px] text-neutral-400">21</span></label>
+            <label class="cb-item flex items-center gap-2.5 cursor-pointer"><input type="checkbox" class="rounded"><span class="text-[12px] text-neutral-700 dark:text-neutral-300 flex-1">512GB SSD</span><span class="text-[10px] text-neutral-400">47</span></label>
+            <label class="cb-item flex items-center gap-2.5 cursor-pointer"><input type="checkbox" class="rounded"><span class="text-[12px] text-neutral-700 dark:text-neutral-300 flex-1">1TB SSD</span><span class="text-[10px] text-neutral-400">18</span></label>
+            <label class="cb-item flex items-center gap-2.5 cursor-pointer"><input type="checkbox" class="rounded"><span class="text-[12px] text-neutral-700 dark:text-neutral-300 flex-1">2TB SSD</span><span class="text-[10px] text-neutral-400">3</span></label>
+          </div>
+        </details>
+
+        <!-- ДИСПЛЕЙ -->
+        <details class="border-b border-neutral-100 dark:border-neutral-700 last:border-b-0">
+          <summary class="flex items-center justify-between px-4 py-3 cursor-pointer hover:bg-neutral-50 dark:hover:bg-neutral-800 transition select-none">
+            <span class="text-[12px] font-bold text-neutral-800 dark:text-neutral-200">Дисплей</span>
+            <svg class="chevron w-4 h-4 text-neutral-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+          </summary>
+          <div class="px-4 pb-3 bg-white dark:bg-neutral-900 space-y-2">
+            <label class="cb-item flex items-center gap-2.5 cursor-pointer"><input type="checkbox" class="rounded"><span class="text-[12px] text-neutral-700 dark:text-neutral-300 flex-1">13.3"</span><span class="text-[10px] text-neutral-400">7</span></label>
+            <label class="cb-item flex items-center gap-2.5 cursor-pointer"><input type="checkbox" class="rounded"><span class="text-[12px] text-neutral-700 dark:text-neutral-300 flex-1">14"</span><span class="text-[10px] text-neutral-400">24</span></label>
+            <label class="cb-item flex items-center gap-2.5 cursor-pointer"><input type="checkbox" class="rounded"><span class="text-[12px] text-neutral-700 dark:text-neutral-300 flex-1">15.6"</span><span class="text-[10px] text-neutral-400">43</span></label>
+            <label class="cb-item flex items-center gap-2.5 cursor-pointer"><input type="checkbox" class="rounded"><span class="text-[12px] text-neutral-700 dark:text-neutral-300 flex-1">16"</span><span class="text-[10px] text-neutral-400">11</span></label>
+            <label class="cb-item flex items-center gap-2.5 cursor-pointer"><input type="checkbox" class="rounded"><span class="text-[12px] text-neutral-700 dark:text-neutral-300 flex-1">17.3"</span><span class="text-[10px] text-neutral-400">4</span></label>
+          </div>
+        </details>
+
+        <!-- ОС -->
+        <details class="last:border-b-0">
+          <summary class="flex items-center justify-between px-4 py-3 cursor-pointer hover:bg-neutral-50 dark:hover:bg-neutral-800 transition select-none">
+            <span class="text-[12px] font-bold text-neutral-800 dark:text-neutral-200">Операционна система</span>
+            <svg class="chevron w-4 h-4 text-neutral-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+          </summary>
+          <div class="px-4 pb-3 bg-white dark:bg-neutral-900 space-y-2">
+            <label class="cb-item flex items-center gap-2.5 cursor-pointer"><input type="checkbox" class="rounded"><span class="text-[12px] text-neutral-700 dark:text-neutral-300 flex-1">Windows 11 Home</span><span class="text-[10px] text-neutral-400">61</span></label>
+            <label class="cb-item flex items-center gap-2.5 cursor-pointer"><input type="checkbox" class="rounded"><span class="text-[12px] text-neutral-700 dark:text-neutral-300 flex-1">Windows 11 Pro</span><span class="text-[10px] text-neutral-400">17</span></label>
+            <label class="cb-item flex items-center gap-2.5 cursor-pointer"><input type="checkbox" class="rounded"><span class="text-[12px] text-neutral-700 dark:text-neutral-300 flex-1">Без ОС</span><span class="text-[10px] text-neutral-400">11</span></label>
+          </div>
+        </details>
+
+      </div>
+    </aside>
+
+    <!-- PRODUCT GRID AREA -->
+    <div class="flex-1 min-w-0">
+
+      <!-- TOOLBAR -->
+      <div class="flex items-center justify-between mb-4 gap-4">
+        <!-- Sort -->
+        <div class="flex items-center gap-2">
+          <span class="text-[12px] text-neutral-500 shrink-0">Сортиране:</span>
+          <div class="relative">
+            <select class="appearance-none border border-neutral-200 dark:border-neutral-700 rounded-xl text-[12px] font-semibold px-3.5 py-2 pr-8 outline-none bg-white dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200 cursor-pointer">
+              <option>По популярност</option>
+              <option>Цена: ниска - висока</option>
+              <option>Цена: висока - ниска</option>
+              <option>Нови първо</option>
+              <option>Най-намалени</option>
+            </select>
+            <svg class="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none w-3.5 h-3.5 text-neutral-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
+          </div>
+        </div>
+
+        <!-- View toggle + count -->
+        <div class="flex items-center gap-3">
+          <span class="text-[12px] text-neutral-500">Показани 1-12 от <strong class="text-neutral-700 dark:text-neutral-300">89</strong></span>
+          <div class="flex items-center gap-1 border border-neutral-200 dark:border-neutral-700 rounded-xl p-1 bg-white dark:bg-neutral-800">
+            <button id="btn-grid" onclick="setView('grid')" class="view-btn-active px-2.5 py-1.5 rounded-lg text-[12px] font-semibold flex items-center gap-1.5 transition">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+              Grid
+            </button>
+            <button id="btn-list" onclick="setView('list')" class="px-2.5 py-1.5 rounded-lg text-[12px] font-medium text-neutral-500 hover:bg-neutral-100 dark:hover:bg-neutral-700 flex items-center gap-1.5 transition">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+              List
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- GRID VIEW -->
+      <div id="grid-view" class="grid grid-cols-3 gap-4">
+
+        <!-- Card helper macro: 12 product cards -->
+
+        <!-- 1 -->
+        <div class="bg-white dark:bg-neutral-800 rounded-2xl overflow-hidden flex flex-col group border border-neutral-100 dark:border-neutral-700 hover:shadow-lg hover:border-neutral-200 dark:hover:border-neutral-600 transition cursor-pointer">
+          <div class="relative h-[155px] bg-neutral-50 dark:bg-neutral-700 flex items-center justify-center overflow-hidden">
+            <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.5" class="text-neutral-300 dark:text-neutral-500 group-hover:scale-105 transition"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+            <span class="absolute top-2.5 left-2.5 bg-[#bd1105] text-white text-[9px] font-bold px-1.5 py-0.5 rounded-md">-25%</span>
+            <button class="absolute top-2.5 right-2.5 w-7 h-7 bg-white dark:bg-neutral-600 rounded-full flex items-center justify-center shadow-sm opacity-0 group-hover:opacity-100 transition"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#bd1105" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          </div>
+          <div class="p-3.5 flex flex-col flex-1">
+            <p class="text-[10px] text-[#bd1105] font-bold uppercase mb-0.5">ASUS</p>
+            <p class="text-[13px] text-neutral-800 dark:text-neutral-200 font-medium leading-snug flex-1 min-h-[36px]">VivoBook 15 D1503QA Ryzen 5 8GB 512GB OLED</p>
+            <div class="flex items-center gap-1 my-1.5"><span style="color:#f59e0b;letter-spacing:1px;font-size:11px">★★★★★</span><span class="text-[10px] text-neutral-400">(47)</span></div>
+            <div class="flex items-end gap-2"><p class="text-[17px] font-black text-[#bd1105] leading-none whitespace-nowrap">849 евр.</p><p class="text-[11px] text-neutral-400 line-through leading-none mb-0.5">1 129</p></div>
+            <p class="text-[10px] text-green-600 font-semibold mt-0.5">Доставка утре</p>
+            <button class="mt-2.5 w-full bg-[#bd1105] text-white text-[11px] font-bold py-2.5 rounded-xl flex items-center justify-center gap-1.5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>Добави в кошница</button>
+          </div>
+        </div>
+
+        <!-- 2 -->
+        <div class="bg-white dark:bg-neutral-800 rounded-2xl overflow-hidden flex flex-col group border border-neutral-100 dark:border-neutral-700 hover:shadow-lg hover:border-neutral-200 dark:hover:border-neutral-600 transition cursor-pointer">
+          <div class="relative h-[155px] bg-neutral-50 dark:bg-neutral-700 flex items-center justify-center overflow-hidden">
+            <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.5" class="text-neutral-300 dark:text-neutral-500 group-hover:scale-105 transition"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+            <span class="absolute top-2.5 left-2.5 bg-green-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-md">НОВО</span>
+            <button class="absolute top-2.5 right-2.5 w-7 h-7 bg-white dark:bg-neutral-600 rounded-full flex items-center justify-center shadow-sm opacity-0 group-hover:opacity-100 transition"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#bd1105" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          </div>
+          <div class="p-3.5 flex flex-col flex-1">
+            <p class="text-[10px] text-[#bd1105] font-bold uppercase mb-0.5">ASUS</p>
+            <p class="text-[13px] text-neutral-800 dark:text-neutral-200 font-medium leading-snug flex-1 min-h-[36px]">ROG Strix G15 G513 Ryzen 9 16GB RTX 4070</p>
+            <div class="flex items-center gap-1 my-1.5"><span style="color:#f59e0b;letter-spacing:1px;font-size:11px">★★★★★</span><span class="text-[10px] text-neutral-400">(23)</span></div>
+            <p class="text-[17px] font-black text-neutral-900 dark:text-white leading-none whitespace-nowrap">1 799 евр.</p>
+            <p class="text-[10px] text-green-600 font-semibold mt-0.5">В наличност</p>
+            <button class="mt-2.5 w-full bg-[#bd1105] text-white text-[11px] font-bold py-2.5 rounded-xl flex items-center justify-center gap-1.5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>Добави в кошница</button>
+          </div>
+        </div>
+
+        <!-- 3 -->
+        <div class="bg-white dark:bg-neutral-800 rounded-2xl overflow-hidden flex flex-col group border border-neutral-100 dark:border-neutral-700 hover:shadow-lg hover:border-neutral-200 dark:hover:border-neutral-600 transition cursor-pointer">
+          <div class="relative h-[155px] bg-neutral-50 dark:bg-neutral-700 flex items-center justify-center overflow-hidden">
+            <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.5" class="text-neutral-300 dark:text-neutral-500 group-hover:scale-105 transition"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+            <button class="absolute top-2.5 right-2.5 w-7 h-7 bg-white dark:bg-neutral-600 rounded-full flex items-center justify-center shadow-sm opacity-0 group-hover:opacity-100 transition"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#bd1105" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          </div>
+          <div class="p-3.5 flex flex-col flex-1">
+            <p class="text-[10px] text-[#bd1105] font-bold uppercase mb-0.5">Lenovo</p>
+            <p class="text-[13px] text-neutral-800 dark:text-neutral-200 font-medium leading-snug flex-1 min-h-[36px]">IdeaPad 5 15ALC05 Ryzen 7 5700U 16GB 512GB</p>
+            <div class="flex items-center gap-1 my-1.5"><span style="color:#f59e0b;letter-spacing:1px;font-size:11px">★★★★☆</span><span class="text-[10px] text-neutral-400">(24)</span></div>
+            <div class="flex items-end gap-2"><p class="text-[17px] font-black text-[#bd1105] leading-none whitespace-nowrap">879 евр.</p><p class="text-[11px] text-neutral-400 line-through leading-none mb-0.5">1 049</p></div>
+            <p class="text-[10px] text-green-600 font-semibold mt-0.5">Доставка утре</p>
+            <button class="mt-2.5 w-full bg-[#bd1105] text-white text-[11px] font-bold py-2.5 rounded-xl flex items-center justify-center gap-1.5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>Добави в кошница</button>
+          </div>
+        </div>
+
+        <!-- 4 -->
+        <div class="bg-white dark:bg-neutral-800 rounded-2xl overflow-hidden flex flex-col group border border-neutral-100 dark:border-neutral-700 hover:shadow-lg hover:border-neutral-200 dark:hover:border-neutral-600 transition cursor-pointer">
+          <div class="relative h-[155px] bg-neutral-50 dark:bg-neutral-700 flex items-center justify-center overflow-hidden">
+            <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.5" class="text-neutral-300 dark:text-neutral-500 group-hover:scale-105 transition"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+            <span class="absolute top-2.5 left-2.5 bg-[#bd1105] text-white text-[9px] font-bold px-1.5 py-0.5 rounded-md">-15%</span>
+            <button class="absolute top-2.5 right-2.5 w-7 h-7 bg-white dark:bg-neutral-600 rounded-full flex items-center justify-center shadow-sm opacity-0 group-hover:opacity-100 transition"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#bd1105" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          </div>
+          <div class="p-3.5 flex flex-col flex-1">
+            <p class="text-[10px] text-[#bd1105] font-bold uppercase mb-0.5">Lenovo</p>
+            <p class="text-[13px] text-neutral-800 dark:text-neutral-200 font-medium leading-snug flex-1 min-h-[36px]">ThinkPad E15 Gen 4 Ryzen 5 5625U 8GB 256GB</p>
+            <div class="flex items-center gap-1 my-1.5"><span style="color:#f59e0b;letter-spacing:1px;font-size:11px">★★★★★</span><span class="text-[10px] text-neutral-400">(14)</span></div>
+            <div class="flex items-end gap-2"><p class="text-[17px] font-black text-[#bd1105] leading-none whitespace-nowrap">929 евр.</p><p class="text-[11px] text-neutral-400 line-through leading-none mb-0.5">1 099</p></div>
+            <p class="text-[10px] text-green-600 font-semibold mt-0.5">В наличност</p>
+            <button class="mt-2.5 w-full bg-[#bd1105] text-white text-[11px] font-bold py-2.5 rounded-xl flex items-center justify-center gap-1.5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>Добави в кошница</button>
+          </div>
+        </div>
+
+        <!-- 5 -->
+        <div class="bg-white dark:bg-neutral-800 rounded-2xl overflow-hidden flex flex-col group border border-neutral-100 dark:border-neutral-700 hover:shadow-lg hover:border-neutral-200 dark:hover:border-neutral-600 transition cursor-pointer">
+          <div class="relative h-[155px] bg-neutral-50 dark:bg-neutral-700 flex items-center justify-center overflow-hidden">
+            <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.5" class="text-neutral-300 dark:text-neutral-500 group-hover:scale-105 transition"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+            <span class="absolute top-2.5 left-2.5 bg-[#bd1105] text-white text-[9px] font-bold px-1.5 py-0.5 rounded-md">-17%</span>
+            <button class="absolute top-2.5 right-2.5 w-7 h-7 bg-white dark:bg-neutral-600 rounded-full flex items-center justify-center shadow-sm opacity-0 group-hover:opacity-100 transition"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#bd1105" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          </div>
+          <div class="p-3.5 flex flex-col flex-1">
+            <p class="text-[10px] text-[#bd1105] font-bold uppercase mb-0.5">Acer</p>
+            <p class="text-[13px] text-neutral-800 dark:text-neutral-200 font-medium leading-snug flex-1 min-h-[36px]">Aspire 5 A515-57G i5-1235U 8GB 512GB RTX 2050</p>
+            <div class="flex items-center gap-1 my-1.5"><span style="color:#f59e0b;letter-spacing:1px;font-size:11px">★★★★☆</span><span class="text-[10px] text-neutral-400">(18)</span></div>
+            <div class="flex items-end gap-2"><p class="text-[17px] font-black text-[#bd1105] leading-none whitespace-nowrap">749 евр.</p><p class="text-[11px] text-neutral-400 line-through leading-none mb-0.5">899</p></div>
+            <p class="text-[10px] text-green-600 font-semibold mt-0.5">Доставка 1-2 дни</p>
+            <button class="mt-2.5 w-full bg-[#bd1105] text-white text-[11px] font-bold py-2.5 rounded-xl flex items-center justify-center gap-1.5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>Добави в кошница</button>
+          </div>
+        </div>
+
+        <!-- 6 -->
+        <div class="bg-white dark:bg-neutral-800 rounded-2xl overflow-hidden flex flex-col group border border-neutral-100 dark:border-neutral-700 hover:shadow-lg hover:border-neutral-200 dark:hover:border-neutral-600 transition cursor-pointer">
+          <div class="relative h-[155px] bg-neutral-50 dark:bg-neutral-700 flex items-center justify-center overflow-hidden">
+            <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.5" class="text-neutral-300 dark:text-neutral-500 group-hover:scale-105 transition"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+            <span class="absolute top-2.5 left-2.5 bg-green-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-md">НОВО</span>
+            <button class="absolute top-2.5 right-2.5 w-7 h-7 bg-white dark:bg-neutral-600 rounded-full flex items-center justify-center shadow-sm opacity-0 group-hover:opacity-100 transition"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#bd1105" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          </div>
+          <div class="p-3.5 flex flex-col flex-1">
+            <p class="text-[10px] text-[#bd1105] font-bold uppercase mb-0.5">ASUS</p>
+            <p class="text-[13px] text-neutral-800 dark:text-neutral-200 font-medium leading-snug flex-1 min-h-[36px]">ZenBook Pro 16X UX7602 i9-13900H 32GB RTX 4070</p>
+            <div class="flex items-center gap-1 my-1.5"><span style="color:#f59e0b;letter-spacing:1px;font-size:11px">★★★★★</span><span class="text-[10px] text-neutral-400">(9)</span></div>
+            <p class="text-[17px] font-black text-neutral-900 dark:text-white leading-none whitespace-nowrap">2 199 евр.</p>
+            <p class="text-[10px] text-green-600 font-semibold mt-0.5">В наличност</p>
+            <button class="mt-2.5 w-full bg-[#bd1105] text-white text-[11px] font-bold py-2.5 rounded-xl flex items-center justify-center gap-1.5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>Добави в кошница</button>
+          </div>
+        </div>
+
+        <!-- 7 -->
+        <div class="bg-white dark:bg-neutral-800 rounded-2xl overflow-hidden flex flex-col group border border-neutral-100 dark:border-neutral-700 hover:shadow-lg hover:border-neutral-200 dark:hover:border-neutral-600 transition cursor-pointer">
+          <div class="relative h-[155px] bg-neutral-50 dark:bg-neutral-700 flex items-center justify-center overflow-hidden">
+            <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.5" class="text-neutral-300 dark:text-neutral-500 group-hover:scale-105 transition"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+            <button class="absolute top-2.5 right-2.5 w-7 h-7 bg-white dark:bg-neutral-600 rounded-full flex items-center justify-center shadow-sm opacity-0 group-hover:opacity-100 transition"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#bd1105" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          </div>
+          <div class="p-3.5 flex flex-col flex-1">
+            <p class="text-[10px] text-[#bd1105] font-bold uppercase mb-0.5">MSI</p>
+            <p class="text-[13px] text-neutral-800 dark:text-neutral-200 font-medium leading-snug flex-1 min-h-[36px]">Modern 15 B12M i5-1235U 8GB 512GB</p>
+            <div class="flex items-center gap-1 my-1.5"><span style="color:#f59e0b;letter-spacing:1px;font-size:11px">★★★★☆</span><span class="text-[10px] text-neutral-400">(11)</span></div>
+            <p class="text-[17px] font-black text-neutral-900 dark:text-white leading-none whitespace-nowrap">1 099 евр.</p>
+            <p class="text-[10px] text-green-600 font-semibold mt-0.5">Доставка утре</p>
+            <button class="mt-2.5 w-full bg-[#bd1105] text-white text-[11px] font-bold py-2.5 rounded-xl flex items-center justify-center gap-1.5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>Добави в кошница</button>
+          </div>
+        </div>
+
+        <!-- 8 -->
+        <div class="bg-white dark:bg-neutral-800 rounded-2xl overflow-hidden flex flex-col group border border-neutral-100 dark:border-neutral-700 hover:shadow-lg hover:border-neutral-200 dark:hover:border-neutral-600 transition cursor-pointer">
+          <div class="relative h-[155px] bg-neutral-50 dark:bg-neutral-700 flex items-center justify-center overflow-hidden">
+            <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.5" class="text-neutral-300 dark:text-neutral-500 group-hover:scale-105 transition"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+            <span class="absolute top-2.5 left-2.5 bg-[#bd1105] text-white text-[9px] font-bold px-1.5 py-0.5 rounded-md">-10%</span>
+            <button class="absolute top-2.5 right-2.5 w-7 h-7 bg-white dark:bg-neutral-600 rounded-full flex items-center justify-center shadow-sm opacity-0 group-hover:opacity-100 transition"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#bd1105" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          </div>
+          <div class="p-3.5 flex flex-col flex-1">
+            <p class="text-[10px] text-[#bd1105] font-bold uppercase mb-0.5">Acer</p>
+            <p class="text-[13px] text-neutral-800 dark:text-neutral-200 font-medium leading-snug flex-1 min-h-[36px]">Predator Helios 300 PH315 i7-12700H 16GB RTX 3070</p>
+            <div class="flex items-center gap-1 my-1.5"><span style="color:#f59e0b;letter-spacing:1px;font-size:11px">★★★★★</span><span class="text-[10px] text-neutral-400">(32)</span></div>
+            <div class="flex items-end gap-2"><p class="text-[17px] font-black text-[#bd1105] leading-none whitespace-nowrap">1 399 евр.</p><p class="text-[11px] text-neutral-400 line-through leading-none mb-0.5">1 549</p></div>
+            <p class="text-[10px] text-green-600 font-semibold mt-0.5">В наличност</p>
+            <button class="mt-2.5 w-full bg-[#bd1105] text-white text-[11px] font-bold py-2.5 rounded-xl flex items-center justify-center gap-1.5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>Добави в кошница</button>
+          </div>
+        </div>
+
+        <!-- 9 -->
+        <div class="bg-white dark:bg-neutral-800 rounded-2xl overflow-hidden flex flex-col group border border-neutral-100 dark:border-neutral-700 hover:shadow-lg hover:border-neutral-200 dark:hover:border-neutral-600 transition cursor-pointer">
+          <div class="relative h-[155px] bg-neutral-50 dark:bg-neutral-700 flex items-center justify-center overflow-hidden">
+            <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.5" class="text-neutral-300 dark:text-neutral-500 group-hover:scale-105 transition"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+            <span class="absolute top-2.5 left-2.5 bg-green-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-md">НОВО</span>
+            <button class="absolute top-2.5 right-2.5 w-7 h-7 bg-white dark:bg-neutral-600 rounded-full flex items-center justify-center shadow-sm opacity-0 group-hover:opacity-100 transition"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#bd1105" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          </div>
+          <div class="p-3.5 flex flex-col flex-1">
+            <p class="text-[10px] text-[#bd1105] font-bold uppercase mb-0.5">Lenovo</p>
+            <p class="text-[13px] text-neutral-800 dark:text-neutral-200 font-medium leading-snug flex-1 min-h-[36px]">Legion 5 Gen 8 Ryzen 7 7745HX 16GB RTX 4060</p>
+            <div class="flex items-center gap-1 my-1.5"><span style="color:#f59e0b;letter-spacing:1px;font-size:11px">★★★★★</span><span class="text-[10px] text-neutral-400">(19)</span></div>
+            <p class="text-[17px] font-black text-neutral-900 dark:text-white leading-none whitespace-nowrap">1 499 евр.</p>
+            <p class="text-[10px] text-green-600 font-semibold mt-0.5">Доставка 1-2 дни</p>
+            <button class="mt-2.5 w-full bg-[#bd1105] text-white text-[11px] font-bold py-2.5 rounded-xl flex items-center justify-center gap-1.5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>Добави в кошница</button>
+          </div>
+        </div>
+
+        <!-- 10 -->
+        <div class="bg-white dark:bg-neutral-800 rounded-2xl overflow-hidden flex flex-col group border border-neutral-100 dark:border-neutral-700 hover:shadow-lg hover:border-neutral-200 dark:hover:border-neutral-600 transition cursor-pointer">
+          <div class="relative h-[155px] bg-neutral-50 dark:bg-neutral-700 flex items-center justify-center overflow-hidden">
+            <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.5" class="text-neutral-300 dark:text-neutral-500 group-hover:scale-105 transition"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+            <span class="absolute top-2.5 left-2.5 bg-[#bd1105] text-white text-[9px] font-bold px-1.5 py-0.5 rounded-md">-12%</span>
+            <button class="absolute top-2.5 right-2.5 w-7 h-7 bg-white dark:bg-neutral-600 rounded-full flex items-center justify-center shadow-sm opacity-0 group-hover:opacity-100 transition"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#bd1105" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          </div>
+          <div class="p-3.5 flex flex-col flex-1">
+            <p class="text-[10px] text-[#bd1105] font-bold uppercase mb-0.5">MSI</p>
+            <p class="text-[13px] text-neutral-800 dark:text-neutral-200 font-medium leading-snug flex-1 min-h-[36px]">Prestige 14 Evo A13M i7-13700H 16GB 1TB</p>
+            <div class="flex items-center gap-1 my-1.5"><span style="color:#f59e0b;letter-spacing:1px;font-size:11px">★★★★★</span><span class="text-[10px] text-neutral-400">(7)</span></div>
+            <div class="flex items-end gap-2"><p class="text-[17px] font-black text-[#bd1105] leading-none whitespace-nowrap">1 349 евр.</p><p class="text-[11px] text-neutral-400 line-through leading-none mb-0.5">1 529</p></div>
+            <p class="text-[10px] text-green-600 font-semibold mt-0.5">Доставка утре</p>
+            <button class="mt-2.5 w-full bg-[#bd1105] text-white text-[11px] font-bold py-2.5 rounded-xl flex items-center justify-center gap-1.5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>Добави в кошница</button>
+          </div>
+        </div>
+
+        <!-- 11 -->
+        <div class="bg-white dark:bg-neutral-800 rounded-2xl overflow-hidden flex flex-col group border border-neutral-100 dark:border-neutral-700 hover:shadow-lg hover:border-neutral-200 dark:hover:border-neutral-600 transition cursor-pointer">
+          <div class="relative h-[155px] bg-neutral-50 dark:bg-neutral-700 flex items-center justify-center overflow-hidden">
+            <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.5" class="text-neutral-300 dark:text-neutral-500 group-hover:scale-105 transition"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+            <span class="absolute top-2.5 left-2.5 bg-[#bd1105] text-white text-[9px] font-bold px-1.5 py-0.5 rounded-md">-22%</span>
+            <button class="absolute top-2.5 right-2.5 w-7 h-7 bg-white dark:bg-neutral-600 rounded-full flex items-center justify-center shadow-sm opacity-0 group-hover:opacity-100 transition"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#bd1105" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          </div>
+          <div class="p-3.5 flex flex-col flex-1">
+            <p class="text-[10px] text-[#bd1105] font-bold uppercase mb-0.5">Acer</p>
+            <p class="text-[13px] text-neutral-800 dark:text-neutral-200 font-medium leading-snug flex-1 min-h-[36px]">Swift 3 SF314 i5-1235U 8GB 512GB IPS</p>
+            <div class="flex items-center gap-1 my-1.5"><span style="color:#f59e0b;letter-spacing:1px;font-size:11px">★★★★☆</span><span class="text-[10px] text-neutral-400">(15)</span></div>
+            <div class="flex items-end gap-2"><p class="text-[17px] font-black text-[#bd1105] leading-none whitespace-nowrap">699 евр.</p><p class="text-[11px] text-neutral-400 line-through leading-none mb-0.5">899</p></div>
+            <p class="text-[10px] text-green-600 font-semibold mt-0.5">Доставка утре</p>
+            <button class="mt-2.5 w-full bg-[#bd1105] text-white text-[11px] font-bold py-2.5 rounded-xl flex items-center justify-center gap-1.5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>Добави в кошница</button>
+          </div>
+        </div>
+
+        <!-- 12 -->
+        <div class="bg-white dark:bg-neutral-800 rounded-2xl overflow-hidden flex flex-col group border border-neutral-100 dark:border-neutral-700 hover:shadow-lg hover:border-neutral-200 dark:hover:border-neutral-600 transition cursor-pointer">
+          <div class="relative h-[155px] bg-neutral-50 dark:bg-neutral-700 flex items-center justify-center overflow-hidden">
+            <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.5" class="text-neutral-300 dark:text-neutral-500 group-hover:scale-105 transition"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+            <button class="absolute top-2.5 right-2.5 w-7 h-7 bg-white dark:bg-neutral-600 rounded-full flex items-center justify-center shadow-sm opacity-0 group-hover:opacity-100 transition"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#bd1105" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          </div>
+          <div class="p-3.5 flex flex-col flex-1">
+            <p class="text-[10px] text-[#bd1105] font-bold uppercase mb-0.5">Lenovo</p>
+            <p class="text-[13px] text-neutral-800 dark:text-neutral-200 font-medium leading-snug flex-1 min-h-[36px]">Yoga Slim 6 14IAP8 i5-1240P 16GB 512GB OLED</p>
+            <div class="flex items-center gap-1 my-1.5"><span style="color:#f59e0b;letter-spacing:1px;font-size:11px">★★★★★</span><span class="text-[10px] text-neutral-400">(6)</span></div>
+            <p class="text-[17px] font-black text-neutral-900 dark:text-white leading-none whitespace-nowrap">1 199 евр.</p>
+            <p class="text-[10px] text-green-600 font-semibold mt-0.5">В наличност</p>
+            <button class="mt-2.5 w-full bg-[#bd1105] text-white text-[11px] font-bold py-2.5 rounded-xl flex items-center justify-center gap-1.5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>Добави в кошница</button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- LIST VIEW (hidden by default) -->
+      <div id="list-view" class="hidden space-y-3">
+        <div class="bg-white dark:bg-neutral-800 rounded-2xl border border-neutral-100 dark:border-neutral-700 flex items-center gap-4 p-4 hover:shadow-md cursor-pointer transition group">
+          <div class="w-[120px] h-[90px] bg-neutral-50 dark:bg-neutral-700 rounded-xl flex items-center justify-center shrink-0">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.5" class="text-neutral-300 dark:text-neutral-500"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          </div>
+          <div class="flex-1 min-w-0">
+            <p class="text-[10px] text-[#bd1105] font-bold uppercase mb-0.5">ASUS</p>
+            <p class="text-[14px] font-bold text-neutral-800 dark:text-neutral-200 leading-snug">VivoBook 15 D1503QA-L1271W Ryzen 5 5600H / 8GB / 512GB / 15.6" OLED</p>
+            <div class="flex items-center gap-2 mt-1"><span style="color:#f59e0b;font-size:11px;letter-spacing:1px">★★★★★</span><span class="text-[11px] text-neutral-400">47 ревюта</span><span class="text-neutral-300 dark:text-neutral-600 mx-1">|</span><span class="text-[11px] text-green-600 font-semibold">В наличност</span><span class="text-neutral-300 dark:text-neutral-600 mx-1">|</span><span class="text-[11px] text-neutral-500">Доставка утре</span></div>
+          </div>
+          <div class="shrink-0 text-right">
+            <p class="text-[11px] text-neutral-400 line-through">1 129 евр.</p>
+            <p class="text-[22px] font-black text-[#bd1105] leading-tight">849 евр.</p>
+            <span class="inline-block bg-[#bd1105] text-white text-[9px] font-bold px-1.5 py-0.5 rounded-md mb-2">-25%</span>
+            <button class="flex items-center gap-1.5 bg-[#bd1105] text-white text-[12px] font-bold px-4 py-2.5 rounded-xl"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>Добави в кошница</button>
+          </div>
+        </div>
+        <div class="bg-neutral-50 dark:bg-neutral-900 rounded-2xl border border-neutral-100 dark:border-neutral-700 flex items-center gap-4 p-4 opacity-50">
+          <div class="w-[120px] h-[90px] bg-neutral-100 dark:bg-neutral-800 rounded-xl flex items-center justify-center shrink-0"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.5" class="text-neutral-300"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+          <div class="flex-1"><p class="text-[13px] font-medium text-neutral-500">... още 11 продукта</p></div>
+        </div>
+      </div>
+
+      <!-- PAGINATION -->
+      <div class="flex items-center justify-between mt-8 pt-6 border-t border-neutral-100 dark:border-neutral-800">
+        <p class="text-[13px] text-neutral-500">Страница 1 от 8</p>
+        <div class="flex items-center gap-1.5">
+          <button class="w-9 h-9 rounded-xl bg-neutral-100 dark:bg-neutral-800 text-neutral-400 flex items-center justify-center text-sm hover:bg-neutral-200 transition" disabled><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m15 18-6-6 6-6"/></svg></button>
+          <button class="w-9 h-9 rounded-xl bg-[#bd1105] text-white text-[13px] font-bold flex items-center justify-center">1</button>
+          <button class="w-9 h-9 rounded-xl bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-300 text-[13px] font-medium flex items-center justify-center hover:bg-neutral-200 dark:hover:bg-neutral-700 transition">2</button>
+          <button class="w-9 h-9 rounded-xl bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-300 text-[13px] font-medium flex items-center justify-center hover:bg-neutral-200 dark:hover:bg-neutral-700 transition">3</button>
+          <span class="text-neutral-400 px-1 text-sm">...</span>
+          <button class="w-9 h-9 rounded-xl bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-300 text-[13px] font-medium flex items-center justify-center hover:bg-neutral-200 dark:hover:bg-neutral-700 transition">8</button>
+          <button class="w-9 h-9 rounded-xl bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-300 flex items-center justify-center hover:bg-neutral-200 dark:hover:bg-neutral-700 transition"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg></button>
+        </div>
+        <p class="text-[13px] text-neutral-500">89 продукта</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="bg-neutral-900 text-white px-8 pt-12 pb-6">
+    <div class="max-w-7xl mx-auto grid grid-cols-6 gap-8 mb-10">
+      <div class="col-span-2">
+        <div class="text-xl font-black tracking-tight mb-3">Мост <span class="text-[#bd1105]">Компютърс</span></div>
+        <p class="text-neutral-400 text-[13px] leading-relaxed">Специализиран магазин за електроника с над <strong class="text-white">36 години опит</strong>.</p>
+      </div>
+      <div><h4 class="font-bold text-xs uppercase tracking-wider text-neutral-400 mb-4">Магазин</h4><ul class="space-y-2.5 text-sm text-neutral-400"><li><a class="hover:text-white cursor-pointer transition">Всички продукти</a></li><li><a class="hover:text-white cursor-pointer transition">Промоции</a></li><li><a class="hover:text-white cursor-pointer transition">Нови продукти</a></li></ul></div>
+      <div><h4 class="font-bold text-xs uppercase tracking-wider text-neutral-400 mb-4">За нас</h4><ul class="space-y-2.5 text-sm text-neutral-400"><li><a class="hover:text-white cursor-pointer transition">За компанията</a></li><li><a class="hover:text-white cursor-pointer transition">Блог</a></li><li><a class="hover:text-white cursor-pointer transition">Сервиз</a></li></ul></div>
+      <div><h4 class="font-bold text-xs uppercase tracking-wider text-neutral-400 mb-4">Информация</h4><ul class="space-y-2.5 text-sm text-neutral-400"><li><a class="hover:text-white cursor-pointer transition">Доставка</a></li><li><a class="hover:text-white cursor-pointer transition">Връщане</a></li><li><a class="hover:text-white cursor-pointer transition">Гаранция</a></li></ul></div>
+      <div><h4 class="font-bold text-xs uppercase tracking-wider text-neutral-400 mb-4">Контакти</h4><ul class="space-y-2.5 text-[12px] text-neutral-400"><li class="flex items-start gap-2"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#bd1105" stroke-width="2" class="mt-0.5 shrink-0"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.42 2 2 0 0 1 3.6 1.24h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 16.92z"/></svg>(+359 2) 91 823</li><li class="flex items-start gap-2"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#bd1105" stroke-width="2" class="mt-0.5 shrink-0"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Пон-Пет: 09:30-18:15</li></ul></div>
+    </div>
+    <div class="border-t border-neutral-800 py-5 flex justify-between items-center">
+      <p class="text-[12px] text-neutral-500">© 1990-2026 Most Computers. Всички права запазени.</p>
+      <div class="flex items-center gap-3">
+        <div class="bg-neutral-800 rounded-md px-2.5 py-1.5"><svg width="32" height="11" viewBox="0 0 32 11" fill="none"><text x="0" y="9" font-family="Arial" font-weight="800" font-size="11" fill="white" letter-spacing="-0.5">VISA</text></svg></div>
+        <div class="bg-neutral-800 rounded-md px-2 py-1.5 flex items-center gap-0.5"><div class="w-5 h-5 rounded-full bg-red-500 opacity-90"></div><div class="w-5 h-5 rounded-full bg-yellow-400 opacity-90 -ml-2.5"></div></div>
+        <div class="bg-neutral-800 rounded-md px-3 py-1.5 flex items-center gap-1.5"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><span class="text-[11px] text-neutral-400 font-medium">SSL</span></div>
+      </div>
+    </div>
+  </footer>
+
+</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,1707 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Most Computers V2 — Hero C: Editorial</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  darkMode: 'class',
+  theme: {
+    extend: {
+      colors: { brand: '#bd1105' },
+      fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] }
+    }
+  }
+}
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+* { font-family: 'Inter', system-ui, sans-serif; }
+.ns::-webkit-scrollbar { display: none; }
+.ns { -ms-overflow-style: none; scrollbar-width: none; }
+</style>
+</head>
+<body class="bg-neutral-200 dark:bg-neutral-950 transition-colors duration-200">
+
+<!-- CONTROLS -->
+<div class="fixed top-0 left-0 right-0 z-[999] bg-neutral-900 text-white px-4 py-2.5 flex items-center justify-between">
+  <div class="flex items-center gap-2">
+    <div class="w-2 h-2 rounded-full bg-[#bd1105]"></div>
+    <span class="text-sm font-bold">V2 Mockup</span>
+    <span class="text-neutral-500 text-xs">/ Hero C: Editorial</span>
+  </div>
+  <div class="flex gap-2">
+    <button onclick="toggleView()" id="viewBtn" class="text-xs bg-neutral-700 hover:bg-neutral-600 px-3 py-1.5 rounded-lg font-medium transition">📱 Mobile</button>
+    <button onclick="toggleDark()" id="darkBtn" class="text-xs bg-neutral-700 hover:bg-neutral-600 px-3 py-1.5 rounded-lg font-medium transition">🌙 Dark</button>
+  </div>
+</div>
+
+<div class="flex justify-center pt-14 pb-10 px-4">
+<div id="vp" class="w-full transition-all duration-500" style="max-width:390px">
+
+<!-- ===== MOBILE ===== -->
+<div id="mob" class="bg-white dark:bg-neutral-900 rounded-3xl overflow-hidden shadow-2xl">
+
+  <!-- status bar -->
+  <div class="bg-white dark:bg-neutral-900 px-6 pt-3 pb-1 flex justify-between text-[12px] font-semibold dark:text-white">
+    <span>9:41</span>
+    <div class="flex items-center gap-1.5">
+      <svg width="16" height="10" fill="currentColor"><rect x="0" y="3" width="3" height="7" rx="0.5"/><rect x="4.5" y="2" width="3" height="8" rx="0.5"/><rect x="9" y="0" width="3" height="10" rx="0.5"/><rect x="13.5" y="1" width="2.5" height="9" rx="0.5" opacity="0.3"/></svg>
+      <svg width="25" height="12" fill="none"><rect x="0.5" y="0.5" width="21" height="11" rx="3.5" stroke="currentColor" stroke-opacity="0.35"/><rect x="2" y="2" width="17" height="8" rx="2" fill="currentColor"/><path d="M23 4.5V7.5C23.8 7.2 24.5 6.5 24.5 6C24.5 5.5 23.8 4.8 23 4.5Z" fill="currentColor" opacity="0.4"/></svg>
+    </div>
+  </div>
+
+  <!-- header -->
+  <header class="bg-white dark:bg-neutral-900 px-4 pb-3 border-b border-neutral-100 dark:border-neutral-800">
+    <div class="flex items-center justify-between h-12">
+      <button class="flex flex-col gap-[5px] w-11 h-11 justify-center">
+        <span class="w-[22px] h-[2px] bg-neutral-700 dark:bg-neutral-200 rounded-full block"></span>
+        <span class="w-[14px] h-[2px] bg-neutral-700 dark:bg-neutral-200 rounded-full block"></span>
+        <span class="w-[22px] h-[2px] bg-neutral-700 dark:bg-neutral-200 rounded-full block"></span>
+      </button>
+      <span class="text-[#bd1105] font-black text-[17px] tracking-tight">Most Computers</span>
+      <div class="flex">
+        <button class="w-11 h-11 flex items-center justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" class="text-neutral-700 dark:text-neutral-300"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </button>
+        <button class="w-11 h-11 flex items-center justify-center relative">
+          <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" class="text-neutral-700 dark:text-neutral-300"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          <span class="absolute top-1 right-1 w-[17px] h-[17px] bg-[#bd1105] text-white text-[9px] font-bold rounded-full flex items-center justify-center">3</span>
+        </button>
+      </div>
+    </div>
+    <div class="flex items-center gap-2 bg-neutral-100 dark:bg-neutral-800 rounded-2xl px-3.5 h-10">
+      <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" class="text-neutral-400"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <span class="text-sm text-neutral-400">Търси продукти, марки...</span>
+    </div>
+  </header>
+
+  <!-- scrollable content -->
+  <div class="overflow-y-auto" style="max-height:790px">
+
+    <!-- hero — full-bleed editorial, no horizontal padding -->
+    <div class="pt-4">
+      <div class="relative overflow-hidden h-[270px]" style="background:linear-gradient(135deg,#171717 0%,#2a0a08 55%,#6b0802 100%)">
+        <!-- decorative circle top-right, partially off-screen -->
+        <div class="absolute" style="top:-20px;right:-25px;width:130px;height:130px;border-radius:50%;background:#bd1105;opacity:0.25;pointer-events:none"></div>
+        <!-- secondary smaller circle -->
+        <div class="absolute" style="top:80px;right:40px;width:60px;height:60px;border-radius:50%;background:#bd1105;opacity:0.10;pointer-events:none"></div>
+        <!-- slide counter top-right -->
+        <div class="absolute top-4 right-4 flex items-center gap-2">
+          <span class="text-white/60 text-[11px] font-semibold tabular-nums">1/3</span>
+        </div>
+        <!-- content: vertically centered, left-aligned -->
+        <div class="absolute inset-0 flex flex-col justify-center px-5">
+          <span class="text-white/50 text-[9px] font-bold uppercase tracking-[0.2em] mb-2" style="font-variant:small-caps;letter-spacing:0.18em">ЕКСКЛУЗИВНА ОФЕРТА</span>
+          <h1 class="text-white font-black leading-[1.05] mb-2" style="font-size:30px">Лаптопи до -40%</h1>
+          <p class="text-white/60 text-[13px] mb-5">Само до края на юли</p>
+          <button class="self-start bg-white text-neutral-900 text-[13px] font-bold px-5 py-2.5 rounded-full shadow-lg">Разгледай офертите &rarr;</button>
+        </div>
+        <!-- slide indicators bottom-left -->
+        <div class="absolute bottom-4 left-5 flex gap-1.5 items-center">
+          <span class="w-6 h-1 bg-white rounded-full block"></span>
+          <span class="w-1.5 h-1.5 bg-white/30 rounded-full block"></span>
+          <span class="w-1.5 h-1.5 bg-white/30 rounded-full block"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- categories -->
+    <div class="mt-5">
+      <div class="flex gap-3 overflow-x-auto ns px-4 pb-1">
+
+        <div class="flex flex-col items-center gap-1.5 flex-shrink-0 cursor-pointer">
+          <div class="w-[58px] h-[58px] bg-[#bd1105]/10 rounded-2xl flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#bd1105" stroke-width="1.8" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          </div>
+          <span class="text-[11px] font-semibold text-neutral-700 dark:text-neutral-300">Лаптопи</span>
+        </div>
+
+        <div class="flex flex-col items-center gap-1.5 flex-shrink-0 cursor-pointer">
+          <div class="w-[58px] h-[58px] bg-neutral-100 dark:bg-neutral-800 rounded-2xl flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" class="text-neutral-600 dark:text-neutral-400"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+          </div>
+          <span class="text-[11px] font-medium text-neutral-600 dark:text-neutral-400">Телефони</span>
+        </div>
+
+        <div class="flex flex-col items-center gap-1.5 flex-shrink-0 cursor-pointer">
+          <div class="w-[58px] h-[58px] bg-neutral-100 dark:bg-neutral-800 rounded-2xl flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" class="text-neutral-600 dark:text-neutral-400"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><line x1="2" y1="7" x2="22" y2="7"/></svg>
+          </div>
+          <span class="text-[11px] font-medium text-neutral-600 dark:text-neutral-400">Телевизори</span>
+        </div>
+
+        <div class="flex flex-col items-center gap-1.5 flex-shrink-0 cursor-pointer">
+          <div class="w-[58px] h-[58px] bg-neutral-100 dark:bg-neutral-800 rounded-2xl flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" class="text-neutral-600 dark:text-neutral-400"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+          </div>
+          <span class="text-[11px] font-medium text-neutral-600 dark:text-neutral-400">Таблети</span>
+        </div>
+
+        <div class="flex flex-col items-center gap-1.5 flex-shrink-0 cursor-pointer">
+          <div class="w-[58px] h-[58px] bg-neutral-100 dark:bg-neutral-800 rounded-2xl flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" class="text-neutral-600 dark:text-neutral-400"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </div>
+          <span class="text-[11px] font-medium text-neutral-600 dark:text-neutral-400">Монитори</span>
+        </div>
+
+        <div class="flex flex-col items-center gap-1.5 flex-shrink-0 cursor-pointer">
+          <div class="w-[58px] h-[58px] bg-neutral-100 dark:bg-neutral-800 rounded-2xl flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" class="text-neutral-600 dark:text-neutral-400"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/><line x1="6" y1="8" x2="6" y2="12"/><line x1="10" y1="8" x2="10" y2="12"/></svg>
+          </div>
+          <span class="text-[11px] font-medium text-neutral-600 dark:text-neutral-400">Компютри</span>
+        </div>
+
+        <div class="flex flex-col items-center gap-1.5 flex-shrink-0 cursor-pointer">
+          <div class="w-[58px] h-[58px] bg-neutral-100 dark:bg-neutral-800 rounded-2xl flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" class="text-neutral-600 dark:text-neutral-400"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+          </div>
+          <span class="text-[11px] font-medium text-neutral-600 dark:text-neutral-400">Аудио</span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- promo strip -->
+    <div class="mx-4 mt-4 bg-neutral-50 dark:bg-neutral-800 rounded-2xl px-4 py-3 flex items-center gap-3">
+      <div class="w-8 h-8 bg-[#bd1105]/10 rounded-xl flex items-center justify-center flex-shrink-0">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#bd1105" stroke-width="2.5" stroke-linecap="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+      </div>
+      <div>
+        <p class="text-[13px] font-bold text-neutral-800 dark:text-neutral-100">Безплатна доставка над 200 евр.</p>
+        <p class="text-[11px] text-neutral-500">Бърза доставка 1-3 работни дни</p>
+      </div>
+    </div>
+
+    <!-- top deals -->
+    <div class="mt-6">
+      <div class="flex items-center justify-between px-4 mb-3">
+        <div class="flex items-center gap-2">
+          <div class="w-[3px] h-5 bg-[#bd1105] rounded-full"></div>
+          <h3 class="text-[15px] font-bold text-neutral-900 dark:text-neutral-100">Топ оферти</h3>
+        </div>
+        <button class="text-[13px] font-semibold text-neutral-500 dark:text-neutral-400 px-2 py-2">Виж всички</button>
+      </div>
+
+      <div class="flex gap-3 overflow-x-auto ns px-4 pb-2">
+
+        <!-- card 1 -->
+        <div class="flex-shrink-0 w-[155px] bg-white dark:bg-neutral-800 rounded-2xl border border-neutral-100 dark:border-neutral-700 overflow-hidden shadow-sm">
+          <div class="relative h-[118px] bg-gradient-to-br from-neutral-100 to-neutral-200 dark:from-neutral-700 dark:to-neutral-600 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8" class="text-neutral-300 dark:text-neutral-500"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+            <span class="absolute top-2 left-2 bg-[#bd1105] text-white text-[10px] font-bold px-2 py-0.5 rounded-lg">-25%</span>
+          </div>
+          <div class="p-2.5">
+            <span class="text-[10px] font-bold text-neutral-400 uppercase tracking-wide">ASUS</span>
+            <p class="text-[12px] font-medium text-neutral-800 dark:text-neutral-100 leading-tight mt-0.5 line-clamp-2">VivoBook 15 i5 8GB 512GB</p>
+            <div class="mt-2">
+              <span class="text-[15px] font-black text-[#bd1105] block">849 евр.</span>
+              <span class="text-[11px] text-neutral-400 line-through">1 129 евр.</span>
+            </div>
+            <button class="w-full mt-2 bg-[#bd1105] text-white text-[12px] font-bold py-2 rounded-xl">+ Добави</button>
+          </div>
+        </div>
+
+        <!-- card 2 -->
+        <div class="flex-shrink-0 w-[155px] bg-white dark:bg-neutral-800 rounded-2xl border border-neutral-100 dark:border-neutral-700 overflow-hidden shadow-sm">
+          <div class="relative h-[118px] bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/30 dark:to-blue-800/30 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8" class="text-blue-300"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+            <span class="absolute top-2 left-2 bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 text-[10px] font-bold px-2 py-0.5 rounded-lg">Ново</span>
+          </div>
+          <div class="p-2.5">
+            <span class="text-[10px] font-bold text-neutral-400 uppercase tracking-wide">Samsung</span>
+            <p class="text-[12px] font-medium text-neutral-800 dark:text-neutral-100 leading-tight mt-0.5 line-clamp-2">Galaxy S25 256GB 12GB RAM</p>
+            <div class="mt-2">
+              <span class="text-[15px] font-black text-neutral-900 dark:text-white block">1 199 евр.</span>
+              <span class="text-[11px] text-transparent">-</span>
+            </div>
+            <button class="w-full mt-2 bg-[#bd1105] text-white text-[12px] font-bold py-2 rounded-xl">+ Добави</button>
+          </div>
+        </div>
+
+        <!-- card 3 -->
+        <div class="flex-shrink-0 w-[155px] bg-white dark:bg-neutral-800 rounded-2xl border border-neutral-100 dark:border-neutral-700 overflow-hidden shadow-sm">
+          <div class="relative h-[118px] bg-gradient-to-br from-neutral-100 to-neutral-200 dark:from-neutral-700 dark:to-neutral-600 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8" class="text-neutral-300 dark:text-neutral-500"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><line x1="2" y1="7" x2="22" y2="7"/></svg>
+            <span class="absolute top-2 left-2 bg-[#bd1105] text-white text-[10px] font-bold px-2 py-0.5 rounded-lg">-30%</span>
+          </div>
+          <div class="p-2.5">
+            <span class="text-[10px] font-bold text-neutral-400 uppercase tracking-wide">LG</span>
+            <p class="text-[12px] font-medium text-neutral-800 dark:text-neutral-100 leading-tight mt-0.5 line-clamp-2">OLED55C3 55" 4K Smart TV</p>
+            <div class="mt-2">
+              <span class="text-[15px] font-black text-[#bd1105] block">1 399 евр.</span>
+              <span class="text-[11px] text-neutral-400 line-through">1 999 евр.</span>
+            </div>
+            <button class="w-full mt-2 bg-[#bd1105] text-white text-[12px] font-bold py-2 rounded-xl">+ Добави</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- new arrivals 2-col -->
+    <div class="mt-6">
+      <div class="flex items-center justify-between px-4 mb-3">
+        <div class="flex items-center gap-2">
+          <div class="w-[3px] h-5 bg-[#bd1105] rounded-full"></div>
+          <h3 class="text-[15px] font-bold text-neutral-900 dark:text-neutral-100">Нови постъпления</h3>
+        </div>
+        <button class="text-[13px] font-semibold text-neutral-500 dark:text-neutral-400 px-2 py-2">Виж всички</button>
+      </div>
+
+      <div class="grid grid-cols-2 gap-3 px-4">
+
+        <div class="bg-white dark:bg-neutral-800 rounded-2xl border border-neutral-100 dark:border-neutral-700 overflow-hidden shadow-sm">
+          <div class="h-[110px] bg-gradient-to-br from-neutral-100 to-neutral-200 dark:from-neutral-700 dark:to-neutral-600 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8" class="text-neutral-300 dark:text-neutral-500"><rect x="3" y="3" width="18" height="18" rx="2"/><rect x="8" y="8" width="8" height="8"/></svg>
+          </div>
+          <div class="p-2.5">
+            <span class="text-[10px] font-bold text-neutral-400 uppercase">AOC</span>
+            <p class="text-[11px] font-medium text-neutral-800 dark:text-neutral-100 leading-tight mt-0.5">27" 4K IPS 144Hz</p>
+            <span class="text-[14px] font-black text-neutral-900 dark:text-white block mt-1.5">549 евр.</span>
+            <button class="w-full mt-2 bg-[#bd1105] text-white text-[11px] font-bold py-1.5 rounded-xl">+ Добави</button>
+          </div>
+        </div>
+
+        <div class="bg-white dark:bg-neutral-800 rounded-2xl border border-neutral-100 dark:border-neutral-700 overflow-hidden shadow-sm">
+          <div class="h-[110px] bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/30 dark:to-purple-800/30 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8" class="text-purple-300"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+          </div>
+          <div class="p-2.5">
+            <span class="text-[10px] font-bold text-neutral-400 uppercase">Sony</span>
+            <p class="text-[11px] font-medium text-neutral-800 dark:text-neutral-100 leading-tight mt-0.5">WH-1000XM5 ANC</p>
+            <span class="text-[14px] font-black text-[#bd1105] block mt-1.5">329 евр.</span>
+            <button class="w-full mt-2 bg-[#bd1105] text-white text-[11px] font-bold py-1.5 rounded-xl">+ Добави</button>
+          </div>
+        </div>
+
+        <div class="bg-white dark:bg-neutral-800 rounded-2xl border border-neutral-100 dark:border-neutral-700 overflow-hidden shadow-sm">
+          <div class="h-[110px] bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/30 dark:to-green-800/30 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8" class="text-green-300"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+          </div>
+          <div class="p-2.5">
+            <span class="text-[10px] font-bold text-neutral-400 uppercase">Lenovo</span>
+            <p class="text-[11px] font-medium text-neutral-800 dark:text-neutral-100 leading-tight mt-0.5">Tab P12 128GB 8GB</p>
+            <span class="text-[14px] font-black text-neutral-900 dark:text-white block mt-1.5">449 евр.</span>
+            <button class="w-full mt-2 bg-[#bd1105] text-white text-[11px] font-bold py-1.5 rounded-xl">+ Добави</button>
+          </div>
+        </div>
+
+        <div class="bg-white dark:bg-neutral-800 rounded-2xl border border-neutral-100 dark:border-neutral-700 overflow-hidden shadow-sm">
+          <div class="h-[110px] bg-gradient-to-br from-neutral-100 to-neutral-200 dark:from-neutral-700 dark:to-neutral-600 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8" class="text-neutral-300 dark:text-neutral-500"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          </div>
+          <div class="p-2.5">
+            <span class="text-[10px] font-bold text-neutral-400 uppercase">Acer</span>
+            <p class="text-[11px] font-medium text-neutral-800 dark:text-neutral-100 leading-tight mt-0.5">Aspire 5 i7 16GB SSD</p>
+            <span class="text-[14px] font-black text-[#bd1105] block mt-1.5">899 евр.</span>
+            <button class="w-full mt-2 bg-[#bd1105] text-white text-[11px] font-bold py-1.5 rounded-xl">+ Добави</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- trust badges -->
+    <div class="mx-4 mt-6 grid grid-cols-2 gap-3">
+      <div class="bg-neutral-50 dark:bg-neutral-800 rounded-2xl p-3 flex items-center gap-2.5">
+        <div class="w-9 h-9 bg-[#bd1105]/10 rounded-xl flex items-center justify-center flex-shrink-0">
+          <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#bd1105" stroke-width="2" stroke-linecap="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+        </div>
+        <div>
+          <p class="text-[12px] font-bold text-neutral-800 dark:text-neutral-100">Бърза доставка</p>
+          <p class="text-[10px] text-neutral-500">1-3 работни дни</p>
+        </div>
+      </div>
+      <div class="bg-neutral-50 dark:bg-neutral-800 rounded-2xl p-3 flex items-center gap-2.5">
+        <div class="w-9 h-9 bg-[#bd1105]/10 rounded-xl flex items-center justify-center flex-shrink-0">
+          <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#bd1105" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div>
+          <p class="text-[12px] font-bold text-neutral-800 dark:text-neutral-100">Гаранция</p>
+          <p class="text-[10px] text-neutral-500">2 г. официална</p>
+        </div>
+      </div>
+      <div class="bg-neutral-50 dark:bg-neutral-800 rounded-2xl p-3 flex items-center gap-2.5">
+        <div class="w-9 h-9 bg-[#bd1105]/10 rounded-xl flex items-center justify-center flex-shrink-0">
+          <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#bd1105" stroke-width="2" stroke-linecap="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+        </div>
+        <div>
+          <p class="text-[12px] font-bold text-neutral-800 dark:text-neutral-100">Връщане</p>
+          <p class="text-[10px] text-neutral-500">14 дни без причина</p>
+        </div>
+      </div>
+      <div class="bg-neutral-50 dark:bg-neutral-800 rounded-2xl p-3 flex items-center gap-2.5">
+        <div class="w-9 h-9 bg-[#bd1105]/10 rounded-xl flex items-center justify-center flex-shrink-0">
+          <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#bd1105" stroke-width="2" stroke-linecap="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+        </div>
+        <div>
+          <p class="text-[12px] font-bold text-neutral-800 dark:text-neutral-100">Сигурно плащане</p>
+          <p class="text-[10px] text-neutral-500">Наложен платеж</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- footer -->
+    <footer class="mt-8 px-4 pb-6 border-t border-neutral-100 dark:border-neutral-800 pt-5">
+      <span class="text-[#bd1105] font-black text-[16px]">Most Computers</span>
+      <p class="text-[12px] text-neutral-400 dark:text-neutral-500 mt-1">Вашият надежден магазин за електроника</p>
+      <div class="flex gap-4 mt-3">
+        <a class="text-[12px] text-neutral-500 dark:text-neutral-400">За нас</a>
+        <a class="text-[12px] text-neutral-500 dark:text-neutral-400">Контакти</a>
+        <a class="text-[12px] text-neutral-500 dark:text-neutral-400">Условия</a>
+      </div>
+      <p class="text-[11px] text-neutral-400 dark:text-neutral-500 mt-4">© 2026 Most Computers</p>
+    </footer>
+
+  </div><!-- /scrollable -->
+
+  <!-- bottom nav -->
+  <div class="bg-white dark:bg-neutral-900 border-t border-neutral-100 dark:border-neutral-800 px-2 pt-2 pb-5 flex justify-around items-center">
+    <button class="flex flex-col items-center gap-0.5">
+      <div class="w-8 h-8 bg-[#bd1105]/10 rounded-xl flex items-center justify-center">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#bd1105"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+      </div>
+      <span class="text-[10px] font-bold text-[#bd1105]">Начало</span>
+    </button>
+    <button class="flex flex-col items-center gap-0.5">
+      <div class="w-8 h-8 rounded-xl flex items-center justify-center">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" class="text-neutral-400"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+      </div>
+      <span class="text-[10px] font-medium text-neutral-400">Категории</span>
+    </button>
+    <button class="flex flex-col items-center gap-0.5 relative">
+      <div class="w-8 h-8 rounded-xl flex items-center justify-center">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" class="text-neutral-400"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      </div>
+      <span class="text-[10px] font-medium text-neutral-400">Кошница</span>
+    </button>
+    <button class="flex flex-col items-center gap-0.5">
+      <div class="w-8 h-8 rounded-xl flex items-center justify-center">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" class="text-neutral-400"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      </div>
+      <span class="text-[10px] font-medium text-neutral-400">Желани</span>
+    </button>
+    <button class="flex flex-col items-center gap-0.5">
+      <div class="w-8 h-8 rounded-xl flex items-center justify-center">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" class="text-neutral-400"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </div>
+      <span class="text-[10px] font-medium text-neutral-400">Акаунт</span>
+    </button>
+  </div>
+
+</div><!-- /mob -->
+
+<!-- ===== DESKTOP ===== -->
+<style>
+@keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.tinner{animation:tick 35s linear infinite;display:flex;width:max-content;white-space:nowrap}
+.star{color:#f59e0b}
+.img-wrap svg{transition:transform .3s ease}
+.group:hover .img-wrap svg{transform:scale(1.08)}
+#search-box:focus-within .search-dropdown{display:block}
+</style>
+<div id="dsk" class="hidden bg-white dark:bg-neutral-900 rounded-2xl overflow-hidden shadow-2xl">
+
+  <!-- TOP BAR -->
+  <div class="bg-[#bd1105] text-white text-xs flex justify-between items-center px-8 py-2">
+    <div class="flex items-center gap-3 text-white/80">
+      <span>+359 888 000 111</span><span class="text-white/30">|</span>
+      <span>Пон-Пет: 09:30-18:15</span><span class="text-white/30">|</span>
+      <a class="hover:text-white cursor-pointer">Проследи поръчка</a>
+    </div>
+    <div class="flex items-center gap-3 text-white/80">
+      <button onclick="toggleDark()" class="flex items-center gap-1 hover:text-white transition"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>Тъмен режим</button><span class="text-white/30">|</span>
+      <a class="hover:text-white cursor-pointer">B2B партньор</a><span class="text-white/30">|</span>
+      <a class="hover:text-white cursor-pointer">Вход</a><span class="text-white/30">|</span>
+      <a class="bg-white text-[#bd1105] px-2.5 py-0.5 rounded font-semibold cursor-pointer">Регистрация</a>
+    </div>
+  </div>
+
+  <!-- HEADER -->
+  <header class="border-b border-neutral-100 dark:border-neutral-800 bg-white/95 dark:bg-neutral-900/95 backdrop-blur-sm px-6 py-3 flex items-center gap-4 sticky top-0 z-40">
+    <!-- Logo -->
+    <a class="text-[#bd1105] font-black text-[22px] tracking-tight whitespace-nowrap cursor-pointer shrink-0">Most<br><span class="text-neutral-900 dark:text-white">Computers</span></a>
+    <!-- Search -->
+    <div class="flex-1 max-w-2xl relative" id="search-box">
+      <div class="flex items-stretch border border-neutral-200 dark:border-neutral-700 rounded-xl overflow-hidden">
+        <input type="text" placeholder="Търси продукти, марки, EAN..." class="flex-1 text-sm px-4 py-2.5 outline-none bg-white dark:bg-neutral-900 text-neutral-800 dark:text-neutral-200 placeholder-neutral-400">
+        <button class="bg-[#bd1105] px-5 flex items-center justify-center shrink-0">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        </button>
+      </div>
+      <div class="search-dropdown hidden absolute top-full left-0 right-0 mt-1.5 bg-white dark:bg-neutral-800 rounded-2xl shadow-2xl border border-neutral-100 dark:border-neutral-700 z-50 p-4">
+        <p class="text-[10px] font-bold text-neutral-400 uppercase tracking-wider mb-2">Популярни търсения</p>
+        <div class="flex flex-wrap gap-1.5 mb-4">
+          <span class="bg-neutral-100 dark:bg-neutral-700 text-neutral-600 dark:text-neutral-300 text-xs px-3 py-1.5 rounded-lg cursor-pointer hover:bg-neutral-200 dark:hover:bg-neutral-600 transition">лаптоп</span>
+          <span class="bg-neutral-100 dark:bg-neutral-700 text-neutral-600 dark:text-neutral-300 text-xs px-3 py-1.5 rounded-lg cursor-pointer hover:bg-neutral-200 dark:hover:bg-neutral-600 transition">телефон</span>
+          <span class="bg-neutral-100 dark:bg-neutral-700 text-neutral-600 dark:text-neutral-300 text-xs px-3 py-1.5 rounded-lg cursor-pointer hover:bg-neutral-200 dark:hover:bg-neutral-600 transition">монитор</span>
+          <span class="bg-neutral-100 dark:bg-neutral-700 text-neutral-600 dark:text-neutral-300 text-xs px-3 py-1.5 rounded-lg cursor-pointer hover:bg-neutral-200 dark:hover:bg-neutral-600 transition">геймърски</span>
+        </div>
+        <p class="text-[10px] font-bold text-neutral-400 uppercase tracking-wider mb-2">Бързи предложения</p>
+        <div class="space-y-1">
+          <a class="flex items-center gap-3 px-2 py-2 rounded-xl hover:bg-neutral-50 dark:hover:bg-neutral-700 cursor-pointer transition">
+            <div class="w-8 h-8 bg-neutral-100 dark:bg-neutral-700 rounded-lg flex items-center justify-center shrink-0"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="text-neutral-500"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+            <div class="flex-1 min-w-0"><p class="text-sm font-medium text-neutral-800 dark:text-neutral-200 truncate">ASUS VivoBook 15 i5</p><p class="text-xs text-neutral-400">Лаптопи</p></div>
+            <span class="text-sm font-bold text-[#bd1105] shrink-0">849 евр.</span>
+          </a>
+          <a class="flex items-center gap-3 px-2 py-2 rounded-xl hover:bg-neutral-50 dark:hover:bg-neutral-700 cursor-pointer transition">
+            <div class="w-8 h-8 bg-neutral-100 dark:bg-neutral-700 rounded-lg flex items-center justify-center shrink-0"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="text-neutral-500"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></div>
+            <div class="flex-1 min-w-0"><p class="text-sm font-medium text-neutral-800 dark:text-neutral-200 truncate">Samsung Galaxy S25</p><p class="text-xs text-neutral-400">Телефони</p></div>
+            <span class="text-sm font-bold text-[#bd1105] shrink-0">959 евр.</span>
+          </a>
+          <a class="flex items-center gap-3 px-2 py-2 rounded-xl hover:bg-neutral-50 dark:hover:bg-neutral-700 cursor-pointer transition">
+            <div class="w-8 h-8 bg-neutral-100 dark:bg-neutral-700 rounded-lg flex items-center justify-center shrink-0"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="text-neutral-500"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 3h-8M12 3v4"/></svg></div>
+            <div class="flex-1 min-w-0"><p class="text-sm font-medium text-neutral-800 dark:text-neutral-200 truncate">ASUS ROG 27" QHD 165Hz</p><p class="text-xs text-neutral-400">Монитори</p></div>
+            <span class="text-sm font-bold text-[#bd1105] shrink-0">489 евр.</span>
+          </a>
+        </div>
+      </div>
+    </div>
+    <!-- Icons -->
+    <div class="flex items-center gap-1 ml-auto shrink-0">
+      <button class="relative flex flex-col items-center gap-0.5 px-3 py-2 text-neutral-500 dark:text-neutral-400 hover:text-[#bd1105] transition group">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        <span class="absolute top-1.5 right-2 w-4 h-4 bg-[#bd1105] text-white text-[9px] font-bold rounded-full flex items-center justify-center leading-none">4</span>
+        <span class="text-[10px] font-medium">Желания</span>
+      </button>
+      <button class="flex flex-col items-center gap-0.5 px-3 py-2 text-neutral-500 dark:text-neutral-400 hover:text-[#bd1105] transition">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
+        <span class="text-[10px] font-medium">Сравни</span>
+      </button>
+      <button class="flex flex-col items-center gap-0.5 px-3 py-2 text-neutral-500 dark:text-neutral-400 hover:text-[#bd1105] transition">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <span class="text-[10px] font-medium">Акаунт</span>
+      </button>
+      <button onclick="openCart()" class="flex items-center gap-2 bg-[#bd1105] hover:bg-red-700 text-white px-4 py-2.5 rounded-xl text-sm font-bold relative ml-1 transition">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        <div class="text-left">
+          <div class="text-[10px] font-normal opacity-80 leading-none">Кошница</div>
+          <div class="text-sm font-bold leading-tight">2 847 евр.</div>
+        </div>
+        <span class="absolute -top-1.5 -right-1.5 w-5 h-5 bg-neutral-900 text-white text-[10px] font-bold rounded-full flex items-center justify-center">3</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- TICKER -->
+  <div class="bg-[#bd1105] text-white text-xs font-medium py-1.5 overflow-hidden">
+    <div class="tinner gap-12 px-6">
+      <span>Безплатна доставка при поръчки над 200 евр.</span>
+      <span>&#8226;</span>
+      <span>Официален сервиз и гаранция</span>
+      <span>&#8226;</span>
+      <span>36 години опит в продажбата на електроника</span>
+      <span>&#8226;</span>
+      <span>Над 550 000 доволни клиента</span>
+      <span>&#8226;</span>
+      <span>Безплатна доставка при поръчки над 200 евр.</span>
+      <span>&#8226;</span>
+      <span>Официален сервиз и гаранция</span>
+      <span>&#8226;</span>
+      <span>36 години опит в продажбата на електроника</span>
+      <span>&#8226;</span>
+      <span>Над 550 000 доволни клиента</span>
+      <span>&#8226;</span>
+    </div>
+  </div>
+
+  <!-- MAIN NAV -->
+  <nav class="border-b border-neutral-100 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-6 flex items-center gap-0">
+    <a class="px-4 py-3 text-sm font-medium text-neutral-600 dark:text-neutral-400 hover:text-[#bd1105] whitespace-nowrap cursor-pointer transition border-b-2 border-transparent hover:border-[#bd1105]">Начало</a>
+    <a class="px-4 py-3 text-sm font-medium text-neutral-600 dark:text-neutral-400 hover:text-[#bd1105] whitespace-nowrap cursor-pointer transition border-b-2 border-transparent flex items-center gap-1.5">
+      Промоции
+      <span class="bg-[#bd1105] text-white text-[9px] font-bold px-1.5 py-0.5 rounded uppercase">Hot</span>
+    </a>
+    <a class="px-4 py-3 text-sm font-medium text-neutral-600 dark:text-neutral-400 hover:text-[#bd1105] whitespace-nowrap cursor-pointer transition border-b-2 border-transparent flex items-center gap-1.5">
+      Нови продукти
+      <span class="bg-green-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded uppercase">New</span>
+    </a>
+    <a class="px-4 py-3 text-sm font-medium text-neutral-600 dark:text-neutral-400 hover:text-[#bd1105] whitespace-nowrap cursor-pointer transition border-b-2 border-transparent">За нас</a>
+    <a class="px-4 py-3 text-sm font-medium text-neutral-600 dark:text-neutral-400 hover:text-[#bd1105] whitespace-nowrap cursor-pointer transition border-b-2 border-transparent">Сервиз</a>
+    <a class="px-4 py-3 text-sm font-medium text-neutral-600 dark:text-neutral-400 hover:text-[#bd1105] whitespace-nowrap cursor-pointer transition border-b-2 border-transparent">Контакти</a>
+    <a class="ml-auto px-4 py-3 text-sm font-bold text-[#bd1105] whitespace-nowrap cursor-pointer transition border-b-2 border-transparent">B2B Портал</a>
+  </nav>
+
+  <!-- 3-COL HERO: Sidebar + Hero Banner + Right Panel -->
+  <div class="flex gap-0 bg-neutral-50 dark:bg-neutral-950" style="min-height:420px">
+
+    <!-- Left sidebar: categories -->
+    <div class="w-[220px] shrink-0 bg-white dark:bg-neutral-900 border-r border-neutral-100 dark:border-neutral-800 py-2">
+      <div class="px-4 py-2 text-[11px] font-bold text-neutral-400 uppercase tracking-wider">Категории</div>
+      <a class="flex items-center gap-2.5 px-4 py-2 text-[13px] text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-800 hover:text-[#bd1105] cursor-pointer transition group">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="text-neutral-400 group-hover:text-[#bd1105] shrink-0"><path d="M20 16V7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v9m16 0H4m16 0 1.28 2.55a1 1 0 0 1-.9 1.45H3.62a1 1 0 0 1-.9-1.45L4 16"/></svg>
+        Лаптопи
+        <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="ml-auto opacity-30 shrink-0"><path d="m9 18 6-6-6-6"/></svg>
+      </a>
+      <a class="flex items-center gap-2.5 px-4 py-2 text-[13px] text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-800 hover:text-[#bd1105] cursor-pointer transition group">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="text-neutral-400 group-hover:text-[#bd1105] shrink-0"><rect width="14" height="18" x="5" y="3" rx="2"/><path d="M12 8v4"/><path d="M10 14h4"/></svg>
+        Настолни компютри
+        <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="ml-auto opacity-30 shrink-0"><path d="m9 18 6-6-6-6"/></svg>
+      </a>
+      <a class="flex items-center gap-2.5 px-4 py-2 text-[13px] text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-800 hover:text-[#bd1105] cursor-pointer transition group">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="text-neutral-400 group-hover:text-[#bd1105] shrink-0"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 2v2M15 2v2M9 20v2M15 20v2M2 9h2M2 15h2M20 9h2M20 15h2"/></svg>
+        Компоненти
+        <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="ml-auto opacity-30 shrink-0"><path d="m9 18 6-6-6-6"/></svg>
+      </a>
+      <a class="flex items-center gap-2.5 px-4 py-2 text-[13px] text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-800 hover:text-[#bd1105] cursor-pointer transition group">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="text-neutral-400 group-hover:text-[#bd1105] shrink-0"><rect width="20" height="14" x="2" y="3" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/></svg>
+        Монитори
+        <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="ml-auto opacity-30 shrink-0"><path d="m9 18 6-6-6-6"/></svg>
+      </a>
+      <a class="flex items-center gap-2.5 px-4 py-2 text-[13px] text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-800 hover:text-[#bd1105] cursor-pointer transition group">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="text-neutral-400 group-hover:text-[#bd1105] shrink-0"><rect x="5" y="2" width="14" height="20" rx="7"/><path d="M12 6v4"/></svg>
+        Периферия
+        <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="ml-auto opacity-30 shrink-0"><path d="m9 18 6-6-6-6"/></svg>
+      </a>
+      <a class="flex items-center gap-2.5 px-4 py-2 text-[13px] text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-800 hover:text-[#bd1105] cursor-pointer transition group">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="text-neutral-400 group-hover:text-[#bd1105] shrink-0"><path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3"/></svg>
+        Аудио и слушалки
+        <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="ml-auto opacity-30 shrink-0"><path d="m9 18 6-6-6-6"/></svg>
+      </a>
+      <a class="flex items-center gap-2.5 px-4 py-2 text-[13px] text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-800 hover:text-[#bd1105] cursor-pointer transition group">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="text-neutral-400 group-hover:text-[#bd1105] shrink-0"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3z"/><circle cx="12" cy="13" r="3"/></svg>
+        Камери
+        <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="ml-auto opacity-30 shrink-0"><path d="m9 18 6-6-6-6"/></svg>
+      </a>
+      <a class="flex items-center gap-2.5 px-4 py-2 text-[13px] text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-800 hover:text-[#bd1105] cursor-pointer transition group">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="text-neutral-400 group-hover:text-[#bd1105] shrink-0"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4.03 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4.03 3 9 3s9-1.34 9-3"/></svg>
+        Памет и съхранение
+        <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="ml-auto opacity-30 shrink-0"><path d="m9 18 6-6-6-6"/></svg>
+      </a>
+      <a class="flex items-center gap-2.5 px-4 py-2 text-[13px] text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-800 hover:text-[#bd1105] cursor-pointer transition group">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="text-neutral-400 group-hover:text-[#bd1105] shrink-0"><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" x2="12.01" y1="20" y2="20"/></svg>
+        Мрежово оборудване
+        <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="ml-auto opacity-30 shrink-0"><path d="m9 18 6-6-6-6"/></svg>
+      </a>
+      <a class="flex items-center gap-2.5 px-4 py-2 text-[13px] text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-800 hover:text-[#bd1105] cursor-pointer transition group">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="text-neutral-400 group-hover:text-[#bd1105] shrink-0"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg>
+        Телефони и таблети
+        <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="ml-auto opacity-30 shrink-0"><path d="m9 18 6-6-6-6"/></svg>
+      </a>
+      <a class="flex items-center gap-2.5 px-4 py-2 text-[13px] text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-800 hover:text-[#bd1105] cursor-pointer transition group">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="text-neutral-400 group-hover:text-[#bd1105] shrink-0"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect width="12" height="8" x="6" y="14"/></svg>
+        Принтери
+        <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="ml-auto opacity-30 shrink-0"><path d="m9 18 6-6-6-6"/></svg>
+      </a>
+      <a class="flex items-center gap-2.5 px-4 py-2 text-[13px] text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-800 hover:text-[#bd1105] cursor-pointer transition group">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="text-neutral-400 group-hover:text-[#bd1105] shrink-0"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 7V5a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2"/><circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"/><path d="M12 13.5V17"/></svg>
+        Консумативи
+        <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="ml-auto opacity-30 shrink-0"><path d="m9 18 6-6-6-6"/></svg>
+      </a>
+      <a class="flex items-center gap-2.5 px-4 py-2 text-[13px] text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-800 hover:text-[#bd1105] cursor-pointer transition group">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="text-neutral-400 group-hover:text-[#bd1105] shrink-0"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg>
+        UPS устройства
+        <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="ml-auto opacity-30 shrink-0"><path d="m9 18 6-6-6-6"/></svg>
+      </a>
+      <a class="flex items-center gap-2.5 px-4 py-2 text-[13px] text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-800 hover:text-[#bd1105] cursor-pointer transition group">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="text-neutral-400 group-hover:text-[#bd1105] shrink-0"><rect x="5" y="2" width="14" height="20" rx="7"/><path d="M12 6v4"/></svg>
+        Аксесоари
+        <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="ml-auto opacity-30 shrink-0"><path d="m9 18 6-6-6-6"/></svg>
+      </a>
+    </div>
+
+    <!-- Center: Hero Banner -->
+    <div class="flex-1 p-4">
+      <div class="relative rounded-2xl overflow-hidden h-full bg-gradient-to-br from-neutral-900 via-neutral-800 to-[#6b0802]" style="min-height:320px">
+        <div class="absolute inset-0 opacity-[0.06]" style="background-image:radial-gradient(circle at 2px 2px,white 1px,transparent 0);background-size:20px 20px"></div>
+        <div class="absolute inset-0 flex flex-col justify-end p-10">
+          <span class="text-white/50 text-[11px] font-bold uppercase tracking-[0.18em] mb-3">Лято 2026</span>
+          <h1 class="text-white font-black text-[42px] leading-[1.05] mb-6">Лаптопи<br>до <span class="text-[#ff3b2e]">-40%</span> off</h1>
+          <button class="self-start bg-white text-neutral-900 text-[15px] font-bold px-8 py-3.5 rounded-xl hover:bg-neutral-100 transition">Разгледай офертите</button>
+        </div>
+        <div class="absolute bottom-5 right-5 flex gap-1.5">
+          <span class="w-7 h-1.5 bg-white rounded-full block"></span>
+          <span class="w-1.5 h-1.5 bg-white/30 rounded-full block"></span>
+          <span class="w-1.5 h-1.5 bg-white/30 rounded-full block"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right panel: recent viewed / promo -->
+    <div class="w-[240px] shrink-0 border-l border-neutral-100 dark:border-neutral-800 bg-white dark:bg-neutral-900 flex flex-col">
+      <div class="px-4 pt-4 pb-2 text-[11px] font-bold text-neutral-400 uppercase tracking-wider">Бестселъри тази седмица</div>
+      <!-- mini product row -->
+      <a class="flex items-center gap-3 px-4 py-2.5 hover:bg-neutral-50 dark:hover:bg-neutral-800 cursor-pointer transition group border-b border-neutral-50 dark:border-neutral-800">
+        <div class="w-11 h-11 rounded-lg bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center shrink-0">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" class="text-neutral-400"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        </div>
+        <div class="min-w-0">
+          <p class="text-[11px] text-neutral-800 dark:text-neutral-200 font-medium leading-snug line-clamp-2">ASUS VivoBook 15 i5 8GB</p>
+          <p class="text-xs font-bold text-[#bd1105] mt-0.5 whitespace-nowrap">849 евр.</p>
+        </div>
+      </a>
+      <a class="flex items-center gap-3 px-4 py-2.5 hover:bg-neutral-50 dark:hover:bg-neutral-800 cursor-pointer transition group border-b border-neutral-50 dark:border-neutral-800">
+        <div class="w-11 h-11 rounded-lg bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center shrink-0">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" class="text-neutral-400"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+        </div>
+        <div class="min-w-0">
+          <p class="text-[11px] text-neutral-800 dark:text-neutral-200 font-medium leading-snug line-clamp-2">Samsung Galaxy S25 256GB</p>
+          <p class="text-xs font-bold text-neutral-900 dark:text-white mt-0.5 whitespace-nowrap">1 199 евр.</p>
+        </div>
+      </a>
+      <a class="flex items-center gap-3 px-4 py-2.5 hover:bg-neutral-50 dark:hover:bg-neutral-800 cursor-pointer transition group border-b border-neutral-50 dark:border-neutral-800">
+        <div class="w-11 h-11 rounded-lg bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center shrink-0">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" class="text-neutral-400"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+        </div>
+        <div class="min-w-0">
+          <p class="text-[11px] text-neutral-800 dark:text-neutral-200 font-medium leading-snug line-clamp-2">Sony WH-1000XM5 ANC</p>
+          <p class="text-xs font-bold text-[#bd1105] mt-0.5 whitespace-nowrap">329 евр. <span class="text-neutral-400 line-through text-[10px]">409</span></p>
+        </div>
+      </a>
+      <!-- small promo banner -->
+      <div class="m-4 mt-auto rounded-xl bg-gradient-to-br from-[#bd1105] to-[#7a0a03] p-4 text-white">
+        <p class="text-[10px] font-bold uppercase opacity-70 mb-1">Само днес</p>
+        <p class="text-sm font-black leading-tight">Безплатна доставка</p>
+        <p class="text-[11px] opacity-80 mt-1">при поръчка над 200 евр.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATS BAR -->
+  <div class="bg-white dark:bg-neutral-900 border-y border-neutral-100 dark:border-neutral-800 px-6 grid grid-cols-4 divide-x divide-neutral-100 dark:divide-neutral-800">
+    <div class="flex items-center gap-3 px-6 py-4">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="#f59e0b" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      <div>
+        <p class="text-sm font-black text-neutral-900 dark:text-white">4.8 / 5</p>
+        <p class="text-xs text-neutral-500">2 000+ отзива</p>
+      </div>
+    </div>
+    <div class="flex items-center gap-3 px-6 py-4">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#bd1105" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      <div>
+        <p class="text-sm font-black text-neutral-900 dark:text-white">36+ години</p>
+        <p class="text-xs text-neutral-500">опит в сектора</p>
+      </div>
+    </div>
+    <div class="flex items-center gap-3 px-6 py-4">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#bd1105" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      <div>
+        <p class="text-sm font-black text-neutral-900 dark:text-white">550 000+</p>
+        <p class="text-xs text-neutral-500">доволни клиента</p>
+      </div>
+    </div>
+    <div class="flex items-center gap-3 px-6 py-4">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#bd1105" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      <div>
+        <p class="text-sm font-black text-neutral-900 dark:text-white">Официален сервиз</p>
+        <p class="text-xs text-neutral-500">и оторизирана поддръжка</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FLASH SALE -->
+  <div class="bg-neutral-900 dark:bg-neutral-950 px-6 py-6">
+    <div class="flex items-center gap-6 mb-5">
+      <div class="flex items-center gap-3">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="#f59e0b" stroke="none"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        <h2 class="text-xl font-black text-white">Светкавични оферти</h2>
+      </div>
+      <div class="flex items-center gap-2 ml-2">
+        <span class="text-neutral-400 text-sm">Приключва след:</span>
+        <div class="flex items-center gap-1">
+          <span class="bg-neutral-800 text-white font-mono font-bold text-lg w-10 h-10 rounded-lg flex items-center justify-center" id="t-h">07</span>
+          <span class="text-white font-bold">:</span>
+          <span class="bg-neutral-800 text-white font-mono font-bold text-lg w-10 h-10 rounded-lg flex items-center justify-center" id="t-m">23</span>
+          <span class="text-white font-bold">:</span>
+          <span class="bg-neutral-800 text-white font-mono font-bold text-lg w-10 h-10 rounded-lg flex items-center justify-center" id="t-s">41</span>
+        </div>
+      </div>
+      <a class="ml-auto text-sm font-semibold text-neutral-400 hover:text-white cursor-pointer transition">Виж всички промоции</a>
+    </div>
+    <!-- 5-col product cards (dark variant) -->
+    <div class="grid grid-cols-5 gap-4">
+
+      <div class="bg-neutral-800 rounded-2xl overflow-hidden hover:bg-neutral-700 transition group cursor-pointer flex flex-col">
+        <div class="relative h-[120px] bg-neutral-700 flex items-center justify-center overflow-hidden img-wrap">
+          <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8" class="text-neutral-500"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          <span class="absolute top-2 left-2 bg-[#bd1105] text-white text-[10px] font-bold px-2 py-0.5 rounded-md">-25%</span>
+        </div>
+        <div class="p-3 flex-1 flex flex-col">
+          <p class="text-[10px] text-[#bd1105] font-bold uppercase">ASUS</p>
+          <p class="text-[13px] text-white font-medium mt-0.5 leading-snug line-clamp-2 min-h-[36px]">VivoBook 15 i5 8GB 512GB SSD</p>
+          <div class="flex items-center gap-1 mt-1"><span style="color:#f59e0b;letter-spacing:1px;font-size:11px">★★★★★</span><span class="text-[9px] text-neutral-400">4.6 (12)</span></div>
+          <div class="flex items-end gap-2 mt-2">
+            <p class="text-[18px] font-black text-[#bd1105] leading-none whitespace-nowrap">849 евр.</p>
+            <p class="text-[12px] text-neutral-500 line-through whitespace-nowrap leading-none mb-0.5">1 129 евр.</p>
+          </div>
+
+          <div class="mt-auto pt-2">
+            <p class="text-[10px] text-green-500 flex items-center gap-1 mb-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Доставка до 2 работни дни</p>
+            <button class="w-full bg-[#bd1105] hover:bg-red-700 text-white text-xs font-semibold py-2.5 rounded-xl transition flex items-center justify-center gap-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Добави в кошница</button>
+            <div class="flex gap-1.5 mt-1.5">
+              <button class="flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-600 transition text-neutral-600 dark:text-neutral-300 text-[9px] font-medium"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>Преглед</button>
+              <button class="flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-600 transition text-neutral-600 dark:text-neutral-300 text-[9px] font-medium"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Бърза поръчка</button>
+              <button class="flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-600 transition text-neutral-600 dark:text-neutral-300 text-[9px] font-medium"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Сравни</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-neutral-800 rounded-2xl overflow-hidden hover:bg-neutral-700 transition group cursor-pointer flex flex-col">
+        <div class="relative h-[120px] bg-neutral-700 flex items-center justify-center overflow-hidden img-wrap">
+          <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8" class="text-neutral-500"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+          <span class="absolute top-2 left-2 bg-[#bd1105] text-white text-[10px] font-bold px-2 py-0.5 rounded-md">-20%</span>
+        </div>
+        <div class="p-3 flex-1 flex flex-col">
+          <p class="text-[10px] text-[#bd1105] font-bold uppercase">Samsung</p>
+          <p class="text-[13px] text-white font-medium mt-0.5 leading-snug line-clamp-2 min-h-[36px]">Galaxy S25 256GB Phantom Black</p>
+          <div class="flex items-center gap-1 mt-1"><span style="color:#f59e0b;letter-spacing:1px;font-size:11px">★★★★★</span><span class="text-[9px] text-neutral-400">4.6 (12)</span></div>
+          <div class="flex items-end gap-2 mt-2">
+            <p class="text-[18px] font-black text-[#bd1105] leading-none whitespace-nowrap">959 евр.</p>
+            <p class="text-[12px] text-neutral-500 line-through whitespace-nowrap leading-none mb-0.5">1 199 евр.</p>
+          </div>
+
+          <div class="mt-auto pt-2">
+            <p class="text-[10px] text-green-500 flex items-center gap-1 mb-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Доставка до 2 работни дни</p>
+            <button class="w-full bg-[#bd1105] hover:bg-red-700 text-white text-xs font-semibold py-2.5 rounded-xl transition flex items-center justify-center gap-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Добави в кошница</button>
+            <div class="flex gap-1.5 mt-1.5">
+              <button class="flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-600 transition text-neutral-600 dark:text-neutral-300 text-[9px] font-medium"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>Преглед</button>
+              <button class="flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-600 transition text-neutral-600 dark:text-neutral-300 text-[9px] font-medium"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Бърза поръчка</button>
+              <button class="flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-600 transition text-neutral-600 dark:text-neutral-300 text-[9px] font-medium"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Сравни</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-neutral-800 rounded-2xl overflow-hidden hover:bg-neutral-700 transition group cursor-pointer flex flex-col">
+        <div class="relative h-[120px] bg-neutral-700 flex items-center justify-center overflow-hidden img-wrap">
+          <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8" class="text-neutral-500"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><line x1="2" y1="7" x2="22" y2="7"/></svg>
+          <span class="absolute top-2 left-2 bg-[#bd1105] text-white text-[10px] font-bold px-2 py-0.5 rounded-md">-30%</span>
+        </div>
+        <div class="p-3 flex-1 flex flex-col">
+          <p class="text-[10px] text-[#bd1105] font-bold uppercase">LG</p>
+          <p class="text-[13px] text-white font-medium mt-0.5 leading-snug line-clamp-2 min-h-[36px]">OLED55C3 55" 4K Smart TV</p>
+          <div class="flex items-center gap-1 mt-1"><span style="color:#f59e0b;letter-spacing:1px;font-size:11px">★★★★★</span><span class="text-[9px] text-neutral-400">4.6 (12)</span></div>
+          <div class="flex items-end gap-2 mt-2">
+            <p class="text-[18px] font-black text-[#bd1105] leading-none whitespace-nowrap">1 399 евр.</p>
+            <p class="text-[12px] text-neutral-500 line-through whitespace-nowrap leading-none mb-0.5">1 999 евр.</p>
+          </div>
+
+          <div class="mt-auto pt-2">
+            <p class="text-[10px] text-green-500 flex items-center gap-1 mb-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Доставка до 2 работни дни</p>
+            <button class="w-full bg-[#bd1105] hover:bg-red-700 text-white text-xs font-semibold py-2.5 rounded-xl transition flex items-center justify-center gap-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Добави в кошница</button>
+            <div class="flex gap-1.5 mt-1.5">
+              <button class="flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-600 transition text-neutral-600 dark:text-neutral-300 text-[9px] font-medium"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>Преглед</button>
+              <button class="flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-600 transition text-neutral-600 dark:text-neutral-300 text-[9px] font-medium"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Бърза поръчка</button>
+              <button class="flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-600 transition text-neutral-600 dark:text-neutral-300 text-[9px] font-medium"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Сравни</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-neutral-800 rounded-2xl overflow-hidden hover:bg-neutral-700 transition group cursor-pointer flex flex-col">
+        <div class="relative h-[120px] bg-neutral-700 flex items-center justify-center overflow-hidden img-wrap">
+          <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8" class="text-neutral-500"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+          <span class="absolute top-2 left-2 bg-[#bd1105] text-white text-[10px] font-bold px-2 py-0.5 rounded-md">-15%</span>
+        </div>
+        <div class="p-3 flex-1 flex flex-col">
+          <p class="text-[10px] text-[#bd1105] font-bold uppercase">Sony</p>
+          <p class="text-[13px] text-white font-medium mt-0.5 leading-snug line-clamp-2 min-h-[36px]">WH-1000XM5 Wireless ANC Headphones</p>
+          <div class="flex items-center gap-1 mt-1"><span style="color:#f59e0b;letter-spacing:1px;font-size:11px">★★★★★</span><span class="text-[9px] text-neutral-400">4.6 (12)</span></div>
+          <div class="flex items-end gap-2 mt-2">
+            <p class="text-[18px] font-black text-[#bd1105] leading-none whitespace-nowrap">329 евр.</p>
+            <p class="text-[12px] text-neutral-500 line-through whitespace-nowrap leading-none mb-0.5">389 евр.</p>
+          </div>
+
+          <div class="mt-auto pt-2">
+            <p class="text-[10px] text-green-500 flex items-center gap-1 mb-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Доставка до 2 работни дни</p>
+            <button class="w-full bg-[#bd1105] hover:bg-red-700 text-white text-xs font-semibold py-2.5 rounded-xl transition flex items-center justify-center gap-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Добави в кошница</button>
+            <div class="flex gap-1.5 mt-1.5">
+              <button class="flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-600 transition text-neutral-600 dark:text-neutral-300 text-[9px] font-medium"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>Преглед</button>
+              <button class="flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-600 transition text-neutral-600 dark:text-neutral-300 text-[9px] font-medium"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Бърза поръчка</button>
+              <button class="flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-600 transition text-neutral-600 dark:text-neutral-300 text-[9px] font-medium"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Сравни</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-neutral-800 rounded-2xl overflow-hidden hover:bg-neutral-700 transition group cursor-pointer flex flex-col">
+        <div class="relative h-[120px] bg-neutral-700 flex items-center justify-center overflow-hidden img-wrap">
+          <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8" class="text-neutral-500"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 3h-8M12 3v4"/></svg>
+          <span class="absolute top-2 left-2 bg-[#bd1105] text-white text-[10px] font-bold px-2 py-0.5 rounded-md">-18%</span>
+        </div>
+        <div class="p-3 flex-1 flex flex-col">
+          <p class="text-[10px] text-[#bd1105] font-bold uppercase">ASUS</p>
+          <p class="text-[13px] text-white font-medium mt-0.5 leading-snug line-clamp-2 min-h-[36px]">ROG Strix 27" 165Hz QHD Gaming</p>
+          <div class="flex items-center gap-1 mt-1"><span style="color:#f59e0b;letter-spacing:1px;font-size:11px">★★★★★</span><span class="text-[9px] text-neutral-400">4.6 (12)</span></div>
+          <div class="flex items-end gap-2 mt-2">
+            <p class="text-[18px] font-black text-[#bd1105] leading-none whitespace-nowrap">489 евр.</p>
+            <p class="text-[12px] text-neutral-500 line-through whitespace-nowrap leading-none mb-0.5">599 евр.</p>
+          </div>
+
+          <div class="mt-auto pt-2">
+            <p class="text-[10px] text-green-500 flex items-center gap-1 mb-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Доставка до 2 работни дни</p>
+            <button class="w-full bg-[#bd1105] hover:bg-red-700 text-white text-xs font-semibold py-2.5 rounded-xl transition flex items-center justify-center gap-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Добави в кошница</button>
+            <div class="flex gap-1.5 mt-1.5">
+              <button class="flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-600 transition text-neutral-600 dark:text-neutral-300 text-[9px] font-medium"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>Преглед</button>
+              <button class="flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-600 transition text-neutral-600 dark:text-neutral-300 text-[9px] font-medium"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Бърза поръчка</button>
+              <button class="flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-600 transition text-neutral-600 dark:text-neutral-300 text-[9px] font-medium"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Сравни</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PROMO BANNER -->
+  <div class="bg-neutral-950 px-6 pb-6">
+    <div class="grid grid-cols-2 gap-4">
+      <div class="bg-gradient-to-r from-neutral-800 to-neutral-900 rounded-2xl p-5 flex items-center gap-4 relative overflow-hidden border border-neutral-700/50">
+        <div class="absolute right-0 top-0 bottom-0 w-2/5 bg-gradient-to-l from-[#bd1105]/12 to-transparent pointer-events-none"></div>
+        <div class="flex-1 z-10 min-w-0">
+          <span class="text-[10px] text-[#bd1105] font-bold uppercase tracking-wider">Palit</span>
+          <h3 class="text-white font-black text-[15px] leading-snug mt-0.5 line-clamp-2">RTX 5060 Dual OC 8GB GDDR7</h3>
+          <p class="text-[11px] text-neutral-400 mt-1">Най-достъпната RTX 50 серия</p>
+          <p class="text-2xl font-black text-white mt-2 whitespace-nowrap">290,00 <span class="text-sm font-semibold text-neutral-400">евр.</span></p>
+          <button class="mt-3 bg-[#bd1105] hover:bg-red-700 text-white text-xs font-bold px-5 py-2 rounded-xl transition">Виж продукта</button>
+        </div>
+        <div class="w-[110px] h-[90px] bg-neutral-700/40 rounded-xl flex items-center justify-center shrink-0 z-10">
+          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.6" class="text-neutral-500"><rect x="2" y="2" width="14" height="14" rx="2"/><path d="M8 16v4M8 20h4M18 16a4 4 0 0 0 0-8h-4"/></svg>
+        </div>
+      </div>
+      <div class="bg-neutral-800 rounded-2xl p-4 flex items-center gap-4 border border-neutral-700/50">
+        <div class="w-[90px] h-[80px] bg-neutral-700/50 rounded-xl flex items-center justify-center shrink-0">
+          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.6" class="text-neutral-500"><rect x="2" y="2" width="14" height="14" rx="2"/><path d="M8 16v4M8 20h4M18 16a4 4 0 0 0 0-8h-4"/></svg>
+        </div>
+        <div class="flex-1 min-w-0">
+          <span class="text-[10px] text-[#bd1105] font-bold uppercase tracking-wider">Sapphire</span>
+          <h3 class="text-white font-bold text-[13px] leading-snug mt-0.5 line-clamp-2">PURE RX 9060 XT OC 16GB GDDR6</h3>
+          <div class="flex items-baseline gap-2 mt-1.5">
+            <span class="text-lg font-black text-[#bd1105] whitespace-nowrap">170,78 евр.</span>
+            <span class="text-[11px] text-neutral-500 line-through whitespace-nowrap">199,00 евр.</span>
+          </div>
+          <button class="mt-2 w-full bg-[#bd1105] hover:bg-red-700 text-white text-[11px] font-bold py-2 rounded-xl transition flex items-center justify-center gap-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Добави в кошница</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- НОВИ ПРОДУКТИ -->
+  <div class="bg-white dark:bg-neutral-900 px-6 py-8">
+    <div class="flex items-center justify-between mb-5">
+      <div class="flex items-center gap-3">
+        <div class="w-1 h-6 bg-[#bd1105] rounded-full"></div>
+        <h2 class="text-xl font-black text-neutral-900 dark:text-white">Нови продукти</h2>
+      </div>
+      <!-- Date tabs -->
+      <div class="flex items-center gap-1 bg-neutral-100 dark:bg-neutral-800 rounded-xl p-1">
+        <button onclick="setTab(this,'7')" id="tab-7" class="tab-btn px-4 py-1.5 rounded-lg text-sm font-semibold bg-[#bd1105] text-white transition">7 дни</button>
+        <button onclick="setTab(this,'14')" id="tab-14" class="tab-btn px-4 py-1.5 rounded-lg text-sm font-medium text-neutral-500 hover:text-neutral-900 dark:hover:text-white transition">14 дни</button>
+        <button onclick="setTab(this,'30')" id="tab-30" class="tab-btn px-4 py-1.5 rounded-lg text-sm font-medium text-neutral-500 hover:text-neutral-900 dark:hover:text-white transition">30 дни</button>
+      </div>
+      <a class="text-sm font-semibold text-neutral-500 dark:text-neutral-400 hover:text-neutral-800 dark:hover:text-white cursor-pointer transition">Виж всички нови</a>
+    </div>
+    <!-- 5x2 product grid -->
+    <div class="grid grid-cols-5 gap-4">
+
+      <div class="bg-white dark:bg-neutral-800 rounded-2xl border border-neutral-100 dark:border-neutral-700 overflow-hidden hover:shadow-md transition-shadow group flex flex-col">
+        <div class="relative h-[120px] bg-neutral-50 dark:bg-neutral-700 flex items-center justify-center overflow-hidden img-wrap">
+          <svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8" class="text-neutral-300 dark:text-neutral-500"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          <span class="absolute top-2 left-2 bg-green-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded">НОВО</span>
+        </div>
+        <div class="p-3 flex-1 flex flex-col">
+          <p class="text-[10px] text-[#bd1105] font-bold uppercase">Lenovo</p>
+          <p class="text-[13px] text-neutral-800 dark:text-neutral-200 font-medium mt-0.5 leading-snug line-clamp-2 min-h-[36px]">ThinkPad X1 Carbon i7-1355U 16GB</p>
+          <div class="flex items-center gap-1 mt-1"><span style="color:#f59e0b;letter-spacing:1px;font-size:11px">★★★★★</span><span class="text-[9px] text-neutral-400 dark:text-neutral-500">4.7 (8)</span></div>
+                    <p class="text-[18px] font-black text-neutral-900 dark:text-white mt-1 whitespace-nowrap">1 549 евр.</p>
+          <div class="mt-auto pt-2">
+            <p class="text-[10px] text-green-500 flex items-center gap-1 mb-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Доставка до 2 работни дни</p>
+            <button class="w-full bg-[#bd1105] hover:bg-red-700 text-white text-xs font-semibold py-2.5 rounded-xl transition flex items-center justify-center gap-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Добави в кошница</button>
+            <div class="flex gap-1.5 mt-1.5">
+              <button class="flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-600 transition text-neutral-600 dark:text-neutral-300 text-[9px] font-medium"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>Преглед</button>
+              <button class="flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-600 transition text-neutral-600 dark:text-neutral-300 text-[9px] font-medium"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Бърза поръчка</button>
+              <button class="flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-600 transition text-neutral-600 dark:text-neutral-300 text-[9px] font-medium"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Сравни</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white dark:bg-neutral-800 rounded-2xl border border-neutral-100 dark:border-neutral-700 overflow-hidden hover:shadow-md transition-shadow group flex flex-col">
+        <div class="relative h-[120px] bg-neutral-50 dark:bg-neutral-700 flex items-center justify-center overflow-hidden img-wrap">
+          <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8" class="text-neutral-300 dark:text-neutral-500"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+          <span class="absolute top-2 left-2 bg-green-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded">НОВО</span>
+        </div>
+        <div class="p-3 flex-1 flex flex-col">
+          <p class="text-[10px] text-[#bd1105] font-bold uppercase">Samsung</p>
+          <p class="text-[13px] text-neutral-800 dark:text-neutral-200 font-medium mt-0.5 leading-snug line-clamp-2 min-h-[36px]">Galaxy A56 5G 128GB Blue</p>
+          <div class="flex items-center gap-1 mt-1"><span style="color:#f59e0b;letter-spacing:1px;font-size:11px">★★★★★</span><span class="text-[9px] text-neutral-400 dark:text-neutral-500">4.7 (8)</span></div>
+                    <p class="text-[18px] font-black text-neutral-900 dark:text-white mt-1 whitespace-nowrap">479 евр.</p>
+          <div class="mt-auto pt-2">
+            <p class="text-[10px] text-green-500 flex items-center gap-1 mb-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Доставка до 2 работни дни</p>
+            <button class="w-full bg-[#bd1105] hover:bg-red-700 text-white text-xs font-semibold py-2.5 rounded-xl transition flex items-center justify-center gap-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Добави в кошница</button>
+            <div class="flex gap-1.5 mt-1.5">
+              <button class="flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-600 transition text-neutral-600 dark:text-neutral-300 text-[9px] font-medium"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>Преглед</button>
+              <button class="flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-600 transition text-neutral-600 dark:text-neutral-300 text-[9px] font-medium"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Бърза поръчка</button>
+              <button class="flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-600 transition text-neutral-600 dark:text-neutral-300 text-[9px] font-medium"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Сравни</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white dark:bg-neutral-800 rounded-2xl border border-neutral-100 dark:border-neutral-700 overflow-hidden hover:shadow-md transition-shadow group flex flex-col">
+        <div class="relative h-[120px] bg-neutral-50 dark:bg-neutral-700 flex items-center justify-center overflow-hidden img-wrap">
+          <svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8" class="text-neutral-300 dark:text-neutral-500"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 3h-8M12 3v4"/></svg>
+          <span class="absolute top-2 left-2 bg-green-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded">НОВО</span>
+        </div>
+        <div class="p-3 flex-1 flex flex-col">
+          <p class="text-[10px] text-[#bd1105] font-bold uppercase">LG</p>
+          <p class="text-[13px] text-neutral-800 dark:text-neutral-200 font-medium mt-0.5 leading-snug line-clamp-2 min-h-[36px]">UltraGear 32" 4K 144Hz OLED</p>
+          <div class="flex items-center gap-1 mt-1"><span style="color:#f59e0b;letter-spacing:1px;font-size:11px">★★★★★</span><span class="text-[9px] text-neutral-400 dark:text-neutral-500">4.7 (8)</span></div>
+                    <p class="text-[18px] font-black text-neutral-900 dark:text-white mt-1 whitespace-nowrap">899 евр.</p>
+          <div class="mt-auto pt-2">
+            <p class="text-[10px] text-green-500 flex items-center gap-1 mb-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Доставка до 2 работни дни</p>
+            <button class="w-full bg-[#bd1105] hover:bg-red-700 text-white text-xs font-semibold py-2.5 rounded-xl transition flex items-center justify-center gap-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Добави в кошница</button>
+            <div class="flex gap-1.5 mt-1.5">
+              <button class="flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-600 transition text-neutral-600 dark:text-neutral-300 text-[9px] font-medium"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>Преглед</button>
+              <button class="flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-600 transition text-neutral-600 dark:text-neutral-300 text-[9px] font-medium"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Бърза поръчка</button>
+              <button class="flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-600 transition text-neutral-600 dark:text-neutral-300 text-[9px] font-medium"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Сравни</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white dark:bg-neutral-800 rounded-2xl border border-neutral-100 dark:border-neutral-700 overflow-hidden hover:shadow-md transition-shadow group flex flex-col">
+        <div class="relative h-[120px] bg-neutral-50 dark:bg-neutral-700 flex items-center justify-center overflow-hidden img-wrap">
+          <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8" class="text-neutral-300 dark:text-neutral-500"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg>
+          <span class="absolute top-2 left-2 bg-green-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded">НОВО</span>
+        </div>
+        <div class="p-3 flex-1 flex flex-col">
+          <p class="text-[10px] text-[#bd1105] font-bold uppercase">Lenovo</p>
+          <p class="text-[13px] text-neutral-800 dark:text-neutral-200 font-medium mt-0.5 leading-snug line-clamp-2 min-h-[36px]">Tab P12 Pro 12.6" 256GB WiFi</p>
+          <div class="flex items-center gap-1 mt-1"><span style="color:#f59e0b;letter-spacing:1px;font-size:11px">★★★★★</span><span class="text-[9px] text-neutral-400 dark:text-neutral-500">4.7 (8)</span></div>
+                    <p class="text-[18px] font-black text-neutral-900 dark:text-white mt-1 whitespace-nowrap">699 евр.</p>
+          <div class="mt-auto pt-2">
+            <p class="text-[10px] text-green-500 flex items-center gap-1 mb-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Доставка до 2 работни дни</p>
+            <button class="w-full bg-[#bd1105] hover:bg-red-700 text-white text-xs font-semibold py-2.5 rounded-xl transition flex items-center justify-center gap-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Добави в кошница</button>
+            <div class="flex gap-1.5 mt-1.5">
+              <button class="flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-600 transition text-neutral-600 dark:text-neutral-300 text-[9px] font-medium"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>Преглед</button>
+              <button class="flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-600 transition text-neutral-600 dark:text-neutral-300 text-[9px] font-medium"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Бърза поръчка</button>
+              <button class="flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-600 transition text-neutral-600 dark:text-neutral-300 text-[9px] font-medium"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Сравни</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white dark:bg-neutral-800 rounded-2xl border border-neutral-100 dark:border-neutral-700 overflow-hidden hover:shadow-md transition-shadow group flex flex-col">
+        <div class="relative h-[120px] bg-neutral-50 dark:bg-neutral-700 flex items-center justify-center overflow-hidden img-wrap">
+          <svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8" class="text-neutral-300 dark:text-neutral-500"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M15 2v2M9 2v2M2 15h2M2 9h2M22 15h-2M22 9h-2M15 22v-2M9 22v-2"/></svg>
+          <span class="absolute top-2 left-2 bg-green-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded">НОВО</span>
+        </div>
+        <div class="p-3 flex-1 flex flex-col">
+          <p class="text-[10px] text-[#bd1105] font-bold uppercase">ASUS</p>
+          <p class="text-[13px] text-neutral-800 dark:text-neutral-200 font-medium mt-0.5 leading-snug line-clamp-2 min-h-[36px]">ROG Strix G16 i9-13980HX RTX 4090</p>
+          <div class="flex items-center gap-1 mt-1"><span style="color:#f59e0b;letter-spacing:1px;font-size:11px">★★★★★</span><span class="text-[9px] text-neutral-400 dark:text-neutral-500">4.7 (8)</span></div>
+                    <p class="text-[18px] font-black text-neutral-900 dark:text-white mt-1 whitespace-nowrap">3 499 евр.</p>
+          <div class="mt-auto pt-2">
+            <p class="text-[10px] text-green-500 flex items-center gap-1 mb-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Доставка до 2 работни дни</p>
+            <button class="w-full bg-[#bd1105] hover:bg-red-700 text-white text-xs font-semibold py-2.5 rounded-xl transition flex items-center justify-center gap-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Добави в кошница</button>
+            <div class="flex gap-1.5 mt-1.5">
+              <button class="flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-600 transition text-neutral-600 dark:text-neutral-300 text-[9px] font-medium"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>Преглед</button>
+              <button class="flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-600 transition text-neutral-600 dark:text-neutral-300 text-[9px] font-medium"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Бърза поръчка</button>
+              <button class="flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-600 transition text-neutral-600 dark:text-neutral-300 text-[9px] font-medium"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Сравни</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white dark:bg-neutral-800 rounded-2xl border border-neutral-100 dark:border-neutral-700 overflow-hidden hover:shadow-md transition-shadow group flex flex-col">
+        <div class="relative h-[120px] bg-neutral-50 dark:bg-neutral-700 flex items-center justify-center overflow-hidden img-wrap">
+          <svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8" class="text-neutral-300 dark:text-neutral-500"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+          <span class="absolute top-2 left-2 bg-green-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded">НОВО</span>
+        </div>
+        <div class="p-3 flex-1 flex flex-col">
+          <p class="text-[10px] text-[#bd1105] font-bold uppercase">Sony</p>
+          <p class="text-[13px] text-neutral-800 dark:text-neutral-200 font-medium mt-0.5 leading-snug line-clamp-2 min-h-[36px]">LinkBuds S WF-LS900N True Wireless</p>
+          <div class="flex items-center gap-1 mt-1"><span style="color:#f59e0b;letter-spacing:1px;font-size:11px">★★★★★</span><span class="text-[9px] text-neutral-400 dark:text-neutral-500">4.7 (8)</span></div>
+                    <p class="text-[18px] font-black text-neutral-900 dark:text-white mt-1 whitespace-nowrap">199 евр.</p>
+          <div class="mt-auto pt-2">
+            <p class="text-[10px] text-green-500 flex items-center gap-1 mb-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Доставка до 2 работни дни</p>
+            <button class="w-full bg-[#bd1105] hover:bg-red-700 text-white text-xs font-semibold py-2.5 rounded-xl transition flex items-center justify-center gap-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Добави в кошница</button>
+            <div class="flex gap-1.5 mt-1.5">
+              <button class="flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-600 transition text-neutral-600 dark:text-neutral-300 text-[9px] font-medium"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>Преглед</button>
+              <button class="flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-600 transition text-neutral-600 dark:text-neutral-300 text-[9px] font-medium"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Бърза поръчка</button>
+              <button class="flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-600 transition text-neutral-600 dark:text-neutral-300 text-[9px] font-medium"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Сравни</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white dark:bg-neutral-800 rounded-2xl border border-neutral-100 dark:border-neutral-700 overflow-hidden hover:shadow-md transition-shadow group flex flex-col">
+        <div class="relative h-[120px] bg-neutral-50 dark:bg-neutral-700 flex items-center justify-center overflow-hidden img-wrap">
+          <svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8" class="text-neutral-300 dark:text-neutral-500"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          <span class="absolute top-2 left-2 bg-green-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded">НОВО</span>
+        </div>
+        <div class="p-3 flex-1 flex flex-col">
+          <p class="text-[10px] text-[#bd1105] font-bold uppercase">Acer</p>
+          <p class="text-[13px] text-neutral-800 dark:text-neutral-200 font-medium mt-0.5 leading-snug line-clamp-2 min-h-[36px]">Aspire 5 Ryzen 7 7730U 16GB 1TB</p>
+          <div class="flex items-center gap-1 mt-1"><span style="color:#f59e0b;letter-spacing:1px;font-size:11px">★★★★★</span><span class="text-[9px] text-neutral-400 dark:text-neutral-500">4.7 (8)</span></div>
+                    <p class="text-[18px] font-black text-neutral-900 dark:text-white mt-1 whitespace-nowrap">1 099 евр.</p>
+          <div class="mt-auto pt-2">
+            <p class="text-[10px] text-green-500 flex items-center gap-1 mb-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Доставка до 2 работни дни</p>
+            <button class="w-full bg-[#bd1105] hover:bg-red-700 text-white text-xs font-semibold py-2.5 rounded-xl transition flex items-center justify-center gap-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Добави в кошница</button>
+            <div class="flex gap-1.5 mt-1.5">
+              <button class="flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-600 transition text-neutral-600 dark:text-neutral-300 text-[9px] font-medium"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>Преглед</button>
+              <button class="flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-600 transition text-neutral-600 dark:text-neutral-300 text-[9px] font-medium"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Бърза поръчка</button>
+              <button class="flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-600 transition text-neutral-600 dark:text-neutral-300 text-[9px] font-medium"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Сравни</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white dark:bg-neutral-800 rounded-2xl border border-neutral-100 dark:border-neutral-700 overflow-hidden hover:shadow-md transition-shadow group flex flex-col">
+        <div class="relative h-[120px] bg-neutral-50 dark:bg-neutral-700 flex items-center justify-center overflow-hidden img-wrap">
+          <svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8" class="text-neutral-300 dark:text-neutral-500"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 3h-8M12 3v4"/></svg>
+          <span class="absolute top-2 left-2 bg-green-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded">НОВО</span>
+        </div>
+        <div class="p-3 flex-1 flex flex-col">
+          <p class="text-[10px] text-[#bd1105] font-bold uppercase">GIGABYTE</p>
+          <p class="text-[13px] text-neutral-800 dark:text-neutral-200 font-medium mt-0.5 leading-snug line-clamp-2 min-h-[36px]">M27Q X 27" 240Hz QHD IPS</p>
+          <div class="flex items-center gap-1 mt-1"><span style="color:#f59e0b;letter-spacing:1px;font-size:11px">★★★★★</span><span class="text-[9px] text-neutral-400 dark:text-neutral-500">4.7 (8)</span></div>
+                    <p class="text-[18px] font-black text-neutral-900 dark:text-white mt-1 whitespace-nowrap">399 евр.</p>
+          <div class="mt-auto pt-2">
+            <p class="text-[10px] text-green-500 flex items-center gap-1 mb-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Доставка до 2 работни дни</p>
+            <button class="w-full bg-[#bd1105] hover:bg-red-700 text-white text-xs font-semibold py-2.5 rounded-xl transition flex items-center justify-center gap-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Добави в кошница</button>
+            <div class="flex gap-1.5 mt-1.5">
+              <button class="flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-600 transition text-neutral-600 dark:text-neutral-300 text-[9px] font-medium"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>Преглед</button>
+              <button class="flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-600 transition text-neutral-600 dark:text-neutral-300 text-[9px] font-medium"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Бърза поръчка</button>
+              <button class="flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-600 transition text-neutral-600 dark:text-neutral-300 text-[9px] font-medium"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Сравни</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white dark:bg-neutral-800 rounded-2xl border border-neutral-100 dark:border-neutral-700 overflow-hidden hover:shadow-md transition-shadow group flex flex-col">
+        <div class="relative h-[120px] bg-neutral-50 dark:bg-neutral-700 flex items-center justify-center overflow-hidden img-wrap">
+          <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8" class="text-neutral-300 dark:text-neutral-500"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+          <span class="absolute top-2 left-2 bg-green-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded">НОВО</span>
+        </div>
+        <div class="p-3 flex-1 flex flex-col">
+          <p class="text-[10px] text-[#bd1105] font-bold uppercase">Samsung</p>
+          <p class="text-[13px] text-neutral-800 dark:text-neutral-200 font-medium mt-0.5 leading-snug line-clamp-2 min-h-[36px]">Galaxy Z Flip6 512GB Silver</p>
+          <div class="flex items-center gap-1 mt-1"><span style="color:#f59e0b;letter-spacing:1px;font-size:11px">★★★★★</span><span class="text-[9px] text-neutral-400 dark:text-neutral-500">4.7 (8)</span></div>
+                    <p class="text-[18px] font-black text-neutral-900 dark:text-white mt-1 whitespace-nowrap">1 249 евр.</p>
+          <div class="mt-auto pt-2">
+            <p class="text-[10px] text-green-500 flex items-center gap-1 mb-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Доставка до 2 работни дни</p>
+            <button class="w-full bg-[#bd1105] hover:bg-red-700 text-white text-xs font-semibold py-2.5 rounded-xl transition flex items-center justify-center gap-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Добави в кошница</button>
+            <div class="flex gap-1.5 mt-1.5">
+              <button class="flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-600 transition text-neutral-600 dark:text-neutral-300 text-[9px] font-medium"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>Преглед</button>
+              <button class="flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-600 transition text-neutral-600 dark:text-neutral-300 text-[9px] font-medium"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Бърза поръчка</button>
+              <button class="flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-600 transition text-neutral-600 dark:text-neutral-300 text-[9px] font-medium"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Сравни</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white dark:bg-neutral-800 rounded-2xl border border-neutral-100 dark:border-neutral-700 overflow-hidden hover:shadow-md transition-shadow group flex flex-col">
+        <div class="relative h-[120px] bg-neutral-50 dark:bg-neutral-700 flex items-center justify-center overflow-hidden img-wrap">
+          <svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8" class="text-neutral-300 dark:text-neutral-500"><rect x="2" y="2" width="14" height="14" rx="2"/><path d="M8 16v4M8 20h4M18 16a4 4 0 0 0 0-8h-4"/></svg>
+          <span class="absolute top-2 left-2 bg-green-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded">НОВО</span>
+        </div>
+        <div class="p-3 flex-1 flex flex-col">
+          <p class="text-[10px] text-[#bd1105] font-bold uppercase">ASUS</p>
+          <p class="text-[13px] text-neutral-800 dark:text-neutral-200 font-medium mt-0.5 leading-snug line-clamp-2 min-h-[36px]">ZenBook Pro 16X OLED RTX 4060</p>
+          <div class="flex items-center gap-1 mt-1"><span style="color:#f59e0b;letter-spacing:1px;font-size:11px">★★★★★</span><span class="text-[9px] text-neutral-400 dark:text-neutral-500">4.7 (8)</span></div>
+                    <p class="text-[18px] font-black text-neutral-900 dark:text-white mt-1 whitespace-nowrap">2 199 евр.</p>
+          <div class="mt-auto pt-2">
+            <p class="text-[10px] text-green-500 flex items-center gap-1 mb-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Доставка до 2 работни дни</p>
+            <button class="w-full bg-[#bd1105] hover:bg-red-700 text-white text-xs font-semibold py-2.5 rounded-xl transition flex items-center justify-center gap-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Добави в кошница</button>
+            <div class="flex gap-1.5 mt-1.5">
+              <button class="flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-600 transition text-neutral-600 dark:text-neutral-300 text-[9px] font-medium"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>Преглед</button>
+              <button class="flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-600 transition text-neutral-600 dark:text-neutral-300 text-[9px] font-medium"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Бърза поръчка</button>
+              <button class="flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-600 transition text-neutral-600 dark:text-neutral-300 text-[9px] font-medium"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Сравни</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!-- PAGINATION -->
+    <div class="flex items-center justify-center gap-1.5 mt-6 pb-2">
+      <button class="w-8 h-8 rounded-lg bg-[#bd1105] text-white text-sm font-bold flex items-center justify-center">1</button>
+      <button class="w-8 h-8 rounded-lg bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-300 text-sm font-medium flex items-center justify-center hover:bg-neutral-200 dark:hover:bg-neutral-700 transition">2</button>
+      <button class="w-8 h-8 rounded-lg bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-300 text-sm font-medium flex items-center justify-center hover:bg-neutral-200 dark:hover:bg-neutral-700 transition">3</button>
+      <span class="text-neutral-400 px-1 text-sm">...</span>
+      <button class="w-8 h-8 rounded-lg bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-300 text-sm font-medium flex items-center justify-center hover:bg-neutral-200 dark:hover:bg-neutral-700 transition">18</button>
+      <button class="w-8 h-8 rounded-lg bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-300 text-sm flex items-center justify-center hover:bg-neutral-200 dark:hover:bg-neutral-700 transition"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg></button>
+    </div>
+  </div>
+
+  <!-- НАЙ-ПРОДАВАНИ -->
+  <div class="bg-neutral-50 dark:bg-neutral-950 px-6 py-8 border-t border-neutral-100 dark:border-neutral-800">
+    <div class="flex items-center justify-between mb-5">
+      <div class="flex items-center gap-3">
+        <div class="w-1 h-6 bg-[#bd1105] rounded-full"></div>
+        <h2 class="text-xl font-black text-neutral-900 dark:text-white">Най-продавани</h2>
+      </div>
+      <a class="text-sm font-semibold text-neutral-500 hover:text-neutral-800 dark:hover:text-white cursor-pointer transition">Виж всички</a>
+    </div>
+    <div class="grid grid-cols-5 gap-4">
+
+      <div class="bg-white dark:bg-neutral-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition group cursor-pointer flex flex-col border border-neutral-100 dark:border-neutral-700">
+        <div class="relative h-[120px] bg-neutral-50 dark:bg-neutral-700 flex items-center justify-center overflow-hidden img-wrap">
+          <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8" class="text-neutral-300 dark:text-neutral-500"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          <span class="absolute top-2 left-2 bg-amber-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded">#1</span>
+        </div>
+        <div class="p-3 flex-1 flex flex-col">
+          <p class="text-[10px] text-[#bd1105] font-bold uppercase">Lenovo</p>
+          <p class="text-[13px] text-neutral-800 dark:text-neutral-200 font-medium mt-0.5 leading-snug line-clamp-2 min-h-[36px]">IdeaCentre AIO 27 i5-12450H 16GB 512GB</p>
+          <div class="flex items-center gap-1 mt-1"><span style="color:#f59e0b;letter-spacing:1px;font-size:11px">★★★★★</span><span class="text-[9px] text-neutral-400 dark:text-neutral-500">4.9 (31)</span></div>
+                    <p class="text-[18px] font-black text-neutral-900 dark:text-white mt-1 whitespace-nowrap">849 евр.</p>
+          <div class="mt-auto pt-2">
+            <p class="text-[10px] text-green-500 flex items-center gap-1 mb-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Доставка до 2 работни дни</p>
+            <button class="w-full bg-[#bd1105] hover:bg-red-700 text-white text-xs font-semibold py-2.5 rounded-xl transition flex items-center justify-center gap-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Добави в кошница</button>
+            <div class="flex gap-1.5 mt-1.5">
+              <button class="flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-600 transition text-neutral-600 dark:text-neutral-300 text-[9px] font-medium"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>Преглед</button>
+              <button class="flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-600 transition text-neutral-600 dark:text-neutral-300 text-[9px] font-medium"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Бърза поръчка</button>
+              <button class="flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-600 transition text-neutral-600 dark:text-neutral-300 text-[9px] font-medium"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Сравни</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white dark:bg-neutral-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition group cursor-pointer flex flex-col border border-neutral-100 dark:border-neutral-700">
+        <div class="relative h-[120px] bg-neutral-50 dark:bg-neutral-700 flex items-center justify-center overflow-hidden img-wrap">
+          <svg xmlns="http://www.w3.org/2000/svg" width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8" class="text-neutral-300 dark:text-neutral-500"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          <span class="absolute top-2 left-2 bg-neutral-400 text-white text-[9px] font-bold px-1.5 py-0.5 rounded">#2</span>
+        </div>
+        <div class="p-3 flex-1 flex flex-col">
+          <p class="text-[10px] text-[#bd1105] font-bold uppercase">ASUS</p>
+          <p class="text-[13px] text-neutral-800 dark:text-neutral-200 font-medium mt-0.5 leading-snug line-clamp-2 min-h-[36px]">ZenBook 14 OLED i5-1335U 16GB 512GB</p>
+          <div class="flex items-center gap-1 mt-1"><span style="color:#f59e0b;letter-spacing:1px;font-size:11px">★★★★★</span><span class="text-[9px] text-neutral-400 dark:text-neutral-500">4.8 (19)</span></div>
+                    <p class="text-[18px] font-black text-neutral-900 dark:text-white mt-1 whitespace-nowrap">749 евр.</p>
+          <div class="mt-auto pt-2">
+            <p class="text-[10px] text-green-500 flex items-center gap-1 mb-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Доставка до 2 работни дни</p>
+            <button class="w-full bg-[#bd1105] hover:bg-red-700 text-white text-xs font-semibold py-2.5 rounded-xl transition flex items-center justify-center gap-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Добави в кошница</button>
+            <div class="flex gap-1.5 mt-1.5">
+              <button class="flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-600 transition text-neutral-600 dark:text-neutral-300 text-[9px] font-medium"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>Преглед</button>
+              <button class="flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-600 transition text-neutral-600 dark:text-neutral-300 text-[9px] font-medium"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Бърза поръчка</button>
+              <button class="flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-600 transition text-neutral-600 dark:text-neutral-300 text-[9px] font-medium"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Сравни</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white dark:bg-neutral-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition group cursor-pointer flex flex-col border border-neutral-100 dark:border-neutral-700">
+        <div class="relative h-[120px] bg-neutral-50 dark:bg-neutral-700 flex items-center justify-center overflow-hidden img-wrap">
+          <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8" class="text-neutral-300 dark:text-neutral-500"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><line x1="2" y1="7" x2="22" y2="7"/></svg>
+          <span class="absolute top-2 left-2 bg-neutral-400 text-white text-[9px] font-bold px-1.5 py-0.5 rounded">#3</span>
+        </div>
+        <div class="p-3 flex-1 flex flex-col">
+          <p class="text-[10px] text-[#bd1105] font-bold uppercase">LG</p>
+          <p class="text-[13px] text-neutral-800 dark:text-neutral-200 font-medium mt-0.5 leading-snug line-clamp-2 min-h-[36px]">34WQ75C 34" UltraWide QHD IPS USB-C</p>
+          <div class="flex items-center gap-1 mt-1"><span style="color:#f59e0b;letter-spacing:1px;font-size:11px">★★★★★</span><span class="text-[9px] text-neutral-400 dark:text-neutral-500">4.7 (24)</span></div>
+                    <p class="text-[18px] font-black text-neutral-900 dark:text-white mt-1 whitespace-nowrap">499 евр.</p>
+          <div class="mt-auto pt-2">
+            <p class="text-[10px] text-green-500 flex items-center gap-1 mb-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Доставка до 2 работни дни</p>
+            <button class="w-full bg-[#bd1105] hover:bg-red-700 text-white text-xs font-semibold py-2.5 rounded-xl transition flex items-center justify-center gap-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Добави в кошница</button>
+            <div class="flex gap-1.5 mt-1.5">
+              <button class="flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-600 transition text-neutral-600 dark:text-neutral-300 text-[9px] font-medium"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>Преглед</button>
+              <button class="flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-600 transition text-neutral-600 dark:text-neutral-300 text-[9px] font-medium"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Бърза поръчка</button>
+              <button class="flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-600 transition text-neutral-600 dark:text-neutral-300 text-[9px] font-medium"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Сравни</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white dark:bg-neutral-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition group cursor-pointer flex flex-col border border-neutral-100 dark:border-neutral-700">
+        <div class="relative h-[120px] bg-neutral-50 dark:bg-neutral-700 flex items-center justify-center overflow-hidden img-wrap">
+          <svg xmlns="http://www.w3.org/2000/svg" width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8" class="text-neutral-300 dark:text-neutral-500"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          <span class="absolute top-2 left-2 bg-neutral-400 text-white text-[9px] font-bold px-1.5 py-0.5 rounded">#4</span>
+        </div>
+        <div class="p-3 flex-1 flex flex-col">
+          <p class="text-[10px] text-[#bd1105] font-bold uppercase">Acer</p>
+          <p class="text-[13px] text-neutral-800 dark:text-neutral-200 font-medium mt-0.5 leading-snug line-clamp-2 min-h-[36px]">Predator Helios 18 i7-14700HX RTX 4070</p>
+          <div class="flex items-center gap-1 mt-1"><span style="color:#f59e0b;letter-spacing:1px;font-size:11px">★★★★★</span><span class="text-[9px] text-neutral-400 dark:text-neutral-500">4.6 (15)</span></div>
+                    <p class="text-[18px] font-black text-neutral-900 dark:text-white mt-1 whitespace-nowrap">1 649 евр.</p>
+          <div class="mt-auto pt-2">
+            <p class="text-[10px] text-green-500 flex items-center gap-1 mb-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Доставка до 2 работни дни</p>
+            <button class="w-full bg-[#bd1105] hover:bg-red-700 text-white text-xs font-semibold py-2.5 rounded-xl transition flex items-center justify-center gap-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Добави в кошница</button>
+            <div class="flex gap-1.5 mt-1.5">
+              <button class="flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-600 transition text-neutral-600 dark:text-neutral-300 text-[9px] font-medium"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>Преглед</button>
+              <button class="flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-600 transition text-neutral-600 dark:text-neutral-300 text-[9px] font-medium"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Бърза поръчка</button>
+              <button class="flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-600 transition text-neutral-600 dark:text-neutral-300 text-[9px] font-medium"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Сравни</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white dark:bg-neutral-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition group cursor-pointer flex flex-col border border-neutral-100 dark:border-neutral-700">
+        <div class="relative h-[120px] bg-neutral-50 dark:bg-neutral-700 flex items-center justify-center overflow-hidden img-wrap">
+          <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8" class="text-neutral-300 dark:text-neutral-500"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+          <span class="absolute top-2 left-2 bg-neutral-400 text-white text-[9px] font-bold px-1.5 py-0.5 rounded">#5</span>
+        </div>
+        <div class="p-3 flex-1 flex flex-col">
+          <p class="text-[10px] text-[#bd1105] font-bold uppercase">Samsung</p>
+          <p class="text-[13px] text-neutral-800 dark:text-neutral-200 font-medium mt-0.5 leading-snug line-clamp-2 min-h-[36px]">Galaxy S24 FE 128GB Graphite</p>
+          <div class="flex items-center gap-1 mt-1"><span style="color:#f59e0b;letter-spacing:1px;font-size:11px">★★★★★</span><span class="text-[9px] text-neutral-400 dark:text-neutral-500">4.5 (42)</span></div>
+                    <p class="text-[18px] font-black text-neutral-900 dark:text-white mt-1 whitespace-nowrap">549 евр.</p>
+          <div class="mt-auto pt-2">
+            <p class="text-[10px] text-green-500 flex items-center gap-1 mb-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Доставка до 2 работни дни</p>
+            <button class="w-full bg-[#bd1105] hover:bg-red-700 text-white text-xs font-semibold py-2.5 rounded-xl transition flex items-center justify-center gap-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Добави в кошница</button>
+            <div class="flex gap-1.5 mt-1.5">
+              <button class="flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-600 transition text-neutral-600 dark:text-neutral-300 text-[9px] font-medium"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>Преглед</button>
+              <button class="flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-600 transition text-neutral-600 dark:text-neutral-300 text-[9px] font-medium"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Бърза поръчка</button>
+              <button class="flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-600 transition text-neutral-600 dark:text-neutral-300 text-[9px] font-medium"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Сравни</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- НАСКОРО РАЗГЛЕЖДАНИ -->
+  <div class="bg-white dark:bg-neutral-900 px-6 py-6 border-t border-neutral-100 dark:border-neutral-800">
+    <div class="flex items-center justify-between mb-3">
+      <div class="flex items-center gap-3">
+        <div class="w-1 h-5 bg-[#bd1105] rounded-full"></div>
+        <h3 class="text-base font-black text-neutral-900 dark:text-white">Наскоро разглеждани</h3>
+      </div>
+      <a class="text-xs font-semibold text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-200 cursor-pointer transition">Изчисти историята</a>
+    </div>
+    <div class="flex gap-3 overflow-x-auto pb-1" style="scrollbar-width:none">
+
+      <div class="bg-neutral-50 dark:bg-neutral-800 rounded-xl border border-neutral-100 dark:border-neutral-700 p-2.5 flex flex-col shrink-0 w-[118px] hover:shadow-sm transition cursor-pointer group">
+        <div class="h-[64px] bg-white dark:bg-neutral-700 rounded-lg flex items-center justify-center mb-2"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8" class="text-neutral-300 dark:text-neutral-500"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+        <p class="text-[9px] text-neutral-400 font-bold uppercase">ASUS</p>
+        <p class="text-[10px] font-medium text-neutral-700 dark:text-neutral-300 leading-snug line-clamp-2">ROG Strix G16 RTX 4060</p>
+        <p class="text-[11px] font-black text-[#bd1105] mt-1 whitespace-nowrap">1 199 евр.</p>
+      </div>
+
+      <div class="bg-neutral-50 dark:bg-neutral-800 rounded-xl border border-neutral-100 dark:border-neutral-700 p-2.5 flex flex-col shrink-0 w-[118px] hover:shadow-sm transition cursor-pointer group">
+        <div class="h-[64px] bg-white dark:bg-neutral-700 rounded-lg flex items-center justify-center mb-2"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8" class="text-neutral-300 dark:text-neutral-500"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><line x1="2" y1="7" x2="22" y2="7"/></svg></div>
+        <p class="text-[9px] text-neutral-400 font-bold uppercase">LG</p>
+        <p class="text-[10px] font-medium text-neutral-700 dark:text-neutral-300 leading-snug line-clamp-2">OLED55C3 4K Smart TV</p>
+        <p class="text-[11px] font-black text-[#bd1105] mt-1 whitespace-nowrap">1 399 евр.</p>
+      </div>
+
+      <div class="bg-neutral-50 dark:bg-neutral-800 rounded-xl border border-neutral-100 dark:border-neutral-700 p-2.5 flex flex-col shrink-0 w-[118px] hover:shadow-sm transition cursor-pointer group">
+        <div class="h-[64px] bg-white dark:bg-neutral-700 rounded-lg flex items-center justify-center mb-2"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8" class="text-neutral-300 dark:text-neutral-500"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></div>
+        <p class="text-[9px] text-neutral-400 font-bold uppercase">Samsung</p>
+        <p class="text-[10px] font-medium text-neutral-700 dark:text-neutral-300 leading-snug line-clamp-2">Galaxy S25 256GB</p>
+        <p class="text-[11px] font-black text-[#bd1105] mt-1 whitespace-nowrap">959 евр.</p>
+      </div>
+
+      <div class="bg-neutral-50 dark:bg-neutral-800 rounded-xl border border-neutral-100 dark:border-neutral-700 p-2.5 flex flex-col shrink-0 w-[118px] hover:shadow-sm transition cursor-pointer group">
+        <div class="h-[64px] bg-white dark:bg-neutral-700 rounded-lg flex items-center justify-center mb-2"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8" class="text-neutral-300 dark:text-neutral-500"><rect x="2" y="2" width="14" height="14" rx="2"/><path d="M8 16v4M8 20h4M18 16a4 4 0 0 0 0-8h-4"/></svg></div>
+        <p class="text-[9px] text-neutral-400 font-bold uppercase">GIGABYTE</p>
+        <p class="text-[10px] font-medium text-neutral-700 dark:text-neutral-300 leading-snug line-clamp-2">RX 7800 XT Gaming OC</p>
+        <p class="text-[11px] font-black text-[#bd1105] mt-1 whitespace-nowrap">389 евр.</p>
+      </div>
+
+      <div class="bg-neutral-50 dark:bg-neutral-800 rounded-xl border border-neutral-100 dark:border-neutral-700 p-2.5 flex flex-col shrink-0 w-[118px] hover:shadow-sm transition cursor-pointer group">
+        <div class="h-[64px] bg-white dark:bg-neutral-700 rounded-lg flex items-center justify-center mb-2"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8" class="text-neutral-300 dark:text-neutral-500"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div>
+        <p class="text-[9px] text-neutral-400 font-bold uppercase">Sony</p>
+        <p class="text-[10px] font-medium text-neutral-700 dark:text-neutral-300 leading-snug line-clamp-2">WH-1000XM5 ANC</p>
+        <p class="text-[11px] font-black text-[#bd1105] mt-1 whitespace-nowrap">329 евр.</p>
+      </div>
+
+      <div class="bg-neutral-50 dark:bg-neutral-800 rounded-xl border border-neutral-100 dark:border-neutral-700 p-2.5 flex flex-col shrink-0 w-[118px] hover:shadow-sm transition cursor-pointer group">
+        <div class="h-[64px] bg-white dark:bg-neutral-700 rounded-lg flex items-center justify-center mb-2"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8" class="text-neutral-300 dark:text-neutral-500"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+        <p class="text-[9px] text-neutral-400 font-bold uppercase">Lenovo</p>
+        <p class="text-[10px] font-medium text-neutral-700 dark:text-neutral-300 leading-snug line-clamp-2">ThinkPad X1 Carbon i7</p>
+        <p class="text-[11px] font-black text-[#bd1105] mt-1 whitespace-nowrap">1 549 евр.</p>
+      </div>
+
+      <div class="bg-neutral-50 dark:bg-neutral-800 rounded-xl border border-neutral-100 dark:border-neutral-700 p-2.5 flex flex-col shrink-0 w-[118px] hover:shadow-sm transition cursor-pointer group">
+        <div class="h-[64px] bg-white dark:bg-neutral-700 rounded-lg flex items-center justify-center mb-2"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8" class="text-neutral-300 dark:text-neutral-500"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><line x1="2" y1="7" x2="22" y2="7"/></svg></div>
+        <p class="text-[9px] text-neutral-400 font-bold uppercase">Acer</p>
+        <p class="text-[10px] font-medium text-neutral-700 dark:text-neutral-300 leading-snug line-clamp-2">Nitro XV240Y 24" IPS 144Hz</p>
+        <p class="text-[11px] font-black text-[#bd1105] mt-1 whitespace-nowrap">179 евр.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- BLOG -->
+  <div class="bg-white dark:bg-neutral-900 px-6 py-8">
+    <div class="flex items-center justify-between mb-6">
+      <div class="flex items-center gap-3">
+        <div class="w-1 h-6 bg-[#bd1105] rounded-full"></div>
+        <h2 class="text-xl font-black text-neutral-900 dark:text-white">От нашия блог</h2>
+      </div>
+      <a class="text-sm font-semibold text-neutral-500 dark:text-neutral-400 hover:text-neutral-800 dark:hover:text-white cursor-pointer transition">Всички статии</a>
+    </div>
+    <div class="grid grid-cols-3 gap-5">
+
+      <article class="group cursor-pointer">
+        <div class="h-[160px] bg-gradient-to-br from-neutral-100 to-neutral-200 dark:from-neutral-800 dark:to-neutral-700 rounded-2xl overflow-hidden mb-3 relative">
+          <div class="absolute inset-0 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8" class="text-neutral-300 dark:text-neutral-600"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          </div>
+          <span class="absolute top-3 left-3 bg-[#bd1105] text-white text-[10px] font-bold px-2.5 py-1 rounded-lg">Ревюта</span>
+        </div>
+        <div>
+          <p class="text-[11px] text-neutral-400 mb-1">12 юни 2026</p>
+          <h3 class="text-[15px] font-bold text-neutral-900 dark:text-white leading-snug group-hover:text-[#bd1105] transition line-clamp-2">Най-добрите лаптопи за 2026 г. - пълно ревю и сравнение</h3>
+          <p class="text-[13px] text-neutral-500 dark:text-neutral-400 mt-1.5 leading-relaxed line-clamp-2">Разглеждаме топ моделите лаптопи налични на пазара тази година и ви помагаме да направите правилния избор.</p>
+        </div>
+      </article>
+
+      <article class="group cursor-pointer">
+        <div class="h-[160px] bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/30 dark:to-blue-800/30 rounded-2xl overflow-hidden mb-3 relative">
+          <div class="absolute inset-0 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8" class="text-blue-200 dark:text-blue-800"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+          </div>
+          <span class="absolute top-3 left-3 bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 text-[10px] font-bold px-2.5 py-1 rounded-lg">Съвети</span>
+        </div>
+        <div>
+          <p class="text-[11px] text-neutral-400 mb-1">5 юни 2026</p>
+          <h3 class="text-[15px] font-bold text-neutral-900 dark:text-white leading-snug group-hover:text-[#bd1105] transition line-clamp-2">Как да изберем смартфон - на какво да обърнем внимание</h3>
+          <p class="text-[13px] text-neutral-500 dark:text-neutral-400 mt-1.5 leading-relaxed line-clamp-2">Процесор, камера, батерия или дисплей - кое е най-важно и как да не се объркаме при избора на нов телефон.</p>
+        </div>
+      </article>
+
+      <article class="group cursor-pointer">
+        <div class="h-[160px] bg-gradient-to-br from-amber-50 to-orange-100 dark:from-amber-900/20 dark:to-orange-900/20 rounded-2xl overflow-hidden mb-3 relative">
+          <div class="absolute inset-0 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8" class="text-amber-200 dark:text-amber-800"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <span class="absolute top-3 left-3 bg-amber-500 text-white text-[10px] font-bold px-2.5 py-1 rounded-lg">Сервиз</span>
+        </div>
+        <div>
+          <p class="text-[11px] text-neutral-400 mb-1">28 май 2026</p>
+          <h3 class="text-[15px] font-bold text-neutral-900 dark:text-white leading-snug group-hover:text-[#bd1105] transition line-clamp-2">5 знака, че вашият лаптоп се нуждае от сервиз</h3>
+          <p class="text-[13px] text-neutral-500 dark:text-neutral-400 mt-1.5 leading-relaxed line-clamp-2">Прегряване, бавна работа, странни звуци - научете кога е момента да занесете устройството си на специалист.</p>
+        </div>
+      </article>
+
+    </div>
+  </div>
+
+  <!-- BRAND LOGOS -->
+  <div class="bg-neutral-50 dark:bg-neutral-950 border-y border-neutral-100 dark:border-neutral-800 px-6 py-6">
+    <p class="text-center text-xs font-bold text-neutral-400 uppercase tracking-wider mb-5">Официални вносители и партньори</p>
+    <div class="flex items-center justify-around gap-4 flex-wrap">
+      <span class="text-sm font-black text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-200 cursor-pointer transition tracking-widest uppercase">INTEL</span>
+      <span class="text-sm font-black text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-200 cursor-pointer transition tracking-widest uppercase">ASUS</span>
+      <span class="text-sm font-black text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-200 cursor-pointer transition tracking-widest uppercase">ACER</span>
+      <span class="text-sm font-black text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-200 cursor-pointer transition tracking-widest uppercase">MICROSOFT</span>
+      <span class="text-sm font-black text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-200 cursor-pointer transition tracking-widest uppercase">LENOVO</span>
+      <span class="text-sm font-black text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-200 cursor-pointer transition tracking-widest uppercase">GIGABYTE</span>
+      <span class="text-sm font-black text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-200 cursor-pointer transition tracking-widest uppercase">LG</span>
+      <span class="text-sm font-black text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-200 cursor-pointer transition tracking-widest uppercase">AGATA</span>
+      <span class="text-sm font-black text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-200 cursor-pointer transition tracking-widest uppercase">SAPPHIRE</span>
+      <span class="text-sm font-black text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-200 cursor-pointer transition tracking-widest uppercase">TENDA</span>
+    </div>
+  </div>
+
+  <!-- NEWSLETTER -->
+  <div class="bg-neutral-950 px-6 py-5 flex items-center justify-between gap-8">
+    <div class="shrink-0">
+      <p class="text-white text-sm font-bold">Бъди първи при Flash Sale</p>
+      <p class="text-neutral-400 text-xs mt-0.5">Flash Sale всяка седмица. Нови продукти, ексклузивни оферти. Без спам.</p>
+    </div>
+    <div class="flex gap-2 w-full max-w-sm">
+      <input type="email" placeholder="твоят@email.com" class="flex-1 px-4 py-2.5 rounded-lg text-sm outline-none bg-neutral-800 text-white placeholder-neutral-500 border border-neutral-700 focus:border-[#bd1105] transition">
+      <button class="bg-[#bd1105] hover:bg-red-700 text-white text-sm font-bold px-5 py-2.5 rounded-lg transition whitespace-nowrap">Абонирай се</button>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="bg-neutral-900 text-white px-6 pt-10 pb-0 relative">
+    <div class="grid gap-6 mb-8" style="grid-template-columns:1.8fr 1fr 1fr 1fr 1fr 1.4fr">
+
+      <!-- Col 1: Brand -->
+      <div>
+        <div class="text-xl font-black tracking-tight mb-3">Мост <span class="text-[#bd1105]">Компютърс</span></div>
+        <p class="text-neutral-400 text-[13px] leading-relaxed mb-4">Специализиран магазин за електроника с над <strong class="text-white">36 години опит</strong> - основан през 1990 г.<br>Предлагаме смартфони, лаптопи, телевизори, аудио и аксесоари от водещи марки.<br>Безплатна доставка, сертифициран сервиз и гарантирано качество за всеки клиент.</p>
+        <div class="flex items-center gap-2 mb-2">
+          <span class="bg-neutral-800 text-neutral-300 text-[11px] font-bold px-3 py-1 rounded-full">1990-2026</span>
+        </div>
+        <div class="flex items-center gap-2 mb-4">
+          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="#bd1105"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          <span class="text-[12px] text-neutral-300">Доверен от над <strong class="text-white">550 000+</strong> клиента</span>
+        </div>
+        <div class="flex gap-2">
+          <a class="w-8 h-8 rounded-lg bg-neutral-800 hover:bg-[#bd1105] flex items-center justify-center cursor-pointer transition">
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </a>
+          <a class="w-8 h-8 rounded-lg bg-neutral-800 hover:bg-[#bd1105] flex items-center justify-center cursor-pointer transition">
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          </a>
+          <a class="w-8 h-8 rounded-lg bg-neutral-800 hover:bg-[#bd1105] flex items-center justify-center cursor-pointer transition">
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96C1 8.12 1 12 1 12s0 3.88.46 5.58a2.78 2.78 0 0 0 1.95 1.95C5.12 20 12 20 12 20s6.88 0 8.59-.47a2.78 2.78 0 0 0 1.95-1.95C23 15.88 23 12 23 12s0-3.88-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="white"/></svg>
+          </a>
+          <a class="w-8 h-8 rounded-lg bg-neutral-800 hover:bg-[#bd1105] flex items-center justify-center cursor-pointer transition">
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Col 2: Магазин -->
+      <div>
+        <h4 class="font-bold text-xs uppercase tracking-wider text-neutral-400 mb-4">Магазин</h4>
+        <ul class="space-y-2.5 text-sm">
+          <li><a class="text-[#bd1105] font-medium cursor-pointer hover:text-red-400 transition">Всички продукти</a></li>
+          <li><a class="text-neutral-400 hover:text-white cursor-pointer transition">Намаления</a></li>
+          <li><a class="text-neutral-400 hover:text-white cursor-pointer transition">Нови продукти</a></li>
+          <li><a class="text-neutral-400 hover:text-white cursor-pointer transition">Топ продавани</a></li>
+        </ul>
+      </div>
+
+      <!-- Col 3: За нас -->
+      <div>
+        <h4 class="font-bold text-xs uppercase tracking-wider text-neutral-400 mb-4">За нас</h4>
+        <ul class="space-y-2.5 text-sm text-neutral-400">
+          <li><a class="hover:text-white cursor-pointer transition">За компанията</a></li>
+          <li><a class="hover:text-white cursor-pointer transition">Блог</a></li>
+          <li><a class="hover:text-white cursor-pointer transition">Кариери</a></li>
+          <li><a class="hover:text-white cursor-pointer transition">B2B клиенти</a></li>
+        </ul>
+      </div>
+
+      <!-- Col 4: Акаунт -->
+      <div>
+        <h4 class="font-bold text-xs uppercase tracking-wider text-neutral-400 mb-4">Акаунт</h4>
+        <ul class="space-y-2.5 text-sm text-neutral-400">
+          <li><a class="hover:text-white cursor-pointer transition">Профил</a></li>
+          <li><a class="hover:text-white cursor-pointer transition">Поръчки</a></li>
+          <li><a class="hover:text-white cursor-pointer transition">Любими</a></li>
+          <li><a class="hover:text-white cursor-pointer transition">Сравни</a></li>
+        </ul>
+      </div>
+
+      <!-- Col 5: Информация -->
+      <div>
+        <h4 class="font-bold text-xs uppercase tracking-wider text-neutral-400 mb-4">Информация</h4>
+        <ul class="space-y-2.5 text-sm text-neutral-400">
+          <li><a class="hover:text-white cursor-pointer transition">Доставка</a></li>
+          <li><a class="hover:text-white cursor-pointer transition">Връщане на стока</a></li>
+          <li><a class="hover:text-white cursor-pointer transition">Гаранция</a></li>
+          <li><a class="hover:text-white cursor-pointer transition">Условия за ползване</a></li>
+          <li><a class="hover:text-white cursor-pointer transition">Поверителност</a></li>
+        </ul>
+      </div>
+
+      <!-- Col 6: Контакти -->
+      <div>
+        <h4 class="font-bold text-xs uppercase tracking-wider text-neutral-400 mb-4">Контакти</h4>
+        <ul class="space-y-3 text-[12px]">
+          <li class="flex items-start gap-2 text-neutral-400">
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#bd1105" stroke-width="2" stroke-linecap="round" class="mt-0.5 shrink-0"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <span>София, жк. "Гео Милев"<br>бул. "Шипченски проход"<br>бл.240, 1111</span>
+          </li>
+          <li class="flex items-start gap-2 text-neutral-400">
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#bd1105" stroke-width="2" stroke-linecap="round" class="mt-0.5 shrink-0"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.42 2 2 0 0 1 3.6 1.24h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 21.73 16.92z"/></svg>
+            <div>
+              <p class="text-neutral-500 text-[11px]">Офис</p>
+              <p class="text-white font-medium">(+359 2) 91 823</p>
+            </div>
+          </li>
+          <li class="flex items-start gap-2 text-neutral-400">
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#bd1105" stroke-width="2" stroke-linecap="round" class="mt-0.5 shrink-0"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.42 2 2 0 0 1 3.6 1.24h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 21.73 16.92z"/></svg>
+            <div>
+              <p class="text-neutral-500 text-[11px]">Сервизен център</p>
+              <p class="text-white font-medium">0700 144 11</p>
+            </div>
+          </li>
+          <li class="flex items-start gap-2 text-neutral-400">
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#bd1105" stroke-width="2" stroke-linecap="round" class="mt-0.5 shrink-0"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <div>
+              <p class="text-neutral-500 text-[11px]">Офис имейл</p>
+              <p class="text-white font-medium">info@mostcomputers.bg</p>
+            </div>
+          </li>
+          <li class="flex items-start gap-2 text-neutral-400">
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#bd1105" stroke-width="2" stroke-linecap="round" class="mt-0.5 shrink-0"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <div>
+              <p class="text-neutral-500 text-[11px]">Сервизен имейл</p>
+              <p class="text-white font-medium">support@mostcomputers.bg</p>
+            </div>
+          </li>
+          <li class="flex items-start gap-2 text-neutral-400">
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#bd1105" stroke-width="2" stroke-linecap="round" class="mt-0.5 shrink-0"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <div>
+              <p class="text-neutral-500 text-[11px]">Работно време</p>
+              <p class="text-white font-medium">Пон-Пет: 09:30-18:15</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="border-t border-neutral-800 py-5 flex justify-between items-center">
+      <p class="text-[12px] text-neutral-500">© 1990-2026 Most Computers. Всички права запазени - Твоят доверен партньор в технологиите от 36 години.</p>
+      <div class="flex items-center gap-3">
+        <!-- Visa -->
+        <div class="bg-neutral-800 rounded-md px-2.5 py-1.5 flex items-center justify-center">
+          <svg width="32" height="11" viewBox="0 0 32 11" fill="none"><text x="0" y="9" font-family="Arial" font-weight="800" font-size="11" fill="white" letter-spacing="-0.5">VISA</text></svg>
+        </div>
+        <!-- Mastercard -->
+        <div class="bg-neutral-800 rounded-md px-2 py-1.5 flex items-center gap-0.5">
+          <div class="w-5 h-5 rounded-full bg-red-500 opacity-90"></div>
+          <div class="w-5 h-5 rounded-full bg-yellow-400 opacity-90 -ml-2.5"></div>
+        </div>
+        <!-- Наложен платеж -->
+        <div class="bg-neutral-800 rounded-md px-3 py-1.5 flex items-center gap-1.5">
+          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          <span class="text-[11px] text-neutral-400 font-medium">Наложен платеж</span>
+        </div>
+        <!-- Банков превод -->
+        <div class="bg-neutral-800 rounded-md px-3 py-1.5 flex items-center gap-1.5">
+          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+          <span class="text-[11px] text-neutral-400 font-medium">Банков превод</span>
+        </div>
+        <!-- SSL -->
+        <div class="bg-neutral-800 rounded-md px-3 py-1.5 flex items-center gap-1.5">
+          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <span class="text-[11px] text-neutral-400 font-medium">Защитено SSL плащане</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scroll to top -->
+  <button onclick="window.scrollTo({top:0,behavior:'smooth'})" class="fixed bottom-6 right-6 w-11 h-11 bg-[#bd1105] hover:bg-red-700 text-white rounded-full flex items-center justify-center shadow-lg transition z-50">
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="18 15 12 9 6 15"/></svg>
+  </button>
+
+  <!-- CART DRAWER -->
+  <div id="cart-overlay" onclick="closeCart()" class="fixed inset-0 bg-black/50 z-[100] hidden"></div>
+  <div id="cart-drawer" class="fixed top-0 right-0 h-full w-[320px] bg-white dark:bg-neutral-900 shadow-2xl z-[101] flex flex-col" style="transform:translateX(100%);transition:transform .3s ease">
+    <div class="flex items-center justify-between px-5 py-4 border-b border-neutral-100 dark:border-neutral-800">
+      <h3 class="font-black text-lg text-neutral-900 dark:text-white">Кошница <span class="text-neutral-400 font-normal text-sm">(3)</span></h3>
+      <button onclick="closeCart()" class="w-8 h-8 flex items-center justify-center rounded-xl hover:bg-neutral-100 dark:hover:bg-neutral-800 transition text-neutral-500"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+    <div class="flex-1 overflow-y-auto px-5 py-4 space-y-4">
+      <div class="flex gap-3">
+        <div class="w-16 h-16 bg-neutral-100 dark:bg-neutral-800 rounded-xl flex items-center justify-center shrink-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8" class="text-neutral-400"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+        <div class="flex-1 min-w-0"><p class="text-[11px] text-neutral-400 font-bold uppercase">ASUS</p><p class="text-sm font-medium text-neutral-800 dark:text-neutral-200 leading-snug line-clamp-2">VivoBook 15 i5 8GB 512GB SSD</p><div class="flex items-center justify-between mt-1.5"><div class="flex items-center gap-2"><button class="w-6 h-6 bg-neutral-100 dark:bg-neutral-700 rounded-lg text-sm font-bold flex items-center justify-center">-</button><span class="text-sm font-semibold w-4 text-center">1</span><button class="w-6 h-6 bg-neutral-100 dark:bg-neutral-700 rounded-lg text-sm font-bold flex items-center justify-center">+</button></div><span class="text-sm font-black text-[#bd1105]">849 евр.</span></div></div>
+      </div>
+      <div class="flex gap-3">
+        <div class="w-16 h-16 bg-neutral-100 dark:bg-neutral-800 rounded-xl flex items-center justify-center shrink-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8" class="text-neutral-400"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></div>
+        <div class="flex-1 min-w-0"><p class="text-[11px] text-neutral-400 font-bold uppercase">Samsung</p><p class="text-sm font-medium text-neutral-800 dark:text-neutral-200 leading-snug line-clamp-2">Galaxy S25 256GB Phantom Black</p><div class="flex items-center justify-between mt-1.5"><div class="flex items-center gap-2"><button class="w-6 h-6 bg-neutral-100 dark:bg-neutral-700 rounded-lg text-sm font-bold flex items-center justify-center">-</button><span class="text-sm font-semibold w-4 text-center">1</span><button class="w-6 h-6 bg-neutral-100 dark:bg-neutral-700 rounded-lg text-sm font-bold flex items-center justify-center">+</button></div><span class="text-sm font-black text-[#bd1105]">959 евр.</span></div></div>
+      </div>
+      <div class="flex gap-3">
+        <div class="w-16 h-16 bg-neutral-100 dark:bg-neutral-800 rounded-xl flex items-center justify-center shrink-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8" class="text-neutral-400"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div>
+        <div class="flex-1 min-w-0"><p class="text-[11px] text-neutral-400 font-bold uppercase">Sony</p><p class="text-sm font-medium text-neutral-800 dark:text-neutral-200 leading-snug line-clamp-2">WH-1000XM5 Wireless ANC Headphones</p><div class="flex items-center justify-between mt-1.5"><div class="flex items-center gap-2"><button class="w-6 h-6 bg-neutral-100 dark:bg-neutral-700 rounded-lg text-sm font-bold flex items-center justify-center">-</button><span class="text-sm font-semibold w-4 text-center">1</span><button class="w-6 h-6 bg-neutral-100 dark:bg-neutral-700 rounded-lg text-sm font-bold flex items-center justify-center">+</button></div><span class="text-sm font-black text-[#bd1105]">329 евр.</span></div></div>
+      </div>
+    </div>
+    <div class="px-5 py-4 border-t border-neutral-100 dark:border-neutral-800">
+      <div class="flex items-center justify-between mb-1"><span class="text-sm text-neutral-500">Доставка</span><span class="text-sm font-medium text-green-500">Безплатна</span></div>
+      <div class="flex items-center justify-between mb-4"><span class="text-base font-bold text-neutral-900 dark:text-white">Общо:</span><span class="text-xl font-black text-neutral-900 dark:text-white">2 137 евр.</span></div>
+      <button class="w-full bg-[#bd1105] hover:bg-red-700 text-white font-bold py-3.5 rounded-xl text-sm transition">Към плащане</button>
+      <button onclick="closeCart()" class="w-full mt-2 text-sm text-neutral-400 hover:text-neutral-600 py-1 transition">Продължи пазаруването</button>
+    </div>
+  </div>
+
+  <!-- COOKIE BANNER -->
+  <div id="cookie-banner" class="fixed bottom-4 left-4 right-4 z-[200] pointer-events-none">
+    <div class="max-w-3xl mx-auto bg-neutral-900 text-white rounded-2xl p-4 shadow-2xl pointer-events-auto flex items-center gap-4">
+      <div class="shrink-0 w-10 h-10 bg-neutral-800 rounded-xl flex items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#bd1105" stroke-width="1.8"><path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5"/><path d="M8.5 8.5v.01M16 15.5v.01M12 12v.01M11 17v.01M7 14v.01"/></svg></div>
+      <p class="flex-1 text-sm text-neutral-300 leading-relaxed">Използваме бисквитки за по-добро потребителско изживяване и анализ на трафика. <a class="text-[#bd1105] hover:underline cursor-pointer">Политика за поверителност</a></p>
+      <div class="flex gap-2 shrink-0">
+        <button onclick="document.getElementById('cookie-banner').remove()" class="text-sm text-neutral-400 hover:text-white px-3 py-2 rounded-lg hover:bg-neutral-800 transition whitespace-nowrap">Само задължителни</button>
+        <button onclick="document.getElementById('cookie-banner').remove()" class="bg-[#bd1105] hover:bg-red-700 text-white text-sm font-bold px-4 py-2 rounded-lg transition whitespace-nowrap">Приемам всички</button>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /dsk -->
+
+</div><!-- /vp -->
+</div>
+
+<script>
+let dark = false, mob = true;
+
+function toggleDark() {
+  dark = !dark;
+  document.documentElement.classList.toggle('dark', dark);
+  document.getElementById('darkBtn').textContent = dark ? '☀️ Light' : '🌙 Dark';
+}
+
+function toggleView() {
+  mob = !mob;
+  const vp = document.getElementById('vp');
+  const m = document.getElementById('mob');
+  const d = document.getElementById('dsk');
+  const btn = document.getElementById('viewBtn');
+  if (mob) {
+    vp.style.maxWidth = '390px';
+    m.classList.remove('hidden');
+    d.classList.add('hidden');
+    btn.textContent = '📱 Mobile';
+  } else {
+    vp.style.maxWidth = '1280px';
+    m.classList.add('hidden');
+    d.classList.remove('hidden');
+    btn.textContent = '🖥 Desktop';
+  }
+}
+
+// Flash Sale countdown — ends 7h 23m 41s from page load
+(function() {
+  let total = 7 * 3600 + 23 * 60 + 41;
+  function pad(n) { return String(n).padStart(2, '0'); }
+  function tick() {
+    if (total <= 0) return;
+    total--;
+    const h = Math.floor(total / 3600);
+    const m = Math.floor((total % 3600) / 60);
+    const s = total % 60;
+    const eh = document.getElementById('t-h');
+    const em = document.getElementById('t-m');
+    const es = document.getElementById('t-s');
+    if (eh) eh.textContent = pad(h);
+    if (em) em.textContent = pad(m);
+    if (es) es.textContent = pad(s);
+  }
+  setInterval(tick, 1000);
+})();
+
+// Cart drawer
+function openCart() {
+  document.getElementById('cart-drawer').style.transform = 'translateX(0)';
+  document.getElementById('cart-overlay').classList.remove('hidden');
+  document.body.style.overflow = 'hidden';
+}
+function closeCart() {
+  document.getElementById('cart-drawer').style.transform = 'translateX(100%)';
+  document.getElementById('cart-overlay').classList.add('hidden');
+  document.body.style.overflow = '';
+}
+
+// Wishlist hearts — inject into all product image wrappers
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('#dsk .img-wrap').forEach(function(wrap) {
+    const btn = document.createElement('button');
+    btn.style.cssText = 'position:absolute;top:8px;right:8px;width:26px;height:26px;background:rgba(0,0,0,.35);border:none;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;transition:opacity .2s,background .2s;z-index:5;padding:0';
+    btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>';
+    const card = wrap.closest('.group');
+    if (card) {
+      card.addEventListener('mouseenter', function() { btn.style.opacity = '1'; });
+      card.addEventListener('mouseleave', function() { btn.style.opacity = '0'; });
+    }
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      const path = this.querySelector('path');
+      const on = path.getAttribute('fill') === '#bd1105';
+      path.setAttribute('fill', on ? 'none' : '#bd1105');
+      path.setAttribute('stroke', on ? 'white' : '#bd1105');
+      this.style.background = on ? 'rgba(0,0,0,.35)' : 'rgba(189,17,5,.85)';
+      this.style.opacity = '1';
+    });
+    wrap.appendChild(btn);
+  });
+});
+
+// Date tabs for "Нови продукти"
+function setTab(el, days) {
+  document.querySelectorAll('.tab-btn').forEach(function(b) {
+    b.classList.remove('bg-[#bd1105]', 'text-white');
+    b.classList.add('text-neutral-500');
+  });
+  el.classList.add('bg-[#bd1105]', 'text-white');
+  el.classList.remove('text-neutral-500');
+}
+</script>
+</body>
+</html>

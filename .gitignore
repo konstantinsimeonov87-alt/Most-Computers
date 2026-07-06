@@ -9,3 +9,6 @@ verify-*.png
 mockup-*.html
 mockup-*.png
 compare-*.png
+
+# Claude Code agent worktrees (isolated sandboxes, not part of the project)
+.claude/worktrees/

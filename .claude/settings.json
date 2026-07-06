@@ -7,7 +7,14 @@
       "WebFetch(domain:developer.chrome.com)",
       "PowerShell(Start-Process \"c:\\\\Users\\\\user\\\\Desktop\\\\New folder\\\\index.html\")",
       "WebFetch(domain:www.gsmarena.com)",
-      "WebFetch(domain:psref.lenovo.com)"
+      "WebFetch(domain:psref.lenovo.com)",
+      "Read(//c/Users/user/Desktop/mostcomputers-v2/src/lib/server/**)",
+      "Read(//c/Users/user/Desktop/mostcomputers-v2/**)",
+      "Bash(npx svelte-check *)",
+      "Bash(curl -s -o /dev/null -w \"dev server: %{http_code}\\\\n\" http://localhost:5173/)"
+    ],
+    "additionalDirectories": [
+      "C:\\Users\\user\\Desktop\\mostcomputers-v2\\src\\routes\\produkt\\[slug]"
     ]
   }
 }

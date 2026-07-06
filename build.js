@@ -290,7 +290,7 @@ if (fs.existsSync(swPath)) {
   log(`sw.js cache version bumped → mc-${newVer}`);
 }
 
-['manifest.json', 'sw.js', 'robots.txt', 'og-default.jpg', '404.html', 'ogu-most-computers.html'].forEach(f => {
+['manifest.json', 'sw.js', 'robots.txt', 'og-default.jpg', '404.html', 'ogu-most-computers.html', 'CNAME'].forEach(f => {
   const src = path.join(ROOT, f);
   if (fs.existsSync(src)) {
     fs.copyFileSync(src, path.join(DIST, f));

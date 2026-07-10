@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>V1 Mockup A — Obsidian Hero | Most Computers</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#bd1105; --primary-dark:#9a0e04; --primary-light:#fff5f5;
+  --sale:#cc0000; --new:#1a6b35; --promo:#c44f00;
+  --bg:#f8f9fa; --bg2:#f0f1f3; --white:#ffffff;
+  --border:#e5e7eb; --border-light:#f0f1f3;
+  --text:#1a1a1a; --text2:#555e6d; --muted:#626878;
+  --shadow-card:0 2px 12px rgba(0,0,0,.05); --shadow-hover:0 8px 24px rgba(0,0,0,.10), 0 2px 8px rgba(0,0,0,.06);
+  --radius:12px; --radius-sm:8px; --radius-pill:20px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Inter',system-ui,sans-serif;color:var(--text);background:var(--bg);}
+a{color:inherit;text-decoration:none;}
+button{font-family:inherit;cursor:pointer;}
+.svg-ic{display:inline-block;vertical-align:-3px;flex-shrink:0;}
+.mockup-bar{position:fixed;top:0;left:0;right:0;z-index:999;background:#000;color:#fff;padding:8px 16px;font-size:12px;display:flex;align-items:center;gap:10px;}
+.mockup-bar b{font-weight:700;}
+.mockup-bar span{color:#aaa;}
+.dot{width:8px;height:8px;border-radius:50%;background:#d4af37;}
+.wrap{padding-top:36px;}
+
+/* TOPBAR */
+.topbar{background:var(--text);color:rgba(255,255,255,.92);padding:7px 0;font-size:12px;}
+.topbar-inner{max-width:1400px;margin:0 auto;padding:0 20px;display:flex;justify-content:space-between;align-items:center;}
+.topbar-left{display:flex;gap:20px;}
+.topbar-left a,.topbar-left span{color:rgba(255,255,255,.90);}
+.topbar-right{display:flex;gap:16px;align-items:center;}
+.topbar-right a{color:rgba(255,255,255,.75);}
+.topbar-phone{font-weight:700;color:#fff!important;}
+
+/* HEADER */
+header{background:rgba(255,255,255,.95);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:200;box-shadow:0 1px 8px rgba(0,0,0,.06);}
+.header-inner{max-width:1400px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;gap:16px;}
+.logo-wrap{flex-shrink:0;font-weight:900;font-size:20px;color:var(--text);}
+.logo-wrap b{color:var(--primary);}
+.search-wrap{flex:1;max-width:640px;margin:0 auto;}
+.search-bar{display:flex;border:2px solid var(--border);border-radius:8px;overflow:hidden;}
+.search-input{flex:1;border:none;outline:none;padding:10px 16px;font-size:14px;}
+.search-btn{background:var(--primary);color:#fff;border:none;padding:0 20px;font-weight:700;display:flex;align-items:center;}
+.header-actions{display:flex;align-items:center;gap:8px;margin-left:auto;}
+.hdr-btn{display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 12px;background:none;border:none;color:var(--text2);font-size:11px;font-weight:500;border-radius:8px;}
+.hdr-btn:hover{background:var(--primary-light);color:var(--primary);}
+.hdr-btn svg{margin-bottom:1px;}
+.hdr-divider{width:1px;height:40px;background:var(--border);}
+
+/* NAVBAR */
+.navbar{background:var(--white);border-bottom:1px solid var(--border);position:sticky;top:72px;z-index:190;}
+.navbar-inner{max-width:1400px;margin:0 auto;padding:0 20px;display:flex;align-items:stretch;height:46px;}
+.nav-links-row{display:flex;align-items:stretch;flex:1;}
+.nav-link{display:flex;align-items:center;gap:5px;padding:0 15px;font-size:13px;font-weight:500;color:var(--text2);border-bottom:2px solid transparent;}
+.nav-link:hover{color:var(--primary);border-bottom-color:var(--primary);}
+.nav-link.active{color:var(--primary);border-bottom-color:var(--primary);font-weight:600;}
+.nav-link.promo{color:var(--primary);font-weight:700;}
+.nav-badge{background:var(--new);color:#fff;font-size:9px;font-weight:800;padding:1px 5px;border-radius:4px;margin-left:3px;}
+.nav-divider{width:1px;background:var(--border-light);margin:10px 0;}
+.nav-b2b-cta{margin-left:auto;color:var(--primary)!important;font-weight:700!important;}
+
+/* TICKER */
+.promo-strip{background:var(--primary);overflow:hidden;padding:7px 0;}
+.promo-strip-track{display:flex;gap:24px;width:max-content;animation:tick 30s linear infinite;white-space:nowrap;padding:0 12px;}
+@keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.promo-strip-item{color:#fff;font-size:12px;font-weight:600;display:inline-flex;align-items:center;gap:5px;}
+.promo-strip-sep{color:rgba(255,255,255,.5);}
+
+/* MAIN LAYOUT */
+.main-container{max-width:1400px;margin:0 auto;padding:16px 20px;display:grid;grid-template-columns:220px minmax(0,1fr);gap:20px;}
+.sidebar{align-self:start;}
+.sidebar-categories{background:var(--white);border-radius:var(--radius);border:1px solid var(--border);overflow:hidden;box-shadow:var(--shadow-card);}
+.cat-item{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--border);border-left:2px solid transparent;font-size:13px;font-weight:500;color:var(--text);}
+.cat-item:last-child{border-bottom:none;}
+.cat-item:hover,.cat-item.open{background:var(--primary-light);color:var(--primary);border-left-color:var(--primary);}
+.cat-icon{flex-shrink:0;width:18px;height:18px;opacity:.55;display:flex;align-items:center;}
+.cat-item:hover .cat-icon,.cat-item.open .cat-icon{opacity:1;}
+.cat-arrow{font-size:10px;color:var(--muted);margin-left:auto;}
+.cat-item.open .cat-arrow{transform:rotate(90deg);}
+.cat-sub-list{background:var(--bg2);border-bottom:1px solid var(--border);}
+.cat-sub-item{display:block;padding:8px 14px 8px 42px;font-size:12.5px;color:var(--text2);}
+.cat-sub-item:hover{color:var(--primary);}
+
+.sb-top-product,.sb-brand-spot,.sb-rv{margin-top:16px;border-radius:12px;border:1px solid var(--border);background:var(--white);padding:12px 14px;box-shadow:var(--shadow-card);}
+.sb-tp-header,.sb-bs-header,.sb-rv-header{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:10px;}
+.sb-tp-cat{font-size:10px;color:var(--primary);font-weight:700;margin-bottom:6px;}
+.sb-tp-img{width:100%;height:90px;background:var(--bg2);border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:8px;color:var(--muted);}
+.sb-tp-brand{font-size:10px;color:var(--muted);font-weight:700;text-transform:uppercase;}
+.sb-tp-name{font-size:12.5px;font-weight:600;margin:2px 0 6px;line-height:1.3;}
+.sb-tp-rating{font-size:11px;color:#fbbf24;margin-bottom:6px;}
+.sb-tp-rating small{color:var(--muted);}
+.sb-tp-price{font-size:15px;font-weight:800;margin-bottom:2px;}
+.sb-tp-price small{font-size:11px;color:var(--muted);font-weight:500;}
+.sb-tp-btn{width:100%;background:var(--primary);color:#fff;border:none;padding:9px;border-radius:var(--radius-sm);font-size:12px;font-weight:700;margin-top:8px;}
+.sb-bs-name{font-size:13px;font-weight:700;margin-bottom:8px;}
+.sb-bs-thumbs{display:flex;gap:6px;margin-bottom:8px;}
+.sb-bs-thumb{width:32px;height:32px;background:var(--bg2);border-radius:6px;}
+.sb-bs-btn{width:100%;background:var(--primary);color:#fff;border:none;padding:8px;border-radius:var(--radius-sm);font-size:11px;font-weight:700;}
+.sb-rv-item{display:flex;gap:8px;align-items:center;}
+.sb-rv-thumb{width:36px;height:36px;background:var(--bg2);border-radius:6px;flex-shrink:0;}
+.sb-rv-name{font-size:11.5px;font-weight:600;line-height:1.3;}
+.sb-rv-price{font-size:11.5px;font-weight:800;color:var(--primary);margin-top:2px;}
+
+.content-area{min-width:0;}
+
+/* HERO */
+.hero-section{display:grid;grid-template-columns:1fr 300px;gap:16px;margin-bottom:24px;align-items:stretch;}
+.hero-right-panel{display:flex;min-width:0;}
+.hrp-widget{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:14px 14px 12px;display:flex;flex-direction:column;gap:8px;width:100%;box-sizing:border-box;}
+.hrp-title{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);display:flex;align-items:center;gap:6px;}
+.hrp-blog-item{display:flex;gap:10px;align-items:flex-start;padding:6px 4px;border-radius:8px;}
+.hrp-blog-item:hover{background:var(--bg2);}
+.hrp-blog-icon{flex-shrink:0;width:24px;height:24px;display:flex;align-items:center;justify-content:center;color:var(--primary);}
+.hrp-blog-cat{font-size:9px;font-weight:700;text-transform:uppercase;color:var(--primary);margin-bottom:2px;}
+.hrp-blog-title{font-size:12px;font-weight:600;line-height:1.3;margin-bottom:2px;}
+.hrp-blog-meta{font-size:10px;color:var(--muted);display:flex;gap:4px;}
+.hrp-blog-divider{height:1px;background:var(--border);margin:4px 0;}
+.hrp-see-all{margin-top:auto;font-size:12px;color:var(--primary);background:none;border:none;font-weight:700;text-align:left;padding-top:4px;}
+
+/* TRUST + SOCIAL PROOF */
+.trust-bar{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--border);border-radius:12px;background:var(--white);margin:16px 0;box-shadow:var(--shadow-card);}
+.trust-item{display:flex;align-items:center;gap:12px;padding:16px;border-right:1px solid var(--border);}
+.trust-item:last-child{border-right:none;}
+.trust-icon{flex-shrink:0;color:var(--primary);}
+.trust-title{font-size:13px;font-weight:700;}
+.trust-sub{font-size:11px;color:var(--muted);display:block;}
+.social-proof-strip{display:flex;align-items:center;justify-content:center;background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:14px 24px;margin:16px 0;flex-wrap:wrap;}
+.sp-stat{display:flex;align-items:center;gap:10px;padding:6px 20px;}
+.sp-stat svg{color:var(--primary);}
+.sp-sep{width:1px;height:32px;background:var(--border);}
+.sp-num{font-size:18px;font-weight:800;display:block;line-height:1.1;}
+.sp-sub{font-size:11px;color:var(--muted);}
+
+/* FLASH SALE */
+.flash-sale-section{background:var(--white);border:1px solid var(--border);border-top:3px solid var(--sale);border-radius:var(--radius);overflow:hidden;margin-bottom:24px;}
+.flash-header{background:linear-gradient(180deg,#fff5f5 0%,#fff 100%);border-bottom:1px solid #fecaca;display:flex;align-items:center;gap:16px;padding:18px 20px 14px;}
+.flash-title{font-size:20px;font-weight:900;color:var(--sale);display:flex;align-items:center;gap:8px;}
+.flash-subtitle{color:var(--sale);font-weight:500;font-size:13px;}
+.view-all-link{font-size:13px;font-weight:600;color:var(--text2);}
+.flash-timer{display:flex;gap:4px;align-items:center;margin-left:auto;}
+.timer-block{background:linear-gradient(160deg,rgba(200,0,26,.22) 0%,rgba(120,0,16,.28) 100%);border:1px solid rgba(200,0,26,.35);border-radius:8px;padding:8px 10px;min-width:50px;}
+.timer-num{font-size:22px;font-weight:800;color:var(--sale);line-height:1;}
+.timer-label{font-size:10px;color:rgba(204,0,0,.7);font-weight:700;margin-left:3px;}
+.timer-sep{font-size:18px;color:rgba(204,0,0,.5);font-weight:800;margin:0 2px;}
+.products-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;padding:18px 20px;}
+.products-row.cols5{grid-template-columns:repeat(5,1fr);}
+
+/* PRODUCT CARD */
+.product-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;position:relative;display:flex;flex-direction:column;box-shadow:var(--shadow-card);transition:box-shadow .25s,transform .25s;}
+.product-card:hover{border-color:rgba(189,17,5,.25);box-shadow:var(--shadow-hover);transform:translateY(-3px);}
+.product-badge-wrap{position:absolute;top:10px;left:10px;z-index:3;display:flex;flex-direction:column;gap:4px;}
+.badge{font-size:10px;font-weight:800;padding:3px 8px;border-radius:4px;text-transform:uppercase;width:fit-content;}
+.badge-new{background:var(--new);color:#fff;}
+.badge-pct{background:#1a1a1a;color:#fff;}
+.product-wishlist{position:absolute;top:10px;right:10px;z-index:3;background:var(--white);border:1px solid var(--border);border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;color:var(--muted);}
+.product-img-wrap{height:150px;display:flex;align-items:center;justify-content:center;background:var(--bg);padding:16px;color:var(--border);}
+.product-body{padding:12px 14px;flex:1;display:flex;flex-direction:column;}
+.product-brand{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--primary);margin-bottom:4px;}
+.product-name{font-size:13.5px;font-weight:600;line-height:1.4;margin-bottom:8px;min-height:38px;}
+.product-rating{display:flex;align-items:center;gap:4px;margin-bottom:8px;}
+.stars{color:#fbbf24;font-size:11px;letter-spacing:1px;}
+.rating-num{font-size:11px;color:var(--muted);}
+.price-row{display:flex;align-items:flex-end;gap:6px;margin-bottom:10px;flex-wrap:wrap;}
+.price-current{font-size:17px;font-weight:800;letter-spacing:-.5px;}
+.price-current.sale{color:var(--sale);}
+.price-old{font-size:12px;color:var(--muted);text-decoration:line-through;}
+.price-save{font-size:10px;font-weight:700;background:var(--primary-light);color:var(--sale);padding:2px 6px;border-radius:20px;margin-left:auto;}
+.card-delivery-hint{font-size:11.5px;color:var(--muted);margin-bottom:8px;}
+.add-cart-btn{width:100%;background:var(--primary);color:#fff;border:none;padding:11px 16px;border-radius:var(--radius-sm);font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:6px;min-height:42px;}
+.add-cart-btn:hover{background:var(--primary-dark);}
+.card-secondary-btns{margin-top:6px;display:flex;gap:6px;}
+.card-sec-btn{flex:1;background:var(--bg2);border:1px solid var(--border);padding:7px 4px;border-radius:var(--radius-sm);font-size:9.5px;color:var(--text2);display:flex;flex-direction:column;align-items:center;gap:3px;}
+.card-sec-btn:hover{background:var(--primary-light);}
+
+/* PROMO SPLIT BANNER */
+.promo-split-banner{display:grid;grid-template-columns:1fr 1fr;border-radius:16px;gap:12px;margin:24px 0;}
+.psb-half{display:flex;align-items:center;padding:24px 28px;border-radius:12px;}
+.psb-half--red{background:linear-gradient(135deg,#fff5f5 0%,#ffe4e4 100%);border:1px solid #fecaca;}
+.psb-half--dark{background:linear-gradient(135deg,#1a1a1a 0%,#2a2a2a 100%);color:#fff;}
+.psb-content{flex:1;min-width:0;}
+.psb-badge{display:inline-block;font-size:10px;font-weight:700;background:rgba(189,17,5,.1);color:var(--primary);padding:4px 8px;border-radius:4px;margin-bottom:8px;}
+.psb-half--dark .psb-badge{background:rgba(255,255,255,.12);color:#fff;}
+.psb-title{font-size:17px;font-weight:800;margin:6px 0;line-height:1.3;}
+.psb-sub{font-size:12px;opacity:.8;margin:4px 0 10px;}
+.psb-price{font-size:18px;font-weight:800;margin-bottom:12px;}
+.psb-btn{background:var(--primary);color:#fff;border:none;padding:10px 16px;border-radius:8px;font-size:13px;font-weight:700;}
+.psb-half--dark .psb-btn{background:#fff;color:#1a1a1a;}
+.psb-img{width:90px;height:90px;flex-shrink:0;display:flex;align-items:center;justify-content:center;opacity:.45;}
+
+/* SECTION HEADER / TABS / PAGER */
+.section-wrap{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:24px;padding-bottom:6px;}
+.section-header{display:flex;align-items:center;gap:16px;padding:18px 20px 14px;border-bottom:1px solid var(--border-light);flex-wrap:wrap;}
+.section-header-left{display:flex;align-items:center;gap:10px;}
+.section-accent{width:4px;height:26px;border-radius:3px;background:var(--primary);}
+.section-title{font-size:18px;font-weight:800;display:flex;align-items:center;gap:8px;}
+.section-subtitle{font-size:12px;color:var(--muted);margin-top:2px;}
+.npc-wrap{display:flex;gap:6px;align-items:center;margin-left:auto;}
+.npc-chip{font-size:12px;font-weight:500;padding:4px 11px;border-radius:20px;border:1px solid var(--border);background:var(--white);color:var(--muted);}
+.npc-chip.npc-active{background:var(--primary);border-color:var(--primary);color:#fff;}
+.ng-pager{display:flex;gap:4px;align-items:center;justify-content:center;padding:16px 0 6px;}
+.ng-pg-btn{font-size:13px;font-weight:500;min-width:32px;height:32px;padding:0 8px;border-radius:8px;border:1px solid var(--border);background:var(--white);color:var(--text);}
+.ng-pg-btn.ng-pg-active{background:var(--primary);border-color:var(--primary);color:#fff;}
+.ng-pg-ellipsis{font-size:13px;color:var(--muted);padding:0 4px;}
+
+/* MARQUEE BRANDS */
+.brand-marquee{display:flex;justify-content:center;gap:40px;flex-wrap:wrap;padding:20px;margin-bottom:24px;}
+.brand-marquee span{font-size:13px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;}
+
+/* NEWSLETTER */
+.newsletter-strip{background:linear-gradient(135deg,#111318 0%,#1c2030 100%);border-radius:var(--radius);padding:32px 40px;color:#fff;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;margin-bottom:28px;}
+.newsletter-text h3{font-size:22px;font-weight:800;margin-bottom:6px;}
+.newsletter-text p{font-size:13px;color:rgba(255,255,255,.88);line-height:1.6;}
+.newsletter-form{display:flex;}
+.nl-input{flex:1;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-right:none;padding:10px 14px;border-radius:8px 0 0 8px;color:#fff;font-size:13px;}
+.nl-btn{background:var(--primary);color:#fff;border:1px solid var(--primary);border-radius:0 8px 8px 0;padding:10px 24px;font-size:13px;font-weight:700;}
+
+/* FOOTER */
+footer{background:linear-gradient(180deg,#111318 0%,#1c2030 100%);color:rgba(255,255,255,.85);}
+.footer-inner{max-width:1400px;margin:0 auto;padding:40px;display:grid;grid-template-columns:1.4fr repeat(5,1fr);gap:24px;}
+.footer-logo{font-size:20px;font-weight:900;color:#fff;margin-bottom:10px;}
+.footer-logo span{color:var(--primary);}
+.footer-desc{font-size:11px;line-height:1.65;opacity:.65;margin-bottom:16px;}
+.footer-col-title{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#fff;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,.1);}
+.footer-col a{display:block;font-size:12px;line-height:2;color:rgba(255,255,255,.7);}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.08);padding:20px 40px;background:rgba(0,0,0,.2);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;}
+.footer-bottom p{font-size:12px;color:rgba(255,255,255,.65);}
+
+/* OBSIDIAN HERO — variant-specific */
+.hero-slider{border-radius:12px;overflow:hidden;position:relative;min-height:320px;
+  background:radial-gradient(circle at 82% 18%, rgba(212,175,55,.14) 0%, transparent 45%),
+             radial-gradient(circle at 10% 90%, rgba(189,17,5,.35) 0%, transparent 55%),
+             linear-gradient(160deg,#0a0a0c 0%,#141416 55%,#1c1210 100%);
+  display:flex;flex-direction:column;justify-content:center;padding:40px 48px;}
+.hs-over{font-size:11px;font-weight:700;letter-spacing:3px;color:#d4af37;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.hs-over::before{content:'';width:24px;height:1px;background:#d4af37;}
+.hs-hdg{font-family:'Sora',sans-serif;font-size:42px;font-weight:700;color:#fff;line-height:1.1;margin-bottom:14px;letter-spacing:-.5px;}
+.hs-hdg em{font-style:normal;background:linear-gradient(90deg,#d4af37,#f3dfa0);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.hs-sub{font-size:14px;color:rgba(255,255,255,.55);margin-bottom:26px;max-width:360px;}
+.hs-cta{align-self:flex-start;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(10px);color:#fff;padding:12px 26px;border-radius:24px;font-size:13px;font-weight:700;display:flex;align-items:center;gap:8px;}
+.hs-cta:hover{background:rgba(255,255,255,.12);}
+.hs-cta svg{transition:transform .2s;}
+.hs-cta:hover svg{transform:translateX(3px);}
+.hs-dots{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);display:flex;gap:6px;}
+.hs-dot{width:6px;height:6px;border-radius:3px;background:rgba(255,255,255,.25);}
+.hs-dot.active{width:24px;background:#d4af37;}
+</style>
+</head>
+<body>
+
+<!-- REAL V1 ICON SPRITE (copied from index.html #ic-* defs) -->
+<svg style="display:none">
+  <symbol id="ic-cart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></symbol>
+  <symbol id="ic-heart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></symbol>
+  <symbol id="ic-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+  <symbol id="ic-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
+  <symbol id="ic-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="ic-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></symbol>
+  <symbol id="ic-truck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></symbol>
+  <symbol id="ic-star" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></symbol>
+  <symbol id="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></symbol>
+  <symbol id="ic-laptop" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 16V7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v9m16 0H4m16 0 1.28 2.55a1 1 0 0 1-.9 1.45H3.62a1 1 0 0 1-.9-1.45L4 16"/></symbol>
+  <symbol id="ic-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></symbol>
+  <symbol id="ic-headphones" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3"/></symbol>
+  <symbol id="ic-camera" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3z"/><circle cx="12" cy="13" r="3"/></symbol>
+  <symbol id="ic-wifi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" x2="12.01" y1="20" y2="20"/></symbol>
+  <symbol id="ic-printer" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect width="12" height="8" x="6" y="14"/></symbol>
+  <symbol id="ic-consumables" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 7V5a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2"/><circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"/><path d="M12 13.5V17"/></symbol>
+  <symbol id="ic-cpu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 2v2M15 2v2M9 20v2M15 20v2M2 9h2M2 15h2M20 9h2M20 15h2"/></symbol>
+  <symbol id="ic-mouse" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="7"/><path d="M12 6v4"/></symbol>
+  <symbol id="ic-compare" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"/></symbol>
+  <symbol id="ic-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
+  <symbol id="ic-tag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/><circle cx="7.5" cy="7.5" r=".5" fill="currentColor"/></symbol>
+  <symbol id="ic-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></symbol>
+  <symbol id="ic-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></symbol>
+  <symbol id="ic-monitor" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="3" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/></symbol>
+  <symbol id="ic-desktop" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="18" x="5" y="3" rx="2"/><path d="M12 8v4"/><path d="M10 14h4"/></symbol>
+  <symbol id="ic-storage" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4.03 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4.03 3 9 3s9-1.34 9-3"/></symbol>
+  <symbol id="ic-return" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></symbol>
+</svg>
+
+<div class="mockup-bar"><span class="dot"></span><b>Mockup A</b><span>— Obsidian Hero: пълна 1:1 реплика на реалния V1 homepage, вече с истинските SVG иконки от сайта (без emoji) — единствената визуална промяна е hero-slider панелът, редизайнат в тъмно премиум стъкло със златен акцент</span></div>
+
+<div class="wrap">
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="topbar-left">
+      <span>Безплатна доставка над 100 € / 195,58 лв.</span>
+      <span>14 дни право на връщане</span>
+      <span style="color:rgba(255,255,255,.55)">Работим от 1990 г.</span>
+    </div>
+    <div class="topbar-right">
+      <span class="topbar-phone">(+359 2) 91 823</span>
+      <a>Вход</a>
+      <a>Регистрация</a>
+    </div>
+  </div>
+</div>
+
+<header>
+  <div class="header-inner">
+    <div class="logo-wrap">MOST<br><b>COMPUTERS</b></div>
+    <div class="search-wrap">
+      <div class="search-bar">
+        <input class="search-input" placeholder="Търси по име, марка, модел, SKU или EAN...">
+        <button class="search-btn"><svg class="svg-ic" width="18" height="18" aria-hidden="true"><use href="#ic-search"/></svg></button>
+      </div>
+    </div>
+    <div class="header-actions">
+      <div class="hdr-divider"></div>
+      <button class="hdr-btn"><svg class="svg-ic" width="20" height="20" aria-hidden="true"><use href="#ic-cart"/></svg>Кошница</button>
+      <div class="hdr-divider"></div>
+      <button class="hdr-btn"><svg class="svg-ic" width="18" height="18" aria-hidden="true"><use href="#ic-moon"/></svg>Тъмен режим</button>
+      <div class="hdr-divider"></div>
+      <button class="hdr-btn"><svg class="svg-ic" width="20" height="20" aria-hidden="true"><use href="#ic-user"/></svg>Профил</button>
+    </div>
+  </div>
+</header>
+
+<nav class="navbar">
+  <div class="navbar-inner">
+    <div class="nav-links-row">
+      <a class="nav-link active">Начало</a>
+      <div class="nav-divider"></div>
+      <a class="nav-link">За нас</a>
+      <div class="nav-divider"></div>
+      <a class="nav-link">Блог <span class="nav-badge">Ново</span></a>
+      <div class="nav-divider"></div>
+      <a class="nav-link">Доставка</a>
+      <div class="nav-divider"></div>
+      <a class="nav-link">Контакти</a>
+      <div class="nav-divider"></div>
+      <a class="nav-link">Сервизен център</a>
+      <div class="nav-divider"></div>
+      <a class="nav-link promo"><svg class="svg-ic" width="13" height="13" aria-hidden="true"><use href="#ic-tag"/></svg>Промоции</a>
+      <div class="nav-divider"></div>
+      <a class="nav-link nav-b2b-cta">B2B портал</a>
+    </div>
+  </div>
+</nav>
+
+<div class="promo-strip">
+  <div class="promo-strip-track">
+    <span class="promo-strip-item"><svg class="svg-ic" width="11" height="11" aria-hidden="true"><use href="#ic-check"/></svg>2 години официална гаранция</span><span class="promo-strip-sep">✦</span>
+    <span class="promo-strip-item"><svg class="svg-ic" width="11" height="11" aria-hidden="true"><use href="#ic-phone"/></svg>Сервиз и поддръжка: 0700 144 11</span><span class="promo-strip-sep">✦</span>
+    <span class="promo-strip-item"><svg class="svg-ic" width="11" height="11" aria-hidden="true"><use href="#ic-shield"/></svg>Сертифициран сервизен партньор</span><span class="promo-strip-sep">✦</span>
+    <span class="promo-strip-item"><svg class="svg-ic" width="11" height="11" aria-hidden="true"><use href="#ic-truck"/></svg>Поръчай до 17:00 - изпращане същия ден</span><span class="promo-strip-sep">✦</span>
+    <span class="promo-strip-item"><svg class="svg-ic" width="11" height="11" aria-hidden="true"><use href="#ic-bolt"/></svg>Нови продукти всяка седмица</span><span class="promo-strip-sep">✦</span>
+    <span class="promo-strip-item"><svg class="svg-ic" width="11" height="11" aria-hidden="true"><use href="#ic-check"/></svg>2 години официална гаранция</span><span class="promo-strip-sep">✦</span>
+    <span class="promo-strip-item"><svg class="svg-ic" width="11" height="11" aria-hidden="true"><use href="#ic-phone"/></svg>Сервиз и поддръжка: 0700 144 11</span><span class="promo-strip-sep">✦</span>
+    <span class="promo-strip-item"><svg class="svg-ic" width="11" height="11" aria-hidden="true"><use href="#ic-shield"/></svg>Сертифициран сервизен партньор</span><span class="promo-strip-sep">✦</span>
+    <span class="promo-strip-item"><svg class="svg-ic" width="11" height="11" aria-hidden="true"><use href="#ic-truck"/></svg>Поръчай до 17:00 - изпращане същия ден</span><span class="promo-strip-sep">✦</span>
+    <span class="promo-strip-item"><svg class="svg-ic" width="11" height="11" aria-hidden="true"><use href="#ic-bolt"/></svg>Нови продукти всяка седмица</span>
+  </div>
+</div>
+
+<div class="main-container">
+  <aside class="sidebar">
+    <div class="sidebar-categories">
+      <div class="cat-item open"><span class="cat-icon"><svg width="18" height="18" aria-hidden="true"><use href="#ic-laptop"/></svg></span> Лаптопи <span class="cat-arrow">›</span></div>
+      <div class="cat-sub-list">
+        <a class="cat-sub-item">Геймърски</a>
+        <a class="cat-sub-item">Ултрабук</a>
+        <a class="cat-sub-item">Бизнес</a>
+        <a class="cat-sub-item">2-в-1</a>
+        <a class="cat-sub-item">Бюджетни</a>
+      </div>
+      <div class="cat-item"><span class="cat-icon"><svg width="18" height="18" aria-hidden="true"><use href="#ic-desktop"/></svg></span> Настолни компютри <span class="cat-arrow">›</span></div>
+      <div class="cat-item"><span class="cat-icon"><svg width="18" height="18" aria-hidden="true"><use href="#ic-cpu"/></svg></span> Компоненти <span class="cat-arrow">›</span></div>
+      <div class="cat-item"><span class="cat-icon"><svg width="18" height="18" aria-hidden="true"><use href="#ic-monitor"/></svg></span> Монитори <span class="cat-arrow">›</span></div>
+      <div class="cat-item"><span class="cat-icon"><svg width="18" height="18" aria-hidden="true"><use href="#ic-mouse"/></svg></span> Периферия <span class="cat-arrow">›</span></div>
+      <div class="cat-item"><span class="cat-icon"><svg width="18" height="18" aria-hidden="true"><use href="#ic-headphones"/></svg></span> Аудио и слушалки <span class="cat-arrow">›</span></div>
+      <div class="cat-item"><span class="cat-icon"><svg width="18" height="18" aria-hidden="true"><use href="#ic-camera"/></svg></span> Камери <span class="cat-arrow">›</span></div>
+      <div class="cat-item"><span class="cat-icon"><svg width="18" height="18" aria-hidden="true"><use href="#ic-storage"/></svg></span> Памет и съхранение <span class="cat-arrow">›</span></div>
+      <div class="cat-item"><span class="cat-icon"><svg width="18" height="18" aria-hidden="true"><use href="#ic-wifi"/></svg></span> Мрежово оборудване <span class="cat-arrow">›</span></div>
+      <div class="cat-item"><span class="cat-icon"><svg width="18" height="18" aria-hidden="true"><use href="#ic-phone"/></svg></span> Телефони и таблети <span class="cat-arrow">›</span></div>
+      <div class="cat-item"><span class="cat-icon"><svg width="18" height="18" aria-hidden="true"><use href="#ic-printer"/></svg></span> Принтери <span class="cat-arrow">›</span></div>
+      <div class="cat-item"><span class="cat-icon"><svg width="18" height="18" aria-hidden="true"><use href="#ic-consumables"/></svg></span> Консумативи <span class="cat-arrow">›</span></div>
+      <div class="cat-item"><span class="cat-icon"><svg width="18" height="18" aria-hidden="true"><use href="#ic-bolt"/></svg></span> UPS устройства <span class="cat-arrow">›</span></div>
+      <div class="cat-item"><span class="cat-icon"><svg width="18" height="18" aria-hidden="true"><use href="#ic-mouse"/></svg></span> Аксесоари <span class="cat-arrow">›</span></div>
+    </div>
+
+    <div class="sb-top-product">
+      <div class="sb-tp-header">Топ продукт</div>
+      <div class="sb-tp-cat">Аудио</div>
+      <div class="sb-tp-img"><svg width="32" height="32" aria-hidden="true"><use href="#ic-headphones"/></svg></div>
+      <div class="sb-tp-brand">Logitech</div>
+      <div class="sb-tp-name">LOGITECH HEADSET H150 STEREO</div>
+      <div class="sb-tp-rating">★★★★☆ <small>4.20 (33)</small></div>
+      <div class="sb-tp-price">19,02 € <small>37,20 лв.</small></div>
+      <button class="sb-tp-btn">Виж продукта →</button>
+    </div>
+
+    <div class="sb-brand-spot">
+      <div class="sb-bs-header">Производител на деня</div>
+      <div class="sb-bs-name">Tenda</div>
+      <div class="sb-bs-thumbs"><div class="sb-bs-thumb"></div><div class="sb-bs-thumb"></div><div class="sb-bs-thumb"></div></div>
+      <div style="font-size:11px;color:var(--muted);margin-bottom:8px;">33 продукта от 3,15 € / 6,17 лв.</div>
+      <button class="sb-bs-btn">Разгледай всичко</button>
+    </div>
+
+    <div class="sb-rv">
+      <div class="sb-rv-header">Наскоро разгледани</div>
+      <div class="sb-rv-item">
+        <div class="sb-rv-thumb"></div>
+        <div><div class="sb-rv-name">ASUS G614PR-RV022W</div><div class="sb-rv-price">1 497,72 € / 2 929,28 лв.</div></div>
+      </div>
+    </div>
+  </aside>
+
+  <div class="content-area">
+    <!-- HERO SECTION -->
+    <div class="hero-section">
+      <!-- REDESIGNED HERO SLIDER — Obsidian -->
+      <div class="hero-slider">
+        <div class="hs-over">За дома, офиса и гейминга</div>
+        <h2 class="hs-hdg">Намери <em>технологията</em>,<br>от която имаш нужда</h2>
+        <p class="hs-sub">Внимателно подбрани лаптопи, компоненти и работни станции - с 2 години гаранция на всичко.</p>
+        <button class="hs-cta">Разгледай промоциите <svg width="14" height="14" aria-hidden="true"><use href="#ic-arrow-right"/></svg></button>
+        <div class="hs-dots"><span class="hs-dot active"></span><span class="hs-dot"></span><span class="hs-dot"></span><span class="hs-dot"></span></div>
+      </div>
+
+      <!-- hero-right-panel (unchanged) -->
+      <div class="hero-right-panel">
+        <div class="hrp-widget">
+          <div class="hrp-title"><svg width="16" height="16" aria-hidden="true"><use href="#ic-globe"/></svg>От блога</div>
+          <div class="hrp-blog-item">
+            <div class="hrp-blog-icon"><svg width="16" height="16" aria-hidden="true"><use href="#ic-star"/></svg></div>
+            <div><div class="hrp-blog-cat">Ревю</div><div class="hrp-blog-title">Palit RTX 4070 Super JetStream OC - Краля на средния клас</div><div class="hrp-blog-meta"><span>7 мин</span><span>·</span><span>02 юни</span></div></div>
+          </div>
+          <div class="hrp-blog-divider"></div>
+          <div class="hrp-blog-item">
+            <div class="hrp-blog-icon"><svg width="16" height="16" aria-hidden="true"><use href="#ic-bolt"/></svg></div>
+            <div><div class="hrp-blog-cat">Ревю</div><div class="hrp-blog-title">AMD Ryzen 9 9950X3D - Краля на компонентите</div><div class="hrp-blog-meta"><span>9 мин</span><span>·</span><span>02 юни</span></div></div>
+          </div>
+          <div class="hrp-blog-divider"></div>
+          <div class="hrp-blog-item">
+            <div class="hrp-blog-icon"><svg width="16" height="16" aria-hidden="true"><use href="#ic-tag"/></svg></div>
+            <div><div class="hrp-blog-cat">Новини</div><div class="hrp-blog-title">Intel Core Ultra 300 (Arrow Lake-R) - Първите впечатления по пазаруста</div><div class="hrp-blog-meta"><span>5 мин</span><span>·</span><span>01 юни</span></div></div>
+          </div>
+          <button class="hrp-see-all">Виж още →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TRUST + SOCIAL PROOF -->
+    <div class="trust-bar">
+      <div class="trust-item"><span class="trust-icon"><svg width="22" height="22" aria-hidden="true"><use href="#ic-truck"/></svg></span><div><span class="trust-title">Безплатна доставка</span><span class="trust-sub">При поръчки над 100 €</span></div></div>
+      <div class="trust-item"><span class="trust-icon"><svg width="22" height="22" aria-hidden="true"><use href="#ic-shield"/></svg></span><div><span class="trust-title">24 месеца гаранция</span><span class="trust-sub">Официален сервиз</span></div></div>
+      <div class="trust-item"><span class="trust-icon"><svg width="22" height="22" aria-hidden="true"><use href="#ic-return"/></svg></span><div><span class="trust-title">14 дни връщане</span><span class="trust-sub">Без въпроси</span></div></div>
+      <div class="trust-item"><span class="trust-icon"><svg width="22" height="22" aria-hidden="true"><use href="#ic-check"/></svg></span><div><span class="trust-title">Сигурно плащане</span><span class="trust-sub">Карта, наложен платеж</span></div></div>
+    </div>
+    <div class="social-proof-strip">
+      <div class="sp-stat"><svg width="20" height="20" aria-hidden="true"><use href="#ic-star"/></svg><div><span class="sp-num">4.8 <small style="font-size:11px;font-weight:500;opacity:.7">от 5</small></span><span class="sp-sub">средна оценка</span></div></div>
+      <div class="sp-sep"></div>
+      <div class="sp-stat"><svg width="20" height="20" aria-hidden="true"><use href="#ic-check"/></svg><div><span class="sp-num">36+</span><span class="sp-sub">год. на пазара</span></div></div>
+      <div class="sp-sep"></div>
+      <div class="sp-stat"><svg width="20" height="20" aria-hidden="true"><use href="#ic-truck"/></svg><div><span class="sp-num">550K+</span><span class="sp-sub">доволни клиенти</span></div></div>
+      <div class="sp-sep"></div>
+      <div class="sp-stat"><svg width="20" height="20" aria-hidden="true"><use href="#ic-shield"/></svg><div><span class="sp-num">Официален сервиз</span><span class="sp-sub">на водещи марки</span></div></div>
+    </div>
+
+    <!-- FLASH SALE -->
+    <div class="flash-sale-section">
+      <div class="flash-header">
+        <div><h2 class="flash-title"><svg width="18" height="18" aria-hidden="true"><use href="#ic-bolt"/></svg>Светкавични оферти</h2><div class="flash-subtitle">Намалени цени, докато трае наличността</div></div>
+        <a class="view-all-link">Всички →</a>
+        <div class="flash-timer">
+          <div class="timer-block"><span class="timer-num">00</span><span class="timer-label">ч.</span></div><span class="timer-sep">:</span>
+          <div class="timer-block"><span class="timer-num">14</span><span class="timer-label">мин.</span></div><span class="timer-sep">:</span>
+          <div class="timer-block"><span class="timer-num">52</span><span class="timer-label">сек.</span></div>
+        </div>
+      </div>
+      <div class="products-row">
+        <article class="product-card">
+          <div class="product-badge-wrap"><span class="badge badge-pct">-9%</span></div>
+          <button class="product-wishlist"><svg width="15" height="15" aria-hidden="true"><use href="#ic-heart"/></svg></button>
+          <div class="product-img-wrap"><svg width="40" height="40" aria-hidden="true"><use href="#ic-monitor"/></svg></div>
+          <div class="product-body">
+            <div class="product-brand">AMD</div>
+            <h3 class="product-name">AMD Ryzen 5 7600X 4.7G 38M BOX</h3>
+            <div class="product-rating"><span class="stars">★★★★☆</span><span class="rating-num">4.3 (8)</span></div>
+            <div class="price-row"><div class="price-current sale">192,01 €</div><div class="price-old">210,77 €</div></div>
+            <div class="card-delivery-hint">Бърза доставка - поръчай до 17:00</div>
+            <button class="add-cart-btn"><svg width="15" height="15" aria-hidden="true"><use href="#ic-cart"/></svg>Добави в кошница</button>
+            <div class="card-secondary-btns">
+              <button class="card-sec-btn"><svg width="16" height="16" aria-hidden="true"><use href="#ic-eye"/></svg>Преглед</button>
+              <button class="card-sec-btn"><svg width="16" height="16" aria-hidden="true"><use href="#ic-bolt"/></svg>Поръчка</button>
+              <button class="card-sec-btn"><svg width="16" height="16" aria-hidden="true"><use href="#ic-compare"/></svg>Сравни</button>
+            </div>
+          </div>
+        </article>
+        <article class="product-card">
+          <div class="product-badge-wrap"><span class="badge badge-pct">-13%</span></div>
+          <button class="product-wishlist"><svg width="15" height="15" aria-hidden="true"><use href="#ic-heart"/></svg></button>
+          <div class="product-img-wrap"><svg width="40" height="40" aria-hidden="true"><use href="#ic-monitor"/></svg></div>
+          <div class="product-body">
+            <div class="product-brand">Kingston</div>
+            <h3 class="product-name">32G DDR5 6000 King Fury Beast</h3>
+            <div class="product-rating"><span class="stars">★★★★☆</span><span class="rating-num">4.4 (8)</span></div>
+            <div class="price-row"><div class="price-current sale">516,95 €</div><div class="price-old">593,32 €</div></div>
+            <div class="card-delivery-hint">Бърза доставка - поръчай до 17:00</div>
+            <button class="add-cart-btn"><svg width="15" height="15" aria-hidden="true"><use href="#ic-cart"/></svg>Добави в кошница</button>
+            <div class="card-secondary-btns">
+              <button class="card-sec-btn"><svg width="16" height="16" aria-hidden="true"><use href="#ic-eye"/></svg>Преглед</button>
+              <button class="card-sec-btn"><svg width="16" height="16" aria-hidden="true"><use href="#ic-bolt"/></svg>Поръчка</button>
+              <button class="card-sec-btn"><svg width="16" height="16" aria-hidden="true"><use href="#ic-compare"/></svg>Сравни</button>
+            </div>
+          </div>
+        </article>
+        <article class="product-card">
+          <button class="product-wishlist"><svg width="15" height="15" aria-hidden="true"><use href="#ic-heart"/></svg></button>
+          <div class="product-img-wrap"><svg width="40" height="40" aria-hidden="true"><use href="#ic-monitor"/></svg></div>
+          <div class="product-body">
+            <div class="product-brand">ASUS</div>
+            <h3 class="product-name">ASUS UM5606A-SR391XNA</h3>
+            <div class="product-rating"><span class="stars">★★★★☆</span><span class="rating-num">4.3 (7)</span></div>
+            <div class="price-row"><div class="price-current">2 399,28 €</div><div class="price-old">2 704,90 €</div></div>
+            <div class="card-delivery-hint">Доставка до 2 работни дни</div>
+            <button class="add-cart-btn"><svg width="15" height="15" aria-hidden="true"><use href="#ic-cart"/></svg>Добави в кошница</button>
+            <div class="card-secondary-btns">
+              <button class="card-sec-btn"><svg width="16" height="16" aria-hidden="true"><use href="#ic-eye"/></svg>Преглед</button>
+              <button class="card-sec-btn"><svg width="16" height="16" aria-hidden="true"><use href="#ic-bolt"/></svg>Поръчка</button>
+              <button class="card-sec-btn"><svg width="16" height="16" aria-hidden="true"><use href="#ic-compare"/></svg>Сравни</button>
+            </div>
+          </div>
+        </article>
+        <article class="product-card">
+          <div class="product-badge-wrap"><span class="badge badge-pct">-5%</span></div>
+          <button class="product-wishlist"><svg width="15" height="15" aria-hidden="true"><use href="#ic-heart"/></svg></button>
+          <div class="product-img-wrap"><svg width="40" height="40" aria-hidden="true"><use href="#ic-monitor"/></svg></div>
+          <div class="product-body">
+            <div class="product-brand">Teamgroup</div>
+            <h3 class="product-name">16G DDR4 2666 Team Elite</h3>
+            <div class="product-rating"><span class="stars">★★★★☆</span><span class="rating-num">4.4 (8)</span></div>
+            <div class="price-row"><div class="price-current sale">124,70 €</div><div class="price-old">131,69 €</div></div>
+            <div class="card-delivery-hint">Бърза доставка - поръчай до 17:00</div>
+            <button class="add-cart-btn"><svg width="15" height="15" aria-hidden="true"><use href="#ic-cart"/></svg>Добави в кошница</button>
+            <div class="card-secondary-btns">
+              <button class="card-sec-btn"><svg width="16" height="16" aria-hidden="true"><use href="#ic-eye"/></svg>Преглед</button>
+              <button class="card-sec-btn"><svg width="16" height="16" aria-hidden="true"><use href="#ic-bolt"/></svg>Поръчка</button>
+              <button class="card-sec-btn"><svg width="16" height="16" aria-hidden="true"><use href="#ic-compare"/></svg>Сравни</button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <!-- PROMO SPLIT BANNER -->
+    <div class="promo-split-banner">
+      <div class="psb-half psb-half--red">
+        <div class="psb-content">
+          <span class="psb-badge">Ново</span>
+          <h3 class="psb-title">Palit RTX 5060 Dual OC 8GB GDDR7</h3>
+          <p class="psb-sub">Blackwell архитектура · DP 2.1 · HDMI 2.1 · двувентилаторно охлаждане</p>
+          <div class="psb-price">299,09 € <small style="font-size:12px;font-weight:500;">/ 585 лв.</small></div>
+          <button class="psb-btn">Виж продукта →</button>
+        </div>
+        <div class="psb-img"><svg width="56" height="56" aria-hidden="true"><use href="#ic-cpu"/></svg></div>
+      </div>
+      <div class="psb-half psb-half--dark">
+        <div class="psb-content">
+          <span class="psb-badge">-16%</span>
+          <h3 class="psb-title">Canon MAXIFY GX2040 AIO</h3>
+          <p class="psb-sub">Мастиленоструен · Scan · Copy · Wi-Fi · двустранен печат</p>
+          <div class="psb-price">170,78 € <small style="font-size:12px;font-weight:500;">вместо 202 €</small></div>
+          <button class="psb-btn">Добави в кошница +</button>
+        </div>
+        <div class="psb-img"><svg width="56" height="56" aria-hidden="true"><use href="#ic-printer"/></svg></div>
+      </div>
+    </div>
+
+    <!-- NEW PRODUCTS -->
+    <div class="section-wrap">
+      <div class="section-header">
+        <div class="section-header-left">
+          <div class="section-accent" style="background:var(--new)"></div>
+          <div><h2 class="section-title"><svg width="17" height="17" aria-hidden="true"><use href="#ic-tag"/></svg>Нови продукти</h2><div class="section-subtitle">Най-новите постъпления в магазина</div></div>
+        </div>
+        <div class="npc-wrap">
+          <button class="npc-chip">7 дни</button>
+          <button class="npc-chip npc-active">14 дни</button>
+          <button class="npc-chip">30 дни</button>
+        </div>
+        <a class="view-all-link">Виж всички нови →</a>
+      </div>
+      <div class="products-row cols5">
+        <article class="product-card"><div class="product-badge-wrap"><span class="badge badge-new">Ново</span></div><button class="product-wishlist"><svg width="15" height="15" aria-hidden="true"><use href="#ic-heart"/></svg></button><div class="product-img-wrap"><svg width="36" height="36" aria-hidden="true"><use href="#ic-cpu"/></svg></div><div class="product-body"><div class="product-brand">Palit</div><h3 class="product-name">RTX 5060 Infinity 2 OC 8G</h3><div class="product-rating"><span class="stars">★★★★☆</span><span class="rating-num">4.5 (6)</span></div><div class="price-row"><div class="price-current">314,18 €</div></div><button class="add-cart-btn"><svg width="15" height="15" aria-hidden="true"><use href="#ic-cart"/></svg>Добави</button></div></article>
+        <article class="product-card"><div class="product-badge-wrap"><span class="badge badge-new">Ново</span></div><button class="product-wishlist"><svg width="15" height="15" aria-hidden="true"><use href="#ic-heart"/></svg></button><div class="product-img-wrap"><svg width="36" height="36" aria-hidden="true"><use href="#ic-cpu"/></svg></div><div class="product-body"><div class="product-brand">Palit</div><h3 class="product-name">RTX 5060Ti Dual 8GB</h3><div class="product-rating"><span class="stars">★★★★☆</span><span class="rating-num">4.5 (8)</span></div><div class="price-row"><div class="price-current">401,55 €</div></div><button class="add-cart-btn"><svg width="15" height="15" aria-hidden="true"><use href="#ic-cart"/></svg>Добави</button></div></article>
+        <article class="product-card"><div class="product-badge-wrap"><span class="badge badge-new">Ново</span></div><button class="product-wishlist"><svg width="15" height="15" aria-hidden="true"><use href="#ic-heart"/></svg></button><div class="product-img-wrap"><svg width="36" height="36" aria-hidden="true"><use href="#ic-cpu"/></svg></div><div class="product-body"><div class="product-brand">Palit</div><h3 class="product-name">RTX 5060Ti Infini 3 OC 16</h3><div class="product-rating"><span class="stars">★★★★☆</span><span class="rating-num">4.5 (8)</span></div><div class="price-row"><div class="price-current">578,93 €</div></div><button class="add-cart-btn"><svg width="15" height="15" aria-hidden="true"><use href="#ic-cart"/></svg>Добави</button></div></article>
+        <article class="product-card"><div class="product-badge-wrap"><span class="badge badge-new">Ново</span></div><button class="product-wishlist"><svg width="15" height="15" aria-hidden="true"><use href="#ic-heart"/></svg></button><div class="product-img-wrap"><svg width="36" height="36" aria-hidden="true"><use href="#ic-cpu"/></svg></div><div class="product-body"><div class="product-brand">Palit</div><h3 class="product-name">RTX 5070 Infiniti 3 12GB</h3><div class="product-rating"><span class="stars">★★★★☆</span><span class="rating-num">4.5 (8)</span></div><div class="price-row"><div class="price-current">661,89 €</div></div><button class="add-cart-btn"><svg width="15" height="15" aria-hidden="true"><use href="#ic-cart"/></svg>Добави</button></div></article>
+        <article class="product-card"><div class="product-badge-wrap"><span class="badge badge-new">Ново</span></div><button class="product-wishlist"><svg width="15" height="15" aria-hidden="true"><use href="#ic-heart"/></svg></button><div class="product-img-wrap"><svg width="36" height="36" aria-hidden="true"><use href="#ic-cpu"/></svg></div><div class="product-body"><div class="product-brand">Palit</div><h3 class="product-name">RTX 5070Ti GamPro-S OC 16</h3><div class="product-rating"><span class="stars">★★★★☆</span><span class="rating-num">4.5 (11)</span></div><div class="price-row"><div class="price-current">908,11 €</div></div><button class="add-cart-btn"><svg width="15" height="15" aria-hidden="true"><use href="#ic-cart"/></svg>Добави</button></div></article>
+      </div>
+      <div class="products-row cols5" style="padding-top:0;">
+        <article class="product-card"><button class="product-wishlist"><svg width="15" height="15" aria-hidden="true"><use href="#ic-heart"/></svg></button><div class="product-img-wrap"><svg width="36" height="36" aria-hidden="true"><use href="#ic-cpu"/></svg></div><div class="product-body"><div class="product-brand">Gigabyte</div><h3 class="product-name">RTX 5060 Windforce OC 8GD</h3><div class="product-rating"><span class="stars">★★★★☆</span><span class="rating-num">4.5 (9)</span></div><div class="price-row"><div class="price-current">329,18 €</div></div><button class="add-cart-btn"><svg width="15" height="15" aria-hidden="true"><use href="#ic-cart"/></svg>Добави</button></div></article>
+        <article class="product-card"><button class="product-wishlist"><svg width="15" height="15" aria-hidden="true"><use href="#ic-heart"/></svg></button><div class="product-img-wrap"><svg width="36" height="36" aria-hidden="true"><use href="#ic-cpu"/></svg></div><div class="product-body"><div class="product-brand">Gigabyte</div><h3 class="product-name">RTX 5060 Windforce Max OC 8GD</h3><div class="product-rating"><span class="stars">★★★★☆</span><span class="rating-num">4.5 (8)</span></div><div class="price-row"><div class="price-current">334,48 €</div></div><button class="add-cart-btn"><svg width="15" height="15" aria-hidden="true"><use href="#ic-cart"/></svg>Добави</button></div></article>
+        <article class="product-card"><button class="product-wishlist"><svg width="15" height="15" aria-hidden="true"><use href="#ic-heart"/></svg></button><div class="product-img-wrap"><svg width="36" height="36" aria-hidden="true"><use href="#ic-cpu"/></svg></div><div class="product-body"><div class="product-brand">Gigabyte</div><h3 class="product-name">RTX 5070 Windforce OC SFF 12</h3><div class="product-rating"><span class="stars">★★★★☆</span><span class="rating-num">4.5 (7)</span></div><div class="price-row"><div class="price-current">638,06 €</div></div><button class="add-cart-btn"><svg width="15" height="15" aria-hidden="true"><use href="#ic-cart"/></svg>Добави</button></div></article>
+        <article class="product-card"><button class="product-wishlist"><svg width="15" height="15" aria-hidden="true"><use href="#ic-heart"/></svg></button><div class="product-img-wrap"><svg width="36" height="36" aria-hidden="true"><use href="#ic-cpu"/></svg></div><div class="product-body"><div class="product-brand">Gigabyte</div><h3 class="product-name">RTX 5070 Eagle OC-12GD</h3><div class="product-rating"><span class="stars">★★★★☆</span><span class="rating-num">4.5 (8)</span></div><div class="price-row"><div class="price-current">655,71 €</div></div><button class="add-cart-btn"><svg width="15" height="15" aria-hidden="true"><use href="#ic-cart"/></svg>Добави</button></div></article>
+        <article class="product-card"><button class="product-wishlist"><svg width="15" height="15" aria-hidden="true"><use href="#ic-heart"/></svg></button><div class="product-img-wrap"><svg width="36" height="36" aria-hidden="true"><use href="#ic-cpu"/></svg></div><div class="product-body"><div class="product-brand">Gigabyte</div><h3 class="product-name">RTX 5070 Gaming OC 12G</h3><div class="product-rating"><span class="stars">★★★★☆</span><span class="rating-num">4.5 (8)</span></div><div class="price-row"><div class="price-current">671,60 €</div></div><button class="add-cart-btn"><svg width="15" height="15" aria-hidden="true"><use href="#ic-cart"/></svg>Добави</button></div></article>
+      </div>
+      <div class="ng-pager">
+        <button class="ng-pg-btn ng-pg-active">1</button>
+        <button class="ng-pg-btn">2</button>
+        <span class="ng-pg-ellipsis">...</span>
+        <button class="ng-pg-btn">10</button>
+        <button class="ng-pg-btn">›</button>
+      </div>
+    </div>
+
+    <!-- BESTSELLERS -->
+    <div class="section-wrap">
+      <div class="section-header">
+        <div class="section-header-left">
+          <div class="section-accent"></div>
+          <div><h2 class="section-title"><svg width="17" height="17" aria-hidden="true"><use href="#ic-star"/></svg>Най-продавани</h2><div class="section-subtitle">Продукти с най-висок рейтинг и най-много покупки</div></div>
+        </div>
+        <a class="view-all-link">Виж всички →</a>
+      </div>
+      <div class="products-row cols5">
+        <article class="product-card"><button class="product-wishlist"><svg width="15" height="15" aria-hidden="true"><use href="#ic-heart"/></svg></button><div class="product-img-wrap"><svg width="36" height="36" aria-hidden="true"><use href="#ic-phone"/></svg></div><div class="product-body"><div class="product-brand">Nokia</div><h3 class="product-name">MS Lumia 650 Back Cvr Blk Wood</h3><div class="product-rating"><span class="stars">★★★★★</span><span class="rating-num">5.1 (46)</span></div><div class="price-row"><div class="price-current">15,34 €</div></div><button class="add-cart-btn"><svg width="15" height="15" aria-hidden="true"><use href="#ic-cart"/></svg>Добави</button></div></article>
+        <article class="product-card"><button class="product-wishlist"><svg width="15" height="15" aria-hidden="true"><use href="#ic-heart"/></svg></button><div class="product-img-wrap"><svg width="36" height="36" aria-hidden="true"><use href="#ic-phone"/></svg></div><div class="product-body"><div class="product-brand">Nokia</div><h3 class="product-name">Nokia 6310 DS 2024 Black</h3><div class="product-rating"><span class="stars">★★★★☆</span><span class="rating-num">4.9 (43)</span></div><div class="price-row"><div class="price-current">61,36 €</div></div><button class="add-cart-btn"><svg width="15" height="15" aria-hidden="true"><use href="#ic-cart"/></svg>Добави</button></div></article>
+        <article class="product-card"><div class="product-badge-wrap"><span class="badge badge-pct">-7%</span></div><button class="product-wishlist"><svg width="15" height="15" aria-hidden="true"><use href="#ic-heart"/></svg></button><div class="product-img-wrap"><svg width="36" height="36" aria-hidden="true"><use href="#ic-desktop"/></svg></div><div class="product-body"><div class="product-brand">Lenovo</div><h3 class="product-name">LOQ TWR 26 9YD F05URM</h3><div class="product-rating"><span class="stars">★★★★☆</span><span class="rating-num">4.5 (24)</span></div><div class="price-row"><div class="price-current sale">1 768,82 €</div><div class="price-old">1 900,05 €</div></div><button class="add-cart-btn"><svg width="15" height="15" aria-hidden="true"><use href="#ic-cart"/></svg>Добави</button></div></article>
+        <article class="product-card"><button class="product-wishlist"><svg width="15" height="15" aria-hidden="true"><use href="#ic-heart"/></svg></button><div class="product-img-wrap"><svg width="36" height="36" aria-hidden="true"><use href="#ic-monitor"/></svg></div><div class="product-body"><div class="product-brand">LG</div><h3 class="product-name">27 LG27GX790A-B</h3><div class="product-rating"><span class="stars">★★★★★</span><span class="rating-num">4.8 (32)</span></div><div class="price-row"><div class="price-current">830,00 €</div></div><button class="add-cart-btn"><svg width="15" height="15" aria-hidden="true"><use href="#ic-cart"/></svg>Добави</button></div></article>
+        <article class="product-card"><button class="product-wishlist"><svg width="15" height="15" aria-hidden="true"><use href="#ic-heart"/></svg></button><div class="product-img-wrap"><svg width="36" height="36" aria-hidden="true"><use href="#ic-monitor"/></svg></div><div class="product-body"><div class="product-brand">LG</div><h3 class="product-name">27LG850A-B</h3><div class="product-rating"><span class="stars">★★★★★</span><span class="rating-num">4.8 (46)</span></div><div class="price-row"><div class="price-current">632,80 €</div></div><button class="add-cart-btn"><svg width="15" height="15" aria-hidden="true"><use href="#ic-cart"/></svg>Добави</button></div></article>
+      </div>
+    </div>
+
+    <!-- BRAND MARQUEE -->
+    <div class="brand-marquee">
+      <span>Intel</span><span>Asus</span><span>Acer</span><span>Microsoft</span><span>Lenovo</span><span>Gigabyte</span><span>LG</span><span>Adata</span><span>Sapphire</span><span>Tenda</span>
+    </div>
+
+    <!-- NEWSLETTER -->
+    <div class="newsletter-strip">
+      <div class="newsletter-text">
+        <h3>Бъди първи при Flash Sale</h3>
+        <p>Flash Sale известия 30 мин. преди всички.<br>Нови продукти, ексклузивни оферти.<br>Без спам.</p>
+      </div>
+      <div>
+        <div class="newsletter-form">
+          <input class="nl-input" placeholder="Имейл адрес">
+          <button class="nl-btn">Абонирай се</button>
+        </div>
+        <div style="margin-top:8px;font-size:11px;color:rgba(255,255,255,.35);">✓ Без спам &nbsp; ✓ Отписване по всяко време</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo">Мост <span>Компютърс</span></div>
+      <div class="footer-desc">Специализиран магазин за електроника с над <strong style="color:#fff">36 години опит</strong> - основан през 1990 г. Безплатна доставка, сертифициран сервиз и гарантирано качество за всеки клиент.</div>
+    </div>
+    <div><h3 class="footer-col-title">Магазин</h3><a>Всички продукти</a><a>Намаления</a><a>Нови продукти</a><a>Топ продавани</a></div>
+    <div><h3 class="footer-col-title">За нас</h3><a>За компанията</a><a>Блог</a><a>Кариери</a><a>B2B клиенти</a></div>
+    <div><h3 class="footer-col-title">Акаунт</h3><a>Профил</a><a>Поръчки</a><a>Любими</a><a>Сравни</a></div>
+    <div><h3 class="footer-col-title">Информация</h3><a>Доставка</a><a>Връщане на стока</a><a>Гаранция</a><a>Условия за ползване</a><a>Поверителност</a></div>
+    <div><h3 class="footer-col-title">Контакти</h3><a>София, бул. „Шипченски проход" бл.240</a><a>(+359 2) 91 823</a><a>Пон-Пет: 09:30-18:15</a></div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 1990-2026 Мост Компютърс. Всички права запазени.</p>
+    <div style="display:flex;gap:14px;align-items:center;font-size:11px;color:rgba(255,255,255,.6);">VISA &nbsp; Mastercard &nbsp; Наложен платеж &nbsp; Защитено SSL плащане</div>
+  </div>
+</footer>
+
+</div>
+</body>
+</html>

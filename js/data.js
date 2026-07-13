@@ -3139,7 +3139,7 @@ var products = [
    specs:{'Сокет':'FCLGA1700','Ядра':'20','Нишки':'28','Честота':'Max Turbo Frequency: 5.6 GHz; Turbo Boost Max Technology 3.0 Frequency: ‡ 5.6 GHz; Performance-core ','Кеш':'28 MB','Памет':'Max Memory Size (dependent on memory type:) 192 GB | Тип: Up to DDR5 5600 MT/s; Up to DDR4 3200 MT/s','Интегрирана графика':'UHD Graphics 770'},
    rating:4.5,rv:0,reviews:[],
    desc:'Intel I7-14700K 5.5GHZ 28M BOX 1700 - сокет FCLGA1700, 20 ядра.',
-   img:'./images/products/37393.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/37393.jpeg'],stock:true},
+   img:'./images/products/37393.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/37393.jpeg'],stock:false},
 
   {id:449,name:'INTEL I7-14700 5.4GHZ 33M TRAY 1700',brand:'Intel',cat:'components',subcat:'cpu',
    price:818.4,old:null,pct:null,badge:null,added:'2026-04-20',emoji:'🔵',sku:'CM8071504820817',ean:'4251538816939',
@@ -4682,7 +4682,7 @@ var products = [
    specs:{'Тип':'DDR5','Капацитет':'16 GB','Честота':'5200 MHz','Форм фактор':'DIMM','Напрежение':'1.25V'},
    rating:4.4,rv:0,reviews:[],
    desc:'Kingston 16G DDR5 5200 KING FURY BEAST - DDR5 DIMM 5200 MHz, 16 GB.',
-   img:'./images/products/29783.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/29783.png'],stock:true},
+   img:'./images/products/29783.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/29783.png'],stock:false},
 
   {id:669,name:'16G DDR5 5200 KING EXPO BEAST',brand:'Kingston',cat:'components',subcat:'ram',
    price:96,old:null,pct:null,badge:null,added:'2026-04-20',emoji:'🟣',sku:'KF552C36BBE-16',ean:null,
@@ -4927,7 +4927,7 @@ var products = [
    specs:{'Тип':'DDR5','Капацитет':'32 GB','Честота':'6000 MHz','Латентност':'CL36','Форм фактор':'DIMM','Напрежение':'1.35V'},
    rating:4.4,rv:0,reviews:[],
    desc:'Kingston 2X16G DDR5 6000 KING EXPO BEAS - DDR5 DIMM 6000 MHz, 32 GB, CL36.',
-   img:'./images/products/37085.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/37085.jpeg'],stock:true},
+   img:'./images/products/37085.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/37085.jpeg'],stock:false},
 
   {id:704,name:'2X16G DDR5 6000 EXPO BEAS BLK',brand:'Kingston',cat:'components',subcat:'ram',
    price:216,old:null,pct:null,badge:null,added:'2026-04-20',emoji:'🟣',sku:'KF560C30BBEK2-32',ean:null,
@@ -5529,7 +5529,7 @@ var products = [
    specs:{'Тип':'DDR5','Капацитет':'16 GB','Честота':'5600 MHz','Форм фактор':'SO-DIMM'},
    rating:4.4,rv:0,reviews:[],
    desc:'Generic 16GB DDR5 5600 SODIMM - DDR5 SO-DIMM 5600 MHz, 16 GB.',
-   img:'./images/products/39700.webp',stock:true},
+   img:'./images/products/39700.webp',stock:false},
 
   {id:790,name:'16GB DDR5 5600 SODIMM DYNAC',brand:'Dynacard',cat:'components',subcat:'ram',
    price:86.4,old:null,pct:null,badge:null,added:'2026-04-20',emoji:'💻',sku:'DD5S560016G/S',ean:null,
@@ -6511,7 +6511,7 @@ var products = [
    specs:{'Капацитет':'512 GB','Интерфейс':'SATA III','Форм фактор':'2.5\''},
    rating:4.3,rv:0,reviews:[],
    desc:'ADATA ADATA SSD SU650 512GB 3D NAND - SSD 512 GB, SATA III, 2.5".',
-   img:'./images/products/36412.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/36412.png','https://portal.mostbg.com/api/images/imageFileData/36413.jpeg','https://portal.mostbg.com/api/images/imageFileData/36414.jpeg'],stock:true},
+   img:'./images/products/36412.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/36412.png','https://portal.mostbg.com/api/images/imageFileData/36413.jpeg','https://portal.mostbg.com/api/images/imageFileData/36414.jpeg'],stock:false},
 
   {id:930,name:'ADATA SSD SU650 960GB 3D NAND',brand:'ADATA',cat:'components',subcat:'ssd',
    price:298.14,old:330,pct:10,badge:'sale',added:'2026-04-21',emoji:'💾',sku:'ASU650SS-960GT-R',ean:'4713218461186',
@@ -7121,7 +7121,7 @@ var products = [
    specs:{'Ratio':'16:9','DP':'Да','HDMI':'Да','HDR':'Да','Sync':'FreeSync','Размер':'27\'','Панел':'IPS','Резолюция':'3840×2160 (4K)','Честота':'72 Hz','Отклик':'4ms','Тонколони':'Да'},
    rating:4.3,rv:0,reviews:[],
    desc:'Acer ACER 27W NITRO KG272KL1BMIIPX - 27" монитор, IPS, 3840×2160 (4K), 72 Hz.',
-   img:'./images/products/49212.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/49212.png','https://portal.mostbg.com/api/images/imageFileData/49213.png','https://portal.mostbg.com/api/images/imageFileData/49214.png','https://portal.mostbg.com/api/images/imageFileData/49215.png','https://portal.mostbg.com/api/images/imageFileData/49216.png','https://portal.mostbg.com/api/images/imageFileData/49217.png','https://portal.mostbg.com/api/images/imageFileData/49218.png'],stock:true},
+   img:'./images/products/49212.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/49212.png','https://portal.mostbg.com/api/images/imageFileData/49213.png','https://portal.mostbg.com/api/images/imageFileData/49214.png','https://portal.mostbg.com/api/images/imageFileData/49215.png','https://portal.mostbg.com/api/images/imageFileData/49216.png','https://portal.mostbg.com/api/images/imageFileData/49217.png','https://portal.mostbg.com/api/images/imageFileData/49218.png'],stock:false},
 
   {id:1017,name:'ACER 27 NITRO VG270EBMIIX',brand:'Acer',cat:'monitors',subcat:'monitor',
    price:282,old:null,pct:null,badge:null,added:'2026-04-21',emoji:'🖥',sku:'UM.HV0EE.E06',ean:'4711121510670',
@@ -8676,7 +8676,7 @@ var products = [
    specs:{'Връзка':'Кабелна','Подредба':'BG (Кирилица)','Тип':'Мембранна'},
    rating:4.2,rv:0,reviews:[],
    desc:'A4Tech A4 FK15 MULTM COMFORT /BLACK - клавиатура мембранна, кабелна, BG (Кирилица).',
-   img:'./images/products/39375.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/39375.jpeg','https://portal.mostbg.com/api/images/imageFileData/39376.jpeg','https://portal.mostbg.com/api/images/imageFileData/39377.jpeg','https://portal.mostbg.com/api/images/imageFileData/39378.jpeg'],stock:true},
+   img:'./images/products/39375.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/39375.jpeg','https://portal.mostbg.com/api/images/imageFileData/39376.jpeg','https://portal.mostbg.com/api/images/imageFileData/39377.jpeg','https://portal.mostbg.com/api/images/imageFileData/39378.jpeg'],stock:false},
 
   {id:1239,name:'A4 KM-720 BLACK',brand:'A4Tech',cat:'peripherals',subcat:'keyboard',
    price:14.4,old:null,pct:null,badge:null,added:'2026-04-21',emoji:'⌨',sku:'KM-720',ean:null,
@@ -12273,7 +12273,7 @@ const _cases = [
   {id:2861,name:'MSI MAG FORGE 320R AIRFLOW WHI',brand:'MSI',cat:'components',subcat:'case',price:139.2,old:null,pct:null,badge:null,added:'2026-04-22',emoji:'🖥',sku:'306-7G23W22-HH9',ean:'4711377193474',specs:{'Формфактор':'Mid Tower','Цвят':'White','I/O':'2 x USB 3.2 Gen 1 Type-A;1 x Audio-out;1 x Mic-in;1 x LED Switch','Размери':'472.5 x 210 x 498 mm'},rating:4.4,rv:39,reviews:[],desc:'MSI MAG FORGE 320R AIRFLOW WHI, Mid Tower, White',img:'./images/products/51780.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/51780.png','https://portal.mostbg.com/api/images/imageFileData/51781.png','https://portal.mostbg.com/api/images/imageFileData/51782.png','https://portal.mostbg.com/api/images/imageFileData/51783.png','https://portal.mostbg.com/api/images/imageFileData/51784.png','https://portal.mostbg.com/api/images/imageFileData/51785.png','https://portal.mostbg.com/api/images/imageFileData/51786.png'],stock:true},
   {id:2862,name:'XPG LANDER 500 ATX BLACK',brand:'ADATA',cat:'components',subcat:'case',price:93.6,old:null,pct:null,badge:null,added:'2026-04-22',emoji:'🖥',sku:'75261670',ean:'4711658152619',specs:{'Формфактор':'Micro-ATX','I/O':'2 x USB 3.2 Gen 1; 1 x 3.5mm audio/mic combo jack; 1 x Reset Button; 1 x Power','Охлаждане':'Fan Mounts-front: 140 mm x 2/120 mm x 3; top:120 mm x2; rear','Размери':'450 X 200 X 405 mm'},rating:4.3,rv:21,reviews:[],desc:'XPG LANDER 500 ATX BLACK, Micro-ATX',img:'./images/products/39236.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/39236.jpeg','https://portal.mostbg.com/api/images/imageFileData/39246.jpeg'],stock:false},
   {id:2863,name:'XPG LANDER 501 ATX BLACK',brand:'ADATA',cat:'components',subcat:'case',price:153.6,old:null,pct:null,badge:null,added:'2026-04-22',emoji:'🖥',sku:'75261669',ean:'4711658152589',specs:{'Формфактор':'Mini-ITX','Цвят':'Black','I/O':'USB 3.2 Type-A x2;USB 3.2 Type-C x1;Microphone Jack x1;Headphone Jack x1;Reset b','Охлаждане':'Fan Included: 4 x 120mm ARGB Fan;Fan Support: Front: 120mm x','Размери':'490 x 215 x 467 mm'},rating:4.9,rv:20,reviews:[],desc:'XPG LANDER 501 ATX BLACK, Mini-ITX, Black',img:'./images/products/48883.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/48883.png','https://portal.mostbg.com/api/images/imageFileData/48884.png','https://portal.mostbg.com/api/images/imageFileData/48885.png','https://portal.mostbg.com/api/images/imageFileData/48886.png','https://portal.mostbg.com/api/images/imageFileData/48887.png','https://portal.mostbg.com/api/images/imageFileData/48888.png','https://portal.mostbg.com/api/images/imageFileData/48889.png','https://portal.mostbg.com/api/images/imageFileData/48890.png'],stock:false},
-  {id:2864,name:'XPG VALOR MESH MT BLACK',brand:'ADATA',cat:'components',subcat:'case',price:86.49,old:94.28,pct:8,badge:'sale',added:'2026-04-22',emoji:'🖥',sku:'75261056',ean:'4711085937544',specs:{'Цвят':'Black','I/O':'x2 USB 3.2 Gen 1;x1 3.5mm audio/mic combo jack;x1 Reset Button;x1 Power Button','Охлаждане':'Fan Included:;Front: 3 x 120mm Fans;Rear: 1 x 120mm Fan;Fan','Размери':'460 x 210 x 371 mm'},rating:4.2,rv:8,reviews:[],desc:'XPG VALOR MESH MT BLACK, Black',img:'./images/products/44390.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/44390.png','https://portal.mostbg.com/api/images/imageFileData/44391.png','https://portal.mostbg.com/api/images/imageFileData/44392.png','https://portal.mostbg.com/api/images/imageFileData/44393.png'],stock:true},
+  {id:2864,name:'XPG VALOR MESH MT BLACK',brand:'ADATA',cat:'components',subcat:'case',price:86.49,old:94.28,pct:8,badge:'sale',added:'2026-04-22',emoji:'🖥',sku:'75261056',ean:'4711085937544',specs:{'Цвят':'Black','I/O':'x2 USB 3.2 Gen 1;x1 3.5mm audio/mic combo jack;x1 Reset Button;x1 Power Button','Охлаждане':'Fan Included:;Front: 3 x 120mm Fans;Rear: 1 x 120mm Fan;Fan','Размери':'460 x 210 x 371 mm'},rating:4.2,rv:8,reviews:[],desc:'XPG VALOR MESH MT BLACK, Black',img:'./images/products/44390.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/44390.png','https://portal.mostbg.com/api/images/imageFileData/44391.png','https://portal.mostbg.com/api/images/imageFileData/44392.png','https://portal.mostbg.com/api/images/imageFileData/44393.png'],stock:false},
   {id:2865,name:'XPG VALOR MESH BLACK/650W',brand:'ADATA',cat:'components',subcat:'case',price:174,old:null,pct:null,badge:null,added:'2026-04-22',emoji:'🖥',sku:'15260215',ean:'4711085948076',specs:{'Формфактор':'Mini-ITX','Цвят':'Black','I/O':'2 x USB 3.2 Gen 1;1 x 3.5mm audio/mic combo jack;1 x Reset Button;1 x Power Butt','Размери':'460 x 210 x 371 mm'},rating:4.6,rv:38,reviews:[],desc:'XPG VALOR MESH BLACK/650W, Mini-ITX, Black',img:'./images/products/48286.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/48286.png','https://portal.mostbg.com/api/images/imageFileData/48287.png','https://portal.mostbg.com/api/images/imageFileData/48288.png','https://portal.mostbg.com/api/images/imageFileData/48289.png','https://portal.mostbg.com/api/images/imageFileData/48291.png','https://portal.mostbg.com/api/images/imageFileData/48472.png','https://portal.mostbg.com/api/images/imageFileData/48473.png'],stock:true},
   {id:2866,name:'XPG VALOR MESH MT WHITE',brand:'ADATA',cat:'components',subcat:'case',price:97.2,old:null,pct:null,badge:null,added:'2026-04-22',emoji:'🖥',sku:'75261057',ean:'4711085937551',specs:{'Формфактор':'Mini-ITX','Цвят':'White','I/O':'x2 USB 3.2 Gen 1;x1 3.5mm audio/mic combo jack;x1 Reset Button;x1 Power Button','Охлаждане':'Fan Included:;Front: 3 x 120mm Fans;Rear: 1 x 120mm Fan;Fan','Размери':'460 x 210 x 371 mm'},rating:4.4,rv:19,reviews:[],desc:'XPG VALOR MESH MT WHITE, Mini-ITX, White',img:'./images/products/44394.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/44394.png','https://portal.mostbg.com/api/images/imageFileData/44395.png','https://portal.mostbg.com/api/images/imageFileData/44396.png','https://portal.mostbg.com/api/images/imageFileData/44397.png'],stock:false},
   {id:2867,name:'XPG VALOR AIR MT BLACK',brand:'ADATA',cat:'components',subcat:'case',price:105.6,old:null,pct:null,badge:null,added:'2026-04-22',emoji:'🖥',sku:'75261054',ean:'4711085937520',specs:{'Формфактор':'Mini-ITX','I/O':'2 x USB 3.2 Gen 1; 1 x 3.5mm audio/mic combo jack; 1 x Reset Button; 1 x Powe','Охлаждане':'Fan Included: Front: 3 x 120mm Fans; Rear: 1 x 120mm Fan; Fa','Размери':'460 x 210 x 371 mm'},rating:4.0,rv:10,reviews:[],desc:'XPG VALOR AIR MT BLACK, Mini-ITX',img:'./images/products/39233.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/39233.jpeg','https://portal.mostbg.com/api/images/imageFileData/39234.jpeg'],stock:false},

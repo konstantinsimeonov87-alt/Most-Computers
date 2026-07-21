@@ -368,7 +368,7 @@ var products = [
    img:'./images/products/37790.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/37790.png','https://portal.mostbg.com/api/images/imageFileData/37791.png','https://portal.mostbg.com/api/images/imageFileData/37792.png','https://portal.mostbg.com/api/images/imageFileData/37793.png'],stock:false},
 
   {id:53,name:'ASROCK A620AM-HVS',brand:'ASRock',cat:'components',subcat:'motherboard',
-   price:152.48,old:160.8,pct:5,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'A620AM-HVS',ean:'4711581490819',
+   price:150.94,old:160.8,pct:6,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'A620AM-HVS',ean:'4711581490819',
    specs:{'Памет':'2× DDR5','SATA3':'4×SATA3','RAID':'Да','M.2':'1xM2','PCIe x16':'1×PCIEx16','PCIe x1':'1xPCIEx1','Изходи':'HDMI / VGA','Форм фактор':'ATX','Сокет':'AM5'},
    rating:4.4,rv:0,reviews:[],
    desc:'ASRock A620AM-HVS е Micro-ATX дънна платка за процесори AM5 с чипсет AMD A620A. Поддържа 2× DDR5, до 128GB, честоти до DDR5-6800+. Включва 2 M.2 слота, 2× SATA3 с RAID. Заден панел: 1G LAN, 7.1 HD аудио. Гаранция 36 месеца.',
@@ -396,7 +396,7 @@ var products = [
    img:'./images/products/50528.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/50528.png','https://portal.mostbg.com/api/images/imageFileData/50529.png','https://portal.mostbg.com/api/images/imageFileData/50530.png','https://portal.mostbg.com/api/images/imageFileData/50531.png'],stock:true},
 
   {id:57,name:'ASROCK B650 PRO RS /AM5',brand:'ASRock',cat:'components',subcat:'motherboard',
-   price:311.99,old:330.15,pct:6,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'B650 PRO RS',ean:'4710483940750',
+   price:308.89,old:330.15,pct:6,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'B650 PRO RS',ean:'4710483940750',
    specs:{'Чипсет':'AMD/Intel B650','Памет':'4× DDR5','SATA3':'4×SATA3','RAID':'Да','M.2':'3xM2','PCIe x16':'2×PCIEx16','PCIe x1':'1xPCIEx1','Изходи':'HDMI / DVI','Форм фактор':'ATX','Сокет':'AM5'},
    rating:4.4,rv:0,reviews:[],
    desc:'ASRock B650 PRO RS е ATX дънна платка за процесори AM5 с чипсет - AMD B650. Поддържа 4× DDR5, до 128GB, честоти до DDR5-6200+. Включва 3 M.2 слота (вкл. PCIe Gen5x4), 4× SATA3. Заден панел: USB 3.2 Gen2, 2.5G LAN, 7.1 HD аудио. Гаранция 36 месеца.',
@@ -683,7 +683,7 @@ var products = [
    img:'./images/products/33523.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/33523.png','https://portal.mostbg.com/api/images/imageFileData/33524.png','https://portal.mostbg.com/api/images/imageFileData/33525.png','https://portal.mostbg.com/api/images/imageFileData/33526.png','https://portal.mostbg.com/api/images/imageFileData/33527.png'],stock:true},
 
   {id:98,name:'ASROCK B760M-HDV/M.2',brand:'ASRock',cat:'components',subcat:'motherboard',
-   price:181.2,old:null,pct:null,badge:null,added:'2026-04-20',emoji:'⚙️',sku:'B760M-HDV/M.2',ean:'4710483943485',
+   price:177.1,old:185.69,pct:5,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'B760M-HDV/M.2',ean:'4710483943485',
    specs:{'Чипсет':'AMD/Intel B760','Памет':'2× DDR5','SATA3':'4×SATA3','RAID':'Да','M.2':'2xM2','PCIe x16':'2×PCIEx16','PCIe x1':'1xPCIEx1','Изходи':'HDMI / DP / VGA','Форм фактор':'Micro-ATX','Сокет':'LGA1700'},
    rating:4.4,rv:0,reviews:[],
    desc:'ASRock B760M-HDV/M.2 е Micro-ATX дънна платка за процесори LGA1700 с чипсет - Intel® B760. Поддържа 2× DDR5, до 96GB, честоти до DDR5-7200+. Включва 2 M.2 слота, 4× SATA3. Заден панел: 2.5G LAN, 7.1 HD аудио. Гаранция 36 месеца.',
@@ -746,7 +746,7 @@ var products = [
    img:'./images/products/37854.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/37854.png','https://portal.mostbg.com/api/images/imageFileData/37855.png','https://portal.mostbg.com/api/images/imageFileData/37856.png','https://portal.mostbg.com/api/images/imageFileData/37857.png','https://portal.mostbg.com/api/images/imageFileData/37858.png'],stock:true},
 
   {id:107,name:'ASROCK H810M-H',brand:'ASRock',cat:'components',subcat:'motherboard',
-   price:153.42,old:170.4,pct:10,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'H810M-H',ean:'4711581490833',
+   price:151.36,old:170.4,pct:11,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'H810M-H',ean:'4711581490833',
    specs:{'Чипсет':'AMD/Intel H610','Памет':'2× DDR5','SATA3':'4×SATA3','M.2':'1xM2','PCIe x16':'1×PCIEx16','PCIe x1':'1xPCIEx1','Изходи':'HDMI','Форм фактор':'ATX','Сокет':'LGA1700'},
    rating:4.4,rv:0,reviews:[],
    desc:'ASRock H810M-H е Micro-ATX дънна платка за процесори AM4 с чипсет Intel® H810. Поддържа 2× DDR5, до 128GB. Включва 1 M.2 слота, 4× SATA3. Заден панел: 1G LAN, 7.1 HD аудио. Гаранция 36 месеца.',
@@ -767,7 +767,7 @@ var products = [
    img:'./images/products/44603.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/44603.png','https://portal.mostbg.com/api/images/imageFileData/44604.png','https://portal.mostbg.com/api/images/imageFileData/44605.png','https://portal.mostbg.com/api/images/imageFileData/44606.png'],stock:true},
 
   {id:110,name:'ASROCK B860M-H2',brand:'ASRock',cat:'components',subcat:'motherboard',
-   price:200.15,old:217.2,pct:8,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'B860M-H2',ean:'4711581490437',
+   price:197.9,old:217.2,pct:9,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'B860M-H2',ean:'4711581490437',
    specs:{'Форм фактор':'ATX','Сокет':'LGA1700'},
    rating:4.4,rv:0,reviews:[],
    desc:'ASRock B860M-H2 е Micro-ATX дънна платка за процесори LGA1700 с чипсет Intel® B860. Поддържа 2× DDR5, до 128GB, честоти до DDR5-8333+. Включва 2 M.2 слота (вкл. PCIe Gen5x4), 4× SATA3 с RAID. Заден панел: USB 3.2 Gen2, 1G LAN, 7.1 HD аудио. Гаранция 36 месеца.',
@@ -788,7 +788,7 @@ var products = [
    img:'./images/products/48799.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/48799.png','https://portal.mostbg.com/api/images/imageFileData/48800.png','https://portal.mostbg.com/api/images/imageFileData/48801.png','https://portal.mostbg.com/api/images/imageFileData/48802.png'],stock:false},
 
   {id:113,name:'ASROCK B860M PRO-A',brand:'ASRock',cat:'components',subcat:'motherboard',
-   price:248.76,old:268.8,pct:7,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'B860M PRO-A',ean:'4711581490291',
+   price:246.29,old:268.8,pct:8,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'B860M PRO-A',ean:'4711581490291',
    specs:{'Чипсет':'AMD/Intel B860','Памет':'4× DDR5','SATA3':'4×SATA3','RAID':'Да','M.2':'3xM2','PCIe x16':'1×PCIEx16','Изходи':'HDMI / DP','Форм фактор':'ATX','Сокет':'LGA1700'},
    rating:4.4,rv:0,reviews:[],
    desc:'ASRock B860M PRO-A е Micro-ATX дънна платка за процесори LGA1700 с чипсет Intel® B860. Поддържа 4× DDR5, до 256GB, честоти до DDR5-8666+. Включва 3 M.2 слота (вкл. PCIe Gen5x4), 4× SATA3 с RAID. Слот за видеокарта PCIe 5.0 x16. Заден панел: USB 3.2 Gen2, 2.5G LAN, 7.1 HD аудио. Гаранция 36 месеца.',
@@ -921,7 +921,7 @@ var products = [
    img:'./images/products/49887.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/49887.png','https://portal.mostbg.com/api/images/imageFileData/49888.png','https://portal.mostbg.com/api/images/imageFileData/49889.png','https://portal.mostbg.com/api/images/imageFileData/49890.png','https://portal.mostbg.com/api/images/imageFileData/49891.png'],stock:true},
 
   {id:132,name:'ASROCK Z890 TAICHI',brand:'ASRock',cat:'components',subcat:'motherboard',
-   price:891.6,old:null,pct:null,badge:null,added:'2026-04-20',emoji:'⚙️',sku:'Z890 TAICHI',ean:'4710483949685',
+   price:853.34,old:901.2,pct:5,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'Z890 TAICHI',ean:'4710483949685',
    specs:{'Чипсет':'AMD/Intel Z890','Памет':'4× DDR5','SATA3':'4×SATA3','RAID':'Да','LAN':'Gigabit','PCIe x16':'2×PCIEx16','Изходи':'HDMI','Форм фактор':'ATX','Сокет':'LGA1700'},
    rating:4.4,rv:0,reviews:[],
    desc:'ASRock Z890 TAICHI е ATX дънна платка за процесори LGA1700 с чипсет Intel® Z890. Поддържа 4× DDR5, до 256GB. Включва 6 M.2 слота (вкл. PCIe Gen5x4), 4× SATA3 с RAID. Слот за видеокарта PCIe 5.0 x16. Заден панел: USB 3.2 Gen2, 2.5G LAN, 5.1 HD аудио. Гаранция 36 месеца.',
@@ -1677,7 +1677,7 @@ var products = [
    img:'./images/products/45097.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/45097.png','https://portal.mostbg.com/api/images/imageFileData/45098.png','https://portal.mostbg.com/api/images/imageFileData/45099.png','https://portal.mostbg.com/api/images/imageFileData/45100.png','https://portal.mostbg.com/api/images/imageFileData/45101.png'],stock:true},
 
   {id:240,name:'GB Z890 AORUS MASTER /LGA1851',brand:'Gigabyte',cat:'components',subcat:'motherboard',
-   price:1104,old:null,pct:null,badge:null,added:'2026-04-20',emoji:'⚙️',sku:'Z890 AORUS MASTER  1.0',ean:null,
+   price:1044.04,old:1126.49,pct:7,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'Z890 AORUS MASTER  1.0',ean:null,
    specs:{'Чипсет':'AMD/Intel Z890','Памет':'4× DDR5','SATA3':'4×SATA3','RAID':'Да','M.2':'4xM2','PCIe x16':'3×PCIEx16','Изходи':'DP','Форм фактор':'ATX','Сокет':'LGA1851'},
    rating:4.4,rv:0,reviews:[],
    desc:'Gigabyte GB Z890 AORUS MASTER е ATX дънна платка за процесори LGA1851 с чипсет Intel® Z890 Express Chipset. Поддържа 4× DDR5. Включва 5 M.2 слота. Заден панел: 5.1 HD аудио. Гаранция 36 месеца.',
@@ -2209,7 +2209,7 @@ var products = [
    img:'./images/products/27094.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/27094.png','https://portal.mostbg.com/api/images/imageFileData/27095.png','https://portal.mostbg.com/api/images/imageFileData/27096.png'],stock:false},
 
   {id:316,name:'ASUS TUF GAMING B550M-PLUS/AM4',brand:'Asus',cat:'components',subcat:'motherboard',
-   price:218.27,old:301.2,pct:28,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'90MB14A0-M0EAY0',ean:'4718017623544',
+   price:217.26,old:301.2,pct:28,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'90MB14A0-M0EAY0',ean:'4718017623544',
    specs:{'Чипсет':'AMD/Intel B550','Памет':'4× DDR4','SATA3':'4×SATA3','RAID':'Да','M.2':'2xM2','PCIe x16':'2×PCIEx16','PCIe x1':'1xPCIEx1','Изходи':'HDMI / DP','Форм фактор':'ATX','Сокет':'AM4'},
    rating:4.4,rv:0,reviews:[],
    desc:'Asus TUF GAMING B550M-PLUS е Micro-ATX дънна платка за процесори AM4 с чипсет AMD B550. Включва 5 M.2 слота. Заден панел: 7.1 HD аудио. Гаранция 36 месеца.',
@@ -2223,7 +2223,7 @@ var products = [
    img:'./images/products/37075.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/37075.png','https://portal.mostbg.com/api/images/imageFileData/37076.png','https://portal.mostbg.com/api/images/imageFileData/37077.png','https://portal.mostbg.com/api/images/imageFileData/37078.png','https://portal.mostbg.com/api/images/imageFileData/37079.png','https://portal.mostbg.com/api/images/imageFileData/37080.png'],stock:false},
 
   {id:318,name:'ASUS PRIME B550-PLUS /AM4',brand:'Asus',cat:'components',subcat:'motherboard',
-   price:210.03,old:308.4,pct:32,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'90MB14U0-M0EAY0',ean:'4718017782340',
+   price:202.83,old:308.4,pct:34,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'90MB14U0-M0EAY0',ean:'4718017782340',
    specs:{'Чипсет':'AMD/Intel B550','Памет':'4× DDR4','SATA3':'6×SATA3','RAID':'Да','M.2':'2xM2','PCIe x16':'2×PCIEx16','PCIe x1':'3xPCIEx1','Изходи':'HDMI / DP','Форм фактор':'ATX','Сокет':'AM4'},
    rating:4.4,rv:0,reviews:[],
    desc:'Asus PRIME B550-PLUS е ATX дънна платка за процесори AM4 с чипсет AMD B550. Включва 4 M.2 слота. Заден панел: 7.1 HD аудио. Гаранция 36 месеца.',
@@ -2251,7 +2251,7 @@ var products = [
    img:'./images/products/45436.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/45436.png','https://portal.mostbg.com/api/images/imageFileData/45437.png','https://portal.mostbg.com/api/images/imageFileData/45438.png','https://portal.mostbg.com/api/images/imageFileData/45439.png'],stock:false},
 
   {id:322,name:'ASUS PRIME A620M-A-CSM',brand:'Asus',cat:'components',subcat:'motherboard',
-   price:272.4,old:null,pct:null,badge:null,added:'2026-04-20',emoji:'⚙️',sku:'90MB1F10-M0EAY0',ean:'4711387176405',
+   price:252.26,old:275.16,pct:8,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'90MB1F10-M0EAY0',ean:'4711387176405',
    specs:{'Памет':'4× DDR5','SATA3':'4×SATA3','M.2':'2xM2','PCIe x16':'1×PCIEx16','PCIe x1':'1xPCIEx1','Изходи':'HDMI / DP / VGA','Форм фактор':'ATX','Сокет':'AM5'},
    rating:4.4,rv:0,reviews:[],
    desc:'Asus PRIME A620M-A-CSM е Micro-ATX дънна платка за процесори AM5 с чипсет AMD A620 Chipset. Включва 2 M.2 слота. Заден панел: 7.1 HD аудио. Гаранция 36 месеца.',
@@ -2363,7 +2363,7 @@ var products = [
    img:'./images/products/45461.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/45461.png','https://portal.mostbg.com/api/images/imageFileData/45462.png','https://portal.mostbg.com/api/images/imageFileData/45463.png','https://portal.mostbg.com/api/images/imageFileData/45464.png','https://portal.mostbg.com/api/images/imageFileData/45465.png'],stock:true},
 
   {id:338,name:'ASUS PRIME B850-PLUS WIFI',brand:'Asus',cat:'components',subcat:'motherboard',
-   price:428.4,old:null,pct:null,badge:null,added:'2026-04-20',emoji:'⚙️',sku:'90MB1L80-M0EAY0',ean:'4711387931509',
+   price:403.61,old:437.39,pct:8,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'90MB1L80-M0EAY0',ean:'4711387931509',
    specs:{'Чипсет':'AMD/Intel B850','Памет':'4× DDR5','SATA3':'4×SATA3','RAID':'Да','M.2':'3xM2','PCIe x16':'4×PCIEx16','Изходи':'HDMI / DP','Форм фактор':'ATX','Сокет':'AM5'},
    rating:4.4,rv:0,reviews:[],
    desc:'Asus PRIME B850-PLUS WIFI е ATX дънна платка за процесори AM5 с чипсет AMD B850 Chipset. Включва 3 M.2 слота. Слот за видеокарта PCIe 5.0 x16. Заден панел: 7.1 HD аудио. Гаранция 36 месеца.',
@@ -2391,7 +2391,7 @@ var products = [
    img:'./images/products/48206.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/48206.png','https://portal.mostbg.com/api/images/imageFileData/48208.png','https://portal.mostbg.com/api/images/imageFileData/48209.png','https://portal.mostbg.com/api/images/imageFileData/48211.png'],stock:true},
 
   {id:342,name:'ASUS PRIME B850M-A WIFI',brand:'Asus',cat:'components',subcat:'motherboard',
-   price:404.4,old:null,pct:null,badge:null,added:'2026-04-20',emoji:'⚙️',sku:'90MB1LN0-M0EAY0',ean:'4711636051125',
+   price:395.37,old:419.43,pct:6,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'90MB1LN0-M0EAY0',ean:'4711636051125',
    specs:{'Чипсет':'AMD/Intel B850','Памет':'4× DDR5','SATA3':'4×SATA3','RAID':'Да','M.2':'3xM2','PCIe x16':'2×PCIEx16','Изходи':'HDMI','Форм фактор':'ATX','Сокет':'AM5'},
    rating:4.4,rv:0,reviews:[],
    desc:'Asus PRIME B850M-A WIFI е Micro-ATX дънна платка за процесори AM5 с чипсет AMD B850 Chipset. Включва 3 M.2 слота. Слот за видеокарта PCIe 5.0 x16. Заден панел: 7.1 HD аудио. Гаранция 36 месеца.',
@@ -2510,7 +2510,7 @@ var products = [
    img:'./images/products/48248.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/48248.png','https://portal.mostbg.com/api/images/imageFileData/48249.png','https://portal.mostbg.com/api/images/imageFileData/48250.png','https://portal.mostbg.com/api/images/imageFileData/48251.png'],stock:false},
 
   {id:359,name:'ASUS PRIME H610M-R-SI',brand:'Asus',cat:'components',subcat:'motherboard',
-   price:114.09,old:121.2,pct:6,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'90MB1GL0-M0ECY0',ean:'4711387321515',
+   price:109.56,old:121.2,pct:10,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'90MB1GL0-M0ECY0',ean:'4711387321515',
    specs:{'Чипсет':'AMD/Intel H610','Памет':'2× DDR5','SATA3':'4×SATA3','RAID':'Да','M.2':'1xM2','PCIe x16':'1×PCIEx16','PCIe x1':'1xPCIEx1','Изходи':'HDMI / DP / VGA','Форм фактор':'ATX','Сокет':'LGA1700'},
    rating:4.4,rv:0,reviews:[],
    desc:'Asus PRIME H610M-R-SI е Micro-ATX дънна платка за процесори LGA1700 с чипсет Intel® H610 Chipset. Включва 1 M.2 слота. Заден панел: 7.1 HD аудио. Гаранция 36 месеца.',
@@ -2573,7 +2573,7 @@ var products = [
    img:'./images/products/48252.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/48252.png','https://portal.mostbg.com/api/images/imageFileData/48253.png','https://portal.mostbg.com/api/images/imageFileData/48254.png','https://portal.mostbg.com/api/images/imageFileData/48255.png'],stock:false},
 
   {id:368,name:'ASUS PRIME B760M-A-CSM/LGA1700',brand:'Asus',cat:'components',subcat:'motherboard',
-   price:230.64,old:258,pct:11,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'90MB1EK0-M1EAYC',ean:'4711387140710',
+   price:207.57,old:258,pct:20,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'90MB1EK0-M1EAYC',ean:'4711387140710',
    specs:{'Чипсет':'AMD/Intel B760','Памет':'4× DDR5','SATA3':'4×SATA3','RAID':'Да','M.2':'2xM2','PCIe x16':'3×PCIEx16','Изходи':'DP','Форм фактор':'ATX','Сокет':'LGA1700'},
    rating:4.4,rv:0,reviews:[],
    desc:'Asus PRIME B760M-A-CSM е Micro-ATX дънна платка за процесори LGA1700 с чипсет Intel® B760 Chipset. Включва 2 M.2 слота. Заден панел: 7.1 HD аудио. Гаранция 36 месеца.',
@@ -2734,7 +2734,7 @@ var products = [
    img:'./images/products/48264.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/48264.png','https://portal.mostbg.com/api/images/imageFileData/48265.png','https://portal.mostbg.com/api/images/imageFileData/48266.png'],stock:true},
 
   {id:391,name:'ASUS ROG STRIX Z890-F GAM WIFI',brand:'Asus',cat:'components',subcat:'motherboard',
-   price:918.9,old:962.4,pct:5,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'90MB1I40-M0EAY0',ean:'4711387755921',
+   price:895.78,old:962.4,pct:7,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'90MB1I40-M0EAY0',ean:'4711387755921',
    specs:{'Форм фактор':'ATX','Сокет':'LGA1700'},
    rating:4.4,rv:0,reviews:[],
    desc:'Asus ROG STRIX Z890-F GAM WIFI е ATX дънна платка за процесори LGA1700 с чипсет Intel® Z890 Chipset. Включва 5 M.2 слота. Слот за видеокарта PCIe 5.0 x16. Заден панел: 7.1 HD аудио. Гаранция 36 месеца.',
@@ -14119,8 +14119,8 @@ products.push(
   {id:4320,name:'Z890 GAMING X WIFI7',brand:'GIGABYTE',cat:'components',subcat:'motherboard',price:424.61,old:null,pct:null,badge:null,added:'2026-06-25',emoji:'⚙️',sku:'Z890 GAMING X WIFI7',ean:'4719331864941',specs:{'Чипсет':'Z890'},rating:4.5,rv:0,reviews:[],desc:'Z890 GAMING X WIFI7',img:'./images/products/101282.webp',stock:true},
   {id:4321,name:'ASUS TUF GAMING A620M-PLUS',brand:'ASUS',cat:'components',subcat:'motherboard',price:245.97,old:null,pct:null,badge:null,added:'2026-06-25',emoji:'⚙️',sku:'90MB1EZ0-MOEAY0',ean:'4711387164303',specs:{},rating:4.5,rv:0,reviews:[],desc:'ASUS TUF GAMING A620M-PLUS',img:'./images/products/101403.webp',stock:true},
   {id:4322,name:'ASUS TUF GAMING B650-PLUS',brand:'ASUS',cat:'components',subcat:'motherboard',price:215.77,old:null,pct:null,badge:null,added:'2026-06-25',emoji:'⚙️',sku:'90MB1BY0-M0EAY0',ean:'4711081912767',specs:{'Чипсет':'B650'},rating:4.5,rv:0,reviews:[],desc:'ASUS TUF GAMING B650-PLUS',img:'./images/products/33622.webp',stock:false},
-  {id:4323,name:'ASUS ROG CROSSHAIR X870E EXTRE',brand:'ASUS',cat:'components',subcat:'motherboard',price:2420.01,old:2645.89,pct:9,badge:'sale',added:'2026-06-25',emoji:'⚙️',sku:'90MB1LB0-M0EAY0',ean:'4711387984963',specs:{},rating:4.5,rv:0,reviews:[],desc:'ASUS ROG CROSSHAIR X870E EXTRE',img:null,stock:true},
-  {id:4324,name:'ASUS PRIME H610M-K-D4 ARGB',brand:'ASUS',cat:'components',subcat:'motherboard',price:139.27,old:150.86,pct:8,badge:'sale',added:'2026-06-25',emoji:'⚙️',sku:'90MB1HN0-M0EAY0',ean:'4711387460177',specs:{},rating:4.5,rv:0,reviews:[],desc:'ASUS PRIME H610M-K-D4 ARGB',img:null,stock:true},
+  {id:4323,name:'ASUS ROG CROSSHAIR X870E EXTRE',brand:'ASUS',cat:'components',subcat:'motherboard',price:2396.75,old:2645.89,pct:9,badge:'sale',added:'2026-06-25',emoji:'⚙️',sku:'90MB1LB0-M0EAY0',ean:'4711387984963',specs:{},rating:4.5,rv:0,reviews:[],desc:'ASUS ROG CROSSHAIR X870E EXTRE',img:null,stock:true},
+  {id:4324,name:'ASUS PRIME H610M-K-D4 ARGB',brand:'ASUS',cat:'components',subcat:'motherboard',price:136.08,old:150.86,pct:10,badge:'sale',added:'2026-06-25',emoji:'⚙️',sku:'90MB1HN0-M0EAY0',ean:'4711387460177',specs:{},rating:4.5,rv:0,reviews:[],desc:'ASUS PRIME H610M-K-D4 ARGB',img:null,stock:true},
   {id:4325,name:'ASUS PRIME B660M-A D4-CSM',brand:'ASUS',cat:'components',subcat:'motherboard',price:292.57,old:null,pct:null,badge:null,added:'2026-06-25',emoji:'⚙️',sku:'90MB19K0-M1EAYC',ean:'4711081508045',specs:{},rating:4.5,rv:0,reviews:[],desc:'ASUS PRIME B660M-A D4-CSM',img:'./images/products/101410.webp',stock:true},
   {id:4326,name:'ASUS ROG STRIX Z890-A GAM WIFI',brand:'ASUS',cat:'components',subcat:'motherboard',price:783.62,old:null,pct:null,badge:null,added:'2026-06-25',emoji:'⚙️',sku:'90MB1I90-M0EAY0',ean:'4711387758830',specs:{'Чипсет':'Z890'},rating:4.5,rv:0,reviews:[],desc:'ASUS ROG STRIX Z890-A GAM WIFI',img:'./images/products/101415.webp',stock:true},
   {id:4327,name:'SAPPHIRE PULSE B550M / AM4',brand:'SAPPHIRE',cat:'components',subcat:'motherboard',price:155.68,old:null,pct:null,badge:null,added:'2026-06-25',emoji:'⚙️',sku:'52103-05-40G',ean:null,specs:{'Сокет':'AM4'},rating:4.5,rv:0,reviews:[],desc:'SAPPHIRE PULSE B550M / AM4',img:'./images/products/101109.webp',stock:true}

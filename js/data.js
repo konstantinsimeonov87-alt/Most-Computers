@@ -4234,7 +4234,7 @@ var products = [
    specs:{'Тип':'DDR4','Капацитет':'8 GB','Честота':'3200 MHz','Латентност':'CL16','Форм фактор':'DIMM','Напрежение':'1.35V'},
    rating:4.4,rv:0,reviews:[],
    desc:'Kingston 8G DDR4 3200 KINGST FURY BEAST - DDR4 DIMM 3200 MHz, 8 GB, CL16.',
-   img:'./images/products/28301.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/28301.jpeg'],stock:false},
+   img:'./images/products/28301.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/28301.jpeg'],stock:true},
 
   {id:605,name:'8G DDR5 5200 KINGSTON BEAST',brand:'Kingston',cat:'components',subcat:'ram',
    price:279.6,old:null,pct:null,badge:null,added:'2026-04-20',emoji:'🟣',sku:'KF552C40BB-8',ean:'0740617325966',
@@ -5601,7 +5601,7 @@ var products = [
    specs:{'Капацитет':'1 TB','Интерфейс':'SATA III','Форм фактор':'3.5\'','RPM':'5400','Кеш':'256MB'},
    rating:4.3,rv:0,reviews:[],
    desc:'Seagate 1T SG ST1000VX013 - хард диск 1 TB, SATA III, 3.5".',
-   img:'./images/products/36726.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/36726.jpeg'],stock:true},
+   img:'./images/products/36726.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/36726.jpeg'],stock:false},
 
   {id:800,name:'2T SG ST2000DM008 SATA 6G 256M',brand:'Seagate',cat:'components',subcat:'hdd',
    price:159.6,old:null,pct:null,badge:null,added:'2026-04-21',emoji:'🖴',sku:'ST2000DM008',ean:'8719706011280',
@@ -13943,7 +13943,7 @@ products.push(...[
   products.splice(0, products.length, ...products.filter(function(_, k) { return keepIdx.has(k); }));
 products.push(
 // GPU — нови продукти 2026-06-25
-  {id:4153,name:'PALIT RTX 5060 INFINITY 2 OC 8G',brand:'PALIT',cat:'components',subcat:'gpu',price:702.55,old:736.63,pct:5,badge:'sale',added:'2026-06-25',emoji:'🎮',sku:'NE75060V19P1-GB2063L',ean:'4710562245684',specs:{'GPU':'NVIDIA GeForce RTX 5060','Интерфейс':'PCIe 5.0 ×16'},rating:4.5,rv:0,reviews:[],desc:'PALIT RTX 5060 INFINITY 2 OC 8G',img:'./images/products/49500.webp',stock:true},
+  {id:4153,name:'PALIT RTX 5060 INFINITY 2 OC 8G',brand:'PALIT',cat:'components',subcat:'gpu',price:764.35,old:null,pct:null,badge:null,added:'2026-06-25',emoji:'🎮',sku:'NE75060V19P1-GB2063L',ean:'4710562245684',specs:{'GPU':'NVIDIA GeForce RTX 5060','Интерфейс':'PCIe 5.0 ×16'},rating:4.5,rv:0,reviews:[],desc:'PALIT RTX 5060 INFINITY 2 OC 8G',img:'./images/products/49500.webp',stock:true},
   {id:4154,name:'PALIT RTX 5060TI INFINITY 3 16',brand:'PALIT',cat:'components',subcat:'gpu',price:994.74,old:null,pct:null,badge:null,added:'2026-06-25',emoji:'🎮',sku:'NE7506T019T1-GB2061S',ean:'4710562245189',specs:{'GPU':'NVIDIA GeForce RTX 5060 Ti','Интерфейс':'PCIe 5.0 ×16'},rating:4.5,rv:0,reviews:[],desc:'PALIT RTX 5060TI INFINITY 3 16',img:'./images/products/45790.webp',stock:false},
   {id:4155,name:'PALIT RTX 5060TI DUAL 8GB',brand:'PALIT',cat:'components',subcat:'gpu',price:785.36,old:null,pct:null,badge:null,added:'2026-06-25',emoji:'🎮',sku:'NE7506T019P1-GB2062D',ean:'4710562245264',specs:{'GPU':'NVIDIA GeForce RTX 5060 Ti','Памет':'8 GB GDDR7','Интерфейс':'PCIe 5.0 ×16'},rating:4.5,rv:0,reviews:[],desc:'PALIT RTX 5060TI DUAL 8GB',img:'./images/products/46564.webp',stock:true},
   {id:4156,name:'PALIT RTX 5060TI INFINI 3 OC 16',brand:'PALIT',cat:'components',subcat:'gpu',price:1132.29,old:null,pct:null,badge:null,added:'2026-06-25',emoji:'🎮',sku:'NE7506TS19T1-GB2061S',ean:'4710562245172',specs:{'GPU':'NVIDIA GeForce RTX 5060 Ti','Интерфейс':'PCIe 5.0 ×16'},rating:4.5,rv:0,reviews:[],desc:'PALIT RTX 5060TI INFINI 3 OC 16',img:'./images/products/45852.webp',stock:true},
@@ -13956,7 +13956,7 @@ products.push(
   {id:4163,name:'PALIT RTX 5090 GAMEROCK OC 32GB',brand:'PALIT',cat:'components',subcat:'gpu',price:6155.13,old:null,pct:null,badge:null,added:'2026-06-25',emoji:'🎮',sku:'NE75090S19R5-GB2020G',ean:'4710562244847',specs:{'Памет':'32 GB GDDR7'},rating:4.5,rv:0,reviews:[],desc:'PALIT RTX 5090 GAMEROCK OC 32GB',img:'./images/products/49708.webp',stock:false},
   {id:4164,name:'GW RTX 5060TI GHOST OC 16GB',brand:'GAINWARD',cat:'components',subcat:'gpu',price:864.75,old:null,pct:null,badge:null,added:'2026-06-25',emoji:'🎮',sku:'NE7506TU19T1-GB2061B',ean:'4710562245721',specs:{'GPU':'NVIDIA GeForce RTX 5060 Ti','Памет':'16 GB GDDR7','Интерфейс':'PCIe 5.0 ×16'},rating:4.5,rv:0,reviews:[],desc:'GW RTX 5060TI GHOST OC 16GB',img:'./images/products/49735.webp',stock:false},
   {id:4165,name:'GW RTX 5070TI PHOENIX-S 16GB',brand:'GAINWARD',cat:'components',subcat:'gpu',price:1893.48,old:null,pct:null,badge:null,added:'2026-06-25',emoji:'🎮',sku:'NE7507T019T2-GB2031K',ean:'4710562245547',specs:{'GPU':'NVIDIA GeForce RTX 5070 Ti','Памет':'16 GB GDDR7','Интерфейс':'PCIe 5.0 ×16'},rating:4.5,rv:0,reviews:[],desc:'GW RTX 5070TI PHOENIX-S 16GB',img:'./images/products/49508.webp',stock:false},
-  {id:4166,name:'GW RTX 5090 PHANTOM GS 32G',brand:'GAINWARD',cat:'components',subcat:'gpu',price:8323.36,old:9137.96,pct:9,badge:'sale',added:'2026-06-25',emoji:'🎮',sku:'NE75090S19R5-GB2020P',ean:'4710562244861',specs:{},rating:4.5,rv:0,reviews:[],desc:'GW RTX 5090 PHANTOM GS 32G',img:'./images/products/46606.webp',stock:true},
+  {id:4166,name:'GW RTX 5090 PHANTOM GS 32G',brand:'GAINWARD',cat:'components',subcat:'gpu',price:8498.5,old:9137.96,pct:7,badge:'sale',added:'2026-06-25',emoji:'🎮',sku:'NE75090S19R5-GB2020P',ean:'4710562244861',specs:{},rating:4.5,rv:0,reviews:[],desc:'GW RTX 5090 PHANTOM GS 32G',img:'./images/products/46606.webp',stock:true},
   {id:4167,name:'GB RTX 5060 AERO OC 8GD',brand:'GIGABYTE',cat:'components',subcat:'gpu',price:642.1,old:null,pct:null,badge:null,added:'2026-06-25',emoji:'🎮',sku:'N5060AERO OC-8GD  1.0',ean:'4719331356415',specs:{'GPU':'NVIDIA GeForce RTX 5060','Памет':'8 GB GDDR7','Интерфейс':'PCIe 5.0 ×16'},rating:4.5,rv:0,reviews:[],desc:'GB RTX 5060 AERO OC 8GD',img:'./images/products/47872.webp',stock:false},
   {id:4168,name:'GB RTX 5060TI WINDFORCE OC 16G',brand:'GIGABYTE',cat:'components',subcat:'gpu',price:840.6,old:null,pct:null,badge:null,added:'2026-06-25',emoji:'🎮',sku:'N506TWF2OC-16GD',ean:'4719331356064',specs:{'GPU':'NVIDIA GeForce RTX 5060 Ti','Интерфейс':'PCIe 5.0 ×16'},rating:4.5,rv:0,reviews:[],desc:'GB RTX 5060TI WINDFORCE OC 16G',img:'./images/products/46002.webp',stock:false},
   {id:4169,name:'GB RTX 5060TI EAGLE OC 16G',brand:'GIGABYTE',cat:'components',subcat:'gpu',price:923.01,old:null,pct:null,badge:null,added:'2026-06-25',emoji:'🎮',sku:'N5060TEAGLE OC-16GD',ean:'4719331356071',specs:{'GPU':'NVIDIA GeForce RTX 5060 Ti','Интерфейс':'PCIe 5.0 ×16'},rating:4.5,rv:0,reviews:[],desc:'GB RTX 5060TI EAGLE OC 16G',img:'./images/products/46009.webp',stock:false},

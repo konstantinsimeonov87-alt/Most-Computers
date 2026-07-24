@@ -3377,7 +3377,7 @@ var products = [
    specs:{'Сокет':'AM4','Ядра':'6','Нишки':'12','Честота':'Max. Boost Clock :Up to 4.1GHz; Base Clock:3.6GHz','Кеш':'L1 Cache:384KB; L2 Cache:3MB; L3 Cache:8MB','Памет':'PCI Express® Version:PCIe 3.0; System Memory Type:DDR4; Memory Channels:2; System Memory Specificati','TDP':'65W'},
    rating:4.5,rv:0,reviews:[],
    desc:'AMD AMD RYZEN 5 4500 BOX - сокет AM4, 6 ядра, TDP 65W.',
-   img:'./images/products/31276.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/31276.jpeg'],stock:false},
+   img:'./images/products/31276.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/31276.jpeg'],stock:true},
 
   {id:483,name:'AMD RYZEN 5 4600G BOX',brand:'AMD',cat:'components',subcat:'cpu',
    price:190.8,old:null,pct:null,badge:null,added:'2026-04-20',emoji:'🔴',sku:'AW100100000147BOX',ean:null,
@@ -3524,7 +3524,7 @@ var products = [
    specs:{'Сокет':'AM4','Ядра':'8','Нишки':'16','Честота':'Max. Boost Clock: Up to 4.6GHz; Base Clock: 3.8GHz','Кеш':'Total L2 Cache: 4MB; Total L3 Cache: 16MB','Памет':'System Memory Type: DDR4; Memory Channels: 2; System Memory Specification: Up to 3200MHz','Интегрирана графика':'Radeon™ Graphics','TDP':'65W'},
    rating:4.5,rv:0,reviews:[],
    desc:'AMD AMD RYZEN 7 5700G MPK - сокет AM4, 8 ядра, TDP 65W.',
-   img:'./images/products/29867.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/29867.jpeg','https://portal.mostbg.com/api/images/imageFileData/36977.jpeg'],stock:false},
+   img:'./images/products/29867.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/29867.jpeg','https://portal.mostbg.com/api/images/imageFileData/36977.jpeg'],stock:true},
 
   {id:504,name:'AMD RYZEN 7 5700G BOX',brand:'AMD',cat:'components',subcat:'cpu',
    price:392.4,old:null,pct:null,badge:null,added:'2026-04-20',emoji:'🔴',sku:'AW100100000263BOX',ean:'0730143313377',
@@ -3538,7 +3538,7 @@ var products = [
    specs:{'Manufacturer':'AMD','Сокет':'AM4','Ядра':'8','Нишки':'16','Честота':'Max. Boost Clock:Up to 4.6GHz;Base Clock:3.4GHz','Кеш':'L1 Cache:512KB;L2 Cache:4MB;L3 Cache:32MB','Памет':'System Memory Type:DDR4;Memory Channels:2;System Memory Specification:Up to 3200MHz;Max Memory Speed','Tray':'Yes','Интегрирана графика':'Discrete Graphics Card Required','TDP':'65W'},
    rating:4.5,rv:0,reviews:[],
    desc:'AMD AMD RYZEN 7 5700X TRAY - сокет AM4, 8 ядра, TDP 65W.',
-   img:'./images/products/46351.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/46351.jpeg'],stock:false},
+   img:'./images/products/46351.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/46351.jpeg'],stock:true},
 
   {id:506,name:'AMD RYZEN 7 5700X MPK',brand:'AMD',cat:'components',subcat:'cpu',
    price:363.6,old:null,pct:null,badge:null,added:'2026-04-20',emoji:'🔴',sku:'100-100000926NPK',ean:'0730143317870',
@@ -3601,7 +3601,7 @@ var products = [
    specs:{'Manufacturer':'AMD','Сокет':'AM5','Ядра':'6','Нишки':'12','Честота':'Max. Boost Clock: Up to 5 GHz;Base Clock: 3.7 GHz','Кеш':'L1 Cache: 384 KB;L2 Cache: 6 MB;L3 Cache: 32 MB','Max. PCI Express Lanes':'Total 28 /Usable 24','Памет':'System Memory Type: DDR5;Memory Channels: 2;Max. Memory: 128 GB;System Memory Subtype: UDIMM;Max Mem','Fan':'Not included','Tray':'Yes','Интегрирана графика':'Discrete Graphics Card Required','TDP':'65W'},
    rating:4.5,rv:0,reviews:[],
    desc:'AMD AMD RYZEN 5 7500F TRAY - сокет AM5, 6 ядра, TDP 65W.',
-   img:'./images/products/45878.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/45878.png'],stock:false},
+   img:'./images/products/45878.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/45878.png'],stock:true},
 
   {id:515,name:'AMD RYZEN 5 7500F MPK',brand:'AMD',cat:'components',subcat:'cpu',
    price:296.4,old:null,pct:null,badge:null,added:'2026-04-20',emoji:'🔴',sku:'100-100000597MPK',ean:null,
@@ -3615,7 +3615,7 @@ var products = [
    specs:{'Manufacturer':'AMD','Сокет':'AM5','Ядра':'6','Нишки':'12','Честота':'Max. Boost Clock: Up to 4.5 GHz;Base Clock: 4 GHz','Кеш':'L1 Cache: 384 KB;L2 Cache: 6 MB;L3 Cache: 96 MB','Max. PCI Express Lanes':'28 , 24 (Total/Usable)','Памет':'System Memory Type: DDR5;Memory Channels: 2;Max. Memory: 128 GB;System Memory Subtype: UDIMM;Max Mem','Интегрирана графика':'AMD Radeon™ Graphics 2 2200 MHz'},
    rating:4.5,rv:0,reviews:[],
    desc:'AMD AMD RYZEN 5 7500X3D TRAY - сокет AM5, 6 ядра.',
-   img:'./images/products/51090.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/51090.png'],stock:false},
+   img:'./images/products/51090.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/51090.png'],stock:true},
 
   {id:517,name:'AMD RYZEN 5 7500X3D BOX',brand:'AMD',cat:'components',subcat:'cpu',
    price:516,old:null,pct:null,badge:null,added:'2026-04-20',emoji:'🔴',sku:'100-100001904WOF',ean:'730143318167',
@@ -3664,7 +3664,7 @@ var products = [
    specs:{'Manufacturer':'AMD','Сокет':'AM5','Ядра':'8','Нишки':'16','Честота':'Max. Boost Clock: Up to 5.3 GHz;Base Clock: 3.8 GHz','Кеш':'L1 Cache: 512 KB;L2 Cache: 8 MB;L3 Cache: 32 MB','Max. PCI Express Lanes':'28 , 24 (Total/Usable)','Памет':'System Memory Type: DDR5;Memory Channels: 2;Max. Memory: 128 GB;System Memory Subtype: UDIMM;Max Mem','Tray':'Yes','Интегрирана графика':'AMD Radeon™ Graphics 2 2200 MHz'},
    rating:4.5,rv:0,reviews:[],
    desc:'AMD AMD RYZEN 7 7700 3.8G 32M TRAY - сокет AM5, 8 ядра.',
-   img:'./images/products/52034.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/52034.png'],stock:false},
+   img:'./images/products/52034.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/52034.png'],stock:true},
 
   {id:524,name:'AMD RYZEN 7 7700 3.8G 32M BOX',brand:'AMD',cat:'components',subcat:'cpu',
    price:612,old:null,pct:null,badge:null,added:'2026-04-20',emoji:'🔴',sku:'100-100000592BOX',ean:'0730143314497',
@@ -3678,7 +3678,7 @@ var products = [
    specs:{'Manufacturer':'AMD','Сокет':'AM5','Ядра':'8','Нишки':'16','Честота':'Max. Boost Clock: Up to 5.3 GHz;Base Clock: 3.8 GHz','Кеш':'L1 Cache: 512 KB;L2 Cache: 8 MB;L3 Cache: 32 MB','Max. PCI Express Lanes':'28 , 24 (Total/Usable)','Памет':'System Memory Type: DDR5;Memory Channels: 2;Max. Memory: 128 GB;System Memory Subtype: UDIMM;Max Mem','Fan':'Yes','Интегрирана графика':'AMD Radeon™ Graphics 2 2200 MHz'},
    rating:4.5,rv:0,reviews:[],
    desc:'AMD AMD RYZEN 7 7700 MPK - сокет AM5, 8 ядра.',
-   img:'./images/products/51902.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/51902.png'],stock:false},
+   img:'./images/products/51902.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/51902.png'],stock:true},
 
   {id:526,name:'AMD RYZEN 7 7700X 4.5G 40M BOX',brand:'AMD',cat:'components',subcat:'cpu',
    price:675.6,old:null,pct:null,badge:null,added:'2026-04-20',emoji:'🔴',sku:'AW100100000591WOF',ean:null,
@@ -3699,7 +3699,7 @@ var products = [
    specs:{'Manufacturer':'AMD','Сокет':'AM5','Ядра':'8','Нишки':'16','Честота':'Max. Boost Clock: Up to 5 GHz;Base Clock: 4.2 GHz','Кеш':'L1 Cache:512KB;L2 Cache:8MB;L3 Cache:96MB','Max. PCI Express Lanes':'Total 28 /Usable 24','Памет':'System Memory Type: DDR5;Memory Channels: 2;Max. Memory: 128 GB;System Memory Subtype: UDIMM;Max Mem','Fan':'Not included','Tray':'Yes','Интегрирана графика':'AMD Radeon™ Graphics;Graphics Core Count: 2;Graphics Frequency: 2200 MHz;USB Type-C® DisplayPort™ Al','TDP':'120W'},
    rating:4.5,rv:0,reviews:[],
    desc:'AMD AMD RYZEN 7 7800X3D TRAY - сокет AM5, 8 ядра, TDP 120W.',
-   img:'./images/products/45880.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/45880.png'],stock:false},
+   img:'./images/products/45880.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/45880.png'],stock:true},
 
   {id:529,name:'AMD RYZEN 7 7800X3D BOX',brand:'AMD',cat:'components',subcat:'cpu',
    price:739.63,old:885.6,pct:16,badge:'sale',added:'2026-04-20',emoji:'🔴',sku:'100-100000910WOF',ean:'0730143314930',
@@ -3713,7 +3713,7 @@ var products = [
    specs:{'Manufacturer':'AMD','Сокет':'AM5','Ядра':'12','Нишки':'24','Честота':'Max. Boost Clock: Up to 5.6 GHz;Base Clock: 4.7 GHz','Кеш':'L1 Cache: 768 KB;L2 Cache: 12 MB;L3 Cache: 64 MB','Max. PCI Express Lanes':'Total 28/Usable 24','Памет':'System Memory Type: DDR5;Memory Channels: 2;Max. Memory: 128 GB;System Memory Subtype: UDIMM;Max Mem','Tray':'Yes','Интегрирана графика':'AMD Radeon™ Graphics 2 2200 MHz','TDP':'170W'},
    rating:4.5,rv:0,reviews:[],
    desc:'AMD AMD RYZEN 9 7900X TRAY - сокет AM5, 12 ядра, TDP 170W.',
-   img:'./images/products/46354.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/46354.jpeg'],stock:false},
+   img:'./images/products/46354.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/46354.jpeg'],stock:true},
 
   {id:531,name:'AMD RYZEN 9 7900X 4.7G 76M BOX',brand:'AMD',cat:'components',subcat:'cpu',
    price:729.33,old:763.81,pct:5,badge:'sale',added:'2026-04-20',emoji:'🔴',sku:'AW100100000589WOF',ean:'0730143314558',
@@ -3797,7 +3797,7 @@ var products = [
    specs:{'Сокет':'AM5','Ядра':'6','Нишки':'12','Честота':'Max. Boost Clock:Up to 4.7 GHz; Base Clock:4.2 GHz','Кеш':'L2 Cache:6 MB; L3 Cache:16 MB','Памет':'System Memory Type:DDR5; Memory Channels:2; Max. Memory:256 GB; System Memory Subtype:UDIMM; Max Mem','TDP':'65W'},
    rating:4.5,rv:0,reviews:[],
    desc:'AMD AMD RYZEN 5 8400F 4.2G BOX - сокет AM5, 6 ядра, TDP 65W.',
-   img:'./images/products/40310.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/40310.jpeg'],stock:false},
+   img:'./images/products/40310.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/40310.jpeg'],stock:true},
 
   {id:543,name:'AMD RYZEN 5 8500G 4.1G BOX',brand:'AMD',cat:'components',subcat:'cpu',
    price:295.2,old:null,pct:null,badge:null,added:'2026-04-20',emoji:'🔴',sku:'100-100000931BOX',ean:null,
@@ -3937,7 +3937,7 @@ var products = [
    specs:{'Manufacturer':'AMD','Сокет':'AM5','Ядра':'6','Нишки':'12','Честота':'Max. Boost Clock Up to 5.4 GHz;Base Clock 3.9 GHz','Кеш':'L1 Cache 480 KB;L2 Cache 6 MB;L3 Cache 32 MB','Max. PCI Express Lanes':'Total 28/Usable 24','Памет':'System Memory Type DDR5;Memory Channels 2;Max. Memory 192 GB;System Memory Subtype UDIMM;Max Memory ','Fan':'Wraith Stealth','Интегрирана графика':'Graphics Model AMD Radeon™ Graphics;Graphics Core Count 2;Graphics Frequency 2200 MHz;USB Type-C® Di','TDP':'65W','Other':'Architecture Zen 5;Multithreading (SMT) Yes;Processor Technology for CPU Cores TSMC 4nm FinFET;Proce'},
    rating:4.5,rv:0,reviews:[],
    desc:'AMD AMD RYZEN 5 9600X 3.9GZ MPK - сокет AM5, 6 ядра, TDP 65W.',
-   img:'./images/products/43999.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/43999.jpeg'],stock:false},
+   img:'./images/products/43999.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/43999.jpeg'],stock:true},
 
   {id:563,name:'AMD RYZEN 5 9600X 3.9GZ TRAY',brand:'AMD',cat:'components',subcat:'cpu',
    price:406.03,old:432,pct:6,badge:'sale',added:'2026-04-20',emoji:'🔴',sku:'100-000001405',ean:'0730143316958',
@@ -3958,7 +3958,7 @@ var products = [
    specs:{'Manufacturer':'AMD','Сокет':'AM5','Ядра':'8','Нишки':'16','Честота':'Max. Boost Clock: Up to 5.5 GHz;Base Clock: 3.8 GHz','Кеш':'L1 Cache: 640 KB;L2 Cache: 8 MB;L3 Cache: 32 MB','Max. PCI Express Lanes':'28 , 24 (Total/Usable)','Памет':'System Memory Type: DDR5;Memory Channels: 2;Max. Memory: 192 GB;System Memory Subtype: UDIMM;Max Mem','Tray':'Yes','Интегрирана графика':'AMD Radeon™ Graphics, 2 Core, 2200 MHz','TDP':'65W'},
    rating:4.5,rv:0,reviews:[],
    desc:'AMD AMD RYZEN 7 9700X 3.8G TRAY - сокет AM5, 8 ядра, TDP 65W.',
-   img:'./images/products/47056.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/47056.jpeg'],stock:false},
+   img:'./images/products/47056.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/47056.jpeg'],stock:true},
 
   {id:566,name:'AMD RYZEN 7 9700X 3.8G MPK',brand:'AMD',cat:'components',subcat:'cpu',
    price:594,old:null,pct:null,badge:null,added:'2026-04-20',emoji:'🔴',sku:'100-100001404MPK',ean:'0730143316972',
@@ -3979,14 +3979,14 @@ var products = [
    specs:{'Сокет':'AM5','Ядра':'8','Нишки':'16','Честота':'Max. Boost Clock Up to 5.2 GHz;Base Clock 4.7 GHz','Кеш':'L1 Cache 640 KB;L2 Cache 8 MB;L3 Cache 96 MB','Max. PCI Express Lanes':'Total 28/Usable 24','Памет':'System Memory Type DDR5;Memory Channels 2;Max. Memory 192 GB;System Memory Subtype UDIMM;Max Memory ','Tray':'Yes','Интегрирана графика':'AMD Radeon™ Graphics 2200 MHz, Graphics Core Count 2, USB Type-C® DisplayPort™ Alternate Mode','TDP':'120W'},
    rating:4.5,rv:0,reviews:[],
    desc:'AMD AMD RYZEN 7 9800X3D TRAY - сокет AM5, 8 ядра, TDP 120W.',
-   img:'./images/products/44074.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/44074.png'],stock:false},
+   img:'./images/products/44074.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/44074.png'],stock:true},
 
   {id:569,name:'AMD RYZEN 7 9800X3D BOX',brand:'AMD',cat:'components',subcat:'cpu',
    price:953.89,old:1014.02,pct:6,badge:'sale',added:'2026-04-20',emoji:'🔴',sku:'100-100001084WOF',ean:'0730143315289',
    specs:{'Manufacturer':'AMD','Сокет':'AM5','Ядра':'8','Нишки':'16','Честота':'Max. Boost Clock: Up to 5.2 GHz;Base Clock: 4.7 GHz','Кеш':'L1 Cache: 640 KB;L2 Cache: 8 MB;L3 Cache: 96 MB','Max. PCI Express Lanes':'28 , 24 (Total/Usable)','Памет':'System Memory Type DDR5;Memory Channels 2;Max. Memory 192 GB;System Memory Subtype UDIMM;Max Memory ','Fan':'Not included','Интегрирана графика':'AMD Radeon™ Graphics;Core Count 2;Frequency 2200 MHz;USB Type-C® DisplayPort™ Alternate Mode Yes','TDP':'120W','Other':'Architecture: Zen 5;Processor Technology for CPU Cores: TSMC 4nm FinFET;Processor Technology for I/O'},
    rating:4.5,rv:0,reviews:[],
    desc:'AMD AMD RYZEN 7 9800X3D BOX - сокет AM5, 8 ядра, TDP 120W.',
-   img:'./images/products/44485.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/44485.jpeg'],stock:false},
+   img:'./images/products/44485.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/44485.jpeg'],stock:true},
 
   {id:570,name:'AMD RYZEN 7 9850X3D TRAY',brand:'AMD',cat:'components',subcat:'cpu',
    price:1008,old:null,pct:null,badge:null,added:'2026-04-20',emoji:'🔴',sku:'100-100001973',ean:'3807000012953',
@@ -4007,7 +4007,7 @@ var products = [
    specs:{'Manufacturer':'AMD','Сокет':'AM5','Ядра':'12','Нишки':'24','Честота':'Max. Boost Clock: Up to 5.6 GHz;Base Clock: 4.4 GHz','Кеш':'L1 Cache: 960 KB;L2 Cache: 12 MB;L3 Cache: 64 MB','Max. PCI Express Lanes':'Total 28 /Usable 24','Памет':'System Memory Type: DDR5;Memory Channels: 2;Max. Memory: 192 GB;System Memory Subtype: UDIMM;Max Mem','Fan':'Not included','Tray':'Yes','Интегрирана графика':'AMD Radeon™ Graphics 2 2200 MHz;USB Type-C® DisplayPort™ Alternate Mode','TDP':'120W'},
    rating:4.5,rv:0,reviews:[],
    desc:'AMD AMD RYZEN 9 9900X TRAY - сокет AM5, 12 ядра, TDP 120W.',
-   img:'./images/products/45883.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/45883.png'],stock:false},
+   img:'./images/products/45883.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/45883.png'],stock:true},
 
   {id:573,name:'AMD RYZEN 9 PRO 9945 MPK',brand:'AMD',cat:'components',subcat:'cpu',
    price:929.18,old:984,pct:6,badge:'sale',added:'2026-04-20',emoji:'🔴',sku:'100-100001407MPK',ean:'8592978670740',
@@ -4035,7 +4035,7 @@ var products = [
    specs:{'Manufacturer':'AMD','Сокет':'AM5','Ядра':'12','Нишки':'24','Честота':'Max. Boost Clock: Up to 5.5 GHz;Base Clock: 4.4 GHz','Кеш':'L1 Cache: 960 KB;L2 Cache: 12 MB;L3 Cache: 128 MB','Max. PCI Express Lanes':'Total 28/ Usable 24','Памет':'System Memory Type: DDR5;Memory Channels: 2;Max. Memory: 192 GB;System Memory Subtype: UDIMM;Max Mem','Tray':'Yes','Интегрирана графика':'AMD Radeon™ Graphics 2 2200 MHz','TDP':'120W'},
    rating:4.5,rv:0,reviews:[],
    desc:'AMD AMD RYZEN 9 9900X3D TRAY - сокет AM5, 12 ядра, TDP 120W.',
-   img:'./images/products/48768.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/48768.png'],stock:false},
+   img:'./images/products/48768.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/48768.png'],stock:true},
 
   {id:577,name:'AMD RYZEN 9 9950X BOX',brand:'AMD',cat:'components',subcat:'cpu',
    price:1141.37,old:1229.57,pct:7,badge:'sale',added:'2026-04-20',emoji:'🔴',sku:'100-100001277WOF',ean:'730143315272',
@@ -4049,21 +4049,21 @@ var products = [
    specs:{'Manufacturer':'AMD','Сокет':'AM5','Ядра':'16','Нишки':'32','Честота':'Max. Boost Clock: Up to 5.7 GHz;Base Clock: 4.3 GHz','Кеш':'L1 Cache: 1280 KB;L2 Cache: 16 MB;L3 Cache: 64 MB','Max. PCI Express Lanes':'Total 28 /Usable 24','Памет':'System Memory Type: DDR5;Memory Channels: 2;Max. Memory: 192 GB;System Memory Subtype: UDIMM;Max Mem','Fan':'Not included','Tray':'Yes','Интегрирана графика':'AMD Radeon™ Graphics 2 2200 MHz ;USB Type-C® DisplayPort™ Alternate Mode','TDP':'170W'},
    rating:4.5,rv:0,reviews:[],
    desc:'AMD AMD RYZEN 9 9950X TRAY - сокет AM5, 16 ядра, TDP 170W.',
-   img:'./images/products/45882.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/45882.jpeg'],stock:false},
+   img:'./images/products/45882.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/45882.jpeg'],stock:true},
 
   {id:579,name:'AMD RYZEN 9 9950X3D TRAY',brand:'AMD',cat:'components',subcat:'cpu',
    price:1431.6,old:null,pct:null,badge:null,added:'2026-04-20',emoji:'🔴',sku:'100-000000719',ean:'9900004006729',
    specs:{'Manufacturer':'AMD','Сокет':'AM5','Ядра':'16','Нишки':'32','Честота':'Max. Boost Clock: Up to 5.7 GHz;Base Clock: 4.3 GHz','Кеш':'L1 Cache:1280 KB;L2 Cache: 16 MB;L3 Cache: 128 MB','Max. PCI Express Lanes':'Total 28/Usable 24','Памет':'Memory Type: DDR5;Memory Channels: 2;Max. Memory: 192 GB;System Memory Subtype: UDIMM;Max Memory Spe','Fan':'Not included','Tray':'Yes','Интегрирана графика':'AMD Radeon™ Graphics;Graphics Core Count 2;Graphics Frequency: 2200 MHz;USB Type-C® DisplayPort™ Alt','TDP':'170W'},
    rating:4.5,rv:0,reviews:[],
    desc:'AMD AMD RYZEN 9 9950X3D TRAY - сокет AM5, 16 ядра, TDP 170W.',
-   img:'./images/products/45215.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/45215.jpeg'],stock:false},
+   img:'./images/products/45215.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/45215.jpeg'],stock:true},
 
   {id:580,name:'AMD RYZEN 9 9950X3D BOX',brand:'AMD',cat:'components',subcat:'cpu',
    price:1361.82,old:1473.6,pct:8,badge:'sale',added:'2026-04-20',emoji:'🔴',sku:'100-100000719WOF',ean:'730143315555',
    specs:{'Manufacturer':'AMD','Сокет':'AM5','Ядра':'16','Нишки':'32','Честота':'Max. Boost Clock: Up to 5.7 GHz;Base Clock: 4.3 GHz','Кеш':'L1 Cache: 1280 KB;L2 Cache: 16 MB;L3 Cache: 128 MB','Max. PCI Express Lanes':'28 , 24 (Total/Usable)','Памет':'System Memory Type: DDR5;Memory Channels: 2;Max. Memory: 192 GB;System Memory Subtype: UDIMM;Max Mem','Fan':'Not Included','Интегрирана графика':'Graphics Model: AMD Radeon™ Graphics;Graphics Core Count: 2;Graphics Frequency: 2200 MHz;USB Type-C®','TDP':'170W'},
    rating:4.5,rv:0,reviews:[],
    desc:'AMD AMD RYZEN 9 9950X3D BOX - сокет AM5, 16 ядра, TDP 170W.',
-   img:'./images/products/44782.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/44782.png'],stock:false},
+   img:'./images/products/44782.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/44782.png'],stock:true},
 
 
 

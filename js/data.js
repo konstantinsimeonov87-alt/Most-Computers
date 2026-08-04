@@ -515,7 +515,7 @@ var products = [
    img:'./images/products/45008.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/45008.png','https://portal.mostbg.com/api/images/imageFileData/45009.png','https://portal.mostbg.com/api/images/imageFileData/45010.png','https://portal.mostbg.com/api/images/imageFileData/45011.png'],stock:true},
 
   {id:74,name:'ASROCK B850M RIPTIDE WIFI',brand:'ASRock',cat:'components',subcat:'motherboard',
-   price:332.1,old:354.02,pct:6,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'B850M RIPTIDE WIFI',ean:'4711581490482',
+   price:331.87,old:354.02,pct:6,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'B850M RIPTIDE WIFI',ean:'4711581490482',
    specs:{'Чипсет':'AMD/Intel B850','Памет':'4× DDR5','SATA3':'4×SATA3','RAID':'Да','M.2':'3xM2','PCIe x16':'1×PCIEx16','PCIe x1':'1xPCIEx1','Изходи':'HDMI / DP','Форм фактор':'ATX','Сокет':'AM5'},
    rating:4.4,rv:0,reviews:[],
    desc:'ASRock B850M RIPTIDE WIFI е ATX дънна платка за процесори AM5 с чипсет AMD B850. Поддържа 4× DDR5, до 256GB, честоти до DDR5-8000+. Включва 3 M.2 слота (вкл. PCIe Gen5x4), 4× SATA3 с RAID. Слот за видеокарта PCIe 5.0 x16. Заден панел: USB 3.2 Gen2, 2.5G LAN, 7.1 HD аудио. Гаранция 36 месеца.',
@@ -6710,7 +6710,7 @@ var products = [
    img:'./images/products/45200.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/45200.png','https://portal.mostbg.com/api/images/imageFileData/45201.png'],stock:false},
 
   {id:958,name:'EMTEC SSD X150 480G 2.5INCH',brand:'Emtec',cat:'components',subcat:'ssd',
-   price:159.62,old:182.4,pct:12,badge:'sale',added:'2026-04-21',emoji:'💾',sku:'ECSSD480GX150',ean:'3126170136411',
+   price:159.83,old:182.4,pct:12,badge:'sale',added:'2026-04-21',emoji:'💾',sku:'ECSSD480GX150',ean:'3126170136411',
    specs:{'Капацитет':'480 GB','Интерфейс':'SATA III','Форм фактор':'2.5\''},
    rating:4.3,rv:0,reviews:[],
    desc:'Emtec EMTEC SSD X150 480G 2.5INCH - SSD 480 GB, SATA III, 2.5".',

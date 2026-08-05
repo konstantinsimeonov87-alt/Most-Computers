@@ -515,7 +515,7 @@ var products = [
    img:'./images/products/45008.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/45008.png','https://portal.mostbg.com/api/images/imageFileData/45009.png','https://portal.mostbg.com/api/images/imageFileData/45010.png','https://portal.mostbg.com/api/images/imageFileData/45011.png'],stock:true},
 
   {id:74,name:'ASROCK B850M RIPTIDE WIFI',brand:'ASRock',cat:'components',subcat:'motherboard',
-   price:331.16,old:354.02,pct:6,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'B850M RIPTIDE WIFI',ean:'4711581490482',
+   price:330.93,old:354.02,pct:7,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'B850M RIPTIDE WIFI',ean:'4711581490482',
    specs:{'Чипсет':'AMD/Intel B850','Памет':'4× DDR5','SATA3':'4×SATA3','RAID':'Да','M.2':'3xM2','PCIe x16':'1×PCIEx16','PCIe x1':'1xPCIEx1','Изходи':'HDMI / DP','Форм фактор':'ATX','Сокет':'AM5'},
    rating:4.4,rv:0,reviews:[],
    desc:'ASRock B850M RIPTIDE WIFI е ATX дънна платка за процесори AM5 с чипсет AMD B850. Поддържа 4× DDR5, до 256GB, честоти до DDR5-8000+. Включва 3 M.2 слота (вкл. PCIe Gen5x4), 4× SATA3 с RAID. Слот за видеокарта PCIe 5.0 x16. Заден панел: USB 3.2 Gen2, 2.5G LAN, 7.1 HD аудио. Гаранция 36 месеца.',
@@ -14074,7 +14074,7 @@ products.push(
   {id:4281,name:'ASROCK RX9060XT CHALLENG 8G OC',brand:'ASROCK',cat:'components',subcat:'gpu',price:650.72,old:null,pct:null,badge:null,added:'2026-06-25',emoji:'🎮',sku:'RX9060XT CHALLENGER 8G OC',ean:'4711581490864',specs:{},rating:4.5,rv:0,reviews:[],desc:'ASROCK RX9060XT CHALLENG 8G OC',img:'./images/products/48339.webp',stock:false},
   {id:4282,name:'ASROCK RX9060XT CL 8GO',brand:'ASROCK',cat:'components',subcat:'gpu',price:561.01,old:null,pct:null,badge:null,added:'2026-06-25',emoji:'🎮',sku:'RX9060XT CL 8GO',ean:'4711581490864',specs:{},rating:4.5,rv:0,reviews:[],desc:'ASROCK RX9060XT CL 8GO',img:'./images/products/49892.webp',stock:false},
   {id:4283,name:'ASROCK RX9060XT SL 16GO',brand:'ASROCK',cat:'components',subcat:'gpu',price:1035.63,old:null,pct:null,badge:null,added:'2026-06-25',emoji:'🎮',sku:'RX9060XT SL 16GO',ean:'4711581490857',specs:{},rating:4.5,rv:0,reviews:[],desc:'ASROCK RX9060XT SL 16GO',img:'./images/products/49897.webp',stock:true},
-  {id:4284,name:'ASROCK RX9070 CL 16G',brand:'ASROCK',cat:'components',subcat:'gpu',price:1346.05,old:1632.19,pct:18,badge:'sale',added:'2026-06-25',emoji:'🎮',sku:'RX9070 CL 16G',ean:'4711581490475',specs:{},rating:4.5,rv:0,reviews:[],desc:'ASROCK RX9070 CL 16G',img:'./images/products/100642.webp',stock:true},
+  {id:4284,name:'ASROCK RX9070 CL 16G',brand:'ASROCK',cat:'components',subcat:'gpu',price:1346.05,old:1632.19,pct:18,badge:'sale',added:'2026-06-25',emoji:'🎮',sku:'RX9070 CL 16G',ean:'4711581490475',specs:{},rating:4.5,rv:0,reviews:[],desc:'ASROCK RX9070 CL 16G',img:'./images/products/100642.webp',stock:false},
   {id:4285,name:'ASROCK RX9070XT SL 16G',brand:'ASROCK',cat:'components',subcat:'gpu',price:1653.58,old:1754.68,pct:6,badge:'sale',added:'2026-06-25',emoji:'🎮',sku:'RX9070XT SL 16G',ean:'4711581490451',specs:{},rating:4.5,rv:0,reviews:[],desc:'ASROCK RX9070XT SL 16G',img:'./images/products/46062.webp',stock:true},
   {id:4286,name:'ASROCK RX9070XT SLD 16G',brand:'ASROCK',cat:'components',subcat:'gpu',price:1206.51,old:null,pct:null,badge:null,added:'2026-06-25',emoji:'🎮',sku:'RX9070XT SLD 16G',ean:'4711581490697',specs:{},rating:4.5,rv:0,reviews:[],desc:'ASROCK RX9070XT SLD 16G',img:'./images/products/46067.webp',stock:true},
 

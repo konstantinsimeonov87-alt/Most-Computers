@@ -4440,7 +4440,7 @@ var products = [
    img:'./images/products/25112.webp',stock:false},
 
   {id:634,name:'16G DDR4 3200 TEAM ELITE',brand:'TeamGroup',cat:'components',subcat:'ram',
-   price:267.42,old:318.16,pct:16,badge:'sale',added:'2026-04-20',emoji:'🟢',sku:'TED416G3200C2201',ean:'0765441647794',
+   price:259.27,old:318.16,pct:19,badge:'sale',added:'2026-04-20',emoji:'🟢',sku:'TED416G3200C2201',ean:'0765441647794',
    specs:{'Тип':'DDR4','Капацитет':'16 GB','Честота':'3200 MHz','Латентност':'CL22-22-22-52','Форм фактор':'DIMM','Напрежение':'1.2V'},
    rating:4.4,rv:0,reviews:[],
    desc:'TeamGroup 16G DDR4 3200 TEAM ELITE - DDR4 DIMM 3200 MHz, 16 GB, CL22-22-22-52.',
@@ -4748,7 +4748,7 @@ var products = [
    img:'./images/products/34506.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/34506.jpeg'],stock:false},
 
   {id:678,name:'2X16G DDR4 3200 KINGST BEAST',brand:'Kingston',cat:'components',subcat:'ram',
-   price:1020.47,old:1084.71,pct:6,badge:'sale',added:'2026-04-20',emoji:'🟢',sku:'KF432C16BBK2/32',ean:'0740617319842',
+   price:955.04,old:1084.71,pct:12,badge:'sale',added:'2026-04-20',emoji:'🟢',sku:'KF432C16BBK2/32',ean:'0740617319842',
    specs:{'Тип':'DDR4','Капацитет':'32 GB','Честота':'3200 MHz','Латентност':'CL16','Форм фактор':'DIMM','Напрежение':'1.35V'},
    rating:4.4,rv:0,reviews:[],
    desc:'Kingston 2X16G DDR4 3200 KINGST BEAST - DDR4 DIMM 3200 MHz, 32 GB, CL16.',
@@ -4895,7 +4895,7 @@ var products = [
    img:'./images/products/44928.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/44928.png','https://portal.mostbg.com/api/images/imageFileData/44929.png'],stock:false},
 
   {id:699,name:'2X16G DDR5 5200 KINGSTON BEAST',brand:'Kingston',cat:'components',subcat:'ram',
-   price:989.59,old:1042.35,pct:5,badge:'sale',added:'2026-04-20',emoji:'🟣',sku:'KF552C40BBK2-32',ean:'0740617324358',
+   price:955.04,old:1042.35,pct:8,badge:'sale',added:'2026-04-20',emoji:'🟣',sku:'KF552C40BBK2-32',ean:'0740617324358',
    specs:{'Тип':'DDR5','Капацитет':'32 GB','Честота':'5200 MHz','Латентност':'CL40','Форм фактор':'DIMM','Напрежение':'1.25V'},
    rating:4.4,rv:0,reviews:[],
    desc:'Kingston 2X16G DDR5 5200 KINGSTON BEAST - DDR5 DIMM 5200 MHz, 32 GB, CL40.',

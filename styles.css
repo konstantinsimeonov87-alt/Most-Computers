@@ -8738,6 +8738,7 @@
    align-items: center;
    justify-content: center;
    flex-shrink: 0;
+   position: relative;
  }.pdp-thumb.active{
    border-color: var(--primary);
    box-shadow: 0 0 0 2px rgba(189, 17, 5, 0.15);
@@ -8747,6 +8748,16 @@
    object-fit: contain;
    padding: 4px;
    box-sizing: border-box;
+ }.pdp-thumb-more{
+   position: absolute;
+   inset: 0;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   font-weight: 700;
+   font-size: 14px;
+   color: #fff;
+   background: rgba(26, 26, 26, 0.72);
  }/* Info panel */.pdp-info{ min-width: 0; }.pdp-badges{
    display: flex;
    gap: 6px;

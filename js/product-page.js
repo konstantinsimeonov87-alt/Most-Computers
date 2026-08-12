@@ -610,6 +610,8 @@ function pdpShowPlaceholder(el, p) {
   }
 }
 
+const PDP_THUMB_VISIBLE = 6;
+
 function pdpRenderGallery() {
   const mainImg   = document.getElementById('pdpMainImg');
   const mainEmoji = document.getElementById('pdpMainEmoji');
@@ -633,11 +635,20 @@ function pdpRenderGallery() {
   }
 
   if (pdpGallery.length > 1) {
-    thumbsEl.innerHTML = pdpGallery.map((url, i) =>
+    const visible = pdpGallery.slice(0, PDP_THUMB_VISIBLE);
+    let html = visible.map((url, i) =>
       `<div class="pdp-thumb ${i===pdpGalleryIdx?'active':''}" onclick="pdpGallerySet(${i})">
         <img src="${url}" alt="" onerror="this.style.display='none'">
       </div>`
     ).join('');
+    const hiddenCount = pdpGallery.length - PDP_THUMB_VISIBLE;
+    if (hiddenCount > 0) {
+      const moreActive = pdpGalleryIdx >= PDP_THUMB_VISIBLE ? 'active' : '';
+      html += `<div class="pdp-thumb ${moreActive}" onclick="pdpGallerySet(${PDP_THUMB_VISIBLE});pdpLbOpen()">
+        <div class="pdp-thumb-more">+${hiddenCount}</div>
+      </div>`;
+    }
+    thumbsEl.innerHTML = html;
   } else {
     thumbsEl.innerHTML = '';
   }

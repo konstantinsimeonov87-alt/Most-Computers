@@ -125,22 +125,28 @@ try {
   // This preserves cart/compareList globals, _staticProductsMap, persistProducts, restoreProducts, etc.
   const coreJs = dataStr.replace(/,\s*desc\s*:'(?:[^'\\]|\\.)*'/g, '');
   fs.writeFileSync(tmpCorePath, coreJs);
-  // data-details.js: id→desc map + id→ean map
+  // data-details.js: id→desc/ean/gallery/specs/sku maps (fields stripped from data-slim.js)
   const getProds = new Function(dataStr + '\nreturn products;');
   const prods = getProds();
   const details = {};
   const detailsEan = {};
+  const detailsGallery = {};
+  const detailsSpecs = {};
+  const detailsSku = {};
   prods.forEach(p => {
     if (p.desc) details[p.id] = p.desc;
     if (p.ean) detailsEan[p.id] = p.ean;
+    if (p.gallery && p.gallery.length) detailsGallery[p.id] = p.gallery;
+    if (p.specs && Object.keys(p.specs).length) detailsSpecs[p.id] = p.specs;
+    if (p.sku) detailsSku[p.id] = p.sku;
   });
-  const detailsJs = 'var productDesc=' + JSON.stringify(details) + ';var productEan=' + JSON.stringify(detailsEan) + ';';
+  const detailsJs = 'var productDesc=' + JSON.stringify(details) + ';var productEan=' + JSON.stringify(detailsEan) + ';var productGallery=' + JSON.stringify(detailsGallery) + ';var productSpecs=' + JSON.stringify(detailsSpecs) + ';var productSku=' + JSON.stringify(detailsSku) + ';';
   fs.writeFileSync(tmpDetailsPath, detailsJs);
   log(`data-core.js: ${(coreJs.length/1024).toFixed(0)} KB | data-details.js: ${(detailsJs.length/1024).toFixed(0)} KB`);
 } catch(splitErr) {
   warn('data split failed (' + splitErr.message + ') — using full data as core');
   fs.copyFileSync(tmpDataPath, tmpCorePath);
-  fs.writeFileSync(tmpDetailsPath, 'var productDesc={};');
+  fs.writeFileSync(tmpDetailsPath, 'var productDesc={};var productEan={};var productGallery={};var productSpecs={};var productSku={};');
 }
 
 // 4. Minify JavaScript

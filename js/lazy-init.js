@@ -47,8 +47,11 @@
           products.forEach(function(p) {
             if (!p.desc && window.productDesc && window.productDesc[p.id]) p.desc = window.productDesc[p.id];
             if (!p.ean && window.productEan && window.productEan[p.id]) p.ean = window.productEan[p.id];
+            if (!p.gallery && window.productGallery && window.productGallery[p.id]) p.gallery = window.productGallery[p.id];
+            if (!p.specs && window.productSpecs && window.productSpecs[p.id]) p.specs = window.productSpecs[p.id];
+            if (!p.sku && window.productSku && window.productSku[p.id]) p.sku = window.productSku[p.id];
           });
-          // If product page is already open, update description + EAN in DOM
+          // If product page is already open, update description + EAN + SKU + gallery + specs in DOM
           if (typeof pdpProductId !== 'undefined' && pdpProductId) {
             var _p = products.find(function(x) { return x.id === pdpProductId; });
             if (_p) {
@@ -60,9 +63,32 @@
                 _para.textContent = _p.desc;
                 _el.appendChild(_para);
               }
+              var _skuEl = document.getElementById('pdpSku');
+              if (_p.sku && _skuEl && _skuEl.textContent === '-') {
+                _skuEl.textContent = _p.sku;
+              }
               var _eanEl = document.getElementById('pdpEan');
               if (_p.ean && _eanEl && (_eanEl.textContent === '-' || _eanEl.textContent === _p.sku)) {
                 _eanEl.textContent = _p.ean;
+              }
+              // Gallery arrived late - re-render the thumbnail strip + main image
+              if (_p.gallery && _p.gallery.length > 1 && typeof pdpRenderGallery === 'function') {
+                pdpGallery = _p.gallery;
+                pdpGalleryIdx = 0;
+                pdpRenderGallery();
+              }
+              // Specs table arrived late - re-render now that specs/sku/ean are available
+              // (the table always shows at least a SKU row, so there is no reliable "empty" markup to detect)
+              var _tbody = document.getElementById('pdpSpecsTbody');
+              if (_p.specs && Object.keys(_p.specs).length && _tbody) {
+                var _se = function(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); };
+                var specRows = '<tr><th scope="row">SKU / Part Number</th><td style="font-family:\'JetBrains Mono\',monospace;font-size:12px;">' + (_p.sku||'-') + '</td></tr>';
+                if (_p.ean) specRows += '<tr><th scope="row">EAN / Баркод</th><td style="font-family:\'JetBrains Mono\',monospace;font-size:12px;">' + _p.ean + '</td></tr>';
+                specRows += Object.entries(_p.specs).filter(function(e) { var s = String(e[1]||'').trim(); return s && s.toLowerCase() !== 'none'; }).map(function(e) { return '<tr><th scope="row">' + _se(e[0]) + '</th><td>' + _se(e[1]) + '</td></tr>'; }).join('');
+                _tbody.innerHTML = specRows;
+                var _warrEl = document.getElementById('pdpWarranty');
+                var _w = _p.specs['Warranty'] || _p.specs['Гаранция'] || _p.specs['warrantyInMonths'];
+                if (_w && _warrEl && _warrEl.textContent === '24 месеца') _warrEl.textContent = _w;
               }
             }
           }

@@ -1232,14 +1232,14 @@ function adminShowTab(tab) {
           return `<div>
           <div style="font-size:13px;font-weight:800;color:#fff;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid #2d3148;">🏪 Настройки на магазина</div>
           <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;margin-bottom:16px;">
-            <div><label style="font-size:11px;color:#6b7280;display:block;margin-bottom:4px;">Доставка Еконт до адрес (лв.)</label>
-              <input id="sc_dc0" type="number" step="0.01" value="${dc[0]||5.99}" class="aef-input" style="width:100%;"></div>
-            <div><label style="font-size:11px;color:#6b7280;display:block;margin-bottom:4px;">Доставка Еконт до офис (лв.)</label>
-              <input id="sc_dc1" type="number" step="0.01" value="${dc[1]||4.99}" class="aef-input" style="width:100%;"></div>
+            <div><label style="font-size:11px;color:#6b7280;display:block;margin-bottom:4px;">Доставка Еконт до адрес (€)</label>
+              <input id="sc_dc0" type="number" step="0.01" value="${((dc[0]||5.99)/EUR_RATE).toFixed(2)}" class="aef-input" style="width:100%;"></div>
+            <div><label style="font-size:11px;color:#6b7280;display:block;margin-bottom:4px;">Доставка Еконт до офис (€)</label>
+              <input id="sc_dc1" type="number" step="0.01" value="${((dc[1]||4.99)/EUR_RATE).toFixed(2)}" class="aef-input" style="width:100%;"></div>
             <div><label style="font-size:11px;color:#6b7280;display:block;margin-bottom:4px;">Безплатна доставка от (€)</label>
               <input id="sc_freeShip" type="number" step="1" value="${sc.freeShipEur||100}" class="aef-input" style="width:100%;"></div>
-            <div><label style="font-size:11px;color:#6b7280;display:block;margin-bottom:4px;">Такса наложен платеж (лв.)</label>
-              <input id="sc_codFee" type="number" step="0.01" value="${sc.codFee||1.50}" class="aef-input" style="width:100%;"></div>
+            <div><label style="font-size:11px;color:#6b7280;display:block;margin-bottom:4px;">Такса наложен платеж (€)</label>
+              <input id="sc_codFee" type="number" step="0.01" value="${((sc.codFee||1.50)/EUR_RATE).toFixed(2)}" class="aef-input" style="width:100%;"></div>
             <div><label style="font-size:11px;color:#6b7280;display:block;margin-bottom:4px;">Магазин отваря (часове)</label>
               <input id="sc_storeOpen" type="time" value="${toHHMM(sc.storeOpenMin||570)}" class="aef-input" style="width:100%;"></div>
             <div><label style="font-size:11px;color:#6b7280;display:block;margin-bottom:4px;">Магазин затваря (часове)</label>
@@ -3352,12 +3352,12 @@ function adminSaveStoreConfig() {
   const toMin = t => { if (!t) return null; const [h,m] = t.split(':').map(Number); return h*60+m; };
   const sc = {
     deliveryCosts: [
-      parseFloat(document.getElementById('sc_dc0')?.value) || 5.99,
-      parseFloat(document.getElementById('sc_dc1')?.value) || 4.99,
+      Math.round((parseFloat(document.getElementById('sc_dc0')?.value) || 3.06) * EUR_RATE * 100) / 100,
+      Math.round((parseFloat(document.getElementById('sc_dc1')?.value) || 2.55) * EUR_RATE * 100) / 100,
       0,
     ],
     freeShipEur:      parseFloat(document.getElementById('sc_freeShip')?.value)  || 100,
-    codFee:           parseFloat(document.getElementById('sc_codFee')?.value)    || 1.50,
+    codFee:           Math.round((parseFloat(document.getElementById('sc_codFee')?.value) || 0.77) * EUR_RATE * 100) / 100,
     storeOpenMin:     toMin(document.getElementById('sc_storeOpen')?.value)      ?? 570,
     storeCloseMin:    toMin(document.getElementById('sc_storeClose')?.value)     ?? 1095,
     warehouseOpenMin: toMin(document.getElementById('sc_whOpen')?.value)         ?? 540,

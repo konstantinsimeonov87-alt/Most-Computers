@@ -107,7 +107,7 @@ function openProductModal(id){
   pe.innerHTML=fmtPrice(p.price, p.badge==='sale'?'sale':'');
   pe.className='modal-price'+(p.badge==='sale'?' sale':'');
   const oe=document.getElementById('modalOld'),se=document.getElementById('modalSave');
-  if(p.old){oe.textContent=fmtEur(p.old)+' / '+fmtBgn(p.old);se.textContent='-'+Math.round((p.old-p.price)/p.old*100)+'%';se.style.display='';}else{oe.textContent='';se.style.display='none';}
+  if(p.old){oe.textContent=fmtEur(p.old);se.textContent='-'+Math.round((p.old-p.price)/p.old*100)+'%';se.style.display='';}else{oe.textContent='';se.style.display='none';}
   document.getElementById('modalMonthly').innerHTML='';
   document.getElementById('modalQty').textContent='1';
   document.getElementById('modalSpecs').innerHTML=Object.keys(p.specs||{}).slice(0,4).map(k=>`<div class="spec-chip"><div class="spec-chip-key">${_esc(k)}</div><div class="spec-chip-val">${_esc(p.specs[k])}</div></div>`).join('');
@@ -123,7 +123,7 @@ function openProductModal(id){
   document.getElementById('productModalBackdrop').classList.add('open');document.body.style.overflow='hidden';
   // Update mobile/desktop sticky CTA price
   var _mscP=document.getElementById('mscPrice');
-  if(_mscP) _mscP.innerHTML=fmtEur(p.price)+'<span style="font-size:11px;font-weight:500;color:var(--muted);display:block">'+fmtBgn(p.price)+'</span>';
+  if(_mscP) _mscP.innerHTML=fmtEur(p.price);
   // IntersectionObserver: show sticky CTA when #modalAddBtn scrolls out of view
   var _stickyObs=null;
   (function(){
@@ -216,7 +216,7 @@ function openComparePage(){
   const minP=Math.min(...prods.map(p=>p.price)),maxR=Math.max(...prods.map(p=>p.rating));
   let html=`<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;font-size:13px;">`;
   html+=`<thead><tr><th scope="col" style="text-align:left;padding:12px;background:var(--bg2);border-radius:8px 0 0 0;">Продукт</th>`;
-  prods.forEach(p=>html+=`<th scope="col" style="padding:16px;text-align:center;background:var(--bg2);border-left:1px solid var(--border);">${_cmpThumb(p,64)}<div style="font-weight:800;font-size:14px;margin-bottom:4px;">${p.name}</div><div style="font-size:18px;font-weight:900;color:var(--primary);">${fmtEur(p.price)}</div><div style="font-size:11px;color:var(--muted);">${fmtBgn(p.price)}</div><button type="button" onclick="addToCart(${p.id})" style="margin-top:10px;background:var(--primary);color:#fff;border:none;border-radius:8px;padding:8px 16px;font-size:12px;font-weight:700;cursor:pointer;">🛒 Добави</button></th>`);
+  prods.forEach(p=>html+=`<th scope="col" style="padding:16px;text-align:center;background:var(--bg2);border-left:1px solid var(--border);">${_cmpThumb(p,64)}<div style="font-weight:800;font-size:14px;margin-bottom:4px;">${p.name}</div><div style="font-size:18px;font-weight:900;color:var(--primary);">${fmtEur(p.price)}</div><button type="button" onclick="addToCart(${p.id})" style="margin-top:10px;background:var(--primary);color:#fff;border:none;border-radius:8px;padding:8px 16px;font-size:12px;font-weight:700;cursor:pointer;">🛒 Добави</button></th>`);
   html+=`</tr></thead><tbody>`;
   html+=`<tr><th scope="row" style="text-align:left;padding:10px 12px;background:var(--bg);border-top:1px solid var(--border);">Цена</th>`;
   prods.forEach(p=>html+=`<td style="padding:10px 12px;text-align:center;border-top:1px solid var(--border);border-left:1px solid var(--border);${p.price===minP?'background:var(--primary-light);font-weight:800;color:var(--primary);':''}">${fmtEur(p.price)}</td>`);
@@ -252,12 +252,12 @@ function openCompareModal(){
   }
 
   let html=`<thead><tr><th scope="col">Продукт</th>`;
-  prods.forEach(p=>html+=`<th scope="col" class="cmp-product-header"><span class="cmp-emoji">${_cmpThumb(p,60)}</span><div class="cmp-name">${_esc(p.name)}</div><div class="cmp-price">${fmtEur(p.price)}<span class="text-11-muted-block">${fmtBgn(p.price)}</span></div><button type="button" class="cmp-add-btn" onclick="addToCart(${p.id})">🛒 Добави</button></th>`);
+  prods.forEach(p=>html+=`<th scope="col" class="cmp-product-header"><span class="cmp-emoji">${_cmpThumb(p,60)}</span><div class="cmp-name">${_esc(p.name)}</div><div class="cmp-price">${fmtEur(p.price)}</div><button type="button" class="cmp-add-btn" onclick="addToCart(${p.id})">🛒 Добави</button></th>`);
   html+=`</tr></thead><tbody>`;
   // Price row - lowest is best
   const priceDiff=_isDiff(prods.map(p=>p.price));
   html+=`<tr class="${priceDiff?'cmp-diff-row':''}"><th scope="row">Цена${priceDiff?'<span class="cmp-diff-badge">!</span>':''}</th>`;
-  prods.forEach(p=>html+=`<td class="${p.price===minP?'cmp-best':''}">${fmtEur(p.price)}<span class="text-11-muted-block">${fmtBgn(p.price)}</span></td>`);
+  prods.forEach(p=>html+=`<td class="${p.price===minP?'cmp-best':''}">${fmtEur(p.price)}</td>`);
   // Rating row
   const ratingDiff=_isDiff(prods.map(p=>p.rating));
   html+=`</tr><tr class="${ratingDiff?'cmp-diff-row':''}"><th scope="row">Рейтинг${ratingDiff?'<span class="cmp-diff-badge">!</span>':''}</th>`;
@@ -309,7 +309,7 @@ function openQuickOrder(id){
   quickOrderProductId=id;
   document.getElementById('qoEmoji').textContent=p.emoji;
   document.getElementById('qoName').textContent=p.name;
-  document.getElementById('qoPrice').textContent=fmtEur(p.price)+' / '+fmtBgn(p.price);
+  document.getElementById('qoPrice').textContent=fmtEur(p.price);
   document.getElementById('qoFormWrap').style.display='';
   document.getElementById('qoSuccess').classList.remove('show');
   ['qoName2','qoPhone','qoCity','qoAddr','qoNote'].forEach(fid=>{const el=document.getElementById(fid);if(el){el.value='';el.classList.remove('error');}});
@@ -560,7 +560,7 @@ function updateCart() {
       }
     }
   }
-  const cartTotalEl = document.getElementById('cartTotal'); if (cartTotalEl) cartTotalEl.textContent = fmtEur(total) + ' / ' + fmtBgn(total);
+  const cartTotalEl = document.getElementById('cartTotal'); if (cartTotalEl) cartTotalEl.textContent = fmtEur(total);
   // sync PDP mini-header cart badge
   const pdpB = document.getElementById('pdpMhdrCartBadge');
   if (pdpB) { pdpB.textContent = count; pdpB.style.display = count > 0 ? '' : 'none'; }
@@ -973,19 +973,19 @@ function renderOrderSummary() {
           <button type="button" class="os-qty-btn" onclick="osChangeQty(${x.id},1)">+</button>
         </div>
       </div>
-      <div class="os-item-price">${fmtEur(x.price * x.qty)}<span class="text-10-muted-block">${fmtBgn(x.price * x.qty)}</span></div>
+      <div class="os-item-price">${fmtEur(x.price * x.qty)}</div>
     </div>`).join('');
 
-  document.getElementById('osSubtotal').textContent = fmtEur(subtotal) + ' / ' + fmtBgn(subtotal);
-  document.getElementById('osDelivery').textContent = delivery === 0 ? 'Безплатно' : fmtEur(delivery) + ' / ' + fmtBgn(delivery);
-  document.getElementById('osTotal').textContent = fmtEur(total) + ' / ' + fmtBgn(total);
+  document.getElementById('osSubtotal').textContent = fmtEur(subtotal);
+  document.getElementById('osDelivery').textContent = delivery === 0 ? 'Безплатно' : fmtEur(delivery);
+  document.getElementById('osTotal').textContent = fmtEur(total);
 
   const saveRow = document.getElementById('osSaveRow');
-  if (savings > 0) { saveRow.style.display = ''; document.getElementById('osSave').textContent = '-' + fmtEur(savings) + ' / ' + fmtBgn(savings); }
+  if (savings > 0) { saveRow.style.display = ''; document.getElementById('osSave').textContent = '-' + fmtEur(savings); }
   else saveRow.style.display = 'none';
 
   const promoRow = document.getElementById('osPromoRow');
-  if (promoApplied) { promoRow.style.display = ''; document.getElementById('osPromoAmt').textContent = '-' + fmtEur(promoDisc) + ' / ' + fmtBgn(promoDisc); }
+  if (promoApplied) { promoRow.style.display = ''; document.getElementById('osPromoAmt').textContent = '-' + fmtEur(promoDisc); }
   else promoRow.style.display = 'none';
 }
 
@@ -1349,12 +1349,12 @@ function submitOrder() {
     _set('tyNote', document.getElementById('ckNote').value || '-');
     _set('tyTimestamp', now.toLocaleString('bg-BG'));
     _set('tyDeliveryDateLine', ckDeliveryIdx === 2 ? 'Готова за вземане' : 'Очаквана: ' + fmt(delivDate));
-    _set('tySubtotal', fmtEur(subtotal) + ' / ' + fmtBgn(subtotal));
-    _set('tyDeliveryCost', delivery === 0 ? 'Безплатно' : fmtEur(delivery) + ' / ' + fmtBgn(delivery));
-    _set('tyTotal', fmtEur(total) + ' / ' + fmtBgn(total));
+    _set('tySubtotal', fmtEur(subtotal));
+    _set('tyDeliveryCost', delivery === 0 ? 'Безплатно' : fmtEur(delivery));
+    _set('tyTotal', fmtEur(total));
     if (promoApplied) {
       const tyPromoRow = document.getElementById('tyPromoRow'); if (tyPromoRow) tyPromoRow.style.display = '';
-      _set('tyPromoAmt', '-' + fmtEur(promoDisc) + ' / ' + fmtBgn(promoDisc));
+      _set('tyPromoAmt', '-' + fmtEur(promoDisc));
     }
     _setHTML('tyItems', cart.map(x => `
       <div class="ty-item">
@@ -1363,7 +1363,7 @@ function submitOrder() {
           <div class="ty-item-name">${escHtml(x.name || '')}</div>
           <div class="ty-item-meta">${escHtml(x.brand || '')} · Количество: ${Number(x.qty) || 0}</div>
         </div>
-        <div class="ty-item-price">${fmtEur(x.price * x.qty)}<span class="text-11-muted-block">${fmtBgn(x.price * x.qty)}</span></div>
+        <div class="ty-item-price">${fmtEur(x.price * x.qty)}</div>
       </div>`).join(''));
 
     // Save order to localStorage
@@ -1680,7 +1680,6 @@ function renderCartPage() {
         <div class="cp-item-prices">
           ${x.old ? `<div class="cp-item-old">${fmtEur(x.old)}</div>` : ''}
           <div class="cp-item-price">${fmtEur(x.price * x.qty)}</div>
-          <div class="cp-item-bgn">${fmtBgn(x.price * x.qty)}</div>
         </div>
         <div class="cp-qty-wrap">
           <button type="button" class="cp-qty-btn" onclick="cpChangeQty(${x.id},-1)">−</button>
@@ -1710,12 +1709,12 @@ function renderCartPageSummary() {
   }
 
   el.innerHTML = `
-    <div class="cp-sum-row"><span>Продукти (${cart.reduce((s, x) => s + x.qty, 0)} бр.)</span><span>${fmtEur(subtotal)}<small>${fmtBgn(subtotal)}</small></span></div>
+    <div class="cp-sum-row"><span>Продукти (${cart.reduce((s, x) => s + x.qty, 0)} бр.)</span><span>${fmtEur(subtotal)}</span></div>
     ${savings > 0 ? `<div class="cp-sum-row cp-sum-save"><span>✓ Спестяваш</span><span>−${fmtEur(savings)}</span></div>` : ''}
     <div class="cp-sum-row"><span>Доставка</span><span>${delivery === 0 ? '<b style="color:var(--accent2)">Безплатна</b>' : fmtEur(delivery)}</span></div>
     <div class="cp-sum-row"><span>ДДС (вкл.)</span><span>${fmtEur(total * 0.2)}</span></div>
     <hr class="cp-sum-divider">
-    <div class="cp-sum-row cp-sum-total"><span>Общо</span><span>${fmtEur(total)}<small>${fmtBgn(total)}</small></span></div>
+    <div class="cp-sum-row cp-sum-total"><span>Общо</span><span>${fmtEur(total)}</span></div>
     ${subtotal < FREE_SHIP_BGN ? `<div class="cp-ship-hint">Добави още <b>${fmtEur(FREE_SHIP_BGN - subtotal)}</b> за безплатна доставка</div>` : ''}`;
 }
 
@@ -1735,7 +1734,7 @@ function renderCartPageUpsell() {
         <div class="cp-upsell-emoji">${p.emoji}</div>
         <div class="cp-upsell-info">
           <div class="cp-upsell-name">${p.name.length > 40 ? p.name.substring(0, 40) + '…' : p.name}</div>
-          <div class="cp-upsell-price">${fmtEur(p.price)} / ${fmtBgn(p.price)}</div>
+          <div class="cp-upsell-price">${fmtEur(p.price)}</div>
         </div>
         <button type="button" class="cp-upsell-add" onclick="event.stopPropagation();cpAddUpsell(${p.id})">+ Добави</button>
       </div>`).join('')}`;
@@ -2115,7 +2114,7 @@ function renderDropdown(query) {
             </div>
           </div>
           ${badgeHtml}
-          <div class="sd-price">${fmtEur(p.price)}<span class="text-10-muted-block">${fmtBgn(p.price)} · с вкл. ДДС</span></div>
+          <div class="sd-price">${fmtEur(p.price)}</div>
           <div id="sd-ctrl-${p.id}" class="sd-ctrl">${_sdCtrlHtml(p.id)}</div>
         </div>`;
     }).join('')}
@@ -2550,7 +2549,7 @@ function openProductPage(id) {
   if (metaDesc) {
     const descText = p.desc
       ? p.desc.substring(0, 155) + (p.desc.length > 155 ? '…' : '')
-      : `${p.name} - ${p.brand} | Цена: ${(p.price/EUR_RATE).toFixed(2)} € / ${p.price} лв. Купи онлайн от Most Computers.`;
+      : `${p.name} - ${p.brand} | Цена: ${(p.price/EUR_RATE).toFixed(2)} €. Купи онлайн от Most Computers.`;
     metaDesc.setAttribute('content', descText);
   }
 
@@ -2707,11 +2706,11 @@ function openProductPage(id) {
   const prEl = document.getElementById('pdpPrice');
   prEl.textContent = fmtEur(priceBgn);
   prEl.className   = 'pdp-price-main' + (p.badge==='sale' ? ' sale' : '');
-  document.getElementById('pdpPriceEur').textContent = `${fmtBgn(priceBgn)} · с вкл. ДДС`;
+  document.getElementById('pdpPriceEur').textContent = 'с вкл. ДДС';
 
   const oldRow = document.getElementById('pdpOldRow');
   if (p.old) {
-    document.getElementById('pdpOld').textContent = fmtEur(p.old) + ' / ' + fmtBgn(p.old);
+    document.getElementById('pdpOld').textContent = fmtEur(p.old);
     document.getElementById('pdpSave').textContent = '-' + Math.round((p.old-p.price)/p.old*100) + '%';
     oldRow.style.display = 'flex';
   } else {
@@ -3485,7 +3484,7 @@ function pdpUpdateStickyBar(p) {
   const priceEl = document.getElementById('pdpStickyPrice');
   const thumbEl = document.getElementById('pdpStickyThumb');
   if (nameEl) nameEl.textContent = p.name;
-  if (priceEl) priceEl.textContent = fmtEur(p.price) + ' / ' + fmtBgn(p.price);
+  if (priceEl) priceEl.textContent = fmtEur(p.price);
   if (thumbEl && p.img) thumbEl.innerHTML = '<img src="' + (typeof _esc === 'function' ? _esc(p.img) : p.img) + '" style="width:40px;height:40px;object-fit:contain;">';
 }
 
@@ -4243,7 +4242,7 @@ function pdpRenderRvCarousel() {
 // Shared carousel card renderer
 function _pdpCarCard(p) {
   var _e = typeof _esc === 'function' ? _esc : escHtml;
-  var price = (typeof fmtEur === 'function') ? fmtEur(p.price) : (p.price + ' лв.');
+  var price = (typeof fmtEur === 'function') ? fmtEur(p.price) : (typeof EUR_RATE === 'number' ? (p.price/EUR_RATE).toFixed(2) + ' €' : p.price + ' €');
   var thumb = p.img
     ? '<img class="pdp-car-img" src="' + _e(p.img) + '" alt="" loading="lazy" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">'
     : '';
@@ -4370,7 +4369,7 @@ function pdpBsOpen(p) {
   var priceEl = document.getElementById('pdpBsPrice');
   var thumbEl = document.getElementById('pdpBsThumb');
   if (nameEl) nameEl.textContent = p.name;
-  if (priceEl) priceEl.textContent = (typeof fmtEur === 'function') ? fmtEur(p.price) : p.price + ' лв.';
+  if (priceEl) priceEl.textContent = (typeof fmtEur === 'function') ? fmtEur(p.price) : (typeof EUR_RATE === 'number' ? (p.price/EUR_RATE).toFixed(2) + ' €' : p.price + ' €');
   if (thumbEl) {
     var _e = typeof _esc === 'function' ? _esc : escHtml;
     thumbEl.innerHTML = p.img
@@ -4903,28 +4902,28 @@ const blogPosts = [
   },
   {
     slug: 'umen-dom-pod-500-leva',
-    emoji: '🏠', cat: 'Smart Home', title: 'Как да изградим умен дом за под 500 лв.',
+    emoji: '🏠', cat: 'Smart Home', title: 'Как да изградим умен дом за под 250 €',
     productImage: './images/products/42961.webp',
     date: '10 Февруари 2026', dateISO: '2026-02-10', read: '8 мин', author: 'Мост Компютърс',
     summary: 'Philips Hue, смарт контакти, гласов асистент - пълна система без да се разоряваме.',
-    metaDesc: 'Умен дом за под 500 лева - Philips Hue, Google Home, смарт контакти. Ръководство стъпка по стъпка.',
+    metaDesc: 'Умен дом за под 250 евро - Philips Hue, Google Home, смарт контакти. Ръководство стъпка по стъпка.',
     tags: ['умен дом', 'Smart Home', 'Philips Hue', 'Google Home'],
     body: `<h2>Отправна точка: Гласов асистент</h2>
-<p>Всичко започва с централен хъб. <strong>Google Nest Mini</strong> (около 50 лв.) или <strong>Amazon Echo Dot</strong> (около 45 лв.) са идеалните отправни точки. Веднъж инсталиран, асистентът управлява всички останали устройства с гласови команди.</p>
-<h2>Интелигентно осветление (~150 лв.)</h2>
+<p>Всичко започва с централен хъб. <strong>Google Nest Mini</strong> (около 26 €) или <strong>Amazon Echo Dot</strong> (около 23 €) са идеалните отправни точки. Веднъж инсталиран, асистентът управлява всички останали устройства с гласови команди.</p>
+<h2>Интелигентно осветление (~77 €)</h2>
 <p>Philips Hue Starter Kit с 3 крушки и хъб е класическият избор - стабилен Zigbee протокол, богата екосистема и страхотно приложение. Алтернативата е IKEA TRÅDFRI (по-евтино, малко по-ограничено). Смарт крушките с WiFi (SONOFF, Tapo) не изискват отделен хъб.</p>
-<h2>Смарт контакти (~80 лв. за 2 бр.)</h2>
+<h2>Смарт контакти (~41 € за 2 бр.)</h2>
 <p>Смарт контактите трансформират обикновени уреди в интелигентни. Стар вентилатор, кафемашина или лампа могат да се управляват от телефона или таймер. TP-Link Tapo P115 е любимецът - мери и консумацията на ток.</p>
-<h2>Сигурност (~150 лв.)</h2>
-<p>Смарт видеокамера (Tapo C200 - около 60 лв.) + смарт звънец (Reolink Video Doorbell - около 90 лв.) покриват основната домашна сигурност. И двата работят с Google Home и Alexa.</p>
+<h2>Сигурност (~77 €)</h2>
+<p>Смарт видеокамера (Tapo C200 - около 31 €) + смарт звънец (Reolink Video Doorbell - около 46 €) покриват основната домашна сигурност. И двата работят с Google Home и Alexa.</p>
 <h2>Примерен бюджет</h2>
 <ul>
-<li>Google Nest Mini - 50 лв.</li>
-<li>Philips Hue Starter Kit - 150 лв.</li>
-<li>2x Tapo P115 смарт контакт - 80 лв.</li>
-<li>Tapo C200 камера - 60 лв.</li>
-<li>Reolink Doorbell - 90 лв.</li>
-<li><strong>Общо: ~430 лв.</strong></li>
+<li>Google Nest Mini - 26 €</li>
+<li>Philips Hue Starter Kit - 77 €</li>
+<li>2x Tapo P115 смарт контакт - 41 €</li>
+<li>Tapo C200 камера - 31 €</li>
+<li>Reolink Doorbell - 46 €</li>
+<li><strong>Общо: ~220 €</strong></li>
 </ul>
 <p>Ако разпределиш покупките за 2-3 месеца, усещането за „умен дом" идва постепенно - и е много по-достъпно, отколкото изглежда.</p>`
   },

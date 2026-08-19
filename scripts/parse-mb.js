@@ -103,7 +103,7 @@ function parseProducts(xml) {
     if (!specs['Socket'] && !specs['Сокет']) specs['Сокет'] = socket;
 
     // desc
-    const desc = `${brand} ${name.replace(/\s*\/\s*AM[45]|\s*\/\s*LGA\d+/i, '').trim()} — дънна платка ${socket}. Цена: ${priceBGN} лв.`;
+    const desc = `${brand} ${name.replace(/\s*\/\s*AM[45]|\s*\/\s*LGA\d+/i, '').trim()} — дънна платка ${socket}. Цена: ${(priceBGN/EUR_RATE).toFixed(2)} €.`;
 
     products.push({ xmlId, name, brand, sku, ean: ean(rawEan), img, stock, price: priceBGN, specs });
   }

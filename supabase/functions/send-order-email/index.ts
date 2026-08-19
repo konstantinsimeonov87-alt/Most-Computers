@@ -3,6 +3,12 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
+// Order amounts arrive from the client denominated in BGN (same raw convention as js/data.js
+// product prices) and are converted to EUR here for display only, using the fixed BGN/EUR
+// peg rate — mirrors js/currency.js toEur()/EUR_RATE. Do not change this rate.
+const EUR_RATE = 1.95583;
+const toEur = (bgn: number) => (bgn / EUR_RATE).toFixed(2);
+
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response('ok', { headers: corsHeaders });
@@ -27,7 +33,7 @@ Deno.serve(async (req) => {
         <tr>
           <td style="padding:8px 12px;border-bottom:1px solid #eee">${x.emoji || ''} ${x.name}</td>
           <td style="padding:8px 12px;border-bottom:1px solid #eee;text-align:center">${x.qty}</td>
-          <td style="padding:8px 12px;border-bottom:1px solid #eee;text-align:right">${(x.price * x.qty).toFixed(2)} лв.</td>
+          <td style="padding:8px 12px;border-bottom:1px solid #eee;text-align:right">${toEur(x.price * x.qty)} €</td>
         </tr>`)
       .join('');
 
@@ -51,7 +57,7 @@ Deno.serve(async (req) => {
             <tfoot>
               <tr>
                 <td colspan="2" style="padding:12px;text-align:right;font-weight:bold">Обща сума:</td>
-                <td style="padding:12px;text-align:right;font-weight:bold;color:#bd1105;font-size:18px">${Number(order.total).toFixed(2)} лв.</td>
+                <td style="padding:12px;text-align:right;font-weight:bold;color:#bd1105;font-size:18px">${toEur(Number(order.total))} €</td>
               </tr>
             </tfoot>
           </table>
@@ -77,7 +83,7 @@ Deno.serve(async (req) => {
           <tr><td style="padding:6px 0;color:#555"><strong>Адрес:</strong></td><td>${order.addr}</td></tr>
           <tr><td style="padding:6px 0;color:#555"><strong>Доставка:</strong></td><td>${order.deliveryType}</td></tr>
           <tr><td style="padding:6px 0;color:#555"><strong>Плащане:</strong></td><td>${paymentLabel}</td></tr>
-          <tr><td style="padding:6px 0;color:#555"><strong>Сума:</strong></td><td><strong style="color:#bd1105;font-size:18px">${Number(order.total).toFixed(2)} лв.</strong></td></tr>
+          <tr><td style="padding:6px 0;color:#555"><strong>Сума:</strong></td><td><strong style="color:#bd1105;font-size:18px">${toEur(Number(order.total))} €</strong></td></tr>
         </table>
         <h3 style="margin-top:24px">Продукти:</h3>
         <p>${order.items}</p>

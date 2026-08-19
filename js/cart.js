@@ -155,7 +155,7 @@ function updateCart() {
       }
     }
   }
-  const cartTotalEl = document.getElementById('cartTotal'); if (cartTotalEl) cartTotalEl.textContent = fmtEur(total) + ' / ' + fmtBgn(total);
+  const cartTotalEl = document.getElementById('cartTotal'); if (cartTotalEl) cartTotalEl.textContent = fmtEur(total);
   // sync PDP mini-header cart badge
   const pdpB = document.getElementById('pdpMhdrCartBadge');
   if (pdpB) { pdpB.textContent = count; pdpB.style.display = count > 0 ? '' : 'none'; }
@@ -568,19 +568,19 @@ function renderOrderSummary() {
           <button type="button" class="os-qty-btn" onclick="osChangeQty(${x.id},1)">+</button>
         </div>
       </div>
-      <div class="os-item-price">${fmtEur(x.price * x.qty)}<span class="text-10-muted-block">${fmtBgn(x.price * x.qty)}</span></div>
+      <div class="os-item-price">${fmtEur(x.price * x.qty)}</div>
     </div>`).join('');
 
-  document.getElementById('osSubtotal').textContent = fmtEur(subtotal) + ' / ' + fmtBgn(subtotal);
-  document.getElementById('osDelivery').textContent = delivery === 0 ? 'Безплатно' : fmtEur(delivery) + ' / ' + fmtBgn(delivery);
-  document.getElementById('osTotal').textContent = fmtEur(total) + ' / ' + fmtBgn(total);
+  document.getElementById('osSubtotal').textContent = fmtEur(subtotal);
+  document.getElementById('osDelivery').textContent = delivery === 0 ? 'Безплатно' : fmtEur(delivery);
+  document.getElementById('osTotal').textContent = fmtEur(total);
 
   const saveRow = document.getElementById('osSaveRow');
-  if (savings > 0) { saveRow.style.display = ''; document.getElementById('osSave').textContent = '-' + fmtEur(savings) + ' / ' + fmtBgn(savings); }
+  if (savings > 0) { saveRow.style.display = ''; document.getElementById('osSave').textContent = '-' + fmtEur(savings); }
   else saveRow.style.display = 'none';
 
   const promoRow = document.getElementById('osPromoRow');
-  if (promoApplied) { promoRow.style.display = ''; document.getElementById('osPromoAmt').textContent = '-' + fmtEur(promoDisc) + ' / ' + fmtBgn(promoDisc); }
+  if (promoApplied) { promoRow.style.display = ''; document.getElementById('osPromoAmt').textContent = '-' + fmtEur(promoDisc); }
   else promoRow.style.display = 'none';
 }
 
@@ -944,12 +944,12 @@ function submitOrder() {
     _set('tyNote', document.getElementById('ckNote').value || '-');
     _set('tyTimestamp', now.toLocaleString('bg-BG'));
     _set('tyDeliveryDateLine', ckDeliveryIdx === 2 ? 'Готова за вземане' : 'Очаквана: ' + fmt(delivDate));
-    _set('tySubtotal', fmtEur(subtotal) + ' / ' + fmtBgn(subtotal));
-    _set('tyDeliveryCost', delivery === 0 ? 'Безплатно' : fmtEur(delivery) + ' / ' + fmtBgn(delivery));
-    _set('tyTotal', fmtEur(total) + ' / ' + fmtBgn(total));
+    _set('tySubtotal', fmtEur(subtotal));
+    _set('tyDeliveryCost', delivery === 0 ? 'Безплатно' : fmtEur(delivery));
+    _set('tyTotal', fmtEur(total));
     if (promoApplied) {
       const tyPromoRow = document.getElementById('tyPromoRow'); if (tyPromoRow) tyPromoRow.style.display = '';
-      _set('tyPromoAmt', '-' + fmtEur(promoDisc) + ' / ' + fmtBgn(promoDisc));
+      _set('tyPromoAmt', '-' + fmtEur(promoDisc));
     }
     _setHTML('tyItems', cart.map(x => `
       <div class="ty-item">
@@ -958,7 +958,7 @@ function submitOrder() {
           <div class="ty-item-name">${escHtml(x.name || '')}</div>
           <div class="ty-item-meta">${escHtml(x.brand || '')} · Количество: ${Number(x.qty) || 0}</div>
         </div>
-        <div class="ty-item-price">${fmtEur(x.price * x.qty)}<span class="text-11-muted-block">${fmtBgn(x.price * x.qty)}</span></div>
+        <div class="ty-item-price">${fmtEur(x.price * x.qty)}</div>
       </div>`).join(''));
 
     // Save order to localStorage
@@ -1275,7 +1275,6 @@ function renderCartPage() {
         <div class="cp-item-prices">
           ${x.old ? `<div class="cp-item-old">${fmtEur(x.old)}</div>` : ''}
           <div class="cp-item-price">${fmtEur(x.price * x.qty)}</div>
-          <div class="cp-item-bgn">${fmtBgn(x.price * x.qty)}</div>
         </div>
         <div class="cp-qty-wrap">
           <button type="button" class="cp-qty-btn" onclick="cpChangeQty(${x.id},-1)">−</button>
@@ -1305,12 +1304,12 @@ function renderCartPageSummary() {
   }
 
   el.innerHTML = `
-    <div class="cp-sum-row"><span>Продукти (${cart.reduce((s, x) => s + x.qty, 0)} бр.)</span><span>${fmtEur(subtotal)}<small>${fmtBgn(subtotal)}</small></span></div>
+    <div class="cp-sum-row"><span>Продукти (${cart.reduce((s, x) => s + x.qty, 0)} бр.)</span><span>${fmtEur(subtotal)}</span></div>
     ${savings > 0 ? `<div class="cp-sum-row cp-sum-save"><span>✓ Спестяваш</span><span>−${fmtEur(savings)}</span></div>` : ''}
     <div class="cp-sum-row"><span>Доставка</span><span>${delivery === 0 ? '<b style="color:var(--accent2)">Безплатна</b>' : fmtEur(delivery)}</span></div>
     <div class="cp-sum-row"><span>ДДС (вкл.)</span><span>${fmtEur(total * 0.2)}</span></div>
     <hr class="cp-sum-divider">
-    <div class="cp-sum-row cp-sum-total"><span>Общо</span><span>${fmtEur(total)}<small>${fmtBgn(total)}</small></span></div>
+    <div class="cp-sum-row cp-sum-total"><span>Общо</span><span>${fmtEur(total)}</span></div>
     ${subtotal < FREE_SHIP_BGN ? `<div class="cp-ship-hint">Добави още <b>${fmtEur(FREE_SHIP_BGN - subtotal)}</b> за безплатна доставка</div>` : ''}`;
 }
 
@@ -1330,7 +1329,7 @@ function renderCartPageUpsell() {
         <div class="cp-upsell-emoji">${p.emoji}</div>
         <div class="cp-upsell-info">
           <div class="cp-upsell-name">${p.name.length > 40 ? p.name.substring(0, 40) + '…' : p.name}</div>
-          <div class="cp-upsell-price">${fmtEur(p.price)} / ${fmtBgn(p.price)}</div>
+          <div class="cp-upsell-price">${fmtEur(p.price)}</div>
         </div>
         <button type="button" class="cp-upsell-add" onclick="event.stopPropagation();cpAddUpsell(${p.id})">+ Добави</button>
       </div>`).join('')}`;

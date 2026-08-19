@@ -4,13 +4,15 @@ try { EUR_RATE = parseFloat(localStorage.getItem('eurRate')); } catch(e) {}
 if (!EUR_RATE || isNaN(EUR_RATE)) EUR_RATE = 1.95583;
 function toEur(bgn) { return bgn / EUR_RATE; }
 function fmtEur(bgn) { return toEur(bgn).toLocaleString('de-DE', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' €'; }
+// Deprecated: BGN is no longer displayed anywhere on the site (Bulgaria uses EUR).
+// Kept as a harmless unused utility in case some external/legacy caller still needs raw BGN formatting.
 function fmtBgn(bgn) { return bgn.toLocaleString('bg-BG', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' лв.'; }
-// Primary display: EUR bold, BGN muted below
+// Primary display: EUR only, bold
 function fmtPrice(bgn, saleCls='') {
-  return `<span class="price-eur-main${saleCls ? ' '+saleCls : ''}">${fmtEur(bgn)}</span><span class="price-bgn-sub">${fmtBgn(bgn)} · с вкл. ДДС</span>`;
+  return `<span class="price-eur-main${saleCls ? ' '+saleCls : ''}">${fmtEur(bgn)}</span><span class="price-vat-sub">с вкл. ДДС</span>`;
 }
-// Inline dual: "2.30 € / 4.49 лв."
-function fmtDual(bgn) { return `${fmtEur(bgn)} / ${fmtBgn(bgn)}`; }
+// EUR only (name kept for backwards compatibility with existing call sites)
+function fmtDual(bgn) { return fmtEur(bgn); }
 
 // Единен речник на категориите - canonical + legacy ключове
 const CAT_LABELS = {

@@ -444,15 +444,15 @@ function adminInlineEdit(id, field) {
   const p = products.find(x => x.id === id); if (!p) return;
   const cell = document.getElementById('aie-' + field + '-' + id);
   if (!cell || cell.querySelector('input')) return;
-  const cur = field === 'price' ? p.price : (p.stock === false ? '' : p.stock);
-  cell.innerHTML = '<input type="number" value="' + cur + '" placeholder="' + (field==='price'?'лв.':'–1=изчерпан') + '" style="width:78px;background:#1a1d35;border:1px solid #6366f1;border-radius:4px;padding:3px 6px;color:#fff;font-size:12px;font-family:Outfit,sans-serif;outline:none;" onblur="adminInlineSave(' + id + ',\'' + field + '\',this.value)" onkeydown="if(event.key===\'Enter\')this.blur();if(event.key===\'Escape\')renderAdminProductsTable()" autofocus>';
+  const cur = field === 'price' ? (p.price/EUR_RATE).toFixed(2) : (p.stock === false ? '' : p.stock);
+  cell.innerHTML = '<input type="number" value="' + cur + '" placeholder="' + (field==='price'?'€':'–1=изчерпан') + '" style="width:78px;background:#1a1d35;border:1px solid #6366f1;border-radius:4px;padding:3px 6px;color:#fff;font-size:12px;font-family:Outfit,sans-serif;outline:none;" onblur="adminInlineSave(' + id + ',\'' + field + '\',this.value)" onkeydown="if(event.key===\'Enter\')this.blur();if(event.key===\'Escape\')renderAdminProductsTable()" autofocus>';
 }
 
 function adminInlineSave(id, field, val) {
   const p = products.find(x => x.id === id); if (!p) return;
   if (field === 'price') {
     const v = parseFloat(val);
-    if (!isNaN(v) && v > 0) { p.price = Math.round(v * 100) / 100; showToast('✅ Цена → ' + p.price + ' лв.'); }
+    if (!isNaN(v) && v > 0) { p.price = Math.round(v * EUR_RATE * 100) / 100; showToast('✅ Цена → ' + v.toFixed(2) + ' €'); }
   } else {
     const v = parseInt(val);
     p.stock = (val === '' || isNaN(v) || v < 0) ? false : (v === 0 ? false : v);
@@ -585,7 +585,7 @@ function renderAdminProductsTable() {
       + '<td style="color:#fff;font-weight:600;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + _esc(p.name) + '</td>'
       + '<td style="font-family:\'JetBrains Mono\',monospace;font-size:10px;color:#6b7280;">' + _esc(p.sku||'-') + '</td>'
       + '<td id="aie-price-' + p.id + '" style="color:#34d399;font-weight:700;cursor:pointer;" onclick="adminInlineEdit(' + p.id + ',\'price\')" title="Клик за редактиране на цена">'
-      + (p.price/EUR_RATE).toFixed(2) + ' € <span style="opacity:.4;font-size:9px;">✏</span><div style="font-size:10px;color:#6b7280;">' + p.price + ' лв.</div></td>'
+      + (p.price/EUR_RATE).toFixed(2) + ' € <span style="opacity:.4;font-size:9px;">✏</span></td>'
       + '<td style="color:#9ca3af;">' + (_adminCatNamesMap[normalizeCat(p.cat)]||p.cat) + (p.subcat ? '<div style="margin-top:3px;"><span style="background:rgba(99,102,241,0.15);color:#a5b4fc;padding:1px 7px;border-radius:8px;font-size:10px;font-weight:600;">' + p.subcat + '</span></div>' : '') + '</td>'
       + '<td>' + badgeHtml + '</td>'
       + '<td id="aie-stock-' + p.id + '" style="cursor:pointer;" onclick="adminInlineEdit(' + p.id + ',\'stock\')" title="Клик за редактиране на наличност">' + stockHtml + '</td>'
@@ -1442,7 +1442,7 @@ function adminShowTab(tab) {
             <td><div class="admin-product-thumb">${p.emoji}</div></td>
             <td style="color:#fff;font-weight:600;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${p.name}</td>
             <td class="mono-11-gray">${p.sku||'-'}</td>
-            <td style="color:#34d399;font-weight:700;">${p.price} лв.</td>
+            <td style="color:#34d399;font-weight:700;">${(p.price/EUR_RATE).toFixed(2)} €</td>
             <td>${p.stock===false||p.stock===0?'<span style="background:rgba(248,113,113,0.15);color:#f87171;padding:2px 10px;border-radius:10px;font-size:12px;font-weight:700;">Изчерпан</span>':p.stock!=null&&p.stock<=5?`<span style="background:rgba(251,191,36,0.15);color:#fbbf24;padding:2px 10px;border-radius:10px;font-size:12px;font-weight:700;">${p.stock} бр.</span>`:'<span style="background:rgba(52,211,153,0.15);color:#34d399;padding:2px 10px;border-radius:10px;font-size:12px;font-weight:700;">В наличност</span>'}</td>
             <td style="text-align:right;"><button type="button" onclick="openProductEditor(${p.id})" style="background:rgba(251,191,36,0.1);color:#fbbf24;border:1px solid rgba(251,191,36,0.2);border-radius:6px;padding:5px 9px;font-size:11px;cursor:pointer;font-family:'Outfit',sans-serif;">✏️</button></td>
           </tr>`).join('')}
@@ -1742,8 +1742,8 @@ function openProductEditor(id) {
     document.getElementById('aef-brand').value   = p.brand || '';
     document.getElementById('aef-cat').value     = p.cat || 'components';
     aefUpdateSubcats(p.subcat || '');
-    document.getElementById('aef-price').value   = p.price || '';
-    document.getElementById('aef-old').value     = p.old || '';
+    document.getElementById('aef-price').value   = p.price ? (p.price/EUR_RATE).toFixed(2) : '';
+    document.getElementById('aef-old').value     = p.old ? (p.old/EUR_RATE).toFixed(2) : '';
     document.getElementById('aef-rating').value  = p.rating || '';
     document.getElementById('aef-rv').value      = p.rv || '';
     document.getElementById('aef-emoji').value   = p.emoji || '';
@@ -1867,14 +1867,16 @@ function getSpecsFromUI() {
 
 function saveProductEditor() {
   const name  = document.getElementById('aef-name').value.trim();
-  const price = parseFloat(document.getElementById('aef-price').value);
+  const priceEur = parseFloat(document.getElementById('aef-price').value);
+  const price = priceEur ? Math.round(priceEur * EUR_RATE * 100) / 100 : priceEur;
   const brand = document.getElementById('aef-brand').value.trim();
 
   if (!name)  { showToast('⚠️ Въведи наименование!'); return; }
   if (!price || price <= 0) { showToast('⚠️ Въведи валидна цена!'); return; }
   if (!brand) { showToast('⚠️ Въведи марка!'); return; }
 
-  const oldPrice = parseFloat(document.getElementById('aef-old').value) || null;
+  const oldPriceEur = parseFloat(document.getElementById('aef-old').value) || null;
+  const oldPrice = oldPriceEur ? Math.round(oldPriceEur * EUR_RATE * 100) / 100 : null;
   const pct = oldPrice ? Math.round(((oldPrice - price) / oldPrice) * 100) : 0;
 
   const newImg = document.getElementById('aef-img').value.trim();
@@ -2578,7 +2580,7 @@ function xmlParseAndPreview(xmlStr) {
       <td>${p.emoji || '📦'}</td>
       <td style="color:#fff;font-weight:600;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${p.name || '<span style="color:#f87171">- липсва -</span>'}</td>
       <td>${p.brand || '-'}</td>
-      <td style="color:#34d399;font-weight:700;">${p.price ? p.price+' лв.' : '<span style="color:#f87171">липсва</span>'}</td>
+      <td style="color:#34d399;font-weight:700;">${p.price ? (p.price/EUR_RATE).toFixed(2)+' €' : '<span style="color:#f87171">липсва</span>'}</td>
       <td>${p.cat || '-'}</td>
       <td style="color:#a78bfa;font-size:11px;">${p.subcat || '<span style="color:#4b5563">авто</span>'}</td>
       <td>${p.sku || '-'}</td>

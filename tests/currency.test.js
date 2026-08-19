@@ -50,7 +50,9 @@ describe('fmtEur', () => {
 });
 
 // ── fmtBgn ───────────────────────────────────────────────────────────────────
-describe('fmtBgn', () => {
+// Deprecated utility - no longer used for display anywhere (site is EUR-only),
+// but the raw BGN formatting logic itself must still work correctly.
+describe('fmtBgn (deprecated, unused for display)', () => {
   test('завършва с " лв."', () => {
     expect(fmtBgn(449)).toMatch(/ лв\.$/);
   });
@@ -78,16 +80,16 @@ describe('fmtPrice', () => {
     expect(fmtPrice(449)).toContain('price-eur-main');
   });
 
-  test('съдържа BGN стойността (secondary)', () => {
-    expect(fmtPrice(449)).toContain('price-bgn-sub');
+  test('съдържа VAT-included hint (без BGN)', () => {
+    expect(fmtPrice(449)).toContain('price-vat-sub');
   });
 
   test('съдържа EUR стойността', () => {
     expect(fmtPrice(449)).toContain('€');
   });
 
-  test('съдържа BGN стойността', () => {
-    expect(fmtPrice(449)).toContain('лв.');
+  test('НЕ съдържа BGN стойност', () => {
+    expect(fmtPrice(449)).not.toContain('лв.');
   });
 
   test('без saleCls — class е точно "price-eur-main"', () => {
@@ -106,21 +108,18 @@ describe('fmtPrice', () => {
 });
 
 // ── fmtDual ──────────────────────────────────────────────────────────────────
+// Historically formatted "EUR / BGN"; now EUR-only (name kept for compatibility
+// with existing call sites).
 describe('fmtDual', () => {
-  test('съдържа " / " като разделител', () => {
-    expect(fmtDual(449)).toContain(' / ');
-  });
-
   test('съдържа EUR стойността', () => {
     expect(fmtDual(449)).toContain('€');
   });
 
-  test('съдържа BGN стойността', () => {
-    expect(fmtDual(449)).toContain('лв.');
+  test('НЕ съдържа BGN стойност', () => {
+    expect(fmtDual(449)).not.toContain('лв.');
   });
 
-  test('EUR е преди BGN', () => {
-    const result = fmtDual(449);
-    expect(result.indexOf('€')).toBeLessThan(result.indexOf('лв.'));
+  test('равно на fmtEur', () => {
+    expect(fmtDual(449)).toBe(fmtEur(449));
   });
 });

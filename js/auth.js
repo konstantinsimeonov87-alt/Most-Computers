@@ -626,7 +626,7 @@ function renderMyOrders() {
           <span class="mo-card-delivery">🚚 ${_oDel}</span>
           <div class="mo-card-total">
             <span class="mo-card-total-label">Общо:</span>
-            <span class="mo-card-total-val">${fmtEur(o.total)} <span class="mo-card-total-bgn">/ ${fmtBgn(o.total)}</span></span>
+            <span class="mo-card-total-val">${fmtEur(o.total)}</span>
           </div>
           <button type="button" class="mo-print-btn" onclick="printOrder(${JSON.stringify(o.num||'')})" title="Принтирай поръчката">
             <svg width="14" height="14" class="svg-ic" aria-hidden="true"><use href="#ic-printer"/></svg> Принтирай

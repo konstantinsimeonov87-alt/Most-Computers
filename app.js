@@ -4,13 +4,15 @@ try { EUR_RATE = parseFloat(localStorage.getItem('eurRate')); } catch(e) {}
 if (!EUR_RATE || isNaN(EUR_RATE)) EUR_RATE = 1.95583;
 function toEur(bgn) { return bgn / EUR_RATE; }
 function fmtEur(bgn) { return toEur(bgn).toLocaleString('de-DE', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' €'; }
+// Deprecated: BGN is no longer displayed anywhere on the site (Bulgaria uses EUR).
+// Kept as a harmless unused utility in case some external/legacy caller still needs raw BGN formatting.
 function fmtBgn(bgn) { return bgn.toLocaleString('bg-BG', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' лв.'; }
-// Primary display: EUR bold, BGN muted below
+// Primary display: EUR only, bold
 function fmtPrice(bgn, saleCls='') {
-  return `<span class="price-eur-main${saleCls ? ' '+saleCls : ''}">${fmtEur(bgn)}</span><span class="price-bgn-sub">${fmtBgn(bgn)} · с вкл. ДДС</span>`;
+  return `<span class="price-eur-main${saleCls ? ' '+saleCls : ''}">${fmtEur(bgn)}</span><span class="price-vat-sub">с вкл. ДДС</span>`;
 }
-// Inline dual: "2.30 € / 4.49 лв."
-function fmtDual(bgn) { return `${fmtEur(bgn)} / ${fmtBgn(bgn)}`; }
+// EUR only (name kept for backwards compatibility with existing call sites)
+function fmtDual(bgn) { return fmtEur(bgn); }
 
 // Единен речник на категориите - canonical + legacy ключове
 const CAT_LABELS = {
@@ -1322,22 +1324,22 @@ function renderGrids(){
   const _s1el = document.getElementById('slide1Price');
   if(_s1Prods.length && _s1el) {
     const _s1min = _s1Prods[0], _s1max = _s1Prods[_s1Prods.length-1];
-    _s1el.innerHTML = `от <b>${(_s1min.price/EUR_RATE).toFixed(2)} €</b> / ${fmtBgn(_s1min.price)} <small>вместо ${(_s1min.old/EUR_RATE).toFixed(2)} € / ${fmtBgn(_s1min.old)}</small>`;
+    _s1el.innerHTML = `от <b>${(_s1min.price/EUR_RATE).toFixed(2)} €</b> <small>вместо ${(_s1min.old/EUR_RATE).toFixed(2)} €</small>`;
   }
   // Slide 2 - sync price from products array (id:1600 = MSI Katana 15)
   const _s2 = products.find(p=>p.id===1600);
   const _s2el = document.getElementById('slide2Price');
-  if(_s2 && _s2el) _s2el.innerHTML = `${(_s2.price/EUR_RATE).toFixed(2)} € / ${fmtBgn(_s2.price)} <small>с ДДС</small>`;
+  if(_s2 && _s2el) _s2el.innerHTML = `${(_s2.price/EUR_RATE).toFixed(2)} € <small>с ДДС</small>`;
   // Slide 3 - max savings from flash-sale products
   const _s3el = document.querySelector('.slide-3 .slide-price');
   if(_s3el && _s1Prods.length) {
     const _maxSave = _s1Prods.reduce((mx,p)=>Math.max(mx,p.old-p.price),0);
-    if(_maxSave>0) _s3el.innerHTML = `Спести до <b>${(_maxSave/EUR_RATE).toFixed(2)} €</b> / ${fmtBgn(_maxSave)}`;
+    if(_maxSave>0) _s3el.innerHTML = `Спести до <b>${(_maxSave/EUR_RATE).toFixed(2)} €</b>`;
   }
   // Slide 4 - sync price from products array (id:1884 = Lenovo Legion Pro 7 RTX 5090)
   const _s4 = products.find(p=>p.id===1884);
   const _s4el = document.getElementById('slide4Price');
-  if(_s4 && _s4el) _s4el.innerHTML = `${(_s4.price/EUR_RATE).toFixed(2)} € / ${fmtBgn(_s4.price)} <small>с ДДС</small>`;
+  if(_s4 && _s4el) _s4el.innerHTML = `${(_s4.price/EUR_RATE).toFixed(2)} € <small>с ДДС</small>`;
   // Mobile homepage hero — populate with top flash-sale product by savings
   const _mobHeroEl = document.getElementById('mobHpHero');
   if (_mobHeroEl && _flashAll.length) {
@@ -1361,14 +1363,13 @@ function renderGrids(){
   }
   renderNewGrid(window._newPeriodDays || 14);
   initNewPeriodChips();
-  // Promo strip - update free delivery threshold with current EUR rate
+  // Promo strip - update free delivery threshold
   const _freeDelEur = 100;
-  const _freeDelBgn = (Math.round(_freeDelEur * EUR_RATE * 100) / 100).toFixed(2);
   document.querySelectorAll('.promo-free-del').forEach((el, i) => {
     const prefix = i === 0
       ? `<svg width="14" height="14" class="svg-ic" aria-hidden="true"><use href="#ic-truck"/></svg> `
       : '🚚 ';
-    el.innerHTML = prefix + `Безплатна доставка над ${_freeDelEur} € / ${_freeDelBgn} лв.`;
+    el.innerHTML = prefix + `Безплатна доставка над ${_freeDelEur} €`;
   });
   renderPromoBanner();
   updateWishlistUI();
@@ -1395,7 +1396,7 @@ function renderPromoBanner(){
         <span class="badge">${badge}</span>
         <h3>${escHtml(p.name.length>40?p.name.slice(0,40)+'…':p.name)}</h3>
         <p>${sub}</p>
-        <div class="promo-price">${(p.price/EUR_RATE).toFixed(2)} € / ${p.price} лв.</div>
+        <div class="promo-price">${(p.price/EUR_RATE).toFixed(2)} €</div>
         <button type="button" class="promo-btn" onclick="event.stopPropagation();addToCart(${p.id})">Добави в кошница +</button>
       </div>
       <img src="${p.img||''}" alt="${escHtml(p.name)}" class="promo-img" width="110" height="110" loading="lazy" decoding="async"
@@ -3351,7 +3352,7 @@ function renderSidebarTopProduct(forceNext) {
     <div class="sb-tp-brand">${escHtml(top.brand||'')}</div>
     <div class="sb-tp-name">${escHtml(shortName)}</div>
     <div class="sb-tp-stars">${starsHTML(top.rating)} <span style="color:var(--muted);font-size:11px">${top.rating} (${top.rv||0})</span></div>
-    <div class="sb-tp-price">${fmtEur(top.price)}<span class="price-bgn-sub">${fmtBgn(top.price)}</span></div>
+    <div class="sb-tp-price">${fmtEur(top.price)}</div>
     <button type="button" class="sb-tp-btn" onclick="openProductPage(${top.id})">Виж продукта →</button>
     <button type="button" class="sb-tp-refresh" onclick="renderSidebarTopProduct(true)">Друга категория</button>`;
 }
@@ -6163,7 +6164,7 @@ function renderMyOrders() {
           <span class="mo-card-delivery">🚚 ${_oDel}</span>
           <div class="mo-card-total">
             <span class="mo-card-total-label">Общо:</span>
-            <span class="mo-card-total-val">${fmtEur(o.total)} <span class="mo-card-total-bgn">/ ${fmtBgn(o.total)}</span></span>
+            <span class="mo-card-total-val">${fmtEur(o.total)}</span>
           </div>
           <button type="button" class="mo-print-btn" onclick="printOrder(${JSON.stringify(o.num||'')})" title="Принтирай поръчката">
             <svg width="14" height="14" class="svg-ic" aria-hidden="true"><use href="#ic-printer"/></svg> Принтирай

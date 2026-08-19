@@ -418,7 +418,7 @@ function pdpRenderRvCarousel() {
 // Shared carousel card renderer
 function _pdpCarCard(p) {
   var _e = typeof _esc === 'function' ? _esc : escHtml;
-  var price = (typeof fmtEur === 'function') ? fmtEur(p.price) : (p.price + ' лв.');
+  var price = (typeof fmtEur === 'function') ? fmtEur(p.price) : (typeof EUR_RATE === 'number' ? (p.price/EUR_RATE).toFixed(2) + ' €' : p.price + ' €');
   var thumb = p.img
     ? '<img class="pdp-car-img" src="' + _e(p.img) + '" alt="" loading="lazy" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">'
     : '';
@@ -545,7 +545,7 @@ function pdpBsOpen(p) {
   var priceEl = document.getElementById('pdpBsPrice');
   var thumbEl = document.getElementById('pdpBsThumb');
   if (nameEl) nameEl.textContent = p.name;
-  if (priceEl) priceEl.textContent = (typeof fmtEur === 'function') ? fmtEur(p.price) : p.price + ' лв.';
+  if (priceEl) priceEl.textContent = (typeof fmtEur === 'function') ? fmtEur(p.price) : (typeof EUR_RATE === 'number' ? (p.price/EUR_RATE).toFixed(2) + ' €' : p.price + ' €');
   if (thumbEl) {
     var _e = typeof _esc === 'function' ? _esc : escHtml;
     thumbEl.innerHTML = p.img

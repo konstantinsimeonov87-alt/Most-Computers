@@ -55,9 +55,9 @@
   <link rel="alternate" hreflang="bg" href="https://most-computers.com/">
   <link rel="preload" href="styles.css" as="style">
   <link rel="preload" href="data-slim.js?v=20260626" as="script">
-  <link rel="preload" href="app.js?v=20260818" as="script">
-  <link rel="prefetch" href="data.js?v=20260818">
-  <link rel="prefetch" href="app-lazy.js?v=20260818">
+  <link rel="preload" href="app.js?v=20260819" as="script">
+  <link rel="prefetch" href="data.js?v=20260819">
+  <link rel="prefetch" href="app-lazy.js?v=20260819">
   <link rel="alternate" hreflang="x-default" href="https://most-computers.com/">
   <link rel="canonical" href="https://most-computers.com/">
   <link rel="sitemap" type="application/xml" href="/sitemap.xml">
@@ -158,22 +158,22 @@
     .hero-slider{border-radius:12px;overflow:hidden;position:relative;min-height:320px}
     .slide{display:none;height:320px;border-radius:12px;padding:40px 48px;position:relative;overflow:hidden}
     .slide.active{display:flex;flex-direction:column;justify-content:center}
-    .slide-1{background:linear-gradient(135deg,#bd1105 0%,#9a0e04 100%);color:#fff}
+    .slide-1{background:radial-gradient(circle at 82% 18%,rgba(212,175,55,.14) 0%,transparent 45%),radial-gradient(circle at 10% 90%,rgba(189,17,5,.35) 0%,transparent 55%),linear-gradient(160deg,#0a0a0c 0%,#141416 55%,#1c1210 100%);color:#fff}
     .slide-1.active{align-items:center;text-align:center;padding:22px 32px}
     .slide-title{font-size:32px;font-weight:900;line-height:1.1;margin-bottom:10px;letter-spacing:-1px}
     .slide-badge{display:inline-block;background:rgba(255,255,255,.2);color:#fff;padding:4px 14px;border-radius:20px;font-size:11px;font-weight:700;text-transform:uppercase;margin-bottom:14px;border:1px solid rgba(255,255,255,.3)}
     .slide-sub{font-size:14px;opacity:.85;margin-bottom:24px}
     .slide-emoji{position:absolute;right:40px;bottom:20px;font-size:100px;opacity:.18;line-height:1}
     /* ── s1 slide content (LCP: .s1-hdg heading + cards + CTA) ── */
-    .s1-over{font-size:10px;font-weight:600;letter-spacing:3px;color:#f9a09b;text-transform:uppercase;margin-bottom:8px}
+    .s1-over{font-size:10px;font-weight:600;letter-spacing:3px;color:#d4af37;text-transform:uppercase;margin-bottom:8px}
     .s1-hdg{font-size:24px;font-weight:900;color:#fff;margin:0 0 14px;letter-spacing:-0.5px;line-height:1.2}
     .s1-cards{display:flex;gap:12px;margin-bottom:14px;width:100%}
-    .s1-card{flex:1;background:rgba(0,0,0,.22);border:1px solid rgba(240,90,82,.5);border-radius:10px;padding:14px 10px 12px;color:#fff;cursor:pointer;transition:background .2s,transform .15s;text-align:center;min-width:0}
-    .s1-card:hover{background:rgba(0,0,0,.35);transform:translateY(-2px)}
+    .s1-card{flex:1;background:rgba(255,255,255,.045);border:1px solid rgba(212,175,55,.35);border-radius:10px;padding:14px 10px 12px;color:#fff;cursor:pointer;transition:background .2s,transform .15s;text-align:center;min-width:0}
+    .s1-card:hover{background:rgba(255,255,255,.09);border-color:rgba(212,175,55,.6);transform:translateY(-2px)}
     .s1-icon{width:36px;height:36px;display:block;margin:0 auto 8px;color:#fff;stroke:#fff}
     .s1-card-name{font-size:13px;font-weight:700;margin-bottom:3px}
-    .s1-card-sub{font-size:10px;color:#f9a09b;line-height:1.3}
-    .s1-cta{background:#fff;color:#ad0f03;border:none;padding:9px 28px;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;transition:transform .15s,box-shadow .15s}
+    .s1-card-sub{font-size:10px;color:rgba(212,175,55,.75);line-height:1.3}
+    .s1-cta{background:#fff;color:#bd1105;border:none;padding:9px 28px;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;transition:transform .15s,box-shadow .15s}
     .s1-cta:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.2)}
     /* ── Mobile breakpoints ── */
     @media(max-width:900px){
@@ -275,7 +275,7 @@
           "name": "Предлагате ли безплатна доставка?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Да, безплатна доставка при поръчки над 100 € (195,58 лв.). Доставката се осъществява чрез куриерска служба в рамките на 1-3 работни дни."
+            "text": "Да, безплатна доставка при поръчки над 100 €. Доставката се осъществява чрез куриерска служба в рамките на 1-3 работни дни."
           }
         },
         {
@@ -600,6 +600,12 @@ body.compare-active{padding-bottom:90px}
       stroke-linejoin="round">
       <rect x="5" y="2" width="14" height="20" rx="7" />
       <path d="M12 6v4" />
+    </symbol>
+    <!-- Keyboard -->
+    <symbol id="ic-keyboard" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+      stroke-linejoin="round">
+      <rect x="2" y="5" width="20" height="14" rx="2" />
+      <path d="M6 9h.01M10 9h.01M14 9h.01M18 9h.01M6 13h.01M18 13h.01M9 13h6" />
     </symbol>
     <!-- Smart Watch -->
     <symbol id="ic-watch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -1161,14 +1167,14 @@ body.compare-active{padding-bottom:90px}
             <div class="qo-delivery-opt selected" role="radio" tabindex="0" aria-checked="true" data-action="selectDelivery:this">
               <div class="do-icon">🏃</div>
               <div class="do-label">Еконт</div>
-              <div class="do-price">3,06 € / 5,99 лв.</div>
+              <div class="do-price">3,06 €</div>
             </div>
             <div class="qo-delivery-opt" role="radio" tabindex="0" aria-checked="false" data-action="selectDelivery:this">
               <div class="do-icon"><svg width="28" height="28" class="svg-ic" aria-hidden="true">
                   <use href="#ic-package" />
                 </svg></div>
               <div class="do-label">Еконт</div>
-              <div class="do-price">2,55 € / 4,99 лв.</div>
+              <div class="do-price">2,55 €</div>
             </div>
             <div class="qo-delivery-opt" role="radio" tabindex="0" aria-checked="false" data-action="selectDelivery:this">
               <div class="do-icon">🏪</div>
@@ -1470,7 +1476,7 @@ body.compare-active{padding-bottom:90px}
                 <div class="cp-trust-item"><svg width="28" height="18" viewBox="0 0 38 24" aria-label="Visa"><rect width="38" height="24" rx="4" fill="#1A1F71"/><path d="M14.5 16.5l1.8-9h2.9l-1.8 9h-2.9zm11.3-8.8c-.6-.2-1.5-.5-2.6-.5-2.9 0-4.9 1.5-4.9 3.6 0 1.6 1.4 2.4 2.5 2.9 1.1.5 1.5.9 1.5 1.4 0 .7-.9 1.1-1.7 1.1-1.2 0-1.8-.2-2.8-.6l-.4-.2-.4 2.5c.7.3 1.9.6 3.2.6 3 0 5-1.5 5-3.7 0-1.2-.8-2.2-2.4-3-.9-.5-1.5-.8-1.5-1.3 0-.5.5-.9 1.5-.9.8 0 1.5.2 2 .4l.2.1.4-2.4z" fill="white"/></svg></div>
                 <div class="cp-trust-item"><svg width="28" height="18" viewBox="0 0 38 24" aria-label="Mastercard"><rect width="38" height="24" rx="4" fill="#252525"/><circle cx="15" cy="12" r="7" fill="#EB001B"/><circle cx="23" cy="12" r="7" fill="#F79E1B"/><path d="M19 7.5a7 7 0 0 1 0 9 7 7 0 0 1 0-9z" fill="#FF5F00"/></svg></div>
                 <div class="cp-trust-item"><span>🔒</span> SSL защитено плащане</div>
-                <div class="cp-trust-item"><span>🚚</span> Безплатна доставка над 100 € / 195,58 лв.</div>
+                <div class="cp-trust-item"><span>🚚</span> Безплатна доставка над 100 €</div>
                 <div class="cp-trust-item"><span>↩️</span> 14 дни право на връщане</div>
               </div>
             </div>
@@ -1523,7 +1529,7 @@ body.compare-active{padding-bottom:90px}
     <div class="topbar-inner">
 
       <div class="topbar-left">
-        <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:inline-block;vertical-align:-2px;margin-right:4px"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 5v5h-7V8z"/><circle cx="5.5" cy="18.5" r="1.5"/><circle cx="18.5" cy="18.5" r="1.5"/></svg>Безплатна доставка над 100 € / 195,58 лв.</span>
+        <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:inline-block;vertical-align:-2px;margin-right:4px"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 5v5h-7V8z"/><circle cx="5.5" cy="18.5" r="1.5"/><circle cx="18.5" cy="18.5" r="1.5"/></svg>Безплатна доставка над 100 €</span>
         <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:inline-block;vertical-align:-2px;margin-right:4px"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.5"/></svg>14 дни право на връщане</span>
         <span style="color:rgba(255,255,255,0.55);"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true" style="display:inline-block;vertical-align:-1px;margin-right:4px"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>Работим от 1990 г.</span>
       </div>
@@ -1845,16 +1851,16 @@ body.compare-active{padding-bottom:90px}
               Всички цени <span class="pgb-count" id="pgc-all">17</span>
             </button>
             <button type="button" class="price-group-btn" id="pg-1" data-action="setPriceGroup(0,102,'pg-1')">
-              до 100 € <small class="opacity-70">(~196 лв.)</small> <span class="pgb-count" id="pgc-1"></span>
+              до 100 € <span class="pgb-count" id="pgc-1"></span>
             </button>
             <button type="button" class="price-group-btn" id="pg-2" data-action="setPriceGroup(102,256,'pg-2')">
-              102 € – 256 € <small class="opacity-70">(~500 лв.)</small> <span class="pgb-count" id="pgc-2"></span>
+              102 € – 256 € <span class="pgb-count" id="pgc-2"></span>
             </button>
             <button type="button" class="price-group-btn" id="pg-3" data-action="setPriceGroup(256,511,'pg-3')">
-              256 € – 511 € <small class="opacity-70">(~1000 лв.)</small> <span class="pgb-count" id="pgc-3"></span>
+              256 € – 511 € <span class="pgb-count" id="pgc-3"></span>
             </button>
             <button type="button" class="price-group-btn" id="pg-4" data-action="setPriceGroup(511,2000,'pg-4')">
-              над 511 € <small class="opacity-70">(+1000 лв.)</small> <span class="pgb-count" id="pgc-4"></span>
+              над 511 € <span class="pgb-count" id="pgc-4"></span>
             </button>
           </div>
         </div>
@@ -2009,9 +2015,9 @@ body.compare-active{padding-bottom:90px}
       <div class="mob-hp-hero" id="mobHpHero">
         <div class="mob-hp-accent" aria-hidden="true"></div>
         <div class="mob-hp-accent2" aria-hidden="true"></div>
-        <div class="mob-hp-em" aria-hidden="true">💻</div>
+        <div class="mob-hp-em" aria-hidden="true"><svg width="100" height="100"><use href="#ic-laptop"/></svg></div>
         <div class="mob-hp-content">
-          <div class="mob-hp-badge">🔥 #1 Бестселър тази седмица</div>
+          <div class="mob-hp-badge"><svg width="11" height="11" class="svg-ic" aria-hidden="true" style="vertical-align:-2px;margin-right:3px"><use href="#ic-bolt"/></svg>#1 Бестселър тази седмица</div>
           <div class="mob-hp-title" id="mobHpTitle">Зарежда се...</div>
           <div class="mob-hp-sub" id="mobHpSub"></div>
           <div class="mob-hp-row">
@@ -2059,30 +2065,30 @@ body.compare-active{padding-bottom:90px}
           </div>
           <div class="slide slide-2">
             <div class="slide-text">
-              <div class="slide-badge">🎮 Гейминг</div>
+              <div class="slide-badge"><svg width="12" height="12" class="svg-ic" aria-hidden="true" style="vertical-align:-2px;margin-right:3px"><use href="#ic-gamepad"/></svg>Гейминг</div>
               <h2 class="slide-title">MSI Katana 15 - RTX 4050</h2>
               <div class="slide-sub">Intel Core i7 · 16GB RAM · 1TB SSD · 144Hz Full HD</div>
-              <div class="slide-price" id="slide2Price">1 012,28 € / 1 979 лв. <small>с ДДС</small></div>
+              <div class="slide-price" id="slide2Price">1 012,28 € <small>с ДДС</small></div>
               <button type="button" class="slide-btn" data-action="openProductPage(1600)">Разгледай MSI Katana →</button>
             </div>
             <div class="slide-img-wrap"><img src="https://portal.mostbg.com/api/images/imageFileData/100502.png" alt="MSI Katana 15 gaming laptop" class="slide-product-img" width="290" height="260" loading="eager" fetchpriority="high"></div>
           </div>
           <div class="slide slide-3">
-            <div class="slide-badge">% BIG SALE</div>
+            <div class="slide-badge"><svg width="12" height="12" class="svg-ic" aria-hidden="true" style="vertical-align:-2px;margin-right:3px"><use href="#ic-tag"/></svg>BIG SALE</div>
             <h2 class="slide-title">До -60% на избрани продукти</h2>
             <div class="slide-sub">Действай сега - количествата са ограничени.</div>
-            <div class="slide-price">Спести до <b>409,03 €</b> / 800 лв.</div>
+            <div class="slide-price">Спести до <b>409,03 €</b></div>
             <div class="slide-countdown" id="saleCountdown"></div>
-            <button type="button" class="slide-btn dark" style="color:#ff3d00;"
+            <button type="button" class="slide-btn dark" style="color:#bd1105;"
               data-action="scrollToSale">Виж намаленията →</button>
-            <div class="slide-emoji">🏷</div>
+            <div class="slide-emoji" style="opacity:.14;color:#fff;display:flex;align-items:center;justify-content:center;width:100px;height:100px"><svg width="100" height="100" aria-hidden="true"><use href="#ic-tag"/></svg></div>
           </div>
           <div class="slide slide-4">
             <div class="slide-text">
-              <div class="slide-badge">🏆 Флагман</div>
+              <div class="slide-badge"><svg width="12" height="12" class="svg-ic" aria-hidden="true" style="vertical-align:-2px;margin-right:3px"><use href="#ic-star"/></svg>Флагман</div>
               <h2 class="slide-title">Lenovo Legion Pro 7<br>RTX 5090 · 16″</h2>
               <div class="slide-sub">Core Ultra 9 · 64GB DDR5-6400 · 2TB SSD · 2560×1600</div>
-              <div class="slide-price" id="slide4Price">4 632,56 € / 9 060 лв. <small>с ДДС</small></div>
+              <div class="slide-price" id="slide4Price">4 632,56 € <small>с ДДС</small></div>
               <button type="button" class="slide-btn slide-btn-red" data-action="openProductPage(1884)">Разгледай Legion Pro 7 →</button>
             </div>
             <div class="slide-img-wrap slide-img-wrap-4"><picture><source srcset="images/lenovo-hero.webp" type="image/webp"><img src="images/lenovo-hero.png" alt="Lenovo Legion Pro 7 gaming laptop" class="slide-product-img-4" width="290" height="260" loading="lazy"></picture></div>
@@ -2112,11 +2118,11 @@ body.compare-active{padding-bottom:90px}
       <div class="mob-hp-chips-wrap">
         <div class="mob-hp-chips">
           <button type="button" class="mob-chip active">Всички</button>
-          <button type="button" class="mob-chip" data-action="openCatPage('laptops')">💻 Лаптопи</button>
-          <button type="button" class="mob-chip" data-action="openCatPage('monitors')">🖥️ Монитори</button>
-          <button type="button" class="mob-chip" data-action="openCatPage('peripherals','mouse')">🖱️ Мишки</button>
-          <button type="button" class="mob-chip" data-action="openCatPage('peripherals','keyboard')">⌨️ Клавиатури</button>
-          <button type="button" class="mob-chip" data-action="openCatPage('storage')">💾 Памет</button>
+          <button type="button" class="mob-chip" data-action="openCatPage('laptops')"><svg width="14" height="14" class="svg-ic" aria-hidden="true"><use href="#ic-laptop"/></svg>Лаптопи</button>
+          <button type="button" class="mob-chip" data-action="openCatPage('monitors')"><svg width="14" height="14" class="svg-ic" aria-hidden="true"><use href="#ic-monitor"/></svg>Монитори</button>
+          <button type="button" class="mob-chip" data-action="openCatPage('peripherals','mouse')"><svg width="14" height="14" class="svg-ic" aria-hidden="true"><use href="#ic-mouse"/></svg>Мишки</button>
+          <button type="button" class="mob-chip" data-action="openCatPage('peripherals','keyboard')"><svg width="14" height="14" class="svg-ic" aria-hidden="true"><use href="#ic-keyboard"/></svg>Клавиатури</button>
+          <button type="button" class="mob-chip" data-action="openCatPage('storage')"><svg width="14" height="14" class="svg-ic" aria-hidden="true"><use href="#ic-storage"/></svg>Памет</button>
         </div>
       </div>
 
@@ -2260,7 +2266,7 @@ body.compare-active{padding-bottom:90px}
             <span class="psb-badge">🆕 Ново</span>
             <h3 class="psb-title">Palit RTX 5060 Dual OC 8GB GDDR7</h3>
             <p class="psb-sub">Blackwell архитектура · DP 2.1 · HDMI 2.1 · двувентилаторно охлаждане</p>
-            <div class="psb-price">299,09 € <small>/ 585 лв.</small></div>
+            <div class="psb-price">299,09 €</div>
             <button type="button" class="psb-btn" onclick="event.stopPropagation();openProductModal(32)">Виж продукта →</button>
           </div>
           <img class="psb-img" src="https://portal.mostbg.com/api/images/imageFileData/46543.png"
@@ -2560,7 +2566,7 @@ body.compare-active{padding-bottom:90px}
                       <div class="delivery-opt-sub">Доставка до 1–2 работни дни <span class="ck-deliv-date"
                           id="delivDate0"></span></div>
                     </div>
-                    <div class="delivery-opt-price">3,06 € / 5,99 лв.</div>
+                    <div class="delivery-opt-price">3,06 €</div>
                   </div>
                   <div class="delivery-opt" role="radio" aria-checked="false" tabindex="-1" data-action="selectDeliveryCk(this, 1)">
                     <div class="delivery-opt-radio"></div>
@@ -2570,7 +2576,7 @@ body.compare-active{padding-bottom:90px}
                       <div class="delivery-opt-sub">Доставка до 1–3 работни дни <span class="ck-deliv-date"
                           id="delivDate1"></span></div>
                     </div>
-                    <div class="delivery-opt-price">2,55 € / 4,99 лв.</div>
+                    <div class="delivery-opt-price">2,55 €</div>
                   </div>
                   <div class="delivery-opt" role="radio" aria-checked="false" tabindex="-1" data-action="selectDeliveryCk(this, 2)">
                     <div class="delivery-opt-radio"></div>
@@ -2691,7 +2697,7 @@ body.compare-active{padding-bottom:90px}
                     <div class="payment-opt-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></svg></div>
                     <div class="payment-opt-info">
                       <div class="payment-opt-name">Наложен платеж</div>
-                      <div class="payment-opt-sub">Плащаш при получаване (+0,77 € / 1,50 лв. такса)</div>
+                      <div class="payment-opt-sub">Плащаш при получаване (+0,77 € такса)</div>
                     </div>
                   </div>
                   <div class="payment-opt" data-action="selectPayment(this,'bank')">
@@ -2729,7 +2735,7 @@ body.compare-active{padding-bottom:90px}
                 </div>
                 <div class="promo-ok" id="promoOk"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> Код MOSTCOMP10 приложен - -10%!</div>
                 <div class="os-row"><span>Продукти</span><span id="osSubtotal">-</span></div>
-                <div class="os-row"><span>Доставка</span><span id="osDelivery">3,06 € / 5,99 лв.</span></div>
+                <div class="os-row"><span>Доставка</span><span id="osDelivery">3,06 €</span></div>
                 <div class="os-row save" id="osSaveRow" class="is-hidden"><span>Спестяваш</span><span
                     id="osSave">-</span></div>
                 <div class="os-row" id="osPromoRow" class="is-hidden"><span>Промо код</span><span
@@ -3478,10 +3484,10 @@ body.compare-active{padding-bottom:90px}
 
   <!-- Leaflet loaded on-demand: see _loadLeaflet() in pages.js -->
   <script src="data-slim.js?v=20260626" defer></script>
-  <script src="js/promotions-data.js?v=20260818" defer></script>
-  <script src="app.js?v=20260818" defer></script>
+  <script src="js/promotions-data.js?v=20260819" defer></script>
+  <script src="app.js?v=20260819" defer></script>
   <script src="js/b2b.js?v=20260602" defer></script>
-  <script src="js/careers-data.js?v=20260818" defer></script>
+  <script src="js/careers-data.js?v=20260819" defer></script>
   <script src="js/careers-page.js?v=20260605" defer></script>
   <!-- Supabase loaded lazily on first checkout attempt (~50 KiB saved on initial load) -->
 
@@ -3937,7 +3943,6 @@ body.compare-active{padding-bottom:90px}
         </div>
         <div class="dlv-hero-badge-label">Безплатна доставка</div>
         <div class="dlv-hero-badge-amount">над 100 €</div>
-        <div class="dlv-hero-badge-sub">195,58 лв.</div>
       </div>
       </div><!-- /dlv-hero-inner -->
     </div>
@@ -4254,14 +4259,13 @@ body.compare-active{padding-bottom:90px}
 
           <!-- Price + Old price -->
           <div class="aef-group">
-            <label class="aef-label">Цена (лв.) <span>*</span></label>
-            <input class="aef-input" id="aef-price" type="number" min="0" step="0.01" placeholder="пр. 449">
-            <div class="aef-hint">EUR ще се изчисли автоматично</div>
+            <label class="aef-label">Цена (€) <span>*</span></label>
+            <input class="aef-input" id="aef-price" type="number" min="0" step="0.01" placeholder="пр. 230">
           </div>
           <div class="aef-group">
-            <label class="aef-label">Стара цена (лв.) <span style="color:#4b5563">незадължително</span></label>
+            <label class="aef-label">Стара цена (€) <span style="color:#4b5563">незадължително</span></label>
             <input class="aef-input" id="aef-old" type="number" min="0" step="0.01"
-              placeholder="пр. 549 (при промоция)">
+              placeholder="пр. 280 (при промоция)">
           </div>
 
           <!-- Rating + Reviews count -->
@@ -6230,7 +6234,7 @@ body.compare-active{padding-bottom:90px}
   </div>
 
 <script>
-/* Sticky bar overrides — patch pdpUpdateStickyBar to show EUR only + populate thumb */
+/* Sticky bar overrides — patch pdpUpdateStickyBar to populate thumb */
 (function() {
   function _patchStickyBar() {
     if (typeof pdpUpdateStickyBar !== 'function') return;
@@ -6239,13 +6243,6 @@ body.compare-active{padding-bottom:90px}
     var _orig = pdpUpdateStickyBar;
     window.pdpUpdateStickyBar = function(p) {
       _orig(p);
-      // Show EUR only (trim " / лв." part)
-      var priceEl = document.getElementById('pdpStickyPrice');
-      if (priceEl) {
-        var t = priceEl.textContent || '';
-        var slash = t.indexOf(' / ');
-        if (slash > -1) priceEl.textContent = t.substring(0, slash);
-      }
       // Populate thumbnail with product image
       var thumb = document.getElementById('pdpStickyThumb');
       if (thumb && p && p.img) {

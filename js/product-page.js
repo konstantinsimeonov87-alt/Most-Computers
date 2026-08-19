@@ -81,7 +81,7 @@ function openProductPage(id) {
   if (metaDesc) {
     const descText = p.desc
       ? p.desc.substring(0, 155) + (p.desc.length > 155 ? '…' : '')
-      : `${p.name} - ${p.brand} | Цена: ${(p.price/EUR_RATE).toFixed(2)} € / ${p.price} лв. Купи онлайн от Most Computers.`;
+      : `${p.name} - ${p.brand} | Цена: ${(p.price/EUR_RATE).toFixed(2)} €. Купи онлайн от Most Computers.`;
     metaDesc.setAttribute('content', descText);
   }
 
@@ -238,11 +238,11 @@ function openProductPage(id) {
   const prEl = document.getElementById('pdpPrice');
   prEl.textContent = fmtEur(priceBgn);
   prEl.className   = 'pdp-price-main' + (p.badge==='sale' ? ' sale' : '');
-  document.getElementById('pdpPriceEur').textContent = `${fmtBgn(priceBgn)} · с вкл. ДДС`;
+  document.getElementById('pdpPriceEur').textContent = 'с вкл. ДДС';
 
   const oldRow = document.getElementById('pdpOldRow');
   if (p.old) {
-    document.getElementById('pdpOld').textContent = fmtEur(p.old) + ' / ' + fmtBgn(p.old);
+    document.getElementById('pdpOld').textContent = fmtEur(p.old);
     document.getElementById('pdpSave').textContent = '-' + Math.round((p.old-p.price)/p.old*100) + '%';
     oldRow.style.display = 'flex';
   } else {
@@ -1016,7 +1016,7 @@ function pdpUpdateStickyBar(p) {
   const priceEl = document.getElementById('pdpStickyPrice');
   const thumbEl = document.getElementById('pdpStickyThumb');
   if (nameEl) nameEl.textContent = p.name;
-  if (priceEl) priceEl.textContent = fmtEur(p.price) + ' / ' + fmtBgn(p.price);
+  if (priceEl) priceEl.textContent = fmtEur(p.price);
   if (thumbEl && p.img) thumbEl.innerHTML = '<img src="' + (typeof _esc === 'function' ? _esc(p.img) : p.img) + '" style="width:40px;height:40px;object-fit:contain;">';
 }
 

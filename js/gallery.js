@@ -107,7 +107,7 @@ function openProductModal(id){
   pe.innerHTML=fmtPrice(p.price, p.badge==='sale'?'sale':'');
   pe.className='modal-price'+(p.badge==='sale'?' sale':'');
   const oe=document.getElementById('modalOld'),se=document.getElementById('modalSave');
-  if(p.old){oe.textContent=fmtEur(p.old)+' / '+fmtBgn(p.old);se.textContent='-'+Math.round((p.old-p.price)/p.old*100)+'%';se.style.display='';}else{oe.textContent='';se.style.display='none';}
+  if(p.old){oe.textContent=fmtEur(p.old);se.textContent='-'+Math.round((p.old-p.price)/p.old*100)+'%';se.style.display='';}else{oe.textContent='';se.style.display='none';}
   document.getElementById('modalMonthly').innerHTML='';
   document.getElementById('modalQty').textContent='1';
   document.getElementById('modalSpecs').innerHTML=Object.keys(p.specs||{}).slice(0,4).map(k=>`<div class="spec-chip"><div class="spec-chip-key">${_esc(k)}</div><div class="spec-chip-val">${_esc(p.specs[k])}</div></div>`).join('');
@@ -123,7 +123,7 @@ function openProductModal(id){
   document.getElementById('productModalBackdrop').classList.add('open');document.body.style.overflow='hidden';
   // Update mobile/desktop sticky CTA price
   var _mscP=document.getElementById('mscPrice');
-  if(_mscP) _mscP.innerHTML=fmtEur(p.price)+'<span style="font-size:11px;font-weight:500;color:var(--muted);display:block">'+fmtBgn(p.price)+'</span>';
+  if(_mscP) _mscP.innerHTML=fmtEur(p.price);
   // IntersectionObserver: show sticky CTA when #modalAddBtn scrolls out of view
   var _stickyObs=null;
   (function(){
@@ -216,7 +216,7 @@ function openComparePage(){
   const minP=Math.min(...prods.map(p=>p.price)),maxR=Math.max(...prods.map(p=>p.rating));
   let html=`<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;font-size:13px;">`;
   html+=`<thead><tr><th scope="col" style="text-align:left;padding:12px;background:var(--bg2);border-radius:8px 0 0 0;">Продукт</th>`;
-  prods.forEach(p=>html+=`<th scope="col" style="padding:16px;text-align:center;background:var(--bg2);border-left:1px solid var(--border);">${_cmpThumb(p,64)}<div style="font-weight:800;font-size:14px;margin-bottom:4px;">${p.name}</div><div style="font-size:18px;font-weight:900;color:var(--primary);">${fmtEur(p.price)}</div><div style="font-size:11px;color:var(--muted);">${fmtBgn(p.price)}</div><button type="button" onclick="addToCart(${p.id})" style="margin-top:10px;background:var(--primary);color:#fff;border:none;border-radius:8px;padding:8px 16px;font-size:12px;font-weight:700;cursor:pointer;">🛒 Добави</button></th>`);
+  prods.forEach(p=>html+=`<th scope="col" style="padding:16px;text-align:center;background:var(--bg2);border-left:1px solid var(--border);">${_cmpThumb(p,64)}<div style="font-weight:800;font-size:14px;margin-bottom:4px;">${p.name}</div><div style="font-size:18px;font-weight:900;color:var(--primary);">${fmtEur(p.price)}</div><button type="button" onclick="addToCart(${p.id})" style="margin-top:10px;background:var(--primary);color:#fff;border:none;border-radius:8px;padding:8px 16px;font-size:12px;font-weight:700;cursor:pointer;">🛒 Добави</button></th>`);
   html+=`</tr></thead><tbody>`;
   html+=`<tr><th scope="row" style="text-align:left;padding:10px 12px;background:var(--bg);border-top:1px solid var(--border);">Цена</th>`;
   prods.forEach(p=>html+=`<td style="padding:10px 12px;text-align:center;border-top:1px solid var(--border);border-left:1px solid var(--border);${p.price===minP?'background:var(--primary-light);font-weight:800;color:var(--primary);':''}">${fmtEur(p.price)}</td>`);
@@ -252,12 +252,12 @@ function openCompareModal(){
   }
 
   let html=`<thead><tr><th scope="col">Продукт</th>`;
-  prods.forEach(p=>html+=`<th scope="col" class="cmp-product-header"><span class="cmp-emoji">${_cmpThumb(p,60)}</span><div class="cmp-name">${_esc(p.name)}</div><div class="cmp-price">${fmtEur(p.price)}<span class="text-11-muted-block">${fmtBgn(p.price)}</span></div><button type="button" class="cmp-add-btn" onclick="addToCart(${p.id})">🛒 Добави</button></th>`);
+  prods.forEach(p=>html+=`<th scope="col" class="cmp-product-header"><span class="cmp-emoji">${_cmpThumb(p,60)}</span><div class="cmp-name">${_esc(p.name)}</div><div class="cmp-price">${fmtEur(p.price)}</div><button type="button" class="cmp-add-btn" onclick="addToCart(${p.id})">🛒 Добави</button></th>`);
   html+=`</tr></thead><tbody>`;
   // Price row - lowest is best
   const priceDiff=_isDiff(prods.map(p=>p.price));
   html+=`<tr class="${priceDiff?'cmp-diff-row':''}"><th scope="row">Цена${priceDiff?'<span class="cmp-diff-badge">!</span>':''}</th>`;
-  prods.forEach(p=>html+=`<td class="${p.price===minP?'cmp-best':''}">${fmtEur(p.price)}<span class="text-11-muted-block">${fmtBgn(p.price)}</span></td>`);
+  prods.forEach(p=>html+=`<td class="${p.price===minP?'cmp-best':''}">${fmtEur(p.price)}</td>`);
   // Rating row
   const ratingDiff=_isDiff(prods.map(p=>p.rating));
   html+=`</tr><tr class="${ratingDiff?'cmp-diff-row':''}"><th scope="row">Рейтинг${ratingDiff?'<span class="cmp-diff-badge">!</span>':''}</th>`;
@@ -309,7 +309,7 @@ function openQuickOrder(id){
   quickOrderProductId=id;
   document.getElementById('qoEmoji').textContent=p.emoji;
   document.getElementById('qoName').textContent=p.name;
-  document.getElementById('qoPrice').textContent=fmtEur(p.price)+' / '+fmtBgn(p.price);
+  document.getElementById('qoPrice').textContent=fmtEur(p.price);
   document.getElementById('qoFormWrap').style.display='';
   document.getElementById('qoSuccess').classList.remove('show');
   ['qoName2','qoPhone','qoCity','qoAddr','qoNote'].forEach(fid=>{const el=document.getElementById(fid);if(el){el.value='';el.classList.remove('error');}});

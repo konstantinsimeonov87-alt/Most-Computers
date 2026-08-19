@@ -13,6 +13,8 @@ export function formatEur(eur: number): string {
   return `${eur.toFixed(2)} €`;
 }
 
+// Deprecated: BGN is no longer displayed anywhere (Bulgaria uses EUR). Not called
+// anywhere in this app — kept as a harmless unused utility.
 export function formatBgn(bgn: number): string {
   return `${bgn.toFixed(2)} лв.`;
 }

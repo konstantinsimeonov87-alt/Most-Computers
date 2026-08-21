@@ -702,6 +702,7 @@ function pdpAddToCart() {
   if (!pdpProductId) return;
   const p = products.find(x => x.id === pdpProductId);
   if (!p) return;
+  if (p.stock === false) { showToast('⚠️ ' + p.name.substring(0, 32) + '… е изчерпан.'); return; }
   const ex = cart.find(x => x.id === pdpProductId);
   if (ex) { ex.qty += pdpQtyVal; } else { cart.push({...p, qty: pdpQtyVal}); }
   updateCart();

@@ -161,6 +161,7 @@ function switchTab(tab){
 function changeModalQty(d){modalQtyVal=Math.max(1,modalQtyVal+d);document.getElementById('modalQty').textContent=modalQtyVal;}
 function addFromModal(){
   if(!modalProductId)return;const p=products.find(x=>x.id===modalProductId);if(!p)return;
+  if(p.stock===false){showToast('⚠️ '+p.name.substring(0,32)+'… е изчерпан.');return;}
   const ex=cart.find(x=>x.id===modalProductId);if(ex){ex.qty+=modalQtyVal;}else{cart.push({...p,qty:modalQtyVal});}
   updateCart();saveCart();const btn=document.getElementById('modalAddBtn');
   btn.innerHTML='✓ Добавен!';btn.style.background='var(--new)';
@@ -306,6 +307,7 @@ function closeCompareModalDirect(){document.getElementById('compareModalBackdrop
 // QUICK ORDER
 function openQuickOrder(id){
   const p=products.find(x=>x.id===id);if(!p)return;
+  if(p.stock===false){showToast('⚠️ '+p.name.substring(0,32)+'… е изчерпан.');return;}
   quickOrderProductId=id;
   document.getElementById('qoEmoji').textContent=p.emoji;
   document.getElementById('qoName').textContent=p.name;
@@ -461,6 +463,7 @@ function loadCart() {
 
 function addToCart(id) {
   const p = products.find(x => x.id === id); if (!p) return;
+  if (p.stock === false) { showToast('⚠️ ' + p.name.substring(0, 32) + '… е изчерпан.'); return; }
   const ex = cart.find(x => x.id === id); if (ex) { ex.qty++; } else { cart.push({ ...p, qty: 1 }); }
   updateCart(); saveCart();
   if (navigator.vibrate) navigator.vibrate(50);
@@ -1290,6 +1293,15 @@ function updateCheckoutSteps(active) {
 }
 
 function submitOrder() {
+  // Re-check stock right before finalizing - an item can go out of stock
+  // after being added to the cart (stale tab, or a stock-sync update since).
+  const oosItems = cart.filter(x => { const p = products.find(pp => pp.id === x.id); return p && p.stock === false; });
+  if (oosItems.length) {
+    cart = cart.filter(x => !oosItems.some(o => o.id === x.id));
+    updateCart(); saveCart();
+    showToast('⚠️ Изчерпан/и продукт/и премахнат/и от количката: ' + oosItems.map(o => o.name).join(', '));
+    return;
+  }
   // Validate required fields - skip city/address for pickup (ckDeliveryIdx === 2)
   const isPickup = ckDeliveryIdx === 2;
   const required = [
@@ -3170,6 +3182,7 @@ function pdpAddToCart() {
   if (!pdpProductId) return;
   const p = products.find(x => x.id === pdpProductId);
   if (!p) return;
+  if (p.stock === false) { showToast('⚠️ ' + p.name.substring(0, 32) + '… е изчерпан.'); return; }
   const ex = cart.find(x => x.id === pdpProductId);
   if (ex) { ex.qty += pdpQtyVal; } else { cart.push({...p, qty: pdpQtyVal}); }
   updateCart();

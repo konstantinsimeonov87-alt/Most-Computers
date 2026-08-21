@@ -8836,7 +8836,7 @@
  }.pdp-stock.in{
    color: #16a34a;
  }.pdp-stock.out{
-   color: var(--muted);
+   color: #dc2626;
  }.pdp-stock-dot{
    width: 8px;
    height: 8px;
@@ -11724,7 +11724,7 @@
   white-space: nowrap;
   border-width: 0;
 }/* ===== STOCK BADGES ===== */.badge-oos{
-  background: #6b7280;
+  background: #dc2626;
   color: #fff;
 }.badge-low{
   background: #f59e0b;

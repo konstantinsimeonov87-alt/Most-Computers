@@ -218,7 +218,7 @@ var products = [
    img:'./images/products/26824.webp',stock:true},
 
   {id:44,name:'ASRock B550M-ITX/AC / AM4',brand:'ASRock',cat:'components',subcat:'motherboard',
-   price:244.32,old:258.52,pct:5,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:244.35,old:258.52,pct:5,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.6,rv:0,
    img:'./images/products/27511.webp',stock:true},
 
@@ -284,7 +284,7 @@ var products = [
    img:'./images/products/50528.webp',stock:true},
 
   {id:57,name:'ASROCK B650 PRO RS /AM5',brand:'ASRock',cat:'components',subcat:'motherboard',
-   price:301.64,old:330.15,pct:9,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:301.66,old:330.15,pct:9,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/32593.webp',stock:true},
 
@@ -309,7 +309,7 @@ var products = [
    img:'./images/products/40460.webp',stock:true},
 
   {id:62,name:'ASROCK B650M PRO RS /AM5',brand:'ASRock',cat:'components',subcat:'motherboard',
-   price:246.13,old:267.86,pct:8,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:246.15,old:267.86,pct:8,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/36566.webp',stock:false},
 
@@ -319,7 +319,7 @@ var products = [
    img:'./images/products/32598.webp',stock:true},
 
   {id:64,name:'ASROCK B650 STEEL LEGEND WIFI',brand:'ASRock',cat:'components',subcat:'motherboard',
-   price:355.92,old:385.38,pct:8,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:355.95,old:385.38,pct:8,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/41466.webp',stock:false},
 
@@ -329,7 +329,7 @@ var products = [
    img:'./images/products/42131.webp',stock:false},
 
   {id:66,name:'ASROCK B850M STEEL LEGEND WIFI',brand:'ASRock',cat:'components',subcat:'motherboard',
-   price:325.76,old:343.53,pct:5,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:325.79,old:343.53,pct:5,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/44587.webp',stock:true},
 
@@ -339,7 +339,7 @@ var products = [
    img:'./images/products/44591.webp',stock:false},
 
   {id:68,name:'ASROCK B850M PRO-A WIFI /AM5',brand:'ASRock',cat:'components',subcat:'motherboard',
-   price:242.3,old:266.83,pct:9,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:242.33,old:266.83,pct:9,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/46024.webp',stock:true},
 
@@ -359,17 +359,17 @@ var products = [
    img:'./images/products/47011.webp',stock:true},
 
   {id:72,name:'ASROCK B850M-X WIFI R2.0 /AM5',brand:'ASRock',cat:'components',subcat:'motherboard',
-   price:231.25,old:263.71,pct:12,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:231.27,old:263.71,pct:12,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
-   img:'./images/products/46028.webp',stock:true},
+   img:'./images/products/46028.webp',stock:false},
 
   {id:73,name:'ASROCK B850M PRO RS WIFI',brand:'ASRock',cat:'components',subcat:'motherboard',
-   price:261.41,old:286.54,pct:9,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:261.43,old:286.54,pct:9,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/45008.webp',stock:true},
 
   {id:74,name:'ASROCK B850M RIPTIDE WIFI',brand:'ASRock',cat:'components',subcat:'motherboard',
-   price:324.35,old:354.02,pct:8,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:324.38,old:354.02,pct:8,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/46032.webp',stock:true},
 
@@ -379,7 +379,7 @@ var products = [
    img:'./images/products/48791.webp',stock:false},
 
   {id:76,name:'ASROCK B850 PRO RS /AM5',brand:'ASRock',cat:'components',subcat:'motherboard',
-   price:304.83,old:327.6,pct:7,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:304.85,old:327.6,pct:7,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/44595.webp',stock:false},
 
@@ -389,7 +389,7 @@ var products = [
    img:'./images/products/47015.webp',stock:false},
 
   {id:78,name:'ASROCK B850 PRO RS WIFI /AM5',brand:'ASRock',cat:'components',subcat:'motherboard',
-   price:330.79,old:362.4,pct:9,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:330.81,old:362.4,pct:9,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/44599.webp',stock:true},
 
@@ -399,7 +399,7 @@ var products = [
    img:'./images/products/45545.webp',stock:false},
 
   {id:80,name:'ASROCK B850 STEEL LEGEND WIFI',brand:'ASRock',cat:'components',subcat:'motherboard',
-   price:396.15,old:433.96,pct:9,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:396.17,old:433.96,pct:9,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/45410.webp',stock:true},
 
@@ -414,7 +414,7 @@ var products = [
    img:'./images/products/43014.webp',stock:false},
 
   {id:83,name:'ASROCK X870 PRO-A WIFI /AM5',brand:'ASRock',cat:'components',subcat:'motherboard',
-   price:403.43,old:423.37,pct:5,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:403.45,old:423.37,pct:5,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/48300.webp',stock:false},
 
@@ -429,22 +429,22 @@ var products = [
    img:'./images/products/43019.webp',stock:true},
 
   {id:86,name:'ASROCK X870 RIPTIDE WIFI / AM5',brand:'ASRock',cat:'components',subcat:'motherboard',
-   price:467.66,old:584.5,pct:20,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:467.69,old:584.5,pct:20,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/50536.webp',stock:true},
 
   {id:87,name:'ASROCK X870E TAICHI /AM5',brand:'ASRock',cat:'components',subcat:'motherboard',
-   price:822.46,old:967.6,pct:15,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:822.5,old:967.6,pct:15,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/46036.webp',stock:true},
 
   {id:88,name:'ASROCK X870E NOVA WIFI /AM5',brand:'ASRock',cat:'components',subcat:'motherboard',
-   price:657.56,old:708.07,pct:7,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:657.6,old:708.07,pct:7,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/48304.webp',stock:true},
 
   {id:89,name:'ASROCK X870 NOVA WIFI /AM5',brand:'ASRock',cat:'components',subcat:'motherboard',
-   price:590.08,old:618.55,pct:5,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:590.11,old:618.55,pct:5,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/100632.webp',stock:true},
 
@@ -464,7 +464,7 @@ var products = [
    img:'./images/products/43024.webp',stock:true},
 
   {id:93,name:'ASROCK H610M-HDV/M.2+ D5',brand:'ASRock',cat:'components',subcat:'motherboard',
-   price:130.7,old:138.71,pct:6,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:130.73,old:138.71,pct:6,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/37849.webp',stock:true},
 
@@ -489,7 +489,7 @@ var products = [
    img:'./images/products/33523.webp',stock:true},
 
   {id:98,name:'ASROCK B760M-HDV/M.2',brand:'ASRock',cat:'components',subcat:'motherboard',
-   price:172.93,old:185.69,pct:7,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:172.95,old:185.69,pct:7,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/38269.webp',stock:true},
 
@@ -524,12 +524,12 @@ var products = [
    img:'./images/products/33518.webp',stock:false},
 
   {id:105,name:'ASROCK Z790 PG LIGHTNING/D5',brand:'ASRock',cat:'components',subcat:'motherboard',
-   price:298.61,old:321.84,pct:7,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:298.63,old:321.84,pct:7,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/33047.webp',stock:false},
 
   {id:106,name:'ASROCK Z790 PRO RS',brand:'ASRock',cat:'components',subcat:'motherboard',
-   price:357.94,old:380.4,pct:6,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:357.96,old:380.4,pct:6,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/37854.webp',stock:false},
 
@@ -554,7 +554,7 @@ var products = [
    img:'./images/products/49879.webp',stock:false},
 
   {id:111,name:'ASROCK B860M PRO RS',brand:'ASRock',cat:'components',subcat:'motherboard',
-   price:264.44,old:282,pct:6,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:264.46,old:282,pct:6,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/45012.webp',stock:true},
 
@@ -564,7 +564,7 @@ var products = [
    img:'./images/products/48799.webp',stock:false},
 
   {id:113,name:'ASROCK B860M PRO-A',brand:'ASRock',cat:'components',subcat:'motherboard',
-   price:240.5,old:268.8,pct:11,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:240.52,old:268.8,pct:11,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/49883.webp',stock:false},
 
@@ -574,7 +574,7 @@ var products = [
    img:'./images/products/48309.webp',stock:true},
 
   {id:115,name:'ASROCK B860M STEEL LEGEND WIFI',brand:'ASRock',cat:'components',subcat:'motherboard',
-   price:338.84,old:373.76,pct:9,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:338.86,old:373.76,pct:9,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/44607.webp',stock:true},
 
@@ -594,12 +594,12 @@ var products = [
    img:'./images/products/44611.webp',stock:false},
 
   {id:119,name:'ASROCK B860 LIVEMIXER WIFI',brand:'ASRock',cat:'components',subcat:'motherboard',
-   price:361.95,old:402.81,pct:10,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:361.98,old:402.81,pct:10,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/50540.webp',stock:false},
 
   {id:120,name:'ASROCK B860 STEEL LEGEND WIFI',brand:'ASRock',cat:'components',subcat:'motherboard',
-   price:374.02,old:423.59,pct:12,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:374.04,old:423.59,pct:12,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/44615.webp',stock:true},
 
@@ -609,22 +609,22 @@ var products = [
    img:'./images/products/44619.webp',stock:true},
 
   {id:122,name:'ASROCK B860 PRO-A WIFI/LGA1851',brand:'ASRock',cat:'components',subcat:'motherboard',
-   price:274.48,old:307.2,pct:11,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:274.5,old:307.2,pct:11,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/48317.webp',stock:true},
 
   {id:123,name:'ASROCK B860M LIGHTNING WIFI',brand:'ASRock',cat:'components',subcat:'motherboard',
-   price:353.93,old:371.67,pct:5,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:353.95,old:371.67,pct:5,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/45016.webp',stock:true},
 
   {id:124,name:'ASROCK B860 LIGHTNING WIFI',brand:'ASRock',cat:'components',subcat:'motherboard',
-   price:418.26,old:442.27,pct:5,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:418.28,old:442.27,pct:5,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/45020.webp',stock:true},
 
   {id:125,name:'ASROCK Z890 PRO-A',brand:'ASRock',cat:'components',subcat:'motherboard',
-   price:348.88,old:372.73,pct:6,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:348.9,old:372.73,pct:6,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/43028.webp',stock:true},
 
@@ -639,7 +639,7 @@ var products = [
    img:'./images/products/43032.webp',stock:true},
 
   {id:128,name:'ASROCK Z890 PRO RS WIFI WHITE',brand:'ASRock',cat:'components',subcat:'motherboard',
-   price:456.47,old:487.96,pct:6,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:456.49,old:487.96,pct:6,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/43703.webp',stock:true},
 
@@ -649,17 +649,17 @@ var products = [
    img:'./images/products/48321.webp',stock:true},
 
   {id:130,name:'ASROCK Z890M RIPTIDE WIFI',brand:'ASRock',cat:'components',subcat:'motherboard',
-   price:470.55,old:517.02,pct:9,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:470.57,old:517.02,pct:9,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/50544.webp',stock:true},
 
   {id:131,name:'ASROCK Z890 NOVA WIFI',brand:'ASRock',cat:'components',subcat:'motherboard',
-   price:637.47,old:745.43,pct:14,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:637.49,old:745.43,pct:14,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/49887.webp',stock:true},
 
   {id:132,name:'ASROCK Z890 TAICHI',brand:'ASRock',cat:'components',subcat:'motherboard',
-   price:799.53,old:901.2,pct:11,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:799.57,old:901.2,pct:11,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/48325.webp',stock:true},
 
@@ -709,7 +709,7 @@ var products = [
    img:'./images/products/45062.webp',stock:true},
 
   {id:142,name:'GB B550 EAGLE / AM4',brand:'Gigabyte',cat:'components',subcat:'motherboard',
-   price:195.86,old:206.82,pct:5,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:195.88,old:206.82,pct:5,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/49280.webp',stock:false},
 
@@ -719,7 +719,7 @@ var products = [
    img:'./images/products/39843.webp',stock:false},
 
   {id:144,name:'GB A620I AX / AM5',brand:'Gigabyte',cat:'components',subcat:'motherboard',
-   price:257.4,old:277.2,pct:7,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:257.42,old:277.2,pct:7,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/52538.webp',stock:true},
 
@@ -739,9 +739,9 @@ var products = [
    img:'./images/products/47967.webp',stock:false},
 
   {id:148,name:'GB B650 EAGLE /AM5',brand:'Gigabyte',cat:'components',subcat:'motherboard',
-   price:245.4,old:260.14,pct:6,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:245.43,old:260.14,pct:6,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
-   img:'./images/products/42720.webp',stock:true},
+   img:'./images/products/42720.webp',stock:false},
 
   {id:149,name:'GB B650 AORU ELITE AX V2 / AM5',brand:'Gigabyte',cat:'components',subcat:'motherboard',
    price:373.2,added:'2026-04-20',emoji:'⚙️',
@@ -769,12 +769,12 @@ var products = [
    img:'./images/products/38600.webp',stock:false},
 
   {id:154,name:'GB B650M D3HP /AM5',brand:'Gigabyte',cat:'components',subcat:'motherboard',
-   price:212.14,old:225.29,pct:6,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:212.17,old:225.29,pct:6,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/39857.webp',stock:true},
 
   {id:155,name:'GB B650M S2H /AM5',brand:'Gigabyte',cat:'components',subcat:'motherboard',
-   price:198.06,old:208.67,pct:5,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:198.09,old:208.67,pct:5,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/37664.webp',stock:true},
 
@@ -804,7 +804,7 @@ var products = [
    img:'./images/products/47978.webp',stock:false},
 
   {id:161,name:'GB B840 EAGLE WF6E',brand:'Gigabyte',cat:'components',subcat:'motherboard',
-   price:293.59,old:312.57,pct:6,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:293.61,old:312.57,pct:6,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/50815.webp',stock:true},
 
@@ -814,12 +814,12 @@ var products = [
    img:'./images/products/47983.webp',stock:true},
 
   {id:163,name:'GB B840M DS3H WF6 / AM5',brand:'Gigabyte',cat:'components',subcat:'motherboard',
-   price:270.47,old:299.01,pct:10,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:270.49,old:299.01,pct:10,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/50871.webp',stock:true},
 
   {id:164,name:'GB B850M D3HP /AM5',brand:'Gigabyte',cat:'components',subcat:'motherboard',
-   price:270.47,old:286.33,pct:6,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:270.49,old:286.33,pct:6,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/44533.webp',stock:true},
 
@@ -884,7 +884,7 @@ var products = [
    img:'./images/products/43473.webp',stock:true},
 
   {id:177,name:'GB X870 GAMING X WIFI7',brand:'Gigabyte',cat:'components',subcat:'motherboard',
-   price:520.82,old:549.6,pct:5,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:520.85,old:549.6,pct:5,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/45075.webp',stock:true},
 
@@ -914,7 +914,7 @@ var products = [
    img:'./images/products/42799.webp',stock:false},
 
   {id:183,name:'GB X870E AORUS PRO X3D ICE',brand:'Gigabyte',cat:'components',subcat:'motherboard',
-   price:778.22,old:816.03,pct:5,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:778.26,old:816.03,pct:5,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/50928.webp',stock:true},
 
@@ -929,7 +929,7 @@ var products = [
    img:'./images/products/52019.webp',stock:false},
 
   {id:186,name:'GB X870E AORUS MASTER /AM5',brand:'Gigabyte',cat:'components',subcat:'motherboard',
-   price:987.36,old:1038.22,pct:5,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:987.4,old:1038.22,pct:5,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/42804.webp',stock:true},
 
@@ -1004,7 +1004,7 @@ var products = [
    img:'./images/products/47995.webp',stock:false},
 
   {id:201,name:'GB B760M AORUS ELITE WF6E GEN5',brand:'Gigabyte',cat:'components',subcat:'motherboard',
-   price:327.78,old:354,pct:7,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:327.8,old:354,pct:7,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/49288.webp',stock:true},
 
@@ -1019,7 +1019,7 @@ var products = [
    img:'./images/products/34026.webp',stock:false},
 
   {id:204,name:'GB B760 GAMING X GEN5',brand:'Gigabyte',cat:'components',subcat:'motherboard',
-   price:274.48,old:290.7,pct:6,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:274.5,old:290.7,pct:6,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/52025.webp',stock:true},
 
@@ -1124,7 +1124,7 @@ var products = [
    img:'./images/products/45058.webp',stock:true},
 
   {id:225,name:'GB B860 DS3H /LGA1851',brand:'Gigabyte',cat:'components',subcat:'motherboard',
-   price:300.23,old:321.63,pct:7,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:300.25,old:321.63,pct:7,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/44566.webp',stock:true},
 
@@ -1154,12 +1154,12 @@ var products = [
    img:'./images/products/44582.webp',stock:false},
 
   {id:231,name:'GB B860M D3HP',brand:'Gigabyte',cat:'components',subcat:'motherboard',
-   price:268.45,old:282.65,pct:5,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:268.47,old:282.65,pct:5,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/50891.webp',stock:true},
 
   {id:232,name:'GB B860M DS3H',brand:'Gigabyte',cat:'components',subcat:'motherboard',
-   price:288.56,old:304.31,pct:5,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:288.59,old:304.31,pct:5,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/50895.webp',stock:true},
 
@@ -1169,12 +1169,12 @@ var products = [
    img:'./images/products/45088.webp',stock:true},
 
   {id:234,name:'GB Z890M GAMING X /LGA1851',brand:'Gigabyte',cat:'components',subcat:'motherboard',
-   price:390.12,old:419.43,pct:7,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:390.14,old:419.43,pct:7,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/42823.webp',stock:true},
 
   {id:235,name:'GB Z890M AORUS ELITE WF7 ICE',brand:'Gigabyte',cat:'components',subcat:'motherboard',
-   price:474.56,old:511.67,pct:7,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:474.61,old:511.67,pct:7,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/52029.webp',stock:true},
 
@@ -1194,12 +1194,12 @@ var products = [
    img:'./images/products/49153.webp',stock:false},
 
   {id:239,name:'GB Z890 AORUS PRO ICE',brand:'Gigabyte',cat:'components',subcat:'motherboard',
-   price:643.5,old:684.97,pct:6,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:643.52,old:684.97,pct:6,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/45097.webp',stock:false},
 
   {id:240,name:'GB Z890 AORUS MASTER /LGA1851',brand:'Gigabyte',cat:'components',subcat:'motherboard',
-   price:904.91,old:1126.49,pct:20,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:904.95,old:1126.49,pct:20,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/42831.webp',stock:true},
 
@@ -1309,7 +1309,7 @@ var products = [
    img:'./images/products/32084.webp',stock:false},
 
   {id:262,name:'MSI B840 GAMING PLUS WIFI /AM5',brand:'MSI',cat:'components',subcat:'motherboard',
-   price:286.54,old:343.65,pct:17,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:286.57,old:343.65,pct:17,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/43846.webp',stock:true},
 
@@ -1324,7 +1324,7 @@ var products = [
    img:'./images/products/43850.webp',stock:true},
 
   {id:265,name:'MSI B850 GAMING PLUS WIFI /AM5',brand:'MSI',cat:'components',subcat:'motherboard',
-   price:426.31,old:448.51,pct:5,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:426.33,old:448.51,pct:5,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/44086.webp',stock:true},
 
@@ -1334,12 +1334,12 @@ var products = [
    img:'./images/products/51065.webp',stock:true},
 
   {id:267,name:'MSI B850M GAMING PLUS WIFI/AM5',brand:'MSI',cat:'components',subcat:'motherboard',
-   price:351.91,old:402.32,pct:13,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:351.93,old:402.32,pct:13,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/49344.webp',stock:true},
 
   {id:268,name:'MSI B850M GAMING PLUS WIFI6E',brand:'MSI',cat:'components',subcat:'motherboard',
-   price:306.66,old:327.01,pct:6,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:306.68,old:327.01,pct:6,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/51069.webp',stock:true},
 
@@ -1364,12 +1364,12 @@ var products = [
    img:'./images/products/48351.webp',stock:false},
 
   {id:273,name:'MSI MAG X870E TOMAHAWK WIFI',brand:'MSI',cat:'components',subcat:'motherboard',
-   price:621.37,old:720.06,pct:14,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:621.41,old:720.06,pct:14,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/44098.webp',stock:true},
 
   {id:274,name:'MSI MPG X870E CARBON WIFI /AM5',brand:'MSI',cat:'components',subcat:'motherboard',
-   price:925.02,old:1062.53,pct:13,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:925.07,old:1062.53,pct:13,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/42865.webp',stock:true},
 
@@ -1389,7 +1389,7 @@ var products = [
    img:'./images/products/49352.webp',stock:true},
 
   {id:278,name:'MSI MAG X870 TOMAHAWK WIFI/AM5',brand:'MSI',cat:'components',subcat:'motherboard',
-   price:546.97,old:625.15,pct:13,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:546.99,old:625.15,pct:13,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/42870.webp',stock:false},
 
@@ -1449,17 +1449,17 @@ var products = [
    img:'./images/products/37063.webp',stock:false},
 
   {id:290,name:'MSI PRO Z790-P WIFI /LGA1700',brand:'MSI',cat:'components',subcat:'motherboard',
-   price:388.1,old:415.28,pct:7,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:388.12,old:415.28,pct:7,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/33087.webp',stock:true},
 
   {id:291,name:'MSI MAG Z790 TOMAHAWK WIFI',brand:'MSI',cat:'components',subcat:'motherboard',
-   price:450.44,old:479.66,pct:6,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:450.46,old:479.66,pct:6,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/34740.webp',stock:true},
 
   {id:292,name:'MSI Z790 GAMING PLUS WIFI/1700',brand:'MSI',cat:'components',subcat:'motherboard',
-   price:406.19,old:427.74,pct:5,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:406.22,old:427.74,pct:5,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/37505.webp',stock:true},
 
@@ -1484,12 +1484,12 @@ var products = [
    img:'./images/products/44106.webp',stock:false},
 
   {id:297,name:'MSI B860 GAMING PLUS WIFI',brand:'MSI',cat:'components',subcat:'motherboard',
-   price:392.14,old:415.28,pct:6,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:392.16,old:415.28,pct:6,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/43899.webp',stock:true},
 
   {id:298,name:'MSI MAG B860 TOMAHAWK WIFI',brand:'MSI',cat:'components',subcat:'motherboard',
-   price:466.54,old:499.65,pct:7,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:466.56,old:499.65,pct:7,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/43919.webp',stock:true},
 
@@ -1519,7 +1519,7 @@ var products = [
    img:'./images/products/42885.webp',stock:false},
 
   {id:304,name:'MSI MPG Z890 CARBON WIFI /1851',brand:'MSI',cat:'components',subcat:'motherboard',
-   price:1017.52,old:1076.97,pct:6,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:1017.59,old:1076.97,pct:6,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/42890.webp',stock:true},
 
@@ -1529,7 +1529,7 @@ var products = [
    img:'./images/products/42895.webp',stock:false},
 
   {id:306,name:'MSI MAG Z890 TOMAHAWK WIFI',brand:'MSI',cat:'components',subcat:'motherboard',
-   price:619.35,old:653.8,pct:5,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:619.4,old:653.8,pct:5,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/42900.webp',stock:false},
 
@@ -1579,7 +1579,7 @@ var products = [
    img:'./images/products/27094.webp',stock:false},
 
   {id:316,name:'ASUS TUF GAMING B550M-PLUS/AM4',brand:'Asus',cat:'components',subcat:'motherboard',
-   price:212.14,old:301.2,pct:30,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:212.17,old:301.2,pct:30,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/24724.webp',stock:true},
 
@@ -1589,7 +1589,7 @@ var products = [
    img:'./images/products/37075.webp',stock:false},
 
   {id:318,name:'ASUS PRIME B550-PLUS /AM4',brand:'Asus',cat:'components',subcat:'motherboard',
-   price:194.05,old:308.4,pct:37,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:194.07,old:308.4,pct:37,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/24115.webp',stock:true},
 
@@ -1609,7 +1609,7 @@ var products = [
    img:'./images/products/45436.webp',stock:false},
 
   {id:322,name:'ASUS PRIME A620M-A-CSM',brand:'Asus',cat:'components',subcat:'motherboard',
-   price:239.3,old:275.16,pct:13,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:239.32,old:275.16,pct:13,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/48179.webp',stock:true},
 
@@ -1649,7 +1649,7 @@ var products = [
    img:'./images/products/42331.webp',stock:true},
 
   {id:330,name:'ASUS TUF GAMING B650M-PLUS',brand:'Asus',cat:'components',subcat:'motherboard',
-   price:367.99,old:404.9,pct:9,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:368.01,old:404.9,pct:9,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/33619.webp',stock:true},
 
@@ -1679,37 +1679,37 @@ var products = [
    img:'./images/products/50934.webp',stock:true},
 
   {id:336,name:'ASUS PRIME B840M-A WIFI',brand:'Asus',cat:'components',subcat:'motherboard',
-   price:359.96,old:397.16,pct:9,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:359.98,old:397.16,pct:9,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/45456.webp',stock:true},
 
   {id:337,name:'ASUS PRIME B840-PLUS WIFI',brand:'Asus',cat:'components',subcat:'motherboard',
-   price:383.08,old:428.12,pct:11,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:383.1,old:428.12,pct:11,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/45461.webp',stock:true},
 
   {id:338,name:'ASUS PRIME B850-PLUS WIFI',brand:'Asus',cat:'components',subcat:'motherboard',
-   price:381.06,old:437.39,pct:13,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:381.08,old:437.39,pct:13,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/48195.webp',stock:true},
 
   {id:339,name:'ASUS TUF GAMING B850-PLUS WIFI',brand:'Asus',cat:'components',subcat:'motherboard',
-   price:412.23,old:536.4,pct:23,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:412.25,old:536.4,pct:23,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/45466.webp',stock:true},
 
   {id:340,name:'ASUS TUF GAMING B850-E WIFI',brand:'Asus',cat:'components',subcat:'motherboard',
-   price:500.71,old:544.01,pct:8,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:500.76,old:544.01,pct:8,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/48201.webp',stock:true},
 
   {id:341,name:'ASUS PRIME B850M-K',brand:'Asus',cat:'components',subcat:'motherboard',
-   price:314.71,old:334.31,pct:6,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:314.73,old:334.31,pct:6,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/48206.webp',stock:true},
 
   {id:342,name:'ASUS PRIME B850M-A WIFI',brand:'Asus',cat:'components',subcat:'motherboard',
-   price:372.02,old:419.43,pct:11,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:372.05,old:419.43,pct:11,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/48212.webp',stock:true},
 
@@ -1719,7 +1719,7 @@ var products = [
    img:'./images/products/48217.webp',stock:false},
 
   {id:344,name:'ASUS TUF GAMI B850M-PLUS WIFI7',brand:'Asus',cat:'components',subcat:'motherboard',
-   price:517.82,old:543.47,pct:5,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:517.84,old:543.47,pct:5,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/50940.webp',stock:true},
 
@@ -1729,7 +1729,7 @@ var products = [
    img:'./images/products/48222.webp',stock:false},
 
   {id:346,name:'ASUS PRIME X870-P /AM5',brand:'Asus',cat:'components',subcat:'motherboard',
-   price:591.21,old:627.07,pct:6,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:591.23,old:627.07,pct:6,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/45470.webp',stock:true},
 
@@ -1739,7 +1739,7 @@ var products = [
    img:'./images/products/42338.webp',stock:false},
 
   {id:348,name:'ASUS TUF GAMING X870-PLUS WIFI',brand:'Asus',cat:'components',subcat:'motherboard',
-   price:766.15,old:805.65,pct:5,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:766.2,old:805.65,pct:5,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/44681.webp',stock:true},
 
@@ -1749,7 +1749,7 @@ var products = [
    img:'./images/products/48227.webp',stock:false},
 
   {id:350,name:'ASUS ROG STRIX X870E-E GAM WIF',brand:'Asus',cat:'components',subcat:'motherboard',
-   price:1150.24,old:1212.62,pct:5,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:1150.31,old:1212.62,pct:5,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/48232.webp',stock:true},
 
@@ -1759,12 +1759,12 @@ var products = [
    img:'./images/products/48237.webp',stock:true},
 
   {id:352,name:'ASUS ROG CROSSHAIR X870E HERO',brand:'Asus',cat:'components',subcat:'motherboard',
-   price:1488.07,old:1575.98,pct:6,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:1488.16,old:1575.98,pct:6,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/48242.webp',stock:false},
 
   {id:353,name:'ASUS X870 MAX GAMING WIFI7 W',brand:'Asus',cat:'components',subcat:'motherboard',
-   price:659.08,old:752.12,pct:12,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:659.11,old:752.12,pct:12,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/50086.webp',stock:true},
 
@@ -1794,7 +1794,7 @@ var products = [
    img:'./images/products/48248.webp',stock:false},
 
   {id:359,name:'ASUS PRIME H610M-R-SI',brand:'Asus',cat:'components',subcat:'motherboard',
-   price:104.56,old:121.2,pct:14,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:104.58,old:121.2,pct:14,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/51254.webp',stock:true},
 
@@ -1809,12 +1809,12 @@ var products = [
    img:'./images/products/33058.webp',stock:false},
 
   {id:362,name:'ASUS PRIME B760M-PLUS',brand:'Asus',cat:'components',subcat:'motherboard',
-   price:305.65,old:325.97,pct:6,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:305.67,old:325.97,pct:6,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/42349.webp',stock:true},
 
   {id:363,name:'ASUS PRIME B760M-K /LGA1700',brand:'Asus',cat:'components',subcat:'motherboard',
-   price:173.94,old:183.6,pct:5,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:173.96,old:183.6,pct:5,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/38468.webp',stock:true},
 
@@ -1849,12 +1849,12 @@ var products = [
    img:'./images/products/33662.webp',stock:false},
 
   {id:370,name:'ASUS TUF GAM B760M-PLUS WIF II',brand:'Asus',cat:'components',subcat:'motherboard',
-   price:402.18,old:427.74,pct:6,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:402.2,old:427.74,pct:6,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/39904.webp',stock:true},
 
   {id:371,name:'ASUS TUF GAMING B760M-PLUS II',brand:'Asus',cat:'components',subcat:'motherboard',
-   price:358.95,old:379.2,pct:5,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:358.97,old:379.2,pct:5,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/42360.webp',stock:true},
 
@@ -1904,17 +1904,17 @@ var products = [
    img:'./images/products/48260.webp',stock:false},
 
   {id:381,name:'ASUS PRIME B860M-A WIFI',brand:'Asus',cat:'components',subcat:'motherboard',
-   price:384.02,old:417.65,pct:8,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:384.04,old:417.65,pct:8,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/50099.webp',stock:true},
 
   {id:382,name:'ASUS TUF GAMIN B860M-PLUS WIFI',brand:'Asus',cat:'components',subcat:'motherboard',
-   price:495.69,old:527.42,pct:6,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:495.71,old:527.42,pct:6,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/45493.webp',stock:true},
 
   {id:383,name:'ASUS PRIME B860-PLUS WIFI',brand:'Asus',cat:'components',subcat:'motherboard',
-   price:405.21,old:426.66,pct:5,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:405.23,old:426.66,pct:5,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/45487.webp',stock:true},
 
@@ -1924,12 +1924,12 @@ var products = [
    img:'./images/products/45482.webp',stock:false},
 
   {id:385,name:'ASUS PRIME Z890-P',brand:'Asus',cat:'components',subcat:'motherboard',
-   price:514.79,old:546.1,pct:6,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:514.81,old:546.1,pct:6,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/42840.webp',stock:true},
 
   {id:386,name:'ASUS PRIME Z890-P WIFI',brand:'Asus',cat:'components',subcat:'motherboard',
-   price:536.92,old:566.87,pct:5,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:536.95,old:566.87,pct:5,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/45497.webp',stock:true},
 
@@ -1939,32 +1939,32 @@ var products = [
    img:'./images/products/42846.webp',stock:true},
 
   {id:388,name:'ASUS TUF GAMING Z890-PRO WIFI',brand:'Asus',cat:'components',subcat:'motherboard',
-   price:703.39,old:742.8,pct:5,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:703.44,old:742.8,pct:5,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/42852.webp',stock:true},
 
   {id:389,name:'ASUS ROG MAXIMUS Z890 HERO',brand:'Asus',cat:'components',subcat:'motherboard',
-   price:1375.46,old:1488.79,pct:8,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:1375.55,old:1488.79,pct:8,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/42858.webp',stock:false},
 
   {id:390,name:'ASUS ROG MAXIMUS Z890 EXTREME',brand:'Asus',cat:'components',subcat:'motherboard',
-   price:2467.37,old:2686.86,pct:8,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:2467.51,old:2686.86,pct:8,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/48264.webp',stock:true},
 
   {id:391,name:'ASUS ROG STRIX Z890-F GAM WIFI',brand:'Asus',cat:'components',subcat:'motherboard',
-   price:866.7,old:962.4,pct:10,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:866.75,old:962.4,pct:10,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/48267.webp',stock:true},
 
   {id:392,name:'ASUS ROG STRIX Z890-E GAM WIFI',brand:'Asus',cat:'components',subcat:'motherboard',
-   price:1071.8,old:1139.96,pct:6,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:1071.87,old:1139.96,pct:6,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/48273.webp',stock:true},
 
   {id:393,name:'ASUS PRIME Z890M-PLUS WIFI',brand:'Asus',cat:'components',subcat:'motherboard',
-   price:454.47,old:497.02,pct:9,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:454.5,old:497.02,pct:9,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/50105.webp',stock:true},
 
@@ -1984,7 +1984,7 @@ var products = [
    img:'./images/products/50307.webp',stock:false},
 
   {id:397,name:'SAPPHIRE NITRO+ B850A WIFI7',brand:'Sapphire',cat:'components',subcat:'motherboard',
-   price:384.09,old:403.87,pct:5,badge:'sale',added:'2026-04-20',emoji:'⚙️',
+   price:384.11,old:403.87,pct:5,badge:'sale',added:'2026-04-20',emoji:'⚙️',
    rating:4.4,rv:0,
    img:'./images/products/52542.webp',stock:true},
 
@@ -2018,7 +2018,7 @@ var products = [
   {id:403,name:'INTEL I5-11400 2.6GHZ/12MB BOX',brand:'Intel',cat:'components',subcat:'cpu',
    price:344.4,added:'2026-04-20',emoji:'🔵',
    rating:4.5,rv:0,
-   img:'./images/products/26857.webp',stock:true},
+   img:'./images/products/26857.webp',stock:false},
 
   {id:404,name:'INTEL I5-11600 2.8GHZ/12MB BOX',brand:'Intel',cat:'components',subcat:'cpu',
    price:264,added:'2026-04-20',emoji:'🔵',
@@ -2151,7 +2151,7 @@ var products = [
    img:'./images/products/32457.webp',stock:true},
 
   {id:430,name:'INTEL I9-12900K 3.2GHZ 30MB BOX 1700',brand:'Intel',cat:'components',subcat:'cpu',
-   price:766.15,old:810,pct:5,badge:'sale',added:'2026-04-20',emoji:'🔵',
+   price:766.2,old:810,pct:5,badge:'sale',added:'2026-04-20',emoji:'🔵',
    rating:4.5,rv:0,
    img:'./images/products/29254.webp',stock:true},
 
@@ -2196,7 +2196,7 @@ var products = [
    img:'./images/products/38368.webp',stock:true},
 
   {id:439,name:'INTEL I5-14400 3.5GHZ 20MB BOX 1700',brand:'Intel',cat:'components',subcat:'cpu',
-   price:449.43,old:556.8,pct:19,badge:'sale',added:'2026-04-20',emoji:'🔵',
+   price:449.47,old:556.8,pct:19,badge:'sale',added:'2026-04-20',emoji:'🔵',
    rating:4.5,rv:0,
    img:'./images/products/38367.webp',stock:true},
 
@@ -2206,7 +2206,7 @@ var products = [
    img:'./images/products/50431.webp',stock:false},
 
   {id:441,name:'INTEL I5-14500 3.7GHZ 24MB BOX 1700',brand:'Intel',cat:'components',subcat:'cpu',
-   price:545.96,old:600,pct:9,badge:'sale',added:'2026-04-20',emoji:'🔵',
+   price:545.98,old:600,pct:9,badge:'sale',added:'2026-04-20',emoji:'🔵',
    rating:4.5,rv:0,
    img:'./images/products/38369.webp',stock:false},
 
@@ -2221,7 +2221,7 @@ var products = [
    img:'./images/products/37392.webp',stock:true},
 
   {id:444,name:'INTEL I5-14600K 5.3GHZ 20MB BOX 1700',brand:'Intel',cat:'components',subcat:'cpu',
-   price:518.8,old:548.4,pct:5,badge:'sale',added:'2026-04-20',emoji:'🔵',
+   price:518.85,old:548.4,pct:5,badge:'sale',added:'2026-04-20',emoji:'🔵',
    rating:4.5,rv:0,
    img:'./images/products/37391.webp',stock:true},
 
@@ -2238,7 +2238,7 @@ var products = [
   {id:447,name:'INTEL I7-14700KF 5.5GHZ 28M BOX 1700',brand:'Intel',cat:'components',subcat:'cpu',
    price:735.6,added:'2026-04-20',emoji:'🔵',
    rating:4.5,rv:0,
-   img:'./images/products/37394.webp',stock:true},
+   img:'./images/products/37394.webp',stock:false},
 
   {id:448,name:'INTEL I7-14700K 5.5GHZ 28M BOX 1700',brand:'Intel',cat:'components',subcat:'cpu',
    price:819.6,added:'2026-04-20',emoji:'🔵',
@@ -2266,7 +2266,7 @@ var products = [
    img:'./images/products/40315.webp',stock:false},
 
   {id:453,name:'INTEL I9-14900F 5.8GHZ 32M TRAY 1700',brand:'Intel',cat:'components',subcat:'cpu',
-   price:943.12,old:1009.61,pct:7,badge:'sale',added:'2026-04-20',emoji:'🔵',
+   price:943.16,old:1009.61,pct:7,badge:'sale',added:'2026-04-20',emoji:'🔵',
    rating:4.5,rv:0,
    img:'./images/products/100512.webp',stock:true},
 
@@ -2306,7 +2306,7 @@ var products = [
    img:'./images/products/51085.webp',stock:false},
 
   {id:461,name:'INTEL CORE ULTRA 5 245KF BOX',brand:'Intel',cat:'components',subcat:'cpu',
-   price:376.04,old:432.7,pct:13,badge:'sale',added:'2026-04-20',emoji:'🔵',
+   price:376.06,old:432.7,pct:13,badge:'sale',added:'2026-04-20',emoji:'🔵',
    rating:4.5,rv:0,
    img:'./images/products/49852.webp',stock:false},
 
@@ -2601,17 +2601,17 @@ var products = [
    img:'./images/products/35197.webp',stock:false},
 
   {id:520,name:'AMD RYZEN 5 7600X 4.7G 38M BOX',brand:'AMD',cat:'components',subcat:'cpu',
-   price:355.92,old:414,pct:14,badge:'sale',added:'2026-04-20',emoji:'🔴',
+   price:355.95,old:414,pct:14,badge:'sale',added:'2026-04-20',emoji:'🔴',
    rating:4.5,rv:0,
    img:'./images/products/33866.webp',stock:true},
 
   {id:521,name:'AMD RYZEN 5 PRO 7445 MPK',brand:'AMD',cat:'components',subcat:'cpu',
-   price:302.65,old:319.78,pct:5,badge:'sale',added:'2026-04-20',emoji:'🔴',
+   price:302.67,old:319.78,pct:5,badge:'sale',added:'2026-04-20',emoji:'🔴',
    rating:4.5,rv:0,
    img:'./images/products/51092.webp',stock:true},
 
   {id:522,name:'AMD RYZEN 5 PRO 7645 MPK',brand:'AMD',cat:'components',subcat:'cpu',
-   price:340.85,old:363.81,pct:6,badge:'sale',added:'2026-04-20',emoji:'🔴',
+   price:340.88,old:363.81,pct:6,badge:'sale',added:'2026-04-20',emoji:'🔴',
    rating:4.5,rv:0,
    img:'./images/products/47057.webp',stock:true},
 
@@ -2626,7 +2626,7 @@ var products = [
    img:'./images/products/35198.webp',stock:true},
 
   {id:525,name:'AMD RYZEN 7 7700 MPK',brand:'AMD',cat:'components',subcat:'cpu',
-   price:476.58,old:504.44,pct:6,badge:'sale',added:'2026-04-20',emoji:'🔴',
+   price:476.6,old:504.44,pct:6,badge:'sale',added:'2026-04-20',emoji:'🔴',
    rating:4.5,rv:0,
    img:'./images/products/51902.webp',stock:true},
 
@@ -2646,7 +2646,7 @@ var products = [
    img:'./images/products/45880.webp',stock:true},
 
   {id:529,name:'AMD RYZEN 7 7800X3D BOX',brand:'AMD',cat:'components',subcat:'cpu',
-   price:721.91,old:885.6,pct:18,badge:'sale',added:'2026-04-20',emoji:'🔴',
+   price:721.96,old:885.6,pct:18,badge:'sale',added:'2026-04-20',emoji:'🔴',
    rating:4.5,rv:0,
    img:'./images/products/35195.webp',stock:true},
 
@@ -2656,7 +2656,7 @@ var products = [
    img:'./images/products/46354.webp',stock:true},
 
   {id:531,name:'AMD RYZEN 9 7900X 4.7G 76M BOX',brand:'AMD',cat:'components',subcat:'cpu',
-   price:711.87,old:763.81,pct:7,badge:'sale',added:'2026-04-20',emoji:'🔴',
+   price:711.89,old:763.81,pct:7,badge:'sale',added:'2026-04-20',emoji:'🔴',
    rating:4.5,rv:0,
    img:'./images/products/33867.webp',stock:true},
 
@@ -2706,7 +2706,7 @@ var products = [
    img:'./images/products/47060.webp',stock:false},
 
   {id:541,name:'AMD RYZEN 5 8400F 4.2G MPK',brand:'AMD',cat:'components',subcat:'cpu',
-   price:275.49,old:290.4,pct:5,badge:'sale',added:'2026-04-20',emoji:'🔴',
+   price:275.51,old:290.4,pct:5,badge:'sale',added:'2026-04-20',emoji:'🔴',
    rating:4.5,rv:0,
    img:'./images/products/44073.webp',stock:true},
 
@@ -2721,7 +2721,7 @@ var products = [
    img:'./images/products/40311.webp',stock:false},
 
   {id:544,name:'AMD RYZEN 5 PRO 8500G TRAY',brand:'AMD',cat:'components',subcat:'cpu',
-   price:269.46,old:408,pct:34,badge:'sale',added:'2026-04-20',emoji:'🔴',
+   price:269.48,old:408,pct:34,badge:'sale',added:'2026-04-20',emoji:'🔴',
    rating:4.5,rv:0,
    img:'./images/products/46355.webp',stock:true},
 
@@ -2736,12 +2736,12 @@ var products = [
    img:'./images/products/38705.webp',stock:true},
 
   {id:547,name:'AMD RYZEN 5 PRO 8600G TRAY',brand:'AMD',cat:'components',subcat:'cpu',
-   price:337.83,old:358.8,pct:6,badge:'sale',added:'2026-04-20',emoji:'🔴',
+   price:337.85,old:358.8,pct:6,badge:'sale',added:'2026-04-20',emoji:'🔴',
    rating:4.5,rv:0,
    img:'./images/products/48765.webp',stock:true},
 
   {id:548,name:'AMD RYZEN 5 PRO 8600G MPK',brand:'AMD',cat:'components',subcat:'cpu',
-   price:349.89,old:372.16,pct:6,badge:'sale',added:'2026-04-20',emoji:'🔴',
+   price:349.91,old:372.16,pct:6,badge:'sale',added:'2026-04-20',emoji:'🔴',
    rating:4.5,rv:0,
    img:'./images/products/43519.webp',stock:true},
 
@@ -2751,12 +2751,12 @@ var products = [
    img:'./images/products/45881.webp',stock:false},
 
   {id:550,name:'AMD RYZEN 7 8700F MPK',brand:'AMD',cat:'components',subcat:'cpu',
-   price:356.93,old:380.4,pct:6,badge:'sale',added:'2026-04-20',emoji:'🔴',
+   price:356.95,old:380.4,pct:6,badge:'sale',added:'2026-04-20',emoji:'🔴',
    rating:4.5,rv:0,
    img:'./images/products/47061.webp',stock:true},
 
   {id:551,name:'AMD RYZEN 7 8700F BOX',brand:'AMD',cat:'components',subcat:'cpu',
-   price:509.77,old:536.76,pct:5,badge:'sale',added:'2026-04-20',emoji:'🔴',
+   price:509.79,old:536.76,pct:5,badge:'sale',added:'2026-04-20',emoji:'🔴',
    rating:4.5,rv:0,
    img:'./images/products/40312.webp',stock:true},
 
@@ -2766,22 +2766,22 @@ var products = [
    img:'./images/products/40313.webp',stock:false},
 
   {id:553,name:'AMD RYZEN 7 8700G 4.2G SR1 BOX',brand:'AMD',cat:'components',subcat:'cpu',
-   price:528.87,old:560.4,pct:6,badge:'sale',added:'2026-04-20',emoji:'🔴',
+   price:528.9,old:560.4,pct:6,badge:'sale',added:'2026-04-20',emoji:'🔴',
    rating:4.5,rv:0,
    img:'./images/products/50294.webp',stock:true},
 
   {id:554,name:'AMD RYZEN 7 PRO 8700G TRAY',brand:'AMD',cat:'components',subcat:'cpu',
-   price:488.64,old:542.4,pct:10,badge:'sale',added:'2026-04-20',emoji:'🔴',
+   price:488.67,old:542.4,pct:10,badge:'sale',added:'2026-04-20',emoji:'🔴',
    rating:4.5,rv:0,
    img:'./images/products/49798.webp',stock:true},
 
   {id:555,name:'AMD RYZEN 7 PRO 8700G MPK',brand:'AMD',cat:'components',subcat:'cpu',
-   price:556.73,old:609.6,pct:9,badge:'sale',added:'2026-04-20',emoji:'🔴',
+   price:556.75,old:609.6,pct:9,badge:'sale',added:'2026-04-20',emoji:'🔴',
    rating:4.5,rv:0,
    img:'./images/products/43520.webp',stock:true},
 
   {id:556,name:'AMD RYZEN 7 PRO 9745 MPK',brand:'AMD',cat:'components',subcat:'cpu',
-   price:768.17,old:834.78,pct:8,badge:'sale',added:'2026-04-20',emoji:'🔴',
+   price:768.22,old:834.78,pct:8,badge:'sale',added:'2026-04-20',emoji:'🔴',
    rating:4.5,rv:0,
    img:'./images/products/52330.webp',stock:true},
 
@@ -2801,12 +2801,12 @@ var products = [
    img:'./images/products/49304.webp',stock:false},
 
   {id:560,name:'AMD RYZEN 5 PRO 9645 MPK',brand:'AMD',cat:'components',subcat:'cpu',
-   price:557.01,old:603.6,pct:8,badge:'sale',added:'2026-04-20',emoji:'🔴',
+   price:557.06,old:603.6,pct:8,badge:'sale',added:'2026-04-20',emoji:'🔴',
    rating:4.5,rv:0,
    img:'./images/products/51093.webp',stock:true},
 
   {id:561,name:'AMD RYZEN 5 9600 BOX',brand:'AMD',cat:'components',subcat:'cpu',
-   price:432.34,old:456.98,pct:5,badge:'sale',added:'2026-04-20',emoji:'🔴',
+   price:432.36,old:456.98,pct:5,badge:'sale',added:'2026-04-20',emoji:'🔴',
    rating:4.5,rv:0,
    img:'./images/products/48766.webp',stock:true},
 
@@ -2836,17 +2836,17 @@ var products = [
    img:'./images/products/43488.webp',stock:false},
 
   {id:567,name:'AMD RYZEN 7 9700X 3.8G BOX',brand:'AMD',cat:'components',subcat:'cpu',
-   price:619.35,old:678,pct:9,badge:'sale',added:'2026-04-20',emoji:'🔴',
+   price:619.4,old:678,pct:9,badge:'sale',added:'2026-04-20',emoji:'🔴',
    rating:4.5,rv:0,
    img:'./images/products/41621.webp',stock:false},
 
   {id:568,name:'AMD RYZEN 7 9800X3D TRAY',brand:'AMD',cat:'components',subcat:'cpu',
-   price:957.2,old:1009.14,pct:5,badge:'sale',added:'2026-04-20',emoji:'🔴',
+   price:957.25,old:1009.14,pct:5,badge:'sale',added:'2026-04-20',emoji:'🔴',
    rating:4.5,rv:0,
    img:'./images/products/44074.webp',stock:true},
 
   {id:569,name:'AMD RYZEN 7 9800X3D BOX',brand:'AMD',cat:'components',subcat:'cpu',
-   price:931.05,old:1014.02,pct:8,badge:'sale',added:'2026-04-20',emoji:'🔴',
+   price:931.1,old:1014.02,pct:8,badge:'sale',added:'2026-04-20',emoji:'🔴',
    rating:4.5,rv:0,
    img:'./images/products/44485.webp',stock:false},
 
@@ -2866,17 +2866,17 @@ var products = [
    img:'./images/products/45883.webp',stock:true},
 
   {id:573,name:'AMD RYZEN 9 PRO 9945 MPK',brand:'AMD',cat:'components',subcat:'cpu',
-   price:852.62,old:984,pct:13,badge:'sale',added:'2026-04-20',emoji:'🔴',
+   price:852.66,old:984,pct:13,badge:'sale',added:'2026-04-20',emoji:'🔴',
    rating:4.5,rv:0,
    img:'./images/products/51094.webp',stock:true},
 
   {id:574,name:'AMD RYZEN 9 9900X 4.4G 64M BOX',brand:'AMD',cat:'components',subcat:'cpu',
-   price:764.13,old:858.58,pct:11,badge:'sale',added:'2026-04-20',emoji:'🔴',
+   price:764.18,old:858.58,pct:11,badge:'sale',added:'2026-04-20',emoji:'🔴',
    rating:4.5,rv:0,
-   img:'./images/products/41781.webp',stock:true},
+   img:'./images/products/41781.webp',stock:false},
 
   {id:575,name:'AMD RYZEN 9 9900X3D BOX',brand:'AMD',cat:'components',subcat:'cpu',
-   price:1144.21,old:1258.98,pct:9,badge:'sale',added:'2026-04-20',emoji:'🔴',
+   price:1144.28,old:1258.98,pct:9,badge:'sale',added:'2026-04-20',emoji:'🔴',
    rating:4.5,rv:0,
    img:'./images/products/48767.webp',stock:true},
 
@@ -2886,7 +2886,7 @@ var products = [
    img:'./images/products/48768.webp',stock:true},
 
   {id:577,name:'AMD RYZEN 9 9950X BOX',brand:'AMD',cat:'components',subcat:'cpu',
-   price:1114.05,old:1229.57,pct:9,badge:'sale',added:'2026-04-20',emoji:'🔴',
+   price:1114.1,old:1229.57,pct:9,badge:'sale',added:'2026-04-20',emoji:'🔴',
    rating:4.5,rv:0,
    img:'./images/products/43307.webp',stock:false},
 
@@ -2896,12 +2896,12 @@ var products = [
    img:'./images/products/45882.webp',stock:true},
 
   {id:579,name:'AMD RYZEN 9 9950X3D TRAY',brand:'AMD',cat:'components',subcat:'cpu',
-   price:1409.65,old:1486.7,pct:5,badge:'sale',added:'2026-04-20',emoji:'🔴',
+   price:1409.72,old:1486.7,pct:5,badge:'sale',added:'2026-04-20',emoji:'🔴',
    rating:4.5,rv:0,
    img:'./images/products/45215.webp',stock:true},
 
   {id:580,name:'AMD RYZEN 9 9950X3D BOX',brand:'AMD',cat:'components',subcat:'cpu',
-   price:1329.2,old:1473.6,pct:10,badge:'sale',added:'2026-04-20',emoji:'🔴',
+   price:1329.29,old:1473.6,pct:10,badge:'sale',added:'2026-04-20',emoji:'🔴',
    rating:4.5,rv:0,
    img:'./images/products/44782.webp',stock:false},
 
@@ -2974,7 +2974,7 @@ var products = [
    img:'./images/products/28799.webp',stock:false},
 
   {id:594,name:'8G DDR4 3200 TEAM ELITE',brand:'TeamGroup',cat:'components',subcat:'ram',
-   price:120.45,old:142.54,pct:15,badge:'sale',added:'2026-04-20',emoji:'🟢',
+   price:120.47,old:142.54,pct:15,badge:'sale',added:'2026-04-20',emoji:'🟢',
    rating:4.4,rv:0,
    img:'./images/products/25585.webp',stock:false},
 
@@ -2994,7 +2994,7 @@ var products = [
    img:'./images/products/28799.webp',stock:false},
 
   {id:598,name:'8G DDR4 3200 TEAM DELTA R BLCK',brand:'TeamGroup',cat:'components',subcat:'ram',
-   price:151.62,old:159.06,pct:5,badge:'sale',added:'2026-04-20',emoji:'🟢',
+   price:151.64,old:159.06,pct:5,badge:'sale',added:'2026-04-20',emoji:'🟢',
    rating:4.4,rv:0,
    img:'./images/products/25110.webp',stock:true},
 
@@ -3029,7 +3029,7 @@ var products = [
    img:'./images/products/28301.webp',stock:true},
 
   {id:605,name:'8G DDR5 5200 KINGSTON BEAST',brand:'Kingston',cat:'components',subcat:'ram',
-   price:304.45,old:321.4,pct:5,badge:'sale',added:'2026-04-20',emoji:'🟣',
+   price:304.48,old:321.4,pct:5,badge:'sale',added:'2026-04-20',emoji:'🟣',
    rating:4.4,rv:0,
    img:'./images/products/31079.webp',stock:true},
 
@@ -3079,14 +3079,14 @@ var products = [
    img:'./images/products/52494.webp',stock:true},
 
   {id:615,name:'2X8G DDR4 3200 XPG D35/BK',brand:'ADATA',cat:'components',subcat:'ram',
-   price:307.46,old:334.73,pct:8,badge:'sale',added:'2026-04-20',emoji:'🟢',
+   price:307.48,old:334.73,pct:8,badge:'sale',added:'2026-04-20',emoji:'🟢',
    rating:4.4,rv:0,
    img:'./images/products/36027.webp',stock:true},
 
   {id:616,name:'2X8G DDR4 3200 XPG D35G',brand:'ADATA',cat:'components',subcat:'ram',
-   price:270.26,old:316.16,pct:15,badge:'sale',added:'2026-04-20',emoji:'🟢',
+   price:270.28,old:316.16,pct:15,badge:'sale',added:'2026-04-20',emoji:'🟢',
    rating:4.4,rv:0,
-   img:'./images/products/36030.webp',stock:true},
+   img:'./images/products/36030.webp',stock:false},
 
   {id:617,name:'2X8G DDR4 3200 KINGS FURY BEAS',brand:'Kingston',cat:'components',subcat:'ram',
    price:151.2,added:'2026-04-20',emoji:'🟢',
@@ -3094,7 +3094,7 @@ var products = [
    img:'./images/products/31081.webp',stock:false},
 
   {id:618,name:'2X8G DDR4 3200 KINGS FURY RGB',brand:'Kingston',cat:'components',subcat:'ram',
-   price:452.05,old:479.98,pct:6,badge:'sale',added:'2026-04-20',emoji:'🟢',
+   price:452.08,old:479.98,pct:6,badge:'sale',added:'2026-04-20',emoji:'🟢',
    rating:4.4,rv:0,
    img:'./images/products/45252.webp',stock:true},
 
@@ -3134,7 +3134,7 @@ var products = [
    img:'./images/products/35843.webp',stock:false},
 
   {id:626,name:'2X8G DDR5 5600 KING EXPO BEAST',brand:'Kingston',cat:'components',subcat:'ram',
-   price:609.7,old:654.53,pct:7,badge:'sale',added:'2026-04-20',emoji:'🟣',
+   price:609.75,old:654.53,pct:7,badge:'sale',added:'2026-04-20',emoji:'🟣',
    rating:4.4,rv:0,
    img:'./images/products/34691.webp',stock:false},
 
@@ -3144,7 +3144,7 @@ var products = [
    img:'./images/products/33605.webp',stock:false},
 
   {id:628,name:'16G DDR4 2666 TEAM ELITE',brand:'TeamGroup',cat:'components',subcat:'ram',
-   price:231.25,old:258,pct:10,badge:'sale',added:'2026-04-20',emoji:'🟢',
+   price:231.27,old:258,pct:10,badge:'sale',added:'2026-04-20',emoji:'🟢',
    rating:4.4,rv:0,
    img:'./images/products/20224.webp',stock:true},
 
@@ -3174,7 +3174,7 @@ var products = [
    img:'./images/products/25112.webp',stock:false},
 
   {id:634,name:'16G DDR4 3200 TEAM ELITE',brand:'TeamGroup',cat:'components',subcat:'ram',
-   price:246.53,old:318.16,pct:23,badge:'sale',added:'2026-04-20',emoji:'🟢',
+   price:246.55,old:318.16,pct:23,badge:'sale',added:'2026-04-20',emoji:'🟢',
    rating:4.4,rv:0,
    img:'./images/products/29448.webp',stock:true},
 
@@ -3189,12 +3189,12 @@ var products = [
    img:'./images/products/24268.webp',stock:false},
 
   {id:637,name:'16G DDR4 3200 ADATA PREMIER',brand:'ADATA',cat:'components',subcat:'ram',
-   price:342.05,old:363.13,pct:6,badge:'sale',added:'2026-04-20',emoji:'🟢',
+   price:342.07,old:363.13,pct:6,badge:'sale',added:'2026-04-20',emoji:'🟢',
    rating:4.4,rv:0,
    img:'./images/products/52510.webp',stock:true},
 
   {id:638,name:'16G DDR4 3200 XPG D35/BK',brand:'ADATA',cat:'components',subcat:'ram',
-   price:351.3,old:372.96,pct:6,badge:'sale',added:'2026-04-20',emoji:'🟢',
+   price:351.32,old:372.96,pct:6,badge:'sale',added:'2026-04-20',emoji:'🟢',
    rating:4.4,rv:0,
    img:'./images/products/35111.webp',stock:true},
 
@@ -3209,7 +3209,7 @@ var products = [
    img:'./images/products/29447.webp',stock:false},
 
   {id:641,name:'16G DDR4 3200 XPG SPECT D35G',brand:'ADATA',cat:'components',subcat:'ram',
-   price:337.43,old:358.41,pct:6,badge:'sale',added:'2026-04-20',emoji:'🟢',
+   price:337.45,old:358.41,pct:6,badge:'sale',added:'2026-04-20',emoji:'🟢',
    rating:4.4,rv:0,
    img:'./images/products/38250.webp',stock:true},
 
@@ -3219,7 +3219,7 @@ var products = [
    img:'./images/products/36032.webp',stock:false},
 
   {id:643,name:'2X16G DDR4 3200 XPG D35G',brand:'ADATA',cat:'components',subcat:'ram',
-   price:703.82,old:747.17,pct:6,badge:'sale',added:'2026-04-20',emoji:'🟢',
+   price:703.86,old:747.17,pct:6,badge:'sale',added:'2026-04-20',emoji:'🟢',
    rating:4.4,rv:0,
    img:'./images/products/36028.webp',stock:true},
 
@@ -3289,12 +3289,12 @@ var products = [
    img:'./images/products/44166.webp',stock:false},
 
   {id:657,name:'16G DDR5 5600 ADATA',brand:'ADATA',cat:'components',subcat:'ram',
-   price:425.11,old:475.85,pct:11,badge:'sale',added:'2026-04-20',emoji:'🟣',
+   price:425.13,old:475.85,pct:11,badge:'sale',added:'2026-04-20',emoji:'🟣',
    rating:4.4,rv:0,
    img:'./images/products/37541.webp',stock:false},
 
   {id:658,name:'16G DDR5 5600 KING EXPO B RGB',brand:'Kingston',cat:'components',subcat:'ram',
-   price:557.41,old:587.81,pct:5,badge:'sale',added:'2026-04-20',emoji:'🟣',
+   price:557.46,old:587.81,pct:5,badge:'sale',added:'2026-04-20',emoji:'🟣',
    rating:4.4,rv:0,
    img:'./images/products/33606.webp',stock:true},
 
@@ -3394,7 +3394,7 @@ var products = [
    img:'./images/products/34506.webp',stock:false},
 
   {id:678,name:'2X16G DDR4 3200 KINGST BEAST',brand:'Kingston',cat:'components',subcat:'ram',
-   price:945.14,old:1084.71,pct:13,badge:'sale',added:'2026-04-20',emoji:'🟢',
+   price:945.18,old:1084.71,pct:13,badge:'sale',added:'2026-04-20',emoji:'🟢',
    rating:4.4,rv:0,
    img:'./images/products/28796.webp',stock:true},
 
@@ -3404,7 +3404,7 @@ var products = [
    img:'./images/products/43334.webp',stock:false},
 
   {id:680,name:'32G DDR4 3200 KINGST FURY RGB',brand:'Kingston',cat:'components',subcat:'ram',
-   price:912.96,old:1040.87,pct:12,badge:'sale',added:'2026-04-20',emoji:'🟢',
+   price:913,old:1040.87,pct:12,badge:'sale',added:'2026-04-20',emoji:'🟢',
    rating:4.4,rv:0,
    img:'./images/products/45256.webp',stock:true},
 
@@ -3419,7 +3419,7 @@ var products = [
    img:'./images/products/30591.webp',stock:false},
 
   {id:683,name:'16G DDR5 5600 TEAM ELITE',brand:'TeamGroup',cat:'components',subcat:'ram',
-   price:470.55,old:498.38,pct:6,badge:'sale',added:'2026-04-20',emoji:'🟣',
+   price:470.57,old:498.38,pct:6,badge:'sale',added:'2026-04-20',emoji:'🟣',
    rating:4.4,rv:0,
    img:'./images/products/34308.webp',stock:true},
 
@@ -3439,7 +3439,7 @@ var products = [
    img:'./images/products/34062.webp',stock:false},
 
   {id:687,name:'16G DDR5 5600 TEAM ELITE + /BK',brand:'TeamGroup',cat:'components',subcat:'ram',
-   price:469.94,old:498.38,pct:6,badge:'sale',added:'2026-04-20',emoji:'🟣',
+   price:469.99,old:498.38,pct:6,badge:'sale',added:'2026-04-20',emoji:'🟣',
    rating:4.4,rv:0,
    img:'./images/products/34063.webp',stock:false},
 
@@ -3499,7 +3499,7 @@ var products = [
    img:'./images/products/44928.webp',stock:false},
 
   {id:699,name:'2X16G DDR5 5200 KINGSTON BEAST',brand:'Kingston',cat:'components',subcat:'ram',
-   price:945.14,old:1042.35,pct:9,badge:'sale',added:'2026-04-20',emoji:'🟣',
+   price:945.18,old:1042.35,pct:9,badge:'sale',added:'2026-04-20',emoji:'🟣',
    rating:4.4,rv:0,
    img:'./images/products/33602.webp',stock:false},
 
@@ -3584,12 +3584,12 @@ var products = [
    img:'./images/products/35113.webp',stock:false},
 
   {id:716,name:'32G DDR5 4800 ADATA',brand:'ADATA',cat:'components',subcat:'ram',
-   price:790.89,old:840.95,pct:6,badge:'sale',added:'2026-04-20',emoji:'🟣',
+   price:790.94,old:840.95,pct:6,badge:'sale',added:'2026-04-20',emoji:'🟣',
    rating:4.4,rv:0,
    img:'./images/products/31611.webp',stock:true},
 
   {id:717,name:'32G DDR5 5600 ADATA',brand:'ADATA',cat:'components',subcat:'ram',
-   price:829.29,old:933.1,pct:11,badge:'sale',added:'2026-04-20',emoji:'🟣',
+   price:829.33,old:933.1,pct:11,badge:'sale',added:'2026-04-20',emoji:'🟣',
    rating:4.4,rv:0,
    img:'./images/products/34874.webp',stock:false},
 
@@ -3619,12 +3619,12 @@ var products = [
    img:'./images/products/33473.webp',stock:false},
 
   {id:723,name:'32G DDR5 6000 KING EXPO BEAST',brand:'Kingston',cat:'components',subcat:'ram',
-   price:1093.93,old:1148.57,pct:5,badge:'sale',added:'2026-04-20',emoji:'🟣',
+   price:1094.01,old:1148.57,pct:5,badge:'sale',added:'2026-04-20',emoji:'🟣',
    rating:4.4,rv:0,
    img:'./images/products/33472.webp',stock:true},
 
   {id:724,name:'32G DDR5 6000 KING FURY BEAST',brand:'Kingston',cat:'components',subcat:'ram',
-   price:995.41,old:1161.6,pct:14,badge:'sale',added:'2026-04-20',emoji:'🟢',
+   price:995.45,old:1161.6,pct:14,badge:'sale',added:'2026-04-20',emoji:'🟢',
    rating:4.4,rv:0,
    img:'./images/products/37086.webp',stock:true},
 
@@ -3814,7 +3814,7 @@ var products = [
    img:'./images/products/43925.webp',stock:false},
 
   {id:762,name:'16GB DDR4 2666 ADATA SODIMM',brand:'ADATA',cat:'components',subcat:'ram',
-   price:254.58,old:307.08,pct:17,badge:'sale',added:'2026-04-20',emoji:'💻',
+   price:254.6,old:307.08,pct:17,badge:'sale',added:'2026-04-20',emoji:'💻',
    rating:4.4,rv:0,
    img:'./images/products/31264.webp',stock:true},
 
@@ -3929,12 +3929,12 @@ var products = [
    img:'./images/products/44147.webp',stock:false},
 
   {id:785,name:'16G DDR5 5600 ADATA SODIMM',brand:'ADATA',cat:'components',subcat:'ram',
-   price:425.11,old:466.54,pct:9,badge:'sale',added:'2026-04-20',emoji:'💻',
+   price:425.13,old:466.54,pct:9,badge:'sale',added:'2026-04-20',emoji:'💻',
    rating:4.4,rv:0,
    img:'./images/products/37542.webp',stock:false},
 
   {id:786,name:'16G DDR5 5600 TEAM SODIMM',brand:'TeamGroup',cat:'components',subcat:'ram',
-   price:452.45,old:493.97,pct:8,badge:'sale',added:'2026-04-20',emoji:'💻',
+   price:452.48,old:493.97,pct:8,badge:'sale',added:'2026-04-20',emoji:'💻',
    rating:4.4,rv:0,
    img:'./images/products/45024.webp',stock:true},
 
@@ -3969,7 +3969,7 @@ var products = [
    img:'./images/products/38936.webp',stock:true},
 
   {id:793,name:'32GB DDR4 3200 ADATA SODIMM',brand:'ADATA',cat:'components',subcat:'ram',
-   price:472.97,old:503.83,pct:6,badge:'sale',added:'2026-04-20',emoji:'💻',
+   price:472.99,old:503.83,pct:6,badge:'sale',added:'2026-04-20',emoji:'💻',
    rating:4.4,rv:0,
    img:'./images/products/28292.webp',stock:true},
 
@@ -3979,7 +3979,7 @@ var products = [
    img:'./images/products/32472.webp',stock:true},
 
   {id:795,name:'32G DDR5 5600 ADATA SODIMM',brand:'ADATA',cat:'components',subcat:'ram',
-   price:828.49,old:941.59,pct:12,badge:'sale',added:'2026-04-20',emoji:'💻',
+   price:828.54,old:941.59,pct:12,badge:'sale',added:'2026-04-20',emoji:'💻',
    rating:4.4,rv:0,
    img:'./images/products/37543.webp',stock:true},
 
@@ -4041,7 +4041,7 @@ var products = [
    img:'./images/products/100163.webp',stock:false},
 
   {id:807,name:'4T SG ST4000VX016 256M SKYHAWK',brand:'Seagate',cat:'components',subcat:'hdd',
-   price:400.98,old:424.83,pct:6,badge:'sale',added:'2026-04-21',emoji:'🖴',
+   price:401.01,old:424.83,pct:6,badge:'sale',added:'2026-04-21',emoji:'🖴',
    rating:4.3,rv:0,
    img:'./images/products/31058.webp',stock:true},
 
@@ -4076,12 +4076,12 @@ var products = [
    img:'./images/products/22401.webp',stock:true},
 
   {id:814,name:'8T SG ST8000DM004 256MB/5400',brand:'Seagate',cat:'components',subcat:'hdd',
-   price:599.66,old:642.35,pct:7,badge:'sale',added:'2026-04-21',emoji:'🖴',
+   price:599.68,old:642.35,pct:7,badge:'sale',added:'2026-04-21',emoji:'🖴',
    rating:4.3,rv:0,
    img:'./images/products/18336.webp',stock:true},
 
   {id:815,name:'8T SG ST8000VX010',brand:'Seagate',cat:'components',subcat:'hdd',
-   price:764.13,old:833.96,pct:8,badge:'sale',added:'2026-04-21',emoji:'🖴',
+   price:764.18,old:833.96,pct:8,badge:'sale',added:'2026-04-21',emoji:'🖴',
    rating:4.3,rv:0,
    img:'./images/products/36454.webp',stock:true},
 
@@ -4096,7 +4096,7 @@ var products = [
    img:'./images/products/23414.webp',stock:false},
 
   {id:818,name:'12TB SG ST12000VN0008',brand:'Seagate',cat:'components',subcat:'hdd',
-   price:1003.43,old:1052.3,pct:5,badge:'sale',added:'2026-04-21',emoji:'🖴',
+   price:1003.51,old:1052.3,pct:5,badge:'sale',added:'2026-04-21',emoji:'🖴',
    rating:4.3,rv:0,
    img:'./images/products/23406.webp',stock:false},
 
@@ -4281,7 +4281,7 @@ var products = [
    img:'./images/products/21755.webp',stock:false},
 
   {id:855,name:'KINGSTON SFYRSK/1000G M2 PCIE',brand:'Kingston',cat:'components',subcat:'ssd',
-   price:700.79,old:735.88,pct:5,badge:'sale',added:'2026-04-21',emoji:'⚡',
+   price:700.84,old:735.88,pct:5,badge:'sale',added:'2026-04-21',emoji:'⚡',
    rating:4.3,rv:0,
    img:'./images/products/40138.webp',stock:true},
 
@@ -4316,12 +4316,12 @@ var products = [
    img:'./images/products/40132.webp',stock:false},
 
   {id:862,name:'KINGSTON SKC3000S/1024G PCIE4',brand:'Kingston',cat:'components',subcat:'ssd',
-   price:557.01,old:603.6,pct:8,badge:'sale',added:'2026-04-21',emoji:'⚡',
+   price:557.06,old:603.6,pct:8,badge:'sale',added:'2026-04-21',emoji:'⚡',
    rating:4.3,rv:0,
    img:'./images/products/31917.webp',stock:false},
 
   {id:863,name:'KINGSTON SKC3000D/2048G PCIE4',brand:'Kingston',cat:'components',subcat:'ssd',
-   price:954.38,old:1037.16,pct:8,badge:'sale',added:'2026-04-21',emoji:'⚡',
+   price:954.43,old:1037.16,pct:8,badge:'sale',added:'2026-04-21',emoji:'⚡',
    rating:4.3,rv:0,
    img:'./images/products/33882.webp',stock:true},
 
@@ -4336,7 +4336,7 @@ var products = [
    img:'./images/products/40135.webp',stock:false},
 
   {id:866,name:'KINGSTON SFYRDK/2000G RENEGATE',brand:'Kingston',cat:'components',subcat:'ssd',
-   price:967.24,old:1100.51,pct:12,badge:'sale',added:'2026-04-21',emoji:'⚡',
+   price:967.29,old:1100.51,pct:12,badge:'sale',added:'2026-04-21',emoji:'⚡',
    rating:4.3,rv:0,
    img:'./images/products/45524.webp',stock:true},
 
@@ -4376,12 +4376,12 @@ var products = [
    img:'./images/products/29878.webp',stock:true},
 
   {id:874,name:'TEAM SSD CX2 256GB 2.5 INCH',brand:'TeamGroup',cat:'components',subcat:'ssd',
-   price:110.59,old:122.4,pct:10,badge:'sale',added:'2026-04-21',emoji:'💾',
+   price:110.61,old:122.4,pct:10,badge:'sale',added:'2026-04-21',emoji:'💾',
    rating:4.3,rv:0,
    img:'./images/products/35175.webp',stock:true},
 
   {id:875,name:'TEAM SSD CX2 512GB 2.5 INCH',brand:'TeamGroup',cat:'components',subcat:'ssd',
-   price:170.32,old:180.65,pct:6,badge:'sale',added:'2026-04-21',emoji:'💾',
+   price:170.34,old:180.65,pct:6,badge:'sale',added:'2026-04-21',emoji:'💾',
    rating:4.3,rv:0,
    img:'./images/products/36828.webp',stock:true},
 
@@ -4416,7 +4416,7 @@ var products = [
    img:'./images/products/100159.webp',stock:true},
 
   {id:882,name:'TEAM SSD GX1 480G 2.5INCH',brand:'TeamGroup',cat:'components',subcat:'ssd',
-   price:159.06,old:174,pct:9,badge:'sale',added:'2026-04-21',emoji:'💾',
+   price:159.08,old:174,pct:9,badge:'sale',added:'2026-04-21',emoji:'💾',
    rating:4.3,rv:0,
    img:'./images/products/100160.webp',stock:true},
 
@@ -4426,7 +4426,7 @@ var products = [
    img:'./images/products/31109.webp',stock:true},
 
   {id:884,name:'TEAM SSD GX2 512G 2.5INCH',brand:'TeamGroup',cat:'components',subcat:'ssd',
-   price:164.69,old:189.6,pct:13,badge:'sale',added:'2026-04-21',emoji:'💾',
+   price:164.71,old:189.6,pct:13,badge:'sale',added:'2026-04-21',emoji:'💾',
    rating:4.3,rv:0,
    img:'./images/products/31110.webp',stock:true},
 
@@ -4436,7 +4436,7 @@ var products = [
    img:'./images/products/52918.webp',stock:true},
 
   {id:886,name:'TEAM SSD GX2 1T 2.5INCH',brand:'TeamGroup',cat:'components',subcat:'ssd',
-   price:255.78,old:271.59,pct:6,badge:'sale',added:'2026-04-21',emoji:'💾',
+   price:255.8,old:271.59,pct:6,badge:'sale',added:'2026-04-21',emoji:'💾',
    rating:4.3,rv:0,
    img:'./images/products/31111.webp',stock:true},
 
@@ -4446,7 +4446,7 @@ var products = [
    img:'./images/products/39414.webp',stock:false},
 
   {id:888,name:'TEAM SSD NV5000 1T M2 PCI-E',brand:'TeamGroup',cat:'components',subcat:'ssd',
-   price:377.26,old:398.87,pct:5,badge:'sale',added:'2026-04-21',emoji:'⚡',
+   price:377.28,old:398.87,pct:5,badge:'sale',added:'2026-04-21',emoji:'⚡',
    rating:4.3,rv:0,
    img:'./images/products/52920.webp',stock:true},
 
@@ -4496,12 +4496,12 @@ var products = [
    img:'./images/products/39698.webp',stock:true},
 
   {id:898,name:'TEAM SSD MP33 1TB M2 PCI-E',brand:'TeamGroup',cat:'components',subcat:'ssd',
-   price:349.49,old:392.07,pct:11,badge:'sale',added:'2026-04-21',emoji:'⚡',
+   price:349.51,old:392.07,pct:11,badge:'sale',added:'2026-04-21',emoji:'⚡',
    rating:4.3,rv:0,
    img:'./images/products/35172.webp',stock:true},
 
   {id:899,name:'TEAM SSD MP33 PRO 1TB M2 PCI-E',brand:'TeamGroup',cat:'components',subcat:'ssd',
-   price:341.44,old:366.77,pct:7,badge:'sale',added:'2026-04-21',emoji:'⚡',
+   price:341.46,old:366.77,pct:7,badge:'sale',added:'2026-04-21',emoji:'⚡',
    rating:4.3,rv:0,
    img:'./images/products/38708.webp',stock:true},
 
@@ -4511,17 +4511,17 @@ var products = [
    img:'./images/products/45851.webp',stock:true},
 
   {id:901,name:'TEAM SSD MP33 2TB M2 PCI-E',brand:'TeamGroup',cat:'components',subcat:'ssd',
-   price:587.99,old:619.18,pct:5,badge:'sale',added:'2026-04-21',emoji:'⚡',
+   price:588.02,old:619.18,pct:5,badge:'sale',added:'2026-04-21',emoji:'⚡',
    rating:4.3,rv:0,
    img:'./images/products/38239.webp',stock:true},
 
   {id:902,name:'TEAM SSD MP44L 500GB M2 PCI-E',brand:'TeamGroup',cat:'components',subcat:'ssd',
-   price:203.7,old:218.4,pct:7,badge:'sale',added:'2026-04-21',emoji:'⚡',
+   price:203.72,old:218.4,pct:7,badge:'sale',added:'2026-04-21',emoji:'⚡',
    rating:4.3,rv:0,
    img:'./images/products/38710.webp',stock:true},
 
   {id:903,name:'TEAM SSD MP44L 1TB M2 PCI-E',brand:'TeamGroup',cat:'components',subcat:'ssd',
-   price:363.17,old:425.32,pct:15,badge:'sale',added:'2026-04-21',emoji:'⚡',
+   price:363.2,old:425.32,pct:15,badge:'sale',added:'2026-04-21',emoji:'⚡',
    rating:4.3,rv:0,
    img:'./images/products/34528.webp',stock:true},
 
@@ -4626,7 +4626,7 @@ var products = [
    img:'./images/products/44154.webp',stock:false},
 
   {id:924,name:'MSI SPATIUM M560 2T PCIE5.0',brand:'MSI',cat:'components',subcat:'ssd',
-   price:780.24,old:1022.4,pct:24,badge:'sale',added:'2026-04-21',emoji:'⚡',
+   price:780.28,old:1022.4,pct:24,badge:'sale',added:'2026-04-21',emoji:'⚡',
    rating:4.3,rv:0,
    img:'./images/products/45531.webp',stock:true},
 
@@ -4651,32 +4651,32 @@ var products = [
    img:'./images/products/16189.webp',stock:false},
 
   {id:929,name:'ADATA SSD SU650 512GB 3D NAND',brand:'ADATA',cat:'components',subcat:'ssd',
-   price:139.95,old:179.01,pct:22,badge:'sale',added:'2026-04-21',emoji:'💾',
+   price:139.97,old:179.01,pct:22,badge:'sale',added:'2026-04-21',emoji:'💾',
    rating:4.3,rv:0,
    img:'./images/products/36412.webp',stock:true},
 
   {id:930,name:'ADATA SSD SU650 960GB 3D NAND',brand:'ADATA',cat:'components',subcat:'ssd',
-   price:291.17,old:330,pct:12,badge:'sale',added:'2026-04-21',emoji:'💾',
+   price:291.19,old:330,pct:12,badge:'sale',added:'2026-04-21',emoji:'💾',
    rating:4.3,rv:0,
    img:'./images/products/18337.webp',stock:true},
 
   {id:931,name:'ADATA SSD SU650 1TB 3D NAND',brand:'ADATA',cat:'components',subcat:'ssd',
-   price:305.86,old:336,pct:9,badge:'sale',added:'2026-04-21',emoji:'💾',
+   price:305.88,old:336,pct:9,badge:'sale',added:'2026-04-21',emoji:'💾',
    rating:4.3,rv:0,
    img:'./images/products/36409.webp',stock:true},
 
   {id:932,name:'2TB XPG S60 M2 PCI GEN4',brand:'ADATA',cat:'components',subcat:'ssd',
-   price:678.54,old:722.78,pct:6,badge:'sale',added:'2026-04-21',emoji:'⚡',
+   price:678.59,old:722.78,pct:6,badge:'sale',added:'2026-04-21',emoji:'⚡',
    rating:4.3,rv:0,
    img:'./images/products/51170.webp',stock:true},
 
   {id:933,name:'ADATA LEGEND 710 512GB M2 PCIE',brand:'ADATA',cat:'components',subcat:'ssd',
-   price:192.64,old:217.2,pct:11,badge:'sale',added:'2026-04-21',emoji:'⚡',
+   price:192.66,old:217.2,pct:11,badge:'sale',added:'2026-04-21',emoji:'⚡',
    rating:4.3,rv:0,
    img:'./images/products/31441.webp',stock:true},
 
   {id:934,name:'ADATA LEGEND 710 1TB M2 PCIE',brand:'ADATA',cat:'components',subcat:'ssd',
-   price:322.95,old:389.2,pct:17,badge:'sale',added:'2026-04-21',emoji:'⚡',
+   price:322.97,old:389.2,pct:17,badge:'sale',added:'2026-04-21',emoji:'⚡',
    rating:4.3,rv:0,
    img:'./images/products/30953.webp',stock:true},
 
@@ -4688,7 +4688,7 @@ var products = [
   {id:936,name:'512G XPG S70 BLADE M2 PCI GEN4',brand:'ADATA',cat:'components',subcat:'ssd',
    price:268.8,added:'2026-04-21',emoji:'⚡',
    rating:4.3,rv:0,
-   img:'./images/products/42170.webp',stock:true},
+   img:'./images/products/42170.webp',stock:false},
 
   {id:937,name:'1T XPG S70 BLADE M2 PCI GEN4',brand:'ADATA',cat:'components',subcat:'ssd',
    price:435.6,added:'2026-04-21',emoji:'⚡',
@@ -4696,7 +4696,7 @@ var products = [
    img:'./images/products/28672.webp',stock:true},
 
   {id:938,name:'2T XPG S70 BLADE M2 PCI GEN4',brand:'ADATA',cat:'components',subcat:'ssd',
-   price:699.8,old:753.34,pct:7,badge:'sale',added:'2026-04-21',emoji:'⚡',
+   price:699.83,old:753.34,pct:7,badge:'sale',added:'2026-04-21',emoji:'⚡',
    rating:4.3,rv:0,
    img:'./images/products/28673.webp',stock:true},
 
@@ -4706,12 +4706,12 @@ var products = [
    img:'./images/products/46341.webp',stock:true},
 
   {id:940,name:'ADATA LEGEND 860 1TB M2 2280',brand:'ADATA',cat:'components',subcat:'ssd',
-   price:336.82,old:390.82,pct:14,badge:'sale',added:'2026-04-21',emoji:'⚡',
+   price:336.84,old:390.82,pct:14,badge:'sale',added:'2026-04-21',emoji:'⚡',
    rating:4.3,rv:0,
    img:'./images/products/46683.webp',stock:true},
 
   {id:941,name:'ADATA LEGEND 860 2TB M2 2280',brand:'ADATA',cat:'components',subcat:'ssd',
-   price:661.59,old:771.81,pct:14,badge:'sale',added:'2026-04-21',emoji:'⚡',
+   price:661.62,old:771.81,pct:14,badge:'sale',added:'2026-04-21',emoji:'⚡',
    rating:4.3,rv:0,
    img:'./images/products/46687.webp',stock:true},
 
@@ -4726,7 +4726,7 @@ var products = [
    img:'./images/products/45971.webp',stock:false},
 
   {id:944,name:'XPG SPECTRIX S65G 500G M2 PCIE',brand:'ADATA',cat:'components',subcat:'ssd',
-   price:224.21,old:235.64,pct:5,badge:'sale',added:'2026-04-21',emoji:'⚡',
+   price:224.23,old:235.64,pct:5,badge:'sale',added:'2026-04-21',emoji:'⚡',
    rating:4.3,rv:0,
    img:'./images/products/49789.webp',stock:true},
 
@@ -5867,7 +5867,7 @@ var products = [
    img:'./images/products/40393.webp',stock:true},
 
   {id:1172,name:'MSI 27 MAG 27C6F',brand:'MSI',cat:'monitors',subcat:'monitor',
-   price:296.8,old:318.32,pct:7,badge:'sale',added:'2026-04-21',emoji:'🎮',
+   price:296.82,old:318.32,pct:7,badge:'sale',added:'2026-04-21',emoji:'🎮',
    rating:4.3,rv:0,
    img:'./images/products/40401.webp',stock:true},
 
@@ -5932,7 +5932,7 @@ var products = [
    img:'./images/products/50568.webp',stock:true},
 
   {id:1185,name:'ASROCK 24.5 PG25FFT 180HZ',brand:'ASRock',cat:'monitors',subcat:'monitor',
-   price:178.42,old:188.14,pct:5,badge:'sale',added:'2026-04-21',emoji:'🎮',
+   price:178.44,old:188.14,pct:5,badge:'sale',added:'2026-04-21',emoji:'🎮',
    rating:4.3,rv:0,
    img:'./images/products/51102.webp',stock:true},
 
@@ -5987,7 +5987,7 @@ var products = [
    img:'./images/products/47051.webp',stock:false},
 
   {id:1196,name:'ASROCK 27 CL27FFB IPS',brand:'ASRock',cat:'monitors',subcat:'monitor',
-   price:218.18,old:229.2,pct:5,badge:'sale',added:'2026-04-21',emoji:'🖥',
+   price:218.2,old:229.2,pct:5,badge:'sale',added:'2026-04-21',emoji:'🖥',
    rating:4.3,rv:0,
    img:'./images/products/50555.webp',stock:true},
 
@@ -6087,12 +6087,12 @@ var products = [
    img:'./images/products/50826.webp',stock:false},
 
   {id:1216,name:'KOORUI 24 E2412F FHD',brand:'Koorui',cat:'monitors',subcat:'monitor',
-   price:152.01,old:162.16,pct:6,badge:'sale',added:'2026-04-21',emoji:'🖥',
+   price:152.04,old:162.16,pct:6,badge:'sale',added:'2026-04-21',emoji:'🖥',
    rating:4.3,rv:0,
    img:'./images/products/50828.webp',stock:true},
 
   {id:1217,name:'KOORUI 24 E2411K IPS FHD',brand:'Koorui',cat:'monitors',subcat:'monitor',
-   price:174.95,old:184.38,pct:5,badge:'sale',added:'2026-04-21',emoji:'🎮',
+   price:174.97,old:184.38,pct:5,badge:'sale',added:'2026-04-21',emoji:'🎮',
    rating:4.3,rv:0,
    img:'./images/products/50830.webp',stock:true},
 
@@ -6132,22 +6132,22 @@ var products = [
    img:'./images/products/50850.webp',stock:true},
 
   {id:1225,name:'KOORUI 27 G2711P IPS FHD 200HZ',brand:'Koorui',cat:'monitors',subcat:'monitor',
-   price:252.56,old:267.6,pct:6,badge:'sale',added:'2026-04-21',emoji:'🎮',
+   price:252.58,old:267.6,pct:6,badge:'sale',added:'2026-04-21',emoji:'🎮',
    rating:4.3,rv:0,
    img:'./images/products/50853.webp',stock:true},
 
   {id:1226,name:'KOORUI 27 G2721E IPS QHD 320H',brand:'Koorui',cat:'monitors',subcat:'monitor',
-   price:412.23,old:477.57,pct:14,badge:'sale',added:'2026-04-21',emoji:'🎮',
+   price:412.25,old:477.57,pct:14,badge:'sale',added:'2026-04-21',emoji:'🎮',
    rating:4.3,rv:0,
    img:'./images/products/50857.webp',stock:true},
 
   {id:1227,name:'KOORUI 27 S2721XO QHD QD-OLED',brand:'Koorui',cat:'monitors',subcat:'monitor',
-   price:1032.4,old:1100.71,pct:6,badge:'sale',added:'2026-04-21',emoji:'✨',
+   price:1032.47,old:1100.71,pct:6,badge:'sale',added:'2026-04-21',emoji:'✨',
    rating:4.3,rv:0,
    img:'./images/products/50859.webp',stock:true},
 
   {id:1228,name:'KOORUI 32 G3221SC QHD CURVED',brand:'Koorui',cat:'monitors',subcat:'monitor',
-   price:439.59,old:472.83,pct:7,badge:'sale',added:'2026-04-21',emoji:'🎮',
+   price:439.62,old:472.83,pct:7,badge:'sale',added:'2026-04-21',emoji:'🎮',
    rating:4.3,rv:0,
    img:'./images/products/50864.webp',stock:true},
 
@@ -8128,7 +8128,7 @@ const _laptops = [
   {id:1751,name:'Lenovo IP3 SLIM 15/ 82XQ00TWBM',brand:'Lenovo',cat:'laptops',subcat:null,price:958.8,added:'2026-04-22',emoji:'💻',rating:4.7,rv:13,img:'./images/products/50560.webp',stock:false},
   {id:1752,name:'Lenovo IP3 SLIM 15/ 82XQ0100BM',brand:'Lenovo',cat:'laptops',subcat:null,price:859.2,added:'2026-04-22',emoji:'💻',rating:4.1,rv:21,img:'./images/products/51315.webp',stock:false},
   {id:1753,name:'Lenovo IP3 SLIM 15/ 82XQ0189BM',brand:'Lenovo',cat:'laptops',subcat:null,price:781.2,added:'2026-04-22',emoji:'💻',rating:5.0,rv:23,img:'./images/products/100246.webp',stock:true},
-  {id:1754,name:'Lenovo IP3 SLIM 15/ 82XQ01LUBM',brand:'Lenovo',cat:'laptops',subcat:null,price:2018.4,added:'2026-04-22',emoji:'💻',rating:4.1,rv:18,img:'./images/products/49800.webp',stock:false},
+  {id:1754,name:'Lenovo IP3 SLIM 15/ 82XQ01LUBM',brand:'Lenovo',cat:'laptops',subcat:null,price:1758.25,old:2018.4,pct:13,badge:'sale',added:'2026-04-22',emoji:'💻',rating:4.1,rv:18,img:'./images/products/49800.webp',stock:true},
   {id:1755,name:'Lenovo IP3 SLIM 15/83EM004YBM',brand:'Lenovo',cat:'laptops',subcat:null,price:1348.8,added:'2026-04-22',emoji:'💻',rating:4.2,rv:4,img:'./images/products/37876.webp',stock:false},
   {id:1756,name:'Lenovo IP3 SLIM 15 /83EM00APBM',brand:'Lenovo',cat:'laptops',subcat:null,price:1279.2,added:'2026-04-22',emoji:'💻',rating:4.2,rv:19,img:'./images/products/40694.webp',stock:false},
   {id:1757,name:'Lenovo IP3 SLIM 15 /83EM00BDBM',brand:'Lenovo',cat:'laptops',subcat:null,price:1099.2,added:'2026-04-22',emoji:'💻',rating:4.9,rv:6,img:'./images/products/43171.webp',stock:false},
@@ -8764,7 +8764,7 @@ const _laptops = [
   {id:2395,name:'Lenovo TP X9 GEN1 / 21QA001CBM',brand:'Lenovo',cat:'laptops',subcat:null,price:4398,added:'2026-04-22',emoji:'💻',rating:3.9,rv:17,img:'./images/products/51812.webp',stock:false},
   {id:2396,name:'Lenovo TB 14 G7 / 21MVA0B6BM',brand:'Lenovo',cat:'laptops',subcat:null,price:985.2,added:'2026-04-22',emoji:'💻',rating:5.0,rv:24,img:'./images/products/50042.webp',stock:false},
   {id:2397,name:'Lenovo TB 14 G7 / 21MV001NBM',brand:'Lenovo',cat:'laptops',subcat:null,price:1298.4,added:'2026-04-22',emoji:'💻',rating:3.9,rv:12,img:'./images/products/49374.webp',stock:true},
-  {id:2398,name:'Lenovo TB 14 G8 / 21SJ007EBM',brand:'Lenovo',cat:'laptops',subcat:null,price:1953.6,added:'2026-04-22',emoji:'💻',rating:4.1,rv:6,img:'./images/products/52852.webp',stock:false},
+  {id:2398,name:'Lenovo TB 14 G8 / 21SJ007EBM',brand:'Lenovo',cat:'laptops',subcat:null,price:1953.6,added:'2026-04-22',emoji:'💻',rating:4.1,rv:6,img:'./images/products/52852.webp',stock:true},
   {id:2399,name:'Lenovo TB 14 G8 / 21SJ007ERI',brand:'Lenovo',cat:'laptops',subcat:null,price:2068.8,added:'2026-04-22',emoji:'💻',rating:4.9,rv:16,img:'https://images.icecat.biz/img/gallery_mediums/428b1e1c913aa69f2724a8d534f2d78a90c301f1.jpg',stock:false},
   {id:2400,name:'Lenovo TB 14 G8 / 21SJ007KRI',brand:'Lenovo',cat:'laptops',subcat:null,price:2247.6,added:'2026-04-22',emoji:'💻',rating:4.1,rv:22,img:'https://images.icecat.biz/img/gallery_mediums/428b1e1c913aa69f2724a8d534f2d78a90c301f1.jpg',stock:false},
   {id:2401,name:'Lenovo TB 14 G8 / 21SJ00ELBM',brand:'Lenovo',cat:'laptops',subcat:null,price:1562.4,added:'2026-04-22',emoji:'💻',rating:4.4,rv:9,img:'./images/products/100184.webp',stock:false},
@@ -8946,10 +8946,10 @@ const _desktops = [
   {id:2689,name:'MSI DP10 13M-002EU',brand:'MSI',cat:'desktops',subcat:'office_pc',price:1348.8,added:'2026-04-22',emoji:'🖥',rating:5.1,rv:10,img:'./images/products/39211.webp',stock:false},
   {id:2690,name:'MSI PRO AP222T AIO',brand:'MSI',cat:'desktops',subcat:'aio',price:1404,added:'2026-04-22',emoji:'🖥',rating:4.2,rv:48,img:'./images/products/39693.webp',stock:false},
   {id:2691,name:'MSI PRO AP222T 13M-210XEU AIO',brand:'MSI',cat:'desktops',subcat:'aio',price:1196.4,added:'2026-04-22',emoji:'🖥',rating:5.1,rv:18,img:'./images/products/43590.webp',stock:false},
-  {id:2692,name:'MSI PRO AP222T 13M-435EU',brand:'MSI',cat:'desktops',subcat:'office_pc',price:1385.01,old:1485.23,pct:7,badge:'sale',added:'2026-04-22',emoji:'🖥',rating:3.9,rv:12,img:'./images/products/51398.webp',stock:true},
+  {id:2692,name:'MSI PRO AP222T 13M-435EU',brand:'MSI',cat:'desktops',subcat:'office_pc',price:1385.1,old:1485.23,pct:7,badge:'sale',added:'2026-04-22',emoji:'🖥',rating:3.9,rv:12,img:'./images/products/51398.webp',stock:true},
   {id:2693,name:'MSI PRO AP242P 14M-892XEU',brand:'MSI',cat:'desktops',subcat:'office_pc',price:1510.8,added:'2026-04-22',emoji:'🖥',rating:4.1,rv:13,img:'./images/products/51401.webp',stock:false},
   {id:2694,name:'MSI PRO AP272P 14M-841XEU',brand:'MSI',cat:'desktops',subcat:'office_pc',price:1012.8,added:'2026-04-22',emoji:'🖥',rating:4.6,rv:48,img:'./images/products/45340.webp',stock:false},
-  {id:2695,name:'MSI PRO AP272P 14M-886XEU',brand:'MSI',cat:'desktops',subcat:'office_pc',price:2100.26,old:2229.04,pct:6,badge:'sale',added:'2026-04-22',emoji:'🖥',rating:4.1,rv:10,img:'./images/products/51414.webp',stock:true},
+  {id:2695,name:'MSI PRO AP272P 14M-886XEU',brand:'MSI',cat:'desktops',subcat:'office_pc',price:2100.37,old:2229.04,pct:6,badge:'sale',added:'2026-04-22',emoji:'🖥',rating:4.1,rv:10,img:'./images/products/51414.webp',stock:true},
   {id:2696,name:'MSI PRO AP162T ADL-017XEU AIO',brand:'MSI',cat:'desktops',subcat:'aio',price:798,added:'2026-04-22',emoji:'🖥',rating:5.2,rv:33,img:'./images/products/43593.webp',stock:false},
   {id:2697,name:'MSI MODERN AM242P AIO',brand:'MSI',cat:'desktops',subcat:'aio',price:1164,added:'2026-04-22',emoji:'🖥',rating:4.8,rv:23,img:'./images/products/40348.webp',stock:false},
   {id:2698,name:'MSI MODERN AM242 1M AIO',brand:'MSI',cat:'desktops',subcat:'aio',price:1448.4,added:'2026-04-22',emoji:'🖥',rating:4.0,rv:28,img:'./images/products/42433.webp',stock:true},
@@ -9107,10 +9107,10 @@ const _cases = [
   {id:2851,name:'MSI MPG GUNGNIR 110R WHITE',brand:'MSI',cat:'components',subcat:'case',price:220.41,old:232.56,pct:5,badge:'sale',added:'2026-04-22',emoji:'🖥',rating:5.0,rv:27,img:'./images/products/40536.webp',stock:true},
   {id:2852,name:'MSI MPG VELOX 100P AIRFLOW',brand:'MSI',cat:'components',subcat:'case',price:226.8,added:'2026-04-22',emoji:'🖥',rating:4.9,rv:29,img:'./images/products/40552.webp',stock:false},
   {id:2853,name:'MSI MPG VELOX 100R BLACK',brand:'MSI',cat:'components',subcat:'case',price:244.8,added:'2026-04-22',emoji:'🖥',rating:4.4,rv:13,img:'./images/products/40526.webp',stock:false},
-  {id:2854,name:'MSI MPG VELOX 100R WHITE',brand:'MSI',cat:'components',subcat:'case',price:251.36,old:267.02,pct:6,badge:'sale',added:'2026-04-22',emoji:'🖥',rating:3.9,rv:8,img:'./images/products/40557.webp',stock:true},
+  {id:2854,name:'MSI MPG VELOX 100R WHITE',brand:'MSI',cat:'components',subcat:'case',price:251.39,old:267.02,pct:6,badge:'sale',added:'2026-04-22',emoji:'🖥',rating:3.9,rv:8,img:'./images/products/40557.webp',stock:true},
   {id:2855,name:'MSI MPG GUNGNIR 300P AIRFLOW',brand:'MSI',cat:'components',subcat:'case',price:316.8,added:'2026-04-22',emoji:'🖥',rating:4.8,rv:37,img:'./images/products/40541.webp',stock:false},
   {id:2856,name:'MSI MPG GUNGNIR 300R AIRFLOW',brand:'MSI',cat:'components',subcat:'case',price:304.8,added:'2026-04-22',emoji:'🖥',rating:3.9,rv:7,img:'./images/products/40548.webp',stock:false},
-  {id:2857,name:'MSI MPG GUNGNIR 300R AIRFL WHI',brand:'MSI',cat:'components',subcat:'case',price:328.98,old:350.92,pct:6,badge:'sale',added:'2026-04-22',emoji:'🖥',rating:4.2,rv:0,img:'./images/products/40546.webp',stock:true},
+  {id:2857,name:'MSI MPG GUNGNIR 300R AIRFL WHI',brand:'MSI',cat:'components',subcat:'case',price:329,old:350.92,pct:6,badge:'sale',added:'2026-04-22',emoji:'🖥',rating:4.2,rv:0,img:'./images/products/40546.webp',stock:true},
   {id:2858,name:'MSI MEG PROSPECT 700R',brand:'MSI',cat:'components',subcat:'case',price:693.6,added:'2026-04-22',emoji:'🖥',rating:4.8,rv:29,img:'./images/products/40531.webp',stock:false},
   {id:2859,name:'MSI MEG MAESTRO 700L PZ',brand:'MSI',cat:'components',subcat:'case',price:640.8,added:'2026-04-22',emoji:'🖥',rating:3.9,rv:14,img:'./images/products/43608.webp',stock:true},
   {id:2860,name:'MSI MAG FORGE 320R AIRFLOW',brand:'MSI',cat:'components',subcat:'case',price:150,added:'2026-04-22',emoji:'🖥',rating:4.9,rv:18,img:'./images/products/40514.webp',stock:false},
@@ -9249,7 +9249,7 @@ const _cases = [
   {id:2993,name:'FD NORTH XL CHALK WHITE',brand:'Fractal Design',cat:'components',subcat:'case',price:372,added:'2026-04-22',emoji:'🖥',rating:4.7,rv:4,img:'./images/products/39427.webp',stock:true},
   {id:2994,name:'FD NORTH XL CHALK WHITE TG CLR',brand:'Fractal Design',cat:'components',subcat:'case',price:372,added:'2026-04-22',emoji:'🖥',rating:5.0,rv:16,img:'./images/products/39434.webp',stock:true},
   {id:2995,name:'FD NORTH XL RC BLACK TG DARK',brand:'Fractal Design',cat:'components',subcat:'case',price:372,added:'2026-04-22',emoji:'🖥',rating:4.7,rv:34,img:'./images/products/48541.webp',stock:true},
-  {id:2996,name:'FD NORTH XL MOMENTUM EDITION',brand:'Fractal Design',cat:'components',subcat:'case',price:430.35,old:452.4,pct:5,badge:'sale',added:'2026-04-22',emoji:'🖥',rating:4.6,rv:28,img:'./images/products/100793.webp',stock:true},
+  {id:2996,name:'FD NORTH XL MOMENTUM EDITION',brand:'Fractal Design',cat:'components',subcat:'case',price:430.37,old:452.4,pct:5,badge:'sale',added:'2026-04-22',emoji:'🖥',rating:4.6,rv:28,img:'./images/products/100793.webp',stock:true},
   {id:2997,name:'FD TORRENT NANO BLACK TGD',brand:'Fractal Design',cat:'components',subcat:'case',price:259.2,added:'2026-04-22',emoji:'🖥',rating:3.9,rv:10,img:'./images/products/31218.webp',stock:false},
   {id:2998,name:'FD TORRENT NANO RGB BLACK TGL',brand:'Fractal Design',cat:'components',subcat:'case',price:280.8,added:'2026-04-22',emoji:'🖥',rating:4.8,rv:16,img:'./images/products/31222.webp',stock:false},
   {id:2999,name:'FD TORRENT NANO WHITE TG CLEAR',brand:'Fractal Design',cat:'components',subcat:'case',price:250.8,added:'2026-04-22',emoji:'🖥',rating:4.1,rv:10,img:'./images/products/36518.webp',stock:false},
@@ -9290,7 +9290,7 @@ const _cases = [
   {id:3034,name:'PSU MSI MPG A850GS PCIE5',brand:'MSI',cat:'components',subcat:'psu',price:298.8,added:'2026-04-22',emoji:'⚡',rating:4.2,rv:23,img:'./images/products/47466.webp',stock:false},
   {id:3035,name:'PSU MSI MAG A850GL PCIE5',brand:'MSI',cat:'components',subcat:'psu',price:214.3,old:229.18,pct:6,badge:'sale',added:'2026-04-22',emoji:'⚡',rating:5.0,rv:35,img:'./images/products/42003.webp',stock:false},
   {id:3036,name:'PSU MSI MAG A850GL PCIE5 WHITE',brand:'MSI',cat:'components',subcat:'psu',price:248.4,added:'2026-04-22',emoji:'⚡',rating:4.4,rv:18,img:'./images/products/43771.webp',stock:false},
-  {id:3037,name:'PSU MSI MAG A1250GL PCIE5',brand:'MSI',cat:'components',subcat:'psu',price:244.7,old:375.82,pct:35,badge:'sale',added:'2026-04-22',emoji:'⚡',rating:5.0,rv:0,img:'./images/products/43154.webp',stock:true},
+  {id:3037,name:'PSU MSI MAG A1250GL PCIE5',brand:'MSI',cat:'components',subcat:'psu',price:244.72,old:375.82,pct:35,badge:'sale',added:'2026-04-22',emoji:'⚡',rating:5.0,rv:0,img:'./images/products/43154.webp',stock:true},
   {id:3038,name:'PSU MSI MPG A1250GS PCIE5',brand:'MSI',cat:'components',subcat:'psu',price:432,added:'2026-04-22',emoji:'⚡',rating:4.4,rv:5,img:'./images/products/47470.webp',stock:false},
   {id:3039,name:'PSU MSI MPG A850G PCIE5',brand:'MSI',cat:'components',subcat:'psu',price:254.4,added:'2026-04-22',emoji:'⚡',rating:3.8,rv:38,img:'./images/products/34314.webp',stock:false},
   {id:3040,name:'PSU MSI MAG A850GN PCIE5',brand:'MSI',cat:'components',subcat:'psu',price:203.51,old:219.68,pct:7,badge:'sale',added:'2026-04-22',emoji:'⚡',rating:4.6,rv:24,img:'./images/products/45331.webp',stock:true},
@@ -9313,7 +9313,7 @@ const _cases = [
   {id:3057,name:'PSU FORTRON VITA-650BD 650W 80',brand:'Fortron',cat:'components',subcat:'psu',price:116.4,added:'2026-04-22',emoji:'⚡',rating:4.7,rv:34,img:'./images/products/47691.webp',stock:false},
   {id:3058,name:'PSU FORTRON VITA-750BD-B 750W',brand:'Fortron',cat:'components',subcat:'psu',price:129.6,added:'2026-04-22',emoji:'⚡',rating:3.9,rv:28,img:'./images/products/47715.webp',stock:false},
   {id:3059,name:'PSU FORTRON VITA-750BD 750W',brand:'Fortron',cat:'components',subcat:'psu',price:128.97,old:143.07,pct:10,badge:'sale',added:'2026-04-22',emoji:'⚡',rating:4.8,rv:37,img:'./images/products/50509.webp',stock:true},
-  {id:3060,name:'PSU FORTRON VITA-850BD-B 850W',brand:'Fortron',cat:'components',subcat:'psu',price:133.92,old:168.4,pct:20,badge:'sale',added:'2026-04-22',emoji:'⚡',rating:4.5,rv:15,img:'./images/products/47696.webp',stock:true},
+  {id:3060,name:'PSU FORTRON VITA-850BD-B 850W',brand:'Fortron',cat:'components',subcat:'psu',price:133.94,old:168.4,pct:20,badge:'sale',added:'2026-04-22',emoji:'⚡',rating:4.5,rv:15,img:'./images/products/47696.webp',stock:true},
   {id:3061,name:'PSU FORTRON VITA-850BD 850W',brand:'Fortron',cat:'components',subcat:'psu',price:150.56,old:175.86,pct:14,badge:'sale',added:'2026-04-22',emoji:'⚡',rating:4.9,rv:31,img:'./images/products/50516.webp',stock:true},
   {id:3062,name:'PSU FORTRON VITA-750GD 750W 80',brand:'Fortron',cat:'components',subcat:'psu',price:171.6,added:'2026-04-22',emoji:'⚡',rating:4.9,rv:11,img:'./images/products/47701.webp',stock:false},
   {id:3063,name:'PSU FORTRON VITA-850GD 850W 80',brand:'Fortron',cat:'components',subcat:'psu',price:188.4,added:'2026-04-22',emoji:'⚡',rating:3.9,rv:37,img:'./images/products/47706.webp',stock:false},
@@ -9468,7 +9468,7 @@ const _cases = [
   {id:3759,name:'TUNCMATIK MODULTECH 2U 30KVA',brand:'TUNCMATIK',cat:'ups',subcat:'ups_server',price:8235.61,added:'2026-04-30',emoji:'⚡',rating:4.5,rv:0,img:'./images/products/51300.webp',stock:false},
   {id:3760,name:'FORTRON FSP1290 BATTERY 12V 9A',brand:'FORTRON',cat:'ups',subcat:'ups_home',price:46.4,added:'2026-04-30',emoji:'⚡',rating:4.5,rv:0,img:'./images/products/52803.webp',stock:false},
   {id:3761,name:'HIKVISION DS-UPS600VA',brand:'HIKVISION',cat:'ups',subcat:'ups_home',price:111.43,added:'2026-04-30',emoji:'⚡',rating:4.5,rv:0,img:'./images/products/42693.webp',stock:true},
-  {id:3762,name:'HIKVISION DS-UPS1000VA',brand:'HIKVISION',cat:'ups',subcat:'ups_office',price:137.8,added:'2026-04-30',emoji:'⚡',rating:4.5,rv:0,img:'./images/products/42694.webp',stock:true},
+  {id:3762,name:'HIKVISION DS-UPS1000VA',brand:'HIKVISION',cat:'ups',subcat:'ups_office',price:137.8,added:'2026-04-30',emoji:'⚡',rating:4.5,rv:0,img:'./images/products/42694.webp',stock:false},
   {id:3763,name:'HIKVISION DS-UPS3000VA',brand:'HIKVISION',cat:'ups',subcat:'ups_office',price:552.62,added:'2026-04-30',emoji:'⚡',rating:4.5,rv:0,img:'./images/products/43396.webp',stock:true},
 
   // ── Bags & Cases (imported from categoryId=21, 2026-06-10) ─────────────────────
@@ -10262,7 +10262,7 @@ products.push(
   {id:3813,vendorId:52835,name:'128GB USB3 UV150 ADATA BLACK',brand:'Adata',cat:'storage',subcat:'usb_flash',price:25.04,old:26.38,pct:5,emoji:'💾',img:'./images/products/7674.webp',rating:4.2,rv:0,inStock:true,badge:'sale',added:'2026-05-11'},
   {id:3814,vendorId:65237,name:'128GB USB3.2 UV320 ADATA WHITE',brand:'Adata',cat:'storage',subcat:'usb_flash',price:23.1,emoji:'💾',img:'./images/products/28803.webp',rating:4.2,rv:0,inStock:true,added:'2026-05-11'},
   {id:3815,vendorId:65238,name:'128GB USB3.2 UV320 ADATA BLACK',brand:'Adata',cat:'storage',subcat:'usb_flash',price:23.38,emoji:'💾',img:'./images/products/28802.webp',rating:4.2,rv:0,inStock:true,added:'2026-05-11'},
-  {id:3816,vendorId:52836,name:'128GB USB3 UV128 ADATA',brand:'Adata',cat:'storage',subcat:'usb_flash',price:23.52,old:24.93,pct:6,emoji:'💾',img:'https://images.icecat.biz/img/gallery_mediums/22196945_6820.jpg',rating:4.2,rv:0,inStock:true,badge:'sale',added:'2026-05-11'},
+  {id:3816,vendorId:52836,name:'128GB USB3 UV128 ADATA',brand:'Adata',cat:'storage',subcat:'usb_flash',price:23.54,old:24.93,pct:6,emoji:'💾',img:'https://images.icecat.biz/img/gallery_mediums/22196945_6820.jpg',rating:4.2,rv:0,inStock:true,badge:'sale',added:'2026-05-11'},
   {id:3817,vendorId:68779,name:'128GB USB3 UR340 ADATA MET BK',brand:'Adata',cat:'storage',subcat:'usb_flash',price:30.67,emoji:'💾',img:'./images/products/37042.webp',rating:4.2,rv:0,inStock:true,added:'2026-05-11'},
   {id:3818,vendorId:70327,name:'128GB UC310 ADATA BLACK',brand:'Adata',cat:'storage',subcat:'usb_flash',price:24.78,emoji:'💾',img:'./images/products/42712.webp',rating:4.2,rv:0,inStock:true,added:'2026-05-11'},
   {id:3819,vendorId:70328,name:'128GB UC310 ADATA WHITE',brand:'Adata',cat:'storage',subcat:'usb_flash',price:25.88,emoji:'💾',img:'./images/products/42713.webp',rating:4.2,rv:0,inStock:true,added:'2026-05-11'},
@@ -10284,7 +10284,7 @@ products.push(
   {id:3835,vendorId:69736,name:'256GB USB3.2 DTXM KINGSTON',brand:'Kingston',cat:'storage',subcat:'usb_flash',price:47.46,emoji:'💾',img:'./images/products/40163.webp',rating:4.2,rv:0,inStock:true,added:'2026-05-11'},
   {id:3836,vendorId:63898,name:'64GB USB3 KINGSTON DTKN',brand:'Kingston',cat:'storage',subcat:'usb_flash',price:28.46,emoji:'💾',img:'./images/products/26052.webp',rating:4.2,rv:0,inStock:true,added:'2026-05-11'},
   {id:3837,vendorId:64341,name:'128GB USB3 KINGSTON DTKN',brand:'Kingston',cat:'storage',subcat:'usb_flash',price:44.96,emoji:'💾',img:'./images/products/26214.webp',rating:4.2,rv:0,inStock:false,added:'2026-05-11'},
-  {id:3838,vendorId:68753,name:'256GB USB3 KINGSTON DTKN',brand:'Kingston',cat:'storage',subcat:'usb_flash',price:75.2,old:82.64,pct:9,emoji:'💾',img:'./images/products/36964.webp',rating:4.2,rv:0,inStock:true,badge:'sale',added:'2026-05-11'},
+  {id:3838,vendorId:68753,name:'256GB USB3 KINGSTON DTKN',brand:'Kingston',cat:'storage',subcat:'usb_flash',price:75.22,old:82.64,pct:9,emoji:'💾',img:'./images/products/36964.webp',rating:4.2,rv:0,inStock:true,badge:'sale',added:'2026-05-11'},
   {id:3839,vendorId:71952,name:'512GB USB3 KINGSTON DTKN',brand:'Kingston',cat:'storage',subcat:'usb_flash',price:65.95,emoji:'💾',img:'./images/products/49744.webp',rating:4.2,rv:0,inStock:false,added:'2026-05-11'},
   {id:3840,vendorId:69293,name:'64G USB3.2 DTSE9G3 KINGSTON',brand:'Kingston',cat:'storage',subcat:'usb_flash',price:30.49,emoji:'💾',img:'./images/products/38836.webp',rating:4.2,rv:0,inStock:true,added:'2026-05-11'},
   {id:3841,vendorId:69291,name:'128G USB3.2 DTSE9G3 KINGSTON',brand:'Kingston',cat:'storage',subcat:'usb_flash',price:48.37,emoji:'💾',img:'./images/products/38828.webp',rating:4.2,rv:0,inStock:true,added:'2026-05-11'},
@@ -10309,7 +10309,7 @@ products.push(
   {id:3860,vendorId:71113,name:'512G SDMIC KINGST GO+ SDCG4',brand:'Kingston',cat:'storage',subcat:'microsd',price:205.64,emoji:'📱',img:'./images/products/45830.webp',rating:4.2,rv:0,inStock:true,added:'2026-05-11'},
   {id:3861,vendorId:71566,name:'1TB SDMIC KINGST SDCS3',brand:'Kingston',cat:'storage',subcat:'microsd',price:212.84,emoji:'📱',img:'./images/products/48020.webp',rating:4.2,rv:0,inStock:false,added:'2026-05-11'},
   {id:3862,vendorId:69508,name:'1TB SDMIC KINGST GO+ SDCG3',brand:'Kingston',cat:'storage',subcat:'microsd',price:182.46,emoji:'📱',img:'./images/products/39252.webp',rating:4.2,rv:0,inStock:false,added:'2026-05-11'},
-  {id:3863,vendorId:71289,name:'1TB SDMIC KINGST GO+ SDCG4',brand:'Kingston',cat:'storage',subcat:'microsd',price:567.88,old:595.9,pct:5,emoji:'📱',img:'./images/products/46586.webp',rating:4.2,rv:0,inStock:true,badge:'sale',added:'2026-05-11'},
+  {id:3863,vendorId:71289,name:'1TB SDMIC KINGST GO+ SDCG4',brand:'Kingston',cat:'storage',subcat:'microsd',price:567.9,old:595.9,pct:5,emoji:'📱',img:'./images/products/46586.webp',rating:4.2,rv:0,inStock:true,badge:'sale',added:'2026-05-11'},
   {id:3864,vendorId:71841,name:'32G SDXCM+A UHS-I CL10A1 ADATA',brand:'Adata',cat:'storage',subcat:'microsd',price:19.88,emoji:'📱',img:'./images/products/49448.webp',rating:4.2,rv:0,inStock:true,added:'2026-05-11'},
   {id:3865,vendorId:68818,name:'128G SDXCM+AD UHS-I CL10 TEAM',brand:'Team',cat:'storage',subcat:'microsd',price:17.63,emoji:'📱',img:'./images/products/37982.webp',rating:4.2,rv:0,inStock:false,added:'2026-05-11'},
   {id:3866,vendorId:60402,name:'64G SDXCM+A UHS-I U3 V30 ADATA',brand:'Adata',cat:'storage',subcat:'microsd',price:35.68,emoji:'📱',img:'./images/products/19291.webp',rating:4.2,rv:0,inStock:true,added:'2026-05-11'},
@@ -10600,7 +10600,7 @@ products.push(
   {id:4083,vendorId:68754,name:'ADATA EXT SSD SE880 1T GRAY',brand:'Adata',cat:'storage',subcat:'ext_drive',price:181.94,added:'2026-05-28',emoji:'💾',img:'./images/products/36967.webp',rating:4.3,rv:0,stock:true},
   {id:4084,vendorId:68894,name:'ADATA EXT SSD SE880 2T GRAY',brand:'Adata',cat:'storage',subcat:'ext_drive',price:342.38,added:'2026-05-28',emoji:'💾',img:'./images/products/37453.webp',rating:4.3,rv:0,stock:true},
   {id:4085,vendorId:70329,name:'ADATA EXT SSD SC610 1000GB RED',brand:'Adata',cat:'storage',subcat:'ext_drive',price:157.55,added:'2026-05-28',emoji:'💾',img:'./images/products/42705.webp',rating:4.3,rv:0,stock:true},
-  {id:4086,vendorId:70926,name:'ADATA EXT SSD SC750 1TB USB-C',brand:'Adata',cat:'storage',subcat:'ext_drive',price:321.94,old:337.22,pct:5,badge:'sale',added:'2026-05-28',emoji:'💾',img:'./images/products/45051.webp',rating:4.3,rv:0,stock:false},
+  {id:4086,vendorId:70926,name:'ADATA EXT SSD SC750 1TB USB-C',brand:'Adata',cat:'storage',subcat:'ext_drive',price:321.96,old:337.22,pct:5,badge:'sale',added:'2026-05-28',emoji:'💾',img:'./images/products/45051.webp',rating:4.3,rv:0,stock:false},
   {id:4087,vendorId:70842,name:'ADATA EXT SSD SC750 2TB USB-C',brand:'Adata',cat:'storage',subcat:'ext_drive',price:318.92,added:'2026-05-28',emoji:'💾',img:'./images/products/44816.webp',rating:4.3,rv:0,stock:true},
   {id:4088,vendorId:70947,name:'EMTEC EXT SSD X210 512G /USB-C',brand:'Emtec',cat:'storage',subcat:'ext_drive',price:47.64,added:'2026-05-28',emoji:'💾',img:'./images/products/45207.webp',rating:4.3,rv:0,stock:false},
   {id:4089,vendorId:70948,name:'EMTEC EXT SSD X200 1T /USB-C',brand:'Emtec',cat:'storage',subcat:'ext_drive',price:245.64,added:'2026-05-28',emoji:'💾',img:'./images/products/45208.webp',rating:4.3,rv:0,stock:true},
@@ -10615,7 +10615,7 @@ products.push(
   {id:4098,vendorId:58667,name:'EXT 2TB ADATA HV620S USB3 BLK',brand:'Adata',cat:'storage',subcat:'ext_drive',price:117.43,added:'2026-05-28',emoji:'💾',img:'./images/products/15593.webp',rating:4.3,rv:0,stock:false},
   {id:4099,vendorId:58668,name:'EXT 2TB ADATA HV620S USB3 WHI',brand:'Adata',cat:'storage',subcat:'ext_drive',price:97.28,added:'2026-05-28',emoji:'💾',img:'./images/products/15595.webp',rating:4.3,rv:0,stock:true},
   {id:4100,vendorId:67604,name:'EXT 2TB ADATA HV620S USB3 BLUE',brand:'Adata',cat:'storage',subcat:'ext_drive',price:97.07,added:'2026-05-28',emoji:'💾',img:'./images/products/32972.webp',rating:4.3,rv:0,stock:true},
-  {id:4101,vendorId:58263,name:'EXT 2T ADATA HD710P USB3.1 BLK',brand:'Adata',cat:'storage',subcat:'ext_drive',price:251.15,old:266.2,pct:6,badge:'sale',added:'2026-05-28',emoji:'💾',img:'./images/products/19758.webp',rating:4.3,rv:0,stock:true},
+  {id:4101,vendorId:58263,name:'EXT 2T ADATA HD710P USB3.1 BLK',brand:'Adata',cat:'storage',subcat:'ext_drive',price:251.18,old:266.2,pct:6,badge:'sale',added:'2026-05-28',emoji:'💾',img:'./images/products/19758.webp',rating:4.3,rv:0,stock:true},
   {id:4102,vendorId:65710,name:'EXT 2T ADATA HD710P USB3.1 RED',brand:'Adata',cat:'storage',subcat:'ext_drive',price:104.93,added:'2026-05-28',emoji:'💾',img:'./images/products/28435.webp',rating:4.3,rv:0,stock:false},
   {id:4103,vendorId:58663,name:'EXT 2TB ADATA HD710P USB3.1 YL',brand:'Adata',cat:'storage',subcat:'ext_drive',price:102.35,added:'2026-05-28',emoji:'💾',img:'./images/products/15597.webp',rating:4.3,rv:0,stock:false},
   {id:4104,vendorId:59112,name:'EXT 2TB ADATA 710M USB3.1 CMFL',brand:'Adata',cat:'storage',subcat:'ext_drive',price:96.55,added:'2026-05-28',emoji:'💾',img:'./images/products/16506.webp',rating:4.3,rv:0,stock:false},
@@ -10677,7 +10677,7 @@ products.push(...[
   products.splice(0, products.length, ...products.filter(function(_, k) { return keepIdx.has(k); }));
 products.push(
 // GPU — нови продукти 2026-06-25
-  {id:4153,name:'PALIT RTX 5060 INFINITY 2 OC 8G',brand:'PALIT',cat:'components',subcat:'gpu',price:945.14,old:997.36,pct:5,badge:'sale',added:'2026-06-25',emoji:'🎮',rating:4.5,rv:0,img:'./images/products/49500.webp',stock:true},
+  {id:4153,name:'PALIT RTX 5060 INFINITY 2 OC 8G',brand:'PALIT',cat:'components',subcat:'gpu',price:945.18,old:997.36,pct:5,badge:'sale',added:'2026-06-25',emoji:'🎮',rating:4.5,rv:0,img:'./images/products/49500.webp',stock:true},
   {id:4154,name:'PALIT RTX 5060TI INFINITY 3 16',brand:'PALIT',cat:'components',subcat:'gpu',price:994.74,added:'2026-06-25',emoji:'🎮',rating:4.5,rv:0,img:'./images/products/45790.webp',stock:true},
   {id:4155,name:'PALIT RTX 5060TI DUAL 8GB',brand:'PALIT',cat:'components',subcat:'gpu',price:785.36,added:'2026-06-25',emoji:'🎮',rating:4.5,rv:0,img:'./images/products/46564.webp',stock:true},
   {id:4156,name:'PALIT RTX 5060TI INFINI 3 OC 16',brand:'PALIT',cat:'components',subcat:'gpu',price:1132.29,added:'2026-06-25',emoji:'🎮',rating:4.5,rv:0,img:'./images/products/45852.webp',stock:true},
@@ -10749,7 +10749,7 @@ products.push(
   {id:4222,name:'MSI RTX 5060TI 16 VEN 2X OC WH+',brand:'MSI',cat:'components',subcat:'gpu',price:1035.63,added:'2026-06-25',emoji:'🎮',rating:4.5,rv:0,img:'./images/products/51409.webp',stock:false},
   {id:4223,name:'MSI RTX 5070 12G GAM TRIO OC WH',brand:'MSI',cat:'components',subcat:'gpu',price:1368.77,added:'2026-06-25',emoji:'🎮',rating:4.5,rv:0,img:'./images/products/45377.webp',stock:false},
   {id:4224,name:'MSI RTX 5070 12G GAMING TRIO OC',brand:'MSI',cat:'components',subcat:'gpu',price:1311.52,added:'2026-06-25',emoji:'🎮',rating:4.5,rv:0,img:'./images/products/45750.webp',stock:false},
-  {id:4225,name:'MSI RTX 5070 12 VENTUS 2X OC WH',brand:'MSI',cat:'components',subcat:'gpu',price:1413.67,old:1498.11,pct:6,badge:'sale',added:'2026-06-25',emoji:'🎮',rating:4.5,rv:0,img:'./images/products/49437.webp',stock:false},
+  {id:4225,name:'MSI RTX 5070 12 VENTUS 2X OC WH',brand:'MSI',cat:'components',subcat:'gpu',price:1413.76,old:1498.11,pct:6,badge:'sale',added:'2026-06-25',emoji:'🎮',rating:4.5,rv:0,img:'./images/products/49437.webp',stock:false},
   {id:4226,name:'MSI RTX 5070 12G VENTUS 2X OC',brand:'MSI',cat:'components',subcat:'gpu',price:1410.45,old:1522.94,pct:7,badge:'sale',added:'2026-06-25',emoji:'🎮',rating:4.5,rv:0,img:'./images/products/51663.webp',stock:false},
   {id:4227,name:'MSI RTX 5070 12 VENTUS 3X OC',brand:'MSI',cat:'components',subcat:'gpu',price:1270.37,added:'2026-06-25',emoji:'🎮',rating:4.5,rv:0,img:'./images/products/51193.webp',stock:false},
   {id:4228,name:'MSI RTX 5070 12G SHADOW 2X OC',brand:'MSI',cat:'components',subcat:'gpu',price:1178.9,added:'2026-06-25',emoji:'🎮',rating:4.5,rv:0,img:'./images/products/45832.webp',stock:false},
@@ -10800,7 +10800,7 @@ products.push(
   {id:4273,name:'ASUS TUF-RX7900XT-O20G-GAMING',brand:'ASUS',cat:'components',subcat:'gpu',price:1605.23,added:'2026-06-25',emoji:'🎮',rating:4.5,rv:0,img:'./images/products/34787.webp',stock:false},
   {id:4274,name:'ASUS PRIME-RX9060XT-O8G',brand:'ASUS',cat:'components',subcat:'gpu',price:700.77,added:'2026-06-25',emoji:'🎮',rating:4.5,rv:0,img:'./images/products/47383.webp',stock:false},
   {id:4275,name:'ASUS PRIME-RX9060XT-O16G',brand:'ASUS',cat:'components',subcat:'gpu',price:974.67,added:'2026-06-25',emoji:'🎮',rating:4.5,rv:0,img:'./images/products/50960.webp',stock:true},
-  {id:4276,name:'ASUS PRIME-RX9070-O16G',brand:'ASUS',cat:'components',subcat:'gpu',price:1396.37,old:1487.01,pct:6,badge:'sale',added:'2026-06-25',emoji:'🎮',rating:4.5,rv:0,img:null,stock:false},
+  {id:4276,name:'ASUS PRIME-RX9070-O16G',brand:'ASUS',cat:'components',subcat:'gpu',price:1396.46,old:1487.01,pct:6,badge:'sale',added:'2026-06-25',emoji:'🎮',rating:4.5,rv:0,img:null,stock:false},
   {id:4277,name:'ASUS DUAL-RX9060XT-16G-WHITE',brand:'ASUS',cat:'components',subcat:'gpu',price:918.26,added:'2026-06-25',emoji:'🎮',rating:4.5,rv:0,img:'./images/products/50967.webp',stock:true},
   {id:4278,name:'ASUS TUF-RX9070-O16G-GAMING',brand:'ASUS',cat:'components',subcat:'gpu',price:1277.27,added:'2026-06-25',emoji:'🎮',rating:4.5,rv:0,img:'./images/products/44964.webp',stock:false},
   {id:4279,name:'ASUS TUF-RX9070XT-O16G-GAMING',brand:'ASUS',cat:'components',subcat:'gpu',price:1620.78,added:'2026-06-25',emoji:'🎮',rating:4.5,rv:0,img:'./images/products/44970.webp',stock:true},
@@ -10808,7 +10808,7 @@ products.push(
   {id:4281,name:'ASROCK RX9060XT CHALLENG 8G OC',brand:'ASROCK',cat:'components',subcat:'gpu',price:650.72,added:'2026-06-25',emoji:'🎮',rating:4.5,rv:0,img:'./images/products/48339.webp',stock:false},
   {id:4282,name:'ASROCK RX9060XT CL 8GO',brand:'ASROCK',cat:'components',subcat:'gpu',price:561.01,added:'2026-06-25',emoji:'🎮',rating:4.5,rv:0,img:'./images/products/49892.webp',stock:false},
   {id:4283,name:'ASROCK RX9060XT SL 16GO',brand:'ASROCK',cat:'components',subcat:'gpu',price:1035.63,added:'2026-06-25',emoji:'🎮',rating:4.5,rv:0,img:'./images/products/49897.webp',stock:true},
-  {id:4284,name:'ASROCK RX9070 CL 16G',brand:'ASROCK',cat:'components',subcat:'gpu',price:1422.91,old:1632.19,pct:13,badge:'sale',added:'2026-06-25',emoji:'🎮',rating:4.5,rv:0,img:'./images/products/100642.webp',stock:false},
+  {id:4284,name:'ASROCK RX9070 CL 16G',brand:'ASROCK',cat:'components',subcat:'gpu',price:1423.01,old:1632.19,pct:13,badge:'sale',added:'2026-06-25',emoji:'🎮',rating:4.5,rv:0,img:'./images/products/100642.webp',stock:false},
   {id:4285,name:'ASROCK RX9070XT SL 16G',brand:'ASROCK',cat:'components',subcat:'gpu',price:1653.58,old:1754.68,pct:6,badge:'sale',added:'2026-06-25',emoji:'🎮',rating:4.5,rv:0,img:'./images/products/46062.webp',stock:true},
   {id:4286,name:'ASROCK RX9070XT SLD 16G',brand:'ASROCK',cat:'components',subcat:'gpu',price:1206.51,added:'2026-06-25',emoji:'🎮',rating:4.5,rv:0,img:'./images/products/46067.webp',stock:true},
 
@@ -10830,7 +10830,7 @@ products.push(
   {id:4301,name:'KOORUI 27 E2712K FHD 144HZ',brand:'KOORUI',cat:'monitors',subcat:'monitor',price:166.56,added:'2026-06-25',emoji:'🖥',rating:4.5,rv:0,img:'https://portal.mostbg.com/api/images/imageFileData/101537.jpg',stock:true},
   {id:4302,name:'KOORUI 27 27E6QCA FHD 180H CRV',brand:'KOORUI',cat:'monitors',subcat:'monitor',price:258.91,added:'2026-06-25',emoji:'🖥',rating:4.5,rv:0,img:'./images/products/101538.webp',stock:true},
   {id:4303,name:'KOORUI 27 GN02 VA FHD 240HZ',brand:'KOORUI',cat:'monitors',subcat:'monitor',price:235.6,added:'2026-06-25',emoji:'🖥',rating:4.5,rv:0,img:'./images/products/101540.webp',stock:true},
-  {id:4304,name:'KOORUI 32 S3241XO 4K OLED UHD',brand:'KOORUI',cat:'monitors',subcat:'monitor',price:1831.92,old:1922.28,pct:5,badge:'sale',added:'2026-06-25',emoji:'🖥',rating:4.5,rv:0,img:'./images/products/101542.webp',stock:true},
+  {id:4304,name:'KOORUI 32 S3241XO 4K OLED UHD',brand:'KOORUI',cat:'monitors',subcat:'monitor',price:1832.04,old:1922.28,pct:5,badge:'sale',added:'2026-06-25',emoji:'🖥',rating:4.5,rv:0,img:'./images/products/101542.webp',stock:true},
   {id:4305,name:'KOORUI 34 G3441XC WQHD 240HZ',brand:'KOORUI',cat:'monitors',subcat:'monitor',price:483.31,added:'2026-06-25',emoji:'🖥',rating:4.5,rv:0,img:'https://portal.mostbg.com/api/images/imageFileData/101544.jpg',stock:true},
   {id:4306,name:'DESK MOUNT',brand:'',cat:'monitors',subcat:'monitor',price:90.01,added:'2026-06-25',emoji:'🖥',rating:4.5,rv:0,img:null,stock:false},
   {id:4307,name:'DESK MOUNT /DUAL',brand:'',cat:'monitors',subcat:'monitor',price:180,added:'2026-06-25',emoji:'🖥',rating:4.5,rv:0,img:null,stock:false},
@@ -10843,21 +10843,21 @@ products.push(
   {id:4312,name:'AMD RYZEN 9 9950X3D2 BOX',brand:'AMD',cat:'components',subcat:'cpu',price:1698.44,added:'2026-06-25',emoji:'🔵',rating:4.5,rv:0,img:'./images/products/101000.webp',stock:true},
 
 // Motherboard — нови продукти 2026-06-25
-  {id:4313,name:'B550M DS3H R2 / AM4',brand:'GIGABYTE',cat:'components',subcat:'motherboard',price:172.93,old:182.92,pct:5,badge:'sale',added:'2026-06-25',emoji:'⚙️',rating:4.5,rv:0,img:'./images/products/101262.webp',stock:false},
+  {id:4313,name:'B550M DS3H R2 / AM4',brand:'GIGABYTE',cat:'components',subcat:'motherboard',price:172.95,old:182.92,pct:5,badge:'sale',added:'2026-06-25',emoji:'⚙️',rating:4.5,rv:0,img:'./images/products/101262.webp',stock:false},
   {id:4314,name:'A620M H / AM5',brand:'GIGABYTE',cat:'components',subcat:'motherboard',price:160.28,old:170.72,pct:6,badge:'sale',added:'2026-06-25',emoji:'⚙️',rating:4.5,rv:0,img:'./images/products/39843.webp',stock:true},
   {id:4315,name:'A620M DS3H / AM5',brand:'GIGABYTE',cat:'components',subcat:'motherboard',price:161.04,added:'2026-06-25',emoji:'⚙️',rating:4.5,rv:0,img:'./images/products/37639.webp',stock:true},
-  {id:4316,name:'X870E EAGLE WIFI7 / AM5',brand:'GIGABYTE',cat:'components',subcat:'motherboard',price:544.95,old:577.31,pct:6,badge:'sale',added:'2026-06-25',emoji:'⚙️',rating:4.5,rv:0,img:'./images/products/101266.webp',stock:true},
-  {id:4317,name:'B860 DS3H WIFI6E / LGA1851',brand:'GIGABYTE',cat:'components',subcat:'motherboard',price:346.89,old:364.18,pct:5,badge:'sale',added:'2026-06-25',emoji:'⚙️',rating:4.5,rv:0,img:'./images/products/101270.webp',stock:true},
+  {id:4316,name:'X870E EAGLE WIFI7 / AM5',brand:'GIGABYTE',cat:'components',subcat:'motherboard',price:545,old:577.31,pct:6,badge:'sale',added:'2026-06-25',emoji:'⚙️',rating:4.5,rv:0,img:'./images/products/101266.webp',stock:true},
+  {id:4317,name:'B860 DS3H WIFI6E / LGA1851',brand:'GIGABYTE',cat:'components',subcat:'motherboard',price:346.91,old:364.18,pct:5,badge:'sale',added:'2026-06-25',emoji:'⚙️',rating:4.5,rv:0,img:'./images/products/101270.webp',stock:true},
   {id:4318,name:'B860M E GEN5 / LGA1851',brand:'GIGABYTE',cat:'components',subcat:'motherboard',price:188.13,added:'2026-06-25',emoji:'⚙️',rating:4.5,rv:0,img:'./images/products/101274.webp',stock:false},
   {id:4319,name:'Z890 EAGLE',brand:'GIGABYTE',cat:'components',subcat:'motherboard',price:387.51,added:'2026-06-25',emoji:'⚙️',rating:4.5,rv:0,img:'./images/products/101278.webp',stock:true},
-  {id:4320,name:'Z890 GAMING X WIFI7',brand:'GIGABYTE',cat:'components',subcat:'motherboard',price:454.47,old:509.02,pct:11,badge:'sale',added:'2026-06-25',emoji:'⚙️',rating:4.5,rv:0,img:'./images/products/101282.webp',stock:true},
-  {id:4321,name:'ASUS TUF GAMING A620M-PLUS',brand:'ASUS',cat:'components',subcat:'motherboard',price:277.51,old:294.85,pct:6,badge:'sale',added:'2026-06-25',emoji:'⚙️',rating:4.5,rv:0,img:'./images/products/101403.webp',stock:true},
+  {id:4320,name:'Z890 GAMING X WIFI7',brand:'GIGABYTE',cat:'components',subcat:'motherboard',price:454.5,old:509.02,pct:11,badge:'sale',added:'2026-06-25',emoji:'⚙️',rating:4.5,rv:0,img:'./images/products/101282.webp',stock:true},
+  {id:4321,name:'ASUS TUF GAMING A620M-PLUS',brand:'ASUS',cat:'components',subcat:'motherboard',price:277.53,old:294.85,pct:6,badge:'sale',added:'2026-06-25',emoji:'⚙️',rating:4.5,rv:0,img:'./images/products/101403.webp',stock:true},
   {id:4322,name:'ASUS TUF GAMING B650-PLUS',brand:'ASUS',cat:'components',subcat:'motherboard',price:215.77,added:'2026-06-25',emoji:'⚙️',rating:4.5,rv:0,img:'./images/products/33622.webp',stock:false},
-  {id:4323,name:'ASUS ROG CROSSHAIR X870E EXTRE',brand:'ASUS',cat:'components',subcat:'motherboard',price:2317.75,old:2645.89,pct:12,badge:'sale',added:'2026-06-25',emoji:'⚙️',rating:4.5,rv:0,img:null,stock:true},
+  {id:4323,name:'ASUS ROG CROSSHAIR X870E EXTRE',brand:'ASUS',cat:'components',subcat:'motherboard',price:2317.89,old:2645.89,pct:12,badge:'sale',added:'2026-06-25',emoji:'⚙️',rating:4.5,rv:0,img:null,stock:true},
   {id:4324,name:'ASUS PRIME H610M-K-D4 ARGB',brand:'ASUS',cat:'components',subcat:'motherboard',price:132.89,old:150.86,pct:12,badge:'sale',added:'2026-06-25',emoji:'⚙️',rating:4.5,rv:0,img:null,stock:true},
-  {id:4325,name:'ASUS PRIME B660M-A D4-CSM',brand:'ASUS',cat:'components',subcat:'motherboard',price:334.82,old:350.74,pct:5,badge:'sale',added:'2026-06-25',emoji:'⚙️',rating:4.5,rv:0,img:'./images/products/101410.webp',stock:true},
-  {id:4326,name:'ASUS ROG STRIX Z890-A GAM WIFI',brand:'ASUS',cat:'components',subcat:'motherboard',price:886.81,old:939.41,pct:6,badge:'sale',added:'2026-06-25',emoji:'⚙️',rating:4.5,rv:0,img:'./images/products/101415.webp',stock:true},
-  {id:4327,name:'SAPPHIRE PULSE B550M / AM4',brand:'SAPPHIRE',cat:'components',subcat:'motherboard',price:175.74,old:186.63,pct:6,badge:'sale',added:'2026-06-25',emoji:'⚙️',rating:4.5,rv:0,img:'./images/products/101109.webp',stock:true}
+  {id:4325,name:'ASUS PRIME B660M-A D4-CSM',brand:'ASUS',cat:'components',subcat:'motherboard',price:334.85,old:350.74,pct:5,badge:'sale',added:'2026-06-25',emoji:'⚙️',rating:4.5,rv:0,img:'./images/products/101410.webp',stock:true},
+  {id:4326,name:'ASUS ROG STRIX Z890-A GAM WIFI',brand:'ASUS',cat:'components',subcat:'motherboard',price:886.86,old:939.41,pct:6,badge:'sale',added:'2026-06-25',emoji:'⚙️',rating:4.5,rv:0,img:'./images/products/101415.webp',stock:true},
+  {id:4327,name:'SAPPHIRE PULSE B550M / AM4',brand:'SAPPHIRE',cat:'components',subcat:'motherboard',price:175.77,old:186.63,pct:6,badge:'sale',added:'2026-06-25',emoji:'⚙️',rating:4.5,rv:0,img:'./images/products/101109.webp',stock:true}
 );
 
 products.push(
@@ -10874,7 +10874,7 @@ products.push(
 
 // RAM — нови продукти 2026-06-25
   {id:4333,name:'2X8G DDR4 3200 TEAM EXPERT GRY',brand:'TEAM',cat:'components',subcat:'ram',price:224.55,added:'2026-06-25',emoji:'🔧',rating:4.5,rv:0,img:'https://portal.mostbg.com/api/images/imageFileData/101585.jpg',stock:true},
-  {id:4334,name:'2X16G DDR4 3200 TEAM EXPERT GR',brand:'TEAM',cat:'components',subcat:'ram',price:467.44,added:'2026-06-25',emoji:'🔧',rating:4.5,rv:0,img:'https://portal.mostbg.com/api/images/imageFileData/101523.jpg',stock:true},
+  {id:4334,name:'2X16G DDR4 3200 TEAM EXPERT GR',brand:'TEAM',cat:'components',subcat:'ram',price:467.44,added:'2026-06-25',emoji:'🔧',rating:4.5,rv:0,img:'https://portal.mostbg.com/api/images/imageFileData/101523.jpg',stock:false},
   {id:4335,name:'8G DDR4 2666 KINGSPEC SODIMM',brand:'KINGSPEC',cat:'components',subcat:'ram',price:88.83,added:'2026-06-25',emoji:'🔧',rating:4.5,rv:0,img:'./images/products/46813.webp',stock:false},
   {id:4336,name:'8GB DDR4 3200 ADATA SODIMM',brand:'ADATA',cat:'components',subcat:'ram',price:122.12,added:'2026-06-25',emoji:'🔧',rating:4.5,rv:0,img:'./images/products/28800.webp',stock:true},
   {id:4337,name:'16GB DDR4 3200 ADATA SODIMM',brand:'ADATA',cat:'components',subcat:'ram',price:225.62,added:'2026-06-25',emoji:'🔧',rating:4.5,rv:0,img:'./images/products/24271.webp',stock:true}

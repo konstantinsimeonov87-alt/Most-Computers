@@ -161,6 +161,7 @@ function switchTab(tab){
 function changeModalQty(d){modalQtyVal=Math.max(1,modalQtyVal+d);document.getElementById('modalQty').textContent=modalQtyVal;}
 function addFromModal(){
   if(!modalProductId)return;const p=products.find(x=>x.id===modalProductId);if(!p)return;
+  if(p.stock===false){showToast('⚠️ '+p.name.substring(0,32)+'… е изчерпан.');return;}
   const ex=cart.find(x=>x.id===modalProductId);if(ex){ex.qty+=modalQtyVal;}else{cart.push({...p,qty:modalQtyVal});}
   updateCart();saveCart();const btn=document.getElementById('modalAddBtn');
   btn.innerHTML='✓ Добавен!';btn.style.background='var(--new)';
@@ -306,6 +307,7 @@ function closeCompareModalDirect(){document.getElementById('compareModalBackdrop
 // QUICK ORDER
 function openQuickOrder(id){
   const p=products.find(x=>x.id===id);if(!p)return;
+  if(p.stock===false){showToast('⚠️ '+p.name.substring(0,32)+'… е изчерпан.');return;}
   quickOrderProductId=id;
   document.getElementById('qoEmoji').textContent=p.emoji;
   document.getElementById('qoName').textContent=p.name;

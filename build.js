@@ -5,7 +5,7 @@
  * Usage: node build.js
  */
 
-const { execSync } = require('child_process');
+const { execSync, execFileSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
@@ -171,12 +171,17 @@ jsFiles.forEach(({ src, dst, sourceMap }) => {
   if (!fs.existsSync(srcPath)) { warn(`Skipping ${src} (not found)`); return; }
   const before = fs.statSync(srcPath).size;
   try {
-    // When sourceMap=true, terser writes <output>.map automatically and appends
-    // //# sourceMappingURL=<basename>.map to the JS output.
-    const mapFlag = sourceMap
-      ? ` --source-map "url='${path.basename(dst)}.map'"`
-      : '';
-    execSync(`npx -y terser "${srcPath}" -o "${dstPath}" --compress --mangle${mapFlag}`, { cwd: ROOT });
+    // Minify in a fresh child process (scripts/minify-one.js), not the CLI
+    // (`npx terser ...`) and not terser's API called in-process here - both
+    // silently dropped whole top-level functions from large bundles
+    // (submitOrder, pdpAddToCart, addFromModal, openQuickOrder all vanished
+    // from app-lazy.js with no error) after build.js's earlier steps
+    // (tests, bundling, data stripping) had already run in this same
+    // process; every isolated repro in a clean process minified correctly.
+    const mapUrl = sourceMap ? `${path.basename(dst)}.map` : null;
+    const args = [path.join(ROOT, 'scripts', 'minify-one.js'), srcPath, dstPath];
+    if (mapUrl) args.push(`--source-map=${mapUrl}`);
+    execFileSync(process.execPath, args, { cwd: ROOT, stdio: 'pipe' });
     const after = fs.statSync(dstPath).size;
     const pct = Math.round((1 - after / before) * 100);
     log(`${src}: ${(before/1024).toFixed(1)} KB → ${(after/1024).toFixed(1)} KB (${pct}% smaller)`);

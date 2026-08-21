@@ -505,7 +505,7 @@ var products = [
    specs:{'Форм фактор':'ATX','Сокет':'AM5'},
    rating:4.4,rv:0,reviews:[],
    desc:'ASRock B850M-X WIFI R2.0 е Micro-ATX дънна платка за процесори AM5 с чипсет AMD B850. Поддържа 2× DDR5, до 128GB, честоти до DDR5-8200+. Включва 2 M.2 слота (вкл. PCIe Gen5x4), 4× SATA3 с RAID. Слот за видеокарта PCIe 5.0 x16. Заден панел: 2.5G LAN, 7.1 HD аудио. Гаранция 36 месеца.',
-   img:'./images/products/46028.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/46028.png','https://portal.mostbg.com/api/images/imageFileData/46029.png','https://portal.mostbg.com/api/images/imageFileData/46030.png','https://portal.mostbg.com/api/images/imageFileData/46031.png'],stock:true},
+   img:'./images/products/46028.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/46028.png','https://portal.mostbg.com/api/images/imageFileData/46029.png','https://portal.mostbg.com/api/images/imageFileData/46030.png','https://portal.mostbg.com/api/images/imageFileData/46031.png'],stock:false},
 
   {id:73,name:'ASROCK B850M PRO RS WIFI',brand:'ASRock',cat:'components',subcat:'motherboard',
    price:261.76,old:286.54,pct:9,badge:'sale',added:'2026-04-20',emoji:'⚙️',sku:'B850M PRO RS WIFI',ean:'4711581490352',
@@ -1037,7 +1037,7 @@ var products = [
    specs:{'Чипсет':'AMD/Intel B650','Памет':'4× DDR5','SATA3':'4×SATA3','RAID':'Да','M.2':'3xM2','PCIe x16':'4×PCIEx16','Изходи':'HDMI / DP','Форм фактор':'ATX','Сокет':'AM5'},
    rating:4.4,rv:0,reviews:[],
    desc:'Gigabyte GB B650 EAGLE е ATX дънна платка за процесори AM5 с чипсет AMD B650. Поддържа 4× DDR5. Включва 3 M.2 слота. Гаранция 36 месеца.',
-   img:'./images/products/42720.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/42720.png','https://portal.mostbg.com/api/images/imageFileData/42721.png','https://portal.mostbg.com/api/images/imageFileData/42722.png'],stock:true},
+   img:'./images/products/42720.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/42720.png','https://portal.mostbg.com/api/images/imageFileData/42721.png','https://portal.mostbg.com/api/images/imageFileData/42722.png'],stock:false},
 
   {id:149,name:'GB B650 AORU ELITE AX V2 / AM5',brand:'Gigabyte',cat:'components',subcat:'motherboard',
    price:373.2,old:null,pct:null,badge:null,added:'2026-04-20',emoji:'⚙️',sku:'B650 AORUS ELITE AX V2 1.1',ean:null,
@@ -2824,7 +2824,7 @@ var products = [
    specs:{'Сокет':'FCLGA1200','Ядра':'6','Нишки':'12','Честота':'2.60 GHz; Max Turbo Frequency:4.40 GHz','Кеш':'12 MB Smart Cache','Памет':'Max Memory Size (dependent on memory type)128 GB | Тип: DDR4-3200 | Канали: 2 | 50 GB/s','Интегрирана графика':'UHD Graphics 730','TDP':'65 W'},
    rating:4.5,rv:0,reviews:[],
    desc:'Intel I5-11400 2.6GHZ/12MB BOX - сокет FCLGA1200, 6 ядра, TDP 65 W.',
-   img:'./images/products/26857.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/26857.jpeg'],stock:true},
+   img:'./images/products/26857.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/26857.jpeg'],stock:false},
 
   {id:404,name:'INTEL I5-11600 2.8GHZ/12MB BOX',brand:'Intel',cat:'components',subcat:'cpu',
    price:264,old:null,pct:null,badge:null,added:'2026-04-20',emoji:'🔵',sku:'INB70811600SRKNW',ean:null,
@@ -3132,7 +3132,7 @@ var products = [
    specs:{'Сокет':'FCLGA1700','Ядра':'20','Нишки':'28','Честота':'Max Turbo Frequency: 5.6 GHz; Turbo Boost Max Technology 3.0 Frequency: ‡ 5.6 GHz; Performance-core ','Кеш':'28 MB','Памет':'Макс: 192 GB | Тип: Up to DDR5 5600 MT/s; Up to DDR4 3200 MT/s | Канали: 2; Max Memory Bandwidth 89.','TDP':'125 W'},
    rating:4.5,rv:0,reviews:[],
    desc:'Intel I7-14700KF 5.5GHZ 28M BOX 1700 - сокет FCLGA1700, 20 ядра, TDP 125 W.',
-   img:'./images/products/37394.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/37394.jpeg'],stock:true},
+   img:'./images/products/37394.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/37394.jpeg'],stock:false},
 
   {id:448,name:'INTEL I7-14700K 5.5GHZ 28M BOX 1700',brand:'Intel',cat:'components',subcat:'cpu',
    price:819.6,old:null,pct:null,badge:null,added:'2026-04-20',emoji:'🔵',sku:'BX8071514700K',ean:'5032037278485',
@@ -4021,7 +4021,7 @@ var products = [
    specs:{'Model':'AMD Ryzen™ 9 9900X','Сокет':'AM5','Ядра':'12','Нишки':'24','Честота':'Up to 5.6 GHz; Base Clock ; 4.4 GHz;','Кеш':'L1 Cache; 960 KB; L2 Cache; 12 MB; L3 Cache; 64 MB;','Памет':'System Memory Type DDR5; Memory Channels 2; Max. Memory 192 GB; System Memory Subtype UDIMM; Max Mem','Package':'3','Интегрирана графика':'AMD Radeon™ Graphics','TDP':'120W'},
    rating:4.5,rv:0,reviews:[],
    desc:'AMD AMD RYZEN 9 9900X 4.4G 64M BOX - сокет AM5, 12 ядра, TDP 120W.',
-   img:'./images/products/41781.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/41781.jpeg'],stock:true},
+   img:'./images/products/41781.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/41781.jpeg'],stock:false},
 
   {id:575,name:'AMD RYZEN 9 9900X3D BOX',brand:'AMD',cat:'components',subcat:'cpu',
    price:1145.71,old:1258.98,pct:9,badge:'sale',added:'2026-04-20',emoji:'🔴',sku:'100-100001368WOF',ean:'0730143315579',
@@ -4318,7 +4318,7 @@ var products = [
    specs:{'Тип':'DDR4','Капацитет':'16 GB','Честота':'3200 MHz','Латентност':'CL 16-20-20','Форм фактор':'DIMM','Напрежение':'1.35V'},
    rating:4.4,rv:0,reviews:[],
    desc:'ADATA 2X8G DDR4 3200 XPG D35G - DDR4 DIMM 3200 MHz, 16 GB, CL 16-20-20.',
-   img:'./images/products/36030.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/36030.png'],stock:true},
+   img:'./images/products/36030.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/36030.png'],stock:false},
 
   {id:617,name:'2X8G DDR4 3200 KINGS FURY BEAS',brand:'Kingston',cat:'components',subcat:'ram',
    price:151.2,old:null,pct:null,badge:null,added:'2026-04-20',emoji:'🟢',sku:'KF432C16BBK2/16',ean:null,
@@ -6560,7 +6560,7 @@ var products = [
    specs:{'Капацитет':'512 GB','Интерфейс':'NVMe PCIe Gen4','Форм фактор':'M.2 2280'},
    rating:4.3,rv:0,reviews:[],
    desc:'ADATA 512G XPG S70 BLADE M2 PCI GEN4 - NVMe SSD 512 GB, NVMe PCIe Gen4, M.2 2280.',
-   img:'./images/products/42170.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/42170.png','https://portal.mostbg.com/api/images/imageFileData/42173.png'],stock:true},
+   img:'./images/products/42170.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/42170.png','https://portal.mostbg.com/api/images/imageFileData/42173.png'],stock:false},
 
   {id:937,name:'1T XPG S70 BLADE M2 PCI GEN4',brand:'ADATA',cat:'components',subcat:'ssd',
    price:435.6,old:null,pct:null,badge:null,added:'2026-04-21',emoji:'⚡',sku:'AGAMMIXS70B-1T-CS',ean:'4711085933065',
@@ -12624,7 +12624,7 @@ const _cases = [
   {id:3759,name:'TUNCMATIK MODULTECH 2U 30KVA',brand:'TUNCMATIK',cat:'ups',subcat:'ups_server',price:8235.61,old:null,pct:null,badge:null,added:'2026-04-30',emoji:'⚡',sku:'TSK10013',ean:'',specs:{'Мощност':'30KVA','Тип':'Онлайн / Чиста синусоида'},rating:4.5,rv:0,reviews:[],desc:'TUNCMATIK MODULTECH 2U 30KVA - 30KVA, TUNCMATIK',img:'./images/products/51300.webp',stock:false},
   {id:3760,name:'FORTRON FSP1290 BATTERY 12V 9A',brand:'FORTRON',cat:'ups',subcat:'ups_home',price:46.4,old:null,pct:null,badge:null,added:'2026-04-30',emoji:'⚡',sku:'MPF0000200GP',ean:'',specs:{'Тип':'Линейно-интерактивен'},rating:4.5,rv:0,reviews:[],desc:'FORTRON FSP1290 BATTERY 12V 9A, FORTRON',img:'./images/products/52803.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/52803.jpeg'],stock:false},
   {id:3761,name:'HIKVISION DS-UPS600VA',brand:'HIKVISION',cat:'ups',subcat:'ups_home',price:111.43,old:null,pct:null,badge:null,added:'2026-04-30',emoji:'⚡',sku:'2128010009',ean:'',specs:{'Мощност':'600VA','Тип':'Линейно-интерактивен'},rating:4.5,rv:0,reviews:[],desc:'HIKVISION DS-UPS600VA - 600VA, HIKVISION',img:'./images/products/42693.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/42693.png'],stock:true},
-  {id:3762,name:'HIKVISION DS-UPS1000VA',brand:'HIKVISION',cat:'ups',subcat:'ups_office',price:137.8,old:null,pct:null,badge:null,added:'2026-04-30',emoji:'⚡',sku:'2128010007',ean:'',specs:{'Мощност':'1000VA','Тип':'Линейно-интерактивен'},rating:4.5,rv:0,reviews:[],desc:'HIKVISION DS-UPS1000VA - 1000VA, HIKVISION',img:'./images/products/42694.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/42694.png'],stock:true},
+  {id:3762,name:'HIKVISION DS-UPS1000VA',brand:'HIKVISION',cat:'ups',subcat:'ups_office',price:137.8,old:null,pct:null,badge:null,added:'2026-04-30',emoji:'⚡',sku:'2128010007',ean:'',specs:{'Мощност':'1000VA','Тип':'Линейно-интерактивен'},rating:4.5,rv:0,reviews:[],desc:'HIKVISION DS-UPS1000VA - 1000VA, HIKVISION',img:'./images/products/42694.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/42694.png'],stock:false},
   {id:3763,name:'HIKVISION DS-UPS3000VA',brand:'HIKVISION',cat:'ups',subcat:'ups_office',price:552.62,old:null,pct:null,badge:null,added:'2026-04-30',emoji:'⚡',sku:'2128010008',ean:'',specs:{'Мощност':'3000VA','Тип':'Линейно-интерактивен'},rating:4.5,rv:0,reviews:[],desc:'HIKVISION DS-UPS3000VA - 3000VA, HIKVISION',img:'./images/products/43396.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/43396.jpeg'],stock:true},
 
   // ── Bags & Cases (imported from categoryId=21, 2026-06-10) ─────────────────────
@@ -14140,7 +14140,7 @@ products.push(
 
 // RAM — нови продукти 2026-06-25
   {id:4333,name:'2X8G DDR4 3200 TEAM EXPERT GRY',brand:'TEAM',cat:'components',subcat:'ram',price:224.55,old:null,pct:null,badge:null,added:'2026-06-25',emoji:'🔧',sku:'TTCED416G3200HC16FDC01',ean:null,specs:{'Капацитет':'2X8G','Тип':'DDR4','Честота':'3200 MHz','Форм фактор':'DIMM'},rating:4.5,rv:0,reviews:[],desc:'2X8G DDR4 3200 TEAM EXPERT GRY',img:'https://portal.mostbg.com/api/images/imageFileData/101585.jpg',stock:true},
-  {id:4334,name:'2X16G DDR4 3200 TEAM EXPERT GR',brand:'TEAM',cat:'components',subcat:'ram',price:467.44,old:null,pct:null,badge:null,added:'2026-06-25',emoji:'🔧',sku:'TTCED432G3200HC15FDC01',ean:null,specs:{'Капацитет':'2X16G','Тип':'DDR4','Честота':'3200 MHz','Форм фактор':'DIMM'},rating:4.5,rv:0,reviews:[],desc:'2X16G DDR4 3200 TEAM EXPERT GR',img:'https://portal.mostbg.com/api/images/imageFileData/101523.jpg',stock:true},
+  {id:4334,name:'2X16G DDR4 3200 TEAM EXPERT GR',brand:'TEAM',cat:'components',subcat:'ram',price:467.44,old:null,pct:null,badge:null,added:'2026-06-25',emoji:'🔧',sku:'TTCED432G3200HC15FDC01',ean:null,specs:{'Капацитет':'2X16G','Тип':'DDR4','Честота':'3200 MHz','Форм фактор':'DIMM'},rating:4.5,rv:0,reviews:[],desc:'2X16G DDR4 3200 TEAM EXPERT GR',img:'https://portal.mostbg.com/api/images/imageFileData/101523.jpg',stock:false},
   {id:4335,name:'8G DDR4 2666 KINGSPEC SODIMM',brand:'KINGSPEC',cat:'components',subcat:'ram',price:88.83,old:null,pct:null,badge:null,added:'2026-06-25',emoji:'🔧',sku:'KS2666D4N12008G',ean:null,specs:{'Капацитет':'8G','Тип':'DDR4','Честота':'2666 MHz','Форм фактор':'SO-DIMM'},rating:4.5,rv:0,reviews:[],desc:'8G DDR4 2666 KINGSPEC SODIMM',img:'./images/products/46813.webp',stock:false},
   {id:4336,name:'8GB DDR4 3200 ADATA SODIMM',brand:'ADATA',cat:'components',subcat:'ram',price:122.12,old:null,pct:null,badge:null,added:'2026-06-25',emoji:'🔧',sku:'AD4S32008G22-SGN',ean:null,specs:{'Капацитет':'8GB','Тип':'DDR4','Честота':'3200 MHz','Форм фактор':'SO-DIMM'},rating:4.5,rv:0,reviews:[],desc:'8GB DDR4 3200 ADATA SODIMM',img:'./images/products/28800.webp',stock:true},
   {id:4337,name:'16GB DDR4 3200 ADATA SODIMM',brand:'ADATA',cat:'components',subcat:'ram',price:225.62,old:null,pct:null,badge:null,added:'2026-06-25',emoji:'🔧',sku:'AD4S320016G22-SGN',ean:null,specs:{'Капацитет':'16G','Тип':'DDR4','Честота':'3200 MHz','Форм фактор':'SO-DIMM'},rating:4.5,rv:0,reviews:[],desc:'16GB DDR4 3200 ADATA SODIMM',img:'./images/products/24271.webp',stock:true}

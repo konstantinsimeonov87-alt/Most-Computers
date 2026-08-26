@@ -778,7 +778,7 @@ var products = [
    specs:{'Чипсет':'AMD/Intel B860','Памет':'4× DDR5','SATA3':'4×SATA3','RAID':'Да','M.2':'3xM2','PCIe x16':'1×PCIEx16','Изходи':'HDMI / DP','Форм фактор':'ATX','Сокет':'LGA1700'},
    rating:4.4,rv:0,reviews:[],
    desc:'ASRock B860M PRO RS е Micro-ATX дънна платка за процесори LGA1700 с чипсет Intel® B860. Поддържа 4× DDR5, до 256GB, честоти до DDR5-8666+. Включва 3 M.2 слота (вкл. PCIe Gen5x4), 4× SATA3 с RAID. Слот за видеокарта PCIe 5.0 x16. Заден панел: USB 3.2 Gen2, 2.5G LAN, 7.1 HD аудио. Гаранция 36 месеца.',
-   img:'./images/products/45012.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/45012.png','https://portal.mostbg.com/api/images/imageFileData/45013.png','https://portal.mostbg.com/api/images/imageFileData/45014.png','https://portal.mostbg.com/api/images/imageFileData/45015.png'],stock:true},
+   img:'./images/products/45012.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/45012.png','https://portal.mostbg.com/api/images/imageFileData/45013.png','https://portal.mostbg.com/api/images/imageFileData/45014.png','https://portal.mostbg.com/api/images/imageFileData/45015.png'],stock:false},
 
   {id:112,name:'ASROCK B860M PRO RS WIFI',brand:'ASRock',cat:'components',subcat:'motherboard',
    price:320.4,old:null,pct:null,badge:null,added:'2026-04-20',emoji:'⚙️',sku:'B860M PRO RS WIFI',ean:'4711581490284',
@@ -1737,7 +1737,7 @@ var products = [
    specs:{'Чипсет':'AMD/Intel B550','Памет':'4× DDR4','SATA3':'6×SATA3','RAID':'Да','M.2':'2xM2','PCIe x16':'2×PCIEx16','PCIe x1':'2xPCIEx1','Изходи':'HDMI / DP','Форм фактор':'ATX','Сокет':'AM4'},
    rating:4.4,rv:0,reviews:[],
    desc:'MSI B550-A PRO е ATX дънна платка за процесори AM4 с чипсет AMD B550 Chipset. Поддържа 4× DDR4. Включва 2 M.2 слота. Заден панел: 1G LAN, 7.1 HD аудио. Гаранция 36 месеца.',
-   img:'./images/products/25341.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/25341.jpeg','https://portal.mostbg.com/api/images/imageFileData/25342.jpeg','https://portal.mostbg.com/api/images/imageFileData/25343.jpeg'],stock:true},
+   img:'./images/products/25341.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/25341.jpeg','https://portal.mostbg.com/api/images/imageFileData/25342.jpeg','https://portal.mostbg.com/api/images/imageFileData/25343.jpeg'],stock:false},
 
   {id:249,name:'MSI MAG B550 TOMAHAWK MAX WIFI',brand:'MSI',cat:'components',subcat:'motherboard',
    price:328.8,old:null,pct:null,badge:null,added:'2026-04-20',emoji:'⚙️',sku:'911-7C91-062',ean:'4719072957957',
@@ -3258,7 +3258,7 @@ var products = [
    specs:{'Manufacturer':'INTEL','Сокет':'FCLGA1851','Ядра':'20','Нишки':'20','Честота':'Max Turbo Frequency: 5.3 GHz; Turbo Boost Max Technology 3.0 Frequency: 5.3 GHz; Performance-core Ma','Кеш':'Cache: 30 MB Smart Cache; Total L2 Cache: 36 MB','Max. PCI Express Lanes':'24','Памет':'Макс: 256 GB | Тип: Up to DDR5 6400 MT/s | Канали: 2','Интегрирана графика':'Graphics 300 MHz, 1.95 GHz, TOPS 8','Other':'NPU: AI Boost 13'},
    rating:4.5,rv:0,reviews:[],
    desc:'Intel INTEL CORE ULTRA 7 265 BOX - сокет FCLGA1851, 20 ядра.',
-   img:'https://portal.mostbg.com/api/images/imageFileData/100202.jpg',gallery:['https://portal.mostbg.com/api/images/imageFileData/100202.jpg'],stock:true},
+   img:'https://portal.mostbg.com/api/images/imageFileData/100202.jpg',gallery:['https://portal.mostbg.com/api/images/imageFileData/100202.jpg'],stock:false},
 
   {id:466,name:'INTEL CORE ULTRA 9 285 BOX',brand:'Intel',cat:'components',subcat:'cpu',
    price:1231.2,old:null,pct:null,badge:null,added:'2026-04-20',emoji:'🔵',sku:'BX80768285',ean:'5032037282390',
@@ -3321,7 +3321,7 @@ var products = [
    specs:{'Сокет':'AM4','Ядра':'4','Нишки':'4','Честота':'Base Clock:3.6GHz; Max Boost Clock:4GHz','Кеш':'Total L1 Cache:384KB; Total L2 Cache:2MB; Total L3 Cache:4MB','Памет':'System Memory Specification:2933MHz; System Memory Type:DDR4; Memory Channels:2','Интегрирана графика':'Graphics Frequency:1250 MHz; Graphics Model:Radeon™ Vega 8 Graphics; Graphics Core Count:8','TDP':'65W'},
    rating:4.5,rv:0,reviews:[],
    desc:'AMD AMD RYZEN 3 3200G 3.6G BOX - сокет AM4, 4 ядра, TDP 65W.',
-   img:'./images/products/21225.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/21225.jpeg'],stock:true},
+   img:'./images/products/21225.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/21225.jpeg'],stock:false},
 
   {id:475,name:'AMD RYZEN 5 3400G 3.7G BOX',brand:'AMD',cat:'components',subcat:'cpu',
    price:130.8,old:null,pct:null,badge:null,added:'2026-04-20',emoji:'🔴',sku:'AWYD3400C5FHBOX',ean:'0730143309837',
@@ -3524,7 +3524,7 @@ var products = [
    specs:{'Сокет':'AM4','Ядра':'8','Нишки':'16','Честота':'Max. Boost Clock: Up to 4.6GHz; Base Clock: 3.8GHz','Кеш':'Total L2 Cache: 4MB; Total L3 Cache: 16MB','Памет':'System Memory Type: DDR4; Memory Channels: 2; System Memory Specification: Up to 3200MHz','Интегрирана графика':'Radeon™ Graphics','TDP':'65W'},
    rating:4.5,rv:0,reviews:[],
    desc:'AMD AMD RYZEN 7 5700G MPK - сокет AM4, 8 ядра, TDP 65W.',
-   img:'./images/products/29867.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/29867.jpeg','https://portal.mostbg.com/api/images/imageFileData/36977.jpeg'],stock:false},
+   img:'./images/products/29867.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/29867.jpeg','https://portal.mostbg.com/api/images/imageFileData/36977.jpeg'],stock:true},
 
   {id:504,name:'AMD RYZEN 7 5700G BOX',brand:'AMD',cat:'components',subcat:'cpu',
    price:392.4,old:null,pct:null,badge:null,added:'2026-04-20',emoji:'🔴',sku:'AW100100000263BOX',ean:'0730143313377',
@@ -4304,7 +4304,7 @@ var products = [
    specs:{'Тип':'DDR4','Капацитет':'16 GB (2×)','Честота':'3200 MHz','Латентност':'CL16','Форм фактор':'DIMM','Напрежение':'1.35V'},
    rating:4.4,rv:0,reviews:[],
    desc:'TeamGroup 2X8G DDR4 3200 TEAM VULKAN Z - DDR4 DIMM 3200 MHz, 16 GB (2×), CL16.',
-   img:'./images/products/52494.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/52494.jpeg','https://portal.mostbg.com/api/images/imageFileData/52495.jpeg','https://portal.mostbg.com/api/images/imageFileData/52496.jpeg'],stock:true},
+   img:'./images/products/52494.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/52494.jpeg','https://portal.mostbg.com/api/images/imageFileData/52495.jpeg','https://portal.mostbg.com/api/images/imageFileData/52496.jpeg'],stock:false},
 
   {id:615,name:'2X8G DDR4 3200 XPG D35/BK',brand:'ADATA',cat:'components',subcat:'ram',
    price:308.11,old:334.73,pct:8,badge:'sale',added:'2026-04-20',emoji:'🟢',sku:'AX4U32008G16A-DTBKD35',ean:'4711085942807',
@@ -4577,7 +4577,7 @@ var products = [
    specs:{'Тип':'DDR5','Капацитет':'16 GB','Честота':'4800 MHz','Форм фактор':'DIMM'},
    rating:4.4,rv:0,reviews:[],
    desc:'ADATA 16G DDR5 4800 ADATA - DDR5 DIMM 4800 MT/s MHz, 16 GB.',
-   img:'./images/products/29449.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/29449.png'],stock:true},
+   img:'./images/products/29449.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/29449.png'],stock:false},
 
   {id:654,name:'16G DDR5 5600 KINGSPEC',brand:'KingSpec',cat:'components',subcat:'ram',
    price:440.4,old:null,pct:null,badge:null,added:'2026-04-20',emoji:'🟣',sku:'KS5600D5P12516G',ean:'6950509932903',
@@ -4899,7 +4899,7 @@ var products = [
    specs:{'Тип':'DDR5','Капацитет':'32 GB','Честота':'5200 MHz','Латентност':'CL40','Форм фактор':'DIMM','Напрежение':'1.25V'},
    rating:4.4,rv:0,reviews:[],
    desc:'Kingston 2X16G DDR5 5200 KINGSTON BEAST - DDR5 DIMM 5200 MHz, 32 GB, CL40.',
-   img:'./images/products/33602.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/33602.jpeg'],stock:true},
+   img:'./images/products/33602.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/33602.jpeg'],stock:false},
 
   {id:700,name:'2X16G DDR5 5600 KING EXPO BEAS',brand:'Kingston',cat:'components',subcat:'ram',
    price:207.6,old:null,pct:null,badge:null,added:'2026-04-20',emoji:'🟣',sku:'KF556C36BBEK2-32',ean:null,
@@ -4927,7 +4927,7 @@ var products = [
    specs:{'Тип':'DDR5','Капацитет':'32 GB','Честота':'6000 MHz','Латентност':'CL36','Форм фактор':'DIMM','Напрежение':'1.35V'},
    rating:4.4,rv:0,reviews:[],
    desc:'Kingston 2X16G DDR5 6000 KING EXPO BEAS - DDR5 DIMM 6000 MHz, 32 GB, CL36.',
-   img:'./images/products/37085.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/37085.jpeg'],stock:true},
+   img:'./images/products/37085.webp',gallery:['https://portal.mostbg.com/api/images/imageFileData/37085.jpeg'],stock:false},
 
   {id:704,name:'2X16G DDR5 6000 EXPO BEAS BLK',brand:'Kingston',cat:'components',subcat:'ram',
    price:216,old:null,pct:null,badge:null,added:'2026-04-20',emoji:'🟣',sku:'KF560C30BBEK2-32',ean:null,
@@ -14004,7 +14004,7 @@ products.push(
   {id:4211,name:'MSI RTX 5060TI 8G GAMING OC',brand:'MSI',cat:'components',subcat:'gpu',price:838.7,old:null,pct:null,badge:null,added:'2026-06-25',emoji:'🎮',sku:'912-V536-005',ean:'4711377336796',specs:{'GPU':'NVIDIA GeForce RTX 5060 Ti','Интерфейс':'PCIe 5.0 ×16'},rating:4.5,rv:0,reviews:[],desc:'MSI RTX 5060TI 8G GAMING OC',img:'./images/products/45775.webp',stock:true},
   {id:4212,name:'MSI RTX 5060TI 8 VEN 2X CLASSIC',brand:'MSI',cat:'components',subcat:'gpu',price:723.23,old:null,pct:null,badge:null,added:'2026-06-25',emoji:'🎮',sku:'912-V536-087',ean:'4711377395441',specs:{'GPU':'NVIDIA GeForce RTX 5060 Ti','Интерфейс':'PCIe 5.0 ×16'},rating:4.5,rv:0,reviews:[],desc:'MSI RTX 5060TI 8 VEN 2X CLASSIC',img:'./images/products/49451.webp',stock:false},
   {id:4213,name:'MSI RTX 5060TI 8 VENTUS 2X OC +',brand:'MSI',cat:'components',subcat:'gpu',price:792.27,old:null,pct:null,badge:null,added:'2026-06-25',emoji:'🎮',sku:'912-V536-001',ean:'4711377338868',specs:{'GPU':'NVIDIA GeForce RTX 5060 Ti','Интерфейс':'PCIe 5.0 ×16'},rating:4.5,rv:0,reviews:[],desc:'MSI RTX 5060TI 8 VENTUS 2X OC +',img:'./images/products/46223.webp',stock:true},
-  {id:4214,name:'MSI RTX 5060TI 8 VEN 2X OC WHI+',brand:'MSI',cat:'components',subcat:'gpu',price:843.61,old:null,pct:null,badge:null,added:'2026-06-25',emoji:'🎮',sku:'912-V536-002',ean:'4711377340304',specs:{'GPU':'NVIDIA GeForce RTX 5060 Ti','Интерфейс':'PCIe 5.0 ×16'},rating:4.5,rv:0,reviews:[],desc:'MSI RTX 5060TI 8 VEN 2X OC WHI+',img:'./images/products/51658.webp',stock:true},
+  {id:4214,name:'MSI RTX 5060TI 8 VEN 2X OC WHI+',brand:'MSI',cat:'components',subcat:'gpu',price:843.61,old:null,pct:null,badge:null,added:'2026-06-25',emoji:'🎮',sku:'912-V536-002',ean:'4711377340304',specs:{'GPU':'NVIDIA GeForce RTX 5060 Ti','Интерфейс':'PCIe 5.0 ×16'},rating:4.5,rv:0,reviews:[],desc:'MSI RTX 5060TI 8 VEN 2X OC WHI+',img:'./images/products/51658.webp',stock:false},
   {id:4215,name:'MSI RTX 5060TI 8 SHADOW 2X OC+',brand:'MSI',cat:'components',subcat:'gpu',price:775,old:null,pct:null,badge:null,added:'2026-06-25',emoji:'🎮',sku:'912-V536-003',ean:'4711377340281',specs:{'GPU':'NVIDIA GeForce RTX 5060 Ti','Интерфейс':'PCIe 5.0 ×16'},rating:4.5,rv:0,reviews:[],desc:'MSI RTX 5060TI 8 SHADOW 2X OC+',img:'./images/products/47132.webp',stock:false},
   {id:4216,name:'MSI RTX 5060TI 16 SHADOW 2X OC+',brand:'MSI',cat:'components',subcat:'gpu',price:1484.52,old:null,pct:null,badge:null,added:'2026-06-25',emoji:'🎮',sku:'912-V535-003',ean:'4711377334433',specs:{'GPU':'NVIDIA GeForce RTX 5060 Ti','Интерфейс':'PCIe 5.0 ×16'},rating:4.5,rv:0,reviews:[],desc:'MSI RTX 5060TI 16 SHADOW 2X OC+',img:'./images/products/47204.webp',stock:true},
   {id:4217,name:'MSI RTX 5060TI 16 VENTU 2X OC +',brand:'MSI',cat:'components',subcat:'gpu',price:904.45,old:null,pct:null,badge:null,added:'2026-06-25',emoji:'🎮',sku:'912-V535-005',ean:'4711377334471',specs:{'GPU':'NVIDIA GeForce RTX 5060 Ti','Интерфейс':'PCIe 5.0 ×16'},rating:4.5,rv:0,reviews:[],desc:'MSI RTX 5060TI 16 VENTU 2X OC +',img:'./images/products/47062.webp',stock:false},
@@ -14047,7 +14047,7 @@ products.push(
   {id:4254,name:'ASUS DUAL-RTX 5060-O8G',brand:'ASUS',cat:'components',subcat:'gpu',price:643.82,old:null,pct:null,badge:null,added:'2026-06-25',emoji:'🎮',sku:'90YV0N12-M0NA00',ean:'4711636057899',specs:{'GPU':'NVIDIA GeForce RTX 5060','Интерфейс':'PCIe 5.0 ×16'},rating:4.5,rv:0,reviews:[],desc:'ASUS DUAL-RTX 5060-O8G',img:'./images/products/46729.webp',stock:false},
   {id:4255,name:'ASUS TUF-RTX 5060-O8G-GAMING',brand:'ASUS',cat:'components',subcat:'gpu',price:729.25,old:null,pct:null,badge:null,added:'2026-06-25',emoji:'🎮',sku:'90YV0N00-M0NA00',ean:'4711636058179',specs:{'GPU':'NVIDIA GeForce RTX 5060','Интерфейс':'PCIe 5.0 ×16'},rating:4.5,rv:0,reviews:[],desc:'ASUS TUF-RTX 5060-O8G-GAMING',img:'./images/products/50946.webp',stock:false},
   {id:4256,name:'ASUS DUAL-RTX 5060TI-O8G',brand:'ASUS',cat:'components',subcat:'gpu',price:775,old:null,pct:null,badge:null,added:'2026-06-25',emoji:'🎮',sku:'90YV0MP2-M0NA00',ean:'4711387994290',specs:{'GPU':'NVIDIA GeForce RTX 5060 Ti','Интерфейс':'PCIe 5.0 ×16'},rating:4.5,rv:0,reviews:[],desc:'ASUS DUAL-RTX 5060TI-O8G',img:'./images/products/46174.webp',stock:false},
-  {id:4257,name:'ASUS PRIME-RTX 5060-O8G',brand:'ASUS',cat:'components',subcat:'gpu',price:750.84,old:null,pct:null,badge:null,added:'2026-06-25',emoji:'🎮',sku:'90YV0N10-M0NA00',ean:'4711636057851',specs:{'GPU':'NVIDIA GeForce RTX 5060','Интерфейс':'PCIe 5.0 ×16'},rating:4.5,rv:0,reviews:[],desc:'ASUS PRIME-RTX 5060-O8G',img:'./images/products/50953.webp',stock:true},
+  {id:4257,name:'ASUS PRIME-RTX 5060-O8G',brand:'ASUS',cat:'components',subcat:'gpu',price:750.84,old:null,pct:null,badge:null,added:'2026-06-25',emoji:'🎮',sku:'90YV0N10-M0NA00',ean:'4711636057851',specs:{'GPU':'NVIDIA GeForce RTX 5060','Интерфейс':'PCIe 5.0 ×16'},rating:4.5,rv:0,reviews:[],desc:'ASUS PRIME-RTX 5060-O8G',img:'./images/products/50953.webp',stock:false},
   {id:4258,name:'ASUS DUAL-RTX 5060TI-O16G',brand:'ASUS',cat:'components',subcat:'gpu',price:859.57,old:null,pct:null,badge:null,added:'2026-06-25',emoji:'🎮',sku:'90YV0MH0-M0NA00',ean:'4711387994306',specs:{'GPU':'NVIDIA GeForce RTX 5060 Ti','Интерфейс':'PCIe 5.0 ×16'},rating:4.5,rv:0,reviews:[],desc:'ASUS DUAL-RTX 5060TI-O16G',img:'./images/products/47373.webp',stock:false},
   {id:4259,name:'ASUS TUF-RTX 5060TI-O16G-GAMING',brand:'ASUS',cat:'components',subcat:'gpu',price:1054.02,old:null,pct:null,badge:null,added:'2026-06-25',emoji:'🎮',sku:'90YV0MG0-M0NA00',ean:'4711387994382',specs:{'GPU':'NVIDIA GeForce RTX 5060 Ti','Интерфейс':'PCIe 5.0 ×16'},rating:4.5,rv:0,reviews:[],desc:'ASUS TUF-RTX 5060TI-O16G-GAMING',img:'./images/products/47517.webp',stock:false},
   {id:4260,name:'ASUS PRIME-RTX 5070-O12G',brand:'ASUS',cat:'components',subcat:'gpu',price:1209.97,old:null,pct:null,badge:null,added:'2026-06-25',emoji:'🎮',sku:'90YV0M10-M0NA00',ean:'4711387837825',specs:{'GPU':'NVIDIA GeForce RTX 5070','Интерфейс':'PCIe 5.0 ×16'},rating:4.5,rv:0,reviews:[],desc:'ASUS PRIME-RTX 5070-O12G',img:'./images/products/46193.webp',stock:false},

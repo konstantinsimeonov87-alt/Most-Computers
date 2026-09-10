@@ -1,6 +1,10 @@
 ---
 description: 🖼 Image Optimizer — WebP конвертиране, компресия и lazy loading на продуктови снимки; стартирай с: снимки, images, webp, компресия, оптимизация изображения, lazy load
 model: claude-opus-4-8
+version: 1.0.0
+status: active
+tier: legacy
+owner: project-maintainers
 ---
 
 # 🖼 Агент: Image Optimizer

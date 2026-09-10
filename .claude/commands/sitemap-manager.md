@@ -1,6 +1,10 @@
 ---
 description: 🗺 Sitemap Manager — XML sitemap генериране, robots.txt и canonical тагове; стартирай с: sitemap, robots.txt, canonical, индексиране, crawl, XML, Google Search Console
 model: claude-opus-4-8
+version: 1.0.0
+status: active
+tier: legacy
+owner: project-maintainers
 ---
 
 # 🗺 Агент: Sitemap Manager

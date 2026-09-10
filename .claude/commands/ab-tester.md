@@ -1,6 +1,10 @@
 ---
 description: 🧪 A/B Tester — имплементира и анализира A/B тестове за conversion оптимизация; стартирай с: a/b тест, split test, вариант, тестване CTA, конверсия тест
 model: claude-opus-4-8
+version: 1.0.0
+status: active
+tier: legacy
+owner: project-maintainers
 ---
 
 # 🧪 Агент: A/B Tester

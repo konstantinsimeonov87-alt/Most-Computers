@@ -1,5 +1,9 @@
 ---
 description: 📊 Analytics — добавя tracking events и conversion tracking; стартирай с: analytics, tracking, GTM, GA4, Facebook pixel, events, фунел, conversion
+version: 1.0.0
+status: active
+tier: legacy
+owner: project-maintainers
 ---
 
 # 📊 Analytics Agent

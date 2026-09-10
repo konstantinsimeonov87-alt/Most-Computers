@@ -1,6 +1,10 @@
 ---
 description: 🎨 Banner Designer — hero банери, промо секции и визуални блокове за сайта в HTML/CSS; стартирай с: банер, hero, промо банер, визуална секция, акционен банер, homepage banner, category banner
 model: claude-opus-4-8
+version: 1.0.0
+status: active
+tier: legacy
+owner: project-maintainers
 ---
 
 # 🎨 Агент: Banner Designer

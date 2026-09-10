@@ -1,6 +1,10 @@
 ---
 description: 🌿 Git workflow — commits, branches, PRs; стартирай с: commit, push, branch, pull request, git, версионен контрол, stage, merge
 model: claude-haiku-4-5-20251001
+version: 1.0.0
+status: active
+tier: legacy
+owner: project-maintainers
 ---
 
 # 🌿 Git Workflow Agent

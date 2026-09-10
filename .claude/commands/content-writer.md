@@ -1,6 +1,10 @@
 ---
 description: ✍ Content Writer — пише продуктови описания, SEO copy и meta tags; стартирай с: описание продукт, съдържание, seo текст, meta description, copy, текст, напиши
 model: claude-opus-4-8
+version: 1.0.0
+status: active
+tier: legacy
+owner: project-maintainers
 ---
 
 # ✍ Агент: Content Writer

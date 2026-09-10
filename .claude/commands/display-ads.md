@@ -1,6 +1,10 @@
 ---
 description: 📢 Display Ads — Google Display, Meta и remarketing банерни реклами; стартирай с: реклама, display ads, Google Ads, Meta Ads, banner ad, remarketing, ремаркетинг, платена реклама
 model: claude-opus-4-8
+version: 1.0.0
+status: active
+tier: legacy
+owner: project-maintainers
 ---
 
 # 📢 Агент: Display Ads

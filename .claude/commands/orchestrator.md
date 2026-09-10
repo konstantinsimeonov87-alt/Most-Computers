@@ -1,6 +1,10 @@
 ---
 description: 🎯 Оркестратор — координира всички агенти и pipeline-и; стартирай с: оркестратор, статус, план, координирай, pipeline, мисия, launch ready
 model: claude-opus-4-8
+version: 1.0.0
+status: active
+tier: legacy
+owner: project-maintainers
 ---
 
 # 🎯 Оркестратор (Mission Control)
@@ -35,6 +39,20 @@ model: claude-opus-4-8
 | i18n | `/i18n` | Интернационализация | index.html, js/ |
 | Changelog Writer | `/changelog-writer` | Документира промените | git log → CHANGELOG.md |
 | Full Audit | `/full-audit` | Пълен одит (всички агенти) | всичко |
+| Architecture | `/architecture` | SvelteKit архитектура и boundaries | src/ |
+| Design System | `/design-system` | Tokens и shared UI компоненти | src/lib/, app.css |
+| Product Feed QA | `/feed-qa` | Валидира продуктовия feed | scripts/, src/lib/server/ |
+| Pricing | `/pricing` | Цени, ДДС и промоции | cart, checkout, product data |
+| Migration | `/migration` | V1 → V2 миграция и redirects | supabase/, routes |
+| Release QA | `/release-qa` | End-to-end release gate | всичко |
+| Tracking QA | `/tracking-qa` | GA4 и consent event validation | analytics |
+| Experimentation | `/experiments` | A/B тестове и feature flags | experiments |
+| Observability | `/observability` | Logs, errors, metrics и alerts | production config |
+| API Contracts | `/api-contracts` | Typed integration contracts | src/lib/, supabase/ |
+| PWA | `/pwa` | Installability и offline стратегия | manifest, service worker |
+| Support Tools | `/support-tools` | FAQ и customer self-service | support/admin |
+| Frontend Implementor | `/frontend-implementor` | SvelteKit UI и browser code | src/routes/, src/lib/ |
+| Backend Implementor | `/backend-implementor` | Supabase и server-side code | src/lib/server/, supabase/ |
 
 ---
 

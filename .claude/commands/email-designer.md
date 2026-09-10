@@ -1,6 +1,10 @@
 ---
 description: 📧 Email Designer — HTML email шаблони за промоции, newsletter и transactional имейли; стартирай с: имейл, email, newsletter, бюлетин, email шаблон, промо имейл, поръчка имейл
 model: claude-opus-4-8
+version: 1.0.0
+status: active
+tier: legacy
+owner: project-maintainers
 ---
 
 # 📧 Агент: Email Designer

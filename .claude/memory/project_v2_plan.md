@@ -38,7 +38,23 @@ metadata:
 - Фаза 5: performance-seo + schema-markup - паралелно
 - Фаза 6: a11y + ux-auditor + mobile-auditor + bundle + security - паралелно
 
-Общо ~15 агента.
+Допълнителни V2 агенти:
+- architecture — SvelteKit boundaries и dependency direction
+- design-system — tokens, shared components и visual consistency
+- feed-qa — качество и валидиране на продуктовия feed
+- pricing — цени, ДДС, валута и промоционални правила
+- migration — V1 → V2 данни, URL-и и redirects
+- release-qa — end-to-end release gate
+- tracking-qa — GA4, e-commerce events и Consent Mode
+- experiments — A/B тестове и feature flags
+- observability — logs, errors, metrics и alerts
+- api-contracts — typed contracts между frontend и integrations
+- pwa — installability/offline (изключен по подразбиране)
+- support-tools — FAQ и customer self-service
+- frontend-implementor — SvelteKit UI и browser-side implementation
+- backend-implementor — Supabase, server routes и integrations
+
+Общо ~29 агента.
 
 **Why:** Потребителят иска V2 като пълно пренаписване с перфектен mobile-first UX/UI и SEO.
 **How to apply:** При споменаване на V2 - работи по новата архитектура. При V1 - текущата кодова база.

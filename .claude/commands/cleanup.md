@@ -1,5 +1,9 @@
 ---
 description: 🧹 Cleanup — мъртъв код, дублиран CSS, debug логове; стартирай с: cleanup, почисти, мъртъв код, dead code, console.log, дублиран css, временни файлове
+version: 1.0.0
+status: active
+tier: legacy
+owner: project-maintainers
 ---
 
 # 🧹 Агент: Cleanup

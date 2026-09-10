@@ -1,6 +1,10 @@
 ---
 description: 🖥 Desktop Sprint — пълен цикъл audit→implement→test→push за десктоп подобрения; стартирай с: desktop sprint, десктоп спринт, пусни десктоп спринт, оправи десктоп, batch desktop fixes
 model: claude-opus-4-8
+version: 1.0.0
+status: active
+tier: legacy
+owner: project-maintainers
 ---
 
 # 🖥 Агент: Desktop Sprint

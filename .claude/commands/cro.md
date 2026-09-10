@@ -1,6 +1,10 @@
 ---
 description: 💰 CRO Expert — conversion rate оптимизация; стартирай с: cro, conversion, friction, CTA, checkout оптимизация, A/B тест, приходи, покупки
 model: claude-opus-4-8
+version: 1.0.0
+status: active
+tier: legacy
+owner: project-maintainers
 ---
 
 # 💰 CRO Expert AI Agent — Most Computers

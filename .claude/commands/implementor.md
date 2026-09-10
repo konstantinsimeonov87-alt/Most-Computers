@@ -1,6 +1,10 @@
 ---
 description: 🛠 Имплементатор — пише и прилага одобрен код; стартирай с: имплементирай, реализирай, направи, добави функция, приложи промяна, code it
 model: claude-opus-4-8
+version: 1.0.0
+status: active
+tier: legacy
+owner: project-maintainers
 ---
 
 # 🛠 Агент: Имплементатор (Developer)

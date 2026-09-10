@@ -1,6 +1,10 @@
 ---
 description: 📱 Mobile Dev — имплементира мобилни UI/UX подобрения (CSS + JS); стартирай с: мобилно подобрение, mobile fix, мобилен стил, responsive, мобилен бутон, мобилна страница
 model: claude-opus-4-8
+version: 1.0.0
+status: active
+tier: legacy
+owner: project-maintainers
 ---
 
 # 📱 Агент: Mobile Dev

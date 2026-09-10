@@ -1,5 +1,9 @@
 ---
 description: 📡 Monitoring — uptime проверки, JS грешки в production, Core Web Vitals и site health; стартирай с: мониторинг, грешки, uptime, CWV, core web vitals, site health, performance, JS error
+version: 1.0.0
+status: active
+tier: legacy
+owner: project-maintainers
 ---
 
 # 📡 Агент: Monitoring

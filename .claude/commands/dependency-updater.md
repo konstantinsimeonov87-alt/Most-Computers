@@ -1,6 +1,10 @@
 ---
 description: 📦 Dependency Updater — npm audit, остарели пакети и security patches; стартирай с: dependencies, npm audit, outdated, пакети, security patch, update packages
 model: claude-haiku-4-5-20251001
+version: 1.0.0
+status: active
+tier: legacy
+owner: project-maintainers
 ---
 
 # 📦 Агент: Dependency Updater

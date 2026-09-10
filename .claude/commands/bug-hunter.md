@@ -1,6 +1,10 @@
 ---
 description: 🐛 Бъг хънтър — открива и оправя бъгове; стартирай с: бъг, bug, грешка, счупено, не работи, fix, поправи, debug, проблем
 model: claude-opus-4-8
+version: 1.0.0
+status: active
+tier: legacy
+owner: project-maintainers
 ---
 
 # 🐛 Агент: Бъг Хънтър (Bug Hunter)

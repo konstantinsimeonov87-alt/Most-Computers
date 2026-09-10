@@ -1,5 +1,9 @@
 ---
 description: 🔍 Код ревюър — качество, архитектура, проблеми; стартирай с: code review, преглед код, качество код, дублиран код, архитектурен анализ
+version: 1.0.0
+status: active
+tier: legacy
+owner: project-maintainers
 ---
 
 # 🔍 Агент: Код Ревюър (Code Reviewer)

@@ -1,6 +1,10 @@
 ---
 description: 🚀 Mobile Sprint — пълен цикъл audit→implement→test→push за мобилни подобрения; стартирай с: mobile sprint, мобилен спринт, пусни спринт, оправи мобила, batch mobile fixes
 model: claude-opus-4-8
+version: 1.0.0
+status: active
+tier: legacy
+owner: project-maintainers
 ---
 
 # 🚀 Агент: Mobile Sprint

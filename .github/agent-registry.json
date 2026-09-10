@@ -1,0 +1,44 @@
+{
+  "agent:frontend-implementor": {
+    "tier": "core",
+    "requires": ["code-quality", "typescript-strictness", "ui-quality"]
+  },
+  "agent:backend-implementor": {
+    "tier": "core",
+    "requires": ["code-quality", "typescript-strictness", "error-handling", "api-contract-check"]
+  },
+  "agent:release-qa": {
+    "tier": "core",
+    "requires": ["testing-strategy", "e2e-release-gate", "security-gate"]
+  },
+  "agent:orchestrator": {
+    "tier": "core",
+    "requires": ["code-quality", "testing-strategy"]
+  },
+  "skill:v2-bootstrap": {
+    "tier": "core",
+    "owner": "project-maintainers",
+    "lastReviewed": "2026-09-10"
+  },
+  "skill:code-quality": {
+    "tier": "core",
+    "owner": "project-maintainers",
+    "lastReviewed": "2026-09-10"
+  },
+  "skill:security-gate": {
+    "tier": "core",
+    "owner": "project-maintainers",
+    "lastReviewed": "2026-09-10"
+  },
+  "skill:e2e-release-gate": {
+    "tier": "core",
+    "owner": "project-maintainers",
+    "lastReviewed": "2026-09-10"
+  },
+  "skill:pwa": {
+    "status": "experimental",
+    "tier": "optional",
+    "owner": "project-maintainers",
+    "lastReviewed": "2026-09-10"
+  }
+}

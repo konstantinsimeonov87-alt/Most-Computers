@@ -1,6 +1,10 @@
 ---
 description: 🎨 UX/UI одит — дизайн, потребителски потоци, визуално качество; стартирай с: ux одит, дизайн проверка, mobile ux, usability, user experience, visual
 model: claude-opus-4-8
+version: 1.0.0
+status: active
+tier: legacy
+owner: project-maintainers
 ---
 
 # 🎨 Агент: UX/UI Одитор (UX Auditor)

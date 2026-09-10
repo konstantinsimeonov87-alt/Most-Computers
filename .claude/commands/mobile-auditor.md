@@ -1,6 +1,10 @@
 ---
 description: 📱 Mobile Auditor — визуален QA одит на мобилното изживяване с Playwright скрийншотове; стартирай с: мобилен одит, mobile audit, провери мобил, мобилно изживяване, UX проблеми мобил
 model: claude-sonnet-4-6
+version: 1.0.0
+status: active
+tier: legacy
+owner: project-maintainers
 ---
 
 # 📱 Агент: Mobile Auditor

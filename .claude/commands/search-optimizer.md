@@ -1,6 +1,10 @@
 ---
 description: 🔍 Search Optimizer — подобрява вътрешното търсене, autocomplete, no-results и search relevance; стартирай с: търсене, search, autocomplete, no results, намери продукт, search bar
 model: claude-opus-4-8
+version: 1.0.0
+status: active
+tier: legacy
+owner: project-maintainers
 ---
 
 # 🔍 Агент: Search Optimizer

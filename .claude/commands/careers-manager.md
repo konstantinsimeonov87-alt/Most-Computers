@@ -1,6 +1,10 @@
 ---
 description: 👔 Careers Manager — управлява обяви за работа и кандидатури; стартирай с: careers, кариери, работа, обяви, кандидатури, наемане, позиции
 model: claude-opus-4-8
+version: 1.0.0
+status: active
+tier: legacy
+owner: project-maintainers
 ---
 
 # 👔 Агент: Careers Manager

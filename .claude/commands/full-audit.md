@@ -1,6 +1,10 @@
 ---
 description: 🔍 Пълен одит — всички агенти последователно; стартирай с: пълен одит, full audit, провери всичко, цялостна проверка, comprehensive audit
 model: claude-opus-4-8
+version: 1.0.0
+status: active
+tier: legacy
+owner: project-maintainers
 ---
 
 # 🚀 Пълен одит на сайта (Full Audit)

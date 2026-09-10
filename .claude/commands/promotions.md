@@ -1,6 +1,10 @@
 ---
 description: 🏷 Promotions — управлява промоционални продукти и flash разпродажби; стартирай с: промоция, намаление, разпродажба, promo, flash sale, акция, badge promo
 model: claude-opus-4-8
+version: 1.0.0
+status: active
+tier: legacy
+owner: project-maintainers
 ---
 
 # 🏷 Агент: Promotions Manager

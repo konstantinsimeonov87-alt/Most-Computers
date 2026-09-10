@@ -1,5 +1,9 @@
 ---
 description: 🧪 Тестов агент — Jest unit + browser тестове; стартирай с: тестове, tests, jest, npm test, unit тестове, тест покритие, пиши тестове
+version: 1.0.0
+status: active
+tier: legacy
+owner: project-maintainers
 ---
 
 # 🧪 Агент: QA Инженер (Test Runner)

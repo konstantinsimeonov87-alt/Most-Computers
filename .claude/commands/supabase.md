@@ -1,6 +1,10 @@
 ---
 description: 🗄 Supabase — управлява DB схема, migrations и Edge Functions; стартирай с: supabase, база данни, миграция, edge function, таблица, rls, backend
 model: claude-opus-4-8
+version: 1.0.0
+status: active
+tier: legacy
+owner: project-maintainers
 ---
 
 # 🗄 Агент: Supabase Manager

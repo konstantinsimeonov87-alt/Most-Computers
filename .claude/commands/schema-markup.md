@@ -1,6 +1,10 @@
 ---
 description: 🔖 Schema Markup — JSON-LD структурирани данни за Google Shopping и rich results; стартирай с: schema, json-ld, structured data, rich results, google shopping, markup
 model: claude-opus-4-8
+version: 1.0.0
+status: active
+tier: legacy
+owner: project-maintainers
 ---
 
 # 🔖 Агент: Schema Markup

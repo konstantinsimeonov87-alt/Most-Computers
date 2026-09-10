@@ -1,5 +1,9 @@
 ---
 description: 📦 Bundle анализатор — размери на файлове, code splitting; стартирай с: bundle, file size, lazy load, код разделяне, оптимизиране файлове
+version: 1.0.0
+status: active
+tier: legacy
+owner: project-maintainers
 ---
 
 # 📦 Bundle Analyzer

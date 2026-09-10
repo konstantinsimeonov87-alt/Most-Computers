@@ -4,7 +4,13 @@
   "description": "",
   "main": "migrate-handlers.js",
   "scripts": {
-    "test": "jest --runInBand"
+    "test": "jest --runInBand",
+    "agents:validate": "node scripts/agent-assets.js",
+    "agents:validate:strict": "node scripts/agent-assets.js --strict",
+    "agents:update": "node scripts/agent-assets.js --write",
+    "agents:health": "node scripts/agent-assets.js --strict",
+    "agents:create": "node scripts/create-agent-asset.js",
+    "agents:migrate-metadata": "node scripts/migrate-agent-metadata.js --write"
   },
   "repository": {
     "type": "git",
@@ -26,6 +32,6 @@
     "pngjs": "^7.0.0",
     "postcss": "^8.5.9",
     "purgecss": "^8.0.0",
-    "sharp": "^0.34.5"
+    "sharp": "^0.35.4"
   }
 }

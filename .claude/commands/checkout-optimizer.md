@@ -1,6 +1,10 @@
 ---
 description: 🛒 Checkout Optimizer — одитира и оптимизира checkout flow, форми и стъпки до покупка; стартирай с: checkout, поръчка, форма, кошница, плащане, стъпки, order form
 model: claude-opus-4-8
+version: 1.0.0
+status: active
+tier: legacy
+owner: project-maintainers
 ---
 
 # 🛒 Агент: Checkout Optimizer

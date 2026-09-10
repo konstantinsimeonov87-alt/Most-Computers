@@ -1,6 +1,10 @@
 ---
 description: 🔧 Рефактор — безопасен рефакторинг с тестово покритие; стартирай с: рефакторинг, refactor, преструктуриране, подобри структурата на кода
 model: claude-opus-4-8
+version: 1.0.0
+status: active
+tier: legacy
+owner: project-maintainers
 ---
 
 # 🔧 Агент: Рефактор (Refactor)

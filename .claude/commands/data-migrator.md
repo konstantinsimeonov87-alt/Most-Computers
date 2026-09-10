@@ -1,5 +1,9 @@
 ---
 description: 📦 Data Migrator — валидира и импортира XML продуктови feed-ове; стартирай с: import xml, xml feed, мигриране данни, нов каталог, продуктов feed, внос
+version: 1.0.0
+status: active
+tier: legacy
+owner: project-maintainers
 ---
 
 # 📦 Агент: Data Migrator

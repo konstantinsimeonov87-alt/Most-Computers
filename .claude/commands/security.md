@@ -1,5 +1,9 @@
 ---
 description: 🔒 Security одит — уязвимости по OWASP Top 10; стартирай с: security, сигурност, xss, injection, уязвимости, csrf, owasp, хакване
+version: 1.0.0
+status: active
+tier: legacy
+owner: project-maintainers
 ---
 
 # 🔒 Security Auditor

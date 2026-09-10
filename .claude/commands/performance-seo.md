@@ -1,5 +1,9 @@
 ---
 description: ⚡ Performance & SEO — скорост, Core Web Vitals, SEO; стартирай с: performance, seo, бавно зареждане, lighthouse, page speed, оптимизация скорост
+version: 1.0.0
+status: active
+tier: legacy
+owner: project-maintainers
 ---
 
 # ⚡ Агент: Performance & SEO Одитор

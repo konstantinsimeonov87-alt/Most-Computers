@@ -1,0 +1,6 @@
+# Changes to agent/Skill behavior require project maintainer review.
+/.claude/commands/ @konstantinsimeonov87-alt
+/.github/skills/ @konstantinsimeonov87-alt
+/.github/agent-registry.json @konstantinsimeonov87-alt
+/scripts/agent-assets.js @konstantinsimeonov87-alt
+/scripts/create-agent-asset.js @konstantinsimeonov87-alt

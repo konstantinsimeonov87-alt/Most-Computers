@@ -1,5 +1,9 @@
 ---
 description: 📋 Каталог редактор — управлява products.js; стартирай с: добави продукт, редактирай цена, промени категория, bulk update, продуктови данни, каталог
+version: 1.0.0
+status: active
+tier: legacy
+owner: project-maintainers
 ---
 
 # 📋 Агент: Редактор на каталог (Data Editor)

@@ -1,6 +1,10 @@
 ---
 description: 📂 Mobile Cat — оптимизира категорийни и продуктови страници за мобил; стартирай с: категорийна страница мобил, продуктова страница мобил, filteri мобил, category page, PDP мобил, продуктов модал
 model: claude-opus-4-8
+version: 1.0.0
+status: active
+tier: legacy
+owner: project-maintainers
 ---
 
 # 📂 Агент: Mobile Cat (Category & Product Pages)

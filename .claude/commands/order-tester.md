@@ -1,6 +1,10 @@
 ---
 description: 🛒 Order Tester — тества целия процес на поръчка от добавяне в кошница до thank-you страница; стартирай с: тест поръчка, order test, провери checkout, тествай поръчка
 model: claude-opus-4-8
+version: 1.0.0
+status: active
+tier: legacy
+owner: project-maintainers
 ---
 
 # 🛒 Агент: Order Tester

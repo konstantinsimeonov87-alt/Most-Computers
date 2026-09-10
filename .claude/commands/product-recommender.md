@@ -1,6 +1,10 @@
 ---
 description: 🎯 Product Recommender — related products, cross-sell, upsell и "купуват заедно" блокове; стартирай с: препоръки, related, свързани продукти, upsell, cross-sell, купуват заедно, accessories
 model: claude-opus-4-8
+version: 1.0.0
+status: active
+tier: legacy
+owner: project-maintainers
 ---
 
 # 🎯 Агент: Product Recommender

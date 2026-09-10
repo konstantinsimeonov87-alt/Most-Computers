@@ -1,5 +1,9 @@
 ---
 description: 🔐 GDPR Compliance — cookie consent, privacy policy, data retention и GDPR одит; стартирай с: gdpr, бисквитки, cookie, privacy, лични данни, съгласие, consent, регламент
+version: 1.0.0
+status: active
+tier: legacy
+owner: project-maintainers
 ---
 
 # 🔐 Агент: GDPR Compliance

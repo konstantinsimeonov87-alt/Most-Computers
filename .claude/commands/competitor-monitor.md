@@ -1,6 +1,10 @@
 ---
 description: 🔭 Competitor Monitor — следи цени и функции на конкуренти и дистрибутори; стартирай с: конкуренти, competitor, ценово сравнение, емаг, технополис, поликомп, асбис, вали, жар, also, пазарен анализ, дистрибутор
 model: claude-opus-4-8
+version: 1.0.0
+status: active
+tier: legacy
+owner: project-maintainers
 ---
 
 # 🔭 Агент: Competitor Monitor

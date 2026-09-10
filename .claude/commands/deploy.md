@@ -1,5 +1,9 @@
 ---
 description: 🚀 Deploy — build, minify и deployment pipeline; стартирай с: deploy, качи сайта, build production, minify, netlify, vercel, публикувай
+version: 1.0.0
+status: active
+tier: legacy
+owner: project-maintainers
 ---
 
 # 🚀 Deploy Agent

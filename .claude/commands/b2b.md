@@ -1,6 +1,10 @@
 ---
 description: 🏢 B2B Portal — управлява фирмени клиенти, профили и оферти; стартирай с: b2b, фирма, корпоративен, оферта, фактура, бизнес клиент, eik, профил
 model: claude-opus-4-8
+version: 1.0.0
+status: active
+tier: legacy
+owner: project-maintainers
 ---
 
 # 🏢 Агент: B2B Manager

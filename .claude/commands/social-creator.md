@@ -1,6 +1,10 @@
 ---
 description: 📱 Social Creator — Facebook, Instagram и LinkedIn визуали и copy за промоции и продукти; стартирай с: социални мрежи, Facebook пост, Instagram, LinkedIn, social media, пост, визуал
 model: claude-opus-4-8
+version: 1.0.0
+status: active
+tier: legacy
+owner: project-maintainers
 ---
 
 # 📱 Агент: Social Creator

@@ -1,6 +1,10 @@
 ---
 description: 📝 Changelog Writer — CHANGELOG.md и release notes от git история; стартирай с: changelog, release notes, история промените, версии, what changed
 model: claude-haiku-4-5-20251001
+version: 1.0.0
+status: active
+tier: legacy
+owner: project-maintainers
 ---
 
 # 📝 Агент: Changelog Writer

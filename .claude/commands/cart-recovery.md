@@ -1,6 +1,10 @@
 ---
 description: 🔄 Cart Recovery — abandoned cart логика, персистентна кошница и session retention; стартирай с: изоставена кошница, cart abandonment, запази кошница, recovery, remind
 model: claude-opus-4-8
+version: 1.0.0
+status: active
+tier: legacy
+owner: project-maintainers
 ---
 
 # 🔄 Агент: Cart Recovery

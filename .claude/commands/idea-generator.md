@@ -1,5 +1,9 @@
 ---
 description: 🧠 Идеен генератор — нови функции и подобрения; стартирай с: идеи, нови функции, какво да добавим, подобрения, feature ideas, quick wins
+version: 1.0.0
+status: active
+tier: legacy
+owner: project-maintainers
 ---
 
 # 🧠 Агент: Продуктов мениджър (Idea Generator)

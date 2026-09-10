@@ -1,6 +1,10 @@
 ---
 description: 📦 Stock Alerts — нисък/нулев наличност, автоматично hide/show на продукти и stock tracking; стартирай с: наличност, stock, изчерпан, нисък склад, скрий продукт, покажи продукт, наличен
 model: claude-opus-4-8
+version: 1.0.0
+status: active
+tier: legacy
+owner: project-maintainers
 ---
 
 # 📦 Агент: Stock Alerts

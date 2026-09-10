@@ -1,5 +1,9 @@
 ---
 description: 🔀 Redirect Manager — 301 редиректи при изтрити/преименувани продукти, URL миграции и broken links; стартирай с: redirect, 301, 404, broken link, URL промяна, преименуван продукт, мигриране URL
+version: 1.0.0
+status: active
+tier: legacy
+owner: project-maintainers
 ---
 
 # 🔀 Агент: Redirect Manager
